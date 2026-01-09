@@ -1,6 +1,6 @@
 # SenangStart CSS
 
-The Intent-First CSS Engine. Speak Human. Compile to Logic.
+A utility-first CSS framework that replaces abstract naming conventions with Natural Adjectives.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
