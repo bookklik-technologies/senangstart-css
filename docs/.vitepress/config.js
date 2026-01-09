@@ -32,6 +32,7 @@ const enSidebar = {
       items: [
         { text: 'Tri-Attribute Syntax', link: '/guide/tri-attribute' },
         { text: 'The Natural Scale', link: '/guide/natural-scale' },
+        { text: 'Preflight', link: '/guide/preflight' },
         { text: 'Responsive Design', link: '/guide/responsive' },
         { text: 'Hover & States', link: '/guide/states' },
         { text: 'Dark Mode', link: '/guide/dark-mode' }
@@ -94,6 +95,7 @@ const msSidebar = {
       items: [
         { text: 'Sintaks Tri-Atribut', link: '/ms/guide/tri-attribute' },
         { text: 'Skala Semula Jadi', link: '/ms/guide/natural-scale' },
+        { text: 'Preflight', link: '/ms/guide/preflight' },
         { text: 'Reka Bentuk Responsif', link: '/ms/guide/responsive' },
         { text: 'Hover & Keadaan', link: '/ms/guide/states' },
         { text: 'Mod Gelap', link: '/ms/guide/dark-mode' }
@@ -164,7 +166,7 @@ export default defineConfig({
           { text: 'Reference', link: '/reference/layout' },
           { text: 'Examples', link: '/examples/' },
           {
-            text: 'v0.1.4',
+            text: 'v0.1.5',
             items: [
               { text: 'Changelog', link: '/changelog' },
               { text: 'GitHub', link: 'https://github.com/bookklik-technologies/senangstart-css' }
@@ -186,7 +188,7 @@ export default defineConfig({
           { text: 'Rujukan', link: '/ms/reference/layout' },
           { text: 'Contoh', link: '/ms/examples/' },
           {
-            text: 'v0.1.4',
+            text: 'v0.1.5',
             items: [
               { text: 'Log Perubahan', link: '/ms/changelog' },
               { text: 'GitHub', link: 'https://github.com/bookklik-technologies/senangstart-css' }

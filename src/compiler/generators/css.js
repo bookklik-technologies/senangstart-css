@@ -3,6 +3,8 @@
  * Generates CSS from tokens using attribute selectors
  */
 
+import { generatePreflight } from './preflight.js';
+
 /**
  * Generate CSS custom properties from config
  * @param {Object} config - Configuration object
@@ -304,13 +306,12 @@ export function generateCSS(tokens, config) {
   // Add CSS variables
   css += generateCSSVariables(config);
   
-  // Add base reset styles
-  css += `/* SenangStart CSS - Base Reset */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-/* Layout utilities */
+  // Add Preflight base styles if enabled (default: true)
+  if (config.preflight !== false) {
+    css += generatePreflight(config);
+  }
+  
+  css += `/* SenangStart CSS - Utility Classes */
 `;
   
   // Group tokens by breakpoint and dark mode

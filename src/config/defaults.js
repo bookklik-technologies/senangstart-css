@@ -26,6 +26,11 @@ export const defaultConfig = {
   // ['selector', '.custom-dark'] - Uses custom selector
   darkMode: 'media',
 
+  // Preflight: Include opinionated base reset styles
+  // true - Include all preflight styles (default)
+  // false - Disable preflight completely
+  preflight: true,
+
   theme: {
     // 1. SPACING: The "Natural Object" Scale
     // Logic: How big is the object/gap physically?

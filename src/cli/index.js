@@ -24,12 +24,14 @@ program
   .command('build')
   .description('Compile CSS from source files')
   .option('--minify', 'Minify CSS output')
+  .option('--no-preflight', 'Exclude Preflight base styles')
   .option('--config <path>', 'Path to config file', 'senangstart.config.js')
   .action(build);
 
 program
   .command('dev')
   .description('Watch mode with live compilation')
+  .option('--no-preflight', 'Exclude Preflight base styles')
   .option('--config <path>', 'Path to config file', 'senangstart.config.js')
   .action(dev);
 

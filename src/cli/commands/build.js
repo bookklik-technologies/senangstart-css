@@ -96,6 +96,11 @@ export async function build(options = {}) {
     config.output.minify = true;
   }
   
+  // Override preflight if specified (Commander converts --no-preflight to preflight: false)
+  if (options.preflight === false) {
+    config.preflight = false;
+  }
+  
   // Find source files
   const files = await findFiles(config.content);
   
