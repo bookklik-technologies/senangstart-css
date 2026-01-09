@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SenangStart CSS Playground</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SenangStart CSS Playground" />
+    <meta name="author" content="Bookklik Technologies" />
+    <meta name="keywords" content="SenangStart CSS, CSS, SenangStart" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://senangstart.com/img/ss_icon_accent.svg">
+    <link rel="shortcut icon" href="https://senangstart.com/img/ss_icon_accent.svg" type="image/x-icon">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/senangwebs-one@latest/dist/swo.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+      #ss-css-playground {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+
+    <!-- Monaco Editor ESM Loader -->
+    <script type="module">
+      import * as monaco from "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/+esm";
+      window.monaco = monaco;
+    </script>
+  </head>
+  <body>
+    <div id="ss-css-playground" style="height: 100vh"></div>
+
+    <script src="https://unpkg.com/senangwebs-one@latest/dist/swo.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof SWO !== "undefined") {
+          const customCode = `<!DOCTYPE html>
+<html>
+  <head>
+    <title>SenangStart CSS Playground\x3c/title>
+    <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js">\x3c/script>
+  \x3c/head>
+
+  <body>
+    <div
+      layout="flex col center"
+      space="p:small"
+      visual="bg:primary text:white rounded:big"
+    >
+      Hello SenangStart!
+    \x3c/div>
+  \x3c/body>
+\x3c/html>`;
+          new SWO("#ss-css-playground", {
+            code: customCode,
+            storageKey: "custom-editor-project-xyz",
+          });
+        } else {
+          console.error("SWO library not loaded.");
+        }
+      });
+    </script>
+  </body>
+</html>
