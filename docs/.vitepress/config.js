@@ -5,7 +5,7 @@ export default defineConfig({
   description: 'The Intent-First CSS Engine - Speak Human, Compile to Logic',
   
   // GitHub Pages base path (change to your repo name)
-  base: '/bookklik-technologies/senangstart-css/',
+  base: '/senangstart-css/',
   
   // Force light mode only (disable toggle)
   appearance: false,
