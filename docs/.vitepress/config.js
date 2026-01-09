@@ -24,7 +24,7 @@ export default defineConfig({
       { text: 'Reference', link: '/reference/layout' },
       { text: 'Examples', link: '/examples/' },
       {
-        text: 'v0.1.0',
+        text: 'v0.1.2',
         items: [
           { text: 'Changelog', link: '/changelog' },
           { text: 'GitHub', link: 'https://github.com/bookklik-technologies/senangstart-css' }
