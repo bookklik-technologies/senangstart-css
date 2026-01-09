@@ -20,6 +20,12 @@ export const defaultConfig = {
     typescript: './types/senang.d.ts'
   },
 
+  // Dark mode configuration
+  // 'media' - Uses @media (prefers-color-scheme: dark)
+  // 'selector' - Uses .dark class on html/body
+  // ['selector', '.custom-dark'] - Uses custom selector
+  darkMode: 'media',
+
   theme: {
     // 1. SPACING: The "Natural Object" Scale
     // Logic: How big is the object/gap physically?

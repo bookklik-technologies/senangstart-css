@@ -33,7 +33,8 @@ const enSidebar = {
         { text: 'Tri-Attribute Syntax', link: '/guide/tri-attribute' },
         { text: 'The Natural Scale', link: '/guide/natural-scale' },
         { text: 'Responsive Design', link: '/guide/responsive' },
-        { text: 'Hover & States', link: '/guide/states' }
+        { text: 'Hover & States', link: '/guide/states' },
+        { text: 'Dark Mode', link: '/guide/dark-mode' }
       ]
     },
     {
@@ -94,7 +95,8 @@ const msSidebar = {
         { text: 'Sintaks Tri-Atribut', link: '/ms/guide/tri-attribute' },
         { text: 'Skala Semula Jadi', link: '/ms/guide/natural-scale' },
         { text: 'Reka Bentuk Responsif', link: '/ms/guide/responsive' },
-        { text: 'Hover & Keadaan', link: '/ms/guide/states' }
+        { text: 'Hover & Keadaan', link: '/ms/guide/states' },
+        { text: 'Mod Gelap', link: '/ms/guide/dark-mode' }
       ]
     },
     {

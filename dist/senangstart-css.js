@@ -80,7 +80,11 @@
         'high':   '100',
         'top':    '9999'
       }
-    }
+    },
+    // Dark mode configuration
+    // 'media' - Uses @media (prefers-color-scheme: dark)
+    // 'selector' - Uses .dark class on html/body
+    darkMode: 'media'
   };
 
   // ============================================
@@ -195,7 +199,7 @@
   // ============================================
   
   const breakpoints = ['mob', 'tab', 'lap', 'desk'];
-  const states = ['hover', 'focus', 'active', 'disabled'];
+  const states = ['hover', 'focus', 'active', 'disabled', 'dark'];
 
   function parseToken(raw) {
     const token = {
@@ -367,7 +371,8 @@
     if (!cssDeclaration) return '';
 
     let selector = `[${attrType}~="${raw}"]`;
-    if (token.state) {
+    // Add pseudo-class for states (but not for 'dark' - handled separately)
+    if (token.state && token.state !== 'dark') {
       selector += `:${token.state}`;
     }
 
@@ -409,6 +414,7 @@
     let css = generateCSSVariables(config);
     
     const baseRules = [];
+    const darkRules = [];
     const mediaRules = {
       mob: [],
       tab: [],
@@ -420,12 +426,18 @@
       for (const raw of values) {
         const rule = generateRule(raw, attrType);
         if (rule) {
+          // Check for dark: prefix
+          if (raw.match(/^(mob:|tab:|lap:|desk:)?dark:/)) {
+            darkRules.push(rule);
+          }
           // Check for breakpoint prefix
-          const bpMatch = raw.match(/^(mob|tab|lap|desk):/);
-          if (bpMatch) {
-            mediaRules[bpMatch[1]].push(rule);
-          } else {
-            baseRules.push(rule);
+          else {
+            const bpMatch = raw.match(/^(mob|tab|lap|desk):/);
+            if (bpMatch) {
+              mediaRules[bpMatch[1]].push(rule);
+            } else {
+              baseRules.push(rule);
+            }
           }
         }
       }
@@ -441,6 +453,24 @@
         css += `\n@media (min-width: ${screens[bp]}) {\n`;
         css += rules.map(r => '  ' + r).join('');
         css += '}\n';
+      }
+    }
+
+    // Add dark mode rules
+    if (darkRules.length > 0) {
+      const darkMode = config.darkMode || 'media';
+      
+      if (darkMode === 'media') {
+        css += `\n@media (prefers-color-scheme: dark) {\n`;
+        css += darkRules.map(r => '  ' + r).join('');
+        css += '}\n';
+      } else {
+        // Selector strategy
+        const darkSelector = Array.isArray(darkMode) ? darkMode[1] : '.dark';
+        css += `\n/* Dark Mode */\n`;
+        for (const rule of darkRules) {
+          css += rule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
+        }
       }
     }
 

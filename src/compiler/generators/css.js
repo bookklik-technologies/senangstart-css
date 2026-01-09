@@ -237,8 +237,11 @@ function generateVisualRule(token, config) {
 
 /**
  * Generate a single CSS rule from a token
+ * @param {Object} token - Token object
+ * @param {Object} config - Configuration object
+ * @param {boolean} skipDarkWrapper - If true, don't add dark mode wrapper (used when generating inside dark block)
  */
-export function generateRule(token, config) {
+export function generateRule(token, config, skipDarkWrapper = false) {
   const { raw, attrType, breakpoint, state } = token;
   
   let cssDeclaration = '';
@@ -260,12 +263,33 @@ export function generateRule(token, config) {
   // Build selector
   let selector = `[${attrType}~="${raw}"]`;
   
-  // Add state pseudo-class
-  if (state) {
+  // Add state pseudo-class (but not for 'dark' - it's handled separately)
+  if (state && state !== 'dark') {
     selector += `:${state}`;
   }
   
   return `${selector} { ${cssDeclaration} }\n`;
+}
+
+/**
+ * Get the dark mode selector based on config
+ * @param {Object} config - Configuration object
+ * @returns {string} - Dark mode selector
+ */
+function getDarkModeSelector(config) {
+  const darkMode = config.darkMode || 'media';
+  
+  if (Array.isArray(darkMode)) {
+    // Custom selector: ['selector', '.my-dark-class'] or ['selector', '[data-theme="dark"]']
+    return darkMode[1] || '.dark';
+  }
+  
+  if (darkMode === 'selector') {
+    return '.dark';
+  }
+  
+  // 'media' strategy - handled separately
+  return null;
 }
 
 /**
@@ -289,8 +313,9 @@ export function generateCSS(tokens, config) {
 /* Layout utilities */
 `;
   
-  // Group tokens by breakpoint
+  // Group tokens by breakpoint and dark mode
   const baseTokens = [];
+  const darkTokens = [];
   const breakpointTokens = {
     mob: [],
     tab: [],
@@ -299,7 +324,9 @@ export function generateCSS(tokens, config) {
   };
   
   for (const token of tokens) {
-    if (token.breakpoint) {
+    if (token.state === 'dark') {
+      darkTokens.push(token);
+    } else if (token.breakpoint) {
       breakpointTokens[token.breakpoint]?.push(token);
     } else {
       baseTokens.push(token);
@@ -321,6 +348,31 @@ export function generateCSS(tokens, config) {
         css += '  ' + generateRule(token, config);
       }
       css += '}\n';
+    }
+  }
+  
+  // Generate dark mode rules
+  if (darkTokens.length > 0) {
+    const darkMode = config.darkMode || 'media';
+    const darkSelector = getDarkModeSelector(config);
+    
+    if (darkMode === 'media') {
+      // Media query strategy
+      css += `\n/* Dark Mode (prefers-color-scheme) */\n`;
+      css += `@media (prefers-color-scheme: dark) {\n`;
+      for (const token of darkTokens) {
+        css += '  ' + generateRule(token, config, true);
+      }
+      css += '}\n';
+    } else {
+      // Selector strategy (.dark class or custom selector)
+      css += `\n/* Dark Mode (${darkSelector}) */\n`;
+      for (const token of darkTokens) {
+        const baseRule = generateRule(token, config, true);
+        // Wrap selector with dark parent
+        const wrappedRule = baseRule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
+        css += wrappedRule;
+      }
     }
   }
   

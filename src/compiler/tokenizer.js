@@ -14,7 +14,7 @@
 const BREAKPOINTS = ['mob', 'tab', 'lap', 'desk'];
 
 // State prefixes
-const STATES = ['hover', 'focus', 'active', 'disabled'];
+const STATES = ['hover', 'focus', 'active', 'disabled', 'dark'];
 
 // Layout keywords (no colon syntax)
 const LAYOUT_KEYWORDS = [
