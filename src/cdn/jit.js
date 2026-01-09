@@ -62,15 +62,16 @@
         'desk': '1280px'
       },
       colors: {
-        'white':    '#FFFFFF',
-        'black':    '#000000',
-        'grey':     '#6B7280',
-        'dark':     '#1F2937',
-        'light':    '#F3F4F6',
-        'primary':  '#3B82F6',
-        'success':  '#10B981',
-        'warning':  '#F59E0B',
-        'danger':   '#EF4444'
+        'white':     '#FFFFFF',
+        'black':     '#000000',
+        'grey':      '#6B7280',
+        'dark':      '#3E4A5D',     // Brand dark
+        'light':     '#DBEAFE',     // Brand light/secondary
+        'primary':   '#2563EB',     // Brand primary
+        'secondary': '#DBEAFE',     // Brand secondary
+        'success':   '#10B981',
+        'warning':   '#F59E0B',
+        'danger':    '#EF4444'
       },
       zIndex: {
         'base':   '0',
@@ -487,7 +488,7 @@
     });
 
     console.log('%c[SenangStart CSS]%c JIT runtime initialized ✓', 
-      'color: #8B5CF6; font-weight: bold;', 
+      'color: #2563EB; font-weight: bold;', 
       'color: #10B981;'
     );
   }

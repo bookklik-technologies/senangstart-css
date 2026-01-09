@@ -76,17 +76,18 @@ export const defaultConfig = {
       'desk': '1280px'      // Desktop
     },
 
-    // 7. COLORS: Semantic Palette
+    // 7. COLORS: SenangStart Brand Palette
     colors: {
-      'white':    '#FFFFFF',
-      'black':    '#000000',
-      'grey':     '#6B7280',
-      'dark':     '#1F2937',
-      'light':    '#F3F4F6',
-      'primary':  '#3B82F6',
-      'success':  '#10B981',
-      'warning':  '#F59E0B',
-      'danger':   '#EF4444'
+      'white':     '#FFFFFF',
+      'black':     '#000000',
+      'grey':      '#6B7280',
+      'dark':      '#3E4A5D',     // Brand dark
+      'light':     '#DBEAFE',     // Brand light/secondary
+      'primary':   '#2563EB',     // Brand primary
+      'secondary': '#DBEAFE',     // Brand secondary
+      'success':   '#10B981',
+      'warning':   '#F59E0B',
+      'danger':    '#EF4444'
     },
 
     // 8. Z-INDEX: Stacking Order

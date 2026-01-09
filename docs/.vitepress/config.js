@@ -22,7 +22,7 @@ export default defineConfig({
         text: 'v0.1.0',
         items: [
           { text: 'Changelog', link: '/changelog' },
-          { text: 'GitHub', link: 'https://github.com/nicemak/senangstart-css' }
+          { text: 'GitHub', link: 'https://github.com/bookklik-technologies/senangstart-css' }
         ]
       }
     ],

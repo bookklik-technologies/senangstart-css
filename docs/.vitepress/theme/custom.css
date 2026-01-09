@@ -1,0 +1,52 @@
+/**
+ * SenangStart CSS - VitePress Theme Customization
+ * Brand colors: primary #2563EB, secondary #DBEAFE, dark #3E4A5D
+ */
+
+/* Font family - Outfit (must be first) */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Brand Colors */
+  --vp-c-brand-1: #2563EB;
+  --vp-c-brand-2: #3B82F6;
+  --vp-c-brand-3: #DBEAFE;
+  --vp-c-brand-soft: #DBEAFE;
+  
+  /* Override default colors */
+  --vp-c-default-1: #3E4A5D;
+  --vp-c-default-2: #4B5563;
+  --vp-c-default-3: #6B7280;
+  
+  /* Button colors */
+  --vp-button-brand-bg: #2563EB;
+  --vp-button-brand-hover-bg: #1D4ED8;
+  --vp-button-brand-active-bg: #1E40AF;
+  
+  /* Font family */
+  --vp-font-family-base: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Code blocks with brand accent */
+.vp-doc div[class*='language-'] {
+  border-left: 3px solid #2563EB;
+}
+
+/* Sidebar active link */
+.VPSidebarItem.is-active > .item > .link > .text {
+  color: #2563EB;
+}
+
+/* Custom container styling */
+.custom-block.tip {
+  border-color: #2563EB;
+}
+
+.custom-block.warning {
+  border-color: #F59E0B;
+}
+
+.custom-block.danger {
+  border-color: #EF4444;
+}

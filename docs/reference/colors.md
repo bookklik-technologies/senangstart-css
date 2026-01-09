@@ -4,17 +4,18 @@ Complete reference for the color palette.
 
 ## Default Palette
 
-| Key | Value | Preview |
-|-----|-------|---------|
-| `white` | #FFFFFF | <span style="background:#FFFFFF;border:1px solid #ccc;padding:2px 12px"></span> |
-| `black` | #000000 | <span style="background:#000000;padding:2px 12px"></span> |
-| `grey` | #6B7280 | <span style="background:#6B7280;padding:2px 12px"></span> |
-| `dark` | #1F2937 | <span style="background:#1F2937;padding:2px 12px"></span> |
-| `light` | #F3F4F6 | <span style="background:#F3F4F6;border:1px solid #ccc;padding:2px 12px"></span> |
-| `primary` | #3B82F6 | <span style="background:#3B82F6;padding:2px 12px"></span> |
-| `success` | #10B981 | <span style="background:#10B981;padding:2px 12px"></span> |
-| `warning` | #F59E0B | <span style="background:#F59E0B;padding:2px 12px"></span> |
-| `danger` | #EF4444 | <span style="background:#EF4444;padding:2px 12px"></span> |
+| Key | Value | Description |
+|-----|-------|-------------|
+| `white` | #FFFFFF | Pure white |
+| `black` | #000000 | Pure black |
+| `grey` | #6B7280 | Neutral grey |
+| `dark` | #3E4A5D | **Brand dark** |
+| `light` | #DBEAFE | **Brand light** |
+| `primary` | #2563EB | **Brand primary** |
+| `secondary` | #DBEAFE | **Brand secondary** |
+| `success` | #10B981 | Positive feedback |
+| `warning` | #F59E0B | Cautions |
+| `danger` | #EF4444 | Errors |
 
 ## CSS Variables
 
@@ -23,9 +24,10 @@ Complete reference for the color palette.
   --c-white: #FFFFFF;
   --c-black: #000000;
   --c-grey: #6B7280;
-  --c-dark: #1F2937;
-  --c-light: #F3F4F6;
-  --c-primary: #3B82F6;
+  --c-dark: #3E4A5D;
+  --c-light: #DBEAFE;
+  --c-primary: #2563EB;
+  --c-secondary: #DBEAFE;
   --c-success: #10B981;
   --c-warning: #F59E0B;
   --c-danger: #EF4444;
