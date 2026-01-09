@@ -50,3 +50,16 @@
 .custom-block.danger {
   border-color: #EF4444;
 }
+
+/* Hero alt button - white background for better visibility */
+.VPButton.alt {
+  background-color: #F1F5F9 !important;
+  color: #3E4A5D !important;
+  border-color: #F1F5F9 !important;
+}
+
+.VPButton.alt:hover {
+  background-color: #DBEAFE !important;
+  color: #2563EB !important;
+  border-color: #DBEAFE !important;
+}

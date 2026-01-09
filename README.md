@@ -30,7 +30,7 @@ Stop memorizing arbitrary scales like `px-4`, `px-8`, `px-16`. Start using natur
 
 ```bash
 # Install
-npm install -g senangstart-css
+npm i @bookklik/senangstart-css
 
 # Initialize config
 senangstart init

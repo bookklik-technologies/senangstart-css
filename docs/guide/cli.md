@@ -6,10 +6,10 @@ Use the CLI for production-ready builds with optimized output.
 
 ```bash
 # Install globally
-npm install -g senangstart-css
+npm install -g @bookklik/senangstart-css
 
 # Or use npx (no install)
-npx senangstart-css init
+npx @bookklik/senangstart-css init
 ```
 
 ## Commands
@@ -74,7 +74,7 @@ The CLI generates three files:
 ```bash
 cd your-project
 npm init -y
-npm install senangstart-css
+npm i @bookklik/senangstart-css
 npx senangstart init
 ```
 

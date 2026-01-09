@@ -60,10 +60,10 @@ CDN JIT is perfect for prototyping and learning. For production, use the CLI bui
 
 ```bash
 # Install globally
-npm install -g senangstart-css
+npm install -g @bookklik/senangstart-css
 
 # Or use npx
-npx senangstart-css init
+npx @bookklik/senangstart-css init
 ```
 
 ### Initialize Config

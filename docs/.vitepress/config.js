@@ -7,12 +7,17 @@ export default defineConfig({
   // GitHub Pages base path (change to your repo name)
   base: '/bookklik-technologies/senangstart-css/',
   
+  // Force light mode only (disable toggle)
+  appearance: false,
+  
   head: [
     ['link', { rel: 'icon', href: '/senangstart-css/favicon.ico' }]
   ],
 
   themeConfig: {
-    logo: '/logo.svg',
+    logo: 'https://senangstart.com/img/ss_logo_typo.svg',
+
+    siteTitle: false,
     
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
@@ -88,7 +93,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/nicemak/senangstart-css' }
+      { icon: 'github', link: 'https://github.com/bookklik-technologies/senangstart-css' }
     ],
 
     footer: {

@@ -6,7 +6,7 @@ hero:
   text: The Intent-First CSS Engine
   tagline: Speak Human. Compile to Logic.
   image:
-    src: https://senangstart.com/img/ss_logo_typo.svg
+    src: https://senangstart.com/img/use_senangstart.svg
     alt: SenangStart CSS
   actions:
     - theme: brand
@@ -14,7 +14,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: View on GitHub
-      link: https://github.com/nicemak/senangstart-css
+      link: https://github.com/bookklik-technologies/senangstart-css
 
 features:
   - icon: 🧠

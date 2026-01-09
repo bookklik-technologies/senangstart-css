@@ -1,5 +1,5 @@
 {
-  "name": "senangstart-css",
+  "name": "@bookklik/senangstart-css",
   "version": "0.1.0",
   "description": "The Intent-First CSS Engine - Speak Human, Compile to Logic",
   "type": "module",
@@ -9,7 +9,8 @@
     "senang": "./src/cli/index.js"
   },
   "scripts": {
-    "build": "node src/cli/index.js build",
+    "build": "node src/cli/index.js build && vitepress build docs",
+    "build:css": "node src/cli/index.js build",
     "dev": "node src/cli/index.js dev",
     "test": "node --test tests/",
     "docs:dev": "vitepress dev docs",
