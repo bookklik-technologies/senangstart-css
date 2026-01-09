@@ -1,4 +1,8 @@
 import { defineConfig } from 'vitepress'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
+const pkg = require('../../package.json')
 
 // Shared theme config
 const sharedThemeConfig = {
@@ -166,7 +170,7 @@ export default defineConfig({
           { text: 'Reference', link: '/reference/layout' },
           { text: 'Examples', link: '/examples/' },
           {
-            text: 'v0.1.5',
+            text: `v${pkg.version}`,
             items: [
               { text: 'Changelog', link: '/changelog' },
               { text: 'GitHub', link: 'https://github.com/bookklik-technologies/senangstart-css' }
@@ -188,7 +192,7 @@ export default defineConfig({
           { text: 'Rujukan', link: '/ms/reference/layout' },
           { text: 'Contoh', link: '/ms/examples/' },
           {
-            text: 'v0.1.5',
+            text: `v${pkg.version}`,
             items: [
               { text: 'Log Perubahan', link: '/ms/changelog' },
               { text: 'GitHub', link: 'https://github.com/bookklik-technologies/senangstart-css' }
