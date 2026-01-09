@@ -1,0 +1,35 @@
+{
+  "name": "senangstart-css",
+  "version": "0.1.0",
+  "description": "The Intent-First CSS Engine - Speak Human, Compile to Logic",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "senangstart": "./src/cli/index.js",
+    "senang": "./src/cli/index.js"
+  },
+  "scripts": {
+    "build": "node src/cli/index.js build",
+    "dev": "node src/cli/index.js dev",
+    "test": "node --test tests/"
+  },
+  "keywords": [
+    "css",
+    "framework",
+    "utility-css",
+    "natural-language",
+    "intent-first"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "commander": "^11.1.0"
+  },
+  "devDependencies": {},
+  "files": [
+    "src/",
+    "templates/",
+    "dist/"
+  ]
+}

@@ -1,0 +1,502 @@
+/**
+ * SenangStart CSS - Browser JIT Runtime
+ * Zero-config, browser-based CSS compilation
+ * 
+ * Usage:
+ * <script src="https://cdn.senangstart.dev/jit.js"></script>
+ * 
+ * Or with custom config:
+ * <script type="senangstart/config">{ "theme": { "colors": { "brand": "#8B5CF6" } } }</script>
+ * <script src="https://cdn.senangstart.dev/jit.js"></script>
+ */
+
+(function() {
+  'use strict';
+
+  // ============================================
+  // DEFAULT CONFIGURATION
+  // ============================================
+  
+  const defaultConfig = {
+    theme: {
+      spacing: {
+        'none':   '0px',
+        'tiny':   '4px',
+        'small':  '8px',
+        'medium': '16px',
+        'big':    '32px',
+        'giant':  '64px',
+        'vast':   '128px'
+      },
+      radius: {
+        'none':   '0px',
+        'small':  '4px',
+        'medium': '8px',
+        'big':    '16px',
+        'round':  '9999px'
+      },
+      shadow: {
+        'none':   'none',
+        'small':  '0 1px 2px rgba(0,0,0,0.05)',
+        'medium': '0 4px 6px rgba(0,0,0,0.1)',
+        'big':    '0 10px 15px rgba(0,0,0,0.15)',
+        'giant':  '0 25px 50px rgba(0,0,0,0.25)'
+      },
+      fontSize: {
+        'tiny':   '12px',
+        'small':  '14px',
+        'medium': '16px',
+        'big':    '20px',
+        'giant':  '32px',
+        'vast':   '48px'
+      },
+      fontWeight: {
+        'normal': '400',
+        'medium': '500',
+        'bold':   '700'
+      },
+      screens: {
+        'mob':  '480px',
+        'tab':  '768px',
+        'lap':  '1024px',
+        'desk': '1280px'
+      },
+      colors: {
+        'white':    '#FFFFFF',
+        'black':    '#000000',
+        'grey':     '#6B7280',
+        'dark':     '#1F2937',
+        'light':    '#F3F4F6',
+        'primary':  '#3B82F6',
+        'success':  '#10B981',
+        'warning':  '#F59E0B',
+        'danger':   '#EF4444'
+      },
+      zIndex: {
+        'base':   '0',
+        'low':    '10',
+        'mid':    '50',
+        'high':   '100',
+        'top':    '9999'
+      }
+    }
+  };
+
+  // ============================================
+  // CONFIG LOADER
+  // ============================================
+  
+  function loadInlineConfig() {
+    const configEl = document.querySelector('script[type="senangstart/config"]');
+    if (!configEl) return {};
+    
+    try {
+      return JSON.parse(configEl.textContent);
+    } catch (e) {
+      console.error('[SenangStart] Invalid config JSON:', e);
+      return {};
+    }
+  }
+
+  function mergeConfig(user) {
+    const merged = JSON.parse(JSON.stringify(defaultConfig));
+    
+    if (user.theme) {
+      for (const key of Object.keys(merged.theme)) {
+        if (user.theme[key]) {
+          merged.theme[key] = { ...merged.theme[key], ...user.theme[key] };
+        }
+      }
+    }
+    
+    return merged;
+  }
+
+  // ============================================
+  // CSS VARIABLE GENERATOR
+  // ============================================
+  
+  function generateCSSVariables(config) {
+    const { theme } = config;
+    let css = ':root {\n';
+    
+    // Spacing
+    for (const [key, value] of Object.entries(theme.spacing)) {
+      css += `  --s-${key}: ${value};\n`;
+    }
+    
+    // Radius
+    for (const [key, value] of Object.entries(theme.radius)) {
+      css += `  --r-${key}: ${value};\n`;
+    }
+    
+    // Shadow
+    for (const [key, value] of Object.entries(theme.shadow)) {
+      css += `  --shadow-${key}: ${value};\n`;
+    }
+    
+    // Font size
+    for (const [key, value] of Object.entries(theme.fontSize)) {
+      css += `  --font-${key}: ${value};\n`;
+    }
+    
+    // Font weight
+    for (const [key, value] of Object.entries(theme.fontWeight)) {
+      css += `  --fw-${key}: ${value};\n`;
+    }
+    
+    // Colors
+    for (const [key, value] of Object.entries(theme.colors)) {
+      css += `  --c-${key}: ${value};\n`;
+    }
+    
+    // Z-index
+    for (const [key, value] of Object.entries(theme.zIndex)) {
+      css += `  --z-${key}: ${value};\n`;
+    }
+    
+    css += '}\n\n';
+    css += '*, *::before, *::after { box-sizing: border-box; }\n\n';
+    
+    return css;
+  }
+
+  // ============================================
+  // LAYOUT KEYWORDS
+  // ============================================
+  
+  const layoutKeywords = {
+    'flex': 'display: flex;',
+    'grid': 'display: grid;',
+    'block': 'display: block;',
+    'inline': 'display: inline-block;',
+    'hidden': 'display: none;',
+    'row': 'flex-direction: row;',
+    'col': 'flex-direction: column;',
+    'row-reverse': 'flex-direction: row-reverse;',
+    'col-reverse': 'flex-direction: column-reverse;',
+    'center': 'justify-content: center; align-items: center;',
+    'start': 'justify-content: flex-start; align-items: flex-start;',
+    'end': 'justify-content: flex-end; align-items: flex-end;',
+    'between': 'justify-content: space-between;',
+    'around': 'justify-content: space-around;',
+    'evenly': 'justify-content: space-evenly;',
+    'wrap': 'flex-wrap: wrap;',
+    'nowrap': 'flex-wrap: nowrap;',
+    'absolute': 'position: absolute;',
+    'relative': 'position: relative;',
+    'fixed': 'position: fixed;',
+    'sticky': 'position: sticky;'
+  };
+
+  // ============================================
+  // RULE GENERATORS
+  // ============================================
+  
+  const breakpoints = ['mob', 'tab', 'lap', 'desk'];
+  const states = ['hover', 'focus', 'active', 'disabled'];
+
+  function parseToken(raw) {
+    const token = {
+      raw,
+      breakpoint: null,
+      state: null,
+      property: null,
+      value: null,
+      isArbitrary: false
+    };
+
+    const parts = raw.split(':');
+    let idx = 0;
+
+    // Check for breakpoint
+    if (breakpoints.includes(parts[0])) {
+      token.breakpoint = parts[0];
+      idx++;
+    }
+
+    // Check for state
+    if (states.includes(parts[idx])) {
+      token.state = parts[idx];
+      idx++;
+    }
+
+    // Property
+    if (idx < parts.length) {
+      token.property = parts[idx];
+      idx++;
+    }
+
+    // Value
+    if (idx < parts.length) {
+      let value = parts.slice(idx).join(':');
+      const arbitraryMatch = value.match(/^\[(.+)\]$/);
+      if (arbitraryMatch) {
+        token.value = arbitraryMatch[1].replace(/_/g, ' ');
+        token.isArbitrary = true;
+      } else {
+        token.value = value;
+      }
+    }
+
+    return token;
+  }
+
+  function generateLayoutRule(token) {
+    const { property, value } = token;
+    
+    // Z-index
+    if (property === 'z') {
+      return `z-index: var(--z-${value});`;
+    }
+    
+    // Overflow
+    if (property === 'overflow') {
+      return `overflow: ${value};`;
+    }
+    
+    return layoutKeywords[property] || '';
+  }
+
+  function generateSpaceRule(token) {
+    const { property, value, isArbitrary } = token;
+    
+    if (value === 'auto') {
+      const autoMap = {
+        'm': 'margin: auto;',
+        'm-x': 'margin-left: auto; margin-right: auto;',
+        'm-y': 'margin-top: auto; margin-bottom: auto;',
+        'm-t': 'margin-top: auto;',
+        'm-r': 'margin-right: auto;',
+        'm-b': 'margin-bottom: auto;',
+        'm-l': 'margin-left: auto;'
+      };
+      return autoMap[property] || '';
+    }
+    
+    const cssValue = isArbitrary ? value : `var(--s-${value})`;
+    
+    const map = {
+      'p': `padding: ${cssValue};`,
+      'p-t': `padding-top: ${cssValue};`,
+      'p-r': `padding-right: ${cssValue};`,
+      'p-b': `padding-bottom: ${cssValue};`,
+      'p-l': `padding-left: ${cssValue};`,
+      'p-x': `padding-left: ${cssValue}; padding-right: ${cssValue};`,
+      'p-y': `padding-top: ${cssValue}; padding-bottom: ${cssValue};`,
+      'm': `margin: ${cssValue};`,
+      'm-t': `margin-top: ${cssValue};`,
+      'm-r': `margin-right: ${cssValue};`,
+      'm-b': `margin-bottom: ${cssValue};`,
+      'm-l': `margin-left: ${cssValue};`,
+      'm-x': `margin-left: ${cssValue}; margin-right: ${cssValue};`,
+      'm-y': `margin-top: ${cssValue}; margin-bottom: ${cssValue};`,
+      'g': `gap: ${cssValue};`,
+      'g-x': `column-gap: ${cssValue};`,
+      'g-y': `row-gap: ${cssValue};`,
+      'w': `width: ${cssValue};`,
+      'h': `height: ${cssValue};`,
+      'min-w': `min-width: ${cssValue};`,
+      'max-w': `max-width: ${cssValue};`,
+      'min-h': `min-height: ${cssValue};`,
+      'max-h': `max-height: ${cssValue};`
+    };
+    
+    return map[property] || '';
+  }
+
+  function generateVisualRule(token) {
+    const { property, value, isArbitrary } = token;
+    
+    const rules = {
+      'bg': () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `background-color: ${cssValue};`;
+      },
+      'text': () => {
+        if (['left', 'center', 'right'].includes(value)) {
+          return `text-align: ${value};`;
+        }
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `color: ${cssValue};`;
+      },
+      'text-size': () => {
+        const cssValue = isArbitrary ? value : `var(--font-${value})`;
+        return `font-size: ${cssValue};`;
+      },
+      'font': () => `font-weight: var(--fw-${value});`,
+      'border': () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `border-color: ${cssValue}; border-style: solid;`;
+      },
+      'border-w': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `border-width: ${cssValue}; border-style: solid;`;
+      },
+      'rounded': () => `border-radius: var(--r-${value});`,
+      'shadow': () => `box-shadow: var(--shadow-${value});`,
+      'opacity': () => `opacity: ${value};`
+    };
+    
+    const gen = rules[property];
+    return gen ? gen() : '';
+  }
+
+  function generateRule(raw, attrType) {
+    // Handle simple layout keywords
+    if (attrType === 'layout' && layoutKeywords[raw]) {
+      return `[layout~="${raw}"] { ${layoutKeywords[raw]} }\n`;
+    }
+
+    const token = parseToken(raw);
+    let cssDeclaration = '';
+
+    switch (attrType) {
+      case 'layout':
+        cssDeclaration = generateLayoutRule(token);
+        break;
+      case 'space':
+        cssDeclaration = generateSpaceRule(token);
+        break;
+      case 'visual':
+        cssDeclaration = generateVisualRule(token);
+        break;
+    }
+
+    if (!cssDeclaration) return '';
+
+    let selector = `[${attrType}~="${raw}"]`;
+    if (token.state) {
+      selector += `:${token.state}`;
+    }
+
+    return `${selector} { ${cssDeclaration} }\n`;
+  }
+
+  // ============================================
+  // DOM SCANNER
+  // ============================================
+  
+  function scanDOM() {
+    const tokens = {
+      layout: new Set(),
+      space: new Set(),
+      visual: new Set()
+    };
+
+    const elements = document.querySelectorAll('[layout], [space], [visual]');
+    
+    elements.forEach(el => {
+      ['layout', 'space', 'visual'].forEach(attr => {
+        const value = el.getAttribute(attr);
+        if (value) {
+          value.split(/\s+/).forEach(token => {
+            if (token) tokens[attr].add(token);
+          });
+        }
+      });
+    });
+
+    return tokens;
+  }
+
+  // ============================================
+  // CSS COMPILER
+  // ============================================
+  
+  function compileCSS(tokens, config) {
+    let css = generateCSSVariables(config);
+    
+    const baseRules = [];
+    const mediaRules = {
+      mob: [],
+      tab: [],
+      lap: [],
+      desk: []
+    };
+
+    for (const [attrType, values] of Object.entries(tokens)) {
+      for (const raw of values) {
+        const rule = generateRule(raw, attrType);
+        if (rule) {
+          // Check for breakpoint prefix
+          const bpMatch = raw.match(/^(mob|tab|lap|desk):/);
+          if (bpMatch) {
+            mediaRules[bpMatch[1]].push(rule);
+          } else {
+            baseRules.push(rule);
+          }
+        }
+      }
+    }
+
+    // Add base rules
+    css += baseRules.join('');
+
+    // Add media queries
+    const { screens } = config.theme;
+    for (const [bp, rules] of Object.entries(mediaRules)) {
+      if (rules.length > 0) {
+        css += `\n@media (min-width: ${screens[bp]}) {\n`;
+        css += rules.map(r => '  ' + r).join('');
+        css += '}\n';
+      }
+    }
+
+    return css;
+  }
+
+  // ============================================
+  // STYLE INJECTION
+  // ============================================
+  
+  function injectStyles(css) {
+    let styleEl = document.getElementById('senangstart-jit');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'senangstart-jit';
+      document.head.appendChild(styleEl);
+    }
+    styleEl.textContent = css;
+  }
+
+  // ============================================
+  // INITIALIZATION
+  // ============================================
+  
+  function init() {
+    const userConfig = loadInlineConfig();
+    const config = mergeConfig(userConfig);
+    
+    const tokens = scanDOM();
+    const css = compileCSS(tokens, config);
+    injectStyles(css);
+
+    // Watch for DOM changes
+    const observer = new MutationObserver(() => {
+      const newTokens = scanDOM();
+      const newCSS = compileCSS(newTokens, config);
+      injectStyles(newCSS);
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['layout', 'space', 'visual']
+    });
+
+    console.log('%c[SenangStart CSS]%c JIT runtime initialized ✓', 
+      'color: #8B5CF6; font-weight: bold;', 
+      'color: #10B981;'
+    );
+  }
+
+  // Run on DOMContentLoaded or immediately if already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
