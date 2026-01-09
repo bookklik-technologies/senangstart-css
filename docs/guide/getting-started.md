@@ -12,7 +12,7 @@ The fastest way to try SenangStart — no build step required:
 <head>
   <title>My App</title>
   <!-- Just add this single script -->
-  <script src="https://cdn.senangstart.dev/jit.js"></script>
+  <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 </head>
 <body>
   <div
@@ -47,7 +47,7 @@ The fastest way to try SenangStart — no build step required:
   }
 }
 </script>
-<script src="https://cdn.senangstart.dev/jit.js"></script>
+<script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 ```
 
 ::: warning

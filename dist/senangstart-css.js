@@ -3,11 +3,11 @@
  * Zero-config, browser-based CSS compilation
  * 
  * Usage:
- * <script src="https://cdn.senangstart.dev/jit.js"></script>
+ * <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
  * 
  * Or with custom config:
  * <script type="senangstart/config">{ "theme": { "colors": { "brand": "#8B5CF6" } } }</script>
- * <script src="https://cdn.senangstart.dev/jit.js"></script>
+ * <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
  */
 
 (function() {

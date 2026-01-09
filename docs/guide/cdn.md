@@ -11,7 +11,7 @@ Add a single script tag to your HTML:
 <html>
 <head>
   <title>My App</title>
-  <script src="https://cdn.senangstart.dev/jit.js"></script>
+  <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 </head>
 <body>
   <div
@@ -54,7 +54,7 @@ Override default theme values with inline config:
   }
 }
 </script>
-<script src="https://cdn.senangstart.dev/jit.js"></script>
+<script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 ```
 
 Now you can use your custom values:

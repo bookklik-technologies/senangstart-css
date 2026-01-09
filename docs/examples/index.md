@@ -17,7 +17,7 @@ All examples use the SenangStart CDN for zero-config usage:
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.senangstart.dev/jit.js"></script>
+  <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 </head>
 <body>
   <!-- Paste any example here -->

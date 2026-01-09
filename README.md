@@ -12,7 +12,7 @@ Stop memorizing arbitrary scales like `px-4`, `px-8`, `px-16`. Start using natur
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.senangstart.dev/jit.js"></script>
+  <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 </head>
 <body>
   <div
