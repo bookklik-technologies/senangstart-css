@@ -11,7 +11,10 @@
   "scripts": {
     "build": "node src/cli/index.js build",
     "dev": "node src/cli/index.js dev",
-    "test": "node --test tests/"
+    "test": "node --test tests/",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "keywords": [
     "css",
@@ -26,7 +29,9 @@
     "chokidar": "^3.5.3",
     "commander": "^11.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  },
   "files": [
     "src/",
     "templates/",
