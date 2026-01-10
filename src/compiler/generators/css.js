@@ -57,7 +57,7 @@ export function generateCSSVariables(config) {
  * Generate CSS rule for a layout token
  */
 function generateLayoutRule(token, config) {
-  const { property, value } = token;
+  const { property, value, isArbitrary } = token;
   
   const layoutMap = {
     // Display
@@ -146,6 +146,11 @@ function generateLayoutRule(token, config) {
     // Container
     'container': 'width: 100%; margin-left: auto; margin-right: auto;'
   };
+  
+  // Check for simple layout keywords first (property === value means it's a keyword like 'flex', 'grid', etc.)
+  if (property === value && layoutMap[property]) {
+    return layoutMap[property];
+  }
   
   // Justify Content (justify:[value])
   if (property === 'justify') {
@@ -852,6 +857,12 @@ function generateVisualRule(token, config) {
     
     // Opacity
     'opacity': () => {
+      // Convert percentage (0-100) to decimal (0-1)
+      const numValue = parseInt(value, 10);
+      if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
+        return `opacity: ${numValue / 100};`;
+      }
+      // For arbitrary values or already decimal, pass through
       return `opacity: ${value};`;
     },
     

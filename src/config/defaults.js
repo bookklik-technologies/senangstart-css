@@ -418,6 +418,16 @@ export function mergeConfig(userConfig = {}) {
     merged.output = { ...merged.output, ...userConfig.output };
   }
   
+  // Handle darkMode setting
+  if (userConfig.darkMode !== undefined) {
+    merged.darkMode = userConfig.darkMode;
+  }
+  
+  // Handle preflight setting
+  if (userConfig.preflight !== undefined) {
+    merged.preflight = userConfig.preflight;
+  }
+  
   if (userConfig.theme) {
     merged.theme = {
       spacing: { ...merged.theme.spacing, ...userConfig.theme?.spacing },
