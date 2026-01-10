@@ -135,22 +135,10 @@ const enSidebar = {
       link: '/reference/space',
       collapsed: false,
       items: [
-        {
-          text: 'Spacing',
-          collapsed: true,
-          items: [
-            { text: 'Padding', link: '/reference/space/padding' },
-            { text: 'Margin', link: '/reference/space/margin' },
-            { text: 'Gap', link: '/reference/space/gap' }
-          ]
-        },
-        {
-          text: 'Dimensions',
-          collapsed: true,
-          items: [
-            { text: 'Sizing', link: '/reference/space/sizing' }
-          ]
-        },
+        { text: 'Padding', link: '/reference/space/padding' },
+        { text: 'Margin', link: '/reference/space/margin' },
+        { text: 'Gap', link: '/reference/space/gap' },
+        { text: 'Sizing', link: '/reference/space/sizing' },
         {
           text: 'Reference',
           collapsed: true,
@@ -331,6 +319,22 @@ const enSidebar = {
             { text: 'Will Change', link: '/reference/visual/will-change' },
             { text: 'State Prefixes', link: '/reference/visual/state-prefixes' }
           ]
+        },
+        {
+          text: 'SVG',
+          collapsed: true,
+          items: [
+            { text: 'Fill', link: '/reference/visual/fill' },
+            { text: 'Stroke', link: '/reference/visual/stroke' },
+            { text: 'Stroke Width', link: '/reference/visual/stroke-width' }
+          ]
+        },
+        {
+          text: 'Accessibility',
+          collapsed: true,
+          items: [
+            { text: 'Forced Color Adjust', link: '/reference/visual/forced-color-adjust' }
+          ]
         }
       ]
     },
@@ -475,22 +479,10 @@ const msSidebar = {
       link: '/ms/reference/space',
       collapsed: false,
       items: [
-        {
-          text: 'Jarak',
-          collapsed: true,
-          items: [
-            { text: 'Padding', link: '/ms/reference/space/padding' },
-            { text: 'Margin', link: '/ms/reference/space/margin' },
-            { text: 'Gap', link: '/ms/reference/space/gap' }
-          ]
-        },
-        {
-          text: 'Dimensi',
-          collapsed: true,
-          items: [
-            { text: 'Saiz', link: '/ms/reference/space/sizing' }
-          ]
-        },
+        { text: 'Padding', link: '/ms/reference/space/padding' },
+        { text: 'Margin', link: '/ms/reference/space/margin' },
+        { text: 'Gap', link: '/ms/reference/space/gap' },
+        { text: 'Saiz', link: '/ms/reference/space/sizing' },
         {
           text: 'Rujukan',
           collapsed: true,
@@ -676,6 +668,22 @@ const msSidebar = {
             { text: 'Pilihan Pengguna', link: '/ms/reference/visual/user-select' },
             { text: 'Will Change', link: '/ms/reference/visual/will-change' },
             { text: 'Prefiks Keadaan', link: '/ms/reference/visual/state-prefixes' }
+          ]
+        },
+        {
+          text: 'SVG',
+          collapsed: true,
+          items: [
+            { text: 'Isi', link: '/ms/reference/visual/fill' },
+            { text: 'Garis', link: '/ms/reference/visual/stroke' },
+            { text: 'Lebar Garis', link: '/ms/reference/visual/stroke-width' }
+          ]
+        },
+        {
+          text: 'Kebolehcapaian',
+          collapsed: true,
+          items: [
+            { text: 'Penyesuaian Warna Paksa', link: '/ms/reference/visual/forced-color-adjust' }
           ]
         }
       ]

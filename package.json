@@ -1,6 +1,6 @@
 {
   "name": "@bookklik/senangstart-css",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "The Intent-First CSS Engine - Speak Human, Compile to Logic",
   "type": "module",
   "main": "src/index.js",

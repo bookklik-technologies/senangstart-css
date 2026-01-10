@@ -1597,6 +1597,49 @@ function generateVisualRule(token, config) {
       };
       const cssValue = willChangeMap[value] || value;
       return `will-change: ${cssValue};`;
+    },
+    
+    // =====================
+    // SVG UTILITIES
+    // =====================
+    
+    // Fill
+    'fill': () => {
+      if (value === 'none') {
+        return 'fill: none;';
+      }
+      if (value === 'current') {
+        return 'fill: currentColor;';
+      }
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `fill: ${cssValue};`;
+    },
+    
+    // Stroke
+    'stroke': () => {
+      if (value === 'none') {
+        return 'stroke: none;';
+      }
+      if (value === 'current') {
+        return 'stroke: currentColor;';
+      }
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `stroke: ${cssValue};`;
+    },
+    
+    // Stroke Width
+    'stroke-w': () => {
+      const cssValue = isArbitrary ? value : `${value}px`;
+      return `stroke-width: ${cssValue};`;
+    },
+    
+    // =====================
+    // ACCESSIBILITY UTILITIES
+    // =====================
+    
+    // Forced Color Adjust
+    'forced-colors': () => {
+      return `forced-color-adjust: ${value};`;
     }
   };
   
