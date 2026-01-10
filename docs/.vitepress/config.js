@@ -288,11 +288,24 @@ const enSidebar = {
           ]
         },
         {
-          text: 'Transforms',
+          text: 'Transform',
           collapsed: true,
           items: [
-            { text: 'Transform', link: '/reference/visual/transform' },
-            { text: '3D Transform', link: '/reference/visual/transform-3d' }
+            { text: 'Scale', link: '/reference/visual/transform-scale' },
+            { text: 'Rotate', link: '/reference/visual/transform-rotate' },
+            { text: 'Translate', link: '/reference/visual/transform-translate' },
+            { text: 'Skew', link: '/reference/visual/transform-skew' },
+            { text: 'Origin', link: '/reference/visual/transform-origin' }
+          ]
+        },
+        {
+          text: '3D Transform',
+          collapsed: true,
+          items: [
+            { text: 'Perspective', link: '/reference/visual/transform-perspective' },
+            { text: 'Perspective Origin', link: '/reference/visual/transform-perspective-origin' },
+            { text: 'Transform Style', link: '/reference/visual/transform-style' },
+            { text: 'Backface Visibility', link: '/reference/visual/transform-backface' }
           ]
         },
         {
@@ -607,8 +620,21 @@ const msSidebar = {
           text: 'Transform',
           collapsed: true,
           items: [
-            { text: 'Transform', link: '/ms/reference/visual/transform' },
-            { text: 'Transform 3D', link: '/ms/reference/visual/transform-3d' }
+            { text: 'Skala', link: '/ms/reference/visual/transform-scale' },
+            { text: 'Putar', link: '/ms/reference/visual/transform-rotate' },
+            { text: 'Terjemah', link: '/ms/reference/visual/transform-translate' },
+            { text: 'Senget', link: '/ms/reference/visual/transform-skew' },
+            { text: 'Asal', link: '/ms/reference/visual/transform-origin' }
+          ]
+        },
+        {
+          text: 'Transform 3D',
+          collapsed: true,
+          items: [
+            { text: 'Perspektif', link: '/ms/reference/visual/transform-perspective' },
+            { text: 'Asal Perspektif', link: '/ms/reference/visual/transform-perspective-origin' },
+            { text: 'Gaya Transform', link: '/ms/reference/visual/transform-style' },
+            { text: 'Keterlihatan Belakang', link: '/ms/reference/visual/transform-backface' }
           ]
         },
         {
