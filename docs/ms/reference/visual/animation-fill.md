@@ -1,25 +1,32 @@
-# Mod Isi Animasi
+# Animation Fill
 
-Kawal gaya elemen sebelum dan selepas animasi.
+Tetapkan mod pengisian animasi
 
 ## Sintaks
 ```
-visual="animation-fill:none | animation-fill:forwards | animation-fill:backwards | animation-fill:both"
+visual="animation-fill:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `animation-fill:none` | `animation-fill-mode: none` |
-| `animation-fill:forwards` | `animation-fill-mode: forwards` |
-| `animation-fill:backwards` | `animation-fill-mode: backwards` |
-| `animation-fill:both` | `animation-fill-mode: both` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `animation-fill-mode: none` | Tiada pengisian |
+| `forwards` | `animation-fill-mode: forwards` | Kekalkan keadaan akhir |
+| `backwards` | `animation-fill-mode: backwards` | Terapkan keadaan mula |
+| `both` | `animation-fill-mode: both` | Kedua-dua arah |
 
 ## Contoh
 
 ```html
-<div visual="animate:bounce animation-fill:none">...</div>      <!-- Tiada -->
-<div visual="animate:bounce animation-fill:forwards">...</div>  <!-- Ke hadapan -->
-<div visual="animate:bounce animation-fill:both">...</div>      <!-- Kedua-dua -->
+<div visual="animate:bounce animation-fill:forwards">Stays at end</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

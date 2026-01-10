@@ -60,6 +60,8 @@ const enSidebar = {
           text: 'Flex',
           collapsed: true,
           items: [
+            { text: 'Flex Shorthand', link: '/reference/layout/flex' },
+            { text: 'Flex Basis', link: '/reference/layout/flex-basis' },
             { text: 'Flex Direction', link: '/reference/layout/flex-direction' },
             { text: 'Flex Wrap', link: '/reference/layout/flex-wrap' },
             { text: 'Flex Items', link: '/reference/layout/flex-items' },
@@ -139,7 +141,8 @@ const enSidebar = {
         { text: 'Padding', link: '/reference/space/padding' },
         { text: 'Margin', link: '/reference/space/margin' },
         { text: 'Gap', link: '/reference/space/gap' },
-        { text: 'Sizing', link: '/reference/space/sizing' },
+        { text: 'Width', link: '/reference/space/width' },
+        { text: 'Height', link: '/reference/space/height' },
         {
           text: 'Reference',
           collapsed: true,
@@ -181,7 +184,8 @@ const enSidebar = {
             { text: 'Font Smoothing', link: '/reference/visual/font-smoothing' },
             { text: 'Letter Spacing', link: '/reference/visual/letter-spacing' },
             { text: 'Line Height', link: '/reference/visual/line-height' },
-            { text: 'Line Clamp', link: '/reference/visual/line-clamp' }
+            { text: 'Line Clamp', link: '/reference/visual/line-clamp' },
+            { text: 'Typography Keywords', link: '/reference/visual/typography-keywords' }
           ]
         },
         {
@@ -210,12 +214,20 @@ const enSidebar = {
           ]
         },
         {
-          text: 'Borders & Effects',
+          text: 'Borders',
           collapsed: true,
           items: [
-            { text: 'Border Radius', link: '/reference/visual/border-radius' },
-            { text: 'Box Shadow', link: '/reference/visual/box-shadow' },
             { text: 'Border', link: '/reference/visual/border' },
+            { text: 'Border Radius', link: '/reference/visual/border-radius' },
+            { text: 'Border Width', link: '/reference/visual/border-width' },
+            { text: 'Border Style', link: '/reference/visual/border-style' }
+          ]
+        },
+        {
+          text: 'Effects',
+          collapsed: true,
+          items: [
+            { text: 'Box Shadow', link: '/reference/visual/box-shadow' },
             { text: 'Outline', link: '/reference/visual/outline' },
             { text: 'Text Shadow', link: '/reference/visual/text-shadow' },
             { text: 'Opacity', link: '/reference/visual/opacity' },
@@ -405,6 +417,8 @@ const msSidebar = {
           text: 'Flex',
           collapsed: true,
           items: [
+            { text: 'Pintasan Flex', link: '/ms/reference/layout/flex' },
+            { text: 'Asas Flex', link: '/ms/reference/layout/flex-basis' },
             { text: 'Arah Flex', link: '/ms/reference/layout/flex-direction' },
             { text: 'Flex Wrap', link: '/ms/reference/layout/flex-wrap' },
             { text: 'Item Flex', link: '/ms/reference/layout/flex-items' },
@@ -484,7 +498,8 @@ const msSidebar = {
         { text: 'Padding', link: '/ms/reference/space/padding' },
         { text: 'Margin', link: '/ms/reference/space/margin' },
         { text: 'Gap', link: '/ms/reference/space/gap' },
-        { text: 'Saiz', link: '/ms/reference/space/sizing' },
+        { text: 'Lebar', link: '/ms/reference/space/width' },
+        { text: 'Tinggi', link: '/ms/reference/space/height' },
         {
           text: 'Rujukan',
           collapsed: true,
@@ -533,7 +548,8 @@ const msSidebar = {
             { text: 'Smoothing Fon', link: '/ms/reference/visual/font-smoothing' },
             { text: 'Jarak Huruf', link: '/ms/reference/visual/letter-spacing' },
             { text: 'Ketinggian Baris', link: '/ms/reference/visual/line-height' },
-            { text: 'Line Clamp', link: '/ms/reference/visual/line-clamp' }
+            { text: 'Line Clamp', link: '/ms/reference/visual/line-clamp' },
+            { text: 'Kata Kunci Tipografi', link: '/ms/reference/visual/typography-keywords' }
           ]
         },
         {
@@ -561,12 +577,20 @@ const msSidebar = {
           ]
         },
         {
-          text: 'Sempadan & Kesan',
+          text: 'Sempadan',
           collapsed: true,
           items: [
-            { text: 'Radius Sempadan', link: '/ms/reference/visual/border-radius' },
-            { text: 'Bayang Kotak', link: '/ms/reference/visual/box-shadow' },
             { text: 'Sempadan', link: '/ms/reference/visual/border' },
+            { text: 'Radius Sempadan', link: '/ms/reference/visual/border-radius' },
+            { text: 'Lebar Sempadan', link: '/ms/reference/visual/border-width' },
+            { text: 'Gaya Sempadan', link: '/ms/reference/visual/border-style' },
+          ]
+        },
+        {
+          text: 'Kesan',
+          collapsed: true,
+          items: [
+            { text: 'Bayang Kotak', link: '/ms/reference/visual/box-shadow' },
             { text: 'Garis Luar', link: '/ms/reference/visual/outline' },
             { text: 'Bayang Teks', link: '/ms/reference/visual/text-shadow' },
             { text: 'Kelegapan', link: '/ms/reference/visual/opacity' },

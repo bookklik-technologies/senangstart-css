@@ -1,35 +1,30 @@
-# Saiz Medan
+# Field Sizing
 
-Mengawal bagaimana medan borang menyaiz sendiri dengan atribut `visual`.
+Kawal saiz medan borang
 
 ## Sintaks
 ```
-visual="field-sizing:[nilai]"
+visual="field-sizing:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `field-sizing:content` | `field-sizing: content` |
-| `field-sizing:fixed` | `field-sizing: fixed` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `fixed` | `field-sizing: fixed` | Saiz tetap |
+| `content` | `field-sizing: content` | Saiz mengikut kandungan |
 
 ## Contoh
 
 ```html
-<!-- Textarea berkembang mengikut kandungan -->
-<textarea visual="field-sizing:content" placeholder="Mula menaip..."></textarea>
-
-<!-- Input berkembang mengikut kandungan -->
-<input visual="field-sizing:content" placeholder="Lebar dinamik" />
-
-<!-- Saiz tetap (kelakuan lalai) -->
-<textarea visual="field-sizing:fixed"></textarea>
+<textarea visual="field-sizing:content">Auto-grow textarea</textarea>
 ```
 
-## Kegunaan
+## Responsif
 
-Gunakan `field-sizing:content` untuk:
-- Mencipta textarea yang berkembang automatik
-- Membuat input menyesuaikan lebar kandungan
-- Membina borang yang lebih semula jadi
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

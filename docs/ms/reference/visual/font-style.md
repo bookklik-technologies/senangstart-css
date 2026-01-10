@@ -1,17 +1,30 @@
-# Gaya Fon
+# Font Style
 
-Mengawal gaya fon dengan atribut `visual`.
+Tetapkan gaya fon
+
+## Sintaks
+```
+visual="[style-value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `italic` | `font-style: italic` |
-| `not-italic` | `font-style: normal` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `italic` | `font-style: italic` | Teks italic |
+| `not-italic` | `font-style: normal` | Gaya normal |
 
 ## Contoh
 
 ```html
-<span visual="italic">Teks italik</span>
-<em visual="not-italic">Bukan italik</em>
+<em visual="not-italic">Normal style emphasis</em>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

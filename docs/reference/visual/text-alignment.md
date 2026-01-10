@@ -1,34 +1,32 @@
 # Text Alignment
 
-Control text alignment with the `visual` attribute.
+Set text alignment
 
 ## Syntax
 ```
-visual="text:left | text:center | text:right | text:justify"
+visual="text:[alignment]"
 ```
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `text:left` | `text-align: left` |
-| `text:center` | `text-align: center` |
-| `text:right` | `text-align: right` |
-| `text:justify` | `text-align: justify` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `left` | `text-align: left` | Left align |
+| `center` | `text-align: center` | Center align |
+| `right` | `text-align: right` | Right align |
+| `justify` | `text-align: justify` | Justify |
 
 ## Examples
 
 ```html
-<p visual="text:left">Left aligned (default)</p>
 <p visual="text:center">Centered text</p>
-<p visual="text:right">Right aligned</p>
-<p visual="text:justify">Justified text that stretches to fill the line width evenly.</p>
 ```
 
 ## Responsive
 
 ```html
-<p visual="text:center tab:text:left">
-  Centered on mobile, left on tablet+
-</p>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

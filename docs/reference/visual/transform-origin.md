@@ -1,49 +1,45 @@
 # Transform Origin
 
-Set the origin point for transformations.
+Set transform origin point
 
 ## Syntax
 ```
-visual="origin:center | origin:top | origin:bottom-right | origin:[33%_75%]"
+visual="origin:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `origin:center` | `transform-origin: center` |
-| `origin:top` | `transform-origin: top` |
-| `origin:top-right` | `transform-origin: top right` |
-| `origin:right` | `transform-origin: right` |
-| `origin:bottom-right` | `transform-origin: bottom right` |
-| `origin:bottom` | `transform-origin: bottom` |
-| `origin:bottom-left` | `transform-origin: bottom left` |
-| `origin:left` | `transform-origin: left` |
-| `origin:top-left` | `transform-origin: top left` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `center` | `transform-origin: center` | Center origin |
+| `top` | `transform-origin: top` | Top origin |
+| `top-right` | `transform-origin: top right` | Top right |
+| `right` | `transform-origin: right` | Right origin |
+| `bottom-right` | `transform-origin: bottom right` | Bottom right |
+| `bottom` | `transform-origin: bottom` | Bottom origin |
+| `bottom-left` | `transform-origin: bottom left` | Bottom left |
+| `left` | `transform-origin: left` | Left origin |
+| `top-left` | `transform-origin: top left` | Top left |
 
 ## Examples
 
 ```html
-<img visual="origin:center" />       <!-- center (default) -->
-<img visual="origin:top" />          <!-- top -->
-<img visual="origin:top-right" />    <!-- top right -->
-<img visual="origin:right" />        <!-- right -->
-<img visual="origin:bottom-right" /> <!-- bottom right -->
-<img visual="origin:bottom" />       <!-- bottom -->
-<img visual="origin:bottom-left" />  <!-- bottom left -->
-<img visual="origin:left" />         <!-- left -->
-<img visual="origin:top-left" />     <!-- top left -->
+<div visual="rotate:45 origin:top-left">Rotate from corner</div>
 ```
 
 ## Arbitrary Values
 
+Supports custom values using bracket syntax:
+
 ```html
-<img visual="origin:[33%_75%]" />
+<div visual="transform:[custom-value]">Custom</div>
 ```
 
-## With Rotation
+## Responsive
 
 ```html
-<!-- Rotate from top-left corner -->
-<div visual="origin:top-left rotate:45">...</div>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

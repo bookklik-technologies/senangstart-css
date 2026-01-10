@@ -1,38 +1,32 @@
 # Text Transform
 
-Mengawal transformasi teks dengan atribut `visual`.
+Ubah kes teks
 
 ## Sintaks
 ```
-visual="uppercase | lowercase | capitalize | normal-case"
+visual="[transform-value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `uppercase` | `text-transform: uppercase` |
-| `lowercase` | `text-transform: lowercase` |
-| `capitalize` | `text-transform: capitalize` |
-| `normal-case` | `text-transform: none` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `uppercase` | `text-transform: uppercase` | Semua huruf besar |
+| `lowercase` | `text-transform: lowercase` | Semua huruf kecil |
+| `capitalize` | `text-transform: capitalize` | Huruf besar awal perkataan |
+| `normal-case` | `text-transform: none` | Kes normal |
 
 ## Contoh
 
 ```html
-<span visual="uppercase">semua huruf besar</span>
-<span visual="lowercase">MENJADI huruf kecil</span>
-<span visual="capitalize">huruf besar setiap perkataan</span>
-<span visual="normal-case">Set Semula kepada Normal</span>
+<span visual="uppercase">Uppercase text</span>
 ```
 
-## Corak Biasa
+## Responsif
 
 ```html
-<!-- Butang dengan teks huruf besar -->
-<button visual="uppercase tracking:wide text-size:small">
-  Langgan
-</button>
-
-<!-- Tajuk dengan huruf besar -->
-<h2 visual="capitalize">tajuk artikel saya</h2>
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

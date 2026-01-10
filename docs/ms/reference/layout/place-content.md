@@ -1,6 +1,6 @@
 # Place Content
 
-Mengawal penjajaran kandungan grid dalam kedua-dua paksi dengan atribut `layout`.
+Pintasan untuk align-content dan justify-content
 
 ## Sintaks
 ```
@@ -9,20 +9,27 @@ layout="place-content:[value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `place-content:start` | `place-content: start` |
-| `place-content:end` | `place-content: end` |
-| `place-content:center` | `place-content: center` |
-| `place-content:between` | `place-content: space-between` |
-| `place-content:around` | `place-content: space-around` |
-| `place-content:evenly` | `place-content: space-evenly` |
-| `place-content:stretch` | `place-content: stretch` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `start` | `place-content: start` | Jajar permulaan |
+| `end` | `place-content: end` | Jajar hujung |
+| `center` | `place-content: center` | Jajar tengah |
+| `between` | `place-content: space-between` | Ruang antara |
+| `around` | `place-content: space-around` | Ruang sekeliling |
+| `evenly` | `place-content: space-evenly` | Ruang sekata |
+| `stretch` | `place-content: stretch` | Regangkan kandungan |
 
 ## Contoh
 
 ```html
-<div layout="grid place-content:center" space="h:[400px]">
-  Ditengahkan dalam kedua-dua arah
+<div layout="grid place-content:center">Centered content</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

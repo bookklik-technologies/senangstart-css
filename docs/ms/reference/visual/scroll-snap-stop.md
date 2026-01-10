@@ -1,37 +1,30 @@
-# Hentian Snap Skrol
+# Scroll Snap Stop
 
-Mengawal sama ada snap skrol berhenti pada setiap titik snap dengan atribut `visual`.
+Kawal kelakuan hentian snap skrol
 
 ## Sintaks
 ```
-visual="snap-stop:[nilai]"
+visual="snap-stop:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `snap-stop:normal` | `scroll-snap-stop: normal` |
-| `snap-stop:always` | `scroll-snap-stop: always` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `normal` | `scroll-snap-stop: normal` | Hentian biasa |
+| `always` | `scroll-snap-stop: always` | Sentiasa berhenti |
 
 ## Contoh
 
 ```html
-<!-- Sentiasa berhenti pada setiap item (tiada langkau) -->
-<div visual="snap:x" layout="flex overflow-x:auto">
-  <div visual="snap-align:start snap-stop:always">Mesti berhenti di sini</div>
-  <div visual="snap-align:start snap-stop:always">Mesti berhenti di sini juga</div>
-</div>
-
-<!-- Kelakuan normal (boleh langkau item dengan skrol laju) -->
-<div visual="snap:x" layout="flex overflow-x:auto">
-  <div visual="snap-align:start snap-stop:normal">Mungkin dilangkau</div>
-</div>
+<div visual="snap-stop:always">Always stop here</div>
 ```
 
-## Kegunaan
+## Responsif
 
-Gunakan `snap-stop:always` untuk:
-- Wizard langkah demi langkah
-- Kandungan penting yang tidak boleh dilangkau
-- Kandungan terpagin seperti tayangan slaid
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

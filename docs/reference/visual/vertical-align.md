@@ -1,38 +1,36 @@
 # Vertical Align
 
-Control vertical alignment of inline elements with the `visual` attribute.
+Set vertical alignment
 
 ## Syntax
 ```
-visual="vertical-align:baseline | vertical-align:top | vertical-align:middle | vertical-align:bottom"
+visual="align-[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `vertical-align:baseline` | `vertical-align: baseline` |
-| `vertical-align:top` | `vertical-align: top` |
-| `vertical-align:middle` | `vertical-align: middle` |
-| `vertical-align:bottom` | `vertical-align: bottom` |
-| `vertical-align:text-top` | `vertical-align: text-top` |
-| `vertical-align:text-bottom` | `vertical-align: text-bottom` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `baseline` | `vertical-align: baseline` | Baseline |
+| `top` | `vertical-align: top` | Top |
+| `middle` | `vertical-align: middle` | Middle |
+| `bottom` | `vertical-align: bottom` | Bottom |
+| `text-top` | `vertical-align: text-top` | Text top |
+| `text-bottom` | `vertical-align: text-bottom` | Text bottom |
+| `sub` | `vertical-align: sub` | Subscript |
+| `super` | `vertical-align: super` | Superscript |
 
 ## Examples
 
 ```html
-<img visual="vertical-align:middle" src="icon.png"> Aligned text
-
-<span visual="vertical-align:top">Top aligned</span>
-<span visual="vertical-align:bottom">Bottom aligned</span>
+<img visual="align-middle">Vertically centered</img>
 ```
 
-## Common Patterns
+## Responsive
 
 ```html
-<!-- Icon aligned with text -->
-<span>
-  <img visual="vertical-align:middle" src="icon.svg" space="w:[16px] h:[16px]">
-  Text next to icon
-</span>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

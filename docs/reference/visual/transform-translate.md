@@ -1,51 +1,39 @@
-# Translate
+# Transform Translate
 
-Move elements horizontally or vertically.
+Translate element position
 
 ## Syntax
 ```
-visual="translate-x:small | translate-y:big | translate-x:1/2 | -translate-x:medium"
+visual="translate-x:[value]" or visual="translate-y:[value]"
 ```
 
-## Using Spacing Scale
+## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `translate-x:small` | `transform: translateX(var(--s-small))` |
-| `translate-x:medium` | `transform: translateX(var(--s-medium))` |
-| `translate-y:big` | `transform: translateY(var(--s-big))` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `0` | `transform: translateX(0)` | No translation |
+| `full` | `transform: translateX(100%)` | Full width |
+| `1/2` | `transform: translateX(50%)` | Half width |
 
-```html
-<div visual="translate-x:small" />   <!-- translateX(var(--s-small)) -->
-<div visual="translate-x:medium" />  <!-- translateX(var(--s-medium)) -->
-<div visual="translate-y:big" />     <!-- translateY(var(--s-big)) -->
-```
-
-## Using Fractions
-
-| Value | CSS Output |
-|-------|------------|
-| `translate-x:1/2` | `transform: translateX(50%)` |
-| `translate-y:1/4` | `transform: translateY(25%)` |
-| `translate-x:full` | `transform: translateX(100%)` |
+## Examples
 
 ```html
-<div visual="translate-x:1/2" />   <!-- translateX(50%) -->
-<div visual="translate-y:1/4" />   <!-- translateY(25%) -->
-<div visual="translate-x:full" />  <!-- translateX(100%) -->
-```
-
-## Negative Translation
-
-```html
-<div visual="-translate-x:medium" />  <!-- translateX(calc(var(--s-medium) * -1)) -->
-<div visual="-translate-y:1/2" />     <!-- translateY(-50%) -->
-<div visual="-translate-x:full" />    <!-- translateX(-100%) -->
+<div visual="translate-x:full">Moved right</div>
 ```
 
 ## Arbitrary Values
 
+Supports custom values using bracket syntax:
+
 ```html
-<div visual="translate-x:[100px]" />
-<div visual="translate-y:[-50%]" />
+<div visual="transform:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

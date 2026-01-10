@@ -1,58 +1,49 @@
 # Padding
 
-Control inner spacing with the `space` attribute.
+Add padding to elements
 
 ## Syntax
 ```
-space="p:[value]"
-space="p-t:[value] | p-r:[value] | p-b:[value] | p-l:[value]"
-space="p-x:[value] | p-y:[value]"
+space="p:[value]" or space="p-{side}:[value]"
 ```
 
-## Properties
+## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `p` | `padding` (all sides) |
-| `p-t` | `padding-top` |
-| `p-r` | `padding-right` |
-| `p-b` | `padding-bottom` |
-| `p-l` | `padding-left` |
-| `p-x` | `padding-left` + `padding-right` |
-| `p-y` | `padding-top` + `padding-bottom` |
+| Property | CSS Output | Description |
+|--------|------------|-------------|
+| `p` | `padding: var(--s-{value})` | All sides |
+| `p-t` | `padding-top: var(--s-{value})` | Top |
+| `p-r` | `padding-right: var(--s-{value})` | Right |
+| `p-b` | `padding-bottom: var(--s-{value})` | Bottom |
+| `p-l` | `padding-left: var(--s-{value})` | Left |
+| `p-x` | `padding-left: var(--s-{value}) padding-right: var(--s-{value})` | Horizontal |
+| `p-y` | `padding-top: var(--s-{value}) padding-bottom: var(--s-{value})` | Vertical |
 
 ## Scale Values
 
-| Keyword | Value |
-|---------|-------|
-| `none` | 0px |
-| `tiny` | 4px |
-| `small` | 8px |
-| `medium` | 16px |
-| `big` | 32px |
-| `giant` | 64px |
-| `vast` | 128px |
+`none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`
 
 ## Examples
 
 ```html
-<!-- All sides -->
-<div space="p:medium">All sides padding</div>
+<div space="p:medium">Padding all sides</div>
+<div space="p-x:big p-y:small">Different padding</div>
+<div space="p:[20px]">Custom padding</div>
+```
 
-<!-- Horizontal and vertical -->
-<div space="p-x:big p-y:small">Horizontal/vertical</div>
+## Arbitrary Values
 
-<!-- Individual sides -->
-<div space="p-t:tiny p-b:giant">Top and bottom</div>
+Supports custom values using bracket syntax:
 
-<!-- Arbitrary values -->
-<div space="p:[20px_40px]">20px vertical, 40px horizontal</div>
+```html
+<div space="padding:[custom-value]">Custom</div>
 ```
 
 ## Responsive
 
 ```html
-<section space="p:small tab:p:medium lap:p:big desk:p:giant">
-  Progressive padding that grows with screen size
-</section>
+<!-- Responsive example -->
+<div space="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

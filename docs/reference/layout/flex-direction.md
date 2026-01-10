@@ -1,6 +1,6 @@
 # Flex Direction
 
-Control the direction of flex items with the `layout` attribute.
+Set the direction of flex items
 
 ## Syntax
 ```
@@ -9,28 +9,25 @@ layout="[direction]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `row` | `flex-direction: row` |
-| `col` | `flex-direction: column` |
-| `row-reverse` | `flex-direction: row-reverse` |
-| `col-reverse` | `flex-direction: column-reverse` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `row` | `flex-direction: row` | Horizontal (default) |
+| `col` | `flex-direction: column` | Vertical |
+| `row-reverse` | `flex-direction: row-reverse` | Horizontal reversed |
+| `col-reverse` | `flex-direction: column-reverse` | Vertical reversed |
 
 ## Examples
 
 ```html
-<div layout="flex row">Horizontal (default)</div>
-<div layout="flex col">Vertical stack</div>
-<div layout="flex row-reverse">Right to left</div>
-<div layout="flex col-reverse">Bottom to top</div>
+<div layout="flex row">Row direction</div>
+<div layout="flex col">Column direction</div>
 ```
 
 ## Responsive
 
 ```html
-<!-- Stack on mobile, row on tablet+ -->
-<div layout="flex col tab:row">
-  <div>Item 1</div>
-  <div>Item 2</div>
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

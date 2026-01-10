@@ -1,25 +1,39 @@
-# Sepia
+# Filter Sepia
 
-Gunakan ton sepia pada elemen.
+Terapkan penapis sepia
 
 ## Sintaks
 ```
-visual="sepia:none | sepia:partial | sepia:full | sepia"
+visual="sepia:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `sepia:none` | `filter: sepia(0)` |
-| `sepia:partial` | `filter: sepia(0.5)` |
-| `sepia:full` | `filter: sepia(1)` |
-| `sepia` | `filter: sepia(1)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `filter: sepia(0%)` | Tiada sepia |
+| `partial` | `filter: sepia(50%)` | 50% sepia |
+| `full` | `filter: sepia(100%)` | Sepia penuh |
 
 ## Contoh
 
 ```html
-<img visual="sepia:none" />     <!-- Tiada sepia -->
-<img visual="sepia:partial" />  <!-- 50% sepia -->
-<img visual="sepia" />          <!-- Sepia penuh -->
+<img visual="sepia:full">Vintage look</img>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

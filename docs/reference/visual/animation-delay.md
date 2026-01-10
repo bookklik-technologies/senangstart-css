@@ -1,28 +1,41 @@
 # Animation Delay
 
-Add a delay before the animation starts.
+Set animation delay
 
 ## Syntax
 ```
-visual="animation-delay:instant | animation-delay:quick | animation-delay:fast | animation-delay:normal | animation-delay:slow | animation-delay:slower | animation-delay:lazy"
+visual="animation-delay:[value]"
 ```
 
 ## Values
 
-| Value | Time |
-|-------|------|
-| `animation-delay:instant` | 75ms |
-| `animation-delay:quick` | 100ms |
-| `animation-delay:fast` | 150ms |
-| `animation-delay:normal` | 200ms |
-| `animation-delay:slow` | 300ms |
-| `animation-delay:slower` | 500ms |
-| `animation-delay:lazy` | 700ms |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `instant` | `animation-delay: 75ms` | 75ms delay |
+| `quick` | `animation-delay: 100ms` | 100ms delay |
+| `fast` | `animation-delay: 150ms` | 150ms delay |
+| `normal` | `animation-delay: 200ms` | 200ms delay |
+| `slow` | `animation-delay: 300ms` | 300ms delay |
 
 ## Examples
 
 ```html
-<div visual="animate:pulse animation-delay:quick">...</div>   <!-- 100ms delay -->
-<div visual="animate:pulse animation-delay:normal">...</div>  <!-- 200ms delay -->
-<div visual="animate:pulse animation-delay:slow">...</div>    <!-- 300ms delay -->
+<div visual="animate:bounce animation-delay:slow">Delayed bounce</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="animation:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

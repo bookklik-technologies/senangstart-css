@@ -1,38 +1,34 @@
 # Shorthand Alignment
 
-Convenient shortcuts for common alignment patterns with the `layout` attribute.
+Quick alignment shortcuts
 
 ## Syntax
 ```
-layout="center | start | end | between | around | evenly"
+layout="[alignment]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `center` | `justify-content: center; align-items: center` |
-| `start` | `justify-content: flex-start; align-items: flex-start` |
-| `end` | `justify-content: flex-end; align-items: flex-end` |
-| `between` | `justify-content: space-between` |
-| `around` | `justify-content: space-around` |
-| `evenly` | `justify-content: space-evenly` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `center` | `justify-content: center; align-items: center` | Center both axes |
+| `start` | `justify-content: flex-start; align-items: flex-start` | Align to start |
+| `end` | `justify-content: flex-end; align-items: flex-end` | Align to end |
+| `between` | `justify-content: space-between` | Space between |
+| `around` | `justify-content: space-around` | Space around |
+| `evenly` | `justify-content: space-evenly` | Even spacing |
 
 ## Examples
 
 ```html
-<!-- Center both horizontally and vertically -->
-<div layout="flex center">Centered both ways</div>
-
-<!-- Align to start in both axes -->
-<div layout="flex start">Top-left aligned</div>
-
-<!-- Space items with between -->
-<div layout="flex between items-center">
-  Spaced items, vertically centered
-</div>
+<div layout="flex center">Centered content</div>
 ```
 
-## Note
+## Responsive
 
-These are shortcuts for common patterns. For more control, use `justify-*` and `items-*` separately.
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

@@ -1,33 +1,30 @@
 # Box Sizing
 
-Control how element dimensions are calculated with the `layout` attribute.
+Control how width and height are calculated
 
 ## Syntax
 ```
-layout="box-border | box-content"
+layout="[box-sizing-value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `box-border` | `box-sizing: border-box` |
-| `box-content` | `box-sizing: content-box` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `box-border` | `box-sizing: border-box` | Include padding and border in size |
+| `box-content` | `box-sizing: content-box` | Exclude padding and border |
 
 ## Examples
 
 ```html
-<!-- Padding included in width (default in preflight) -->
-<div layout="box-border" space="p:medium w:[200px]">
-  Padding included in 200px width
-</div>
-
-<!-- Padding adds to width -->
-<div layout="box-content" space="p:medium w:[200px]">
-  Total width = 200px + padding
-</div>
+<div layout="box-border">Border box</div>
 ```
 
-## Note
+## Responsive
 
-The preflight styles set `box-sizing: border-box` globally, so you typically only need `box-content` to override this behavior.
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

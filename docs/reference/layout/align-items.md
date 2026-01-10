@@ -1,6 +1,6 @@
 # Align Items
 
-Control vertical alignment of flex items with the `layout` attribute.
+Align items along the cross axis
 
 ## Syntax
 ```
@@ -9,27 +9,25 @@ layout="items:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `items:start` | `align-items: flex-start` |
-| `items:end` | `align-items: flex-end` |
-| `items:center` | `align-items: center` |
-| `items:baseline` | `align-items: baseline` |
-| `items:stretch` | `align-items: stretch` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `start` | `align-items: flex-start` | Align to start |
+| `end` | `align-items: flex-end` | Align to end |
+| `center` | `align-items: center` | Center items |
+| `baseline` | `align-items: baseline` | Align to baseline |
+| `stretch` | `align-items: stretch` | Stretch items |
 
 ## Examples
 
 ```html
-<div layout="flex items:center">Vertically centered items</div>
-<div layout="flex items:start">Items aligned to top</div>
-<div layout="flex items:end">Items aligned to bottom</div>
-<div layout="flex items:baseline">Aligned by text baseline</div>
+<div layout="flex items:center">Centered</div>
 ```
 
 ## Responsive
 
 ```html
-<div layout="flex items:start tab:items:center">
-  Top on mobile, centered on tablet+
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

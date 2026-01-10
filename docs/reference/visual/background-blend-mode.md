@@ -1,6 +1,6 @@
 # Background Blend Mode
 
-Control how background images blend with the background color.
+Set background blend mode
 
 ## Syntax
 ```
@@ -9,27 +9,26 @@ visual="bg-blend:[value]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `bg-blend:normal` | `background-blend-mode: normal` |
-| `bg-blend:multiply` | `background-blend-mode: multiply` |
-| `bg-blend:screen` | `background-blend-mode: screen` |
-| `bg-blend:overlay` | `background-blend-mode: overlay` |
-| `bg-blend:darken` | `background-blend-mode: darken` |
-| `bg-blend:lighten` | `background-blend-mode: lighten` |
-| `bg-blend:color-dodge` | `background-blend-mode: color-dodge` |
-| `bg-blend:color-burn` | `background-blend-mode: color-burn` |
-| `bg-blend:hard-light` | `background-blend-mode: hard-light` |
-| `bg-blend:soft-light` | `background-blend-mode: soft-light` |
-| `bg-blend:difference` | `background-blend-mode: difference` |
-| `bg-blend:exclusion` | `background-blend-mode: exclusion` |
-| `bg-blend:hue` | `background-blend-mode: hue` |
-| `bg-blend:saturation` | `background-blend-mode: saturation` |
-| `bg-blend:color` | `background-blend-mode: color` |
-| `bg-blend:luminosity` | `background-blend-mode: luminosity` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `normal` | `background-blend-mode: normal` | Normal blend |
+| `multiply` | `background-blend-mode: multiply` | Multiply blend |
+| `screen` | `background-blend-mode: screen` | Screen blend |
+| `overlay` | `background-blend-mode: overlay` | Overlay blend |
+| `darken` | `background-blend-mode: darken` | Darken blend |
+| `lighten` | `background-blend-mode: lighten` | Lighten blend |
 
 ## Examples
 
 ```html
-<div visual="bg:primary bg-image:[texture.png] bg-blend:soft-light">Textured background</div>
+<div visual="bg-blend:multiply">Multiplied background</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

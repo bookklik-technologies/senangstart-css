@@ -1,38 +1,30 @@
-# Penyesuaian Warna Paksa
+# Forced Color Adjust
 
-Mengawal bagaimana warna elemen menyesuaikan diri dengan mod warna paksa (Windows High Contrast) dengan atribut `visual`.
+Kawal kelakuan mod warna paksa
 
 ## Sintaks
 ```
-visual="forced-colors:[nilai]"
+visual="forced-color:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `forced-colors:auto` | `forced-color-adjust: auto` |
-| `forced-colors:none` | `forced-color-adjust: none` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `forced-color-adjust: auto` | Penyesuaian automatik |
+| `none` | `forced-color-adjust: none` | Tiada penyesuaian |
 
 ## Contoh
 
 ```html
-<!-- Benarkan sistem menyesuaikan warna (lalai) -->
-<div visual="forced-colors:auto">
-  Warna akan menyesuaikan dengan mod kontras tinggi
-</div>
-
-<!-- Kekalkan warna asal dalam mod kontras tinggi -->
-<div visual="forced-colors:none bg:primary text:white">
-  Warna kekal seperti yang ditakrifkan
-</div>
+<div visual="forced-color:none">Preserve colors in high contrast</div>
 ```
 
-## Kegunaan
+## Responsif
 
-Gunakan `forced-colors:none` dengan berhati-hati untuk:
-- Elemen jenama di mana warna penting untuk makna
-- Carta dan graf dengan data berkod warna
-- UI di mana warna paksa akan merosakkan kebolehgunaan
-
-> ⚠️ **Nota kebolehcapaian**: Gunakan `forced-colors:none` dengan berhati-hati. Mod kontras tinggi adalah ciri kebolehcapaian.
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

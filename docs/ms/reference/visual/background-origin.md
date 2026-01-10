@@ -1,22 +1,31 @@
-# Asal Latar Belakang (Origin)
+# Background Origin
 
-Mengawal dari mana imej latar belakang diletakkan dalam kotak elemen.
+Tetapkan asal kedudukan latar
 
 ## Sintaks
 ```
-visual="bg-origin:[nilai]"
+visual="bg-origin:[value]"
 ```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `bg-origin:border` | `background-origin: border-box` |
-| `bg-origin:padding` | `background-origin: padding-box` |
-| `bg-origin:content` | `background-origin: content-box` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `border` | `background-origin: border-box` | Asal di sempadan |
+| `padding` | `background-origin: padding-box` | Asal di padding |
+| `content` | `background-origin: content-box` | Asal di kandungan |
 
 ## Contoh
 
 ```html
-<div visual="bg-image:[icon.png] bg-origin:content">Diletakkan dalam kandungan</div>
+<div visual="bg-origin:content">Content origin</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

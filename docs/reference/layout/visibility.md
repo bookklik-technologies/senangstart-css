@@ -1,35 +1,30 @@
 # Visibility
 
-Control element visibility with the `layout` attribute.
+Control element visibility
 
 ## Syntax
 ```
-layout="visible | invisible"
+layout="[visibility-value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `visible` | `visibility: visible` |
-| `invisible` | `visibility: hidden` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `visible` | `visibility: visible` | Element is visible |
+| `invisible` | `visibility: hidden` | Element is invisible but takes space |
 
 ## Examples
 
 ```html
-<div layout="invisible">Hidden but takes space</div>
-<div layout="visible">Visible element</div>
+<div layout="invisible">Invisible but present</div>
 ```
 
-## Difference from `hidden`
-
-- `invisible` hides the element but **preserves its space**
-- `hidden` (`display: none`) removes the element from the layout entirely
+## Responsive
 
 ```html
-<!-- Takes up space, but invisible -->
-<div layout="invisible">You can't see me, but I'm here</div>
-
-<!-- Completely removed from layout -->
-<div layout="hidden">Gone from layout</div>
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

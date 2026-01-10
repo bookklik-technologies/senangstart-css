@@ -1,34 +1,41 @@
-# Saturate
+# Filter Saturate
 
-Adjust the saturation of elements.
+Adjust saturation
 
 ## Syntax
 ```
-visual="saturate:none | saturate:low | saturate:normal | saturate:high | saturate:vivid"
+visual="saturate:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `saturate:none` | `filter: saturate(0)` |
-| `saturate:low` | `filter: saturate(0.5)` |
-| `saturate:normal` | `filter: saturate(1)` |
-| `saturate:high` | `filter: saturate(1.5)` |
-| `saturate:vivid` | `filter: saturate(2)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `filter: saturate(0)` | Desaturated |
+| `low` | `filter: saturate(0.5)` | Low saturation |
+| `normal` | `filter: saturate(1)` | Normal saturation |
+| `high` | `filter: saturate(1.5)` | High saturation |
+| `vivid` | `filter: saturate(2)` | Very saturated |
 
 ## Examples
 
 ```html
-<img visual="saturate:none" />    <!-- No saturation (grayscale) -->
-<img visual="saturate:low" />     <!-- 50% saturation -->
-<img visual="saturate:normal" />  <!-- 100% saturation -->
-<img visual="saturate:high" />    <!-- 150% saturation -->
-<img visual="saturate:vivid" />   <!-- 200% saturation -->
+<img visual="saturate:vivid">Vivid colors</img>
 ```
 
-## With States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<img visual="saturate:low hover:saturate:vivid" />
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

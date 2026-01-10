@@ -1,6 +1,6 @@
 # Justify Items
 
-Mengawal penjajaran horizontal lalai item grid dengan atribut `layout`.
+Jajarkan item grid pada paksi sebaris
 
 ## Sintaks
 ```
@@ -9,21 +9,24 @@ layout="justify-items:[value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `justify-items:start` | `justify-items: start` |
-| `justify-items:end` | `justify-items: end` |
-| `justify-items:center` | `justify-items: center` |
-| `justify-items:stretch` | `justify-items: stretch` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `start` | `justify-items: start` | Jajar permulaan |
+| `end` | `justify-items: end` | Jajar hujung |
+| `center` | `justify-items: center` | Jajar tengah |
+| `stretch` | `justify-items: stretch` | Regangkan item |
 
 ## Contoh
 
 ```html
-<div layout="grid grid-cols:3 justify-items:center">
-  Semua item ditengahkan secara horizontal dalam sel mereka
-</div>
+<div layout="grid justify-items:center">Centered items</div>
+```
 
-<div layout="grid grid-cols:3 justify-items:start">
-  Semua item diselaraskan ke permulaan sel mereka
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

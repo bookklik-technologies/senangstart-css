@@ -1,42 +1,38 @@
-# Garis (Stroke)
+# Stroke
 
-Mengawal warna garis elemen SVG dengan atribut `visual`.
+Tetapkan warna gurisan SVG
 
 ## Sintaks
 ```
-visual="stroke:[nilai]"
+visual="stroke:[color]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `stroke:none` | `stroke: none` |
-| `stroke:current` | `stroke: currentColor` |
-| `stroke:primary` | `stroke: var(--c-primary)` |
-| `stroke:blue-500` | `stroke: var(--c-blue-500)` |
-| `stroke:[#ff0000]` | `stroke: #ff0000` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `stroke: none` | Tiada gurisan |
+| `current` | `stroke: currentColor` | Warna semasa |
 
 ## Contoh
 
 ```html
-<svg visual="stroke:primary fill:none">
-  <circle cx="50" cy="50" r="40" />
-</svg>
-
-<svg visual="stroke:current text:blue-500">
-  <path d="M10 10 H 90 V 90 H 10 Z" />
-</svg>
-
-<svg visual="stroke:red-500 stroke-w:2">
-  <line x1="0" y1="0" x2="100" y2="100" />
-</svg>
+<svg visual="stroke:primary stroke-w:2">...</svg>
 ```
 
-## Keadaan
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<svg visual="stroke:gray-400 hover:stroke:primary fill:none">
-  <rect x="10" y="10" width="80" height="80" />
-</svg>
+<div visual="stroke:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

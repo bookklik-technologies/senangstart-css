@@ -1,21 +1,44 @@
 # Gap
 
-Mengawal jarak antara item flex dan grid dengan atribut `space`.
+Tambah ruang antara item flex/grid
 
-## Sifat
+## Sintaks
+```
+space="g:[value]" or space="g-{axis}:[value]"
+```
 
-| Property | Output CSS |
-|----------|------------|
-| `g` | `gap` (flex/grid) |
-| `g-x` | `column-gap` |
-| `g-y` | `row-gap` |
+## Nilai
+
+| Harta | CSS Output | Huraian |
+|--------|------------|-------------|
+| `g` | `gap: var(--s-{value})` | Semua ruang |
+| `g-x` | `column-gap: var(--s-{value})` | Ruang lajur |
+| `g-y` | `row-gap: var(--s-{value})` | Ruang baris |
+
+## Nilai Skala
+
+`none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`
 
 ## Contoh
 
 ```html
-<!-- Gap seragam -->
-<div layout="flex" space="g:small">Gap kecil antara item</div>
+<div layout="flex" space="g:medium">Gap between items</div>
+<div layout="grid" space="g-x:big g-y:small">Grid gaps</div>
+```
 
-<!-- Gap berbeza untuk horizontal/menegak -->
-<div layout="grid" space="g-x:big g-y:small">Gap berbeza</div>
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div space="gap:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div space="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

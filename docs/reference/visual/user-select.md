@@ -1,6 +1,6 @@
 # User Select
 
-Control whether text can be selected with the `visual` attribute.
+Control text selection
 
 ## Syntax
 ```
@@ -9,28 +9,24 @@ visual="select:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `select:none` | `user-select: none` |
-| `select:text` | `user-select: text` |
-| `select:all` | `user-select: all` |
-| `select:auto` | `user-select: auto` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `user-select: none` | Prevent selection |
+| `text` | `user-select: text` | Allow text selection |
+| `all` | `user-select: all` | Select all on click |
+| `auto` | `user-select: auto` | Default behavior |
 
 ## Examples
 
 ```html
-<!-- Prevent text selection -->
-<button visual="select:none">Can't select this text</button>
-
-<!-- Select all text on click -->
-<code visual="select:all">npm install senangstart-css</code>
-
-<!-- Allow text selection (default) -->
-<p visual="select:text">Selectable paragraph</p>
+<div visual="select:none">Cannot select this text</div>
 ```
 
-## Use Cases
+## Responsive
 
-- `select:none` - Buttons, UI elements, drag handles
-- `select:all` - Code snippets, copy-to-clipboard content
-- `select:text` - Re-enable selection on child elements
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

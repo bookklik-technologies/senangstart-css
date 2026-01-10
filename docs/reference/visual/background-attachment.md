@@ -1,6 +1,6 @@
 # Background Attachment
 
-Control how background images behave when scrolling.
+Set background attachment behavior
 
 ## Syntax
 ```
@@ -9,14 +9,23 @@ visual="bg-attachment:[value]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `bg-attachment:scroll` | `background-attachment: scroll` |
-| `bg-attachment:fixed` | `background-attachment: fixed` |
-| `bg-attachment:local` | `background-attachment: local` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `fixed` | `background-attachment: fixed` | Fixed background |
+| `local` | `background-attachment: local` | Local scroll |
+| `scroll` | `background-attachment: scroll` | Scroll with page |
 
 ## Examples
 
 ```html
-<div visual="bg-image:[hero.jpg] bg-attachment:fixed">Parallax-like effect</div>
+<div visual="bg-attachment:fixed">Parallax effect</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

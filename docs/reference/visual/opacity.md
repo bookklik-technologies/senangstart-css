@@ -1,6 +1,6 @@
 # Opacity
 
-Control element opacity with the `visual` attribute.
+Set element opacity (0-100)
 
 ## Syntax
 ```
@@ -9,27 +9,25 @@ visual="opacity:[value]"
 
 ## Values
 
-Use arbitrary values with brackets:
-
-| Value | CSS Output |
-|-------|------------|
-| `opacity:[0]` | `opacity: 0` |
-| `opacity:[0.5]` | `opacity: 0.5` |
-| `opacity:[0.8]` | `opacity: 0.8` |
-| `opacity:[1]` | `opacity: 1` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `0` | `opacity: 0` | Invisible |
+| `25` | `opacity: 0.25` | 25% visible |
+| `50` | `opacity: 0.5` | 50% visible |
+| `75` | `opacity: 0.75` | 75% visible |
+| `100` | `opacity: 1` | Fully visible |
 
 ## Examples
 
 ```html
-<div visual="opacity:[0.5]">50% opacity</div>
-<div visual="opacity:[0.8]">80% opacity</div>
-<div visual="opacity:[0] hover:opacity:[1]">Fade in on hover</div>
+<div visual="opacity:50">Half visible</div>
 ```
 
-## States
+## Responsive
 
 ```html
-<button visual="opacity:[1] disabled:opacity:[0.5]">
-  Dims when disabled
-</button>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,42 +1,38 @@
-# Isi (Fill)
+# Fill
 
-Mengawal warna isi elemen SVG dengan atribut `visual`.
+Tetapkan warna pengisian SVG
 
 ## Sintaks
 ```
-visual="fill:[nilai]"
+visual="fill:[color]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `fill:none` | `fill: none` |
-| `fill:current` | `fill: currentColor` |
-| `fill:primary` | `fill: var(--c-primary)` |
-| `fill:blue-500` | `fill: var(--c-blue-500)` |
-| `fill:[#ff0000]` | `fill: #ff0000` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `fill: none` | Tiada pengisian |
+| `current` | `fill: currentColor` | Warna semasa |
 
 ## Contoh
 
 ```html
-<svg visual="fill:primary">
-  <circle cx="50" cy="50" r="40" />
-</svg>
-
-<svg visual="fill:current text:blue-500">
-  <path d="M10 10 H 90 V 90 H 10 Z" />
-</svg>
-
-<svg visual="fill:none stroke:primary">
-  <rect x="10" y="10" width="80" height="80" />
-</svg>
+<svg visual="fill:primary">...</svg>
 ```
 
-## Keadaan
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<svg visual="fill:gray-400 hover:fill:primary">
-  <circle cx="50" cy="50" r="40" />
-</svg>
+<div visual="fill:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

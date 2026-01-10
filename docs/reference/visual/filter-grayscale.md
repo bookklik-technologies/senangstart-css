@@ -1,33 +1,39 @@
-# Grayscale
+# Filter Grayscale
 
-Convert elements to grayscale.
+Apply grayscale filter
 
 ## Syntax
 ```
-visual="grayscale:none | grayscale:partial | grayscale:full | grayscale"
+visual="grayscale:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `grayscale:none` | `filter: grayscale(0)` |
-| `grayscale:partial` | `filter: grayscale(0.5)` |
-| `grayscale:full` | `filter: grayscale(1)` |
-| `grayscale` | `filter: grayscale(1)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `filter: grayscale(0%)` | No grayscale |
+| `partial` | `filter: grayscale(50%)` | 50% grayscale |
+| `full` | `filter: grayscale(100%)` | Full grayscale |
 
 ## Examples
 
 ```html
-<img visual="grayscale:none" />     <!-- Full color -->
-<img visual="grayscale:partial" />  <!-- 50% grayscale -->
-<img visual="grayscale:full" />     <!-- Full grayscale -->
-<img visual="grayscale" />          <!-- Full grayscale (default) -->
+<img visual="grayscale:full">Black and white</img>
 ```
 
-## With States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<!-- Color on hover -->
-<img visual="grayscale hover:grayscale:none" />
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

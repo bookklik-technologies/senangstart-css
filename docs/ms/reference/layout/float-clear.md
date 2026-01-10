@@ -1,40 +1,35 @@
-# Float & Clear
+# Float Clear
 
-Mengawal kelakuan pengapungan dan pembersihan dengan atribut `layout`.
+Kawal pengapungan dan pembersihan elemen
 
 ## Sintaks
 ```
-layout="float-[value]"
-layout="clear-[value]"
+layout="[float-value]" or layout="[clear-value]"
 ```
 
-## Nilai Float
+## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `float-left` | `float: left` |
-| `float-right` | `float: right` |
-| `float-none` | `float: none` |
-
-## Nilai Clear
-
-| Nilai | Output CSS |
-|-------|------------|
-| `clear-left` | `clear: left` |
-| `clear-right` | `clear: right` |
-| `clear-both` | `clear: both` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `float-left` | `float: left` | Apung kiri |
+| `float-right` | `float: right` | Apung kanan |
+| `float-none` | `float: none` | Tiada pengapungan |
+| `clear-left` | `clear: left` | Bersihkan apungan kiri |
+| `clear-right` | `clear: right` | Bersihkan apungan kanan |
+| `clear-both` | `clear: both` | Bersihkan semua apungan |
+| `clear-none` | `clear: none` | Tiada pembersihan |
 
 ## Contoh
 
 ```html
-<img layout="float-left" space="m-r:medium" src="image.jpg">
-<p>Teks membungkus di sekeliling imej yang terapung...</p>
-<div layout="clear-both"></div>
-
-<img layout="float-right" space="m-l:medium" src="image.jpg">
-<p>Teks membungkus di sebelah kiri...</p>
+<img layout="float-left">Float left</img>
 ```
 
-## Nota
+## Responsif
 
-Untuk kebanyakan susun atur moden, flexbox atau grid lebih diutamakan daripada float. Gunakan float terutamanya untuk membungkus teks di sekeliling imej.
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

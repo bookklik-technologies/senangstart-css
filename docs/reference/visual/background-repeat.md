@@ -1,6 +1,6 @@
 # Background Repeat
 
-Control how background images are repeated.
+Set background repeat behavior
 
 ## Syntax
 ```
@@ -9,17 +9,26 @@ visual="bg-repeat:[value]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `bg-repeat:repeat` | `background-repeat: repeat` |
-| `bg-repeat:no-repeat` | `background-repeat: no-repeat` |
-| `bg-repeat:repeat-x` | `background-repeat: repeat-x` |
-| `bg-repeat:repeat-y` | `background-repeat: repeat-y` |
-| `bg-repeat:round` | `background-repeat: round` |
-| `bg-repeat:space` | `background-repeat: space` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `repeat` | `background-repeat: repeat` | Repeat both axes |
+| `no-repeat` | `background-repeat: no-repeat` | No repeat |
+| `repeat-x` | `background-repeat: repeat-x` | Repeat horizontally |
+| `repeat-y` | `background-repeat: repeat-y` | Repeat vertically |
+| `round` | `background-repeat: round` | Round repeat |
+| `space` | `background-repeat: space` | Spaced repeat |
 
 ## Examples
 
 ```html
-<div visual="bg-image:[pattern.png] bg-repeat:repeat-x">Repeat horizontally</div>
+<div visual="bg-repeat:no-repeat">Single background</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

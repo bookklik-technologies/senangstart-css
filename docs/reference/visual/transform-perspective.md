@@ -1,36 +1,43 @@
-# Perspective
+# Transform Perspective
 
-Control the perspective distance for 3D transforms using natural adjectives.
+Set 3D perspective
 
 ## Syntax
 ```
-visual="perspective:none | perspective:small | perspective:medium | perspective:big | perspective:giant | perspective:vast"
+visual="perspective:[value]"
 ```
 
 ## Values
 
-| Value | Distance | Effect |
-|-------|----------|--------|
-| `perspective:none` | - | No 3D perspective |
-| `perspective:small` | 250px | Very dramatic 3D effect |
-| `perspective:medium` | 500px | **Default**, balanced 3D |
-| `perspective:big` | 750px | Subtle 3D effect |
-| `perspective:giant` | 1000px | Very subtle 3D |
-| `perspective:vast` | 1500px | Nearly flat appearance |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `perspective: none` | No perspective |
+| `dramatic` | `perspective: 100px` | Dramatic perspective |
+| `near` | `perspective: 300px` | Near perspective |
+| `normal` | `perspective: 500px` | Normal perspective |
+| `midrange` | `perspective: 800px` | Midrange perspective |
+| `far` | `perspective: 1000px` | Far perspective |
+| `distant` | `perspective: 1200px` | Distant perspective |
 
 ## Examples
 
 ```html
-<div visual="perspective:none">...</div>    <!-- No perspective -->
-<div visual="perspective:small">...</div>   <!-- 250px - Dramatic 3D -->
-<div visual="perspective:medium">...</div>  <!-- 500px - Standard 3D -->
-<div visual="perspective:big">...</div>     <!-- 750px - Subtle 3D -->
-<div visual="perspective:giant">...</div>   <!-- 1000px - Very subtle -->
-<div visual="perspective:vast">...</div>    <!-- 1500px - Near flat -->
+<div visual="perspective:normal">3D container</div>
 ```
 
 ## Arbitrary Values
 
+Supports custom values using bracket syntax:
+
 ```html
-<div visual="perspective:[800px]">...</div>
+<div visual="transform:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

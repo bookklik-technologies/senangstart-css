@@ -1,21 +1,30 @@
-# Keterlihatan
+# Visibility
 
-Mengawal keterlihatan elemen.
+Kawal ketampakan elemen
+
+## Sintaks
+```
+layout="[visibility-value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `visible` | `visibility: visible` |
-| `invisible` | `visibility: hidden` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `visible` | `visibility: visible` | Elemen kelihatan |
+| `invisible` | `visibility: hidden` | Elemen tidak kelihatan tetapi mengambil ruang |
 
 ## Contoh
 
 ```html
-<div layout="invisible">Tersembunyi tetapi masih mengambil ruang</div>
+<div layout="invisible">Invisible but present</div>
 ```
 
-## Nota
+## Responsif
 
-- `invisible` menyembunyikan elemen tetapi **mengekalkan ruangnya**
-- `hidden` (`display: none`) mengeluarkan elemen sepenuhnya
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

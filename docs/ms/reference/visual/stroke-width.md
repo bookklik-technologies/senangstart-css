@@ -1,43 +1,39 @@
-# Lebar Garis (Stroke Width)
+# Stroke Width
 
-Mengawal lebar garis elemen SVG dengan atribut `visual`.
+Tetapkan lebar gurisan SVG
 
 ## Sintaks
 ```
-visual="stroke-w:[nilai]"
+visual="stroke-w:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `stroke-w:0` | `stroke-width: 0px` |
-| `stroke-w:1` | `stroke-width: 1px` |
-| `stroke-w:2` | `stroke-width: 2px` |
-| `stroke-w:[0.5]` | `stroke-width: 0.5` |
-| `stroke-w:[3px]` | `stroke-width: 3px` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `0` | `stroke-width: 0` | Tiada gurisan |
+| `1` | `stroke-width: 1px` | Gurisan 1px |
+| `2` | `stroke-width: 2px` | Gurisan 2px |
 
 ## Contoh
 
 ```html
-<svg visual="stroke:primary stroke-w:2 fill:none">
-  <circle cx="50" cy="50" r="40" />
-</svg>
-
-<svg visual="stroke:blue-500 stroke-w:4">
-  <line x1="0" y1="50" x2="100" y2="50" />
-</svg>
-
-<!-- Garis nipis -->
-<svg visual="stroke:gray-400 stroke-w:1 fill:none">
-  <rect x="10" y="10" width="80" height="80" />
-</svg>
+<svg visual="stroke:black stroke-w:2">...</svg>
 ```
 
-## Keadaan
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<svg visual="stroke:primary stroke-w:1 hover:stroke-w:3 fill:none">
-  <circle cx="50" cy="50" r="40" />
-</svg>
+<div visual="stroke:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

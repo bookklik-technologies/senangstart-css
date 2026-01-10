@@ -1,20 +1,33 @@
-# Bayang Kotak
+# Box Shadow
 
-Mengawal bayang kotak dengan atribut `visual`.
+Tambah bayang kotak
+
+## Sintaks
+```
+visual="shadow:[value]"
+```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `shadow:none` | `box-shadow: none` |
-| `shadow:small` | `box-shadow: 0 1px 2px rgba(0,0,0,0.05)` |
-| `shadow:medium` | `box-shadow: 0 4px 6px rgba(0,0,0,0.1)` |
-| `shadow:big` | `box-shadow: 0 10px 15px rgba(0,0,0,0.15)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `box-shadow: var(--shadow-none)` | Tiada bayang |
+| `small` | `box-shadow: var(--shadow-small)` | Bayang kecil |
+| `medium` | `box-shadow: var(--shadow-medium)` | Bayang sederhana |
+| `big` | `box-shadow: var(--shadow-big)` | Bayang besar |
+| `giant` | `box-shadow: var(--shadow-giant)` | Bayang gergasi |
 
 ## Contoh
 
 ```html
-<div visual="shadow:small">Bayang halus</div>
-<div visual="shadow:medium">Bayang kad</div>
-<div visual="shadow:big">Bayang ketara</div>
+<div visual="shadow:medium">Card with shadow</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

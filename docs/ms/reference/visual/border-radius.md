@@ -1,21 +1,34 @@
-# Radius Sempadan
+# Border Radius
 
-Mengawal radius sempadan dengan atribut `visual`.
+Tetapkan jejari sempadan
+
+## Sintaks
+```
+visual="rounded:[value]"
+```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `rounded:none` | `border-radius: 0` |
-| `rounded:small` | `border-radius: 4px` |
-| `rounded:medium` | `border-radius: 8px` |
-| `rounded:big` | `border-radius: 16px` |
-| `rounded:round` | `border-radius: 9999px` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `border-radius: var(--r-none)` | Tiada pembulatan |
+| `small` | `border-radius: var(--r-small)` | Jejari kecil |
+| `medium` | `border-radius: var(--r-medium)` | Jejari sederhana |
+| `big` | `border-radius: var(--r-big)` | Jejari besar |
+| `round` | `border-radius: var(--r-round)` | Sepenuhnya bulat |
 
 ## Contoh
 
 ```html
-<div visual="rounded:small">Pembulatan halus</div>
-<div visual="rounded:big">Pembulatan jelas</div>
-<button visual="rounded:round">Butang pill</button>
+<div visual="rounded:medium">Rounded corners</div>
+<div visual="rounded:round">Pill shape</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,6 +1,6 @@
 # Justify Content
 
-Mengawal penjajaran horizontal item flex/grid dengan atribut `layout`.
+Jajarkan item sepanjang paksi utama
 
 ## Sintaks
 ```
@@ -9,31 +9,28 @@ layout="justify:[value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `justify:start` | `justify-content: flex-start` |
-| `justify:end` | `justify-content: flex-end` |
-| `justify:center` | `justify-content: center` |
-| `justify:between` | `justify-content: space-between` |
-| `justify:around` | `justify-content: space-around` |
-| `justify:evenly` | `justify-content: space-evenly` |
-| `justify:stretch` | `justify-content: stretch` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `start` | `justify-content: flex-start` | Jajar ke permulaan |
+| `end` | `justify-content: flex-end` | Jajar ke hujung |
+| `center` | `justify-content: center` | Tengahkan item |
+| `between` | `justify-content: space-between` | Ruang antara item |
+| `around` | `justify-content: space-around` | Ruang sekeliling item |
+| `evenly` | `justify-content: space-evenly` | Ruang sekata |
+| `stretch` | `justify-content: stretch` | Regangkan item |
 
 ## Contoh
 
 ```html
-<div layout="flex justify:start">Diselaraskan ke permulaan</div>
-<div layout="flex justify:center">Ditengahkan</div>
-<div layout="flex justify:end">Diselaraskan ke penghujung</div>
-<div layout="flex justify:between">Ruang antara item</div>
-<div layout="flex justify:around">Ruang di sekeliling item</div>
-<div layout="flex justify:evenly">Diagihkan sama rata</div>
+<div layout="flex justify:center">Centered</div>
+<div layout="flex justify:between">Spaced</div>
 ```
 
 ## Responsif
 
 ```html
-<div layout="flex justify:center tab:justify:between">
-  Tengah pada mudah alih, dijarakkan pada tablet+
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

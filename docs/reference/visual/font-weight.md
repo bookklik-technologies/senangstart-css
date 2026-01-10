@@ -1,6 +1,6 @@
 # Font Weight
 
-Control font weight with the `visual` attribute.
+Set font weight
 
 ## Syntax
 ```
@@ -9,31 +9,23 @@ visual="font:[weight]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `font:thin` | `font-weight: 100` |
-| `font:extralight` | `font-weight: 200` |
-| `font:light` | `font-weight: 300` |
-| `font:normal` | `font-weight: 400` |
-| `font:medium` | `font-weight: 500` |
-| `font:semibold` | `font-weight: 600` |
-| `font:bold` | `font-weight: 700` |
-| `font:extrabold` | `font-weight: 800` |
-| `font:black` | `font-weight: 900` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `normal` | `font-weight: var(--fw-normal)` | Normal weight |
+| `medium` | `font-weight: var(--fw-medium)` | Medium weight |
+| `bold` | `font-weight: var(--fw-bold)` | Bold weight |
 
 ## Examples
 
 ```html
-<span visual="font:normal">Normal weight</span>
-<span visual="font:medium">Medium weight</span>
-<span visual="font:semibold">Semibold weight</span>
-<span visual="font:bold">Bold weight</span>
+<div visual="font:bold">Bold text</div>
 ```
 
-## Common Patterns
+## Responsive
 
 ```html
-<h1 visual="font:bold">Bold heading</h1>
-<p visual="font:normal">Regular paragraph text</p>
-<span visual="font:semibold">Emphasized text</span>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

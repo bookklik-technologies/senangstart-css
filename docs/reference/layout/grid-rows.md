@@ -1,6 +1,6 @@
-# Grid Template Rows
+# Grid Rows
 
-Define grid rows with the `layout` attribute.
+Define grid template rows
 
 ## Syntax
 ```
@@ -9,27 +9,23 @@ layout="grid-rows:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `grid-rows:1` to `grid-rows:6` | `grid-template-rows: repeat(n, minmax(0, 1fr))` |
-| `grid-rows:none` | `grid-template-rows: none` |
-| `grid-rows:subgrid` | `grid-template-rows: subgrid` |
-| `grid-rows:[auto_1fr_auto]` | `grid-template-rows: auto 1fr auto` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `1-12` | `grid-template-rows: repeat({n}, minmax(0, 1fr))` | N equal rows |
+| `none` | `grid-template-rows: none` | No rows defined |
+| `subgrid` | `grid-template-rows: subgrid` | Use parent grid |
 
 ## Examples
 
 ```html
-<!-- 3 equal rows -->
-<div layout="grid grid-rows:3" space="h:[300px]">
-  <header>Header</header>
-  <main>Content</main>
-  <footer>Footer</footer>
-</div>
+<div layout="grid grid-rows:3">3 rows</div>
+```
 
-<!-- Custom row heights -->
-<div layout="grid grid-rows:[auto_1fr_auto]" space="h:[100vh]">
-  <header>Auto height</header>
-  <main>Takes remaining space</main>
-  <footer>Auto height</footer>
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

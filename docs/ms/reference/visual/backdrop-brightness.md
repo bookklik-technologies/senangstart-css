@@ -1,28 +1,41 @@
 # Backdrop Brightness
 
-Melaraskan kecerahan latar belakang.
+Laraskan kecerahan latar belakang
 
 ## Sintaks
 ```
-visual="backdrop-brightness:dim | backdrop-brightness:dark | backdrop-brightness:normal | backdrop-brightness:bright | backdrop-brightness:vivid"
+visual="backdrop-brightness:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `backdrop-brightness:dim` | `backdrop-filter: brightness(0.5)` |
-| `backdrop-brightness:dark` | `backdrop-filter: brightness(0.75)` |
-| `backdrop-brightness:normal` | `backdrop-filter: brightness(1)` |
-| `backdrop-brightness:bright` | `backdrop-filter: brightness(1.25)` |
-| `backdrop-brightness:vivid` | `backdrop-filter: brightness(1.5)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `dim` | `backdrop-filter: brightness(0.5)` | 50% kecerahan |
+| `dark` | `backdrop-filter: brightness(0.75)` | 75% kecerahan |
+| `normal` | `backdrop-filter: brightness(1)` | Kecerahan normal |
+| `bright` | `backdrop-filter: brightness(1.25)` | 125% kecerahan |
+| `vivid` | `backdrop-filter: brightness(1.5)` | 150% kecerahan |
 
 ## Contoh
 
 ```html
-<div visual="backdrop-brightness:dim">...</div>     <!-- 50% kecerahan -->
-<div visual="backdrop-brightness:dark">...</div>    <!-- 75% kecerahan -->
-<div visual="backdrop-brightness:normal">...</div>  <!-- 100% kecerahan -->
-<div visual="backdrop-brightness:bright">...</div>  <!-- 125% kecerahan -->
-<div visual="backdrop-brightness:vivid">...</div>   <!-- 150% kecerahan -->
+<div visual="backdrop-brightness:dark">Darkened backdrop</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

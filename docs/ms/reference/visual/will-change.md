@@ -1,47 +1,33 @@
 # Will Change
 
-Petunjuk kepada pelayar tentang perubahan yang dijangka dengan atribut `visual`.
+Beri petunjuk kepada pelayar tentang perubahan akan datang
 
 ## Sintaks
 ```
-visual="will-change:[nilai]"
+visual="will-change:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `will-change:auto` | `will-change: auto` |
-| `will-change:scroll` | `will-change: scroll-position` |
-| `will-change:contents` | `will-change: contents` |
-| `will-change:transform` | `will-change: transform` |
-| `will-change:opacity` | `will-change: opacity` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `will-change: auto` | Pengoptimuman automatik |
+| `scroll` | `will-change: scroll-position` | Perubahan skrol |
+| `contents` | `will-change: contents` | Perubahan kandungan |
+| `transform` | `will-change: transform` | Perubahan transform |
+| `opacity` | `will-change: opacity` | Perubahan kelegapan |
 
 ## Contoh
 
 ```html
-<!-- Optimumkan untuk animasi transform -->
-<div visual="will-change:transform hover:scale:[1.1]">
-  Hover untuk skala
-</div>
-
-<!-- Optimumkan untuk peralihan kelegapan -->
-<div visual="will-change:opacity hover:opacity:[0.5]">
-  Hover untuk pudar
-</div>
-
-<!-- Optimumkan untuk prestasi skrol -->
-<div visual="will-change:scroll" layout="overflow:auto">
-  Kandungan skrol berat
-</div>
+<div visual="will-change:transform">Optimized for animation</div>
 ```
 
-## Nota
+## Responsif
 
-> ⚠️ **Gunakan dengan berhati-hati!** `will-change` menggunakan sumber pelayar. Hanya gunakan pada elemen yang benar-benar akan berubah.
-
-## Amalan Terbaik
-
-- Gunakan sebelum animasi bermula
-- Buang selepas animasi selesai
-- Jangan gunakan pada terlalu banyak elemen
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

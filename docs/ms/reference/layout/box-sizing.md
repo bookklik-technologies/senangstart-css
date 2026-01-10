@@ -1,33 +1,30 @@
 # Box Sizing
 
-Mengawal cara dimensi elemen dikira dengan atribut `layout`.
+Kawal cara lebar dan tinggi dikira
 
 ## Sintaks
 ```
-layout="box-border | box-content"
+layout="[box-sizing-value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `box-border` | `box-sizing: border-box` |
-| `box-content` | `box-sizing: content-box` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `box-border` | `box-sizing: border-box` | Termasuk padding dan sempadan dalam saiz |
+| `box-content` | `box-sizing: content-box` | Tidak termasuk padding dan sempadan |
 
 ## Contoh
 
 ```html
-<!-- Padding dimasukkan dalam lebar (lalai dalam preflight) -->
-<div layout="box-border" space="p:medium w:[200px]">
-  Padding dimasukkan dalam lebar 200px
-</div>
-
-<!-- Padding ditambah kepada lebar -->
-<div layout="box-content" space="p:medium w:[200px]">
-  Jumlah lebar = 200px + padding
-</div>
+<div layout="box-border">Border box</div>
 ```
 
-## Nota
+## Responsif
 
-Gaya preflight menetapkan `box-sizing: border-box` secara global, jadi anda biasanya hanya perlu `box-content` untuk mengatasi kelakuan ini.
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

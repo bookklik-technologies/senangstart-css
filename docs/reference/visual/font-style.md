@@ -1,22 +1,30 @@
 # Font Style
 
-Control font style with the `visual` attribute.
+Set font style
 
 ## Syntax
 ```
-visual="italic | not-italic"
+visual="[style-value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `italic` | `font-style: italic` |
-| `not-italic` | `font-style: normal` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `italic` | `font-style: italic` | Italic text |
+| `not-italic` | `font-style: normal` | Normal style |
 
 ## Examples
 
 ```html
-<span visual="italic">Italic text</span>
-<em visual="not-italic">Not italic (override)</em>
+<em visual="not-italic">Normal style emphasis</em>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,28 +1,31 @@
 # Flex Wrap
 
-Mengawal sama ada item flex membalut dengan atribut `layout`.
+Kawal bagaimana item flex membungkus
+
+## Sintaks
+```
+layout="[wrap-value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `wrap` | `flex-wrap: wrap` |
-| `nowrap` | `flex-wrap: nowrap` |
-| `wrap-reverse` | `flex-wrap: wrap-reverse` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `wrap` | `flex-wrap: wrap` | Benarkan pembungkusan |
+| `nowrap` | `flex-wrap: nowrap` | Halang pembungkusan |
+| `wrap-reverse` | `flex-wrap: wrap-reverse` | Bungkus terbalik |
 
 ## Contoh
 
 ```html
-<div layout="flex wrap">Item membalut ke baris baharu</div>
-<div layout="flex nowrap">Item kekal dalam satu baris</div>
-<div layout="flex wrap-reverse">Balut dalam urutan terbalik</div>
+<div layout="flex wrap">Wrapping flex</div>
 ```
 
 ## Responsif
 
 ```html
-<!-- Tiada balutan di mudah alih, balut di tablet+ -->
-<div layout="flex nowrap tab:wrap">
-  Tingkah laku pembalutan fleksibel
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

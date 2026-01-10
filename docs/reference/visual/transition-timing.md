@@ -1,36 +1,40 @@
-# Transition Timing Function
+# Transition Timing
 
-Control the easing of transitions.
+Set transition timing function
 
 ## Syntax
 ```
-visual="ease:linear | ease:in | ease:out | ease:in-out"
+visual="ease:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `ease:linear` | `transition-timing-function: linear` |
-| `ease:in` | `transition-timing-function: ease-in` |
-| `ease:out` | `transition-timing-function: ease-out` |
-| `ease:in-out` | `transition-timing-function: ease-in-out` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `linear` | `transition-timing-function: linear` | Linear timing |
+| `in` | `transition-timing-function: cubic-bezier(0.4, 0, 1, 1)` | Ease in |
+| `out` | `transition-timing-function: cubic-bezier(0, 0, 0.2, 1)` | Ease out |
+| `in-out` | `transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)` | Ease in-out |
 
 ## Examples
 
 ```html
-<div visual="transition ease:linear">...</div>  <!-- Linear -->
-<div visual="transition ease:in">...</div>      <!-- Ease in -->
-<div visual="transition ease:out">...</div>     <!-- Ease out -->
-<div visual="transition ease:in-out">...</div>  <!-- Ease in-out (default) -->
+<div visual="transition:all ease:out">Ease out effect</div>
 ```
 
-## With Duration
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<button 
-  visual="transition duration:slow ease:in-out bg:primary hover:bg:primary-dark"
->
-  Smooth Button
-</button>
+<div visual="transition:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

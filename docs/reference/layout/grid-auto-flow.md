@@ -1,37 +1,33 @@
 # Grid Auto Flow
 
-Control how auto-placed items flow in the grid with the `layout` attribute.
+Control how auto-placed items flow in grid
 
 ## Syntax
 ```
-layout="grid-flow-[value]"
+layout="[grid-flow-value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `grid-flow-row` | `grid-auto-flow: row` |
-| `grid-flow-col` | `grid-auto-flow: column` |
-| `grid-flow-dense` | `grid-auto-flow: dense` |
-| `grid-flow-row-dense` | `grid-auto-flow: row dense` |
-| `grid-flow-col-dense` | `grid-auto-flow: column dense` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `grid-flow-row` | `grid-auto-flow: row` | Place by row |
+| `grid-flow-col` | `grid-auto-flow: column` | Place by column |
+| `grid-flow-dense` | `grid-auto-flow: dense` | Dense packing |
+| `grid-flow-row-dense` | `grid-auto-flow: row dense` | Row with dense |
+| `grid-flow-col-dense` | `grid-auto-flow: column dense` | Column with dense |
 
 ## Examples
 
 ```html
-<!-- Items flow by row (default) -->
-<div layout="grid grid-cols:3 grid-flow-row">
-  Items fill rows first
-</div>
+<div layout="grid grid-flow-col">Column flow</div>
+```
 
-<!-- Items flow by column -->
-<div layout="grid grid-rows:3 grid-flow-col">
-  Items fill columns first
-</div>
+## Responsive
 
-<!-- Dense packing fills gaps -->
-<div layout="grid grid-cols:3 grid-flow-dense">
-  Dense packing fills gaps automatically
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

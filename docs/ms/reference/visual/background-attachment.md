@@ -1,22 +1,31 @@
-# Lampiran Latar Belakang
+# Background Attachment
 
-Mengawal cara imej latar belakang berkelakuan semasa tatal (scroll).
+Tetapkan kelakuan lampiran latar
 
 ## Sintaks
 ```
-visual="bg-attachment:[nilai]"
+visual="bg-attachment:[value]"
 ```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `bg-attachment:scroll` | `background-attachment: scroll` |
-| `bg-attachment:fixed` | `background-attachment: fixed` |
-| `bg-attachment:local` | `background-attachment: local` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `fixed` | `background-attachment: fixed` | Latar tetap |
+| `local` | `background-attachment: local` | Skrol tempatan |
+| `scroll` | `background-attachment: scroll` | Skrol dengan halaman |
 
 ## Contoh
 
 ```html
-<div visual="bg-image:[hero.jpg] bg-attachment:fixed">Kesan seakan parallax</div>
+<div visual="bg-attachment:fixed">Parallax effect</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

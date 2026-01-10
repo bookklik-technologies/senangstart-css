@@ -1,6 +1,6 @@
 # Justify Content
 
-Control horizontal alignment of flex/grid items with the `layout` attribute.
+Align items along the main axis
 
 ## Syntax
 ```
@@ -9,31 +9,28 @@ layout="justify:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `justify:start` | `justify-content: flex-start` |
-| `justify:end` | `justify-content: flex-end` |
-| `justify:center` | `justify-content: center` |
-| `justify:between` | `justify-content: space-between` |
-| `justify:around` | `justify-content: space-around` |
-| `justify:evenly` | `justify-content: space-evenly` |
-| `justify:stretch` | `justify-content: stretch` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `start` | `justify-content: flex-start` | Align to start |
+| `end` | `justify-content: flex-end` | Align to end |
+| `center` | `justify-content: center` | Center items |
+| `between` | `justify-content: space-between` | Space between items |
+| `around` | `justify-content: space-around` | Space around items |
+| `evenly` | `justify-content: space-evenly` | Even spacing |
+| `stretch` | `justify-content: stretch` | Stretch items |
 
 ## Examples
 
 ```html
-<div layout="flex justify:start">Aligned to start</div>
 <div layout="flex justify:center">Centered</div>
-<div layout="flex justify:end">Aligned to end</div>
-<div layout="flex justify:between">Space between items</div>
-<div layout="flex justify:around">Space around items</div>
-<div layout="flex justify:evenly">Evenly distributed</div>
+<div layout="flex justify:between">Spaced</div>
 ```
 
 ## Responsive
 
 ```html
-<div layout="flex justify:center tab:justify:between">
-  Centered on mobile, spaced on tablet+
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

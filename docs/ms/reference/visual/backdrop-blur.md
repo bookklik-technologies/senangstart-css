@@ -1,27 +1,43 @@
-# Kabur Latar
+# Backdrop Blur
 
-Cipta kesan kaca beku dengan kabur pada latar belakang.
+Kaburkan latar belakang
 
 ## Sintaks
 ```
-visual="backdrop-blur:none | backdrop-blur:tiny | backdrop-blur:small | backdrop-blur:medium | backdrop-blur:big | backdrop-blur:giant | backdrop-blur:vast"
+visual="backdrop-blur:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `backdrop-blur:none` | `backdrop-filter: blur(0)` |
-| `backdrop-blur:tiny` | `backdrop-filter: blur(2px)` |
-| `backdrop-blur:small` | `backdrop-filter: blur(4px)` |
-| `backdrop-blur:medium` | `backdrop-filter: blur(8px)` |
-| `backdrop-blur:big` | `backdrop-filter: blur(12px)` |
-| `backdrop-blur:giant` | `backdrop-filter: blur(24px)` |
-| `backdrop-blur:vast` | `backdrop-filter: blur(48px)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: blur(0)` | Tiada kabur |
+| `tiny` | `backdrop-filter: blur(2px)` | Kabur kecil |
+| `small` | `backdrop-filter: blur(4px)` | Kabur kecil |
+| `medium` | `backdrop-filter: blur(8px)` | Kabur sederhana |
+| `big` | `backdrop-filter: blur(12px)` | Kabur besar |
+| `giant` | `backdrop-filter: blur(24px)` | Kabur gergasi |
+| `vast` | `backdrop-filter: blur(48px)` | Kabur luas |
 
 ## Contoh
 
 ```html
-<div visual="backdrop-blur:medium">...</div>  <!-- 8px kabur -->
-<div visual="backdrop-blur:giant">...</div>   <!-- 24px kabur -->
+<div visual="backdrop-blur:medium bg:[rgba(255,255,255,0.5)]">Frosted glass</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

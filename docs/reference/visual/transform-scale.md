@@ -1,48 +1,43 @@
-# Scale
+# Transform Scale
 
-Resize elements proportionally.
+Scale element
 
 ## Syntax
 ```
-visual="scale:50 | scale:100 | scale:110 | scale-x:50 | scale-y:150"
+visual="scale:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `scale:0` | `transform: scale(0)` |
-| `scale:50` | `transform: scale(0.5)` |
-| `scale:75` | `transform: scale(0.75)` |
-| `scale:90` | `transform: scale(0.9)` |
-| `scale:95` | `transform: scale(0.95)` |
-| `scale:100` | `transform: scale(1)` |
-| `scale:105` | `transform: scale(1.05)` |
-| `scale:110` | `transform: scale(1.1)` |
-| `scale:125` | `transform: scale(1.25)` |
-| `scale:150` | `transform: scale(1.5)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `0` | `transform: scale(0)` | Scale to 0 |
+| `50` | `transform: scale(0.5)` | Scale to 50% |
+| `75` | `transform: scale(0.75)` | Scale to 75% |
+| `100` | `transform: scale(1)` | Normal scale |
+| `110` | `transform: scale(1.1)` | Scale to 110% |
+| `125` | `transform: scale(1.25)` | Scale to 125% |
+| `150` | `transform: scale(1.5)` | Scale to 150% |
 
 ## Examples
 
 ```html
-<img visual="scale:0" />   <!-- invisible -->
-<img visual="scale:50" />  <!-- half size -->
-<img visual="scale:100" /> <!-- normal -->
-<img visual="scale:150" /> <!-- 1.5x size -->
+<div visual="transition:transform hover:scale:110">Hover to grow</div>
 ```
 
-## Scale X / Y Independently
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<img visual="scale-x:50" />  <!-- scaleX(0.5) -->
-<img visual="scale-y:150" /> <!-- scaleY(1.5) -->
+<div visual="transform:[custom-value]">Custom</div>
 ```
 
-## Hover Scale Effect
+## Responsive
 
 ```html
-<img 
-  visual="transition scale:100 hover:scale:110" 
-  src="..." 
-/>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

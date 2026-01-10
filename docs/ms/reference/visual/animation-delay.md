@@ -1,27 +1,41 @@
-# Kelewatan Animasi
+# Animation Delay
 
-Tambah kelewatan sebelum animasi bermula.
+Tetapkan kelewatan animasi
 
 ## Sintaks
 ```
-visual="animation-delay:instant | animation-delay:quick | animation-delay:fast | animation-delay:normal | animation-delay:slow | animation-delay:slower | animation-delay:lazy"
+visual="animation-delay:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Masa |
-|-------|------|
-| `animation-delay:instant` | 75ms |
-| `animation-delay:quick` | 100ms |
-| `animation-delay:fast` | 150ms |
-| `animation-delay:normal` | 200ms |
-| `animation-delay:slow` | 300ms |
-| `animation-delay:slower` | 500ms |
-| `animation-delay:lazy` | 700ms |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `instant` | `animation-delay: 75ms` | Kelewatan 75ms |
+| `quick` | `animation-delay: 100ms` | Kelewatan 100ms |
+| `fast` | `animation-delay: 150ms` | Kelewatan 150ms |
+| `normal` | `animation-delay: 200ms` | Kelewatan 200ms |
+| `slow` | `animation-delay: 300ms` | Kelewatan 300ms |
 
 ## Contoh
 
 ```html
-<div visual="animate:pulse animation-delay:quick">...</div>   <!-- 100ms kelewatan -->
-<div visual="animate:pulse animation-delay:slow">...</div>    <!-- 300ms kelewatan -->
+<div visual="animate:bounce animation-delay:slow">Delayed bounce</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="animation:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,6 +1,6 @@
 # Align Content
 
-Control vertical alignment of multi-line flex content with the `layout` attribute.
+Align content rows in multi-line flex container
 
 ## Syntax
 ```
@@ -9,28 +9,27 @@ layout="content:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `content:start` | `align-content: flex-start` |
-| `content:end` | `align-content: flex-end` |
-| `content:center` | `align-content: center` |
-| `content:between` | `align-content: space-between` |
-| `content:around` | `align-content: space-around` |
-| `content:evenly` | `align-content: space-evenly` |
-| `content:stretch` | `align-content: stretch` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `start` | `align-content: flex-start` | Align to start |
+| `end` | `align-content: flex-end` | Align to end |
+| `center` | `align-content: center` | Center content |
+| `between` | `align-content: space-between` | Space between rows |
+| `around` | `align-content: space-around` | Space around rows |
+| `evenly` | `align-content: space-evenly` | Even spacing |
+| `stretch` | `align-content: stretch` | Stretch rows |
 
 ## Examples
 
 ```html
-<div layout="flex wrap content:center" space="h:[300px]">
-  Multi-line content centered vertically
-</div>
-
-<div layout="flex wrap content:between" space="h:[300px]">
-  Lines spaced between top and bottom
-</div>
+<div layout="flex wrap content:center">Centered rows</div>
 ```
 
-## Note
+## Responsive
 
-`align-content` only applies when there are multiple lines (requires `wrap`).
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

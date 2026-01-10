@@ -1,18 +1,30 @@
 # Grid Row Span
 
-Mengawal berapa banyak baris yang diliputi oleh item grid.
+Merentangi baris grid
+
+## Sintaks
+```
+layout="row-span:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `row-span:1` hingga `row-span:6` | `grid-row: span n / span n` |
-| `row-span:full` | `grid-row: 1 / -1` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `1-12` | `grid-row: span {n} / span {n}` | Merentangi N baris |
+| `full` | `grid-row: 1 / -1` | Merentangi semua baris |
 
 ## Contoh
 
 ```html
-<div layout="grid grid-cols:3 grid-rows:2">
-  <div layout="row-span:2">Bar sisi (merentasi 2 baris)</div>
+<div layout="row-span:2">Spans 2 rows</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

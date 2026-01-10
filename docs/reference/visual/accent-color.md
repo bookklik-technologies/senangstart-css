@@ -1,32 +1,31 @@
 # Accent Color
 
-Control the accent color of form controls with the `visual` attribute.
+Set accent color for form controls
 
 ## Syntax
 ```
 visual="accent:[color]"
 ```
 
-## Values
-
-| Value | CSS Output |
-|-------|------------|
-| `accent:primary` | `accent-color: var(--c-primary)` |
-| `accent:blue-500` | `accent-color: var(--c-blue-500)` |
-| `accent:[#ff0000]` | `accent-color: #ff0000` |
-
 ## Examples
 
 ```html
-<input type="checkbox" visual="accent:primary" />
-<input type="range" visual="accent:blue-500" />
-<progress visual="accent:[#22c55e]" value="70" max="100"></progress>
+<input type="checkbox" visual="accent:primary">
 ```
 
-## Use Cases
+## Arbitrary Values
 
-The `accent-color` property is useful for styling:
-- Checkboxes
-- Radio buttons
-- Range sliders
-- Progress bars
+Supports custom values using bracket syntax:
+
+```html
+<div visual="accent:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

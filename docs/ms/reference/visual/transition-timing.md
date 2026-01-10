@@ -1,36 +1,40 @@
-# Transition Timing Function
+# Transition Timing
 
-Mengawal pelicinan transisi.
+Tetapkan fungsi masa peralihan
 
 ## Sintaks
 ```
-visual="ease:linear | ease:in | ease:out | ease:in-out"
+visual="ease:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `ease:linear` | `transition-timing-function: linear` |
-| `ease:in` | `transition-timing-function: ease-in` |
-| `ease:out` | `transition-timing-function: ease-out` |
-| `ease:in-out` | `transition-timing-function: ease-in-out` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `linear` | `transition-timing-function: linear` | Masa linear |
+| `in` | `transition-timing-function: cubic-bezier(0.4, 0, 1, 1)` | Memasuki mudah |
+| `out` | `transition-timing-function: cubic-bezier(0, 0, 0.2, 1)` | Keluar mudah |
+| `in-out` | `transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)` | Masuk-keluar mudah |
 
 ## Contoh
 
 ```html
-<div visual="transition ease:linear">...</div>  <!-- Linear -->
-<div visual="transition ease:in">...</div>      <!-- Ease in -->
-<div visual="transition ease:out">...</div>     <!-- Ease out -->
-<div visual="transition ease:in-out">...</div>  <!-- Ease in-out (lalai) -->
+<div visual="transition:all ease:out">Ease out effect</div>
 ```
 
-## Dengan Duration
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<button 
-  visual="transition duration:slow ease:in-out bg:primary hover:bg:primary-dark"
->
-  Butang Lancar
-</button>
+<div visual="transition:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

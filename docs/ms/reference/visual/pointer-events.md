@@ -1,36 +1,30 @@
-# Peristiwa Penunjuk
+# Pointer Events
 
-Mengawal sama ada elemen bertindak balas kepada peristiwa penunjuk dengan atribut `visual`.
+Kawal peristiwa penunjuk
 
 ## Sintaks
 ```
-visual="pointer-events:[nilai]"
+visual="pointer-events:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `pointer-events:none` | `pointer-events: none` |
-| `pointer-events:auto` | `pointer-events: auto` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `pointer-events: none` | Abaikan peristiwa penunjuk |
+| `auto` | `pointer-events: auto` | Peristiwa penunjuk normal |
 
 ## Contoh
 
 ```html
-<!-- Lumpuhkan semua interaksi penunjuk -->
-<div visual="pointer-events:none">
-  Tidak boleh klik, hover, atau pilih ini
-</div>
-
-<!-- Aktif semula peristiwa penunjuk pada anak -->
-<div visual="pointer-events:none">
-  <button visual="pointer-events:auto">Tapi anda boleh klik saya!</button>
-</div>
+<div visual="pointer-events:none">Click through</div>
 ```
 
-## Kegunaan
+## Responsif
 
-Gunakan `pointer-events:none` untuk:
-- Mencipta lapisan klik-tembus
-- Melumpuhkan interaksi semasa keadaan memuat
-- Menjadikan elemen hiasan tidak interaktif
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

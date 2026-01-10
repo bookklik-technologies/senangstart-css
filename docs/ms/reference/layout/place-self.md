@@ -1,6 +1,6 @@
 # Place Self
 
-Mengawal penjajaran item grid individu dalam kedua-dua paksi dengan atribut `layout`.
+Pintasan untuk align-self dan justify-self
 
 ## Sintaks
 ```
@@ -9,19 +9,25 @@ layout="place-self:[value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `place-self:auto` | `place-self: auto` |
-| `place-self:start` | `place-self: start` |
-| `place-self:end` | `place-self: end` |
-| `place-self:center` | `place-self: center` |
-| `place-self:stretch` | `place-self: stretch` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `place-self: auto` | Jajar automatik |
+| `start` | `place-self: start` | Jajar permulaan |
+| `end` | `place-self: end` | Jajar hujung |
+| `center` | `place-self: center` | Jajar tengah |
+| `stretch` | `place-self: stretch` | Regangkan item |
 
 ## Contoh
 
 ```html
-<div layout="grid grid-cols:2">
-  <div layout="place-self:center">Ditengahkan dalam sel</div>
-  <div>Penjajaran lalai</div>
+<div layout="place-self:center">Centered item</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

@@ -1,26 +1,39 @@
 # Backdrop Grayscale
 
-Menerapkan skala kelabu pada latar belakang.
+Terapkan skala kelabu pada latar belakang
 
 ## Sintaks
 ```
-visual="backdrop-grayscale:none | backdrop-grayscale:partial | backdrop-grayscale:full | backdrop-grayscale"
+visual="backdrop-grayscale:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `backdrop-grayscale:none` | `backdrop-filter: grayscale(0)` |
-| `backdrop-grayscale:partial` | `backdrop-filter: grayscale(0.5)` |
-| `backdrop-grayscale:full` | `backdrop-filter: grayscale(1)` |
-| `backdrop-grayscale` | `backdrop-filter: grayscale(1)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: grayscale(0%)` | Tiada skala kelabu |
+| `partial` | `backdrop-filter: grayscale(50%)` | 50% skala kelabu |
+| `full` | `backdrop-filter: grayscale(100%)` | Skala kelabu penuh |
 
 ## Contoh
 
 ```html
-<div visual="backdrop-grayscale:none">...</div>     <!-- Warna penuh -->
-<div visual="backdrop-grayscale:partial">...</div>  <!-- 50% skala kelabu -->
-<div visual="backdrop-grayscale:full">...</div>     <!-- Skala kelabu penuh -->
-<div visual="backdrop-grayscale">...</div>          <!-- Skala kelabu penuh (lalai) -->
+<div visual="backdrop-grayscale:full">Grayscale backdrop</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,20 +1,33 @@
-# Z-Index
+# Z Index
 
-Mengawal susunan lapisan.
+Kawal susunan tindanan
+
+## Sintaks
+```
+layout="z:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `z:base` | `z-index: 0` |
-| `z:low` | `z-index: 10` |
-| `z:mid` | `z-index: 50` |
-| `z:high` | `z-index: 100` |
-| `z:top` | `z-index: 9999` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `base` | `z-index: var(--z-base)` | Lapisan asas (0) |
+| `low` | `z-index: var(--z-low)` | Lapisan rendah (10) |
+| `mid` | `z-index: var(--z-mid)` | Lapisan tengah (50) |
+| `high` | `z-index: var(--z-high)` | Lapisan tinggi (100) |
+| `top` | `z-index: var(--z-top)` | Lapisan teratas (9999) |
 
 ## Contoh
 
 ```html
-<div layout="relative z:base">Lapisan asas</div>
-<div layout="fixed z:top">Lapisan paling atas</div>
+<div layout="z:top">On top</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

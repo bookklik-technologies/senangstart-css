@@ -1,6 +1,6 @@
-# Kelegapan
+# Opacity
 
-Mengawal kelegapan elemen dengan atribut `visual`.
+Tetapkan kelegapan elemen (0-100)
 
 ## Sintaks
 ```
@@ -9,27 +9,25 @@ visual="opacity:[value]"
 
 ## Nilai
 
-Gunakan nilai sewenang-wenang dengan kurungan:
-
-| Nilai | Output CSS |
-|-------|------------|
-| `opacity:[0]` | `opacity: 0` |
-| `opacity:[0.5]` | `opacity: 0.5` |
-| `opacity:[0.8]` | `opacity: 0.8` |
-| `opacity:[1]` | `opacity: 1` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `0` | `opacity: 0` | Tidak kelihatan |
+| `25` | `opacity: 0.25` | 25% kelihatan |
+| `50` | `opacity: 0.5` | 50% kelihatan |
+| `75` | `opacity: 0.75` | 75% kelihatan |
+| `100` | `opacity: 1` | Sepenuhnya kelihatan |
 
 ## Contoh
 
 ```html
-<div visual="opacity:[0.5]">50% kelegapan</div>
-<div visual="opacity:[0.8]">80% kelegapan</div>
-<div visual="opacity:[0] hover:opacity:[1]">Fade in pada hover</div>
+<div visual="opacity:50">Half visible</div>
 ```
 
-## Keadaan
+## Responsif
 
 ```html
-<button visual="opacity:[1] disabled:opacity:[0.5]">
-  Malap apabila dilumpuhkan
-</button>
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

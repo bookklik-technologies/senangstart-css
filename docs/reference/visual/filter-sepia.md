@@ -1,32 +1,39 @@
-# Sepia
+# Filter Sepia
 
-Apply sepia tone to elements.
+Apply sepia filter
 
 ## Syntax
 ```
-visual="sepia:none | sepia:partial | sepia:full | sepia"
+visual="sepia:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `sepia:none` | `filter: sepia(0)` |
-| `sepia:partial` | `filter: sepia(0.5)` |
-| `sepia:full` | `filter: sepia(1)` |
-| `sepia` | `filter: sepia(1)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `filter: sepia(0%)` | No sepia |
+| `partial` | `filter: sepia(50%)` | 50% sepia |
+| `full` | `filter: sepia(100%)` | Full sepia |
 
 ## Examples
 
 ```html
-<img visual="sepia:none" />     <!-- No sepia -->
-<img visual="sepia:partial" />  <!-- 50% sepia -->
-<img visual="sepia:full" />     <!-- Full sepia -->
-<img visual="sepia" />          <!-- Full sepia (default) -->
+<img visual="sepia:full">Vintage look</img>
 ```
 
-## With States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<img visual="sepia hover:sepia:none" />
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

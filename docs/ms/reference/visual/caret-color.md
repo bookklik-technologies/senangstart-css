@@ -1,31 +1,31 @@
-# Warna Karet
+# Caret Color
 
-Mengawal warna kursor input teks dengan atribut `visual`.
+Tetapkan warna karet input teks
 
 ## Sintaks
 ```
-visual="caret:[warna]"
+visual="caret:[color]"
 ```
-
-## Nilai
-
-| Nilai | Output CSS |
-|-------|------------|
-| `caret:primary` | `caret-color: var(--c-primary)` |
-| `caret:blue-500` | `caret-color: var(--c-blue-500)` |
-| `caret:[#ff0000]` | `caret-color: #ff0000` |
-| `caret:[transparent]` | `caret-color: transparent` |
 
 ## Contoh
 
 ```html
-<input type="text" visual="caret:primary" placeholder="Karet utama" />
-<textarea visual="caret:blue-500">Karet biru</textarea>
-<input visual="caret:[transparent]" placeholder="Karet tersembunyi" />
+<input visual="caret:primary">
 ```
 
-## Keadaan
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<input visual="caret:gray-400 focus:caret:primary" placeholder="Fokus untuk lihat perubahan" />
+<div visual="caret:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

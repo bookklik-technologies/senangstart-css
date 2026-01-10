@@ -1,6 +1,6 @@
 # Field Sizing
 
-Control how form fields size themselves with the `visual` attribute.
+Control form field sizing
 
 ## Syntax
 ```
@@ -9,27 +9,22 @@ visual="field-sizing:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `field-sizing:content` | `field-sizing: content` |
-| `field-sizing:fixed` | `field-sizing: fixed` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `fixed` | `field-sizing: fixed` | Fixed size |
+| `content` | `field-sizing: content` | Size to content |
 
 ## Examples
 
 ```html
-<!-- Textarea grows with content -->
-<textarea visual="field-sizing:content" placeholder="Start typing..."></textarea>
-
-<!-- Input grows with content -->
-<input visual="field-sizing:content" placeholder="Dynamic width" />
-
-<!-- Fixed size (default behavior) -->
-<textarea visual="field-sizing:fixed"></textarea>
+<textarea visual="field-sizing:content">Auto-grow textarea</textarea>
 ```
 
-## Use Cases
+## Responsive
 
-Use `field-sizing:content` to:
-- Create auto-growing textareas
-- Make inputs adapt to their content width
-- Build more natural-feeling forms
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

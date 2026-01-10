@@ -1,19 +1,33 @@
 # Grid Auto Flow
 
-Mengawal bagaimana item auto-placed mengalir dalam grid.
+Kawal bagaimana item diletakkan automatik dalam grid
+
+## Sintaks
+```
+layout="[grid-flow-value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `grid-flow-row` | `grid-auto-flow: row` |
-| `grid-flow-col` | `grid-auto-flow: column` |
-| `grid-flow-dense` | `grid-auto-flow: dense` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `grid-flow-row` | `grid-auto-flow: row` | Letakkan mengikut baris |
+| `grid-flow-col` | `grid-auto-flow: column` | Letakkan mengikut lajur |
+| `grid-flow-dense` | `grid-auto-flow: dense` | Pembungkusan padat |
+| `grid-flow-row-dense` | `grid-auto-flow: row dense` | Baris dengan padat |
+| `grid-flow-col-dense` | `grid-auto-flow: column dense` | Lajur dengan padat |
 
 ## Contoh
 
 ```html
-<div layout="grid grid-cols:3 grid-flow-dense">
-  Pengisian padat mengisi jurang secara automatik
+<div layout="grid grid-flow-col">Column flow</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

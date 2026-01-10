@@ -1,30 +1,45 @@
 # Background Position
 
-Control the position of the background image.
+Set background position
 
 ## Syntax
 ```
-visual="bg-position:[value]"
+visual="bg-pos:[value]"
 ```
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `bg-position:center` | `background-position: center` |
-| `bg-position:top` | `background-position: top` |
-| `bg-position:bottom` | `background-position: bottom` |
-| `bg-position:left` | `background-position: left` |
-| `bg-position:right` | `background-position: right` |
-| `bg-position:top-left` | `background-position: top left` |
-| `bg-position:top-right` | `background-position: top right` |
-| `bg-position:bottom-left` | `background-position: bottom left` |
-| `bg-position:bottom-right` | `background-position: bottom right` |
-| `bg-position:[50%_50%]` | `background-position: 50% 50%` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `center` | `background-position: center` | Center position |
+| `top` | `background-position: top` | Top position |
+| `bottom` | `background-position: bottom` | Bottom position |
+| `left` | `background-position: left` | Left position |
+| `right` | `background-position: right` | Right position |
+| `top-left` | `background-position: top left` | Top left |
+| `top-right` | `background-position: top right` | Top right |
+| `bottom-left` | `background-position: bottom left` | Bottom left |
+| `bottom-right` | `background-position: bottom right` | Bottom right |
 
 ## Examples
 
 ```html
-<div visual="bg-image:[hero.jpg] bg-position:center">Centered image</div>
-<div visual="bg-image:[pattern.png] bg-position:[25%_75%]">Custom position</div>
+<div visual="bg-pos:center">Centered background</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="background:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

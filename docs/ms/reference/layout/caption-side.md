@@ -1,70 +1,30 @@
-# Kedudukan Kapsyen (Caption Side)
+# Caption Side
 
-Kawal kedudukan kapsyen jadual.
+Kawal kedudukan kapsyen jadual
 
-## Penggunaan
-
-Letakkan kapsyen jadual di atas atau bawah jadual.
-
-```html
-<!-- Kapsyen di atas (lalai) -->
-<table layout="caption-top">
-  <caption>Jadual 1: Jualan Bulanan</caption>
-  <thead>
-    <tr>
-      <th>Bulan</th>
-      <th>Jualan</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Januari</td>
-      <td>RM1,200</td>
-    </tr>
-    <tr>
-      <td>Februari</td>
-      <td>RM1,500</td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- Kapsyen di bawah -->
-<table layout="caption-bottom">
-  <caption>Jadual 1: Jualan Bulanan</caption>
-  <thead>
-    <tr>
-      <th>Bulan</th>
-      <th>Jualan</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Januari</td>
-      <td>RM1,200</td>
-    </tr>
-  </tbody>
-</table>
+## Sintaks
+```
+layout="[caption-value]"
 ```
 
-## Menggayakan Kapsyen
+## Nilai
 
-Gabungkan dengan utiliti visual untuk menggayakan kapsyen:
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `caption-top` | `caption-side: top` | Kapsyen di atas |
+| `caption-bottom` | `caption-side: bottom` | Kapsyen di bawah |
+
+## Contoh
 
 ```html
-<table layout="caption-bottom border-collapse" space="w-full">
-  <caption 
-    visual="text-gray-500 text-size-sm italic" 
-    space="p-y-2"
-  >
-    Sumber: Laporan Kewangan Syarikat 2024
-  </caption>
-  <!-- ... kandungan jadual ... -->
-</table>
+<caption layout="caption-bottom">Bottom caption</caption>
 ```
 
-## Rujukan
+## Responsif
 
-| Token | Output CSS |
-|-------|-----------|
-| `caption-top` | `caption-side: top;` |
-| `caption-bottom` | `caption-side: bottom;` |
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

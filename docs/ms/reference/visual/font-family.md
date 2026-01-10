@@ -1,19 +1,31 @@
-# Keluarga Fon
+# Font Family
 
-Mengawal keluarga fon dengan atribut `visual`.
+Tetapkan keluarga fon
+
+## Sintaks
+```
+visual="font:[family]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `font:sans` | `font-family: ui-sans-serif, system-ui, sans-serif` |
-| `font:serif` | `font-family: ui-serif, Georgia, serif` |
-| `font:mono` | `font-family: ui-monospace, monospace` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `sans` | `font-family: ui-sans-serif, system-ui, sans-serif` | Sans-serif |
+| `serif` | `font-family: ui-serif, Georgia, serif` | Serif |
+| `mono` | `font-family: ui-monospace, monospace` | Monospace |
 
 ## Contoh
 
 ```html
-<p visual="font:sans">Teks sans-serif</p>
-<p visual="font:serif">Teks serif</p>
-<code visual="font:mono">Kod monospace</code>
+<div visual="font:mono">Monospace text</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

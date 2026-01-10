@@ -1,32 +1,32 @@
-# Animation Fill Mode
+# Animation Fill
 
-Control the element's style before and after the animation.
+Set animation fill mode
 
 ## Syntax
 ```
-visual="animation-fill:none | animation-fill:forwards | animation-fill:backwards | animation-fill:both"
+visual="animation-fill:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `animation-fill:none` | `animation-fill-mode: none` |
-| `animation-fill:forwards` | `animation-fill-mode: forwards` |
-| `animation-fill:backwards` | `animation-fill-mode: backwards` |
-| `animation-fill:both` | `animation-fill-mode: both` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `animation-fill-mode: none` | No fill |
+| `forwards` | `animation-fill-mode: forwards` | Keep end state |
+| `backwards` | `animation-fill-mode: backwards` | Apply start state |
+| `both` | `animation-fill-mode: both` | Both directions |
 
 ## Examples
 
 ```html
-<div visual="animate:bounce animation-fill:none">...</div>      <!-- None -->
-<div visual="animate:bounce animation-fill:forwards">...</div>  <!-- Forwards -->
-<div visual="animate:bounce animation-fill:backwards">...</div> <!-- Backwards -->
-<div visual="animate:bounce animation-fill:both">...</div>      <!-- Both -->
+<div visual="animate:bounce animation-fill:forwards">Stays at end</div>
 ```
 
-## Use Cases
+## Responsive
 
-- `forwards` - Element keeps the final animation state
-- `backwards` - Element has initial animation state during delay
-- `both` - Combines forwards and backwards
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

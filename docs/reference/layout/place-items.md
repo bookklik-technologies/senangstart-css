@@ -1,6 +1,6 @@
 # Place Items
 
-Control default alignment of grid items in both axes with the `layout` attribute.
+Shorthand for align-items and justify-items
 
 ## Syntax
 ```
@@ -9,17 +9,24 @@ layout="place-items:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `place-items:start` | `place-items: start` |
-| `place-items:end` | `place-items: end` |
-| `place-items:center` | `place-items: center` |
-| `place-items:stretch` | `place-items: stretch` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `start` | `place-items: start` | Start alignment |
+| `end` | `place-items: end` | End alignment |
+| `center` | `place-items: center` | Center alignment |
+| `stretch` | `place-items: stretch` | Stretch items |
 
 ## Examples
 
 ```html
-<div layout="grid grid-cols:3 place-items:center">
-  All items centered in their cells
+<div layout="grid place-items:center">Centered items</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

@@ -1,26 +1,39 @@
 # Backdrop Sepia
 
-Apply sepia tone to the backdrop.
+Apply sepia to backdrop
 
 ## Syntax
 ```
-visual="backdrop-sepia:none | backdrop-sepia:partial | backdrop-sepia:full | backdrop-sepia"
+visual="backdrop-sepia:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `backdrop-sepia:none` | `backdrop-filter: sepia(0)` |
-| `backdrop-sepia:partial` | `backdrop-filter: sepia(0.5)` |
-| `backdrop-sepia:full` | `backdrop-filter: sepia(1)` |
-| `backdrop-sepia` | `backdrop-filter: sepia(1)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: sepia(0%)` | No sepia |
+| `partial` | `backdrop-filter: sepia(50%)` | 50% sepia |
+| `full` | `backdrop-filter: sepia(100%)` | Full sepia |
 
 ## Examples
 
 ```html
-<div visual="backdrop-sepia:none">...</div>     <!-- No sepia -->
-<div visual="backdrop-sepia:partial">...</div>  <!-- 50% sepia -->
-<div visual="backdrop-sepia:full">...</div>     <!-- Full sepia -->
-<div visual="backdrop-sepia">...</div>          <!-- Full sepia (default) -->
+<div visual="backdrop-sepia:full">Vintage backdrop</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

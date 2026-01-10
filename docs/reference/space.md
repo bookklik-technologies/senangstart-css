@@ -22,7 +22,8 @@ The `space` attribute controls sizing and spacing.
 
 ### Dimensions
 
-- [Sizing](./space/sizing) - Width and height (`w`, `h`, `min-w`, `max-w`, `min-h`, `max-h`)
+- [Width](./space/width) - Element width (`w`, `min-w`, `max-w`)
+- [Height](./space/height) - Element height (`h`, `min-h`, `max-h`)
 
 ### Reference
 

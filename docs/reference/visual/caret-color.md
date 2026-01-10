@@ -1,31 +1,31 @@
 # Caret Color
 
-Control the color of the text input cursor with the `visual` attribute.
+Set text input caret color
 
 ## Syntax
 ```
 visual="caret:[color]"
 ```
 
-## Values
-
-| Value | CSS Output |
-|-------|------------|
-| `caret:primary` | `caret-color: var(--c-primary)` |
-| `caret:blue-500` | `caret-color: var(--c-blue-500)` |
-| `caret:[#ff0000]` | `caret-color: #ff0000` |
-| `caret:[transparent]` | `caret-color: transparent` |
-
 ## Examples
 
 ```html
-<input type="text" visual="caret:primary" placeholder="Primary caret" />
-<textarea visual="caret:blue-500">Blue caret</textarea>
-<input visual="caret:[transparent]" placeholder="Hidden caret" />
+<input visual="caret:primary">
 ```
 
-## States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<input visual="caret:gray-400 focus:caret:primary" placeholder="Focus to see change" />
+<div visual="caret:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,25 +1,34 @@
-# Ulangan Latar Belakang
+# Background Repeat
 
-Mengawal bagaimana imej latar belakang diulang.
+Tetapkan kelakuan ulangan latar
 
 ## Sintaks
 ```
-visual="bg-repeat:[nilai]"
+visual="bg-repeat:[value]"
 ```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `bg-repeat:repeat` | `background-repeat: repeat` |
-| `bg-repeat:no-repeat` | `background-repeat: no-repeat` |
-| `bg-repeat:repeat-x` | `background-repeat: repeat-x` |
-| `bg-repeat:repeat-y` | `background-repeat: repeat-y` |
-| `bg-repeat:round` | `background-repeat: round` |
-| `bg-repeat:space` | `background-repeat: space` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `repeat` | `background-repeat: repeat` | Ulang kedua-dua paksi |
+| `no-repeat` | `background-repeat: no-repeat` | Tiada ulangan |
+| `repeat-x` | `background-repeat: repeat-x` | Ulang mendatar |
+| `repeat-y` | `background-repeat: repeat-y` | Ulang menegak |
+| `round` | `background-repeat: round` | Ulang bulat |
+| `space` | `background-repeat: space` | Ulang berjarakd |
 
 ## Contoh
 
 ```html
-<div visual="bg-image:[pattern.png] bg-repeat:repeat-x">Ulang melintang</div>
+<div visual="bg-repeat:no-repeat">Single background</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

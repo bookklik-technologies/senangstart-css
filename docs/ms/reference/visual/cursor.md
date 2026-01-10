@@ -1,40 +1,37 @@
-# Kursor
+# Cursor
 
-Mengawal gaya kursor tetikus dengan atribut `visual`.
+Tetapkan gaya kursor
 
 ## Sintaks
 ```
-visual="cursor:[nilai]"
+visual="cursor:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `cursor:auto` | `cursor: auto` |
-| `cursor:default` | `cursor: default` |
-| `cursor:pointer` | `cursor: pointer` |
-| `cursor:wait` | `cursor: wait` |
-| `cursor:text` | `cursor: text` |
-| `cursor:move` | `cursor: move` |
-| `cursor:help` | `cursor: help` |
-| `cursor:not-allowed` | `cursor: not-allowed` |
-| `cursor:none` | `cursor: none` |
-| `cursor:grab` | `cursor: grab` |
-| `cursor:grabbing` | `cursor: grabbing` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `cursor: auto` | Kursor automatik |
+| `default` | `cursor: default` | Kursor lalai |
+| `pointer` | `cursor: pointer` | Kursor penunjuk |
+| `wait` | `cursor: wait` | Kursor tunggu |
+| `text` | `cursor: text` | Kursor teks |
+| `move` | `cursor: move` | Kursor alih |
+| `not-allowed` | `cursor: not-allowed` | Tidak dibenarkan |
+| `grab` | `cursor: grab` | Kursor genggam |
+| `grabbing` | `cursor: grabbing` | Kursor menggenggam |
 
 ## Contoh
 
 ```html
-<button visual="cursor:pointer">Klik saya</button>
-<div visual="cursor:move">Boleh seret</div>
-<button visual="cursor:not-allowed" disabled>Dilumpuhkan</button>
+<button visual="cursor:pointer">Clickable</button>
 ```
 
-## Keadaan
+## Responsif
 
 ```html
-<div visual="cursor:grab active:cursor:grabbing">
-  Seret saya
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

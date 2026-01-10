@@ -1,6 +1,6 @@
 # Box Shadow
 
-Control box shadows with the `visual` attribute.
+Add box shadow
 
 ## Syntax
 ```
@@ -9,31 +9,25 @@ visual="shadow:[value]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `shadow:none` | `box-shadow: none` |
-| `shadow:small` | `box-shadow: 0 1px 2px rgba(0,0,0,0.05)` |
-| `shadow:medium` | `box-shadow: 0 4px 6px rgba(0,0,0,0.1)` |
-| `shadow:big` | `box-shadow: 0 10px 15px rgba(0,0,0,0.15)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `box-shadow: var(--shadow-none)` | No shadow |
+| `small` | `box-shadow: var(--shadow-small)` | Small shadow |
+| `medium` | `box-shadow: var(--shadow-medium)` | Medium shadow |
+| `big` | `box-shadow: var(--shadow-big)` | Large shadow |
+| `giant` | `box-shadow: var(--shadow-giant)` | Giant shadow |
 
 ## Examples
 
 ```html
-<div visual="shadow:small">Subtle shadow</div>
-<div visual="shadow:medium">Card shadow</div>
-<div visual="shadow:big">Elevated shadow</div>
+<div visual="shadow:medium">Card with shadow</div>
 ```
 
-## Common Patterns
+## Responsive
 
 ```html
-<!-- Card with shadow -->
-<div visual="bg:white rounded:medium shadow:medium" space="p:medium">
-  Card content
-</div>
-
-<!-- Hover shadow effect -->
-<div visual="shadow:small hover:shadow:medium">
-  Elevates on hover
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

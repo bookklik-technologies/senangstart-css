@@ -1,21 +1,32 @@
-# Saiz Teks
+# Text Size
 
-Mengawal saiz fon dengan atribut `visual`.
+Tetapkan saiz fon
 
-## Nilai
-
-| Property | Output CSS |
-|----------|------------|
-| `text-size:tiny` | `font-size: 12px` |
-| `text-size:small` | `font-size: 14px` |
-| `text-size:medium` | `font-size: 16px` |
-| `text-size:big` | `font-size: 20px` |
-| `text-size:giant` | `font-size: 32px` |
-| `text-size:vast` | `font-size: 48px` |
+## Sintaks
+```
+visual="text-size:[value]"
+```
 
 ## Contoh
 
 ```html
-<span visual="text-size:small">Teks kecil</span>
-<h1 visual="text-size:giant">Tajuk giant</h1>
+<div visual="text-size:big">Large text</div>
+<div visual="text-size:[24px]">24px text</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="text:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

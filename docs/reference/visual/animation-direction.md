@@ -1,26 +1,32 @@
 # Animation Direction
 
-Control the direction of the animation.
+Set animation direction
 
 ## Syntax
 ```
-visual="animation-direction:normal | animation-direction:reverse | animation-direction:alternate | animation-direction:alternate-reverse"
+visual="animation-direction:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `animation-direction:normal` | `animation-direction: normal` |
-| `animation-direction:reverse` | `animation-direction: reverse` |
-| `animation-direction:alternate` | `animation-direction: alternate` |
-| `animation-direction:alternate-reverse` | `animation-direction: alternate-reverse` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `normal` | `animation-direction: normal` | Normal direction |
+| `reverse` | `animation-direction: reverse` | Reverse direction |
+| `alternate` | `animation-direction: alternate` | Alternate direction |
+| `alternate-reverse` | `animation-direction: alternate-reverse` | Alternate reverse |
 
 ## Examples
 
 ```html
-<div visual="animate:spin animation-direction:normal">...</div>            <!-- Normal -->
-<div visual="animate:spin animation-direction:reverse">...</div>           <!-- Reverse -->
-<div visual="animate:spin animation-direction:alternate">...</div>         <!-- Alternate -->
-<div visual="animate:spin animation-direction:alternate-reverse">...</div> <!-- Alternate Reverse -->
+<div visual="animate:bounce animation-direction:alternate">Alternating</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,6 +1,6 @@
 # Background Origin
 
-Control where the background image is positioned within the element's box.
+Set background positioning origin
 
 ## Syntax
 ```
@@ -9,14 +9,23 @@ visual="bg-origin:[value]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `bg-origin:border` | `background-origin: border-box` |
-| `bg-origin:padding` | `background-origin: padding-box` |
-| `bg-origin:content` | `background-origin: content-box` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `border` | `background-origin: border-box` | Origin at border |
+| `padding` | `background-origin: padding-box` | Origin at padding |
+| `content` | `background-origin: content-box` | Origin at content |
 
 ## Examples
 
 ```html
-<div visual="bg-image:[icon.png] bg-origin:content">Positioned within content</div>
+<div visual="bg-origin:content">Content origin</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

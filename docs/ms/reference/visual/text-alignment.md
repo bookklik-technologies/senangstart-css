@@ -1,19 +1,32 @@
-# Penjajaran Teks
+# Text Alignment
 
-Mengawal penjajaran teks dengan atribut `visual`.
+Tetapkan penjajaran teks
+
+## Sintaks
+```
+visual="text:[alignment]"
+```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `text:left` | `text-align: left` |
-| `text:center` | `text-align: center` |
-| `text:right` | `text-align: right` |
-| `text:justify` | `text-align: justify` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `left` | `text-align: left` | Jajar kiri |
+| `center` | `text-align: center` | Jajar tengah |
+| `right` | `text-align: right` | Jajar kanan |
+| `justify` | `text-align: justify` | Justify |
 
 ## Contoh
 
 ```html
-<p visual="text:center">Teks ditengahkan</p>
-<p visual="text:right">Teks dijajarkan kanan</p>
+<p visual="text:center">Centered text</p>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

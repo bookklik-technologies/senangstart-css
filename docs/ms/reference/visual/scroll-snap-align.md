@@ -1,37 +1,32 @@
-# Penjajaran Snap Skrol
+# Scroll Snap Align
 
-Mengawal di mana elemen snap dalam bekasnya dengan atribut `visual`.
+Tetapkan penjajaran snap skrol
 
 ## Sintaks
 ```
-visual="snap-align:[nilai]"
+visual="snap-align:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `snap-align:start` | `scroll-snap-align: start` |
-| `snap-align:center` | `scroll-snap-align: center` |
-| `snap-align:end` | `scroll-snap-align: end` |
-| `snap-align:none` | `scroll-snap-align: none` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `start` | `scroll-snap-align: start` | Snap ke permulaan |
+| `end` | `scroll-snap-align: end` | Snap ke hujung |
+| `center` | `scroll-snap-align: center` | Snap ke tengah |
+| `none` | `scroll-snap-align: none` | Tiada snap |
 
 ## Contoh
 
 ```html
-<!-- Karusel mendatar dengan penjajaran permulaan -->
-<div visual="snap:x" layout="flex overflow-x:auto">
-  <div visual="snap-align:start" space="w:[300px]">Kad 1</div>
-  <div visual="snap-align:start" space="w:[300px]">Kad 2</div>
-  <div visual="snap-align:start" space="w:[300px]">Kad 3</div>
-</div>
-
-<!-- Titik snap ditengahkan -->
-<div visual="snap:x" layout="flex overflow-x:auto">
-  <div visual="snap-align:center">Item ditengahkan</div>
-</div>
+<div visual="snap-align:start">Snap to start</div>
 ```
 
-## Nota
+## Responsif
 
-Gunakan `snap-align` pada elemen anak dalam bekas dengan `snap:x` atau `snap:y`.
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

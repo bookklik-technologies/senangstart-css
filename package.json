@@ -1,6 +1,6 @@
 {
   "name": "@bookklik/senangstart-css",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "The Intent-First CSS Engine - Speak Human, Compile to Logic",
   "type": "module",
   "main": "src/index.js",
@@ -14,9 +14,12 @@
     "build:dist": "node scripts/build-dist.js",
     "prepublishOnly": "npm run build:dist",
     "docs": "vitepress dev docs",
+    "docs:generate": "node scripts/generate-docs.js",
+    "docs:sync-check": "node scripts/generate-docs.js --compare",
     "test": "node --test tests/",
     "test:unit": "node --test tests/unit/",
     "test:integration": "node --test tests/integration/",
+    "test:sync": "node --test tests/sync/",
     "test:watch": "node --test --watch tests/",
     "test:coverage": "npx c8 --reporter=text --reporter=html node --test tests/"
   },

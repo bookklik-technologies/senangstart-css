@@ -1,6 +1,6 @@
 # Scroll Snap Align
 
-Control where an element snaps within its container with the `visual` attribute.
+Set scroll snap alignment
 
 ## Syntax
 ```
@@ -9,29 +9,24 @@ visual="snap-align:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `snap-align:start` | `scroll-snap-align: start` |
-| `snap-align:center` | `scroll-snap-align: center` |
-| `snap-align:end` | `scroll-snap-align: end` |
-| `snap-align:none` | `scroll-snap-align: none` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `start` | `scroll-snap-align: start` | Snap to start |
+| `end` | `scroll-snap-align: end` | Snap to end |
+| `center` | `scroll-snap-align: center` | Snap to center |
+| `none` | `scroll-snap-align: none` | No snap |
 
 ## Examples
 
 ```html
-<!-- Horizontal carousel with start alignment -->
-<div visual="snap:x" layout="flex overflow-x:auto">
-  <div visual="snap-align:start" space="w:[300px]">Card 1</div>
-  <div visual="snap-align:start" space="w:[300px]">Card 2</div>
-  <div visual="snap-align:start" space="w:[300px]">Card 3</div>
-</div>
-
-<!-- Center-aligned snap points -->
-<div visual="snap:x" layout="flex overflow-x:auto">
-  <div visual="snap-align:center">Centered item</div>
-</div>
+<div visual="snap-align:start">Snap to start</div>
 ```
 
-## Notes
+## Responsive
 
-Use `snap-align` on child elements inside a container with `snap:x` or `snap:y`.
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

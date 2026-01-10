@@ -1,6 +1,6 @@
-# Nisbah Aspek
+# Aspect Ratio
 
-Mengawal nisbah aspek elemen dengan atribut `layout`.
+Tetapkan nisbah aspek elemen
 
 ## Sintaks
 ```
@@ -9,39 +9,32 @@ layout="aspect:[value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `aspect:auto` | `aspect-ratio: auto` |
-| `aspect:square` | `aspect-ratio: 1 / 1` |
-| `aspect:video` | `aspect-ratio: 16 / 9` |
-| `aspect:[4/3]` | `aspect-ratio: 4 / 3` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `aspect-ratio: auto` | Nisbah aspek semula jadi |
+| `square` | `aspect-ratio: 1 / 1` | Segi empat sama 1:1 |
+| `video` | `aspect-ratio: 16 / 9` | Video 16:9 |
 
 ## Contoh
 
 ```html
-<!-- Bekas video -->
-<div layout="aspect:video">Bekas video 16:9</div>
-
-<!-- Imej segi empat sama -->
-<img layout="aspect:square object:cover" src="photo.jpg">
-
-<!-- Nisbah aspek tersuai -->
-<div layout="aspect:[4/3]">Nisbah 4:3</div>
-<div layout="aspect:[21/9]">Nisbah ultralebar</div>
+<div layout="aspect:square">Square</div>
+<div layout="aspect:[4/3]">4:3</div>
 ```
 
-## Corak Biasa
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<!-- Embed video responsif -->
-<div layout="aspect:video overflow:hidden rounded:medium">
-  <iframe src="..." layout="absolute inset:0" space="w:[100%] h:[100%]"></iframe>
-</div>
+<div layout="aspect:[custom-value]">Custom</div>
+```
 
-<!-- Grid gambar kecil segi empat sama -->
-<div layout="grid grid-cols:3" space="g:small">
-  <img layout="aspect:square object:cover" src="1.jpg">
-  <img layout="aspect:square object:cover" src="2.jpg">
-  <img layout="aspect:square object:cover" src="3.jpg">
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

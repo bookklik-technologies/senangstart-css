@@ -1,6 +1,6 @@
 # Color Scheme
 
-Indicate the preferred color scheme for an element with the `visual` attribute.
+Set preferred color scheme
 
 ## Syntax
 ```
@@ -9,30 +9,23 @@ visual="color-scheme:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `color-scheme:light` | `color-scheme: light` |
-| `color-scheme:dark` | `color-scheme: dark` |
-| `color-scheme:normal` | `color-scheme: normal` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `light` | `color-scheme: light` | Light mode |
+| `dark` | `color-scheme: dark` | Dark mode |
+| `normal` | `color-scheme: normal` | System default |
 
 ## Examples
 
 ```html
-<!-- Force light color scheme -->
-<div visual="color-scheme:light">
-  Light mode UI
-</div>
-
-<!-- Force dark color scheme for scrollbars and form controls -->
-<div visual="color-scheme:dark">
-  Dark mode UI
-</div>
+<html visual="color-scheme:dark">Dark mode</html>
 ```
 
-## Use Cases
+## Responsive
 
-The `color-scheme` property affects:
-- Scrollbar colors
-- Form control colors (background, borders)
-- Default text and background colors
-- System color keywords
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

@@ -1,6 +1,6 @@
-# Overscroll Behavior
+# Overscroll
 
-Control scroll chaining behavior with the `layout` attribute.
+Control scroll chaining behavior
 
 ## Syntax
 ```
@@ -9,28 +9,23 @@ layout="overscroll:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `overscroll:auto` | `overscroll-behavior: auto` |
-| `overscroll:contain` | `overscroll-behavior: contain` |
-| `overscroll:none` | `overscroll-behavior: none` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `auto` | `overscroll-behavior: auto` | Default behavior |
+| `contain` | `overscroll-behavior: contain` | Contain scroll |
+| `none` | `overscroll-behavior: none` | No scroll chaining |
 
 ## Examples
 
 ```html
-<!-- Prevent scroll chaining to parent -->
-<div layout="overflow:auto overscroll:contain">
-  Scrolling won't chain to parent
-</div>
-
-<!-- No overscroll effects -->
-<div layout="overflow:auto overscroll:none">
-  No bounce or overscroll effects
-</div>
+<div layout="overscroll:contain">Contained scroll</div>
 ```
 
-## Use Cases
+## Responsive
 
-- Modal dialogs that shouldn't scroll the page behind
-- Nested scrollable areas
-- Preventing mobile Safari bounce effects
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

@@ -1,25 +1,39 @@
-# Songsang
+# Filter Invert
 
-Songsangkan warna elemen.
+Songsangkan warna
 
 ## Sintaks
 ```
-visual="invert:none | invert:partial | invert:full | invert"
+visual="invert:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `invert:none` | `filter: invert(0)` |
-| `invert:partial` | `filter: invert(0.5)` |
-| `invert:full` | `filter: invert(1)` |
-| `invert` | `filter: invert(1)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `filter: invert(0%)` | Tiada penyongsangan |
+| `partial` | `filter: invert(50%)` | 50% penyongsangan |
+| `full` | `filter: invert(100%)` | Penyongsangan penuh |
 
 ## Contoh
 
 ```html
-<img visual="invert:none" />     <!-- Tiada songsangan -->
-<img visual="invert:partial" />  <!-- 50% songsang -->
-<img visual="invert" />          <!-- Songsang penuh -->
+<img visual="invert:full">Inverted colors</img>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

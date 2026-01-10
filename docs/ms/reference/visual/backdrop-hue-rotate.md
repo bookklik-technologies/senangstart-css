@@ -1,26 +1,39 @@
 # Backdrop Hue Rotate
 
-Memutar warna latar belakang.
+Putar rona latar belakang
 
 ## Sintaks
 ```
-visual="backdrop-hue-rotate:15 | backdrop-hue-rotate:30 | backdrop-hue-rotate:60 | backdrop-hue-rotate:90 | backdrop-hue-rotate:180"
+visual="backdrop-hue-rotate:[degrees]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `backdrop-hue-rotate:15` | `backdrop-filter: hue-rotate(15deg)` |
-| `backdrop-hue-rotate:30` | `backdrop-filter: hue-rotate(30deg)` |
-| `backdrop-hue-rotate:60` | `backdrop-filter: hue-rotate(60deg)` |
-| `backdrop-hue-rotate:90` | `backdrop-filter: hue-rotate(90deg)` |
-| `backdrop-hue-rotate:180` | `backdrop-filter: hue-rotate(180deg)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `0` | `backdrop-filter: hue-rotate(0deg)` | Tiada putaran |
+| `90` | `backdrop-filter: hue-rotate(90deg)` | Putaran 90° |
+| `180` | `backdrop-filter: hue-rotate(180deg)` | Putaran 180° |
 
 ## Contoh
 
 ```html
-<div visual="backdrop-hue-rotate:15">...</div>   <!-- 15 darjah -->
-<div visual="backdrop-hue-rotate:90">...</div>   <!-- 90 darjah -->
-<div visual="backdrop-hue-rotate:180">...</div>  <!-- 180 darjah -->
+<div visual="backdrop-hue-rotate:90">Rotated hue backdrop</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,30 +1,37 @@
-# Prefiks Keadaan
+# State Prefixes
 
-Guna gaya visual bersyarat berdasarkan keadaan elemen.
+Terapkan gaya pada keadaan tertentu
 
-## Prefiks
+## Sintaks
+```
+visual="hover:... focus:... active:..."
+```
 
-| Prefiks | Digunakan bila |
-|---------|----------------|
-| `hover:` | Tetikus di atas elemen |
-| `focus:` | Elemen mempunyai fokus |
-| `active:` | Elemen sedang ditekan |
-| `disabled:` | Elemen dilumpuhkan |
-| `dark:` | Mod gelap aktif |
+## Nilai
+
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `hover:` | `:hover` | Pada hover |
+| `focus:` | `:focus` | Pada fokus |
+| `active:` | `:active` | Pada aktif |
+| `disabled:` | `:disabled` | Apabila dilumpuhkan |
+| `visited:` | `:visited` | Apabila dilawati |
+| `first:` | `:first-child` | Anak pertama |
+| `last:` | `:last-child` | Anak terakhir |
+| `odd:` | `:nth-child(odd)` | Anak ganjil |
+| `even:` | `:nth-child(even)` | Anak genap |
 
 ## Contoh
 
 ```html
-<!-- Kesan hover -->
-<button visual="bg:primary hover:bg:[#2563EB]">
-  Kesan hover
-</button>
+<button visual="hover:bg:primary focus:outline:primary">Interactive button</button>
+```
 
-<!-- Kesan fokus -->
-<input visual="border:grey focus:border:primary">
+## Responsif
 
-<!-- Pautan dengan hover -->
-<a visual="text:grey hover:text:primary underline hover:no-underline">
-  Pautan dengan hover
-</a>
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

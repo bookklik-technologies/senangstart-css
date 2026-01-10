@@ -1,6 +1,6 @@
 # Background Clip
 
-Control how background color or image is clipped to the element's box.
+Set background clipping area
 
 ## Syntax
 ```
@@ -9,15 +9,24 @@ visual="bg-clip:[value]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `bg-clip:border` | `background-clip: border-box` |
-| `bg-clip:padding` | `background-clip: padding-box` |
-| `bg-clip:content` | `background-clip: content-box` |
-| `bg-clip:text` | `background-clip: text` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `border` | `background-clip: border-box` | Clip to border |
+| `padding` | `background-clip: padding-box` | Clip to padding |
+| `content` | `background-clip: content-box` | Clip to content |
+| `text` | `background-clip: text; -webkit-background-clip: text` | Clip to text |
 
 ## Examples
 
 ```html
-<div visual="bg:primary bg-clip:text text:transparent">Text background clip</div>
+<div visual="bg-clip:text text:transparent bg:gradient">Gradient text</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,35 +1,30 @@
-# Kelakuan Skrol
+# Scroll Behavior
 
-Mengawal kelancaran skrol dengan atribut `visual`.
+Tetapkan kelakuan skrol
 
 ## Sintaks
 ```
-visual="scroll:[nilai]"
+visual="scroll-behavior:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `scroll:smooth` | `scroll-behavior: smooth` |
-| `scroll:auto` | `scroll-behavior: auto` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `scroll-behavior: auto` | Skrol serta-merta |
+| `smooth` | `scroll-behavior: smooth` | Skrol lancar |
 
 ## Contoh
 
 ```html
-<!-- Bekas skrol lancar -->
-<div visual="scroll:smooth" layout="overflow:auto" space="h:[400px]">
-  <div space="h:[1000px]">Kandungan boleh skrol</div>
-</div>
-
-<!-- Gunakan pada seluruh halaman -->
-<html visual="scroll:smooth">
+<html visual="scroll-behavior:smooth">Smooth scrolling</html>
 ```
 
-## Kegunaan
+## Responsif
 
-Gunakan `scroll:smooth` untuk:
-- Navigasi pautan sauh
-- Butang skrol-ke-atas
-- Navigasi aplikasi satu halaman
-- Pengalaman pengguna lebih baik dengan skrol beransur
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

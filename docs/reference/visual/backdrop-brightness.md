@@ -1,28 +1,41 @@
 # Backdrop Brightness
 
-Adjust brightness of the backdrop.
+Adjust backdrop brightness
 
 ## Syntax
 ```
-visual="backdrop-brightness:dim | backdrop-brightness:dark | backdrop-brightness:normal | backdrop-brightness:bright | backdrop-brightness:vivid"
+visual="backdrop-brightness:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `backdrop-brightness:dim` | `backdrop-filter: brightness(0.5)` |
-| `backdrop-brightness:dark` | `backdrop-filter: brightness(0.75)` |
-| `backdrop-brightness:normal` | `backdrop-filter: brightness(1)` |
-| `backdrop-brightness:bright` | `backdrop-filter: brightness(1.25)` |
-| `backdrop-brightness:vivid` | `backdrop-filter: brightness(1.5)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `dim` | `backdrop-filter: brightness(0.5)` | 50% brightness |
+| `dark` | `backdrop-filter: brightness(0.75)` | 75% brightness |
+| `normal` | `backdrop-filter: brightness(1)` | Normal brightness |
+| `bright` | `backdrop-filter: brightness(1.25)` | 125% brightness |
+| `vivid` | `backdrop-filter: brightness(1.5)` | 150% brightness |
 
 ## Examples
 
 ```html
-<div visual="backdrop-brightness:dim">...</div>     <!-- 50% brightness -->
-<div visual="backdrop-brightness:dark">...</div>    <!-- 75% brightness -->
-<div visual="backdrop-brightness:normal">...</div>  <!-- 100% brightness -->
-<div visual="backdrop-brightness:bright">...</div>  <!-- 125% brightness -->
-<div visual="backdrop-brightness:vivid">...</div>   <!-- 150% brightness -->
+<div visual="backdrop-brightness:dark">Darkened backdrop</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

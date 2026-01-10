@@ -1,41 +1,34 @@
-# Jenis Snap Skrol
+# Scroll Snap Type
 
-Mengawal kelakuan snap skrol pada bekas dengan atribut `visual`.
+Tetapkan jenis snap skrol
 
 ## Sintaks
 ```
-visual="snap:[nilai]"
+visual="snap-type:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `snap:none` | `scroll-snap-type: none` |
-| `snap:x` | `scroll-snap-type: x mandatory` |
-| `snap:x-proximity` | `scroll-snap-type: x proximity` |
-| `snap:y` | `scroll-snap-type: y mandatory` |
-| `snap:y-proximity` | `scroll-snap-type: y proximity` |
-| `snap:both` | `scroll-snap-type: both mandatory` |
-| `snap:both-proximity` | `scroll-snap-type: both proximity` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `scroll-snap-type: none` | Tiada snapping |
+| `x` | `scroll-snap-type: x mandatory` | Snap mendatar |
+| `y` | `scroll-snap-type: y mandatory` | Snap menegak |
+| `both` | `scroll-snap-type: both mandatory` | Kedua-dua paksi |
+| `x-proximity` | `scroll-snap-type: x proximity` | Kedekatan mendatar |
+| `y-proximity` | `scroll-snap-type: y proximity` | Kedekatan menegak |
 
 ## Contoh
 
 ```html
-<!-- Snap skrol mendatar -->
-<div visual="snap:x" layout="flex overflow-x:auto">
-  <div visual="snap-align:start" space="w:[100vw]">Halaman 1</div>
-  <div visual="snap-align:start" space="w:[100vw]">Halaman 2</div>
-</div>
-
-<!-- Snap skrol menegak -->
-<div visual="snap:y" space="h:[400px]" layout="overflow-y:auto">
-  <section visual="snap-align:start" space="h:[400px]">Seksyen 1</section>
-  <section visual="snap-align:start" space="h:[400px]">Seksyen 2</section>
-</div>
+<div visual="snap-type:x">Horizontal snap container</div>
 ```
 
-## Nota
+## Responsif
 
-- **mandatory**: Sentiasa snap ke titik snap selepas skrol
-- **proximity**: Hanya snap apabila skrol berakhir dekat titik snap
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

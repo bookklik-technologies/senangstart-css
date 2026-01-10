@@ -1,40 +1,39 @@
-# Hue Rotate
+# Filter Hue Rotate
 
-Rotate the hue of elements.
+Rotate hue colors
 
 ## Syntax
 ```
-visual="hue-rotate:15 | hue-rotate:30 | hue-rotate:60 | hue-rotate:90 | hue-rotate:180"
+visual="hue-rotate:[degrees]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `hue-rotate:15` | `filter: hue-rotate(15deg)` |
-| `hue-rotate:30` | `filter: hue-rotate(30deg)` |
-| `hue-rotate:60` | `filter: hue-rotate(60deg)` |
-| `hue-rotate:90` | `filter: hue-rotate(90deg)` |
-| `hue-rotate:180` | `filter: hue-rotate(180deg)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `0` | `filter: hue-rotate(0deg)` | No rotation |
+| `90` | `filter: hue-rotate(90deg)` | 90° rotation |
+| `180` | `filter: hue-rotate(180deg)` | 180° rotation |
 
 ## Examples
 
 ```html
-<img visual="hue-rotate:15" />   <!-- 15 degrees -->
-<img visual="hue-rotate:30" />   <!-- 30 degrees -->
-<img visual="hue-rotate:60" />   <!-- 60 degrees -->
-<img visual="hue-rotate:90" />   <!-- 90 degrees -->
-<img visual="hue-rotate:180" />  <!-- 180 degrees -->
+<img visual="hue-rotate:90">Shifted hue</img>
 ```
 
 ## Arbitrary Values
 
+Supports custom values using bracket syntax:
+
 ```html
-<img visual="hue-rotate:[45deg]" />
+<div visual="filter:[custom-value]">Custom</div>
 ```
 
-## With States
+## Responsive
 
 ```html
-<img visual="hover:hue-rotate:180" />
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,28 +1,41 @@
 # Backdrop Saturate
 
-Adjust saturation of the backdrop.
+Adjust backdrop saturation
 
 ## Syntax
 ```
-visual="backdrop-saturate:none | backdrop-saturate:low | backdrop-saturate:normal | backdrop-saturate:high | backdrop-saturate:vivid"
+visual="backdrop-saturate:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `backdrop-saturate:none` | `backdrop-filter: saturate(0)` |
-| `backdrop-saturate:low` | `backdrop-filter: saturate(0.5)` |
-| `backdrop-saturate:normal` | `backdrop-filter: saturate(1)` |
-| `backdrop-saturate:high` | `backdrop-filter: saturate(1.5)` |
-| `backdrop-saturate:vivid` | `backdrop-filter: saturate(2)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: saturate(0)` | Desaturated |
+| `low` | `backdrop-filter: saturate(0.5)` | Low saturation |
+| `normal` | `backdrop-filter: saturate(1)` | Normal saturation |
+| `high` | `backdrop-filter: saturate(1.5)` | High saturation |
+| `vivid` | `backdrop-filter: saturate(2)` | Very saturated |
 
 ## Examples
 
 ```html
-<div visual="backdrop-saturate:none">...</div>    <!-- No saturation -->
-<div visual="backdrop-saturate:low">...</div>     <!-- 50% saturation -->
-<div visual="backdrop-saturate:normal">...</div>  <!-- 100% saturation -->
-<div visual="backdrop-saturate:high">...</div>    <!-- 150% saturation -->
-<div visual="backdrop-saturate:vivid">...</div>   <!-- 200% saturation -->
+<div visual="backdrop-saturate:vivid">Vivid backdrop</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

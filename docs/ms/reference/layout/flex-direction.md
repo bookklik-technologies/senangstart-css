@@ -1,6 +1,6 @@
 # Flex Direction
 
-Mengawal arah item flex dengan atribut `layout`.
+Tetapkan arah item flex
 
 ## Sintaks
 ```
@@ -9,28 +9,25 @@ layout="[direction]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `row` | `flex-direction: row` |
-| `col` | `flex-direction: column` |
-| `row-reverse` | `flex-direction: row-reverse` |
-| `col-reverse` | `flex-direction: column-reverse` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `row` | `flex-direction: row` | Mendatar (lalai) |
+| `col` | `flex-direction: column` | Menegak |
+| `row-reverse` | `flex-direction: row-reverse` | Mendatar terbalik |
+| `col-reverse` | `flex-direction: column-reverse` | Menegak terbalik |
 
 ## Contoh
 
 ```html
-<div layout="flex row">Mendatar (lalai)</div>
-<div layout="flex col">Susunan menegak</div>
-<div layout="flex row-reverse">Kanan ke kiri</div>
-<div layout="flex col-reverse">Bawah ke atas</div>
+<div layout="flex row">Row direction</div>
+<div layout="flex col">Column direction</div>
 ```
 
 ## Responsif
 
 ```html
-<!-- Susun pada mudah alih, baris pada tablet+ -->
-<div layout="flex col tab:row">
-  <div>Item 1</div>
-  <div>Item 2</div>
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

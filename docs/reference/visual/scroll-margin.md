@@ -1,42 +1,41 @@
 # Scroll Margin
 
-Control the scroll snap margin with the `visual` attribute.
+Set scroll margin for snap
 
 ## Syntax
 ```
 visual="scroll-m:[value]"
-visual="scroll-m-t:[value]"
-visual="scroll-m-r:[value]"
-visual="scroll-m-b:[value]"
-visual="scroll-m-l:[value]"
-visual="scroll-m-x:[value]"
-visual="scroll-m-y:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `scroll-m:4` | `scroll-margin: var(--s-4)` |
-| `scroll-m-t:8` | `scroll-margin-top: var(--s-8)` |
-| `scroll-m-x:4` | `scroll-margin-left/right: var(--s-4)` |
-| `scroll-m:[20px]` | `scroll-margin: 20px` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `scroll-m` | `scroll-margin: {value}` | All sides |
+| `scroll-m-t` | `scroll-margin-top: {value}` | Top margin |
+| `scroll-m-r` | `scroll-margin-right: {value}` | Right margin |
+| `scroll-m-b` | `scroll-margin-bottom: {value}` | Bottom margin |
+| `scroll-m-l` | `scroll-margin-left: {value}` | Left margin |
 
 ## Examples
 
 ```html
-<!-- Offset scroll snap position for fixed header -->
-<section visual="scroll-m-t:16" id="section1">
-  Snaps 4rem below viewport top
-</section>
-
-<!-- All sides -->
-<div visual="scroll-m:4">Even margin all around</div>
+<div visual="scroll-m:medium">Scroll margin</div>
 ```
 
-## Use Cases
+## Arbitrary Values
 
-Use `scroll-margin` to:
-- Account for fixed headers when scrolling to anchors
-- Add breathing room at scroll snap points
-- Prevent content from being hidden under sticky elements
+Supports custom values using bracket syntax:
+
+```html
+<div visual="scroll:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

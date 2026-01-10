@@ -1,25 +1,32 @@
-# Arah Animasi
+# Animation Direction
 
-Kawal arah animasi.
+Tetapkan arah animasi
 
 ## Sintaks
 ```
-visual="animation-direction:normal | animation-direction:reverse | animation-direction:alternate | animation-direction:alternate-reverse"
+visual="animation-direction:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `animation-direction:normal` | `animation-direction: normal` |
-| `animation-direction:reverse` | `animation-direction: reverse` |
-| `animation-direction:alternate` | `animation-direction: alternate` |
-| `animation-direction:alternate-reverse` | `animation-direction: alternate-reverse` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `normal` | `animation-direction: normal` | Arah normal |
+| `reverse` | `animation-direction: reverse` | Arah terbalik |
+| `alternate` | `animation-direction: alternate` | Arah berselang |
+| `alternate-reverse` | `animation-direction: alternate-reverse` | Berselang terbalik |
 
 ## Contoh
 
 ```html
-<div visual="animate:spin animation-direction:normal">...</div>    <!-- Normal -->
-<div visual="animate:spin animation-direction:reverse">...</div>   <!-- Terbalik -->
-<div visual="animate:spin animation-direction:alternate">...</div> <!-- Berselang -->
+<div visual="animate:bounce animation-direction:alternate">Alternating</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

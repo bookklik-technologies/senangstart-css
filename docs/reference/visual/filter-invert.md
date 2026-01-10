@@ -1,32 +1,39 @@
-# Invert
+# Filter Invert
 
-Invert the colors of elements.
+Invert colors
 
 ## Syntax
 ```
-visual="invert:none | invert:partial | invert:full | invert"
+visual="invert:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `invert:none` | `filter: invert(0)` |
-| `invert:partial` | `filter: invert(0.5)` |
-| `invert:full` | `filter: invert(1)` |
-| `invert` | `filter: invert(1)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `filter: invert(0%)` | No inversion |
+| `partial` | `filter: invert(50%)` | 50% inversion |
+| `full` | `filter: invert(100%)` | Full inversion |
 
 ## Examples
 
 ```html
-<img visual="invert:none" />     <!-- No inversion -->
-<img visual="invert:partial" />  <!-- 50% inverted -->
-<img visual="invert:full" />     <!-- Fully inverted -->
-<img visual="invert" />          <!-- Fully inverted (default) -->
+<img visual="invert:full">Inverted colors</img>
 ```
 
-## With States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<img visual="hover:invert" />
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

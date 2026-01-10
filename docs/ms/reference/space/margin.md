@@ -1,28 +1,49 @@
 # Margin
 
-Mengawal jarak luar dengan atribut `space`.
+Tambah margin pada elemen
 
-## Sifat
+## Sintaks
+```
+space="m:[value]" or space="m-{side}:[value]"
+```
 
-| Property | Output CSS |
-|----------|------------|
-| `m` | `margin` (semua sisi) |
-| `m-t` | `margin-top` |
-| `m-r` | `margin-right` |
-| `m-b` | `margin-bottom` |
-| `m-l` | `margin-left` |
-| `m-x` | `margin-left` + `margin-right` |
-| `m-y` | `margin-top` + `margin-bottom` |
+## Nilai
+
+| Harta | CSS Output | Huraian |
+|--------|------------|-------------|
+| `m` | `margin: var(--s-{value})` | Semua sisi |
+| `m-t` | `margin-top: var(--s-{value})` | Atas |
+| `m-r` | `margin-right: var(--s-{value})` | Kanan |
+| `m-b` | `margin-bottom: var(--s-{value})` | Bawah |
+| `m-l` | `margin-left: var(--s-{value})` | Kiri |
+| `m-x` | `margin-left: var(--s-{value}) margin-right: var(--s-{value})` | Mendatar |
+| `m-y` | `margin-top: var(--s-{value}) margin-bottom: var(--s-{value})` | Menegak |
+
+## Nilai Skala
+
+`none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`, `auto`
 
 ## Contoh
 
 ```html
-<!-- Semua sisi -->
-<div space="m:medium">Margin semua sisi</div>
+<div space="m:medium">Margin all sides</div>
+<div space="m-x:auto">Centered horizontally</div>
+<div space="m-t:big">Top margin</div>
+```
 
-<!-- Margin bawah -->
-<div space="m-b:big">Margin bawah</div>
+## Nilai Arbitrari
 
-<!-- Tengah secara horizontal -->
-<div space="m-x:auto">Elemen ditengahkan</div>
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div space="margin:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div space="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

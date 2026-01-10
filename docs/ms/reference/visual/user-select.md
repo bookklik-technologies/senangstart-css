@@ -1,36 +1,32 @@
-# Pilihan Pengguna
+# User Select
 
-Mengawal sama ada teks boleh dipilih dengan atribut `visual`.
+Kawal pemilihan teks
 
 ## Sintaks
 ```
-visual="select:[nilai]"
+visual="select:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `select:none` | `user-select: none` |
-| `select:text` | `user-select: text` |
-| `select:all` | `user-select: all` |
-| `select:auto` | `user-select: auto` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `user-select: none` | Halang pemilihan |
+| `text` | `user-select: text` | Benarkan pemilihan teks |
+| `all` | `user-select: all` | Pilih semua pada klik |
+| `auto` | `user-select: auto` | Kelakuan lalai |
 
 ## Contoh
 
 ```html
-<!-- Cegah pemilihan teks -->
-<button visual="select:none">Tidak boleh pilih teks ini</button>
-
-<!-- Pilih semua teks apabila klik -->
-<code visual="select:all">npm install senangstart-css</code>
-
-<!-- Benarkan pemilihan teks (lalai) -->
-<p visual="select:text">Perenggan boleh dipilih</p>
+<div visual="select:none">Cannot select this text</div>
 ```
 
-## Kegunaan
+## Responsif
 
-- `select:none` - Butang, elemen UI, pemegang seret
-- `select:all` - Coretan kod, kandungan salin-ke-papan keratan
-- `select:text` - Aktif semula pemilihan pada elemen anak
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

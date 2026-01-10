@@ -1,6 +1,6 @@
 # Text Color
 
-Control text color with the `visual` attribute.
+Set text color
 
 ## Syntax
 ```
@@ -9,32 +9,33 @@ visual="text:[color]"
 
 ## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `text:dark` | `color: var(--c-dark)` |
-| `text:grey` | `color: var(--c-grey)` |
-| `text:primary` | `color: var(--c-primary)` |
-
-## Color Keywords
-
-Use any color from your theme:
-
-- `text:white`, `text:black`
-- `text:grey`, `text:dark`, `text:light`
-- `text:primary`, `text:secondary`
-- `text:success`, `text:warning`, `text:danger`
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `left` | `text-align: left` | Align left |
+| `center` | `text-align: center` | Align center |
+| `right` | `text-align: right` | Align right |
+| `justify` | `text-align: justify` | Justify text |
 
 ## Examples
 
 ```html
-<span visual="text:dark">Dark text</span>
-<span visual="text:grey">Grey text</span>
-<span visual="text:primary">Primary color text</span>
-<span visual="text:[#FF5733]">Custom color</span>
+<div visual="text:white">White text</div>
+<div visual="text:center">Centered text</div>
 ```
 
-## States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<a visual="text:grey hover:text:primary">Link with hover</a>
+<div visual="text:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

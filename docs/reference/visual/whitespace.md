@@ -1,31 +1,34 @@
 # Whitespace
 
-Control whitespace handling with the `visual` attribute.
+Control whitespace handling
 
 ## Syntax
 ```
-visual="white-space:normal | white-space:nowrap | white-space:pre | white-space:pre-line | white-space:pre-wrap"
+visual="whitespace:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `white-space:normal` | `white-space: normal` |
-| `white-space:nowrap` | `white-space: nowrap` |
-| `white-space:pre` | `white-space: pre` |
-| `white-space:pre-line` | `white-space: pre-line` |
-| `white-space:pre-wrap` | `white-space: pre-wrap` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `normal` | `white-space: normal` | Normal whitespace |
+| `nowrap` | `white-space: nowrap` | No wrap |
+| `pre` | `white-space: pre` | Preserve whitespace |
+| `pre-line` | `white-space: pre-line` | Pre-line |
+| `pre-wrap` | `white-space: pre-wrap` | Pre-wrap |
+| `break-spaces` | `white-space: break-spaces` | Break spaces |
 
 ## Examples
 
 ```html
-<p visual="white-space:normal">Normal whitespace (collapses spaces)</p>
-<p visual="white-space:nowrap">No line breaks allowed</p>
-<pre visual="white-space:pre">Preserve   spaces   and
-line breaks</pre>
-<p visual="white-space:pre-line">Preserve line breaks
-but collapse spaces</p>
-<p visual="white-space:pre-wrap">Preserve all whitespace
-and wrap when needed</p>
+<pre visual="whitespace:pre">Preserved whitespace</pre>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

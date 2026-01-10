@@ -1,39 +1,31 @@
 # Font Family
 
-Control font family with the `visual` attribute.
+Set font family
 
 ## Syntax
 ```
-visual="font:sans | font:serif | font:mono"
+visual="font:[family]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `font:sans` | `font-family: ui-sans-serif, system-ui, sans-serif` |
-| `font:serif` | `font-family: ui-serif, Georgia, serif` |
-| `font:mono` | `font-family: ui-monospace, monospace` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `sans` | `font-family: ui-sans-serif, system-ui, sans-serif` | Sans-serif |
+| `serif` | `font-family: ui-serif, Georgia, serif` | Serif |
+| `mono` | `font-family: ui-monospace, monospace` | Monospace |
 
 ## Examples
 
 ```html
-<p visual="font:sans">Sans-serif text (default)</p>
-<p visual="font:serif">Serif text for articles</p>
-<code visual="font:mono">Monospace for code</code>
+<div visual="font:mono">Monospace text</div>
 ```
 
-## Common Patterns
+## Responsive
 
 ```html
-<!-- Code blocks -->
-<pre visual="font:mono bg:light rounded:small" space="p:medium">
-  const hello = "world";
-</pre>
-
-<!-- Article with serif body -->
-<article visual="font:serif">
-  <h1 visual="font:sans">Article Title</h1>
-  <p>Serif body text for better readability...</p>
-</article>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,21 +1,42 @@
-# Jarak Huruf
+# Letter Spacing
 
-Mengawal jarak huruf dengan atribut `visual`.
+Tetapkan jarak huruf
+
+## Sintaks
+```
+visual="tracking:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `tracking:tighter` | `letter-spacing: -0.05em` |
-| `tracking:tight` | `letter-spacing: -0.025em` |
-| `tracking:normal` | `letter-spacing: 0` |
-| `tracking:wide` | `letter-spacing: 0.025em` |
-| `tracking:wider` | `letter-spacing: 0.05em` |
-| `tracking:widest` | `letter-spacing: 0.1em` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `tighter` | `letter-spacing: -0.05em` | Jarak lebih ketat |
+| `tight` | `letter-spacing: -0.025em` | Jarak ketat |
+| `normal` | `letter-spacing: 0` | Jarak normal |
+| `wide` | `letter-spacing: 0.025em` | Jarak luas |
+| `wider` | `letter-spacing: 0.05em` | Jarak lebih luas |
+| `widest` | `letter-spacing: 0.1em` | Jarak paling luas |
 
 ## Contoh
 
 ```html
-<h1 visual="tracking:tight">Tajuk ketat</h1>
-<span visual="tracking:widest">J A R A K</span>
+<div visual="tracking:wide">Wide tracking</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="letter:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

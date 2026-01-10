@@ -1,19 +1,41 @@
-# Warna Teks
+# Text Color
 
-Mengawal warna teks dengan atribut `visual`.
+Tetapkan warna teks
+
+## Sintaks
+```
+visual="text:[color]"
+```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `text:dark` | `color: var(--c-dark)` |
-| `text:grey` | `color: var(--c-grey)` |
-| `text:primary` | `color: var(--c-primary)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `left` | `text-align: left` | Jajar kiri |
+| `center` | `text-align: center` | Jajar tengah |
+| `right` | `text-align: right` | Jajar kanan |
+| `justify` | `text-align: justify` | Jajar sepenuh |
 
 ## Contoh
 
 ```html
-<span visual="text:dark">Teks gelap</span>
-<span visual="text:grey">Teks kelabu</span>
-<span visual="text:primary">Teks primary</span>
+<div visual="text:white">White text</div>
+<div visual="text:center">Centered text</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="text:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

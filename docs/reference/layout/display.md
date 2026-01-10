@@ -1,6 +1,6 @@
 # Display
 
-Control the display type of elements with the `layout` attribute.
+Control the display type of elements
 
 ## Syntax
 ```
@@ -9,15 +9,15 @@ layout="[display-value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `flex` | `display: flex` |
-| `inline-flex` | `display: inline-flex` |
-| `grid` | `display: grid` |
-| `inline-grid` | `display: inline-grid` |
-| `block` | `display: block` |
-| `inline` | `display: inline-block` |
-| `hidden` | `display: none` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `flex` | `display: flex` | Flexbox container |
+| `inline-flex` | `display: inline-flex` | Inline flexbox container |
+| `grid` | `display: grid` | Grid container |
+| `inline-grid` | `display: inline-grid` | Inline grid container |
+| `block` | `display: block` | Block element |
+| `inline` | `display: inline-block` | Inline block element |
+| `hidden` | `display: none` | Hidden element |
 
 ## Examples
 
@@ -25,14 +25,13 @@ layout="[display-value]"
 <div layout="flex">Flexbox container</div>
 <div layout="grid">Grid container</div>
 <div layout="hidden">Hidden element</div>
-<span layout="block">Block-level span</span>
 ```
 
 ## Responsive
 
 ```html
-<!-- Hidden on mobile, visible as flex on tablet+ -->
-<div layout="hidden tab:flex">
-  Only visible on larger screens
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

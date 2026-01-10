@@ -1,26 +1,39 @@
 # Backdrop Invert
 
-Membalikkan warna latar belakang.
+Songsangkan warna latar belakang
 
 ## Sintaks
 ```
-visual="backdrop-invert:none | backdrop-invert:partial | backdrop-invert:full | backdrop-invert"
+visual="backdrop-invert:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `backdrop-invert:none` | `backdrop-filter: invert(0)` |
-| `backdrop-invert:partial` | `backdrop-filter: invert(0.5)` |
-| `backdrop-invert:full` | `backdrop-filter: invert(1)` |
-| `backdrop-invert` | `backdrop-filter: invert(1)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: invert(0%)` | Tiada penyongsangan |
+| `partial` | `backdrop-filter: invert(50%)` | 50% penyongsangan |
+| `full` | `backdrop-filter: invert(100%)` | Penyongsangan penuh |
 
 ## Contoh
 
 ```html
-<div visual="backdrop-invert:none">...</div>     <!-- Tiada pembalikan -->
-<div visual="backdrop-invert:partial">...</div>  <!-- 50% dibalikkan -->
-<div visual="backdrop-invert:full">...</div>     <!-- Dibalikkan sepenuhnya -->
-<div visual="backdrop-invert">...</div>          <!-- Dibalikkan sepenuhnya (lalai) -->
+<div visual="backdrop-invert:full">Inverted backdrop</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

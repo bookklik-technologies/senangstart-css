@@ -1,34 +1,30 @@
 # Columns
 
-Control multi-column text layout with the `layout` attribute.
+Create multi-column layouts
 
 ## Syntax
 ```
-layout="cols:[number]"
+layout="cols:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `cols:1` to `cols:4` | `columns: n` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `1-12` | `columns: {n}` | N columns |
+| `auto` | `columns: auto` | Auto columns |
 
 ## Examples
 
 ```html
-<article layout="cols:2" space="g:medium">
-  Long text that flows into 2 columns automatically
-</article>
-
-<article layout="cols:3">
-  Text flows into 3 columns
-</article>
+<div layout="cols:3">Three columns</div>
 ```
 
 ## Responsive
 
 ```html
-<article layout="cols:1 tab:cols:2 lap:cols:3">
-  1 column → 2 columns → 3 columns
-</article>
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

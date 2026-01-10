@@ -1,6 +1,6 @@
 # Object Fit
 
-Control how images and videos fit their container with the `layout` attribute.
+Control how media content fits its container
 
 ## Syntax
 ```
@@ -9,33 +9,25 @@ layout="object:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `object:contain` | `object-fit: contain` |
-| `object:cover` | `object-fit: cover` |
-| `object:fill` | `object-fit: fill` |
-| `object:none` | `object-fit: none` |
-| `object:scale-down` | `object-fit: scale-down` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `contain` | `object-fit: contain` | Scale to fit, preserve ratio |
+| `cover` | `object-fit: cover` | Cover container, may crop |
+| `fill` | `object-fit: fill` | Stretch to fill |
+| `none` | `object-fit: none` | No scaling |
+| `scale-down` | `object-fit: scale-down` | Smaller of none or contain |
 
 ## Examples
 
 ```html
-<!-- Cover: fills container, may crop -->
-<img layout="object:cover" space="w:[100%] h:[200px]" src="hero.jpg">
-
-<!-- Contain: fits inside, may letterbox -->
-<img layout="object:contain" space="w:[100%] h:[200px]" src="logo.png">
-
-<!-- Fill: stretches to fit -->
-<img layout="object:fill" space="w:[100%] h:[200px]" src="bg.jpg">
+<img layout="object:cover">Cover image</img>
 ```
 
-## Common Patterns
+## Responsive
 
 ```html
-<!-- Card with cover image -->
-<div visual="rounded:medium overflow:hidden">
-  <img layout="object:cover" space="w:[100%] h:[200px]" src="photo.jpg">
-  <div space="p:medium">Card content</div>
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

@@ -1,46 +1,34 @@
 # Overflow
 
-Control how content overflows its container with the `layout` attribute.
+Control content overflow behavior
 
 ## Syntax
 ```
 layout="overflow:[value]"
-layout="overflow-x:[value] | overflow-y:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `overflow:hidden` | `overflow: hidden` |
-| `overflow:auto` | `overflow: auto` |
-| `overflow:scroll` | `overflow: scroll` |
-| `overflow-x:hidden` | `overflow-x: hidden` |
-| `overflow-y:auto` | `overflow-y: auto` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `auto` | `overflow: auto` | Scrollbar when needed |
+| `hidden` | `overflow: hidden` | Hide overflow |
+| `visible` | `overflow: visible` | Show overflow |
+| `scroll` | `overflow: scroll` | Always show scrollbar |
+| `clip` | `overflow: clip` | Clip overflow |
 
 ## Examples
 
 ```html
 <div layout="overflow:hidden">Clipped content</div>
-<div layout="overflow:auto">Scrollable when needed</div>
-<div layout="overflow:scroll">Always shows scrollbar</div>
-
-<!-- Axis-specific -->
-<div layout="overflow-x:auto overflow-y:hidden">
-  Horizontal scroll only
-</div>
+<div layout="overflow:auto">Scrollable</div>
 ```
 
-## Common Patterns
+## Responsive
 
 ```html
-<!-- Scrollable container with fixed height -->
-<div layout="overflow:auto" space="max-h:[400px]">
-  Long scrollable content...
-</div>
-
-<!-- Image container that clips -->
-<div layout="overflow:hidden rounded:big">
-  <img src="photo.jpg" layout="object:cover">
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

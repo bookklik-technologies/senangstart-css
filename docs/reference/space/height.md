@@ -1,0 +1,44 @@
+# Height
+
+Set element height
+
+## Syntax
+```
+space="h:[value]"
+```
+
+## Values
+
+| Property | CSS Output | Description |
+|--------|------------|-------------|
+| `h` | `height: var(--s-{value})` | Height |
+| `min-h` | `min-height: var(--s-{value})` | Minimum height |
+| `max-h` | `max-height: var(--s-{value})` | Maximum height |
+
+## Scale Values
+
+`none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`
+
+## Examples
+
+```html
+<div space="h:[100vh]">Full viewport height</div>
+<div space="min-h:[400px]">Min height</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div space="height:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div space="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

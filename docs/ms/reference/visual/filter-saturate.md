@@ -1,26 +1,41 @@
-# Ketepuan
+# Filter Saturate
 
-Laras ketepuan elemen.
+Laraskan ketepuan
 
 ## Sintaks
 ```
-visual="saturate:none | saturate:low | saturate:normal | saturate:high | saturate:vivid"
+visual="saturate:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `saturate:none` | `filter: saturate(0)` |
-| `saturate:low` | `filter: saturate(0.5)` |
-| `saturate:normal` | `filter: saturate(1)` |
-| `saturate:high` | `filter: saturate(1.5)` |
-| `saturate:vivid` | `filter: saturate(2)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `filter: saturate(0)` | Tidak tepu |
+| `low` | `filter: saturate(0.5)` | Ketepuan rendah |
+| `normal` | `filter: saturate(1)` | Ketepuan normal |
+| `high` | `filter: saturate(1.5)` | Ketepuan tinggi |
+| `vivid` | `filter: saturate(2)` | Sangat tepu |
 
 ## Contoh
 
 ```html
-<img visual="saturate:none" />   <!-- Tiada ketepuan (kelabu) -->
-<img visual="saturate:normal" /> <!-- 100% ketepuan -->
-<img visual="saturate:vivid" />  <!-- 200% ketepuan -->
+<img visual="saturate:vivid">Vivid colors</img>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,6 +1,6 @@
 # Flex Wrap
 
-Control whether flex items wrap with the `layout` attribute.
+Control how flex items wrap
 
 ## Syntax
 ```
@@ -9,25 +9,23 @@ layout="[wrap-value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `wrap` | `flex-wrap: wrap` |
-| `nowrap` | `flex-wrap: nowrap` |
-| `wrap-reverse` | `flex-wrap: wrap-reverse` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `wrap` | `flex-wrap: wrap` | Allow wrapping |
+| `nowrap` | `flex-wrap: nowrap` | Prevent wrapping |
+| `wrap-reverse` | `flex-wrap: wrap-reverse` | Wrap in reverse |
 
 ## Examples
 
 ```html
-<div layout="flex wrap">Items wrap to new lines</div>
-<div layout="flex nowrap">Items stay on one line</div>
-<div layout="flex wrap-reverse">Wrap in reverse order</div>
+<div layout="flex wrap">Wrapping flex</div>
 ```
 
 ## Responsive
 
 ```html
-<!-- No wrap on mobile, wrap on tablet+ -->
-<div layout="flex nowrap tab:wrap">
-  Flexible wrapping behavior
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

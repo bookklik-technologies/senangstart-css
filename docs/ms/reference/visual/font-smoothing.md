@@ -1,16 +1,30 @@
-# Smoothing Fon
+# Font Smoothing
 
-Mengawal rendering fon dengan atribut `visual`.
+Kawal penghalusan fon
+
+## Sintaks
+```
+visual="[smoothing-value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `antialiased` | `-webkit-font-smoothing: antialiased` |
-| `subpixel-antialiased` | `-webkit-font-smoothing: auto` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `antialiased` | `-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale` | Antialias |
+| `subpixel-antialiased` | `-webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto` | Subpixel antialias |
 
 ## Contoh
 
 ```html
-<body visual="antialiased">Fon lebih lancar di macOS</body>
+<body visual="antialiased">Smooth fonts</body>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

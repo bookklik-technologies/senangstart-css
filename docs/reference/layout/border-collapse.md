@@ -1,52 +1,30 @@
 # Border Collapse
 
-Control whether table borders should collapse into a single border or remain separate.
+Control table border collapse
 
 ## Syntax
 ```
-layout="border-collapse | border-separate"
+layout="[border-collapse-value]"
 ```
 
-## Usage
+## Values
 
-Use `border-collapse` to merge adjacent table cell borders, or `border-separate` to keep them separate.
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `border-collapse` | `border-collapse: collapse` | Collapse borders |
+| `border-separate` | `border-collapse: separate` | Separate borders |
+
+## Examples
 
 ```html
-<!-- Collapsed borders (single border between cells) -->
-<table layout="border-collapse">
-  <tr>
-    <td visual="border-gray-300 border-w-[1px]">Cell 1</td>
-    <td visual="border-gray-300 border-w-[1px]">Cell 2</td>
-  </tr>
-  <tr>
-    <td visual="border-gray-300 border-w-[1px]">Cell 3</td>
-    <td visual="border-gray-300 border-w-[1px]">Cell 4</td>
-  </tr>
-</table>
-
-<!-- Separate borders (each cell has its own border) -->
-<table layout="border-separate">
-  <tr>
-    <td visual="border-gray-300 border-w-[1px]">Cell 1</td>
-    <td visual="border-gray-300 border-w-[1px]">Cell 2</td>
-  </tr>
-</table>
+<table layout="border-collapse">Collapsed table</table>
 ```
 
-## Visual Comparison
+## Responsive
 
-| Mode | Description |
-|------|-------------|
-| `border-collapse` | Adjacent cell borders merge into one. This is the traditional table look. |
-| `border-separate` | Each cell maintains its own border. Allows for border-spacing. |
-
-::: tip
-Use `border-separate` with `border-spacing` to add gaps between table cells.
-:::
-
-## Reference
-
-| Token | CSS Output |
-|-------|-----------|
-| `border-collapse` | `border-collapse: collapse;` |
-| `border-separate` | `border-collapse: separate;` |
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

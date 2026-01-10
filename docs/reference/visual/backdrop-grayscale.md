@@ -1,26 +1,39 @@
 # Backdrop Grayscale
 
-Apply grayscale to the backdrop.
+Apply grayscale to backdrop
 
 ## Syntax
 ```
-visual="backdrop-grayscale:none | backdrop-grayscale:partial | backdrop-grayscale:full | backdrop-grayscale"
+visual="backdrop-grayscale:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `backdrop-grayscale:none` | `backdrop-filter: grayscale(0)` |
-| `backdrop-grayscale:partial` | `backdrop-filter: grayscale(0.5)` |
-| `backdrop-grayscale:full` | `backdrop-filter: grayscale(1)` |
-| `backdrop-grayscale` | `backdrop-filter: grayscale(1)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: grayscale(0%)` | No grayscale |
+| `partial` | `backdrop-filter: grayscale(50%)` | 50% grayscale |
+| `full` | `backdrop-filter: grayscale(100%)` | Full grayscale |
 
 ## Examples
 
 ```html
-<div visual="backdrop-grayscale:none">...</div>     <!-- Full color -->
-<div visual="backdrop-grayscale:partial">...</div>  <!-- 50% grayscale -->
-<div visual="backdrop-grayscale:full">...</div>     <!-- Full grayscale -->
-<div visual="backdrop-grayscale">...</div>          <!-- Full grayscale (default) -->
+<div visual="backdrop-grayscale:full">Grayscale backdrop</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

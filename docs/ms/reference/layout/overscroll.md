@@ -1,19 +1,31 @@
 # Overscroll
 
-Mengawal tingkah laku scroll chaining.
+Kawal kelakuan rantaian skrol
+
+## Sintaks
+```
+layout="overscroll:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `overscroll:auto` | `overscroll-behavior: auto` |
-| `overscroll:contain` | `overscroll-behavior: contain` |
-| `overscroll:none` | `overscroll-behavior: none` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `overscroll-behavior: auto` | Kelakuan lalai |
+| `contain` | `overscroll-behavior: contain` | Kandung skrol |
+| `none` | `overscroll-behavior: none` | Tiada rantaian skrol |
 
 ## Contoh
 
 ```html
-<div layout="overflow:auto overscroll:contain">
-  Scroll tidak akan chain ke parent
+<div layout="overscroll:contain">Contained scroll</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

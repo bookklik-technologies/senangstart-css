@@ -1,6 +1,6 @@
 # Line Clamp
 
-Truncate text to a specific number of lines with the `visual` attribute.
+Limit text to specific lines
 
 ## Syntax
 ```
@@ -9,35 +9,32 @@ visual="line-clamp:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `line-clamp:1` | Clamp to 1 line |
-| `line-clamp:2` | Clamp to 2 lines |
-| `line-clamp:3` | Clamp to 3 lines |
-| `line-clamp:4` | Clamp to 4 lines |
-| `line-clamp:5` | Clamp to 5 lines |
-| `line-clamp:6` | Clamp to 6 lines |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `1` | `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1` | Single line |
+| `2` | `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2` | Two lines |
+| `3` | `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3` | Three lines |
+| `none` | `overflow: visible; display: block; -webkit-box-orient: horizontal; -webkit-line-clamp: none` | No clamp |
 
 ## Examples
 
 ```html
-<p visual="line-clamp:2">
-  Long text that will be truncated after 2 lines with ellipsis...
-</p>
-
-<p visual="line-clamp:3">
-  This text will show up to 3 lines before being cut off with an ellipsis.
-</p>
+<p visual="line-clamp:3">Text limited to 3 lines...</p>
 ```
 
-## Common Patterns
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<!-- Card description preview -->
-<div visual="bg:white rounded:medium shadow:small" space="p:medium">
-  <h3>Card Title</h3>
-  <p visual="line-clamp:2 text:grey">
-    Long description that might be very long but will be truncated...
-  </p>
+<div visual="line:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

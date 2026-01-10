@@ -1,6 +1,6 @@
 # Resize
 
-Control whether an element is resizable with the `visual` attribute.
+Control element resizing
 
 ## Syntax
 ```
@@ -9,29 +9,24 @@ visual="resize:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `resize:none` | `resize: none` |
-| `resize:both` | `resize: both` |
-| `resize:x` | `resize: horizontal` |
-| `resize:y` | `resize: vertical` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `resize: none` | No resize |
+| `both` | `resize: both` | Resize both |
+| `x` | `resize: horizontal` | Resize horizontal |
+| `y` | `resize: vertical` | Resize vertical |
 
 ## Examples
 
 ```html
-<!-- Resizable in both directions -->
-<textarea visual="resize:both">Resize me any way</textarea>
-
-<!-- Only horizontally resizable -->
-<div visual="resize:x" layout="overflow:auto">Drag right edge</div>
-
-<!-- Only vertically resizable -->
-<textarea visual="resize:y">Drag bottom edge</textarea>
-
-<!-- Disable resizing -->
-<textarea visual="resize:none">Cannot resize</textarea>
+<textarea visual="resize:y">Vertical resize only</textarea>
 ```
 
-## Notes
+## Responsive
 
-For `resize` to work, the element must have `overflow` set to something other than `visible`.
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

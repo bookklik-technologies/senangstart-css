@@ -1,31 +1,32 @@
 # Text Wrap
 
-Control text wrapping behavior with the `visual` attribute.
+Control text wrapping
 
 ## Syntax
 ```
-visual="text-wrap:wrap | text-wrap:nowrap | text-wrap:balance | text-wrap:pretty"
+visual="[wrap-value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `text-wrap:wrap` | `text-wrap: wrap` |
-| `text-wrap:nowrap` | `text-wrap: nowrap` |
-| `text-wrap:balance` | `text-wrap: balance` |
-| `text-wrap:pretty` | `text-wrap: pretty` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `text-wrap` | `text-wrap: wrap` | Wrap text |
+| `text-nowrap` | `text-wrap: nowrap` | No wrap |
+| `text-balance` | `text-wrap: balance` | Balanced wrap |
+| `text-pretty` | `text-wrap: pretty` | Pretty wrap |
 
 ## Examples
 
 ```html
-<p visual="text-wrap:wrap">Normal wrapping</p>
-<p visual="text-wrap:nowrap">No wrapping</p>
-<h1 visual="text-wrap:balance">Headlines with balanced line breaks</h1>
-<p visual="text-wrap:pretty">Pretty wrapping that avoids orphans</p>
+<h1 visual="text-balance">Balanced heading</h1>
 ```
 
-## Note
+## Responsive
 
-- `text-wrap:balance` creates more even line lengths (good for headings)
-- `text-wrap:pretty` prevents orphan words at the end of paragraphs
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

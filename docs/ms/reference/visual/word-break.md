@@ -1,26 +1,32 @@
 # Word Break
 
-Mengawal kelakuan pemisahan perkataan dengan atribut `visual`.
+Kawal pemecahan perkataan
 
 ## Sintaks
 ```
-visual="word-break:normal | overflow-wrap:break-word | word-break:break-all | word-break:keep-all"
+visual="[break-value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `word-break:normal` | `word-break: normal` |
-| `overflow-wrap:break-word` | `overflow-wrap: break-word` |
-| `word-break:break-all` | `word-break: break-all` |
-| `word-break:keep-all` | `word-break: keep-all` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `break-normal` | `overflow-wrap: normal; word-break: normal` | Pemecahan normal |
+| `break-words` | `overflow-wrap: break-word` | Pecah perkataan |
+| `break-all` | `word-break: break-all` | Pecah semua |
+| `break-keep` | `word-break: keep-all` | Kekalkan semua |
 
 ## Contoh
 
 ```html
-<p visual="word-break:normal">Pemisahan perkataan normal</p>
-<p visual="overflow-wrap:break-word">Perkataaanpanjangdipisahkandisini apabila perlu</p>
-<p visual="word-break:break-all">Dipotongpadamanamanakaksarajikadiperlukan</p>
-<p visual="word-break:keep-all">Kekalkan perkataan bersama (CJK)</p>
+<div visual="break-words">Long words break properly</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

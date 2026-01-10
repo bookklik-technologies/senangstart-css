@@ -1,19 +1,33 @@
 # Object Fit
 
-Mengawal bagaimana imej dan video sesuai dalam kontena.
+Kawal bagaimana kandungan media muat dalam bekasnya
+
+## Sintaks
+```
+layout="object:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `object:contain` | `object-fit: contain` |
-| `object:cover` | `object-fit: cover` |
-| `object:fill` | `object-fit: fill` |
-| `object:none` | `object-fit: none` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `contain` | `object-fit: contain` | Skala untuk muat, kekalkan nisbah |
+| `cover` | `object-fit: cover` | Tutup bekas, mungkin dipotong |
+| `fill` | `object-fit: fill` | Regang untuk mengisi |
+| `none` | `object-fit: none` | Tiada penskalaan |
+| `scale-down` | `object-fit: scale-down` | Lebih kecil antara tiada atau kandung |
 
 ## Contoh
 
 ```html
-<img layout="object:cover" space="w:[100%] h:[200px]" src="hero.jpg">
-<img layout="object:contain" space="w:[100%] h:[200px]" src="logo.png">
+<img layout="object:cover">Cover image</img>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

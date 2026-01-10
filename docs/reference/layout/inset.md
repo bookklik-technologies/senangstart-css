@@ -1,39 +1,44 @@
 # Inset
 
-Control the position of positioned elements with the `layout` attribute.
+Control positioning offsets
 
 ## Syntax
 ```
-layout="inset:[value]"
-layout="top:[value] | right:[value] | bottom:[value] | left:[value]"
-layout="inset-x:[value] | inset-y:[value]"
+layout="inset:[value]" or layout="top:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `inset:0` | `inset: 0` |
-| `inset:small` | `inset: var(--s-small)` |
-| `top:0` | `top: 0` |
-| `right:0` | `right: 0` |
-| `bottom:0` | `bottom: 0` |
-| `left:0` | `left: 0` |
-| `inset-x:0` | `left: 0; right: 0` |
-| `inset-y:0` | `top: 0; bottom: 0` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `inset` | `inset: {value}` | All sides |
+| `inset-x` | `left: {value}; right: {value}` | Left and right |
+| `inset-y` | `top: {value}; bottom: {value}` | Top and bottom |
+| `top` | `top: {value}` | Top offset |
+| `right` | `right: {value}` | Right offset |
+| `bottom` | `bottom: {value}` | Bottom offset |
+| `left` | `left: {value}` | Left offset |
 
 ## Examples
 
 ```html
-<!-- Full overlay -->
-<div layout="absolute inset:0">Covers entire parent</div>
+<div layout="absolute inset:0">Full coverage</div>
+<div layout="absolute top:medium left:medium">Offset</div>
+```
 
-<!-- Bottom-right corner -->
-<div layout="fixed bottom:0 right:0">Bottom-right corner</div>
+## Arbitrary Values
 
-<!-- Top bar -->
-<nav layout="fixed top:0 inset-x:0">Full-width top bar</nav>
+Supports custom values using bracket syntax:
 
-<!-- Arbitrary values -->
-<div layout="absolute top:[20px] left:[50%]">Offset positioning</div>
+```html
+<div layout="inset:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

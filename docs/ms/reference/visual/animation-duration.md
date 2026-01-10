@@ -1,27 +1,43 @@
-# Tempoh Animasi
+# Animation Duration
 
-Kawal berapa lama animasi berjalan.
+Tetapkan tempoh animasi
 
 ## Sintaks
 ```
-visual="animation-duration:instant | animation-duration:quick | animation-duration:fast | animation-duration:normal | animation-duration:slow | animation-duration:slower | animation-duration:lazy"
+visual="animation-duration:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Masa |
-|-------|------|
-| `animation-duration:instant` | 75ms |
-| `animation-duration:quick` | 100ms |
-| `animation-duration:fast` | 150ms |
-| `animation-duration:normal` | 200ms |
-| `animation-duration:slow` | 300ms |
-| `animation-duration:slower` | 500ms |
-| `animation-duration:lazy` | 700ms |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `instant` | `animation-duration: 75ms` | 75ms |
+| `quick` | `animation-duration: 100ms` | 100ms |
+| `fast` | `animation-duration: 150ms` | 150ms |
+| `normal` | `animation-duration: 200ms` | 200ms |
+| `slow` | `animation-duration: 300ms` | 300ms |
+| `slower` | `animation-duration: 500ms` | 500ms |
+| `lazy` | `animation-duration: 700ms` | 700ms |
 
 ## Contoh
 
 ```html
-<div visual="animate:spin animation-duration:fast">...</div>   <!-- 150ms -->
-<div visual="animate:spin animation-duration:slow">...</div>   <!-- 300ms -->
+<div visual="animate:spin animation-duration:slow">Slow spin</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="animation:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

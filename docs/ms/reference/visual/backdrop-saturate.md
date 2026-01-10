@@ -1,28 +1,41 @@
 # Backdrop Saturate
 
-Melaraskan ketepuan latar belakang.
+Laraskan ketepuan latar belakang
 
 ## Sintaks
 ```
-visual="backdrop-saturate:none | backdrop-saturate:low | backdrop-saturate:normal | backdrop-saturate:high | backdrop-saturate:vivid"
+visual="backdrop-saturate:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `backdrop-saturate:none` | `backdrop-filter: saturate(0)` |
-| `backdrop-saturate:low` | `backdrop-filter: saturate(0.5)` |
-| `backdrop-saturate:normal` | `backdrop-filter: saturate(1)` |
-| `backdrop-saturate:high` | `backdrop-filter: saturate(1.5)` |
-| `backdrop-saturate:vivid` | `backdrop-filter: saturate(2)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: saturate(0)` | Tidak tepu |
+| `low` | `backdrop-filter: saturate(0.5)` | Ketepuan rendah |
+| `normal` | `backdrop-filter: saturate(1)` | Ketepuan normal |
+| `high` | `backdrop-filter: saturate(1.5)` | Ketepuan tinggi |
+| `vivid` | `backdrop-filter: saturate(2)` | Sangat tepu |
 
 ## Contoh
 
 ```html
-<div visual="backdrop-saturate:none">...</div>    <!-- Tiada ketepuan -->
-<div visual="backdrop-saturate:low">...</div>     <!-- 50% ketepuan -->
-<div visual="backdrop-saturate:normal">...</div>  <!-- 100% ketepuan -->
-<div visual="backdrop-saturate:high">...</div>    <!-- 150% ketepuan -->
-<div visual="backdrop-saturate:vivid">...</div>   <!-- 200% ketepuan -->
+<div visual="backdrop-saturate:vivid">Vivid backdrop</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

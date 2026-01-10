@@ -1,38 +1,36 @@
 # Vertical Align
 
-Mengawal penjajaran menegak elemen inline dengan atribut `visual`.
+Tetapkan penjajaran menegak
 
 ## Sintaks
 ```
-visual="vertical-align:baseline | vertical-align:top | vertical-align:middle | vertical-align:bottom"
+visual="align-[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `vertical-align:baseline` | `vertical-align: baseline` |
-| `vertical-align:top` | `vertical-align: top` |
-| `vertical-align:middle` | `vertical-align: middle` |
-| `vertical-align:bottom` | `vertical-align: bottom` |
-| `vertical-align:text-top` | `vertical-align: text-top` |
-| `vertical-align:text-bottom` | `vertical-align: text-bottom` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `baseline` | `vertical-align: baseline` | Garis asas |
+| `top` | `vertical-align: top` | Atas |
+| `middle` | `vertical-align: middle` | Tengah |
+| `bottom` | `vertical-align: bottom` | Bawah |
+| `text-top` | `vertical-align: text-top` | Atas teks |
+| `text-bottom` | `vertical-align: text-bottom` | Bawah teks |
+| `sub` | `vertical-align: sub` | Subskrip |
+| `super` | `vertical-align: super` | Superskrip |
 
 ## Contoh
 
 ```html
-<img visual="vertical-align:middle" src="icon.png"> Teks diselaraskan
-
-<span visual="vertical-align:top">Diselaraskan ke atas</span>
-<span visual="vertical-align:bottom">Diselaraskan ke bawah</span>
+<img visual="align-middle">Vertically centered</img>
 ```
 
-## Corak Biasa
+## Responsif
 
 ```html
-<!-- Ikon diselaraskan dengan teks -->
-<span>
-  <img visual="vertical-align:middle" src="icon.svg" space="w:[16px] h:[16px]">
-  Teks di sebelah ikon
-</span>
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

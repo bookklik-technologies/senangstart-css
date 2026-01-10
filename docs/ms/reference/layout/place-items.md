@@ -1,6 +1,6 @@
 # Place Items
 
-Mengawal penjajaran lalai item grid dalam kedua-dua paksi dengan atribut `layout`.
+Pintasan untuk align-items dan justify-items
 
 ## Sintaks
 ```
@@ -9,17 +9,24 @@ layout="place-items:[value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `place-items:start` | `place-items: start` |
-| `place-items:end` | `place-items: end` |
-| `place-items:center` | `place-items: center` |
-| `place-items:stretch` | `place-items: stretch` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `start` | `place-items: start` | Jajar permulaan |
+| `end` | `place-items: end` | Jajar hujung |
+| `center` | `place-items: center` | Jajar tengah |
+| `stretch` | `place-items: stretch` | Regangkan item |
 
 ## Contoh
 
 ```html
-<div layout="grid grid-cols:3 place-items:center">
-  Semua item ditengahkan dalam sel
+<div layout="grid place-items:center">Centered items</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

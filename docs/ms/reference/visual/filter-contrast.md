@@ -1,26 +1,41 @@
-# Kontras
+# Filter Contrast
 
-Laras kontras elemen.
+Laraskan kontras
 
 ## Sintaks
 ```
-visual="contrast:low | contrast:reduced | contrast:normal | contrast:high | contrast:max"
+visual="contrast:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `contrast:low` | `filter: contrast(0.5)` |
-| `contrast:reduced` | `filter: contrast(0.75)` |
-| `contrast:normal` | `filter: contrast(1)` |
-| `contrast:high` | `filter: contrast(1.25)` |
-| `contrast:max` | `filter: contrast(1.5)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `low` | `filter: contrast(0.5)` | Kontras rendah |
+| `reduced` | `filter: contrast(0.75)` | Kontras dikurangkan |
+| `normal` | `filter: contrast(1)` | Kontras normal |
+| `high` | `filter: contrast(1.25)` | Kontras tinggi |
+| `max` | `filter: contrast(1.5)` | Kontras maksimum |
 
 ## Contoh
 
 ```html
-<img visual="contrast:low" />     <!-- 50% kontras -->
-<img visual="contrast:normal" />  <!-- 100% kontras -->
-<img visual="contrast:max" />     <!-- 150% kontras -->
+<img visual="contrast:high">High contrast</img>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

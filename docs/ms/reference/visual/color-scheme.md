@@ -1,37 +1,31 @@
-# Skema Warna
+# Color Scheme
 
-Menunjukkan skema warna pilihan untuk elemen dengan atribut `visual`.
+Tetapkan skema warna pilihan
 
 ## Sintaks
 ```
-visual="color-scheme:[nilai]"
+visual="color-scheme:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `color-scheme:light` | `color-scheme: light` |
-| `color-scheme:dark` | `color-scheme: dark` |
-| `color-scheme:normal` | `color-scheme: normal` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `light` | `color-scheme: light` | Mod cerah |
+| `dark` | `color-scheme: dark` | Mod gelap |
+| `normal` | `color-scheme: normal` | Lalai sistem |
 
 ## Contoh
 
 ```html
-<!-- Paksa skema warna cerah -->
-<div visual="color-scheme:light">
-  UI mod cerah
-</div>
-
-<!-- Paksa skema warna gelap untuk bar skrol dan kawalan borang -->
-<div visual="color-scheme:dark">
-  UI mod gelap
-</div>
+<html visual="color-scheme:dark">Dark mode</html>
 ```
 
-## Kegunaan
+## Responsif
 
-Sifat `color-scheme` mempengaruhi:
-- Warna bar skrol
-- Warna kawalan borang (latar belakang, sempadan)
-- Warna teks dan latar belakang lalai
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

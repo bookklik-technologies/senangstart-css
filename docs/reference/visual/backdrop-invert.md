@@ -1,26 +1,39 @@
 # Backdrop Invert
 
-Invert colors of the backdrop.
+Invert backdrop colors
 
 ## Syntax
 ```
-visual="backdrop-invert:none | backdrop-invert:partial | backdrop-invert:full | backdrop-invert"
+visual="backdrop-invert:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `backdrop-invert:none` | `backdrop-filter: invert(0)` |
-| `backdrop-invert:partial` | `backdrop-filter: invert(0.5)` |
-| `backdrop-invert:full` | `backdrop-filter: invert(1)` |
-| `backdrop-invert` | `backdrop-filter: invert(1)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: invert(0%)` | No inversion |
+| `partial` | `backdrop-filter: invert(50%)` | 50% inversion |
+| `full` | `backdrop-filter: invert(100%)` | Full inversion |
 
 ## Examples
 
 ```html
-<div visual="backdrop-invert:none">...</div>     <!-- No inversion -->
-<div visual="backdrop-invert:partial">...</div>  <!-- 50% inverted -->
-<div visual="backdrop-invert:full">...</div>     <!-- Fully inverted -->
-<div visual="backdrop-invert">...</div>          <!-- Fully inverted (default) -->
+<div visual="backdrop-invert:full">Inverted backdrop</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

@@ -1,37 +1,32 @@
-# Saiz Semula
+# Resize
 
-Mengawal sama ada elemen boleh disaiz semula dengan atribut `visual`.
+Kawal saiz semula elemen
 
 ## Sintaks
 ```
-visual="resize:[nilai]"
+visual="resize:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `resize:none` | `resize: none` |
-| `resize:both` | `resize: both` |
-| `resize:x` | `resize: horizontal` |
-| `resize:y` | `resize: vertical` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `resize: none` | Tiada saiz semula |
+| `both` | `resize: both` | Saiz semula kedua-dua |
+| `x` | `resize: horizontal` | Saiz semula mendatar |
+| `y` | `resize: vertical` | Saiz semula menegak |
 
 ## Contoh
 
 ```html
-<!-- Boleh disaiz semula dalam kedua-dua arah -->
-<textarea visual="resize:both">Saiz semula saya ke mana-mana arah</textarea>
-
-<!-- Hanya boleh disaiz semula mendatar -->
-<div visual="resize:x" layout="overflow:auto">Seret tepi kanan</div>
-
-<!-- Hanya boleh disaiz semula menegak -->
-<textarea visual="resize:y">Seret tepi bawah</textarea>
-
-<!-- Lumpuhkan saiz semula -->
-<textarea visual="resize:none">Tidak boleh saiz semula</textarea>
+<textarea visual="resize:y">Vertical resize only</textarea>
 ```
 
-## Nota
+## Responsif
 
-Untuk `resize` berfungsi, elemen mesti mempunyai `overflow` selain daripada `visible`.
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

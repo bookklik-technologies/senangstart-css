@@ -1,29 +1,30 @@
 # Isolation
 
-Control stacking context creation with the `layout` attribute.
+Create new stacking context
 
 ## Syntax
 ```
-layout="isolate | isolate-auto"
+layout="[isolation-value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `isolate` | `isolation: isolate` |
-| `isolate-auto` | `isolation: auto` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `isolate` | `isolation: isolate` | Create stacking context |
+| `isolate-auto` | `isolation: auto` | Auto isolation |
 
 ## Examples
 
 ```html
-<div layout="isolate">
-  <div layout="relative z:high">Isolated z-index context</div>
-</div>
+<div layout="isolate">Isolated</div>
 ```
 
-## Use Cases
+## Responsive
 
-- Creating new stacking contexts
-- Preventing z-index conflicts between components
-- Isolating blend modes or filters
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

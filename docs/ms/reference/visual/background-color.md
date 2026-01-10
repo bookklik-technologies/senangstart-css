@@ -1,31 +1,33 @@
-# Warna Latar Belakang
+# Background Color
 
-Mengawal warna latar belakang dengan atribut `visual`.
+Tetapkan warna latar belakang
 
 ## Sintaks
 ```
-visual="bg:[warna]"
+visual="bg:[color]"
 ```
-
-## Nilai
-
-| Property | Output CSS |
-|----------|------------|
-| `bg:white` | `background-color: var(--c-white)` |
-| `bg:primary` | `background-color: var(--c-primary)` |
-| `bg:[#hex]` | `background-color: #hex` |
 
 ## Contoh
 
 ```html
-<div visual="bg:white">Latar belakang putih</div>
-<div visual="bg:primary">Warna primary</div>
-<div visual="bg:[#FF5733]">Hex tersuai</div>
+<div visual="bg:primary">Primary background</div>
+<div visual="bg:blue-500">Blue background</div>
+<div visual="bg:[#FF5733]">Custom color</div>
 ```
 
-## Responsif & Keadaan (States)
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<div visual="bg:white hover:bg:light">Lalu kursor untuk tukar</div>
-<div visual="bg:light tab:bg:white">Berbeza pada tablet+</div>
+<div visual="background:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

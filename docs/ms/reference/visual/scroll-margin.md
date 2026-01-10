@@ -1,41 +1,41 @@
-# Margin Skrol
+# Scroll Margin
 
-Mengawal margin snap skrol dengan atribut `visual`.
+Tetapkan margin skrol untuk snap
 
 ## Sintaks
 ```
-visual="scroll-m:[nilai]"
-visual="scroll-m-t:[nilai]"
-visual="scroll-m-r:[nilai]"
-visual="scroll-m-b:[nilai]"
-visual="scroll-m-l:[nilai]"
-visual="scroll-m-x:[nilai]"
-visual="scroll-m-y:[nilai]"
+visual="scroll-m:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `scroll-m:4` | `scroll-margin: var(--s-4)` |
-| `scroll-m-t:8` | `scroll-margin-top: var(--s-8)` |
-| `scroll-m-x:4` | `scroll-margin-left/right: var(--s-4)` |
-| `scroll-m:[20px]` | `scroll-margin: 20px` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `scroll-m` | `scroll-margin: {value}` | Semua sisi |
+| `scroll-m-t` | `scroll-margin-top: {value}` | Margin atas |
+| `scroll-m-r` | `scroll-margin-right: {value}` | Margin kanan |
+| `scroll-m-b` | `scroll-margin-bottom: {value}` | Margin bawah |
+| `scroll-m-l` | `scroll-margin-left: {value}` | Margin kiri |
 
 ## Contoh
 
 ```html
-<!-- Ofset kedudukan snap skrol untuk header tetap -->
-<section visual="scroll-m-t:16" id="section1">
-  Snap 4rem di bawah atas viewport
-</section>
-
-<!-- Semua sisi -->
-<div visual="scroll-m:4">Margin sama rata sekeliling</div>
+<div visual="scroll-m:medium">Scroll margin</div>
 ```
 
-## Kegunaan
+## Nilai Arbitrari
 
-Gunakan `scroll-margin` untuk:
-- Mengambil kira header tetap semasa skrol ke sauh
-- Menambah ruang bernafas pada titik snap skrol
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="scroll:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

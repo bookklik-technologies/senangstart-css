@@ -1,25 +1,30 @@
-# Animation Iteration Count
+# Animation Iteration
 
-Control how many times the animation repeats.
+Set animation iteration count
 
 ## Syntax
 ```
-visual="animation-iteration:1 | animation-iteration:2 | animation-iteration:infinite"
+visual="animation-iteration:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `animation-iteration:1` | `animation-iteration-count: 1` |
-| `animation-iteration:2` | `animation-iteration-count: 2` |
-| `animation-iteration:3` | `animation-iteration-count: 3` |
-| `animation-iteration:infinite` | `animation-iteration-count: infinite` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `1` | `animation-iteration-count: 1` | Once |
+| `infinite` | `animation-iteration-count: infinite` | Forever |
 
 ## Examples
 
 ```html
-<div visual="animate:bounce animation-iteration:1">...</div>        <!-- Once -->
-<div visual="animate:bounce animation-iteration:2">...</div>        <!-- Twice -->
-<div visual="animate:bounce animation-iteration:infinite">...</div> <!-- Forever -->
+<div visual="animate:bounce animation-iteration:1">Bounce once</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

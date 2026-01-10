@@ -1,36 +1,45 @@
-# Perspective Origin
+# Transform Perspective Origin
 
-Set the vanishing point for 3D transforms.
+Set perspective origin point
 
 ## Syntax
 ```
-visual="perspective-origin:center | perspective-origin:top | perspective-origin:bottom-right"
+visual="perspective-origin:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `perspective-origin:center` | `perspective-origin: center` |
-| `perspective-origin:top` | `perspective-origin: top` |
-| `perspective-origin:top-right` | `perspective-origin: top right` |
-| `perspective-origin:right` | `perspective-origin: right` |
-| `perspective-origin:bottom-right` | `perspective-origin: bottom right` |
-| `perspective-origin:bottom` | `perspective-origin: bottom` |
-| `perspective-origin:bottom-left` | `perspective-origin: bottom left` |
-| `perspective-origin:left` | `perspective-origin: left` |
-| `perspective-origin:top-left` | `perspective-origin: top left` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `center` | `perspective-origin: center` | Center origin |
+| `top` | `perspective-origin: top` | Top origin |
+| `bottom` | `perspective-origin: bottom` | Bottom origin |
+| `left` | `perspective-origin: left` | Left origin |
+| `right` | `perspective-origin: right` | Right origin |
+| `top-left` | `perspective-origin: top left` | Top left |
+| `top-right` | `perspective-origin: top right` | Top right |
+| `bottom-left` | `perspective-origin: bottom left` | Bottom left |
+| `bottom-right` | `perspective-origin: bottom right` | Bottom right |
 
 ## Examples
 
 ```html
-<div visual="perspective-origin:center">...</div>       <!-- center (default) -->
-<div visual="perspective-origin:top">...</div>          <!-- top -->
-<div visual="perspective-origin:top-right">...</div>    <!-- top right -->
-<div visual="perspective-origin:right">...</div>        <!-- right -->
-<div visual="perspective-origin:bottom-right">...</div> <!-- bottom right -->
-<div visual="perspective-origin:bottom">...</div>       <!-- bottom -->
-<div visual="perspective-origin:bottom-left">...</div>  <!-- bottom left -->
-<div visual="perspective-origin:left">...</div>         <!-- left -->
-<div visual="perspective-origin:top-left">...</div>     <!-- top left -->
+<div visual="perspective-origin:top">Top origin</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="transform:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

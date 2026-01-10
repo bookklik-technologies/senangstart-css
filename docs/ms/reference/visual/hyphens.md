@@ -1,24 +1,31 @@
 # Hyphens
 
-Mengawal pemenggalan perkataan.
+Kawal tanda sempang
 
 ## Sintaks
 ```
-visual="hyphens:none | hyphens:manual | hyphens:auto"
+visual="hyphens:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `hyphens:none` | `hyphens: none` |
-| `hyphens:manual` | `hyphens: manual` |
-| `hyphens:auto` | `hyphens: auto` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `hyphens: none` | Tiada sempang |
+| `manual` | `hyphens: manual` | Sempang manual |
+| `auto` | `hyphens: auto` | Sempang automatik |
 
 ## Contoh
 
 ```html
-<p visual="hyphens:auto" lang="ms">
-  Pemenggalan automatik untuk perkataan panjang
-</p>
+<p visual="hyphens:auto">Automatic hyphenation</p>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

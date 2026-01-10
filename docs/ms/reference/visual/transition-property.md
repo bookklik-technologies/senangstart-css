@@ -1,43 +1,34 @@
 # Transition Property
 
-Mengawal sifat CSS mana yang akan ditransisikan.
+Tetapkan harta peralihan
 
 ## Sintaks
 ```
-visual="transition | transition:all | transition:colors | transition:opacity | transition:shadow | transition:transform | transition-none"
+visual="transition:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `transition` | Sifat transisi lalai |
-| `transition:all` | `transition-property: all` |
-| `transition:colors` | `transition-property: color, background-color, border-color, fill, stroke` |
-| `transition:opacity` | `transition-property: opacity` |
-| `transition:shadow` | `transition-property: box-shadow` |
-| `transition:transform` | `transition-property: transform` |
-| `transition-none` | `transition-property: none` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `transition-property: none` | Tiada peralihan |
+| `all` | `transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Semua harta |
+| `colors` | `transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Harta warna |
+| `opacity` | `transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Kelegapan sahaja |
+| `shadow` | `transition-property: box-shadow; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Bayang sahaja |
+| `transform` | `transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Transformasi sahaja |
 
 ## Contoh
 
 ```html
-<div visual="transition">...</div>           <!-- Sifat lalai -->
-<div visual="transition:all">...</div>       <!-- Semua sifat -->
-<div visual="transition:colors">...</div>    <!-- Berkaitan warna sahaja -->
-<div visual="transition:opacity">...</div>   <!-- Kelegapan sahaja -->
-<div visual="transition:shadow">...</div>    <!-- Box shadow sahaja -->
-<div visual="transition:transform">...</div> <!-- Transform sahaja -->
-<div visual="transition-none">...</div>      <!-- Tiada transisi -->
+<button visual="transition:all hover:bg:primary">Smooth hover</button>
 ```
 
-## Penggunaan Asas
+## Responsif
 
 ```html
-<button 
-  visual="transition bg:blue-500 hover:bg:blue-700" 
-  space="p-x:medium p-y:small"
->
-  Hover saya
-</button>
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

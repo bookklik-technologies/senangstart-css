@@ -1,53 +1,41 @@
-# Animasi Terbina Dalam
+# Animation Builtin
 
-Animasi CSS terbina siap dengan kawalan masa semula jadi.
+Terapkan animasi terbina dalam
 
 ## Sintaks
 ```
-visual="animate:spin | animate:ping | animate:pulse | animate:bounce | animate:none"
+visual="animate:[value]"
 ```
 
-## Spin
+## Nilai
 
-Animasi berputar untuk penunjuk pemuatan.
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `animation: none` | Tiada animasi |
+| `spin` | `animation: spin 1s linear infinite` | Berpusing |
+| `ping` | `animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite` | Kesan ping |
+| `pulse` | `animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite` | Berdenyut |
+| `bounce` | `animation: bounce 1s infinite` | Melantun |
+
+## Contoh
 
 ```html
-<div visual="animate:spin" space="w:big h:big">
-  <svg>...</svg>
+<div visual="animate:spin">Loading...</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="animation:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
-```
-
-## Ping
-
-Kesan ping yang memancar keluar, sesuai untuk lencana notifikasi.
-
-```html
-<span layout="relative inline-flex">
-  <span visual="animate:ping bg:red-400 opacity:75" layout="absolute inline-flex" space="h:full w:full rounded:full"></span>
-  <span visual="bg:red-500 rounded:full" space="h:small w:small"></span>
-</span>
-```
-
-## Pulse
-
-Kesan denyutan halus.
-
-```html
-<div visual="animate:pulse bg:gray-200" space="h:medium w:giant rounded:small"></div>
-```
-
-## Bounce
-
-Animasi melantun untuk menarik perhatian.
-
-```html
-<div visual="animate:bounce" space="w:big h:big">
-  ↓
-</div>
-```
-
-## Tiada Animasi
-
-```html
-<div visual="animate:none">...</div>
 ```

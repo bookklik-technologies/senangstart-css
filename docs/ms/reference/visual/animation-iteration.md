@@ -1,24 +1,30 @@
-# Kiraan Iterasi Animasi
+# Animation Iteration
 
-Kawal berapa kali animasi diulang.
+Tetapkan bilangan ulangan animasi
 
 ## Sintaks
 ```
-visual="animation-iteration:1 | animation-iteration:2 | animation-iteration:infinite"
+visual="animation-iteration:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `animation-iteration:1` | `animation-iteration-count: 1` |
-| `animation-iteration:2` | `animation-iteration-count: 2` |
-| `animation-iteration:infinite` | `animation-iteration-count: infinite` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `1` | `animation-iteration-count: 1` | Sekali |
+| `infinite` | `animation-iteration-count: infinite` | Selamanya |
 
 ## Contoh
 
 ```html
-<div visual="animate:bounce animation-iteration:1">...</div>        <!-- Sekali -->
-<div visual="animate:bounce animation-iteration:2">...</div>        <!-- Dua kali -->
-<div visual="animate:bounce animation-iteration:infinite">...</div> <!-- Selamanya -->
+<div visual="animate:bounce animation-iteration:1">Bounce once</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

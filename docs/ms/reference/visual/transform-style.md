@@ -1,39 +1,30 @@
 # Transform Style
 
-Mengawal sama ada elemen anak diposisikan dalam ruang 3D.
+Tetapkan gaya transform 3D
 
 ## Sintaks
 ```
-visual="transform-style:flat | transform-style:preserve-3d"
+visual="transform-style:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `transform-style:flat` | `transform-style: flat` |
-| `transform-style:preserve-3d` | `transform-style: preserve-3d` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `flat` | `transform-style: flat` | Persembahan rata |
+| `preserve-3d` | `transform-style: preserve-3d` | Kekalkan 3D |
 
-## Flat (Lalai)
-
-Anak-anak diratakan ke satah induk.
+## Contoh
 
 ```html
-<div visual="transform-style:flat">
-  <div visual="rotate:[60deg]">Diratakan</div>
-</div>
+<div visual="transform-style:preserve-3d">3D space</div>
 ```
 
-## Preserve 3D
-
-Anak-anak mengekalkan kedudukan 3D mereka.
+## Responsif
 
 ```html
-<div visual="transform-style:preserve-3d">
-  <div visual="rotate:[60deg]">3D Dikekalkan</div>
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```
-
-## Kes Penggunaan
-
-Diperlukan untuk mencipta kesan 3D seperti kad flip di mana elemen anak perlu mengekalkan kedudukan 3D mereka berbanding induk.

@@ -1,38 +1,41 @@
 # Transition Delay
 
-Mengawal kelewatan sebelum transisi bermula menggunakan perkataan semula jadi.
+Tetapkan kelewatan peralihan
 
 ## Sintaks
 ```
-visual="delay:instant | delay:quick | delay:fast | delay:normal | delay:slow | delay:slower | delay:lazy"
+visual="delay:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Masa |
-|-------|------|
-| `delay:instant` | 75ms |
-| `delay:quick` | 100ms |
-| `delay:fast` | 150ms |
-| `delay:normal` | 200ms |
-| `delay:slow` | 300ms |
-| `delay:slower` | 500ms |
-| `delay:lazy` | 700ms |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `instant` | `transition-delay: 75ms` | Kelewatan 75ms |
+| `quick` | `transition-delay: 100ms` | Kelewatan 100ms |
+| `fast` | `transition-delay: 150ms` | Kelewatan 150ms |
+| `normal` | `transition-delay: 200ms` | Kelewatan 200ms |
+| `slow` | `transition-delay: 300ms` | Kelewatan 300ms |
 
 ## Contoh
 
 ```html
-<div visual="transition delay:instant">...</div>  <!-- Kelewatan 75ms -->
-<div visual="transition delay:quick">...</div>    <!-- Kelewatan 100ms -->
-<div visual="transition delay:fast">...</div>     <!-- Kelewatan 150ms -->
-<div visual="transition delay:normal">...</div>   <!-- Kelewatan 200ms -->
-<div visual="transition delay:slow">...</div>     <!-- Kelewatan 300ms -->
-<div visual="transition delay:slower">...</div>   <!-- Kelewatan 500ms -->
-<div visual="transition delay:lazy">...</div>     <!-- Kelewatan 700ms -->
+<div visual="transition:all delay:slow">Delayed transition</div>
 ```
 
-## Kelewatan Sewenang-Wenang
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<div visual="transition delay:[1s]">...</div>
+<div visual="transition:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,42 +1,38 @@
 # Stroke
 
-Control the stroke color of SVG elements with the `visual` attribute.
+Set SVG stroke color
 
 ## Syntax
 ```
-visual="stroke:[value]"
+visual="stroke:[color]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `stroke:none` | `stroke: none` |
-| `stroke:current` | `stroke: currentColor` |
-| `stroke:primary` | `stroke: var(--c-primary)` |
-| `stroke:blue-500` | `stroke: var(--c-blue-500)` |
-| `stroke:[#ff0000]` | `stroke: #ff0000` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `stroke: none` | No stroke |
+| `current` | `stroke: currentColor` | Current color |
 
 ## Examples
 
 ```html
-<svg visual="stroke:primary fill:none">
-  <circle cx="50" cy="50" r="40" />
-</svg>
-
-<svg visual="stroke:current text:blue-500">
-  <path d="M10 10 H 90 V 90 H 10 Z" />
-</svg>
-
-<svg visual="stroke:red-500 stroke-w:2">
-  <line x1="0" y1="0" x2="100" y2="100" />
-</svg>
+<svg visual="stroke:primary stroke-w:2">...</svg>
 ```
 
-## States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<svg visual="stroke:gray-400 hover:stroke:primary fill:none">
-  <rect x="10" y="10" width="80" height="80" />
-</svg>
+<div visual="stroke:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

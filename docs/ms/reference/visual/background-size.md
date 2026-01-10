@@ -1,24 +1,39 @@
-# Saiz Latar Belakang
+# Background Size
 
-Mengawal saiz imej latar belakang.
+Tetapkan saiz latar
 
 ## Sintaks
 ```
-visual="bg-size:[nilai]"
+visual="bg-size:[value]"
 ```
 
 ## Nilai
 
-| Property | Output CSS |
-|----------|------------|
-| `bg-size:auto` | `background-size: auto` |
-| `bg-size:cover` | `background-size: cover` |
-| `bg-size:contain` | `background-size: contain` |
-| `bg-size:[100px_100px]` | `background-size: 100px 100px` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `background-size: auto` | Saiz asal |
+| `cover` | `background-size: cover` | Tutup bekas |
+| `contain` | `background-size: contain` | Kandung dalam bekas |
 
 ## Contoh
 
 ```html
-<div visual="bg-image:[hero.jpg] bg-size:cover">Tutup seluruh bekas (container)</div>
-<div visual="bg-image:[logo.png] bg-size:[200px_auto]">Saiz tersuai</div>
+<div visual="bg-size:cover">Full coverage background</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="background:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,38 +1,30 @@
 # Forced Color Adjust
 
-Control how an element's colors adapt to forced colors mode (Windows High Contrast) with the `visual` attribute.
+Control forced colors mode behavior
 
 ## Syntax
 ```
-visual="forced-colors:[value]"
+visual="forced-color:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `forced-colors:auto` | `forced-color-adjust: auto` |
-| `forced-colors:none` | `forced-color-adjust: none` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `auto` | `forced-color-adjust: auto` | Auto adjust |
+| `none` | `forced-color-adjust: none` | No adjustment |
 
 ## Examples
 
 ```html
-<!-- Allow system to adjust colors (default) -->
-<div visual="forced-colors:auto">
-  Colors will adapt to high contrast mode
-</div>
-
-<!-- Preserve original colors in high contrast mode -->
-<div visual="forced-colors:none bg:primary text:white">
-  Colors stay as defined
-</div>
+<div visual="forced-color:none">Preserve colors in high contrast</div>
 ```
 
-## Use Cases
+## Responsive
 
-Use `forced-colors:none` sparingly for:
-- Brand elements where color is essential to meaning
-- Charts and graphs with color-coded data
-- UI where forced colors would harm usability
-
-> ⚠️ **Accessibility note**: Use `forced-colors:none` carefully. High contrast mode is an accessibility feature, and overriding it may reduce accessibility for users who need it.
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

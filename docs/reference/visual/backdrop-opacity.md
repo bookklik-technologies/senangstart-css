@@ -1,28 +1,39 @@
 # Backdrop Opacity
 
-Adjust opacity of the backdrop filter.
+Set backdrop opacity
 
 ## Syntax
 ```
-visual="backdrop-opacity:invisible | backdrop-opacity:faint | backdrop-opacity:half | backdrop-opacity:visible | backdrop-opacity:solid"
+visual="backdrop-opacity:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `backdrop-opacity:invisible` | `backdrop-filter: opacity(0)` |
-| `backdrop-opacity:faint` | `backdrop-filter: opacity(0.25)` |
-| `backdrop-opacity:half` | `backdrop-filter: opacity(0.5)` |
-| `backdrop-opacity:visible` | `backdrop-filter: opacity(0.75)` |
-| `backdrop-opacity:solid` | `backdrop-filter: opacity(1)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `0` | `backdrop-filter: opacity(0)` | Transparent |
+| `50` | `backdrop-filter: opacity(0.5)` | 50% opacity |
+| `100` | `backdrop-filter: opacity(1)` | Fully opaque |
 
 ## Examples
 
 ```html
-<div visual="backdrop-opacity:invisible">...</div>  <!-- 0% opacity -->
-<div visual="backdrop-opacity:faint">...</div>      <!-- 25% opacity -->
-<div visual="backdrop-opacity:half">...</div>       <!-- 50% opacity -->
-<div visual="backdrop-opacity:visible">...</div>    <!-- 75% opacity -->
-<div visual="backdrop-opacity:solid">...</div>      <!-- 100% opacity -->
+<div visual="backdrop-opacity:50">Semi-transparent backdrop</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

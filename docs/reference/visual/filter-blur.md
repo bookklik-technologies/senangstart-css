@@ -1,44 +1,43 @@
-# Blur
+# Filter Blur
 
-Apply blur effects to elements.
+Apply blur filter
 
 ## Syntax
 ```
-visual="blur:none | blur:tiny | blur:small | blur:medium | blur:big | blur:giant | blur:vast"
+visual="blur:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `blur:none` | `filter: blur(0)` |
-| `blur:tiny` | `filter: blur(2px)` |
-| `blur:small` | `filter: blur(4px)` |
-| `blur:medium` | `filter: blur(8px)` |
-| `blur:big` | `filter: blur(12px)` |
-| `blur:giant` | `filter: blur(24px)` |
-| `blur:vast` | `filter: blur(48px)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `filter: blur(0)` | No blur |
+| `tiny` | `filter: blur(2px)` | Tiny blur |
+| `small` | `filter: blur(4px)` | Small blur |
+| `medium` | `filter: blur(8px)` | Medium blur |
+| `big` | `filter: blur(12px)` | Large blur |
+| `giant` | `filter: blur(24px)` | Giant blur |
+| `vast` | `filter: blur(48px)` | Vast blur |
 
 ## Examples
 
 ```html
-<img visual="blur:none" />    <!-- No blur -->
-<img visual="blur:tiny" />    <!-- 2px blur -->
-<img visual="blur:small" />   <!-- 4px blur -->
-<img visual="blur:medium" />  <!-- 8px blur -->
-<img visual="blur:big" />     <!-- 12px blur -->
-<img visual="blur:giant" />   <!-- 24px blur -->
-<img visual="blur:vast" />    <!-- 48px blur -->
+<div visual="blur:medium">Blurred element</div>
 ```
 
 ## Arbitrary Values
 
+Supports custom values using bracket syntax:
+
 ```html
-<img visual="blur:[20px]" />
+<div visual="filter:[custom-value]">Custom</div>
 ```
 
-## With States
+## Responsive
 
 ```html
-<img visual="blur:medium hover:blur:none" />
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

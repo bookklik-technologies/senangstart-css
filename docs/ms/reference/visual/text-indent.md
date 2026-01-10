@@ -1,19 +1,37 @@
-# Inden Teks
+# Text Indent
 
-Mengawal inden baris pertama.
+Tetapkan inden teks
+
+## Sintaks
+```
+visual="indent:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `indent:small` | `text-indent: var(--s-small)` |
-| `indent:medium` | `text-indent: var(--s-medium)` |
-| `indent:[2em]` | `text-indent: 2em` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `0` | `text-indent: 0` | Tiada inden |
 
 ## Contoh
 
 ```html
-<p visual="indent:medium">
-  Baris pertama perenggan ini diinden.
-</p>
+<p visual="indent:medium">Indented paragraph</p>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="text:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,30 +1,31 @@
 # Hyphens
 
-Control hyphenation with the `visual` attribute.
+Control hyphenation
 
 ## Syntax
 ```
-visual="hyphens:none | hyphens:manual | hyphens:auto"
+visual="hyphens:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `hyphens:none` | `hyphens: none` |
-| `hyphens:manual` | `hyphens: manual` |
-| `hyphens:auto` | `hyphens: auto` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `hyphens: none` | No hyphens |
+| `manual` | `hyphens: manual` | Manual hyphens |
+| `auto` | `hyphens: auto` | Auto hyphens |
 
 ## Examples
 
 ```html
-<p visual="hyphens:auto" lang="en">
-  Automatic hyphenation for long words like extraordinarily
-</p>
-<p visual="hyphens:manual">Only hyphenate where &shy; is used</p>
-<p visual="hyphens:none">No hyphenation allowed</p>
+<p visual="hyphens:auto">Automatic hyphenation</p>
 ```
 
-## Note
+## Responsive
 
-For `hyphens:auto` to work, you must set the `lang` attribute on the element or a parent.
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
+```

@@ -1,58 +1,49 @@
 # Margin
 
-Control outer spacing with the `space` attribute.
+Add margin to elements
 
 ## Syntax
 ```
-space="m:[value]"
-space="m-t:[value] | m-r:[value] | m-b:[value] | m-l:[value]"
-space="m-x:[value] | m-y:[value]"
+space="m:[value]" or space="m-{side}:[value]"
 ```
 
-## Properties
+## Values
 
-| Property | CSS Output |
-|----------|------------|
-| `m` | `margin` (all sides) |
-| `m-t` | `margin-top` |
-| `m-r` | `margin-right` |
-| `m-b` | `margin-bottom` |
-| `m-l` | `margin-left` |
-| `m-x` | `margin-left` + `margin-right` |
-| `m-y` | `margin-top` + `margin-bottom` |
+| Property | CSS Output | Description |
+|--------|------------|-------------|
+| `m` | `margin: var(--s-{value})` | All sides |
+| `m-t` | `margin-top: var(--s-{value})` | Top |
+| `m-r` | `margin-right: var(--s-{value})` | Right |
+| `m-b` | `margin-bottom: var(--s-{value})` | Bottom |
+| `m-l` | `margin-left: var(--s-{value})` | Left |
+| `m-x` | `margin-left: var(--s-{value}) margin-right: var(--s-{value})` | Horizontal |
+| `m-y` | `margin-top: var(--s-{value}) margin-bottom: var(--s-{value})` | Vertical |
 
 ## Scale Values
 
-| Keyword | Value |
-|---------|-------|
-| `none` | 0px |
-| `tiny` | 4px |
-| `small` | 8px |
-| `medium` | 16px |
-| `big` | 32px |
-| `giant` | 64px |
-| `vast` | 128px |
+`none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`, `auto`
 
 ## Examples
 
 ```html
-<!-- All sides -->
-<div space="m:medium">All sides margin</div>
+<div space="m:medium">Margin all sides</div>
+<div space="m-x:auto">Centered horizontally</div>
+<div space="m-t:big">Top margin</div>
+```
 
-<!-- Bottom margin -->
-<div space="m-b:big">Bottom margin</div>
+## Arbitrary Values
 
-<!-- Center horizontally -->
-<div space="m-x:auto">Centered element</div>
+Supports custom values using bracket syntax:
 
-<!-- Arbitrary values -->
-<div space="m-t:[5rem]">5rem top margin</div>
+```html
+<div space="margin:[custom-value]">Custom</div>
 ```
 
 ## Responsive
 
 ```html
-<div space="m:small tab:m:medium lap:m:big">
-  Progressive margin that grows with screen size
+<!-- Responsive example -->
+<div space="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

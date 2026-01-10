@@ -1,50 +1,37 @@
 # State Prefixes
 
-Apply visual styles conditionally based on element state.
+Apply styles on specific states
 
-## Available Prefixes
+## Syntax
+```
+visual="hover:... focus:... active:..."
+```
 
-| Prefix | Applies when |
-|--------|--------------|
-| `hover:` | Mouse is over the element |
-| `focus:` | Element has focus |
-| `active:` | Element is being pressed |
-| `disabled:` | Element is disabled |
-| `dark:` | Dark mode is active |
+## Values
+
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `hover:` | `:hover` | On hover |
+| `focus:` | `:focus` | On focus |
+| `active:` | `:active` | On active |
+| `disabled:` | `:disabled` | When disabled |
+| `visited:` | `:visited` | When visited |
+| `first:` | `:first-child` | First child |
+| `last:` | `:last-child` | Last child |
+| `odd:` | `:nth-child(odd)` | Odd children |
+| `even:` | `:nth-child(even)` | Even children |
 
 ## Examples
 
 ```html
-<!-- Hover effects -->
-<button visual="bg:primary hover:bg:[#2563EB]">
-  Hover effect
-</button>
-
-<!-- Focus effects -->
-<input visual="border:grey focus:border:primary">
-
-<!-- Link with hover -->
-<a visual="text:grey hover:text:primary underline hover:no-underline">
-  Link with hover
-</a>
-
-<!-- Disabled state -->
-<button visual="bg:primary disabled:opacity:[0.5]" disabled>
-  Disabled button
-</button>
-
-<!-- Combined states -->
-<button visual="bg:white hover:bg:light active:bg:grey">
-  Multiple states
-</button>
+<button visual="hover:bg:primary focus:outline:primary">Interactive button</button>
 ```
 
-## Combining with Responsive
-
-State prefixes can be combined with responsive prefixes:
+## Responsive
 
 ```html
-<div visual="bg:white tab:hover:bg:light">
-  Hover effect only on tablet+
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

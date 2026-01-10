@@ -1,54 +1,32 @@
-# Sifat Item Flex
+# Flex Items
 
-Mengawal cara item flex membesar, mengecil, dan bersaiz dengan atribut `layout`.
+Kawal kelakuan kembang dan kecil flex
 
 ## Sintaks
 ```
-layout="grow | grow-0 | shrink | shrink-0"
-layout="flex:[value]"
-layout="basis:[value]"
+layout="[flex-item-value]"
 ```
 
-## Grow & Shrink
+## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `grow` | `flex-grow: 1` |
-| `grow-0` | `flex-grow: 0` |
-| `shrink` | `flex-shrink: 1` |
-| `shrink-0` | `flex-shrink: 0` |
-
-## Flex Shorthand
-
-| Nilai | Output CSS |
-|-------|------------|
-| `flex:1` | `flex: 1 1 0%` |
-| `flex:auto` | `flex: 1 1 auto` |
-| `flex:initial` | `flex: 0 1 auto` |
-| `flex:none` | `flex: none` |
-
-## Flex Basis
-
-| Nilai | Output CSS |
-|-------|------------|
-| `basis:small` | `flex-basis: var(--s-small)` |
-| `basis:[200px]` | `flex-basis: 200px` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `grow` | `flex-grow: 1` | Benarkan item berkembang |
+| `grow-0` | `flex-grow: 0` | Halang perkembangan |
+| `shrink` | `flex-shrink: 1` | Benarkan item mengecil |
+| `shrink-0` | `flex-shrink: 0` | Halang pengecilan |
 
 ## Contoh
 
 ```html
-<div layout="flex">
-  <div layout="grow">Mengambil ruang baki</div>
-  <div layout="shrink-0">Tidak akan mengecil</div>
-</div>
+<div layout="grow">Growing item</div>
+```
 
-<div layout="flex">
-  <div layout="flex:1">Lebar sama</div>
-  <div layout="flex:1">Lebar sama</div>
-</div>
+## Responsif
 
-<div layout="flex">
-  <div layout="basis:[200px] shrink-0">Tetap 200px</div>
-  <div layout="grow">Mengambil selebihnya</div>
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

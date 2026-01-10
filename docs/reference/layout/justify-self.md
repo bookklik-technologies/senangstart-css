@@ -1,6 +1,6 @@
 # Justify Self
 
-Control horizontal alignment of individual grid items with the `layout` attribute.
+Align single grid item on inline axis
 
 ## Syntax
 ```
@@ -9,20 +9,25 @@ layout="justify-self:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `justify-self:auto` | `justify-self: auto` |
-| `justify-self:start` | `justify-self: start` |
-| `justify-self:end` | `justify-self: end` |
-| `justify-self:center` | `justify-self: center` |
-| `justify-self:stretch` | `justify-self: stretch` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `auto` | `justify-self: auto` | Auto alignment |
+| `start` | `justify-self: start` | Start alignment |
+| `end` | `justify-self: end` | End alignment |
+| `center` | `justify-self: center` | Center alignment |
+| `stretch` | `justify-self: stretch` | Stretch item |
 
 ## Examples
 
 ```html
-<div layout="grid grid-cols:3">
-  <div layout="justify-self:end">Aligned right in cell</div>
-  <div layout="justify-self:center">Centered in cell</div>
-  <div>Default alignment</div>
+<div layout="justify-self:end">End aligned</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

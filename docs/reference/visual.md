@@ -4,7 +4,7 @@ The `visual` attribute controls colors, textures, typography, and appearance.
 
 ## Colors
 
-- [Background](./visual/background) - `bg:white`, `bg:primary`, `bg:[#hex]`
+- [Background Color](./visual/background-color) - `bg:white`, `bg:primary`, `bg:[#hex]`
 - [Text Color](./visual/text-color) - `text:dark`, `text:grey`, `text:primary`
 
 ## Typography

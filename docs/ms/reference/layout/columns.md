@@ -1,34 +1,30 @@
 # Columns
 
-Mengawal susun atur teks berbilang lajur dengan atribut `layout`.
+Cipta susun atur berbilang lajur
 
 ## Sintaks
 ```
-layout="cols:[number]"
+layout="cols:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `cols:1` hingga `cols:4` | `columns: n` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `1-12` | `columns: {n}` | N lajur |
+| `auto` | `columns: auto` | Lajur automatik |
 
 ## Contoh
 
 ```html
-<article layout="cols:2" space="g:medium">
-  Teks panjang yang mengalir ke dalam 2 lajur secara automatik
-</article>
-
-<article layout="cols:3">
-  Teks mengalir ke dalam 3 lajur
-</article>
+<div layout="cols:3">Three columns</div>
 ```
 
 ## Responsif
 
 ```html
-<article layout="cols:1 tab:cols:2 lap:cols:3">
-  1 lajur → 2 lajur → 3 lajur
-</article>
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

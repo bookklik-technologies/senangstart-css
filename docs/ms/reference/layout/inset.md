@@ -1,22 +1,44 @@
 # Inset
 
-Mengawal kedudukan elemen yang diposisikan.
+Kawal ofset kedudukan
+
+## Sintaks
+```
+layout="inset:[value]" or layout="top:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `inset:0` | `inset: 0` |
-| `top:0` | `top: 0` |
-| `right:0` | `right: 0` |
-| `bottom:0` | `bottom: 0` |
-| `left:0` | `left: 0` |
-| `inset-x:0` | `left: 0; right: 0` |
-| `inset-y:0` | `top: 0; bottom: 0` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `inset` | `inset: {value}` | Semua sisi |
+| `inset-x` | `left: {value}; right: {value}` | Kiri dan kanan |
+| `inset-y` | `top: {value}; bottom: {value}` | Atas dan bawah |
+| `top` | `top: {value}` | Ofset atas |
+| `right` | `right: {value}` | Ofset kanan |
+| `bottom` | `bottom: {value}` | Ofset bawah |
+| `left` | `left: {value}` | Ofset kiri |
 
 ## Contoh
 
 ```html
-<div layout="absolute inset:0">Meliputi seluruh parent</div>
-<div layout="fixed bottom:0 right:0">Sudut bawah-kanan</div>
+<div layout="absolute inset:0">Full coverage</div>
+<div layout="absolute top:medium left:medium">Offset</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div layout="inset:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

@@ -1,36 +1,43 @@
-# Perspektif
+# Transform Perspective
 
-Mengawal jarak perspektif untuk transformasi 3D menggunakan adjektif semula jadi.
+Tetapkan perspektif 3D
 
 ## Sintaks
 ```
-visual="perspective:none | perspective:small | perspective:medium | perspective:big | perspective:giant | perspective:vast"
+visual="perspective:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Jarak | Kesan |
-|-------|-------|-------|
-| `perspective:none` | - | Tiada perspektif 3D |
-| `perspective:small` | 250px | Kesan 3D sangat dramatik |
-| `perspective:medium` | 500px | **Lalai**, 3D seimbang |
-| `perspective:big` | 750px | Kesan 3D halus |
-| `perspective:giant` | 1000px | 3D sangat halus |
-| `perspective:vast` | 1500px | Penampilan hampir rata |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `perspective: none` | Tiada perspektif |
+| `dramatic` | `perspective: 100px` | Perspektif dramatik |
+| `near` | `perspective: 300px` | Perspektif dekat |
+| `normal` | `perspective: 500px` | Perspektif normal |
+| `midrange` | `perspective: 800px` | Perspektif pertengahan |
+| `far` | `perspective: 1000px` | Perspektif jauh |
+| `distant` | `perspective: 1200px` | Perspektif jauh sekali |
 
 ## Contoh
 
 ```html
-<div visual="perspective:none">...</div>    <!-- Tiada perspektif -->
-<div visual="perspective:small">...</div>   <!-- 250px - 3D Dramatik -->
-<div visual="perspective:medium">...</div>  <!-- 500px - 3D Standard -->
-<div visual="perspective:big">...</div>     <!-- 750px - 3D Halus -->
-<div visual="perspective:giant">...</div>   <!-- 1000px - Sangat halus -->
-<div visual="perspective:vast">...</div>    <!-- 1500px - Hampir rata -->
+<div visual="perspective:normal">3D container</div>
 ```
 
-## Nilai Sewenang-Wenang
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<div visual="perspective:[800px]">...</div>
+<div visual="transform:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

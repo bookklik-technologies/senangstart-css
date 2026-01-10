@@ -1,29 +1,30 @@
 # Isolation
 
-Mengawal penciptaan konteks susun dengan atribut `layout`.
+Cipta konteks tindanan baharu
 
 ## Sintaks
 ```
-layout="isolate | isolate-auto"
+layout="[isolation-value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `isolate` | `isolation: isolate` |
-| `isolate-auto` | `isolation: auto` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `isolate` | `isolation: isolate` | Cipta konteks tindanan |
+| `isolate-auto` | `isolation: auto` | Pengasingan automatik |
 
 ## Contoh
 
 ```html
-<div layout="isolate">
-  <div layout="relative z:high">Konteks z-index yang diasingkan</div>
-</div>
+<div layout="isolate">Isolated</div>
 ```
 
-## Kes Penggunaan
+## Responsif
 
-- Mencipta konteks susun baharu
-- Mencegah konflik z-index antara komponen
-- Mengasingkan mod campuran atau penapis
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

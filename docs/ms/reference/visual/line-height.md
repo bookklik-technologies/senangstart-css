@@ -1,21 +1,42 @@
-# Ketinggian Baris
+# Line Height
 
-Mengawal ketinggian baris dengan atribut `visual`.
+Tetapkan ketinggian baris
+
+## Sintaks
+```
+visual="leading:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `leading:none` | `line-height: 1` |
-| `leading:tight` | `line-height: 1.25` |
-| `leading:snug` | `line-height: 1.375` |
-| `leading:normal` | `line-height: 1.5` |
-| `leading:relaxed` | `line-height: 1.625` |
-| `leading:loose` | `line-height: 2` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `line-height: 1` | Tiada ketinggian tambahan |
+| `tight` | `line-height: 1.25` | Peneraju ketat |
+| `snug` | `line-height: 1.375` | Peneraju ketat |
+| `normal` | `line-height: 1.5` | Peneraju normal |
+| `relaxed` | `line-height: 1.625` | Peneraju santai |
+| `loose` | `line-height: 2` | Peneraju longgar |
 
 ## Contoh
 
 ```html
-<p visual="leading:relaxed">Pembacaan yang selesa</p>
-<h1 visual="leading:tight">Tajuk ketat</h1>
+<div visual="leading:relaxed">Relaxed line height</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="line:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

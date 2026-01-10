@@ -1,46 +1,34 @@
 # Overflow
 
-Mengawal cara kandungan melimpah daripada bekasnya dengan atribut `layout`.
+Kawal kelakuan limpahan kandungan
 
 ## Sintaks
 ```
 layout="overflow:[value]"
-layout="overflow-x:[value] | overflow-y:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `overflow:hidden` | `overflow: hidden` |
-| `overflow:auto` | `overflow: auto` |
-| `overflow:scroll` | `overflow: scroll` |
-| `overflow-x:hidden` | `overflow-x: hidden` |
-| `overflow-y:auto` | `overflow-y: auto` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `overflow: auto` | Bar skrol bila perlu |
+| `hidden` | `overflow: hidden` | Sembunyikan limpahan |
+| `visible` | `overflow: visible` | Tunjukkan limpahan |
+| `scroll` | `overflow: scroll` | Sentiasa tunjuk bar skrol |
+| `clip` | `overflow: clip` | Potong limpahan |
 
 ## Contoh
 
 ```html
-<div layout="overflow:hidden">Kandungan dipotong</div>
-<div layout="overflow:auto">Boleh ditatal apabila perlu</div>
-<div layout="overflow:scroll">Sentiasa menunjukkan bar tatal</div>
-
-<!-- Khusus paksi -->
-<div layout="overflow-x:auto overflow-y:hidden">
-  Tatal mendatar sahaja
-</div>
+<div layout="overflow:hidden">Clipped content</div>
+<div layout="overflow:auto">Scrollable</div>
 ```
 
-## Corak Biasa
+## Responsif
 
 ```html
-<!-- Bekas boleh ditatal dengan ketinggian tetap -->
-<div layout="overflow:auto" space="max-h:[400px]">
-  Kandungan panjang boleh ditatal...
-</div>
-
-<!-- Bekas imej yang dipotong -->
-<div layout="overflow:hidden rounded:big">
-  <img src="photo.jpg" layout="object:cover">
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

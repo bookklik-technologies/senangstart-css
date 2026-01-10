@@ -1,23 +1,32 @@
-# Pembalutan Teks
+# Text Wrap
 
-Mengawal tingkah laku pembalutan teks.
+Kawal pembalutan teks
 
 ## Sintaks
 ```
-visual="text-wrap:wrap | text-wrap:nowrap | text-wrap:balance | text-wrap:pretty"
+visual="[wrap-value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `text-wrap:wrap` | `text-wrap: wrap` |
-| `text-wrap:nowrap` | `text-wrap: nowrap` |
-| `text-wrap:balance` | `text-wrap: balance` |
-| `text-wrap:pretty` | `text-wrap: pretty` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `text-wrap` | `text-wrap: wrap` | Balut teks |
+| `text-nowrap` | `text-wrap: nowrap` | Tiada balutan |
+| `text-balance` | `text-wrap: balance` | Balutan seimbang |
+| `text-pretty` | `text-wrap: pretty` | Balutan cantik |
 
 ## Contoh
 
 ```html
-<h1 visual="text-wrap:balance">Tajuk dengan baris seimbang</h1>
+<h1 visual="text-balance">Balanced heading</h1>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

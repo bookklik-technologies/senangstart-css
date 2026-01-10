@@ -1,6 +1,6 @@
 # Align Items
 
-Mengawal penjajaran menegak item flex dengan atribut `layout`.
+Jajarkan item sepanjang paksi silang
 
 ## Sintaks
 ```
@@ -9,27 +9,25 @@ layout="items:[value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `items:start` | `align-items: flex-start` |
-| `items:end` | `align-items: flex-end` |
-| `items:center` | `align-items: center` |
-| `items:baseline` | `align-items: baseline` |
-| `items:stretch` | `align-items: stretch` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `start` | `align-items: flex-start` | Jajar ke permulaan |
+| `end` | `align-items: flex-end` | Jajar ke hujung |
+| `center` | `align-items: center` | Tengahkan item |
+| `baseline` | `align-items: baseline` | Jajar ke garis asas |
+| `stretch` | `align-items: stretch` | Regangkan item |
 
 ## Contoh
 
 ```html
-<div layout="flex items:center">Item ditengahkan secara menegak</div>
-<div layout="flex items:start">Item diselaraskan ke atas</div>
-<div layout="flex items:end">Item diselaraskan ke bawah</div>
-<div layout="flex items:baseline">Diselaraskan mengikut garis dasar teks</div>
+<div layout="flex items:center">Centered</div>
 ```
 
 ## Responsif
 
 ```html
-<div layout="flex items:start tab:items:center">
-  Atas pada mudah alih, tengah pada tablet+
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

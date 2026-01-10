@@ -1,21 +1,31 @@
 # Grid Column Span
 
-Mengawal berapa banyak lajur yang diliputi oleh item grid.
+Merentangi lajur grid
+
+## Sintaks
+```
+layout="col-span:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `col-span:1` hingga `col-span:12` | `grid-column: span n / span n` |
-| `col-span:full` | `grid-column: 1 / -1` |
-| `col-start:1` hingga `col-start:13` | `grid-column-start: n` |
-| `col-end:1` hingga `col-end:13` | `grid-column-end: n` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `1-12` | `grid-column: span {n} / span {n}` | Merentangi N lajur |
+| `full` | `grid-column: 1 / -1` | Merentangi semua lajur |
 
 ## Contoh
 
 ```html
-<div layout="grid grid-cols:4">
-  <div layout="col-span:2">Merentasi 2 lajur</div>
-  <div layout="col-span:full">Baris penuh</div>
+<div layout="col-span:2">Spans 2 columns</div>
+<div layout="col-span:full">Full width</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

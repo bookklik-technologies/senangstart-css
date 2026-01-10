@@ -1,34 +1,41 @@
-# Brightness
+# Filter Brightness
 
-Adjust the brightness of elements.
+Adjust brightness
 
 ## Syntax
 ```
-visual="brightness:dim | brightness:dark | brightness:normal | brightness:bright | brightness:vivid"
+visual="brightness:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `brightness:dim` | `filter: brightness(0.5)` |
-| `brightness:dark` | `filter: brightness(0.75)` |
-| `brightness:normal` | `filter: brightness(1)` |
-| `brightness:bright` | `filter: brightness(1.25)` |
-| `brightness:vivid` | `filter: brightness(1.5)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `dim` | `filter: brightness(0.5)` | 50% brightness |
+| `dark` | `filter: brightness(0.75)` | 75% brightness |
+| `normal` | `filter: brightness(1)` | Normal brightness |
+| `bright` | `filter: brightness(1.25)` | 125% brightness |
+| `vivid` | `filter: brightness(1.5)` | 150% brightness |
 
 ## Examples
 
 ```html
-<img visual="brightness:dim" />     <!-- 50% brightness -->
-<img visual="brightness:dark" />    <!-- 75% brightness -->
-<img visual="brightness:normal" />  <!-- 100% brightness -->
-<img visual="brightness:bright" />  <!-- 125% brightness -->
-<img visual="brightness:vivid" />   <!-- 150% brightness -->
+<img visual="brightness:bright">Brighter image</img>
 ```
 
-## With States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<img visual="brightness:dark hover:brightness:normal" />
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

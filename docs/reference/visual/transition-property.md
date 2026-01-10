@@ -1,43 +1,34 @@
 # Transition Property
 
-Control which CSS properties to transition.
+Set transition properties
 
 ## Syntax
 ```
-visual="transition | transition:all | transition:colors | transition:opacity | transition:shadow | transition:transform | transition-none"
+visual="transition:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `transition` | Default transitioning properties |
-| `transition:all` | `transition-property: all` |
-| `transition:colors` | `transition-property: color, background-color, border-color, fill, stroke` |
-| `transition:opacity` | `transition-property: opacity` |
-| `transition:shadow` | `transition-property: box-shadow` |
-| `transition:transform` | `transition-property: transform` |
-| `transition-none` | `transition-property: none` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `none` | `transition-property: none` | No transition |
+| `all` | `transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | All properties |
+| `colors` | `transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Color properties |
+| `opacity` | `transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Opacity only |
+| `shadow` | `transition-property: box-shadow; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Shadow only |
+| `transform` | `transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms` | Transform only |
 
 ## Examples
 
 ```html
-<div visual="transition">...</div>           <!-- Default properties -->
-<div visual="transition:all">...</div>       <!-- All properties -->
-<div visual="transition:colors">...</div>    <!-- Color-related only -->
-<div visual="transition:opacity">...</div>   <!-- Opacity only -->
-<div visual="transition:shadow">...</div>    <!-- Box shadow only -->
-<div visual="transition:transform">...</div> <!-- Transform only -->
-<div visual="transition-none">...</div>      <!-- No transition -->
+<button visual="transition:all hover:bg:primary">Smooth hover</button>
 ```
 
-## Basic Usage
+## Responsive
 
 ```html
-<button 
-  visual="transition bg:blue-500 hover:bg:blue-700" 
-  space="p-x:medium p-y:small"
->
-  Hover me
-</button>
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

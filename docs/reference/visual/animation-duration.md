@@ -1,32 +1,43 @@
 # Animation Duration
 
-Control how long the animation takes using natural words.
+Set animation duration
 
 ## Syntax
 ```
-visual="animation-duration:instant | animation-duration:quick | animation-duration:fast | animation-duration:normal | animation-duration:slow | animation-duration:slower | animation-duration:lazy"
+visual="animation-duration:[value]"
 ```
 
 ## Values
 
-| Value | Time | Feel |
-|-------|------|------|
-| `animation-duration:instant` | 75ms | Barely perceptible |
-| `animation-duration:quick` | 100ms | Snappy |
-| `animation-duration:fast` | 150ms | Responsive |
-| `animation-duration:normal` | 200ms | **Default**, balanced |
-| `animation-duration:slow` | 300ms | Smooth, noticeable |
-| `animation-duration:slower` | 500ms | Deliberate, elegant |
-| `animation-duration:lazy` | 700ms | Relaxed, dramatic |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `instant` | `animation-duration: 75ms` | 75ms |
+| `quick` | `animation-duration: 100ms` | 100ms |
+| `fast` | `animation-duration: 150ms` | 150ms |
+| `normal` | `animation-duration: 200ms` | 200ms |
+| `slow` | `animation-duration: 300ms` | 300ms |
+| `slower` | `animation-duration: 500ms` | 500ms |
+| `lazy` | `animation-duration: 700ms` | 700ms |
 
 ## Examples
 
 ```html
-<div visual="animate:spin animation-duration:instant">...</div>  <!-- 75ms -->
-<div visual="animate:spin animation-duration:quick">...</div>    <!-- 100ms -->
-<div visual="animate:spin animation-duration:fast">...</div>     <!-- 150ms -->
-<div visual="animate:spin animation-duration:normal">...</div>   <!-- 200ms -->
-<div visual="animate:spin animation-duration:slow">...</div>     <!-- 300ms -->
-<div visual="animate:spin animation-duration:slower">...</div>   <!-- 500ms -->
-<div visual="animate:spin animation-duration:lazy">...</div>     <!-- 700ms -->
+<div visual="animate:spin animation-duration:slow">Slow spin</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="animation:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

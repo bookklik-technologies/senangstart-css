@@ -1,26 +1,39 @@
 # Backdrop Sepia
 
-Menerapkan tona sepia pada latar belakang.
+Terapkan sepia pada latar belakang
 
 ## Sintaks
 ```
-visual="backdrop-sepia:none | backdrop-sepia:partial | backdrop-sepia:full | backdrop-sepia"
+visual="backdrop-sepia:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `backdrop-sepia:none` | `backdrop-filter: sepia(0)` |
-| `backdrop-sepia:partial` | `backdrop-filter: sepia(0.5)` |
-| `backdrop-sepia:full` | `backdrop-filter: sepia(1)` |
-| `backdrop-sepia` | `backdrop-filter: sepia(1)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `none` | `backdrop-filter: sepia(0%)` | Tiada sepia |
+| `partial` | `backdrop-filter: sepia(50%)` | 50% sepia |
+| `full` | `backdrop-filter: sepia(100%)` | Sepia penuh |
 
 ## Contoh
 
 ```html
-<div visual="backdrop-sepia:none">...</div>     <!-- Tiada sepia -->
-<div visual="backdrop-sepia:partial">...</div>  <!-- 50% sepia -->
-<div visual="backdrop-sepia:full">...</div>     <!-- Sepia penuh -->
-<div visual="backdrop-sepia">...</div>          <!-- Sepia penuh (lalai) -->
+<div visual="backdrop-sepia:full">Vintage backdrop</div>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

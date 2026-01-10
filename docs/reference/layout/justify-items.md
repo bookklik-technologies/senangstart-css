@@ -1,6 +1,6 @@
 # Justify Items
 
-Control default horizontal alignment of grid items with the `layout` attribute.
+Align grid items on inline axis
 
 ## Syntax
 ```
@@ -9,21 +9,24 @@ layout="justify-items:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `justify-items:start` | `justify-items: start` |
-| `justify-items:end` | `justify-items: end` |
-| `justify-items:center` | `justify-items: center` |
-| `justify-items:stretch` | `justify-items: stretch` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `start` | `justify-items: start` | Start alignment |
+| `end` | `justify-items: end` | End alignment |
+| `center` | `justify-items: center` | Center alignment |
+| `stretch` | `justify-items: stretch` | Stretch items |
 
 ## Examples
 
 ```html
-<div layout="grid grid-cols:3 justify-items:center">
-  All items centered horizontally in their cells
-</div>
+<div layout="grid justify-items:center">Centered items</div>
+```
 
-<div layout="grid grid-cols:3 justify-items:start">
-  All items aligned to start of their cells
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div layout="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

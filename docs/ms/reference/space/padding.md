@@ -1,51 +1,49 @@
 # Padding
 
-Mengawal jarak dalaman dengan atribut `space`.
+Tambah padding pada elemen
 
-## Sifat
+## Sintaks
+```
+space="p:[value]" or space="p-{side}:[value]"
+```
 
-| Property | Output CSS |
-|----------|------------|
-| `p` | `padding` (semua sisi) |
-| `p-t` | `padding-top` |
-| `p-r` | `padding-right` |
-| `p-b` | `padding-bottom` |
-| `p-l` | `padding-left` |
-| `p-x` | `padding-left` + `padding-right` |
-| `p-y` | `padding-top` + `padding-bottom` |
+## Nilai
+
+| Harta | CSS Output | Huraian |
+|--------|------------|-------------|
+| `p` | `padding: var(--s-{value})` | Semua sisi |
+| `p-t` | `padding-top: var(--s-{value})` | Atas |
+| `p-r` | `padding-right: var(--s-{value})` | Kanan |
+| `p-b` | `padding-bottom: var(--s-{value})` | Bawah |
+| `p-l` | `padding-left: var(--s-{value})` | Kiri |
+| `p-x` | `padding-left: var(--s-{value}) padding-right: var(--s-{value})` | Mendatar |
+| `p-y` | `padding-top: var(--s-{value}) padding-bottom: var(--s-{value})` | Menegak |
 
 ## Nilai Skala
 
-| Kata Kunci | Nilai |
-|------------|-------|
-| `none` | 0px |
-| `tiny` | 4px |
-| `small` | 8px |
-| `medium` | 16px |
-| `big` | 32px |
-| `giant` | 64px |
-| `vast` | 128px |
+`none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`
 
 ## Contoh
 
 ```html
-<!-- Semua sisi -->
-<div space="p:medium">Padding semua sisi</div>
+<div space="p:medium">Padding all sides</div>
+<div space="p-x:big p-y:small">Different padding</div>
+<div space="p:[20px]">Custom padding</div>
+```
 
-<!-- Horizontal dan menegak -->
-<div space="p-x:big p-y:small">Horizontal/menegak</div>
+## Nilai Arbitrari
 
-<!-- Sisi individu -->
-<div space="p-t:tiny p-b:giant">Atas dan bawah</div>
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
-<!-- Nilai arbitrari -->
-<div space="p:[20px_40px]">20px menegak, 40px horizontal</div>
+```html
+<div space="padding:[custom-value]">Custom</div>
 ```
 
 ## Responsif
 
 ```html
-<section space="p:small tab:p:medium lap:p:big desk:p:giant">
-  Padding yang membesar dengan saiz skrin
-</section>
+<!-- Contoh responsif -->
+<div space="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

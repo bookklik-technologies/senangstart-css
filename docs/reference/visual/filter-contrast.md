@@ -1,34 +1,41 @@
-# Contrast
+# Filter Contrast
 
-Adjust the contrast of elements.
+Adjust contrast
 
 ## Syntax
 ```
-visual="contrast:low | contrast:reduced | contrast:normal | contrast:high | contrast:max"
+visual="contrast:[value]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `contrast:low` | `filter: contrast(0.5)` |
-| `contrast:reduced` | `filter: contrast(0.75)` |
-| `contrast:normal` | `filter: contrast(1)` |
-| `contrast:high` | `filter: contrast(1.25)` |
-| `contrast:max` | `filter: contrast(1.5)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `low` | `filter: contrast(0.5)` | Low contrast |
+| `reduced` | `filter: contrast(0.75)` | Reduced contrast |
+| `normal` | `filter: contrast(1)` | Normal contrast |
+| `high` | `filter: contrast(1.25)` | High contrast |
+| `max` | `filter: contrast(1.5)` | Maximum contrast |
 
 ## Examples
 
 ```html
-<img visual="contrast:low" />      <!-- 50% contrast -->
-<img visual="contrast:reduced" />  <!-- 75% contrast -->
-<img visual="contrast:normal" />   <!-- 100% contrast -->
-<img visual="contrast:high" />     <!-- 125% contrast -->
-<img visual="contrast:max" />      <!-- 150% contrast -->
+<img visual="contrast:high">High contrast</img>
 ```
 
-## With States
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<img visual="contrast:normal hover:contrast:high" />
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

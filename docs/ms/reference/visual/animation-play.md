@@ -1,29 +1,30 @@
-# Status Main Animasi
+# Animation Play
 
-Jeda atau mainkan animasi.
+Kawal keadaan main animasi
 
 ## Sintaks
 ```
-visual="animation-play:running | animation-play:paused"
+visual="animation-play:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `animation-play:running` | `animation-play-state: running` |
-| `animation-play:paused` | `animation-play-state: paused` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `running` | `animation-play-state: running` | Animasi berjalan |
+| `paused` | `animation-play-state: paused` | Animasi dijeda |
 
 ## Contoh
 
 ```html
-<div visual="animate:spin animation-play:running">...</div> <!-- Berjalan -->
-<div visual="animate:spin animation-play:paused">...</div>  <!-- Dijeda -->
+<div visual="animate:spin hover:animation-play:paused">Pause on hover</div>
 ```
 
-## Dengan Keadaan
+## Responsif
 
 ```html
-<!-- Jeda apabila hover -->
-<div visual="animate:spin hover:animation-play:paused">...</div>
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

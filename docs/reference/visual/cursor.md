@@ -1,6 +1,6 @@
 # Cursor
 
-Control the mouse cursor style with the `visual` attribute.
+Set cursor style
 
 ## Syntax
 ```
@@ -9,37 +9,29 @@ visual="cursor:[value]"
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `cursor:auto` | `cursor: auto` |
-| `cursor:default` | `cursor: default` |
-| `cursor:pointer` | `cursor: pointer` |
-| `cursor:wait` | `cursor: wait` |
-| `cursor:text` | `cursor: text` |
-| `cursor:move` | `cursor: move` |
-| `cursor:help` | `cursor: help` |
-| `cursor:not-allowed` | `cursor: not-allowed` |
-| `cursor:none` | `cursor: none` |
-| `cursor:grab` | `cursor: grab` |
-| `cursor:grabbing` | `cursor: grabbing` |
-| `cursor:crosshair` | `cursor: crosshair` |
-| `cursor:zoom-in` | `cursor: zoom-in` |
-| `cursor:zoom-out` | `cursor: zoom-out` |
-| `cursor:col-resize` | `cursor: col-resize` |
-| `cursor:row-resize` | `cursor: row-resize` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `auto` | `cursor: auto` | Auto cursor |
+| `default` | `cursor: default` | Default cursor |
+| `pointer` | `cursor: pointer` | Pointer cursor |
+| `wait` | `cursor: wait` | Wait cursor |
+| `text` | `cursor: text` | Text cursor |
+| `move` | `cursor: move` | Move cursor |
+| `not-allowed` | `cursor: not-allowed` | Not allowed |
+| `grab` | `cursor: grab` | Grab cursor |
+| `grabbing` | `cursor: grabbing` | Grabbing cursor |
 
 ## Examples
 
 ```html
-<button visual="cursor:pointer">Click me</button>
-<div visual="cursor:move">Draggable</div>
-<button visual="cursor:not-allowed" disabled>Disabled</button>
+<button visual="cursor:pointer">Clickable</button>
 ```
 
-## States
+## Responsive
 
 ```html
-<div visual="cursor:grab active:cursor:grabbing">
-  Drag me
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```

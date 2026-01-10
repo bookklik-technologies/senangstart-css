@@ -1,21 +1,32 @@
 # Grid Columns
 
-Mentakrifkan lajur grid dengan atribut `layout`.
+Tentukan templat lajur grid
+
+## Sintaks
+```
+layout="grid-cols:[value]"
+```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `grid-cols:1` hingga `grid-cols:12` | `grid-template-columns: repeat(n, minmax(0, 1fr))` |
-| `grid-cols:none` | `grid-template-columns: none` |
-| `grid-cols:[200px_1fr_1fr]` | `grid-template-columns: 200px 1fr 1fr` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `1-12` | `grid-template-columns: repeat({n}, minmax(0, 1fr))` | N lajur sama |
+| `none` | `grid-template-columns: none` | Tiada lajur ditakrifkan |
+| `subgrid` | `grid-template-columns: subgrid` | Guna grid induk |
 
 ## Contoh
 
 ```html
-<div layout="grid grid-cols:3" space="g:medium">
-  <div>Lajur 1</div>
-  <div>Lajur 2</div>
-  <div>Lajur 3</div>
+<div layout="grid grid-cols:3">3 columns</div>
+<div layout="grid grid-cols:12">12 columns</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```

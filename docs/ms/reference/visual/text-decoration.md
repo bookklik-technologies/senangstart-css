@@ -1,27 +1,32 @@
-# Hiasan Teks
+# Text Decoration
 
-Mengawal hiasan teks dengan atribut `visual`.
+Tetapkan hiasan teks
 
 ## Sintaks
 ```
-visual="text-decoration-line:underline | text-decoration-style:wavy | text-decoration-color:[#ff0000]"
+visual="[decoration-value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `text-decoration-line:underline` | `text-decoration-line: underline` |
-| `text-decoration-line:overline` | `text-decoration-line: overline` |
-| `text-decoration-line:line-through` | `text-decoration-line: line-through` |
-| `text-decoration-line:none` | `text-decoration-line: none` |
-| `text-decoration-style:wavy` | `text-decoration-style: wavy` |
-| `text-decoration-style:dashed` | `text-decoration-style: dashed` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `underline` | `text-decoration-line: underline` | Garis bawah |
+| `overline` | `text-decoration-line: overline` | Garis atas |
+| `line-through` | `text-decoration-line: line-through` | Garis potong |
+| `no-underline` | `text-decoration-line: none` | Tiada hiasan |
 
 ## Contoh
 
 ```html
-<a visual="text-decoration-line:underline hover:text-decoration-line:none">Pautan</a>
-<span visual="text-decoration-line:line-through">Teks dipadam</span>
-<span visual="text-decoration-line:underline text-decoration-style:wavy">Ralat</span>
+<a visual="no-underline">No underline link</a>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

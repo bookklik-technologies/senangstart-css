@@ -1,33 +1,45 @@
-# Asal Transform
+# Transform Origin
 
-Tetapkan titik asal untuk transformasi.
+Tetapkan titik asal transformasi
 
 ## Sintaks
 ```
-visual="origin:center | origin:top | origin:bottom-right"
+visual="origin:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `origin:center` | `transform-origin: center` |
-| `origin:top` | `transform-origin: top` |
-| `origin:top-right` | `transform-origin: top right` |
-| `origin:bottom` | `transform-origin: bottom` |
-| `origin:bottom-left` | `transform-origin: bottom left` |
-| `origin:left` | `transform-origin: left` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `center` | `transform-origin: center` | Asal tengah |
+| `top` | `transform-origin: top` | Asal atas |
+| `top-right` | `transform-origin: top right` | Atas kanan |
+| `right` | `transform-origin: right` | Asal kanan |
+| `bottom-right` | `transform-origin: bottom right` | Bawah kanan |
+| `bottom` | `transform-origin: bottom` | Asal bawah |
+| `bottom-left` | `transform-origin: bottom left` | Bawah kiri |
+| `left` | `transform-origin: left` | Asal kiri |
+| `top-left` | `transform-origin: top left` | Atas kiri |
 
 ## Contoh
 
 ```html
-<img visual="origin:center" />       <!-- tengah (lalai) -->
-<img visual="origin:top" />          <!-- atas -->
-<img visual="origin:bottom-right" /> <!-- bawah kanan -->
+<div visual="rotate:45 origin:top-left">Rotate from corner</div>
 ```
 
 ## Nilai Arbitrari
 
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
 ```html
-<img visual="origin:[33%_75%]" />
+<div visual="transform:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

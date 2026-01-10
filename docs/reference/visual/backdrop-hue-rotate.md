@@ -1,26 +1,39 @@
 # Backdrop Hue Rotate
 
-Rotate the hue of the backdrop.
+Rotate backdrop hue
 
 ## Syntax
 ```
-visual="backdrop-hue-rotate:15 | backdrop-hue-rotate:30 | backdrop-hue-rotate:60 | backdrop-hue-rotate:90 | backdrop-hue-rotate:180"
+visual="backdrop-hue-rotate:[degrees]"
 ```
 
 ## Values
 
-| Value | CSS Output |
-|-------|------------|
-| `backdrop-hue-rotate:15` | `backdrop-filter: hue-rotate(15deg)` |
-| `backdrop-hue-rotate:30` | `backdrop-filter: hue-rotate(30deg)` |
-| `backdrop-hue-rotate:60` | `backdrop-filter: hue-rotate(60deg)` |
-| `backdrop-hue-rotate:90` | `backdrop-filter: hue-rotate(90deg)` |
-| `backdrop-hue-rotate:180` | `backdrop-filter: hue-rotate(180deg)` |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `0` | `backdrop-filter: hue-rotate(0deg)` | No rotation |
+| `90` | `backdrop-filter: hue-rotate(90deg)` | 90° rotation |
+| `180` | `backdrop-filter: hue-rotate(180deg)` | 180° rotation |
 
 ## Examples
 
 ```html
-<div visual="backdrop-hue-rotate:15">...</div>   <!-- 15 degrees -->
-<div visual="backdrop-hue-rotate:90">...</div>   <!-- 90 degrees -->
-<div visual="backdrop-hue-rotate:180">...</div>  <!-- 180 degrees -->
+<div visual="backdrop-hue-rotate:90">Rotated hue backdrop</div>
+```
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="backdrop:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

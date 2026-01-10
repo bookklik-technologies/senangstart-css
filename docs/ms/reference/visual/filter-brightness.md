@@ -1,26 +1,41 @@
-# Kecerahan
+# Filter Brightness
 
-Laras kecerahan elemen.
+Laraskan kecerahan
 
 ## Sintaks
 ```
-visual="brightness:dim | brightness:dark | brightness:normal | brightness:bright | brightness:vivid"
+visual="brightness:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `brightness:dim` | `filter: brightness(0.5)` |
-| `brightness:dark` | `filter: brightness(0.75)` |
-| `brightness:normal` | `filter: brightness(1)` |
-| `brightness:bright` | `filter: brightness(1.25)` |
-| `brightness:vivid` | `filter: brightness(1.5)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `dim` | `filter: brightness(0.5)` | 50% kecerahan |
+| `dark` | `filter: brightness(0.75)` | 75% kecerahan |
+| `normal` | `filter: brightness(1)` | Kecerahan normal |
+| `bright` | `filter: brightness(1.25)` | 125% kecerahan |
+| `vivid` | `filter: brightness(1.5)` | 150% kecerahan |
 
 ## Contoh
 
 ```html
-<img visual="brightness:dim" />     <!-- 50% kecerahan -->
-<img visual="brightness:normal" />  <!-- 100% kecerahan -->
-<img visual="brightness:vivid" />   <!-- 150% kecerahan -->
+<img visual="brightness:bright">Brighter image</img>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

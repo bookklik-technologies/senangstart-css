@@ -1,41 +1,36 @@
-# Tindakan Sentuh
+# Touch Action
 
-Mengawal bagaimana elemen bertindak balas kepada gerak isyarat sentuh dengan atribut `visual`.
+Kawal interaksi sentuh
 
 ## Sintaks
 ```
-visual="touch:[nilai]"
+visual="touch:[value]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `touch:auto` | `touch-action: auto` |
-| `touch:none` | `touch-action: none` |
-| `touch:pan-x` | `touch-action: pan-x` |
-| `touch:pan-y` | `touch-action: pan-y` |
-| `touch:pinch-zoom` | `touch-action: pinch-zoom` |
-| `touch:manipulation` | `touch-action: manipulation` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `auto` | `touch-action: auto` | Sentuh lalai |
+| `none` | `touch-action: none` | Lumpuhkan sentuh |
+| `pan-x` | `touch-action: pan-x` | Pan mendatar |
+| `pan-y` | `touch-action: pan-y` | Pan menegak |
+| `pan-left` | `touch-action: pan-left` | Pan kiri |
+| `pan-right` | `touch-action: pan-right` | Pan kanan |
+| `pinch-zoom` | `touch-action: pinch-zoom` | Cubit untuk zum |
+| `manipulation` | `touch-action: manipulation` | Pan dan cubit sahaja |
 
 ## Contoh
 
 ```html
-<!-- Benarkan hanya panning mendatar -->
-<div visual="touch:pan-x">Karusel mendatar</div>
-
-<!-- Benarkan hanya panning menegak -->
-<div visual="touch:pan-y">Senarai menegak</div>
-
-<!-- Lumpuhkan semua tindakan sentuh -->
-<canvas visual="touch:none">Kawasan lukisan kustom</canvas>
-
-<!-- Benarkan pan dan zum tetapi lumpuhkan zum ketik dua kali -->
-<div visual="touch:manipulation">Kawasan klik pantas</div>
+<div visual="touch:manipulation">Touch optimized</div>
 ```
 
-## Kegunaan
+## Responsif
 
-- `touch:manipulation` - Membuang kelewatan ketik 300ms pada mudah alih
-- `touch:none` - Pengendalian gerak isyarat kustom dengan JavaScript
-- `touch:pan-x` / `touch:pan-y` - Karusel yang tidak mengganggu skrol halaman
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
+```

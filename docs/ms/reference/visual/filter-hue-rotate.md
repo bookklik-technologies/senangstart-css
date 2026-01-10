@@ -1,25 +1,39 @@
-# Putar Hue
+# Filter Hue Rotate
 
-Putar hue elemen.
+Putar warna rona
 
 ## Sintaks
 ```
-visual="hue-rotate:15 | hue-rotate:30 | hue-rotate:60 | hue-rotate:90 | hue-rotate:180"
+visual="hue-rotate:[degrees]"
 ```
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `hue-rotate:15` | `filter: hue-rotate(15deg)` |
-| `hue-rotate:30` | `filter: hue-rotate(30deg)` |
-| `hue-rotate:60` | `filter: hue-rotate(60deg)` |
-| `hue-rotate:90` | `filter: hue-rotate(90deg)` |
-| `hue-rotate:180` | `filter: hue-rotate(180deg)` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `0` | `filter: hue-rotate(0deg)` | Tiada putaran |
+| `90` | `filter: hue-rotate(90deg)` | Putaran 90° |
+| `180` | `filter: hue-rotate(180deg)` | Putaran 180° |
 
 ## Contoh
 
 ```html
-<img visual="hue-rotate:90" />   <!-- 90 darjah -->
-<img visual="hue-rotate:180" />  <!-- 180 darjah -->
+<img visual="hue-rotate:90">Shifted hue</img>
+```
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="filter:[custom-value]">Custom</div>
+```
+
+## Responsif
+
+```html
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
+</div>
 ```

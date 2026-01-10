@@ -1,38 +1,41 @@
 # Transition Delay
 
-Control the delay before a transition starts using natural words.
+Set transition delay
 
 ## Syntax
 ```
-visual="delay:instant | delay:quick | delay:fast | delay:normal | delay:slow | delay:slower | delay:lazy"
+visual="delay:[value]"
 ```
 
 ## Values
 
-| Value | Time |
-|-------|------|
-| `delay:instant` | 75ms |
-| `delay:quick` | 100ms |
-| `delay:fast` | 150ms |
-| `delay:normal` | 200ms |
-| `delay:slow` | 300ms |
-| `delay:slower` | 500ms |
-| `delay:lazy` | 700ms |
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `instant` | `transition-delay: 75ms` | 75ms delay |
+| `quick` | `transition-delay: 100ms` | 100ms delay |
+| `fast` | `transition-delay: 150ms` | 150ms delay |
+| `normal` | `transition-delay: 200ms` | 200ms delay |
+| `slow` | `transition-delay: 300ms` | 300ms delay |
 
 ## Examples
 
 ```html
-<div visual="transition delay:instant">...</div>  <!-- 75ms delay -->
-<div visual="transition delay:quick">...</div>    <!-- 100ms delay -->
-<div visual="transition delay:fast">...</div>     <!-- 150ms delay -->
-<div visual="transition delay:normal">...</div>   <!-- 200ms delay -->
-<div visual="transition delay:slow">...</div>     <!-- 300ms delay -->
-<div visual="transition delay:slower">...</div>   <!-- 500ms delay -->
-<div visual="transition delay:lazy">...</div>     <!-- 700ms delay -->
+<div visual="transition:all delay:slow">Delayed transition</div>
 ```
 
-## Arbitrary Delay
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
 
 ```html
-<div visual="transition delay:[1s]">...</div>
+<div visual="transition:[custom-value]">Custom</div>
+```
+
+## Responsive
+
+```html
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
+</div>
 ```

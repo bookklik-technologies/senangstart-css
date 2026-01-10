@@ -1,6 +1,6 @@
 # Display
 
-Mengawal jenis paparan elemen dengan atribut `layout`.
+Kawal jenis paparan elemen
 
 ## Sintaks
 ```
@@ -9,30 +9,29 @@ layout="[display-value]"
 
 ## Nilai
 
-| Nilai | Output CSS |
-|-------|------------|
-| `flex` | `display: flex` |
-| `inline-flex` | `display: inline-flex` |
-| `grid` | `display: grid` |
-| `inline-grid` | `display: inline-grid` |
-| `block` | `display: block` |
-| `inline` | `display: inline-block` |
-| `hidden` | `display: none` |
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `flex` | `display: flex` | Bekas flexbox |
+| `inline-flex` | `display: inline-flex` | Bekas flexbox sebaris |
+| `grid` | `display: grid` | Bekas grid |
+| `inline-grid` | `display: inline-grid` | Bekas grid sebaris |
+| `block` | `display: block` | Elemen blok |
+| `inline` | `display: inline-block` | Elemen blok sebaris |
+| `hidden` | `display: none` | Elemen tersembunyi |
 
 ## Contoh
 
 ```html
-<div layout="flex">Bekas flexbox</div>
-<div layout="grid">Bekas grid</div>
-<div layout="hidden">Elemen tersembunyi</div>
-<span layout="block">Span tahap block</span>
+<div layout="flex">Flexbox container</div>
+<div layout="grid">Grid container</div>
+<div layout="hidden">Hidden element</div>
 ```
 
 ## Responsif
 
 ```html
-<!-- Tersembunyi pada mudah alih, kelihatan sebagai flex pada tablet+ -->
-<div layout="hidden tab:flex">
-  Hanya kelihatan pada skrin lebih besar
+<!-- Contoh responsif -->
+<div layout="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```
