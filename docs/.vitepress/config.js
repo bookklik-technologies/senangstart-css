@@ -117,6 +117,16 @@ const enSidebar = {
             { text: 'Isolation', link: '/reference/layout/isolation' },
             { text: 'Box Sizing', link: '/reference/layout/box-sizing' }
           ]
+        },
+        {
+          text: 'Tables',
+          collapsed: true,
+          items: [
+            { text: 'Border Collapse', link: '/reference/layout/border-collapse' },
+            { text: 'Border Spacing', link: '/reference/layout/border-spacing' },
+            { text: 'Table Layout', link: '/reference/layout/table-layout' },
+            { text: 'Caption Side', link: '/reference/layout/caption-side' }
+          ]
         }
       ]
     },
@@ -222,6 +232,14 @@ const enSidebar = {
             { text: 'Opacity', link: '/reference/visual/opacity' },
             { text: 'Blend Modes', link: '/reference/visual/blend-modes' },
             { text: 'Mask', link: '/reference/visual/mask' }
+          ]
+        },
+        {
+          text: 'Filters',
+          collapsed: true,
+          items: [
+            { text: 'Filter', link: '/reference/visual/filter' },
+            { text: 'Backdrop Filter', link: '/reference/visual/backdrop-filter' }
           ]
         },
         {
@@ -356,6 +374,16 @@ const msSidebar = {
             { text: 'Isolation', link: '/ms/reference/layout/isolation' },
             { text: 'Box Sizing', link: '/ms/reference/layout/box-sizing' }
           ]
+        },
+        {
+          text: 'Jadual',
+          collapsed: true,
+          items: [
+            { text: 'Runtuhan Sempadan', link: '/ms/reference/layout/border-collapse' },
+            { text: 'Jarak Sempadan', link: '/ms/reference/layout/border-spacing' },
+            { text: 'Susun Atur Jadual', link: '/ms/reference/layout/table-layout' },
+            { text: 'Kedudukan Kapsyen', link: '/ms/reference/layout/caption-side' }
+          ]
         }
       ]
     },
@@ -467,6 +495,14 @@ const msSidebar = {
             { text: 'Kelegapan', link: '/ms/reference/visual/opacity' },
             { text: 'Mod Campuran', link: '/ms/reference/visual/blend-modes' },
             { text: 'Topeng', link: '/ms/reference/visual/mask' }
+          ]
+        },
+        {
+          text: 'Penapis',
+          collapsed: true,
+          items: [
+            { text: 'Penapis', link: '/ms/reference/visual/filter' },
+            { text: 'Penapis Latar Belakang', link: '/ms/reference/visual/backdrop-filter' }
           ]
         },
         {

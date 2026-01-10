@@ -197,7 +197,19 @@ function generateLayoutRule(token, config) {
     'clear-left': 'clear: left;',
     'clear-right': 'clear: right;',
     'clear-both': 'clear: both;',
-    'clear-none': 'clear: none;'
+    'clear-none': 'clear: none;',
+    
+    // Table - Border Collapse
+    'border-collapse': 'border-collapse: collapse;',
+    'border-separate': 'border-collapse: separate;',
+    
+    // Table - Table Layout
+    'table-auto': 'table-layout: auto;',
+    'table-fixed': 'table-layout: fixed;',
+    
+    // Table - Caption Side
+    'caption-top': 'caption-side: top;',
+    'caption-bottom': 'caption-side: bottom;'
   };
   
   // Z-index
@@ -391,6 +403,24 @@ function generateLayoutRule(token, config) {
     };
     const cssValue = isArbitrary ? value : (autoPresets[value] || value);
     return `grid-auto-rows: ${cssValue};`;
+  }
+  
+  // Border Spacing (for tables)
+  if (property === 'border-spacing') {
+    const cssValue = isArbitrary ? value : `var(--s-${value})`;
+    return `border-spacing: ${cssValue};`;
+  }
+  
+  // Border Spacing X (horizontal)
+  if (property === 'border-spacing-x') {
+    const cssValue = isArbitrary ? value : `var(--s-${value})`;
+    return `border-spacing: ${cssValue} 0;`;
+  }
+  
+  // Border Spacing Y (vertical)
+  if (property === 'border-spacing-y') {
+    const cssValue = isArbitrary ? value : `var(--s-${value})`;
+    return `border-spacing: 0 ${cssValue};`;
   }
   
   return layoutMap[property] || '';
@@ -897,6 +927,133 @@ function generateVisualRule(token, config) {
     // Content
     'content': () => {
       return `content: "${value}";`;
+    },
+    
+    // Filter utilities
+    'blur': () => {
+      const blurScale = {
+        'none': '0',
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        '2xl': '40px',
+        '3xl': '64px'
+      };
+      const cssValue = isArbitrary ? value : (blurScale[value] || `${value}px`);
+      return `filter: blur(${cssValue});`;
+    },
+    
+    'brightness': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `filter: brightness(${cssValue});`;
+    },
+    
+    'contrast': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `filter: contrast(${cssValue});`;
+    },
+    
+    'drop-shadow': () => {
+      const shadowPresets = {
+        'none': 'none',
+        'sm': '0 1px 1px rgba(0,0,0,0.05)',
+        'DEFAULT': '0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)',
+        'md': '0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)',
+        'lg': '0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)',
+        'xl': '0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)',
+        '2xl': '0 25px 25px rgba(0,0,0,0.15)'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (shadowPresets[value] || shadowPresets['DEFAULT']);
+      return `filter: drop-shadow(${cssValue});`;
+    },
+    
+    'grayscale': () => {
+      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
+                       isArbitrary ? value : `${value}%`;
+      return `filter: grayscale(${cssValue});`;
+    },
+    
+    'hue-rotate': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `filter: hue-rotate(${cssValue});`;
+    },
+    
+    'invert': () => {
+      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
+                       isArbitrary ? value : `${value}%`;
+      return `filter: invert(${cssValue});`;
+    },
+    
+    'saturate': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `filter: saturate(${cssValue});`;
+    },
+    
+    'sepia': () => {
+      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
+                       isArbitrary ? value : `${value}%`;
+      return `filter: sepia(${cssValue});`;
+    },
+    
+    // Backdrop Filter utilities
+    'backdrop-blur': () => {
+      const blurScale = {
+        'none': '0',
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '24px',
+        '2xl': '40px',
+        '3xl': '64px'
+      };
+      const cssValue = isArbitrary ? value : (blurScale[value] || `${value}px`);
+      return `backdrop-filter: blur(${cssValue});`;
+    },
+    
+    'backdrop-brightness': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `backdrop-filter: brightness(${cssValue});`;
+    },
+    
+    'backdrop-contrast': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `backdrop-filter: contrast(${cssValue});`;
+    },
+    
+    'backdrop-grayscale': () => {
+      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
+                       isArbitrary ? value : `${value}%`;
+      return `backdrop-filter: grayscale(${cssValue});`;
+    },
+    
+    'backdrop-hue-rotate': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `backdrop-filter: hue-rotate(${cssValue});`;
+    },
+    
+    'backdrop-invert': () => {
+      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
+                       isArbitrary ? value : `${value}%`;
+      return `backdrop-filter: invert(${cssValue});`;
+    },
+    
+    'backdrop-opacity': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `backdrop-filter: opacity(${cssValue});`;
+    },
+    
+    'backdrop-saturate': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `backdrop-filter: saturate(${cssValue});`;
+    },
+    
+    'backdrop-sepia': () => {
+      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
+                       isArbitrary ? value : `${value}%`;
+      return `backdrop-filter: sepia(${cssValue});`;
     }
   };
   
