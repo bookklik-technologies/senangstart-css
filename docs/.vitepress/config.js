@@ -157,11 +157,18 @@ const enSidebar = {
       collapsed: false,
       items: [
         {
-          text: 'Colors',
+          text: 'Backgrounds',
           collapsed: true,
           items: [
-            { text: 'Background', link: '/reference/visual/background' },
-            { text: 'Text Color', link: '/reference/visual/text-color' }
+            { text: 'Background Color', link: '/reference/visual/background-color' },
+            { text: 'Background Image', link: '/reference/visual/background-image' },
+            { text: 'Background Attachment', link: '/reference/visual/background-attachment' },
+            { text: 'Background Clip', link: '/reference/visual/background-clip' },
+            { text: 'Background Origin', link: '/reference/visual/background-origin' },
+            { text: 'Background Position', link: '/reference/visual/background-position' },
+            { text: 'Background Repeat', link: '/reference/visual/background-repeat' },
+            { text: 'Background Size', link: '/reference/visual/background-size' },
+            { text: 'Background Blend Mode', link: '/reference/visual/background-blend-mode' }
           ]
         },
         {
@@ -182,6 +189,7 @@ const enSidebar = {
           text: 'Text Formatting',
           collapsed: true,
           items: [
+            { text: 'Text Color', link: '/reference/visual/text-color' },
             { text: 'Text Alignment', link: '/reference/visual/text-alignment' },
             { text: 'Text Transform', link: '/reference/visual/text-transform' },
             { text: 'Text Decoration', link: '/reference/visual/text-decoration' },
@@ -391,8 +399,22 @@ const msSidebar = {
           text: 'Warna',
           collapsed: true,
           items: [
-            { text: 'Latar Belakang', link: '/ms/reference/visual/background' },
+            { text: 'Warna Latar Belakang', link: '/ms/reference/visual/background-color' },
             { text: 'Warna Teks', link: '/ms/reference/visual/text-color' }
+          ]
+        },
+        {
+          text: 'Latar Belakang',
+          collapsed: true,
+          items: [
+            { text: 'Imej Latar Belakang', link: '/ms/reference/visual/background-image' },
+            { text: 'Lampiran Latar Belakang', link: '/ms/reference/visual/background-attachment' },
+            { text: 'Klip Latar Belakang', link: '/ms/reference/visual/background-clip' },
+            { text: 'Asal Latar Belakang', link: '/ms/reference/visual/background-origin' },
+            { text: 'Kedudukan Latar Belakang', link: '/ms/reference/visual/background-position' },
+            { text: 'Ulangan Latar Belakang', link: '/ms/reference/visual/background-repeat' },
+            { text: 'Saiz Latar Belakang', link: '/ms/reference/visual/background-size' },
+            { text: 'Mod Campuran Latar Belakang', link: '/ms/reference/visual/background-blend-mode' }
           ]
         },
         {
