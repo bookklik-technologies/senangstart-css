@@ -35,3 +35,8 @@ coverage/
 # Package manager locks (optional - uncomment if preferred)
 # package-lock.json
 # yarn.lock
+
+# VitePress
+docs/.vitepress/dist
+docs/.vitepress/cache
+
