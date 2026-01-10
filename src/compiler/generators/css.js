@@ -209,7 +209,10 @@ function generateLayoutRule(token, config) {
     
     // Table - Caption Side
     'caption-top': 'caption-side: top;',
-    'caption-bottom': 'caption-side: bottom;'
+    'caption-bottom': 'caption-side: bottom;',
+    
+    // Container
+    'container': 'width: 100%; margin-left: auto; margin-right: auto;'
   };
   
   // Z-index

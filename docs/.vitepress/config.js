@@ -54,11 +54,12 @@ const enSidebar = {
       link: '/reference/layout',
       collapsed: false,
       items: [
+        { text: 'Display', link: '/reference/layout/display' },
+        { text: 'Container', link: '/reference/layout/container' },
         {
-          text: 'Display & Flex',
+          text: 'Flex',
           collapsed: true,
           items: [
-            { text: 'Display', link: '/reference/layout/display' },
             { text: 'Flex Direction', link: '/reference/layout/flex-direction' },
             { text: 'Flex Wrap', link: '/reference/layout/flex-wrap' },
             { text: 'Flex Items', link: '/reference/layout/flex-items' },
@@ -398,11 +399,12 @@ const msSidebar = {
       link: '/ms/reference/layout',
       collapsed: false,
       items: [
+        { text: 'Paparan', link: '/ms/reference/layout/display' },
+        { text: 'Bekas', link: '/ms/reference/layout/container' },
         {
-          text: 'Paparan & Flex',
+          text: 'Flex',
           collapsed: true,
           items: [
-            { text: 'Paparan', link: '/ms/reference/layout/display' },
             { text: 'Arah Flex', link: '/ms/reference/layout/flex-direction' },
             { text: 'Flex Wrap', link: '/ms/reference/layout/flex-wrap' },
             { text: 'Item Flex', link: '/ms/reference/layout/flex-items' },
