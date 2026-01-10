@@ -1418,6 +1418,185 @@ function generateVisualRule(token, config) {
       };
       const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (originMap[value] || value);
       return `perspective-origin: ${cssValue};`;
+    },
+    
+    // =====================
+    // INTERACTIVITY UTILITIES
+    // =====================
+    
+    // Accent Color
+    'accent': () => {
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `accent-color: ${cssValue};`;
+    },
+    
+    // Appearance
+    'appearance': () => {
+      return `appearance: ${value};`;
+    },
+    
+    // Caret Color
+    'caret': () => {
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `caret-color: ${cssValue};`;
+    },
+    
+    // Color Scheme
+    'color-scheme': () => {
+      return `color-scheme: ${value};`;
+    },
+    
+    // Cursor
+    'cursor': () => {
+      return `cursor: ${value};`;
+    },
+    
+    // Field Sizing
+    'field-sizing': () => {
+      return `field-sizing: ${value};`;
+    },
+    
+    // Pointer Events
+    'pointer-events': () => {
+      return `pointer-events: ${value};`;
+    },
+    
+    // Resize
+    'resize': () => {
+      const resizeMap = {
+        'none': 'none',
+        'both': 'both',
+        'x': 'horizontal',
+        'y': 'vertical'
+      };
+      const cssValue = resizeMap[value] || value;
+      return `resize: ${cssValue};`;
+    },
+    
+    // Scroll Behavior
+    'scroll': () => {
+      return `scroll-behavior: ${value};`;
+    },
+    
+    // Scroll Margin
+    'scroll-m': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-margin: ${cssValue};`;
+    },
+    'scroll-m-t': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-margin-top: ${cssValue};`;
+    },
+    'scroll-m-r': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-margin-right: ${cssValue};`;
+    },
+    'scroll-m-b': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-margin-bottom: ${cssValue};`;
+    },
+    'scroll-m-l': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-margin-left: ${cssValue};`;
+    },
+    'scroll-m-x': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-margin-left: ${cssValue}; scroll-margin-right: ${cssValue};`;
+    },
+    'scroll-m-y': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-margin-top: ${cssValue}; scroll-margin-bottom: ${cssValue};`;
+    },
+    
+    // Scroll Padding
+    'scroll-p': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-padding: ${cssValue};`;
+    },
+    'scroll-p-t': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-padding-top: ${cssValue};`;
+    },
+    'scroll-p-r': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-padding-right: ${cssValue};`;
+    },
+    'scroll-p-b': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-padding-bottom: ${cssValue};`;
+    },
+    'scroll-p-l': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-padding-left: ${cssValue};`;
+    },
+    'scroll-p-x': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-padding-left: ${cssValue}; scroll-padding-right: ${cssValue};`;
+    },
+    'scroll-p-y': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `scroll-padding-top: ${cssValue}; scroll-padding-bottom: ${cssValue};`;
+    },
+    
+    // Scroll Snap Align
+    'snap-align': () => {
+      return `scroll-snap-align: ${value};`;
+    },
+    
+    // Scroll Snap Stop
+    'snap-stop': () => {
+      return `scroll-snap-stop: ${value};`;
+    },
+    
+    // Scroll Snap Type
+    'snap': () => {
+      const snapMap = {
+        'none': 'none',
+        'x': 'x mandatory',
+        'x-proximity': 'x proximity',
+        'y': 'y mandatory',
+        'y-proximity': 'y proximity',
+        'both': 'both mandatory',
+        'both-proximity': 'both proximity'
+      };
+      const cssValue = snapMap[value] || value;
+      return `scroll-snap-type: ${cssValue};`;
+    },
+    
+    // Touch Action
+    'touch': () => {
+      const touchMap = {
+        'auto': 'auto',
+        'none': 'none',
+        'pan-x': 'pan-x',
+        'pan-y': 'pan-y',
+        'pan-left': 'pan-left',
+        'pan-right': 'pan-right',
+        'pan-up': 'pan-up',
+        'pan-down': 'pan-down',
+        'pinch-zoom': 'pinch-zoom',
+        'manipulation': 'manipulation'
+      };
+      const cssValue = touchMap[value] || value;
+      return `touch-action: ${cssValue};`;
+    },
+    
+    // User Select
+    'select': () => {
+      return `user-select: ${value};`;
+    },
+    
+    // Will Change
+    'will-change': () => {
+      const willChangeMap = {
+        'auto': 'auto',
+        'scroll': 'scroll-position',
+        'contents': 'contents',
+        'transform': 'transform',
+        'opacity': 'opacity'
+      };
+      const cssValue = willChangeMap[value] || value;
+      return `will-change: ${cssValue};`;
     }
   };
   

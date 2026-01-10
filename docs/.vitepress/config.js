@@ -312,6 +312,23 @@ const enSidebar = {
           text: 'Interactivity',
           collapsed: true,
           items: [
+            { text: 'Accent Color', link: '/reference/visual/accent-color' },
+            { text: 'Appearance', link: '/reference/visual/appearance' },
+            { text: 'Caret Color', link: '/reference/visual/caret-color' },
+            { text: 'Color Scheme', link: '/reference/visual/color-scheme' },
+            { text: 'Cursor', link: '/reference/visual/cursor' },
+            { text: 'Field Sizing', link: '/reference/visual/field-sizing' },
+            { text: 'Pointer Events', link: '/reference/visual/pointer-events' },
+            { text: 'Resize', link: '/reference/visual/resize' },
+            { text: 'Scroll Behavior', link: '/reference/visual/scroll-behavior' },
+            { text: 'Scroll Margin', link: '/reference/visual/scroll-margin' },
+            { text: 'Scroll Padding', link: '/reference/visual/scroll-padding' },
+            { text: 'Scroll Snap Align', link: '/reference/visual/scroll-snap-align' },
+            { text: 'Scroll Snap Stop', link: '/reference/visual/scroll-snap-stop' },
+            { text: 'Scroll Snap Type', link: '/reference/visual/scroll-snap-type' },
+            { text: 'Touch Action', link: '/reference/visual/touch-action' },
+            { text: 'User Select', link: '/reference/visual/user-select' },
+            { text: 'Will Change', link: '/reference/visual/will-change' },
             { text: 'State Prefixes', link: '/reference/visual/state-prefixes' }
           ]
         }
@@ -641,6 +658,23 @@ const msSidebar = {
           text: 'Interaktiviti',
           collapsed: true,
           items: [
+            { text: 'Warna Aksen', link: '/ms/reference/visual/accent-color' },
+            { text: 'Penampilan', link: '/ms/reference/visual/appearance' },
+            { text: 'Warna Karet', link: '/ms/reference/visual/caret-color' },
+            { text: 'Skema Warna', link: '/ms/reference/visual/color-scheme' },
+            { text: 'Kursor', link: '/ms/reference/visual/cursor' },
+            { text: 'Saiz Medan', link: '/ms/reference/visual/field-sizing' },
+            { text: 'Peristiwa Penunjuk', link: '/ms/reference/visual/pointer-events' },
+            { text: 'Saiz Semula', link: '/ms/reference/visual/resize' },
+            { text: 'Kelakuan Skrol', link: '/ms/reference/visual/scroll-behavior' },
+            { text: 'Margin Skrol', link: '/ms/reference/visual/scroll-margin' },
+            { text: 'Padding Skrol', link: '/ms/reference/visual/scroll-padding' },
+            { text: 'Penjajaran Snap', link: '/ms/reference/visual/scroll-snap-align' },
+            { text: 'Hentian Snap', link: '/ms/reference/visual/scroll-snap-stop' },
+            { text: 'Jenis Snap', link: '/ms/reference/visual/scroll-snap-type' },
+            { text: 'Tindakan Sentuh', link: '/ms/reference/visual/touch-action' },
+            { text: 'Pilihan Pengguna', link: '/ms/reference/visual/user-select' },
+            { text: 'Will Change', link: '/ms/reference/visual/will-change' },
             { text: 'Prefiks Keadaan', link: '/ms/reference/visual/state-prefixes' }
           ]
         }
