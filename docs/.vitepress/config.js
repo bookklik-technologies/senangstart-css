@@ -265,11 +265,26 @@ const enSidebar = {
           ]
         },
         {
-          text: 'Transitions & Animation',
+          text: 'Transition',
           collapsed: true,
           items: [
-            { text: 'Transition', link: '/reference/visual/transition' },
-            { text: 'Animation', link: '/reference/visual/animation' }
+            { text: 'Property', link: '/reference/visual/transition-property' },
+            { text: 'Duration', link: '/reference/visual/transition-duration' },
+            { text: 'Timing Function', link: '/reference/visual/transition-timing' },
+            { text: 'Delay', link: '/reference/visual/transition-delay' }
+          ]
+        },
+        {
+          text: 'Animation',
+          collapsed: true,
+          items: [
+            { text: 'Built-in', link: '/reference/visual/animation-builtin' },
+            { text: 'Duration', link: '/reference/visual/animation-duration' },
+            { text: 'Delay', link: '/reference/visual/animation-delay' },
+            { text: 'Iteration', link: '/reference/visual/animation-iteration' },
+            { text: 'Direction', link: '/reference/visual/animation-direction' },
+            { text: 'Fill Mode', link: '/reference/visual/animation-fill' },
+            { text: 'Play State', link: '/reference/visual/animation-play' }
           ]
         },
         {
@@ -566,11 +581,26 @@ const msSidebar = {
           ]
         },
         {
-          text: 'Peralihan & Animasi',
+          text: 'Peralihan',
           collapsed: true,
           items: [
-            { text: 'Peralihan', link: '/ms/reference/visual/transition' },
-            { text: 'Animasi', link: '/ms/reference/visual/animation' }
+            { text: 'Sifat', link: '/ms/reference/visual/transition-property' },
+            { text: 'Tempoh', link: '/ms/reference/visual/transition-duration' },
+            { text: 'Fungsi Masa', link: '/ms/reference/visual/transition-timing' },
+            { text: 'Kelewatan', link: '/ms/reference/visual/transition-delay' }
+          ]
+        },
+        {
+          text: 'Animasi',
+          collapsed: true,
+          items: [
+            { text: 'Terbina Dalam', link: '/ms/reference/visual/animation-builtin' },
+            { text: 'Tempoh', link: '/ms/reference/visual/animation-duration' },
+            { text: 'Kelewatan', link: '/ms/reference/visual/animation-delay' },
+            { text: 'Iterasi', link: '/ms/reference/visual/animation-iteration' },
+            { text: 'Arah', link: '/ms/reference/visual/animation-direction' },
+            { text: 'Mod Isi', link: '/ms/reference/visual/animation-fill' },
+            { text: 'Status Main', link: '/ms/reference/visual/animation-play' }
           ]
         },
         {
