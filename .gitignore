@@ -37,6 +37,6 @@ coverage/
 # yarn.lock
 
 # VitePress
-docs/.vitepress/dist
-docs/.vitepress/cache
+docs/.vitepress/dist/
+docs/.vitepress/cache/
 
