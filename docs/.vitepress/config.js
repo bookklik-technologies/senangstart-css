@@ -14,9 +14,6 @@ const sharedThemeConfig = {
   footer: {
     message: 'Released under the MIT License.',
     copyright: 'Copyright © 2026 SenangStart'
-  },
-  search: {
-    provider: 'local'
   }
 }
 
@@ -55,9 +52,9 @@ const enSidebar = {
     {
       text: 'Attributes',
       items: [
-        { text: 'layout', link: '/reference/layout' },
-        { text: 'space', link: '/reference/space' },
-        { text: 'visual', link: '/reference/visual' }
+        { text: 'Layout', link: '/reference/layout' },
+        { text: 'Space', link: '/reference/space' },
+        { text: 'Visual', link: '/reference/visual' }
       ]
     },
     {
@@ -118,9 +115,9 @@ const msSidebar = {
     {
       text: 'Atribut',
       items: [
-        { text: 'layout', link: '/ms/reference/layout' },
-        { text: 'space', link: '/ms/reference/space' },
-        { text: 'visual', link: '/ms/reference/visual' }
+        { text: 'Layout', link: '/ms/reference/layout' },
+        { text: 'Space', link: '/ms/reference/space' },
+        { text: 'Visual', link: '/ms/reference/visual' }
       ]
     },
     {
@@ -156,6 +153,13 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: 'https://senangstart.com/img/ss_icon_accent.svg' }]
   ],
+
+  // Search configuration (must be at root level)
+  themeConfig: {
+    search: {
+      provider: 'local'
+    }
+  },
 
   locales: {
     root: {

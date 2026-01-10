@@ -1,4 +1,4 @@
-# space Reference
+# Space Reference
 
 The `space` attribute controls sizing and spacing.
 

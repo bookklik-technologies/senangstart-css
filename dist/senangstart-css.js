@@ -343,27 +343,144 @@ img, video {
   // ============================================
   
   const layoutKeywords = {
+    // Display
     'flex': 'display: flex;',
     'grid': 'display: grid;',
+    'inline-flex': 'display: inline-flex;',
+    'inline-grid': 'display: inline-grid;',
     'block': 'display: block;',
     'inline': 'display: inline-block;',
     'hidden': 'display: none;',
+    
+    // Flex Direction
     'row': 'flex-direction: row;',
     'col': 'flex-direction: column;',
     'row-reverse': 'flex-direction: row-reverse;',
     'col-reverse': 'flex-direction: column-reverse;',
+    
+    // Flex Wrap
+    'wrap': 'flex-wrap: wrap;',
+    'nowrap': 'flex-wrap: nowrap;',
+    'wrap-reverse': 'flex-wrap: wrap-reverse;',
+    
+    // Flex Item
+    'grow': 'flex-grow: 1;',
+    'grow-0': 'flex-grow: 0;',
+    'shrink': 'flex-shrink: 1;',
+    'shrink-0': 'flex-shrink: 0;',
+    
+    // Justify Content
+    'justify-start': 'justify-content: flex-start;',
+    'justify-end': 'justify-content: flex-end;',
+    'justify-center': 'justify-content: center;',
+    'justify-between': 'justify-content: space-between;',
+    'justify-around': 'justify-content: space-around;',
+    'justify-evenly': 'justify-content: space-evenly;',
+    'justify-stretch': 'justify-content: stretch;',
+    
+    // Justify Items (Grid)
+    'justify-items-start': 'justify-items: start;',
+    'justify-items-end': 'justify-items: end;',
+    'justify-items-center': 'justify-items: center;',
+    'justify-items-stretch': 'justify-items: stretch;',
+    
+    // Justify Self
+    'justify-self-auto': 'justify-self: auto;',
+    'justify-self-start': 'justify-self: start;',
+    'justify-self-end': 'justify-self: end;',
+    'justify-self-center': 'justify-self: center;',
+    'justify-self-stretch': 'justify-self: stretch;',
+    
+    // Align Content
+    'content-start': 'align-content: flex-start;',
+    'content-end': 'align-content: flex-end;',
+    'content-center': 'align-content: center;',
+    'content-between': 'align-content: space-between;',
+    'content-around': 'align-content: space-around;',
+    'content-evenly': 'align-content: space-evenly;',
+    'content-stretch': 'align-content: stretch;',
+    
+    // Align Items
+    'items-start': 'align-items: flex-start;',
+    'items-end': 'align-items: flex-end;',
+    'items-center': 'align-items: center;',
+    'items-baseline': 'align-items: baseline;',
+    'items-stretch': 'align-items: stretch;',
+    
+    // Align Self
+    'self-auto': 'align-self: auto;',
+    'self-start': 'align-self: flex-start;',
+    'self-end': 'align-self: flex-end;',
+    'self-center': 'align-self: center;',
+    'self-baseline': 'align-self: baseline;',
+    'self-stretch': 'align-self: stretch;',
+    
+    // Place Content (Grid shorthand)
+    'place-content-start': 'place-content: start;',
+    'place-content-end': 'place-content: end;',
+    'place-content-center': 'place-content: center;',
+    'place-content-between': 'place-content: space-between;',
+    'place-content-around': 'place-content: space-around;',
+    'place-content-evenly': 'place-content: space-evenly;',
+    'place-content-stretch': 'place-content: stretch;',
+    
+    // Place Items (Grid shorthand)
+    'place-items-start': 'place-items: start;',
+    'place-items-end': 'place-items: end;',
+    'place-items-center': 'place-items: center;',
+    'place-items-stretch': 'place-items: stretch;',
+    
+    // Place Self (Grid shorthand)
+    'place-self-auto': 'place-self: auto;',
+    'place-self-start': 'place-self: start;',
+    'place-self-end': 'place-self: end;',
+    'place-self-center': 'place-self: center;',
+    'place-self-stretch': 'place-self: stretch;',
+    
+    // Grid Auto Flow
+    'grid-flow-row': 'grid-auto-flow: row;',
+    'grid-flow-col': 'grid-auto-flow: column;',
+    'grid-flow-dense': 'grid-auto-flow: dense;',
+    'grid-flow-row-dense': 'grid-auto-flow: row dense;',
+    'grid-flow-col-dense': 'grid-auto-flow: column dense;',
+    
+    // Shorthand Alignment (backwards compat)
     'center': 'justify-content: center; align-items: center;',
     'start': 'justify-content: flex-start; align-items: flex-start;',
     'end': 'justify-content: flex-end; align-items: flex-end;',
     'between': 'justify-content: space-between;',
     'around': 'justify-content: space-around;',
     'evenly': 'justify-content: space-evenly;',
-    'wrap': 'flex-wrap: wrap;',
-    'nowrap': 'flex-wrap: nowrap;',
+    
+    // Position
     'absolute': 'position: absolute;',
     'relative': 'position: relative;',
     'fixed': 'position: fixed;',
-    'sticky': 'position: sticky;'
+    'sticky': 'position: sticky;',
+    'static': 'position: static;',
+    
+    // Visibility
+    'visible': 'visibility: visible;',
+    'invisible': 'visibility: hidden;',
+    
+    // Isolation
+    'isolate': 'isolation: isolate;',
+    'isolate-auto': 'isolation: auto;',
+    
+    // Box Sizing
+    'box-border': 'box-sizing: border-box;',
+    'box-content': 'box-sizing: content-box;',
+    
+    // Float
+    'float-left': 'float: left;',
+    'float-right': 'float: right;',
+    'float-none': 'float: none;',
+    
+    // Clear
+    'clear-left': 'clear: left;',
+    'clear-right': 'clear: right;',
+    'clear-both': 'clear: both;',
+    'clear-none': 'clear: none;'
   };
 
   // ============================================
@@ -420,7 +537,7 @@ img, video {
   }
 
   function generateLayoutRule(token) {
-    const { property, value } = token;
+    const { property, value, isArbitrary } = token;
     
     // Z-index
     if (property === 'z') {
@@ -430,6 +547,190 @@ img, video {
     // Overflow
     if (property === 'overflow') {
       return `overflow: ${value};`;
+    }
+    
+    // Overflow X/Y
+    if (property === 'overflow-x') {
+      return `overflow-x: ${value};`;
+    }
+    if (property === 'overflow-y') {
+      return `overflow-y: ${value};`;
+    }
+    
+    // Aspect Ratio
+    if (property === 'aspect') {
+      const aspectMap = {
+        'square': '1 / 1',
+        'video': '16 / 9',
+        'auto': 'auto'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (aspectMap[value] || value);
+      return `aspect-ratio: ${cssValue};`;
+    }
+    
+    // Object Fit
+    if (property === 'object') {
+      return `object-fit: ${value};`;
+    }
+    
+    // Object Position
+    if (property === 'object-pos') {
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : value;
+      return `object-position: ${cssValue};`;
+    }
+    
+    // Inset (all sides)
+    if (property === 'inset') {
+      const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+      return `inset: ${cssValue};`;
+    }
+    
+    // Individual positioning: top, right, bottom, left
+    if (['top', 'right', 'bottom', 'left'].includes(property)) {
+      const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+      return `${property}: ${cssValue};`;
+    }
+    
+    // Inset X (left + right)
+    if (property === 'inset-x') {
+      const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+      return `left: ${cssValue}; right: ${cssValue};`;
+    }
+    
+    // Inset Y (top + bottom)
+    if (property === 'inset-y') {
+      const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+      return `top: ${cssValue}; bottom: ${cssValue};`;
+    }
+    
+    // Columns
+    if (property === 'cols') {
+      return `columns: ${value};`;
+    }
+    
+    // Overscroll Behavior
+    if (property === 'overscroll') {
+      return `overscroll-behavior: ${value};`;
+    }
+    if (property === 'overscroll-x') {
+      return `overscroll-behavior-x: ${value};`;
+    }
+    if (property === 'overscroll-y') {
+      return `overscroll-behavior-y: ${value};`;
+    }
+    
+    // Flex Basis
+    if (property === 'basis') {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `flex-basis: ${cssValue};`;
+    }
+    
+    // Flex (shorthand)
+    if (property === 'flex') {
+      const flexPresets = {
+        '1': '1 1 0%',
+        'auto': '1 1 auto',
+        'initial': '0 1 auto',
+        'none': 'none'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (flexPresets[value] || value);
+      return `flex: ${cssValue};`;
+    }
+    
+    // Order
+    if (property === 'order') {
+      const orderPresets = {
+        'first': '-9999',
+        'last': '9999',
+        'none': '0'
+      };
+      const cssValue = orderPresets[value] || value;
+      return `order: ${cssValue};`;
+    }
+    
+    // Grid Template Columns
+    if (property === 'grid-cols') {
+      if (value === 'none') {
+        return 'grid-template-columns: none;';
+      }
+      if (value === 'subgrid') {
+        return 'grid-template-columns: subgrid;';
+      }
+      if (isArbitrary) {
+        return `grid-template-columns: ${value.replace(/_/g, ' ')};`;
+      }
+      // Numeric value: repeat(n, minmax(0, 1fr))
+      return `grid-template-columns: repeat(${value}, minmax(0, 1fr));`;
+    }
+    
+    // Grid Template Rows
+    if (property === 'grid-rows') {
+      if (value === 'none') {
+        return 'grid-template-rows: none;';
+      }
+      if (value === 'subgrid') {
+        return 'grid-template-rows: subgrid;';
+      }
+      if (isArbitrary) {
+        return `grid-template-rows: ${value.replace(/_/g, ' ')};`;
+      }
+      return `grid-template-rows: repeat(${value}, minmax(0, 1fr));`;
+    }
+    
+    // Grid Column Span
+    if (property === 'col-span') {
+      if (value === 'full') {
+        return 'grid-column: 1 / -1;';
+      }
+      return `grid-column: span ${value} / span ${value};`;
+    }
+    
+    // Grid Column Start/End
+    if (property === 'col-start') {
+      return `grid-column-start: ${value};`;
+    }
+    if (property === 'col-end') {
+      return `grid-column-end: ${value};`;
+    }
+    
+    // Grid Row Span
+    if (property === 'row-span') {
+      if (value === 'full') {
+        return 'grid-row: 1 / -1;';
+      }
+      return `grid-row: span ${value} / span ${value};`;
+    }
+    
+    // Grid Row Start/End
+    if (property === 'row-start') {
+      return `grid-row-start: ${value};`;
+    }
+    if (property === 'row-end') {
+      return `grid-row-end: ${value};`;
+    }
+    
+    // Grid Auto Columns
+    if (property === 'auto-cols') {
+      const autoPresets = {
+        'auto': 'auto',
+        'min': 'min-content',
+        'max': 'max-content',
+        'fr': 'minmax(0, 1fr)'
+      };
+      const cssValue = isArbitrary ? value : (autoPresets[value] || value);
+      return `grid-auto-columns: ${cssValue};`;
+    }
+    
+    // Grid Auto Rows
+    if (property === 'auto-rows') {
+      const autoPresets = {
+        'auto': 'auto',
+        'min': 'min-content',
+        'max': 'max-content',
+        'fr': 'minmax(0, 1fr)'
+      };
+      const cssValue = isArbitrary ? value : (autoPresets[value] || value);
+      return `grid-auto-rows: ${cssValue};`;
     }
     
     return layoutKeywords[property] || '';
@@ -485,13 +786,112 @@ img, video {
   function generateVisualRule(token) {
     const { property, value, isArbitrary } = token;
     
+    // Static typography keywords
+    const typographyKeywords = {
+      // Font Style
+      'italic': 'font-style: italic;',
+      'not-italic': 'font-style: normal;',
+      
+      // Font Stretch
+      'font-stretch-condensed': 'font-stretch: condensed;',
+      'font-stretch-expanded': 'font-stretch: expanded;',
+      'font-stretch-normal': 'font-stretch: normal;',
+      
+      // Font Smoothing
+      'antialiased': '-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;',
+      'subpixel-antialiased': '-webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto;',
+      
+      // Font Variant Numeric
+      'normal-nums': 'font-variant-numeric: normal;',
+      'ordinal': 'font-variant-numeric: ordinal;',
+      'slashed-zero': 'font-variant-numeric: slashed-zero;',
+      'lining-nums': 'font-variant-numeric: lining-nums;',
+      'oldstyle-nums': 'font-variant-numeric: oldstyle-nums;',
+      'proportional-nums': 'font-variant-numeric: proportional-nums;',
+      'tabular-nums': 'font-variant-numeric: tabular-nums;',
+      
+      // Text Transform
+      'uppercase': 'text-transform: uppercase;',
+      'lowercase': 'text-transform: lowercase;',
+      'capitalize': 'text-transform: capitalize;',
+      'normal-case': 'text-transform: none;',
+      
+      // Text Decoration Line
+      'underline': 'text-decoration-line: underline;',
+      'overline': 'text-decoration-line: overline;',
+      'line-through': 'text-decoration-line: line-through;',
+      'no-underline': 'text-decoration-line: none;',
+      
+      // Text Decoration Style
+      'decoration-solid': 'text-decoration-style: solid;',
+      'decoration-double': 'text-decoration-style: double;',
+      'decoration-dotted': 'text-decoration-style: dotted;',
+      'decoration-dashed': 'text-decoration-style: dashed;',
+      'decoration-wavy': 'text-decoration-style: wavy;',
+      
+      // Text Overflow
+      'truncate': 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;',
+      'text-ellipsis': 'text-overflow: ellipsis;',
+      'text-clip': 'text-overflow: clip;',
+      
+      // Text Wrap
+      'text-wrap': 'text-wrap: wrap;',
+      'text-nowrap': 'text-wrap: nowrap;',
+      'text-balance': 'text-wrap: balance;',
+      'text-pretty': 'text-wrap: pretty;',
+      
+      // Whitespace
+      'whitespace-normal': 'white-space: normal;',
+      'whitespace-nowrap': 'white-space: nowrap;',
+      'whitespace-pre': 'white-space: pre;',
+      'whitespace-pre-line': 'white-space: pre-line;',
+      'whitespace-pre-wrap': 'white-space: pre-wrap;',
+      'whitespace-break-spaces': 'white-space: break-spaces;',
+      
+      // Word Break
+      'break-normal': 'overflow-wrap: normal; word-break: normal;',
+      'break-words': 'overflow-wrap: break-word;',
+      'break-all': 'word-break: break-all;',
+      'break-keep': 'word-break: keep-all;',
+      
+      // Hyphens
+      'hyphens-none': 'hyphens: none;',
+      'hyphens-manual': 'hyphens: manual;',
+      'hyphens-auto': 'hyphens: auto;',
+      
+      // Vertical Align
+      'align-baseline': 'vertical-align: baseline;',
+      'align-top': 'vertical-align: top;',
+      'align-middle': 'vertical-align: middle;',
+      'align-bottom': 'vertical-align: bottom;',
+      'align-text-top': 'vertical-align: text-top;',
+      'align-text-bottom': 'vertical-align: text-bottom;',
+      'align-sub': 'vertical-align: sub;',
+      'align-super': 'vertical-align: super;',
+      
+      // List Style Type
+      'list-none': 'list-style-type: none;',
+      'list-disc': 'list-style-type: disc;',
+      'list-decimal': 'list-style-type: decimal;',
+      'list-square': 'list-style-type: square;',
+      
+      // List Style Position
+      'list-inside': 'list-style-position: inside;',
+      'list-outside': 'list-style-position: outside;'
+    };
+    
+    // Check static keywords first
+    if (typographyKeywords[property]) {
+      return typographyKeywords[property];
+    }
+    
     const rules = {
       'bg': () => {
         const cssValue = isArbitrary ? value : `var(--c-${value})`;
         return `background-color: ${cssValue};`;
       },
       'text': () => {
-        if (['left', 'center', 'right'].includes(value)) {
+        if (['left', 'center', 'right', 'justify'].includes(value)) {
           return `text-align: ${value};`;
         }
         const cssValue = isArbitrary ? value : `var(--c-${value})`;
@@ -501,7 +901,65 @@ img, video {
         const cssValue = isArbitrary ? value : `var(--font-${value})`;
         return `font-size: ${cssValue};`;
       },
-      'font': () => `font-weight: var(--fw-${value});`,
+      'font': () => {
+        // Check for font-family presets
+        const fontFamilies = {
+          'sans': 'ui-sans-serif, system-ui, sans-serif',
+          'serif': 'ui-serif, Georgia, serif',
+          'mono': 'ui-monospace, monospace'
+        };
+        if (fontFamilies[value]) {
+          return `font-family: ${fontFamilies[value]};`;
+        }
+        // Font weight
+        return `font-weight: var(--fw-${value});`;
+      },
+      'tracking': () => {
+        // Letter spacing
+        const trackingScale = {
+          'tighter': '-0.05em',
+          'tight': '-0.025em',
+          'normal': '0',
+          'wide': '0.025em',
+          'wider': '0.05em',
+          'widest': '0.1em'
+        };
+        const cssValue = isArbitrary ? value : (trackingScale[value] || value);
+        return `letter-spacing: ${cssValue};`;
+      },
+      'leading': () => {
+        // Line height
+        const leadingScale = {
+          'none': '1',
+          'tight': '1.25',
+          'snug': '1.375',
+          'normal': '1.5',
+          'relaxed': '1.625',
+          'loose': '2'
+        };
+        const cssValue = isArbitrary ? value : (leadingScale[value] || value);
+        return `line-height: ${cssValue};`;
+      },
+      'line-clamp': () => {
+        return `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: ${value};`;
+      },
+      'decoration': () => {
+        // Text decoration color
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `text-decoration-color: ${cssValue};`;
+      },
+      'decoration-thickness': () => {
+        const cssValue = isArbitrary ? value : `${value}px`;
+        return `text-decoration-thickness: ${cssValue};`;
+      },
+      'underline-offset': () => {
+        const cssValue = isArbitrary ? value : `${value}px`;
+        return `text-underline-offset: ${cssValue};`;
+      },
+      'indent': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `text-indent: ${cssValue};`;
+      },
       'border': () => {
         const cssValue = isArbitrary ? value : `var(--c-${value})`;
         return `border-color: ${cssValue}; border-style: solid;`;
@@ -512,7 +970,8 @@ img, video {
       },
       'rounded': () => `border-radius: var(--r-${value});`,
       'shadow': () => `box-shadow: var(--shadow-${value});`,
-      'opacity': () => `opacity: ${value};`
+      'opacity': () => `opacity: ${value};`,
+      'content': () => `content: "${value}";`
     };
     
     const gen = rules[property];
