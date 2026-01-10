@@ -1,6 +1,6 @@
-# Ketepuan Latar
+# Backdrop Saturate
 
-Laras ketepuan latar belakang.
+Melaraskan ketepuan latar belakang.
 
 ## Sintaks
 ```
@@ -20,6 +20,9 @@ visual="backdrop-saturate:none | backdrop-saturate:low | backdrop-saturate:norma
 ## Contoh
 
 ```html
-<div visual="backdrop-saturate:none">...</div>   <!-- Tiada ketepuan -->
-<div visual="backdrop-saturate:vivid">...</div>  <!-- 200% ketepuan -->
+<div visual="backdrop-saturate:none">...</div>    <!-- Tiada ketepuan -->
+<div visual="backdrop-saturate:low">...</div>     <!-- 50% ketepuan -->
+<div visual="backdrop-saturate:normal">...</div>  <!-- 100% ketepuan -->
+<div visual="backdrop-saturate:high">...</div>    <!-- 150% ketepuan -->
+<div visual="backdrop-saturate:vivid">...</div>   <!-- 200% ketepuan -->
 ```

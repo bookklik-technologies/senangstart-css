@@ -1,6 +1,6 @@
-# Sepia Latar
+# Backdrop Sepia
 
-Gunakan ton sepia pada latar belakang.
+Menerapkan tona sepia pada latar belakang.
 
 ## Sintaks
 ```
@@ -19,6 +19,8 @@ visual="backdrop-sepia:none | backdrop-sepia:partial | backdrop-sepia:full | bac
 ## Contoh
 
 ```html
-<div visual="backdrop-sepia:none">...</div>  <!-- Tiada sepia -->
-<div visual="backdrop-sepia">...</div>       <!-- Sepia penuh -->
+<div visual="backdrop-sepia:none">...</div>     <!-- Tiada sepia -->
+<div visual="backdrop-sepia:partial">...</div>  <!-- 50% sepia -->
+<div visual="backdrop-sepia:full">...</div>     <!-- Sepia penuh -->
+<div visual="backdrop-sepia">...</div>          <!-- Sepia penuh (lalai) -->
 ```

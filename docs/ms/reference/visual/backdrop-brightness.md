@@ -1,6 +1,6 @@
-# Kecerahan Latar
+# Backdrop Brightness
 
-Laras kecerahan latar belakang.
+Melaraskan kecerahan latar belakang.
 
 ## Sintaks
 ```
@@ -21,5 +21,8 @@ visual="backdrop-brightness:dim | backdrop-brightness:dark | backdrop-brightness
 
 ```html
 <div visual="backdrop-brightness:dim">...</div>     <!-- 50% kecerahan -->
+<div visual="backdrop-brightness:dark">...</div>    <!-- 75% kecerahan -->
+<div visual="backdrop-brightness:normal">...</div>  <!-- 100% kecerahan -->
+<div visual="backdrop-brightness:bright">...</div>  <!-- 125% kecerahan -->
 <div visual="backdrop-brightness:vivid">...</div>   <!-- 150% kecerahan -->
 ```

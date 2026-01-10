@@ -1,6 +1,6 @@
-# Kontras Latar
+# Backdrop Contrast
 
-Laras kontras latar belakang.
+Melaraskan kontras latar belakang.
 
 ## Sintaks
 ```
@@ -20,6 +20,9 @@ visual="backdrop-contrast:low | backdrop-contrast:reduced | backdrop-contrast:no
 ## Contoh
 
 ```html
-<div visual="backdrop-contrast:low">...</div>   <!-- 50% kontras -->
-<div visual="backdrop-contrast:max">...</div>   <!-- 150% kontras -->
+<div visual="backdrop-contrast:low">...</div>      <!-- 50% kontras -->
+<div visual="backdrop-contrast:reduced">...</div>  <!-- 75% kontras -->
+<div visual="backdrop-contrast:normal">...</div>   <!-- 100% kontras -->
+<div visual="backdrop-contrast:high">...</div>     <!-- 125% kontras -->
+<div visual="backdrop-contrast:max">...</div>      <!-- 150% kontras -->
 ```

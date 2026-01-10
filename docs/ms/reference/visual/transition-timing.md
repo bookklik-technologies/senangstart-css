@@ -1,6 +1,6 @@
-# Fungsi Masa Peralihan
+# Transition Timing Function
 
-Kawal easing peralihan.
+Mengawal pelicinan transisi.
 
 ## Sintaks
 ```
@@ -22,5 +22,15 @@ visual="ease:linear | ease:in | ease:out | ease:in-out"
 <div visual="transition ease:linear">...</div>  <!-- Linear -->
 <div visual="transition ease:in">...</div>      <!-- Ease in -->
 <div visual="transition ease:out">...</div>     <!-- Ease out -->
-<div visual="transition ease:in-out">...</div>  <!-- Ease in-out -->
+<div visual="transition ease:in-out">...</div>  <!-- Ease in-out (lalai) -->
+```
+
+## Dengan Duration
+
+```html
+<button 
+  visual="transition duration:slow ease:in-out bg:primary hover:bg:primary-dark"
+>
+  Butang Lancar
+</button>
 ```

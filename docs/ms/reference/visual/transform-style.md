@@ -1,6 +1,6 @@
-# Gaya Transform
+# Transform Style
 
-Kawal sama ada elemen anak diposisikan dalam ruang 3D.
+Mengawal sama ada elemen anak diposisikan dalam ruang 3D.
 
 ## Sintaks
 ```
@@ -14,9 +14,9 @@ visual="transform-style:flat | transform-style:preserve-3d"
 | `transform-style:flat` | `transform-style: flat` |
 | `transform-style:preserve-3d` | `transform-style: preserve-3d` |
 
-## Rata (Lalai)
+## Flat (Lalai)
 
-Elemen anak diratakan ke satah induk.
+Anak-anak diratakan ke satah induk.
 
 ```html
 <div visual="transform-style:flat">
@@ -24,12 +24,16 @@ Elemen anak diratakan ke satah induk.
 </div>
 ```
 
-## Kekalkan 3D
+## Preserve 3D
 
-Elemen anak mengekalkan posisi 3D mereka.
+Anak-anak mengekalkan kedudukan 3D mereka.
 
 ```html
 <div visual="transform-style:preserve-3d">
   <div visual="rotate:[60deg]">3D Dikekalkan</div>
 </div>
 ```
+
+## Kes Penggunaan
+
+Diperlukan untuk mencipta kesan 3D seperti kad flip di mana elemen anak perlu mengekalkan kedudukan 3D mereka berbanding induk.

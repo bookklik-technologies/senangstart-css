@@ -1,6 +1,6 @@
-# Songsang Latar
+# Backdrop Invert
 
-Songsangkan warna latar belakang.
+Membalikkan warna latar belakang.
 
 ## Sintaks
 ```
@@ -19,6 +19,8 @@ visual="backdrop-invert:none | backdrop-invert:partial | backdrop-invert:full | 
 ## Contoh
 
 ```html
-<div visual="backdrop-invert:none">...</div>  <!-- Tiada songsangan -->
-<div visual="backdrop-invert">...</div>       <!-- Songsang penuh -->
+<div visual="backdrop-invert:none">...</div>     <!-- Tiada pembalikan -->
+<div visual="backdrop-invert:partial">...</div>  <!-- 50% dibalikkan -->
+<div visual="backdrop-invert:full">...</div>     <!-- Dibalikkan sepenuhnya -->
+<div visual="backdrop-invert">...</div>          <!-- Dibalikkan sepenuhnya (lalai) -->
 ```

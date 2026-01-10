@@ -1,6 +1,6 @@
 # Perspektif
 
-Kawal jarak perspektif untuk transform 3D.
+Mengawal jarak perspektif untuk transformasi 3D menggunakan adjektif semula jadi.
 
 ## Sintaks
 ```
@@ -12,20 +12,24 @@ visual="perspective:none | perspective:small | perspective:medium | perspective:
 | Nilai | Jarak | Kesan |
 |-------|-------|-------|
 | `perspective:none` | - | Tiada perspektif 3D |
-| `perspective:small` | 250px | Kesan 3D dramatik |
-| `perspective:medium` | 500px | **Lalai**, seimbang |
+| `perspective:small` | 250px | Kesan 3D sangat dramatik |
+| `perspective:medium` | 500px | **Lalai**, 3D seimbang |
 | `perspective:big` | 750px | Kesan 3D halus |
-| `perspective:giant` | 1000px | Sangat halus |
-| `perspective:vast` | 1500px | Hampir rata |
+| `perspective:giant` | 1000px | 3D sangat halus |
+| `perspective:vast` | 1500px | Penampilan hampir rata |
 
 ## Contoh
 
 ```html
-<div visual="perspective:medium">...</div>  <!-- 500px -->
-<div visual="perspective:small">...</div>   <!-- 250px dramatik -->
+<div visual="perspective:none">...</div>    <!-- Tiada perspektif -->
+<div visual="perspective:small">...</div>   <!-- 250px - 3D Dramatik -->
+<div visual="perspective:medium">...</div>  <!-- 500px - 3D Standard -->
+<div visual="perspective:big">...</div>     <!-- 750px - 3D Halus -->
+<div visual="perspective:giant">...</div>   <!-- 1000px - Sangat halus -->
+<div visual="perspective:vast">...</div>    <!-- 1500px - Hampir rata -->
 ```
 
-## Nilai Arbitrari
+## Nilai Sewenang-Wenang
 
 ```html
 <div visual="perspective:[800px]">...</div>

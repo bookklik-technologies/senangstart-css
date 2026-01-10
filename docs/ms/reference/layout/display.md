@@ -1,6 +1,11 @@
-# Paparan
+# Display
 
 Mengawal jenis paparan elemen dengan atribut `layout`.
+
+## Sintaks
+```
+layout="[display-value]"
+```
 
 ## Nilai
 
@@ -17,7 +22,17 @@ Mengawal jenis paparan elemen dengan atribut `layout`.
 ## Contoh
 
 ```html
-<div layout="flex">Kontena Flexbox</div>
-<div layout="grid">Kontena Grid</div>
+<div layout="flex">Bekas flexbox</div>
+<div layout="grid">Bekas grid</div>
 <div layout="hidden">Elemen tersembunyi</div>
+<span layout="block">Span tahap block</span>
+```
+
+## Responsif
+
+```html
+<!-- Tersembunyi pada mudah alih, kelihatan sebagai flex pada tablet+ -->
+<div layout="hidden tab:flex">
+  Hanya kelihatan pada skrin lebih besar
+</div>
 ```

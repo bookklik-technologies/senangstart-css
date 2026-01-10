@@ -1,6 +1,6 @@
-# Kelegapan Latar
+# Backdrop Opacity
 
-Laras kelegapan penapis latar belakang.
+Melaraskan kelegapan penapis latar belakang.
 
 ## Sintaks
 ```
@@ -20,6 +20,9 @@ visual="backdrop-opacity:invisible | backdrop-opacity:faint | backdrop-opacity:h
 ## Contoh
 
 ```html
-<div visual="backdrop-opacity:half">...</div>   <!-- 50% kelegapan -->
-<div visual="backdrop-opacity:solid">...</div>  <!-- 100% kelegapan -->
+<div visual="backdrop-opacity:invisible">...</div>  <!-- 0% kelegapan -->
+<div visual="backdrop-opacity:faint">...</div>      <!-- 25% kelegapan -->
+<div visual="backdrop-opacity:half">...</div>       <!-- 50% kelegapan -->
+<div visual="backdrop-opacity:visible">...</div>    <!-- 75% kelegapan -->
+<div visual="backdrop-opacity:solid">...</div>      <!-- 100% kelegapan -->
 ```

@@ -1,6 +1,6 @@
-# Skala Kelabu Latar
+# Backdrop Grayscale
 
-Gunakan skala kelabu pada latar belakang.
+Menerapkan skala kelabu pada latar belakang.
 
 ## Sintaks
 ```
@@ -19,6 +19,8 @@ visual="backdrop-grayscale:none | backdrop-grayscale:partial | backdrop-grayscal
 ## Contoh
 
 ```html
-<div visual="backdrop-grayscale:none">...</div>  <!-- Warna penuh -->
-<div visual="backdrop-grayscale">...</div>       <!-- Kelabu penuh -->
+<div visual="backdrop-grayscale:none">...</div>     <!-- Warna penuh -->
+<div visual="backdrop-grayscale:partial">...</div>  <!-- 50% skala kelabu -->
+<div visual="backdrop-grayscale:full">...</div>     <!-- Skala kelabu penuh -->
+<div visual="backdrop-grayscale">...</div>          <!-- Skala kelabu penuh (lalai) -->
 ```

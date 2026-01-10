@@ -1,10 +1,10 @@
-# Putar Hue Latar
+# Backdrop Hue Rotate
 
-Putar hue latar belakang.
+Memutar warna latar belakang.
 
 ## Sintaks
 ```
-visual="backdrop-hue-rotate:15 | backdrop-hue-rotate:90 | backdrop-hue-rotate:180"
+visual="backdrop-hue-rotate:15 | backdrop-hue-rotate:30 | backdrop-hue-rotate:60 | backdrop-hue-rotate:90 | backdrop-hue-rotate:180"
 ```
 
 ## Nilai
@@ -20,6 +20,7 @@ visual="backdrop-hue-rotate:15 | backdrop-hue-rotate:90 | backdrop-hue-rotate:18
 ## Contoh
 
 ```html
+<div visual="backdrop-hue-rotate:15">...</div>   <!-- 15 darjah -->
 <div visual="backdrop-hue-rotate:90">...</div>   <!-- 90 darjah -->
 <div visual="backdrop-hue-rotate:180">...</div>  <!-- 180 darjah -->
 ```

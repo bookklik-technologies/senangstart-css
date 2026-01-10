@@ -86,74 +86,6 @@ function generateLayoutRule(token, config) {
     'shrink': 'flex-shrink: 1;',
     'shrink-0': 'flex-shrink: 0;',
     
-    // Justify Content
-    'justify-start': 'justify-content: flex-start;',
-    'justify-end': 'justify-content: flex-end;',
-    'justify-center': 'justify-content: center;',
-    'justify-between': 'justify-content: space-between;',
-    'justify-around': 'justify-content: space-around;',
-    'justify-evenly': 'justify-content: space-evenly;',
-    'justify-stretch': 'justify-content: stretch;',
-    
-    // Justify Items (Grid)
-    'justify-items-start': 'justify-items: start;',
-    'justify-items-end': 'justify-items: end;',
-    'justify-items-center': 'justify-items: center;',
-    'justify-items-stretch': 'justify-items: stretch;',
-    
-    // Justify Self
-    'justify-self-auto': 'justify-self: auto;',
-    'justify-self-start': 'justify-self: start;',
-    'justify-self-end': 'justify-self: end;',
-    'justify-self-center': 'justify-self: center;',
-    'justify-self-stretch': 'justify-self: stretch;',
-    
-    // Align Content
-    'content-start': 'align-content: flex-start;',
-    'content-end': 'align-content: flex-end;',
-    'content-center': 'align-content: center;',
-    'content-between': 'align-content: space-between;',
-    'content-around': 'align-content: space-around;',
-    'content-evenly': 'align-content: space-evenly;',
-    'content-stretch': 'align-content: stretch;',
-    
-    // Align Items
-    'items-start': 'align-items: flex-start;',
-    'items-end': 'align-items: flex-end;',
-    'items-center': 'align-items: center;',
-    'items-baseline': 'align-items: baseline;',
-    'items-stretch': 'align-items: stretch;',
-    
-    // Align Self
-    'self-auto': 'align-self: auto;',
-    'self-start': 'align-self: flex-start;',
-    'self-end': 'align-self: flex-end;',
-    'self-center': 'align-self: center;',
-    'self-baseline': 'align-self: baseline;',
-    'self-stretch': 'align-self: stretch;',
-    
-    // Place Content (Grid shorthand)
-    'place-content-start': 'place-content: start;',
-    'place-content-end': 'place-content: end;',
-    'place-content-center': 'place-content: center;',
-    'place-content-between': 'place-content: space-between;',
-    'place-content-around': 'place-content: space-around;',
-    'place-content-evenly': 'place-content: space-evenly;',
-    'place-content-stretch': 'place-content: stretch;',
-    
-    // Place Items (Grid shorthand)
-    'place-items-start': 'place-items: start;',
-    'place-items-end': 'place-items: end;',
-    'place-items-center': 'place-items: center;',
-    'place-items-stretch': 'place-items: stretch;',
-    
-    // Place Self (Grid shorthand)
-    'place-self-auto': 'place-self: auto;',
-    'place-self-start': 'place-self: start;',
-    'place-self-end': 'place-self: end;',
-    'place-self-center': 'place-self: center;',
-    'place-self-stretch': 'place-self: stretch;',
-    
     // Grid Auto Flow
     'grid-flow-row': 'grid-auto-flow: row;',
     'grid-flow-col': 'grid-auto-flow: column;',
@@ -161,7 +93,7 @@ function generateLayoutRule(token, config) {
     'grid-flow-row-dense': 'grid-auto-flow: row dense;',
     'grid-flow-col-dense': 'grid-auto-flow: column dense;',
     
-    // Shorthand Alignment (backwards compat)
+    // Shorthand Alignment (backwards compat - simple keywords)
     'center': 'justify-content: center; align-items: center;',
     'start': 'justify-content: flex-start; align-items: flex-start;',
     'end': 'justify-content: flex-end; align-items: flex-end;',
@@ -214,6 +146,93 @@ function generateLayoutRule(token, config) {
     // Container
     'container': 'width: 100%; margin-left: auto; margin-right: auto;'
   };
+  
+  // Justify Content (justify:[value])
+  if (property === 'justify') {
+    const justifyMap = {
+      'start': 'flex-start',
+      'end': 'flex-end',
+      'center': 'center',
+      'between': 'space-between',
+      'around': 'space-around',
+      'evenly': 'space-evenly',
+      'stretch': 'stretch'
+    };
+    return `justify-content: ${justifyMap[value] || value};`;
+  }
+  
+  // Justify Items (justify-items:[value])
+  if (property === 'justify-items') {
+    return `justify-items: ${value};`;
+  }
+  
+  // Justify Self (justify-self:[value])
+  if (property === 'justify-self') {
+    return `justify-self: ${value};`;
+  }
+  
+  // Align Content (content:[value])
+  if (property === 'content') {
+    const contentMap = {
+      'start': 'flex-start',
+      'end': 'flex-end',
+      'center': 'center',
+      'between': 'space-between',
+      'around': 'space-around',
+      'evenly': 'space-evenly',
+      'stretch': 'stretch'
+    };
+    return `align-content: ${contentMap[value] || value};`;
+  }
+  
+  // Align Items (items:[value])
+  if (property === 'items') {
+    const itemsMap = {
+      'start': 'flex-start',
+      'end': 'flex-end',
+      'center': 'center',
+      'baseline': 'baseline',
+      'stretch': 'stretch'
+    };
+    return `align-items: ${itemsMap[value] || value};`;
+  }
+  
+  // Align Self (self:[value])
+  if (property === 'self') {
+    const selfMap = {
+      'auto': 'auto',
+      'start': 'flex-start',
+      'end': 'flex-end',
+      'center': 'center',
+      'baseline': 'baseline',
+      'stretch': 'stretch'
+    };
+    return `align-self: ${selfMap[value] || value};`;
+  }
+  
+  // Place Content (place-content:[value])
+  if (property === 'place-content') {
+    const placeContentMap = {
+      'start': 'start',
+      'end': 'end',
+      'center': 'center',
+      'between': 'space-between',
+      'around': 'space-around',
+      'evenly': 'space-evenly',
+      'stretch': 'stretch'
+    };
+    return `place-content: ${placeContentMap[value] || value};`;
+  }
+  
+  // Place Items (place-items:[value])
+  if (property === 'place-items') {
+    return `place-items: ${value};`;
+  }
+  
+  // Place Self (place-self:[value])
+  if (property === 'place-self') {
+    return `place-self: ${value};`;
+  }
   
   // Z-index
   if (property === 'z') {
