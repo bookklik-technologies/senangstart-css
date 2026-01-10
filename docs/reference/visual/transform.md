@@ -2,6 +2,11 @@
 
 Apply 2D and 3D transformations to elements including scale, rotate, translate, and skew.
 
+## Syntax
+```
+visual="transform:[value]"
+```
+
 ## Scale
 
 Resize elements proportionally.

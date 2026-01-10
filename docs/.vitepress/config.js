@@ -235,11 +235,33 @@ const enSidebar = {
           ]
         },
         {
-          text: 'Filters',
+          text: 'Filter',
           collapsed: true,
           items: [
-            { text: 'Filter', link: '/reference/visual/filter' },
-            { text: 'Backdrop Filter', link: '/reference/visual/backdrop-filter' }
+            { text: 'Blur', link: '/reference/visual/filter-blur' },
+            { text: 'Brightness', link: '/reference/visual/filter-brightness' },
+            { text: 'Contrast', link: '/reference/visual/filter-contrast' },
+            { text: 'Drop Shadow', link: '/reference/visual/filter-drop-shadow' },
+            { text: 'Grayscale', link: '/reference/visual/filter-grayscale' },
+            { text: 'Hue Rotate', link: '/reference/visual/filter-hue-rotate' },
+            { text: 'Invert', link: '/reference/visual/filter-invert' },
+            { text: 'Saturate', link: '/reference/visual/filter-saturate' },
+            { text: 'Sepia', link: '/reference/visual/filter-sepia' }
+          ]
+        },
+        {
+          text: 'Backdrop Filter',
+          collapsed: true,
+          items: [
+            { text: 'Backdrop Blur', link: '/reference/visual/backdrop-blur' },
+            { text: 'Backdrop Brightness', link: '/reference/visual/backdrop-brightness' },
+            { text: 'Backdrop Contrast', link: '/reference/visual/backdrop-contrast' },
+            { text: 'Backdrop Grayscale', link: '/reference/visual/backdrop-grayscale' },
+            { text: 'Backdrop Hue Rotate', link: '/reference/visual/backdrop-hue-rotate' },
+            { text: 'Backdrop Invert', link: '/reference/visual/backdrop-invert' },
+            { text: 'Backdrop Opacity', link: '/reference/visual/backdrop-opacity' },
+            { text: 'Backdrop Saturate', link: '/reference/visual/backdrop-saturate' },
+            { text: 'Backdrop Sepia', link: '/reference/visual/backdrop-sepia' }
           ]
         },
         {
@@ -517,8 +539,30 @@ const msSidebar = {
           text: 'Penapis',
           collapsed: true,
           items: [
-            { text: 'Penapis', link: '/ms/reference/visual/filter' },
-            { text: 'Penapis Latar Belakang', link: '/ms/reference/visual/backdrop-filter' }
+            { text: 'Kabur', link: '/ms/reference/visual/filter-blur' },
+            { text: 'Kecerahan', link: '/ms/reference/visual/filter-brightness' },
+            { text: 'Kontras', link: '/ms/reference/visual/filter-contrast' },
+            { text: 'Bayang Jatuh', link: '/ms/reference/visual/filter-drop-shadow' },
+            { text: 'Skala Kelabu', link: '/ms/reference/visual/filter-grayscale' },
+            { text: 'Putar Hue', link: '/ms/reference/visual/filter-hue-rotate' },
+            { text: 'Songsang', link: '/ms/reference/visual/filter-invert' },
+            { text: 'Ketepuan', link: '/ms/reference/visual/filter-saturate' },
+            { text: 'Sepia', link: '/ms/reference/visual/filter-sepia' }
+          ]
+        },
+        {
+          text: 'Penapis Latar Belakang',
+          collapsed: true,
+          items: [
+            { text: 'Kabur Latar', link: '/ms/reference/visual/backdrop-blur' },
+            { text: 'Kecerahan Latar', link: '/ms/reference/visual/backdrop-brightness' },
+            { text: 'Kontras Latar', link: '/ms/reference/visual/backdrop-contrast' },
+            { text: 'Skala Kelabu Latar', link: '/ms/reference/visual/backdrop-grayscale' },
+            { text: 'Putar Hue Latar', link: '/ms/reference/visual/backdrop-hue-rotate' },
+            { text: 'Songsang Latar', link: '/ms/reference/visual/backdrop-invert' },
+            { text: 'Kelegapan Latar', link: '/ms/reference/visual/backdrop-opacity' },
+            { text: 'Ketepuan Latar', link: '/ms/reference/visual/backdrop-saturate' },
+            { text: 'Sepia Latar', link: '/ms/reference/visual/backdrop-sepia' }
           ]
         },
         {

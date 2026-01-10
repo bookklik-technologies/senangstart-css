@@ -2,21 +2,26 @@
 
 Mengawal hiasan teks dengan atribut `visual`.
 
+## Sintaks
+```
+visual="text-decoration-line:underline | text-decoration-style:wavy | text-decoration-color:[#ff0000]"
+```
+
 ## Nilai
 
 | Nilai | Output CSS |
 |-------|------------|
-| `underline` | `text-decoration-line: underline` |
-| `overline` | `text-decoration-line: overline` |
-| `line-through` | `text-decoration-line: line-through` |
-| `no-underline` | `text-decoration-line: none` |
-| `decoration-wavy` | `text-decoration-style: wavy` |
-| `decoration-dashed` | `text-decoration-style: dashed` |
+| `text-decoration-line:underline` | `text-decoration-line: underline` |
+| `text-decoration-line:overline` | `text-decoration-line: overline` |
+| `text-decoration-line:line-through` | `text-decoration-line: line-through` |
+| `text-decoration-line:none` | `text-decoration-line: none` |
+| `text-decoration-style:wavy` | `text-decoration-style: wavy` |
+| `text-decoration-style:dashed` | `text-decoration-style: dashed` |
 
 ## Contoh
 
 ```html
-<a visual="underline hover:no-underline">Pautan</a>
-<span visual="line-through">Teks dipadam</span>
-<span visual="underline decoration-wavy">Ralat</span>
+<a visual="text-decoration-line:underline hover:text-decoration-line:none">Pautan</a>
+<span visual="text-decoration-line:line-through">Teks dipadam</span>
+<span visual="text-decoration-line:underline text-decoration-style:wavy">Ralat</span>
 ```

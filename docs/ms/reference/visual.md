@@ -22,14 +22,14 @@ Atribut `visual` mengawal warna, tekstur, tipografi, dan penampilan.
 
 - [Penjajaran Teks](./visual/text-alignment) - `text:left`, `text:center`, `text:right`
 - [Transformasi Teks](./visual/text-transform) - `uppercase`, `lowercase`, `capitalize`
-- [Hiasan Teks](./visual/text-decoration) - `underline`, `line-through`
+- [Hiasan Teks](./visual/text-decoration) - `text-decoration-line:underline`, `text-decoration-style:wavy`
 - [Limpahan Teks](./visual/text-overflow) - `truncate`, `text-ellipsis`
-- [Pembalutan Teks](./visual/text-wrap) - `text-wrap`, `text-nowrap`, `text-balance`
-- [Whitespace](./visual/whitespace) - `whitespace-pre`, `whitespace-nowrap`
-- [Word Break](./visual/word-break) - `break-normal`, `break-words`, `break-all`
-- [Hyphens](./visual/hyphens) - `hyphens-auto`, `hyphens-none`
+- [Pembalutan Teks](./visual/text-wrap) - `text-wrap:wrap`, `text-wrap:nowrap`, `text-wrap:balance`
+- [Whitespace](./visual/whitespace) - `white-space:pre`, `white-space:nowrap`
+- [Word Break](./visual/word-break) - `word-break:normal`, `overflow-wrap:break-word`, `word-break:break-all`
+- [Hyphens](./visual/hyphens) - `hyphens:auto`, `hyphens:none`
 - [Inden Teks](./visual/text-indent) - `indent:small`, `indent:medium`
-- [Penjajaran Menegak](./visual/vertical-align) - `align-middle`, `align-top`
+- [Penjajaran Menegak](./visual/vertical-align) - `vertical-align:middle`, `vertical-align:top`
 
 ## Senarai
 

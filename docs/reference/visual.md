@@ -19,14 +19,14 @@ The `visual` attribute controls colors, textures, typography, and appearance.
 - [Line Clamp](./visual/line-clamp) - `line-clamp:1`, `line-clamp:2`, `line-clamp:3`
 - [Text Alignment](./visual/text-alignment) - `text:left`, `text:center`, `text:right`
 - [Text Transform](./visual/text-transform) - `uppercase`, `lowercase`, `capitalize`
-- [Text Decoration](./visual/text-decoration) - `underline`, `line-through`, decoration styles
+- [Text Decoration](./visual/text-decoration) - `text-decoration-line:underline`, `text-decoration-style:wavy`
 - [Text Overflow](./visual/text-overflow) - `truncate`, `text-ellipsis`
-- [Text Wrap](./visual/text-wrap) - `text-wrap`, `text-nowrap`, `text-balance`
-- [Whitespace](./visual/whitespace) - `whitespace-pre`, `whitespace-nowrap`
-- [Word Break](./visual/word-break) - `break-normal`, `break-words`, `break-all`
-- [Hyphens](./visual/hyphens) - `hyphens-auto`, `hyphens-none`
+- [Text Wrap](./visual/text-wrap) - `text-wrap:wrap`, `text-wrap:nowrap`, `text-wrap:balance`
+- [Whitespace](./visual/whitespace) - `white-space:pre`, `white-space:nowrap`
+- [Word Break](./visual/word-break) - `word-break:normal`, `overflow-wrap:break-word`, `word-break:break-all`
+- [Hyphens](./visual/hyphens) - `hyphens:auto`, `hyphens:none`
 - [Text Indent](./visual/text-indent) - `indent:small`, `indent:medium`
-- [Vertical Align](./visual/vertical-align) - `align-middle`, `align-top`
+- [Vertical Align](./visual/vertical-align) - `vertical-align:middle`, `vertical-align:top`
 
 ## Lists
 

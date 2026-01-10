@@ -2,6 +2,11 @@
 
 Control the transition of CSS properties using natural adjective-based durations.
 
+## Syntax
+```
+visual="transition:[value]"
+```
+
 ## Basic Usage
 
 Add transitions to enable smooth state changes on hover, focus, and other interactions.

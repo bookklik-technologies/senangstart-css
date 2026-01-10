@@ -2,17 +2,22 @@
 
 Mengawal penjajaran menegak elemen inline.
 
+## Sintaks
+```
+visual="vertical-align:baseline | vertical-align:top | vertical-align:middle | vertical-align:bottom"
+```
+
 ## Nilai
 
 | Nilai | Output CSS |
 |-------|------------|
-| `align-baseline` | `vertical-align: baseline` |
-| `align-top` | `vertical-align: top` |
-| `align-middle` | `vertical-align: middle` |
-| `align-bottom` | `vertical-align: bottom` |
+| `vertical-align:baseline` | `vertical-align: baseline` |
+| `vertical-align:top` | `vertical-align: top` |
+| `vertical-align:middle` | `vertical-align: middle` |
+| `vertical-align:bottom` | `vertical-align: bottom` |
 
 ## Contoh
 
 ```html
-<img visual="align-middle" src="ikon.png"> Teks dijajarkan
+<img visual="vertical-align:middle" src="ikon.png"> Teks dijajarkan
 ```
