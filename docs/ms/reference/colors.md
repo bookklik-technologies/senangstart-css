@@ -4,28 +4,28 @@ Rujukan lengkap untuk palet warna.
 
 ## Warna Semantik
 
-| Key | Value | Description |
+| Kunci | Nilai | Penerangan |
 |-----|-------|-------------|
-| `white` | #FFFFFF | Pure white |
-| `black` | #000000 | Pure black |
-| `grey` | #6B7280 | Neutral grey |
-| `dark` | #3E4A5D | **Brand dark** |
-| `light` | #DBEAFE | **Brand light** |
-| `primary` | #2563EB | **Brand primary** |
-| `secondary` | #DBEAFE | **Brand secondary** |
-| `success` | #10B981 | Positive feedback |
-| `warning` | #F59E0B | Cautions |
-| `danger` | #EF4444 | Errors |
+| `white` | #FFFFFF | Putih tulen |
+| `black` | #000000 | Hitam tulen |
+| `grey` | #6B7280 | Kelabu neutral |
+| `dark` | #3E4A5D | **Gelap jenama** |
+| `light` | #DBEAFE | **Cerah jenama** |
+| `primary` | #2563EB | **Utama jenama** |
+| `secondary` | #DBEAFE | **Sekunder jenama** |
+| `success` | #10B981 | Maklum balas positif |
+| `warning` | #F59E0B | Amaran |
+| `danger` | #EF4444 | Ralat |
 
-## Color Palette
+## Palet Warna
 
-All colors are available in 11 shades: **50**, **100**, **200**, **300**, **400**, **500**, **600**, **700**, **800**, **900**, **950**
+Semua warna tersedia dalam 11 warna: **50**, **100**, **200**, **300**, **400**, **500**, **600**, **700**, **800**, **900**, **950**
 
-### Chromatic Colors
+### Warna Kromatik
 
 <div class="color-grid">
 
-| Color | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 |
+| Warna | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 |
 |-------|-----|------|------|------|------|------|------|------|------|------|------|
 | **Red** | <span style="background:#FEF2F2;padding:2px 8px;border-radius:4px">#FEF2F2</span> | <span style="background:#FEE2E2;padding:2px 8px;border-radius:4px">#FEE2E2</span> | <span style="background:#FECACA;padding:2px 8px;border-radius:4px">#FECACA</span> | <span style="background:#FCA5A5;padding:2px 8px;border-radius:4px">#FCA5A5</span> | <span style="background:#F87171;padding:2px 8px;border-radius:4px">#F87171</span> | <span style="background:#EF4444;padding:2px 8px;border-radius:4px;color:white">#EF4444</span> | <span style="background:#DC2626;padding:2px 8px;border-radius:4px;color:white">#DC2626</span> | <span style="background:#B91C1C;padding:2px 8px;border-radius:4px;color:white">#B91C1C</span> | <span style="background:#991B1B;padding:2px 8px;border-radius:4px;color:white">#991B1B</span> | <span style="background:#7F1D1D;padding:2px 8px;border-radius:4px;color:white">#7F1D1D</span> | <span style="background:#450A0A;padding:2px 8px;border-radius:4px;color:white">#450A0A</span> |
 | **Orange** | <span style="background:#FFF7ED;padding:2px 8px;border-radius:4px">#FFF7ED</span> | <span style="background:#FFEDD5;padding:2px 8px;border-radius:4px">#FFEDD5</span> | <span style="background:#FED7AA;padding:2px 8px;border-radius:4px">#FED7AA</span> | <span style="background:#FDBA74;padding:2px 8px;border-radius:4px">#FDBA74</span> | <span style="background:#FB923C;padding:2px 8px;border-radius:4px">#FB923C</span> | <span style="background:#F97316;padding:2px 8px;border-radius:4px;color:white">#F97316</span> | <span style="background:#EA580C;padding:2px 8px;border-radius:4px;color:white">#EA580C</span> | <span style="background:#C2410C;padding:2px 8px;border-radius:4px;color:white">#C2410C</span> | <span style="background:#9A3412;padding:2px 8px;border-radius:4px;color:white">#9A3412</span> | <span style="background:#7C2D12;padding:2px 8px;border-radius:4px;color:white">#7C2D12</span> | <span style="background:#431407;padding:2px 8px;border-radius:4px;color:white">#431407</span> |
@@ -47,11 +47,11 @@ All colors are available in 11 shades: **50**, **100**, **200**, **300**, **400*
 
 </div>
 
-### Neutral Colors
+### Warna Neutral
 
 <div class="color-grid">
 
-| Color | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 |
+| Warna | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 |
 |-------|-----|------|------|------|------|------|------|------|------|------|------|
 | **Slate** | <span style="background:#F8FAFC;padding:2px 8px;border-radius:4px">#F8FAFC</span> | <span style="background:#F1F5F9;padding:2px 8px;border-radius:4px">#F1F5F9</span> | <span style="background:#E2E8F0;padding:2px 8px;border-radius:4px">#E2E8F0</span> | <span style="background:#CBD5E1;padding:2px 8px;border-radius:4px">#CBD5E1</span> | <span style="background:#94A3B8;padding:2px 8px;border-radius:4px">#94A3B8</span> | <span style="background:#64748B;padding:2px 8px;border-radius:4px;color:white">#64748B</span> | <span style="background:#475569;padding:2px 8px;border-radius:4px;color:white">#475569</span> | <span style="background:#334155;padding:2px 8px;border-radius:4px;color:white">#334155</span> | <span style="background:#1E293B;padding:2px 8px;border-radius:4px;color:white">#1E293B</span> | <span style="background:#0F172A;padding:2px 8px;border-radius:4px;color:white">#0F172A</span> | <span style="background:#020617;padding:2px 8px;border-radius:4px;color:white">#020617</span> |
 | **Gray** | <span style="background:#F9FAFB;padding:2px 8px;border-radius:4px">#F9FAFB</span> | <span style="background:#F3F4F6;padding:2px 8px;border-radius:4px">#F3F4F6</span> | <span style="background:#E5E7EB;padding:2px 8px;border-radius:4px">#E5E7EB</span> | <span style="background:#D1D5DB;padding:2px 8px;border-radius:4px">#D1D5DB</span> | <span style="background:#9CA3AF;padding:2px 8px;border-radius:4px">#9CA3AF</span> | <span style="background:#6B7280;padding:2px 8px;border-radius:4px;color:white">#6B7280</span> | <span style="background:#4B5563;padding:2px 8px;border-radius:4px;color:white">#4B5563</span> | <span style="background:#374151;padding:2px 8px;border-radius:4px;color:white">#374151</span> | <span style="background:#1F2937;padding:2px 8px;border-radius:4px;color:white">#1F2937</span> | <span style="background:#111827;padding:2px 8px;border-radius:4px;color:white">#111827</span> | <span style="background:#030712;padding:2px 8px;border-radius:4px;color:white">#030712</span> |
@@ -61,44 +61,44 @@ All colors are available in 11 shades: **50**, **100**, **200**, **300**, **400*
 
 </div>
 
-## Usage
+## Penggunaan
 
-### Background Colors
-
-```html
-<div visual="bg:blue-500">Blue 500 background</div>
-<div visual="bg:slate-100">Light slate background</div>
-<div visual="bg:emerald-600">Emerald 600 background</div>
-```
-
-### Text Colors
+### Warna Latar Belakang
 
 ```html
-<span visual="text:gray-900">Dark text</span>
-<span visual="text:blue-600">Blue link</span>
-<span visual="text:red-500">Error text</span>
+<div visual="bg:blue-500">Latar belakang Blue 500</div>
+<div visual="bg:slate-100">Latar belakang slate cerah</div>
+<div visual="bg:emerald-600">Latar belakang Emerald 600</div>
 ```
 
-### Border Colors
+### Warna Teks
 
 ```html
-<div visual="border:gray-300 border-w:[1px]">Light border</div>
-<div visual="border:blue-500 border-w:[2px]">Blue border</div>
+<span visual="text:gray-900">Teks gelap</span>
+<span visual="text:blue-600">Pautan biru</span>
+<span visual="text:red-500">Teks ralat</span>
 ```
 
-### Arbitrary Colors
-
-Use brackets for custom hex values:
+### Warna Sempadan
 
 ```html
-<div visual="bg:[#8B5CF6]">Custom purple</div>
-<div visual="text:[#EC4899]">Custom pink text</div>
-<div visual="bg:[rgba(0,0,0,0.5)]">Semi-transparent</div>
+<div visual="border:gray-300 border-w:[1px]">Sempadan cerah</div>
+<div visual="border:blue-500 border-w:[2px]">Sempadan biru</div>
 ```
 
-## Customization
+### Warna Arbitrari
 
-Add custom colors in `senangstart.config.js`:
+Gunakan kurungan untuk nilai hex tersuai:
+
+```html
+<div visual="bg:[#8B5CF6]">Ungu tersuai</div>
+<div visual="text:[#EC4899]">Teks merah jambu tersuai</div>
+<div visual="bg:[rgba(0,0,0,0.5)]">Separuh telus</div>
+```
+
+## Penyesuaian
+
+Tambah warna tersuai dalam `senangstart.config.js`:
 
 ```javascript
 export default {
@@ -113,14 +113,14 @@ export default {
 }
 ```
 
-## Semantic Usage
+## Penggunaan Semantik
 
-| Color | Recommended Use |
+| Warna | Kegunaan Disyorkan |
 |-------|-----------------|
-| `primary` | Main actions, links, highlights |
-| `success` | Positive feedback, confirmations |
-| `warning` | Cautions, important notices |
-| `danger` | Errors, destructive actions |
-| `grey` | Secondary text, borders |
-| `dark` | Primary text, headings |
-| `light` | Backgrounds, subtle fills |
+| `primary` | Tindakan utama, pautan, sorotan |
+| `success` | Maklum balas positif, pengesahan |
+| `warning` | Amaran, notis penting |
+| `danger` | Ralat, tindakan merosakkan |
+| `grey` | Teks sekunder, sempadan |
+| `dark` | Teks utama, tajuk |
+| `light` | Latar belakang, isian halus |

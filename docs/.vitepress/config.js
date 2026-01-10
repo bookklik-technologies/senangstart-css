@@ -209,7 +209,11 @@ const enSidebar = {
             { text: 'Border Radius', link: '/reference/visual/border-radius' },
             { text: 'Box Shadow', link: '/reference/visual/box-shadow' },
             { text: 'Border', link: '/reference/visual/border' },
-            { text: 'Opacity', link: '/reference/visual/opacity' }
+            { text: 'Outline', link: '/reference/visual/outline' },
+            { text: 'Text Shadow', link: '/reference/visual/text-shadow' },
+            { text: 'Opacity', link: '/reference/visual/opacity' },
+            { text: 'Blend Modes', link: '/reference/visual/blend-modes' },
+            { text: 'Mask', link: '/reference/visual/mask' }
           ]
         },
         {
@@ -436,7 +440,11 @@ const msSidebar = {
             { text: 'Radius Sempadan', link: '/ms/reference/visual/border-radius' },
             { text: 'Bayang Kotak', link: '/ms/reference/visual/box-shadow' },
             { text: 'Sempadan', link: '/ms/reference/visual/border' },
-            { text: 'Kelegapan', link: '/ms/reference/visual/opacity' }
+            { text: 'Garis Luar', link: '/ms/reference/visual/outline' },
+            { text: 'Bayang Teks', link: '/ms/reference/visual/text-shadow' },
+            { text: 'Kelegapan', link: '/ms/reference/visual/opacity' },
+            { text: 'Mod Campuran', link: '/ms/reference/visual/blend-modes' },
+            { text: 'Topeng', link: '/ms/reference/visual/mask' }
           ]
         },
         {

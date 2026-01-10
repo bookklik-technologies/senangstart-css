@@ -564,10 +564,91 @@ function generateVisualRule(token, config) {
   }
   
   const rules = {
-    // Background
+    // Background Color
     'bg': () => {
       const cssValue = isArbitrary ? value : `var(--c-${value})`;
       return `background-color: ${cssValue};`;
+    },
+    
+    // Background Image
+    'bg-image': () => {
+      const cssValue = isArbitrary ? value : `url(${value})`;
+      return `background-image: ${cssValue};`;
+    },
+    
+    // Background Attachment
+    'bg-attachment': () => {
+      return `background-attachment: ${value};`;
+    },
+    
+    // Background Clip
+    'bg-clip': () => {
+      const clipMap = {
+        'border': 'border-box',
+        'padding': 'padding-box',
+        'content': 'content-box',
+        'text': 'text'
+      };
+      const cssValue = clipMap[value] || value;
+      return `background-clip: ${cssValue};`;
+    },
+    
+    // Background Origin
+    'bg-origin': () => {
+      const originMap = {
+        'border': 'border-box',
+        'padding': 'padding-box',
+        'content': 'content-box'
+      };
+      const cssValue = originMap[value] || value;
+      return `background-origin: ${cssValue};`;
+    },
+    
+    // Background Position
+    'bg-position': () => {
+      const positionMap = {
+        'center': 'center',
+        'top': 'top',
+        'bottom': 'bottom',
+        'left': 'left',
+        'right': 'right',
+        'top-left': 'top left',
+        'top-right': 'top right',
+        'bottom-left': 'bottom left',
+        'bottom-right': 'bottom right'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (positionMap[value] || value);
+      return `background-position: ${cssValue};`;
+    },
+    
+    // Background Repeat
+    'bg-repeat': () => {
+      const repeatMap = {
+        'repeat': 'repeat',
+        'no-repeat': 'no-repeat',
+        'repeat-x': 'repeat-x',
+        'repeat-y': 'repeat-y',
+        'round': 'round',
+        'space': 'space'
+      };
+      const cssValue = repeatMap[value] || value;
+      return `background-repeat: ${cssValue};`;
+    },
+    
+    // Background Size
+    'bg-size': () => {
+      const sizeMap = {
+        'auto': 'auto',
+        'cover': 'cover',
+        'contain': 'contain'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (sizeMap[value] || value);
+      return `background-size: ${cssValue};`;
+    },
+    
+    // Background Blend Mode
+    'bg-blend': () => {
+      return `background-blend-mode: ${value};`;
     },
     
     // Text color
@@ -577,6 +658,18 @@ function generateVisualRule(token, config) {
       }
       const cssValue = isArbitrary ? value : `var(--c-${value})`;
       return `color: ${cssValue};`;
+    },
+    
+    // Text Shadow
+    'text-shadow': () => {
+      const shadowPresets = {
+        'none': 'none',
+        'small': '0 1px 2px rgba(0,0,0,0.1)',
+        'medium': '0 2px 4px rgba(0,0,0,0.15)',
+        'big': '0 4px 8px rgba(0,0,0,0.2)'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (shadowPresets[value] || value);
+      return `text-shadow: ${cssValue};`;
     },
     
     // Font size
@@ -667,9 +760,37 @@ function generateVisualRule(token, config) {
       return `border-width: ${cssValue}; border-style: solid;`;
     },
     
+    // Border style
+    'border-style': () => {
+      return `border-style: ${value};`;
+    },
+    
     // Border radius
     'rounded': () => {
       return `border-radius: var(--r-${value});`;
+    },
+    
+    // Outline Width
+    'outline-w': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `outline-width: ${cssValue};`;
+    },
+    
+    // Outline Color
+    'outline': () => {
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `outline-color: ${cssValue};`;
+    },
+    
+    // Outline Style
+    'outline-style': () => {
+      return `outline-style: ${value};`;
+    },
+    
+    // Outline Offset
+    'outline-offset': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `outline-offset: ${cssValue};`;
     },
     
     // Box shadow
@@ -680,6 +801,97 @@ function generateVisualRule(token, config) {
     // Opacity
     'opacity': () => {
       return `opacity: ${value};`;
+    },
+    
+    // Mix Blend Mode
+    'mix-blend': () => {
+      return `mix-blend-mode: ${value};`;
+    },
+    
+    // Mask Clip
+    'mask-clip': () => {
+      const clipMap = {
+        'border': 'border-box',
+        'padding': 'padding-box',
+        'content': 'content-box',
+        'text': 'text'
+      };
+      const cssValue = clipMap[value] || value;
+      return `mask-clip: ${cssValue};`;
+    },
+    
+    // Mask Composite
+    'mask-composite': () => {
+      return `mask-composite: ${value};`;
+    },
+    
+    // Mask Image
+    'mask-image': () => {
+      const cssValue = isArbitrary ? value : `url(${value})`;
+      return `mask-image: ${cssValue};`;
+    },
+    
+    // Mask Mode
+    'mask-mode': () => {
+      return `mask-mode: ${value};`;
+    },
+    
+    // Mask Origin
+    'mask-origin': () => {
+      const originMap = {
+        'border': 'border-box',
+        'padding': 'padding-box',
+        'content': 'content-box'
+      };
+      const cssValue = originMap[value] || value;
+      return `mask-origin: ${cssValue};`;
+    },
+    
+    // Mask Position
+    'mask-position': () => {
+      const positionMap = {
+        'center': 'center',
+        'top': 'top',
+        'bottom': 'bottom',
+        'left': 'left',
+        'right': 'right',
+        'top-left': 'top left',
+        'top-right': 'top right',
+        'bottom-left': 'bottom left',
+        'bottom-right': 'bottom right'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (positionMap[value] || value);
+      return `mask-position: ${cssValue};`;
+    },
+    
+    // Mask Repeat
+    'mask-repeat': () => {
+      const repeatMap = {
+        'repeat': 'repeat',
+        'no-repeat': 'no-repeat',
+        'repeat-x': 'repeat-x',
+        'repeat-y': 'repeat-y',
+        'round': 'round',
+        'space': 'space'
+      };
+      const cssValue = repeatMap[value] || value;
+      return `mask-repeat: ${cssValue};`;
+    },
+    
+    // Mask Size
+    'mask-size': () => {
+      const sizeMap = {
+        'auto': 'auto',
+        'cover': 'cover',
+        'contain': 'contain'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (sizeMap[value] || value);
+      return `mask-size: ${cssValue};`;
+    },
+    
+    // Mask Type
+    'mask-type': () => {
+      return `mask-type: ${value};`;
     },
     
     // Content
