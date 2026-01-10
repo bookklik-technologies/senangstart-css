@@ -50,11 +50,175 @@ const enSidebar = {
   ],
   '/reference/': [
     {
-      text: 'Attributes',
+      text: 'Layout',
+      link: '/reference/layout',
+      collapsed: false,
       items: [
-        { text: 'Layout', link: '/reference/layout' },
-        { text: 'Space', link: '/reference/space' },
-        { text: 'Visual', link: '/reference/visual' }
+        {
+          text: 'Display & Flex',
+          collapsed: true,
+          items: [
+            { text: 'Display', link: '/reference/layout/display' },
+            { text: 'Flex Direction', link: '/reference/layout/flex-direction' },
+            { text: 'Flex Wrap', link: '/reference/layout/flex-wrap' },
+            { text: 'Flex Items', link: '/reference/layout/flex-items' },
+            { text: 'Order', link: '/reference/layout/order' }
+          ]
+        },
+        {
+          text: 'Alignment',
+          collapsed: true,
+          items: [
+            { text: 'Justify Content', link: '/reference/layout/justify-content' },
+            { text: 'Justify Items', link: '/reference/layout/justify-items' },
+            { text: 'Justify Self', link: '/reference/layout/justify-self' },
+            { text: 'Align Content', link: '/reference/layout/align-content' },
+            { text: 'Align Items', link: '/reference/layout/align-items' },
+            { text: 'Align Self', link: '/reference/layout/align-self' },
+            { text: 'Place Content', link: '/reference/layout/place-content' },
+            { text: 'Place Items', link: '/reference/layout/place-items' },
+            { text: 'Place Self', link: '/reference/layout/place-self' },
+            { text: 'Shorthand', link: '/reference/layout/shorthand-alignment' }
+          ]
+        },
+        {
+          text: 'Grid',
+          collapsed: true,
+          items: [
+            { text: 'Grid Columns', link: '/reference/layout/grid-columns' },
+            { text: 'Grid Rows', link: '/reference/layout/grid-rows' },
+            { text: 'Column Span', link: '/reference/layout/grid-column-span' },
+            { text: 'Row Span', link: '/reference/layout/grid-row-span' },
+            { text: 'Auto Flow', link: '/reference/layout/grid-auto-flow' },
+            { text: 'Auto Sizing', link: '/reference/layout/grid-auto-sizing' }
+          ]
+        },
+        {
+          text: 'Positioning',
+          collapsed: true,
+          items: [
+            { text: 'Position', link: '/reference/layout/position' },
+            { text: 'Inset', link: '/reference/layout/inset' },
+            { text: 'Z-Index', link: '/reference/layout/z-index' }
+          ]
+        },
+        {
+          text: 'Utilities',
+          collapsed: true,
+          items: [
+            { text: 'Visibility', link: '/reference/layout/visibility' },
+            { text: 'Overflow', link: '/reference/layout/overflow' },
+            { text: 'Overscroll', link: '/reference/layout/overscroll' },
+            { text: 'Aspect Ratio', link: '/reference/layout/aspect-ratio' },
+            { text: 'Columns', link: '/reference/layout/columns' },
+            { text: 'Object Fit', link: '/reference/layout/object-fit' },
+            { text: 'Object Position', link: '/reference/layout/object-position' },
+            { text: 'Float & Clear', link: '/reference/layout/float-clear' },
+            { text: 'Isolation', link: '/reference/layout/isolation' },
+            { text: 'Box Sizing', link: '/reference/layout/box-sizing' }
+          ]
+        }
+      ]
+    },
+    {
+      text: 'Space',
+      link: '/reference/space',
+      collapsed: false,
+      items: [
+        {
+          text: 'Spacing',
+          collapsed: true,
+          items: [
+            { text: 'Padding', link: '/reference/space/padding' },
+            { text: 'Margin', link: '/reference/space/margin' },
+            { text: 'Gap', link: '/reference/space/gap' }
+          ]
+        },
+        {
+          text: 'Dimensions',
+          collapsed: true,
+          items: [
+            { text: 'Sizing', link: '/reference/space/sizing' }
+          ]
+        },
+        {
+          text: 'Reference',
+          collapsed: true,
+          items: [
+            { text: 'Arbitrary Values', link: '/reference/space/arbitrary-values' },
+            { text: 'Scale Reference', link: '/reference/space/scale-reference' }
+          ]
+        }
+      ]
+    },
+    {
+      text: 'Visual',
+      link: '/reference/visual',
+      collapsed: false,
+      items: [
+        {
+          text: 'Colors',
+          collapsed: true,
+          items: [
+            { text: 'Background', link: '/reference/visual/background' },
+            { text: 'Text Color', link: '/reference/visual/text-color' }
+          ]
+        },
+        {
+          text: 'Typography',
+          collapsed: true,
+          items: [
+            { text: 'Text Size', link: '/reference/visual/text-size' },
+            { text: 'Font Family', link: '/reference/visual/font-family' },
+            { text: 'Font Weight', link: '/reference/visual/font-weight' },
+            { text: 'Font Style', link: '/reference/visual/font-style' },
+            { text: 'Font Smoothing', link: '/reference/visual/font-smoothing' },
+            { text: 'Letter Spacing', link: '/reference/visual/letter-spacing' },
+            { text: 'Line Height', link: '/reference/visual/line-height' },
+            { text: 'Line Clamp', link: '/reference/visual/line-clamp' }
+          ]
+        },
+        {
+          text: 'Text Formatting',
+          collapsed: true,
+          items: [
+            { text: 'Text Alignment', link: '/reference/visual/text-alignment' },
+            { text: 'Text Transform', link: '/reference/visual/text-transform' },
+            { text: 'Text Decoration', link: '/reference/visual/text-decoration' },
+            { text: 'Text Overflow', link: '/reference/visual/text-overflow' },
+            { text: 'Text Wrap', link: '/reference/visual/text-wrap' },
+            { text: 'Whitespace', link: '/reference/visual/whitespace' },
+            { text: 'Word Break', link: '/reference/visual/word-break' },
+            { text: 'Hyphens', link: '/reference/visual/hyphens' },
+            { text: 'Text Indent', link: '/reference/visual/text-indent' },
+            { text: 'Vertical Align', link: '/reference/visual/vertical-align' }
+          ]
+        },
+        {
+          text: 'Lists',
+          collapsed: true,
+          items: [
+            { text: 'List Style', link: '/reference/visual/list-style' },
+            { text: 'Font Variant Numeric', link: '/reference/visual/font-variant-numeric' }
+          ]
+        },
+        {
+          text: 'Borders & Effects',
+          collapsed: true,
+          items: [
+            { text: 'Border Radius', link: '/reference/visual/border-radius' },
+            { text: 'Box Shadow', link: '/reference/visual/box-shadow' },
+            { text: 'Border', link: '/reference/visual/border' },
+            { text: 'Opacity', link: '/reference/visual/opacity' }
+          ]
+        },
+        {
+          text: 'Interactivity',
+          collapsed: true,
+          items: [
+            { text: 'State Prefixes', link: '/reference/visual/state-prefixes' }
+          ]
+        }
       ]
     },
     {
@@ -113,11 +277,175 @@ const msSidebar = {
   ],
   '/ms/reference/': [
     {
-      text: 'Atribut',
+      text: 'Layout',
+      link: '/ms/reference/layout',
+      collapsed: false,
       items: [
-        { text: 'Layout', link: '/ms/reference/layout' },
-        { text: 'Space', link: '/ms/reference/space' },
-        { text: 'Visual', link: '/ms/reference/visual' }
+        {
+          text: 'Paparan & Flex',
+          collapsed: true,
+          items: [
+            { text: 'Paparan', link: '/ms/reference/layout/display' },
+            { text: 'Arah Flex', link: '/ms/reference/layout/flex-direction' },
+            { text: 'Flex Wrap', link: '/ms/reference/layout/flex-wrap' },
+            { text: 'Item Flex', link: '/ms/reference/layout/flex-items' },
+            { text: 'Order', link: '/ms/reference/layout/order' }
+          ]
+        },
+        {
+          text: 'Penjajaran',
+          collapsed: true,
+          items: [
+            { text: 'Justify Content', link: '/ms/reference/layout/justify-content' },
+            { text: 'Justify Items', link: '/ms/reference/layout/justify-items' },
+            { text: 'Justify Self', link: '/ms/reference/layout/justify-self' },
+            { text: 'Align Content', link: '/ms/reference/layout/align-content' },
+            { text: 'Align Items', link: '/ms/reference/layout/align-items' },
+            { text: 'Align Self', link: '/ms/reference/layout/align-self' },
+            { text: 'Place Content', link: '/ms/reference/layout/place-content' },
+            { text: 'Place Items', link: '/ms/reference/layout/place-items' },
+            { text: 'Place Self', link: '/ms/reference/layout/place-self' },
+            { text: 'Ringkas', link: '/ms/reference/layout/shorthand-alignment' }
+          ]
+        },
+        {
+          text: 'Grid',
+          collapsed: true,
+          items: [
+            { text: 'Grid Columns', link: '/ms/reference/layout/grid-columns' },
+            { text: 'Grid Rows', link: '/ms/reference/layout/grid-rows' },
+            { text: 'Column Span', link: '/ms/reference/layout/grid-column-span' },
+            { text: 'Row Span', link: '/ms/reference/layout/grid-row-span' },
+            { text: 'Auto Flow', link: '/ms/reference/layout/grid-auto-flow' },
+            { text: 'Auto Sizing', link: '/ms/reference/layout/grid-auto-sizing' }
+          ]
+        },
+        {
+          text: 'Kedudukan',
+          collapsed: true,
+          items: [
+            { text: 'Kedudukan', link: '/ms/reference/layout/position' },
+            { text: 'Inset', link: '/ms/reference/layout/inset' },
+            { text: 'Z-Index', link: '/ms/reference/layout/z-index' }
+          ]
+        },
+        {
+          text: 'Utiliti',
+          collapsed: true,
+          items: [
+            { text: 'Keterlihatan', link: '/ms/reference/layout/visibility' },
+            { text: 'Overflow', link: '/ms/reference/layout/overflow' },
+            { text: 'Overscroll', link: '/ms/reference/layout/overscroll' },
+            { text: 'Nisbah Aspek', link: '/ms/reference/layout/aspect-ratio' },
+            { text: 'Columns', link: '/ms/reference/layout/columns' },
+            { text: 'Object Fit', link: '/ms/reference/layout/object-fit' },
+            { text: 'Object Position', link: '/ms/reference/layout/object-position' },
+            { text: 'Float & Clear', link: '/ms/reference/layout/float-clear' },
+            { text: 'Isolation', link: '/ms/reference/layout/isolation' },
+            { text: 'Box Sizing', link: '/ms/reference/layout/box-sizing' }
+          ]
+        }
+      ]
+    },
+    {
+      text: 'Space',
+      link: '/ms/reference/space',
+      collapsed: false,
+      items: [
+        {
+          text: 'Jarak',
+          collapsed: true,
+          items: [
+            { text: 'Padding', link: '/ms/reference/space/padding' },
+            { text: 'Margin', link: '/ms/reference/space/margin' },
+            { text: 'Gap', link: '/ms/reference/space/gap' }
+          ]
+        },
+        {
+          text: 'Dimensi',
+          collapsed: true,
+          items: [
+            { text: 'Saiz', link: '/ms/reference/space/sizing' }
+          ]
+        },
+        {
+          text: 'Rujukan',
+          collapsed: true,
+          items: [
+            { text: 'Nilai Arbitrari', link: '/ms/reference/space/arbitrary-values' },
+            { text: 'Rujukan Skala', link: '/ms/reference/space/scale-reference' }
+          ]
+        }
+      ]
+    },
+    {
+      text: 'Visual',
+      link: '/ms/reference/visual',
+      collapsed: false,
+      items: [
+        {
+          text: 'Warna',
+          collapsed: true,
+          items: [
+            { text: 'Latar Belakang', link: '/ms/reference/visual/background' },
+            { text: 'Warna Teks', link: '/ms/reference/visual/text-color' }
+          ]
+        },
+        {
+          text: 'Tipografi',
+          collapsed: true,
+          items: [
+            { text: 'Saiz Teks', link: '/ms/reference/visual/text-size' },
+            { text: 'Keluarga Fon', link: '/ms/reference/visual/font-family' },
+            { text: 'Berat Fon', link: '/ms/reference/visual/font-weight' },
+            { text: 'Gaya Fon', link: '/ms/reference/visual/font-style' },
+            { text: 'Smoothing Fon', link: '/ms/reference/visual/font-smoothing' },
+            { text: 'Jarak Huruf', link: '/ms/reference/visual/letter-spacing' },
+            { text: 'Ketinggian Baris', link: '/ms/reference/visual/line-height' },
+            { text: 'Line Clamp', link: '/ms/reference/visual/line-clamp' }
+          ]
+        },
+        {
+          text: 'Pemformatan Teks',
+          collapsed: true,
+          items: [
+            { text: 'Penjajaran Teks', link: '/ms/reference/visual/text-alignment' },
+            { text: 'Transformasi Teks', link: '/ms/reference/visual/text-transform' },
+            { text: 'Hiasan Teks', link: '/ms/reference/visual/text-decoration' },
+            { text: 'Limpahan Teks', link: '/ms/reference/visual/text-overflow' },
+            { text: 'Pembalutan Teks', link: '/ms/reference/visual/text-wrap' },
+            { text: 'Whitespace', link: '/ms/reference/visual/whitespace' },
+            { text: 'Word Break', link: '/ms/reference/visual/word-break' },
+            { text: 'Hyphens', link: '/ms/reference/visual/hyphens' },
+            { text: 'Inden Teks', link: '/ms/reference/visual/text-indent' },
+            { text: 'Penjajaran Menegak', link: '/ms/reference/visual/vertical-align' }
+          ]
+        },
+        {
+          text: 'Senarai',
+          collapsed: true,
+          items: [
+            { text: 'Gaya Senarai', link: '/ms/reference/visual/list-style' },
+            { text: 'Varian Nombor Fon', link: '/ms/reference/visual/font-variant-numeric' }
+          ]
+        },
+        {
+          text: 'Sempadan & Kesan',
+          collapsed: true,
+          items: [
+            { text: 'Radius Sempadan', link: '/ms/reference/visual/border-radius' },
+            { text: 'Bayang Kotak', link: '/ms/reference/visual/box-shadow' },
+            { text: 'Sempadan', link: '/ms/reference/visual/border' },
+            { text: 'Kelegapan', link: '/ms/reference/visual/opacity' }
+          ]
+        },
+        {
+          text: 'Interaktiviti',
+          collapsed: true,
+          items: [
+            { text: 'Prefiks Keadaan', link: '/ms/reference/visual/state-prefixes' }
+          ]
+        }
       ]
     },
     {
