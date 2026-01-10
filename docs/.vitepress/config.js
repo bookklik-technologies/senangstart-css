@@ -243,6 +243,22 @@ const enSidebar = {
           ]
         },
         {
+          text: 'Transitions & Animation',
+          collapsed: true,
+          items: [
+            { text: 'Transition', link: '/reference/visual/transition' },
+            { text: 'Animation', link: '/reference/visual/animation' }
+          ]
+        },
+        {
+          text: 'Transforms',
+          collapsed: true,
+          items: [
+            { text: 'Transform', link: '/reference/visual/transform' },
+            { text: '3D Transform', link: '/reference/visual/transform-3d' }
+          ]
+        },
+        {
           text: 'Interactivity',
           collapsed: true,
           items: [
@@ -503,6 +519,22 @@ const msSidebar = {
           items: [
             { text: 'Penapis', link: '/ms/reference/visual/filter' },
             { text: 'Penapis Latar Belakang', link: '/ms/reference/visual/backdrop-filter' }
+          ]
+        },
+        {
+          text: 'Peralihan & Animasi',
+          collapsed: true,
+          items: [
+            { text: 'Peralihan', link: '/ms/reference/visual/transition' },
+            { text: 'Animasi', link: '/ms/reference/visual/animation' }
+          ]
+        },
+        {
+          text: 'Transform',
+          collapsed: true,
+          items: [
+            { text: 'Transform', link: '/ms/reference/visual/transform' },
+            { text: 'Transform 3D', link: '/ms/reference/visual/transform-3d' }
           ]
         },
         {

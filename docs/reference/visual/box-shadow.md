@@ -2,6 +2,11 @@
 
 Control box shadows with the `visual` attribute.
 
+## Syntax
+```
+visual="shadow:[value]"
+```
+
 ## Values
 
 | Property | CSS Output |

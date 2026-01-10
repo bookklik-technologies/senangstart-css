@@ -2,6 +2,11 @@
 
 Control element visibility with the `layout` attribute.
 
+## Syntax
+```
+layout="visible | invisible"
+```
+
 ## Values
 
 | Value | CSS Output |

@@ -2,6 +2,12 @@
 
 Control how content overflows its container with the `layout` attribute.
 
+## Syntax
+```
+layout="overflow:[value]"
+layout="overflow-x:[value] | overflow-y:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

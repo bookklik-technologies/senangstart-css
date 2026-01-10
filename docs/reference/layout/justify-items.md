@@ -2,6 +2,11 @@
 
 Control default horizontal alignment of grid items with the `layout` attribute.
 
+## Syntax
+```
+layout="justify-items-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

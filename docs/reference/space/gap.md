@@ -2,6 +2,12 @@
 
 Control spacing between flex and grid items with the `space` attribute.
 
+## Syntax
+```
+space="g:[value]"
+space="g-x:[value] | g-y:[value]"
+```
+
 ## Properties
 
 | Property | CSS Output |

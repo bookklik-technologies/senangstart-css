@@ -2,6 +2,12 @@
 
 Control how many rows a grid item spans with the `layout` attribute.
 
+## Syntax
+```
+layout="row-span:[value]"
+layout="row-start:[value] | row-end:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

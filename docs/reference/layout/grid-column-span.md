@@ -2,6 +2,12 @@
 
 Control how many columns a grid item spans with the `layout` attribute.
 
+## Syntax
+```
+layout="col-span:[value]"
+layout="col-start:[value] | col-end:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

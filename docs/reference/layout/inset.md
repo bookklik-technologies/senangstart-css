@@ -2,6 +2,13 @@
 
 Control the position of positioned elements with the `layout` attribute.
 
+## Syntax
+```
+layout="inset:[value]"
+layout="top:[value] | right:[value] | bottom:[value] | left:[value]"
+layout="inset-x:[value] | inset-y:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

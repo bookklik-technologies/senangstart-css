@@ -2,6 +2,11 @@
 
 Control text alignment with the `visual` attribute.
 
+## Syntax
+```
+visual="text:left | text:center | text:right | text:justify"
+```
+
 ## Values
 
 | Property | CSS Output |

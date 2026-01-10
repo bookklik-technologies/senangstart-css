@@ -2,6 +2,11 @@
 
 Control line height with the `visual` attribute.
 
+## Syntax
+```
+visual="leading:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

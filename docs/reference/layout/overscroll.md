@@ -2,6 +2,11 @@
 
 Control scroll chaining behavior with the `layout` attribute.
 
+## Syntax
+```
+layout="overscroll:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

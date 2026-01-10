@@ -2,6 +2,11 @@
 
 Control text color with the `visual` attribute.
 
+## Syntax
+```
+visual="text:[color]"
+```
+
 ## Values
 
 | Property | CSS Output |

@@ -2,6 +2,11 @@
 
 Control the visual order of flex/grid items with the `layout` attribute.
 
+## Syntax
+```
+layout="order:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

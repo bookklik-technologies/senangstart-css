@@ -2,6 +2,11 @@
 
 Define grid rows with the `layout` attribute.
 
+## Syntax
+```
+layout="grid-rows:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

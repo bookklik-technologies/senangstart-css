@@ -2,6 +2,13 @@
 
 Control outer spacing with the `space` attribute.
 
+## Syntax
+```
+space="m:[value]"
+space="m-t:[value] | m-r:[value] | m-b:[value] | m-l:[value]"
+space="m-x:[value] | m-y:[value]"
+```
+
 ## Properties
 
 | Property | CSS Output |

@@ -2,6 +2,11 @@
 
 Control both horizontal and vertical alignment of grid content with the `layout` attribute.
 
+## Syntax
+```
+layout="place-content-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

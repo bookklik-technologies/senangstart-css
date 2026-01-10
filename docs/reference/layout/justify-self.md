@@ -2,6 +2,11 @@
 
 Control horizontal alignment of individual grid items with the `layout` attribute.
 
+## Syntax
+```
+layout="justify-self-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

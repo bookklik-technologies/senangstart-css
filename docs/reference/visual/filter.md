@@ -1,129 +1,127 @@
 # Filter
 
-Apply visual effects like blur, grayscale, and color adjustments to elements.
+Apply visual filter effects to elements using natural adjective-based utilities.
 
 ## Blur
 
-Add blur effect to an element.
+Apply blur effects to elements.
 
 ```html
-<img visual="blur-sm" src="..." />   <!-- 4px blur -->
-<img visual="blur" src="..." />      <!-- 8px blur (default) -->
-<img visual="blur-md" src="..." />   <!-- 12px blur -->
-<img visual="blur-lg" src="..." />   <!-- 16px blur -->
-<img visual="blur-xl" src="..." />   <!-- 24px blur -->
-<img visual="blur-2xl" src="..." />  <!-- 40px blur -->
-<img visual="blur-3xl" src="..." />  <!-- 64px blur -->
-<img visual="blur-none" src="..." /> <!-- Remove blur -->
+<img visual="blur:none" />    <!-- No blur -->
+<img visual="blur:tiny" />    <!-- 2px blur -->
+<img visual="blur:small" />   <!-- 4px blur -->
+<img visual="blur:medium" />  <!-- 8px blur -->
+<img visual="blur:big" />     <!-- 12px blur -->
+<img visual="blur:giant" />   <!-- 24px blur -->
+<img visual="blur:vast" />    <!-- 48px blur -->
 ```
 
 ### Arbitrary Values
 
 ```html
-<img visual="blur-[2px]" src="..." />
+<img visual="blur:[20px]" />
 ```
 
 ## Brightness
 
-Adjust brightness of an element. Values are percentages (100 = normal).
+Adjust the brightness of elements.
 
 ```html
-<img visual="brightness-50" src="..." />  <!-- 50% brightness (darker) -->
-<img visual="brightness-75" src="..." />  <!-- 75% brightness -->
-<img visual="brightness-100" src="..." /> <!-- Normal -->
-<img visual="brightness-125" src="..." /> <!-- 125% brightness -->
-<img visual="brightness-150" src="..." /> <!-- 150% brightness (brighter) -->
-<img visual="brightness-200" src="..." /> <!-- 200% brightness -->
+<img visual="brightness:dim" />     <!-- 50% brightness -->
+<img visual="brightness:dark" />    <!-- 75% brightness -->
+<img visual="brightness:normal" />  <!-- 100% brightness -->
+<img visual="brightness:bright" />  <!-- 125% brightness -->
+<img visual="brightness:vivid" />   <!-- 150% brightness -->
 ```
 
 ## Contrast
 
-Adjust contrast of an element. Values are percentages (100 = normal).
+Adjust the contrast of elements.
 
 ```html
-<img visual="contrast-50" src="..." />  <!-- 50% contrast (less contrast) -->
-<img visual="contrast-75" src="..." />  <!-- 75% contrast -->
-<img visual="contrast-100" src="..." /> <!-- Normal -->
-<img visual="contrast-125" src="..." /> <!-- 125% contrast -->
-<img visual="contrast-150" src="..." /> <!-- 150% contrast (more contrast) -->
-<img visual="contrast-200" src="..." /> <!-- 200% contrast -->
+<img visual="contrast:low" />      <!-- 50% contrast -->
+<img visual="contrast:reduced" />  <!-- 75% contrast -->
+<img visual="contrast:normal" />   <!-- 100% contrast -->
+<img visual="contrast:high" />     <!-- 125% contrast -->
+<img visual="contrast:max" />      <!-- 150% contrast -->
 ```
 
 ## Drop Shadow
 
-Add drop shadow effect to an element.
+Add drop shadow effects to elements.
 
 ```html
-<img visual="drop-shadow-sm" src="..." />  <!-- Small shadow -->
-<img visual="drop-shadow" src="..." />     <!-- Default shadow -->
-<img visual="drop-shadow-md" src="..." />  <!-- Medium shadow -->
-<img visual="drop-shadow-lg" src="..." />  <!-- Large shadow -->
-<img visual="drop-shadow-xl" src="..." />  <!-- Extra large shadow -->
-<img visual="drop-shadow-2xl" src="..." /> <!-- 2XL shadow -->
-<img visual="drop-shadow-none" src="..." /><!-- Remove shadow -->
+<div visual="drop-shadow:none">...</div>    <!-- No shadow -->
+<div visual="drop-shadow:tiny">...</div>    <!-- Minimal shadow -->
+<div visual="drop-shadow:small">...</div>   <!-- Subtle shadow -->
+<div visual="drop-shadow:medium">...</div>  <!-- Standard shadow -->
+<div visual="drop-shadow:big">...</div>     <!-- Large shadow -->
+<div visual="drop-shadow:giant">...</div>   <!-- Dramatic shadow -->
 ```
 
 ## Grayscale
 
-Convert element to grayscale.
+Convert elements to grayscale.
 
 ```html
-<img visual="grayscale" src="..." />    <!-- Full grayscale (100%) -->
-<img visual="grayscale-0" src="..." />  <!-- No grayscale (color) -->
-<img visual="grayscale-50" src="..." /> <!-- 50% grayscale -->
+<img visual="grayscale:none" />     <!-- Full color -->
+<img visual="grayscale:partial" />  <!-- 50% grayscale -->
+<img visual="grayscale:full" />     <!-- Full grayscale -->
+<img visual="grayscale" />          <!-- Full grayscale (default) -->
 ```
 
 ## Hue Rotate
 
-Rotate the hue of an element's colors.
+Rotate the hue of elements.
 
 ```html
-<img visual="hue-rotate-0" src="..." />   <!-- No rotation -->
-<img visual="hue-rotate-15" src="..." />  <!-- 15 degrees -->
-<img visual="hue-rotate-30" src="..." />  <!-- 30 degrees -->
-<img visual="hue-rotate-60" src="..." />  <!-- 60 degrees -->
-<img visual="hue-rotate-90" src="..." />  <!-- 90 degrees -->
-<img visual="hue-rotate-180" src="..." /> <!-- 180 degrees -->
+<img visual="hue-rotate:15" />   <!-- 15 degrees -->
+<img visual="hue-rotate:30" />   <!-- 30 degrees -->
+<img visual="hue-rotate:60" />   <!-- 60 degrees -->
+<img visual="hue-rotate:90" />   <!-- 90 degrees -->
+<img visual="hue-rotate:180" />  <!-- 180 degrees -->
 ```
 
 ## Invert
 
-Invert the colors of an element.
+Invert the colors of elements.
 
 ```html
-<img visual="invert" src="..." />    <!-- Full invert (100%) -->
-<img visual="invert-0" src="..." />  <!-- No invert -->
-<img visual="invert-50" src="..." /> <!-- 50% invert -->
+<img visual="invert:none" />     <!-- No inversion -->
+<img visual="invert:partial" />  <!-- 50% inverted -->
+<img visual="invert:full" />     <!-- Fully inverted -->
+<img visual="invert" />          <!-- Fully inverted (default) -->
 ```
 
 ## Saturate
 
-Adjust color saturation. Values are percentages (100 = normal).
+Adjust the saturation of elements.
 
 ```html
-<img visual="saturate-0" src="..." />   <!-- No saturation (grayscale) -->
-<img visual="saturate-50" src="..." />  <!-- 50% saturation -->
-<img visual="saturate-100" src="..." /> <!-- Normal -->
-<img visual="saturate-150" src="..." /> <!-- 150% saturation -->
-<img visual="saturate-200" src="..." /> <!-- 200% saturation (vivid) -->
+<img visual="saturate:none" />    <!-- No saturation (grayscale) -->
+<img visual="saturate:low" />     <!-- 50% saturation -->
+<img visual="saturate:normal" />  <!-- 100% saturation -->
+<img visual="saturate:high" />    <!-- 150% saturation -->
+<img visual="saturate:vivid" />   <!-- 200% saturation -->
 ```
 
 ## Sepia
 
-Apply sepia tone effect.
+Apply sepia tone to elements.
 
 ```html
-<img visual="sepia" src="..." />    <!-- Full sepia (100%) -->
-<img visual="sepia-0" src="..." />  <!-- No sepia -->
-<img visual="sepia-50" src="..." /> <!-- 50% sepia -->
+<img visual="sepia:none" />     <!-- No sepia -->
+<img visual="sepia:partial" />  <!-- 50% sepia -->
+<img visual="sepia:full" />     <!-- Full sepia -->
+<img visual="sepia" />          <!-- Full sepia (default) -->
 ```
 
-## Combining Hover States
+## Combining Filters
 
 ```html
 <img 
-  visual="grayscale hover:grayscale-0" 
-  src="..." 
+  visual="blur:small brightness:bright contrast:high" 
+  src="photo.jpg" 
 />
 ```
 
@@ -131,22 +129,23 @@ Apply sepia tone effect.
 
 | Token | CSS Output |
 |-------|-----------|
-| `blur-none` | `filter: blur(0);` |
-| `blur-sm` | `filter: blur(4px);` |
-| `blur` | `filter: blur(8px);` |
-| `blur-md` | `filter: blur(12px);` |
-| `blur-lg` | `filter: blur(16px);` |
-| `blur-xl` | `filter: blur(24px);` |
-| `blur-2xl` | `filter: blur(40px);` |
-| `blur-3xl` | `filter: blur(64px);` |
-| `brightness-{value}` | `filter: brightness({value/100});` |
-| `contrast-{value}` | `filter: contrast({value/100});` |
-| `drop-shadow-{size}` | `filter: drop-shadow(...);` |
-| `grayscale` | `filter: grayscale(100%);` |
-| `grayscale-{value}` | `filter: grayscale({value}%);` |
-| `hue-rotate-{deg}` | `filter: hue-rotate({deg}deg);` |
-| `invert` | `filter: invert(100%);` |
-| `invert-{value}` | `filter: invert({value}%);` |
-| `saturate-{value}` | `filter: saturate({value/100});` |
-| `sepia` | `filter: sepia(100%);` |
-| `sepia-{value}` | `filter: sepia({value}%);` |
+| `blur:{scale}` | `filter: blur({value});` |
+| `brightness:{scale}` | `filter: brightness({value});` |
+| `contrast:{scale}` | `filter: contrast({value});` |
+| `drop-shadow:{scale}` | `filter: drop-shadow({value});` |
+| `grayscale:{scale}` | `filter: grayscale({value});` |
+| `hue-rotate:{deg}` | `filter: hue-rotate({deg}deg);` |
+| `invert:{scale}` | `filter: invert({value});` |
+| `saturate:{scale}` | `filter: saturate({value});` |
+| `sepia:{scale}` | `filter: sepia({value});` |
+
+### Natural Adjective Scales
+
+| Scale | Words |
+|-------|-------|
+| Blur | `none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast` |
+| Brightness | `dim`, `dark`, `normal`, `bright`, `vivid` |
+| Contrast | `low`, `reduced`, `normal`, `high`, `max` |
+| Drop Shadow | `none`, `tiny`, `small`, `medium`, `big`, `giant` |
+| Saturate | `none`, `low`, `normal`, `high`, `vivid` |
+| Grayscale/Sepia/Invert | `none`, `partial`, `full` |

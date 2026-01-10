@@ -2,6 +2,11 @@
 
 Control element opacity with the `visual` attribute.
 
+## Syntax
+```
+visual="opacity:[value]"
+```
+
 ## Values
 
 Use arbitrary values with brackets:

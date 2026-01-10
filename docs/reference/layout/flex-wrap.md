@@ -2,6 +2,11 @@
 
 Control whether flex items wrap with the `layout` attribute.
 
+## Syntax
+```
+layout="[wrap-value]"
+```
+
 ## Values
 
 | Value | CSS Output |

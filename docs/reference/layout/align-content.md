@@ -2,6 +2,11 @@
 
 Control vertical alignment of multi-line flex content with the `layout` attribute.
 
+## Syntax
+```
+layout="content-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

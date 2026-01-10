@@ -2,6 +2,11 @@
 
 Control the display type of elements with the `layout` attribute.
 
+## Syntax
+```
+layout="[display-value]"
+```
+
 ## Values
 
 | Value | CSS Output |

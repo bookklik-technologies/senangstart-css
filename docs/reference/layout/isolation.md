@@ -2,6 +2,11 @@
 
 Control stacking context creation with the `layout` attribute.
 
+## Syntax
+```
+layout="isolate | isolate-auto"
+```
+
 ## Values
 
 | Value | CSS Output |

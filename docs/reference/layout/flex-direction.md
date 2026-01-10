@@ -2,6 +2,11 @@
 
 Control the direction of flex items with the `layout` attribute.
 
+## Syntax
+```
+layout="[direction]"
+```
+
 ## Values
 
 | Value | CSS Output |

@@ -2,6 +2,11 @@
 
 Control whether table borders should collapse into a single border or remain separate.
 
+## Syntax
+```
+layout="border-collapse | border-separate"
+```
+
 ## Usage
 
 Use `border-collapse` to merge adjacent table cell borders, or `border-separate` to keep them separate.

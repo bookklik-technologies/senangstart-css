@@ -2,6 +2,11 @@
 
 Control the positioning method with the `layout` attribute.
 
+## Syntax
+```
+layout="[position-value]"
+```
+
 ## Values
 
 | Value | CSS Output |

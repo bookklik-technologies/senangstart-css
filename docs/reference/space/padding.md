@@ -2,6 +2,13 @@
 
 Control inner spacing with the `space` attribute.
 
+## Syntax
+```
+space="p:[value]"
+space="p-t:[value] | p-r:[value] | p-b:[value] | p-l:[value]"
+space="p-x:[value] | p-y:[value]"
+```
+
 ## Properties
 
 | Property | CSS Output |

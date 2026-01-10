@@ -2,6 +2,11 @@
 
 Control vertical alignment of flex items with the `layout` attribute.
 
+## Syntax
+```
+layout="items-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

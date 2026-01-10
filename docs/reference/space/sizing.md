@@ -2,6 +2,13 @@
 
 Control width and height with the `space` attribute.
 
+## Syntax
+```
+space="w:[value] | h:[value]"
+space="min-w:[value] | max-w:[value]"
+space="min-h:[value] | max-h:[value]"
+```
+
 ## Properties
 
 | Property | CSS Output |

@@ -2,6 +2,11 @@
 
 Control multi-column text layout with the `layout` attribute.
 
+## Syntax
+```
+layout="cols:[number]"
+```
+
 ## Values
 
 | Value | CSS Output |

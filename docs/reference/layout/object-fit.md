@@ -2,6 +2,11 @@
 
 Control how images and videos fit their container with the `layout` attribute.
 
+## Syntax
+```
+layout="object:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

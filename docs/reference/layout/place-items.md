@@ -2,6 +2,11 @@
 
 Control default alignment of grid items in both axes with the `layout` attribute.
 
+## Syntax
+```
+layout="place-items-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

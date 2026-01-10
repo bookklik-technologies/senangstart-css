@@ -2,6 +2,11 @@
 
 Control font family with the `visual` attribute.
 
+## Syntax
+```
+visual="font:sans | font:serif | font:mono"
+```
+
 ## Values
 
 | Value | CSS Output |

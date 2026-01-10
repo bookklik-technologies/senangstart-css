@@ -2,6 +2,11 @@
 
 Control stacking order with the `layout` attribute.
 
+## Syntax
+```
+layout="z:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

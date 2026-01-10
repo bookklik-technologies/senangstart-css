@@ -2,6 +2,11 @@
 
 Convenient shortcuts for common alignment patterns with the `layout` attribute.
 
+## Syntax
+```
+layout="center | start | end | between | around | evenly"
+```
+
 ## Values
 
 | Value | CSS Output |

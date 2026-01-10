@@ -2,6 +2,11 @@
 
 Define grid columns with the `layout` attribute.
 
+## Syntax
+```
+layout="grid-cols:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

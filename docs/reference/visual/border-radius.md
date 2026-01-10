@@ -2,6 +2,11 @@
 
 Control border radius with the `visual` attribute.
 
+## Syntax
+```
+visual="rounded:[value]"
+```
+
 ## Values
 
 | Property | CSS Output |

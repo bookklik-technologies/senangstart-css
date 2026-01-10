@@ -2,6 +2,11 @@
 
 Control horizontal alignment of flex/grid items with the `layout` attribute.
 
+## Syntax
+```
+layout="justify-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

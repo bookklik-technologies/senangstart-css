@@ -2,6 +2,11 @@
 
 Control font size with the `visual` attribute.
 
+## Syntax
+```
+visual="text-size:[value]"
+```
+
 ## Values
 
 | Property | CSS Output |

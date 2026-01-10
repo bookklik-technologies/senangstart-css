@@ -2,6 +2,11 @@
 
 Control font weight with the `visual` attribute.
 
+## Syntax
+```
+visual="font:[weight]"
+```
+
 ## Values
 
 | Property | CSS Output |

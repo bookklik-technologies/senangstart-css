@@ -2,6 +2,11 @@
 
 Control font style with the `visual` attribute.
 
+## Syntax
+```
+visual="italic | not-italic"
+```
+
 ## Values
 
 | Value | CSS Output |

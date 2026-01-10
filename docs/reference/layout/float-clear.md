@@ -2,6 +2,12 @@
 
 Control floating and clearing behavior with the `layout` attribute.
 
+## Syntax
+```
+layout="float-[value]"
+layout="clear-[value]"
+```
+
 ## Float Values
 
 | Value | CSS Output |

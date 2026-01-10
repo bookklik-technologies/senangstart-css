@@ -2,6 +2,11 @@
 
 Control how element dimensions are calculated with the `layout` attribute.
 
+## Syntax
+```
+layout="box-border | box-content"
+```
+
 ## Values
 
 | Value | CSS Output |

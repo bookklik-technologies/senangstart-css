@@ -2,6 +2,11 @@
 
 Control the aspect ratio of elements with the `layout` attribute.
 
+## Syntax
+```
+layout="aspect:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

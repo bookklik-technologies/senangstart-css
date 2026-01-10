@@ -2,6 +2,12 @@
 
 Control the size of auto-generated grid tracks with the `layout` attribute.
 
+## Syntax
+```
+layout="auto-cols:[value]"
+layout="auto-rows:[value]"
+```
+
 ## Auto Columns
 
 | Value | CSS Output |

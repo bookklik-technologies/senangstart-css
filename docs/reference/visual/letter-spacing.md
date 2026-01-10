@@ -2,6 +2,11 @@
 
 Control letter spacing with the `visual` attribute.
 
+## Syntax
+```
+visual="tracking:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

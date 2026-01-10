@@ -2,6 +2,11 @@
 
 Control how auto-placed items flow in the grid with the `layout` attribute.
 
+## Syntax
+```
+layout="grid-flow-[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

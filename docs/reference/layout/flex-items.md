@@ -2,6 +2,13 @@
 
 Control how flex items grow, shrink, and size with the `layout` attribute.
 
+## Syntax
+```
+layout="grow | grow-0 | shrink | shrink-0"
+layout="flex:[value]"
+layout="basis:[value]"
+```
+
 ## Grow & Shrink
 
 | Value | CSS Output |

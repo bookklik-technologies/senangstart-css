@@ -1,52 +1,49 @@
 # Penapis (Filter)
 
-Gunakan kesan visual seperti kabur, skala kelabu dan pelarasan warna pada elemen.
+Gunakan kesan penapis visual pada elemen menggunakan utiliti berasaskan kata sifat semula jadi.
 
 ## Kabur (Blur)
 
-Tambah kesan kabur pada elemen.
+Gunakan kesan kabur pada elemen.
 
 ```html
-<img visual="blur-sm" src="..." />   <!-- 4px kabur -->
-<img visual="blur" src="..." />      <!-- 8px kabur (lalai) -->
-<img visual="blur-md" src="..." />   <!-- 12px kabur -->
-<img visual="blur-lg" src="..." />   <!-- 16px kabur -->
-<img visual="blur-xl" src="..." />   <!-- 24px kabur -->
-<img visual="blur-2xl" src="..." />  <!-- 40px kabur -->
-<img visual="blur-3xl" src="..." />  <!-- 64px kabur -->
-<img visual="blur-none" src="..." /> <!-- Buang kabur -->
+<img visual="blur:none" />    <!-- Tiada kabur -->
+<img visual="blur:tiny" />    <!-- 2px kabur -->
+<img visual="blur:small" />   <!-- 4px kabur -->
+<img visual="blur:medium" />  <!-- 8px kabur -->
+<img visual="blur:big" />     <!-- 12px kabur -->
+<img visual="blur:giant" />   <!-- 24px kabur -->
+<img visual="blur:vast" />    <!-- 48px kabur -->
 ```
 
 ### Nilai Arbitrari
 
 ```html
-<img visual="blur-[2px]" src="..." />
+<img visual="blur:[20px]" />
 ```
 
 ## Kecerahan (Brightness)
 
-Laraskan kecerahan elemen. Nilai dalam peratusan (100 = normal).
+Laras kecerahan elemen.
 
 ```html
-<img visual="brightness-50" src="..." />  <!-- 50% kecerahan (gelap) -->
-<img visual="brightness-75" src="..." />  <!-- 75% kecerahan -->
-<img visual="brightness-100" src="..." /> <!-- Normal -->
-<img visual="brightness-125" src="..." /> <!-- 125% kecerahan -->
-<img visual="brightness-150" src="..." /> <!-- 150% kecerahan (terang) -->
-<img visual="brightness-200" src="..." /> <!-- 200% kecerahan -->
+<img visual="brightness:dim" />     <!-- 50% kecerahan -->
+<img visual="brightness:dark" />    <!-- 75% kecerahan -->
+<img visual="brightness:normal" />  <!-- 100% kecerahan -->
+<img visual="brightness:bright" />  <!-- 125% kecerahan -->
+<img visual="brightness:vivid" />   <!-- 150% kecerahan -->
 ```
 
 ## Kontras (Contrast)
 
-Laraskan kontras elemen. Nilai dalam peratusan (100 = normal).
+Laras kontras elemen.
 
 ```html
-<img visual="contrast-50" src="..." />  <!-- 50% kontras (kurang kontras) -->
-<img visual="contrast-75" src="..." />  <!-- 75% kontras -->
-<img visual="contrast-100" src="..." /> <!-- Normal -->
-<img visual="contrast-125" src="..." /> <!-- 125% kontras -->
-<img visual="contrast-150" src="..." /> <!-- 150% kontras (lebih kontras) -->
-<img visual="contrast-200" src="..." /> <!-- 200% kontras -->
+<img visual="contrast:low" />      <!-- 50% kontras -->
+<img visual="contrast:reduced" />  <!-- 75% kontras -->
+<img visual="contrast:normal" />   <!-- 100% kontras -->
+<img visual="contrast:high" />     <!-- 125% kontras -->
+<img visual="contrast:max" />      <!-- 150% kontras -->
 ```
 
 ## Bayang Jatuh (Drop Shadow)
@@ -54,13 +51,12 @@ Laraskan kontras elemen. Nilai dalam peratusan (100 = normal).
 Tambah kesan bayang jatuh pada elemen.
 
 ```html
-<img visual="drop-shadow-sm" src="..." />  <!-- Bayang kecil -->
-<img visual="drop-shadow" src="..." />     <!-- Bayang lalai -->
-<img visual="drop-shadow-md" src="..." />  <!-- Bayang sederhana -->
-<img visual="drop-shadow-lg" src="..." />  <!-- Bayang besar -->
-<img visual="drop-shadow-xl" src="..." />  <!-- Bayang ekstra besar -->
-<img visual="drop-shadow-2xl" src="..." /> <!-- Bayang 2XL -->
-<img visual="drop-shadow-none" src="..." /><!-- Buang bayang -->
+<div visual="drop-shadow:none">...</div>    <!-- Tiada bayang -->
+<div visual="drop-shadow:tiny">...</div>    <!-- Bayang minimal -->
+<div visual="drop-shadow:small">...</div>   <!-- Bayang halus -->
+<div visual="drop-shadow:medium">...</div>  <!-- Bayang standard -->
+<div visual="drop-shadow:big">...</div>     <!-- Bayang besar -->
+<div visual="drop-shadow:giant">...</div>   <!-- Bayang dramatik -->
 ```
 
 ## Skala Kelabu (Grayscale)
@@ -68,85 +64,67 @@ Tambah kesan bayang jatuh pada elemen.
 Tukar elemen kepada skala kelabu.
 
 ```html
-<img visual="grayscale" src="..." />    <!-- Skala kelabu penuh (100%) -->
-<img visual="grayscale-0" src="..." />  <!-- Tiada skala kelabu (berwarna) -->
-<img visual="grayscale-50" src="..." /> <!-- 50% skala kelabu -->
+<img visual="grayscale:none" />     <!-- Warna penuh -->
+<img visual="grayscale:partial" />  <!-- 50% kelabu -->
+<img visual="grayscale:full" />     <!-- Kelabu penuh -->
+<img visual="grayscale" />          <!-- Kelabu penuh (lalai) -->
 ```
 
 ## Putaran Hue (Hue Rotate)
 
-Putar hue warna elemen.
+Putar hue elemen.
 
 ```html
-<img visual="hue-rotate-0" src="..." />   <!-- Tiada putaran -->
-<img visual="hue-rotate-15" src="..." />  <!-- 15 darjah -->
-<img visual="hue-rotate-30" src="..." />  <!-- 30 darjah -->
-<img visual="hue-rotate-60" src="..." />  <!-- 60 darjah -->
-<img visual="hue-rotate-90" src="..." />  <!-- 90 darjah -->
-<img visual="hue-rotate-180" src="..." /> <!-- 180 darjah -->
+<img visual="hue-rotate:15" />   <!-- 15 darjah -->
+<img visual="hue-rotate:30" />   <!-- 30 darjah -->
+<img visual="hue-rotate:60" />   <!-- 60 darjah -->
+<img visual="hue-rotate:90" />   <!-- 90 darjah -->
+<img visual="hue-rotate:180" />  <!-- 180 darjah -->
 ```
 
-## Songsang (Invert)
+## Sonsang (Invert)
 
-Songsangkan warna elemen.
+Sonsangkan warna elemen.
 
 ```html
-<img visual="invert" src="..." />    <!-- Songsang penuh (100%) -->
-<img visual="invert-0" src="..." />  <!-- Tiada songsang -->
-<img visual="invert-50" src="..." /> <!-- 50% songsang -->
+<img visual="invert:none" />     <!-- Tiada sonsangan -->
+<img visual="invert:partial" />  <!-- 50% sonsang -->
+<img visual="invert:full" />     <!-- Sonsang penuh -->
+<img visual="invert" />          <!-- Sonsang penuh (lalai) -->
 ```
 
-## Ketepuan (Saturate)
+## Tepu (Saturate)
 
-Laraskan ketepuan warna. Nilai dalam peratusan (100 = normal).
+Laras ketepuan elemen.
 
 ```html
-<img visual="saturate-0" src="..." />   <!-- Tiada ketepuan (kelabu) -->
-<img visual="saturate-50" src="..." />  <!-- 50% ketepuan -->
-<img visual="saturate-100" src="..." /> <!-- Normal -->
-<img visual="saturate-150" src="..." /> <!-- 150% ketepuan -->
-<img visual="saturate-200" src="..." /> <!-- 200% ketepuan (terang) -->
+<img visual="saturate:none" />    <!-- Tiada tepu (kelabu) -->
+<img visual="saturate:low" />     <!-- 50% tepu -->
+<img visual="saturate:normal" />  <!-- 100% tepu -->
+<img visual="saturate:high" />    <!-- 150% tepu -->
+<img visual="saturate:vivid" />   <!-- 200% tepu -->
 ```
 
 ## Sepia
 
-Gunakan kesan nada sepia.
+Gunakan ton sepia pada elemen.
 
 ```html
-<img visual="sepia" src="..." />    <!-- Sepia penuh (100%) -->
-<img visual="sepia-0" src="..." />  <!-- Tiada sepia -->
-<img visual="sepia-50" src="..." /> <!-- 50% sepia -->
-```
-
-## Gabungan dengan Keadaan Hover
-
-```html
-<img 
-  visual="grayscale hover:grayscale-0" 
-  src="..." 
-/>
+<img visual="sepia:none" />     <!-- Tiada sepia -->
+<img visual="sepia:partial" />  <!-- 50% sepia -->
+<img visual="sepia:full" />     <!-- Sepia penuh -->
+<img visual="sepia" />          <!-- Sepia penuh (lalai) -->
 ```
 
 ## Rujukan
 
-| Token | Output CSS |
-|-------|-----------|
-| `blur-none` | `filter: blur(0);` |
-| `blur-sm` | `filter: blur(4px);` |
-| `blur` | `filter: blur(8px);` |
-| `blur-md` | `filter: blur(12px);` |
-| `blur-lg` | `filter: blur(16px);` |
-| `blur-xl` | `filter: blur(24px);` |
-| `blur-2xl` | `filter: blur(40px);` |
-| `blur-3xl` | `filter: blur(64px);` |
-| `brightness-{nilai}` | `filter: brightness({nilai/100});` |
-| `contrast-{nilai}` | `filter: contrast({nilai/100});` |
-| `drop-shadow-{saiz}` | `filter: drop-shadow(...);` |
-| `grayscale` | `filter: grayscale(100%);` |
-| `grayscale-{nilai}` | `filter: grayscale({nilai}%);` |
-| `hue-rotate-{darjah}` | `filter: hue-rotate({darjah}deg);` |
-| `invert` | `filter: invert(100%);` |
-| `invert-{nilai}` | `filter: invert({nilai}%);` |
-| `saturate-{nilai}` | `filter: saturate({nilai/100});` |
-| `sepia` | `filter: sepia(100%);` |
-| `sepia-{nilai}` | `filter: sepia({nilai}%);` |
+### Skala Kata Sifat Semula Jadi
+
+| Skala | Kata |
+|-------|------|
+| Kabur | `none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast` |
+| Kecerahan | `dim`, `dark`, `normal`, `bright`, `vivid` |
+| Kontras | `low`, `reduced`, `normal`, `high`, `max` |
+| Bayang Jatuh | `none`, `tiny`, `small`, `medium`, `big`, `giant` |
+| Tepu | `none`, `low`, `normal`, `high`, `vivid` |
+| Kelabu/Sepia/Sonsang | `none`, `partial`, `full` |

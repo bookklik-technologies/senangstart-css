@@ -2,6 +2,11 @@
 
 Control the algorithm used to lay out table cells, rows, and columns.
 
+## Syntax
+```
+layout="table-auto | table-fixed"
+```
+
 ## Usage
 
 ### Auto Layout (Default)

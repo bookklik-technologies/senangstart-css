@@ -2,6 +2,11 @@
 
 Control the position of images/videos within their container with the `layout` attribute.
 
+## Syntax
+```
+layout="object-pos:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

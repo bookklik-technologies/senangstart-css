@@ -2,6 +2,11 @@
 
 Control the placement of a table caption.
 
+## Syntax
+```
+layout="caption-top | caption-bottom"
+```
+
 ## Usage
 
 Position the table caption above or below the table.

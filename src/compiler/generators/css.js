@@ -933,45 +933,61 @@ function generateVisualRule(token, config) {
     'blur': () => {
       const blurScale = {
         'none': '0',
-        'sm': '4px',
-        'DEFAULT': '8px',
-        'md': '12px',
-        'lg': '16px',
-        'xl': '24px',
-        '2xl': '40px',
-        '3xl': '64px'
+        'tiny': '2px',
+        'small': '4px',
+        'medium': '8px',
+        'big': '12px',
+        'giant': '24px',
+        'vast': '48px'
       };
-      const cssValue = isArbitrary ? value : (blurScale[value] || `${value}px`);
+      const cssValue = isArbitrary ? value : (blurScale[value] || blurScale['medium']);
       return `filter: blur(${cssValue});`;
     },
     
     'brightness': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      const brightnessScale = {
+        'dim': 0.5,
+        'dark': 0.75,
+        'normal': 1,
+        'bright': 1.25,
+        'vivid': 1.5
+      };
+      const cssValue = isArbitrary ? value : (brightnessScale[value] || brightnessScale['normal']);
       return `filter: brightness(${cssValue});`;
     },
     
     'contrast': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      const contrastScale = {
+        'low': 0.5,
+        'reduced': 0.75,
+        'normal': 1,
+        'high': 1.25,
+        'max': 1.5
+      };
+      const cssValue = isArbitrary ? value : (contrastScale[value] || contrastScale['normal']);
       return `filter: contrast(${cssValue});`;
     },
     
     'drop-shadow': () => {
       const shadowPresets = {
         'none': 'none',
-        'sm': '0 1px 1px rgba(0,0,0,0.05)',
-        'DEFAULT': '0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)',
-        'md': '0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)',
-        'lg': '0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)',
-        'xl': '0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)',
-        '2xl': '0 25px 25px rgba(0,0,0,0.15)'
+        'tiny': '0 1px 1px rgba(0,0,0,0.05)',
+        'small': '0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)',
+        'medium': '0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)',
+        'big': '0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)',
+        'giant': '0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)'
       };
-      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (shadowPresets[value] || shadowPresets['DEFAULT']);
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (shadowPresets[value] || shadowPresets['medium']);
       return `filter: drop-shadow(${cssValue});`;
     },
     
     'grayscale': () => {
-      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
-                       isArbitrary ? value : `${value}%`;
+      const grayscaleScale = {
+        'none': '0%',
+        'partial': '50%',
+        'full': '100%'
+      };
+      const cssValue = isArbitrary ? value : (grayscaleScale[value] || grayscaleScale['full']);
       return `filter: grayscale(${cssValue});`;
     },
     
@@ -981,19 +997,34 @@ function generateVisualRule(token, config) {
     },
     
     'invert': () => {
-      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
-                       isArbitrary ? value : `${value}%`;
+      const invertScale = {
+        'none': '0%',
+        'partial': '50%',
+        'full': '100%'
+      };
+      const cssValue = isArbitrary ? value : (invertScale[value] || invertScale['full']);
       return `filter: invert(${cssValue});`;
     },
     
     'saturate': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      const saturateScale = {
+        'none': 0,
+        'low': 0.5,
+        'normal': 1,
+        'high': 1.5,
+        'vivid': 2
+      };
+      const cssValue = isArbitrary ? value : (saturateScale[value] || saturateScale['normal']);
       return `filter: saturate(${cssValue});`;
     },
     
     'sepia': () => {
-      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
-                       isArbitrary ? value : `${value}%`;
+      const sepiaScale = {
+        'none': '0%',
+        'partial': '50%',
+        'full': '100%'
+      };
+      const cssValue = isArbitrary ? value : (sepiaScale[value] || sepiaScale['full']);
       return `filter: sepia(${cssValue});`;
     },
     
@@ -1001,31 +1032,48 @@ function generateVisualRule(token, config) {
     'backdrop-blur': () => {
       const blurScale = {
         'none': '0',
-        'sm': '4px',
-        'DEFAULT': '8px',
-        'md': '12px',
-        'lg': '16px',
-        'xl': '24px',
-        '2xl': '40px',
-        '3xl': '64px'
+        'tiny': '2px',
+        'small': '4px',
+        'medium': '8px',
+        'big': '12px',
+        'giant': '24px',
+        'vast': '48px'
       };
-      const cssValue = isArbitrary ? value : (blurScale[value] || `${value}px`);
+      const cssValue = isArbitrary ? value : (blurScale[value] || blurScale['medium']);
       return `backdrop-filter: blur(${cssValue});`;
     },
     
     'backdrop-brightness': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      const brightnessScale = {
+        'dim': 0.5,
+        'dark': 0.75,
+        'normal': 1,
+        'bright': 1.25,
+        'vivid': 1.5
+      };
+      const cssValue = isArbitrary ? value : (brightnessScale[value] || brightnessScale['normal']);
       return `backdrop-filter: brightness(${cssValue});`;
     },
     
     'backdrop-contrast': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      const contrastScale = {
+        'low': 0.5,
+        'reduced': 0.75,
+        'normal': 1,
+        'high': 1.25,
+        'max': 1.5
+      };
+      const cssValue = isArbitrary ? value : (contrastScale[value] || contrastScale['normal']);
       return `backdrop-filter: contrast(${cssValue});`;
     },
     
     'backdrop-grayscale': () => {
-      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
-                       isArbitrary ? value : `${value}%`;
+      const grayscaleScale = {
+        'none': '0%',
+        'partial': '50%',
+        'full': '100%'
+      };
+      const cssValue = isArbitrary ? value : (grayscaleScale[value] || grayscaleScale['full']);
       return `backdrop-filter: grayscale(${cssValue});`;
     },
     
@@ -1035,25 +1083,341 @@ function generateVisualRule(token, config) {
     },
     
     'backdrop-invert': () => {
-      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
-                       isArbitrary ? value : `${value}%`;
+      const invertScale = {
+        'none': '0%',
+        'partial': '50%',
+        'full': '100%'
+      };
+      const cssValue = isArbitrary ? value : (invertScale[value] || invertScale['full']);
       return `backdrop-filter: invert(${cssValue});`;
     },
     
     'backdrop-opacity': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      const opacityScale = {
+        'invisible': 0,
+        'faint': 0.25,
+        'half': 0.5,
+        'visible': 0.75,
+        'solid': 1
+      };
+      const cssValue = isArbitrary ? value : (opacityScale[value] || opacityScale['solid']);
       return `backdrop-filter: opacity(${cssValue});`;
     },
     
     'backdrop-saturate': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      const saturateScale = {
+        'none': 0,
+        'low': 0.5,
+        'normal': 1,
+        'high': 1.5,
+        'vivid': 2
+      };
+      const cssValue = isArbitrary ? value : (saturateScale[value] || saturateScale['normal']);
       return `backdrop-filter: saturate(${cssValue});`;
     },
     
     'backdrop-sepia': () => {
-      const cssValue = value === undefined || value === '' || value === 'DEFAULT' ? '100%' : 
-                       isArbitrary ? value : `${value}%`;
+      const sepiaScale = {
+        'none': '0%',
+        'partial': '50%',
+        'full': '100%'
+      };
+      const cssValue = isArbitrary ? value : (sepiaScale[value] || sepiaScale['full']);
       return `backdrop-filter: sepia(${cssValue});`;
+    },
+    
+    // =====================
+    // TRANSITION UTILITIES
+    // =====================
+    
+    // Transition Property
+    'transition': () => {
+      const transitionPresets = {
+        'none': 'none',
+        'all': 'all',
+        'DEFAULT': 'color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter',
+        'colors': 'color, background-color, border-color, text-decoration-color, fill, stroke',
+        'opacity': 'opacity',
+        'shadow': 'box-shadow',
+        'transform': 'transform'
+      };
+      const prop = transitionPresets[value] || transitionPresets['DEFAULT'];
+      return `transition-property: ${prop}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;`;
+    },
+    
+    'transition-none': () => {
+      return 'transition-property: none;';
+    },
+    
+    // Transition Duration
+    'duration': () => {
+      const durationScale = {
+        'instant': '75ms',
+        'quick': '100ms',
+        'fast': '150ms',
+        'normal': '200ms',
+        'slow': '300ms',
+        'slower': '500ms',
+        'lazy': '700ms'
+      };
+      const cssValue = isArbitrary ? value : (durationScale[value] || durationScale['normal']);
+      return `transition-duration: ${cssValue};`;
+    },
+    
+    // Transition Timing Function
+    'ease': () => {
+      const easingMap = {
+        'linear': 'linear',
+        'in': 'cubic-bezier(0.4, 0, 1, 1)',
+        'out': 'cubic-bezier(0, 0, 0.2, 1)',
+        'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)'
+      };
+      const cssValue = isArbitrary ? value : (easingMap[value] || easingMap['in-out']);
+      return `transition-timing-function: ${cssValue};`;
+    },
+    
+    // Transition Delay
+    'delay': () => {
+      const delayScale = {
+        'instant': '75ms',
+        'quick': '100ms',
+        'fast': '150ms',
+        'normal': '200ms',
+        'slow': '300ms',
+        'slower': '500ms',
+        'lazy': '700ms'
+      };
+      const cssValue = isArbitrary ? value : (delayScale[value] || delayScale['normal']);
+      return `transition-delay: ${cssValue};`;
+    },
+    
+    // Transition Behavior
+    'transition-behavior': () => {
+      return `transition-behavior: ${value};`;
+    },
+    
+    // =====================
+    // ANIMATION UTILITIES
+    // =====================
+    
+    'animate': () => {
+      const animationPresets = {
+        'none': 'none',
+        'spin': 'spin 1s linear infinite',
+        'ping': 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce': 'bounce 1s infinite'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (animationPresets[value] || value);
+      return `animation: ${cssValue};`;
+    },
+    
+    // Animation Duration
+    'animation-duration': () => {
+      const durationScale = {
+        'instant': '75ms',
+        'quick': '100ms',
+        'fast': '150ms',
+        'normal': '200ms',
+        'slow': '300ms',
+        'slower': '500ms',
+        'lazy': '700ms'
+      };
+      const cssValue = isArbitrary ? value : (durationScale[value] || durationScale['normal']);
+      return `animation-duration: ${cssValue};`;
+    },
+    
+    // Animation Delay
+    'animation-delay': () => {
+      const delayScale = {
+        'instant': '75ms',
+        'quick': '100ms',
+        'fast': '150ms',
+        'normal': '200ms',
+        'slow': '300ms',
+        'slower': '500ms',
+        'lazy': '700ms'
+      };
+      const cssValue = isArbitrary ? value : (delayScale[value] || delayScale['normal']);
+      return `animation-delay: ${cssValue};`;
+    },
+    
+    // Animation Iteration Count
+    'animation-iteration': () => {
+      return `animation-iteration-count: ${value};`;
+    },
+    
+    // Animation Direction
+    'animation-direction': () => {
+      return `animation-direction: ${value};`;
+    },
+    
+    // Animation Fill Mode
+    'animation-fill': () => {
+      return `animation-fill-mode: ${value};`;
+    },
+    
+    // Animation Play State
+    'animation-play': () => {
+      return `animation-play-state: ${value};`;
+    },
+    
+    // =====================
+    // TRANSFORM UTILITIES
+    // =====================
+    
+    // Scale
+    'scale': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `transform: scale(${cssValue});`;
+    },
+    
+    'scale-x': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `transform: scaleX(${cssValue});`;
+    },
+    
+    'scale-y': () => {
+      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      return `transform: scaleY(${cssValue});`;
+    },
+    
+    // Rotate
+    'rotate': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `transform: rotate(${cssValue});`;
+    },
+    
+    // Translate
+    'translate-x': () => {
+      const translatePresets = {
+        'full': '100%',
+        '1/2': '50%',
+        '1/3': '33.333333%',
+        '2/3': '66.666667%',
+        '1/4': '25%',
+        '3/4': '75%'
+      };
+      const cssValue = isArbitrary ? value : (translatePresets[value] || `var(--s-${value})`);
+      return `transform: translateX(${cssValue});`;
+    },
+    
+    'translate-y': () => {
+      const translatePresets = {
+        'full': '100%',
+        '1/2': '50%',
+        '1/3': '33.333333%',
+        '2/3': '66.666667%',
+        '1/4': '25%',
+        '3/4': '75%'
+      };
+      const cssValue = isArbitrary ? value : (translatePresets[value] || `var(--s-${value})`);
+      return `transform: translateY(${cssValue});`;
+    },
+    
+    '-translate-x': () => {
+      const translatePresets = {
+        'full': '-100%',
+        '1/2': '-50%',
+        '1/3': '-33.333333%',
+        '2/3': '-66.666667%',
+        '1/4': '-25%',
+        '3/4': '-75%'
+      };
+      const cssValue = isArbitrary ? `-${value}` : (translatePresets[value] || `calc(var(--s-${value}) * -1)`);
+      return `transform: translateX(${cssValue});`;
+    },
+    
+    '-translate-y': () => {
+      const translatePresets = {
+        'full': '-100%',
+        '1/2': '-50%',
+        '1/3': '-33.333333%',
+        '2/3': '-66.666667%',
+        '1/4': '-25%',
+        '3/4': '-75%'
+      };
+      const cssValue = isArbitrary ? `-${value}` : (translatePresets[value] || `calc(var(--s-${value}) * -1)`);
+      return `transform: translateY(${cssValue});`;
+    },
+    
+    // Skew
+    'skew-x': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `transform: skewX(${cssValue});`;
+    },
+    
+    'skew-y': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `transform: skewY(${cssValue});`;
+    },
+    
+    '-skew-x': () => {
+      const cssValue = isArbitrary ? `-${value}` : `-${value}deg`;
+      return `transform: skewX(${cssValue});`;
+    },
+    
+    '-skew-y': () => {
+      const cssValue = isArbitrary ? `-${value}` : `-${value}deg`;
+      return `transform: skewY(${cssValue});`;
+    },
+    
+    // Transform Origin
+    'origin': () => {
+      const originMap = {
+        'center': 'center',
+        'top': 'top',
+        'top-right': 'top right',
+        'right': 'right',
+        'bottom-right': 'bottom right',
+        'bottom': 'bottom',
+        'bottom-left': 'bottom left',
+        'left': 'left',
+        'top-left': 'top left'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (originMap[value] || value);
+      return `transform-origin: ${cssValue};`;
+    },
+    
+    // Transform Style (for 3D transforms)
+    'transform-style': () => {
+      return `transform-style: ${value};`;
+    },
+    
+    // Backface Visibility
+    'backface': () => {
+      return `backface-visibility: ${value};`;
+    },
+    
+    // Perspective
+    'perspective': () => {
+      const perspectivePresets = {
+        'none': 'none',
+        'small': '250px',
+        'medium': '500px',
+        'big': '750px',
+        'giant': '1000px',
+        'vast': '1500px'
+      };
+      const cssValue = isArbitrary ? value : (perspectivePresets[value] || perspectivePresets['medium']);
+      return `perspective: ${cssValue};`;
+    },
+    
+    // Perspective Origin
+    'perspective-origin': () => {
+      const originMap = {
+        'center': 'center',
+        'top': 'top',
+        'top-right': 'top right',
+        'right': 'right',
+        'bottom-right': 'bottom right',
+        'bottom': 'bottom',
+        'bottom-left': 'bottom left',
+        'left': 'left',
+        'top-left': 'top left'
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (originMap[value] || value);
+      return `perspective-origin: ${cssValue};`;
     }
   };
   
@@ -1135,7 +1499,23 @@ export function generateCSS(tokens, config) {
     css += generatePreflight(config);
   }
   
-  css += `/* SenangStart CSS - Utility Classes */
+  // Add animation keyframes
+  css += `/* SenangStart CSS - Animation Keyframes */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+@keyframes pulse {
+  50% { opacity: .5; }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+  50% { transform: none; animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+}
+
+/* SenangStart CSS - Utility Classes */
 `;
   
   // Group tokens by breakpoint and dark mode

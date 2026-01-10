@@ -2,6 +2,11 @@
 
 Truncate text to a specific number of lines with the `visual` attribute.
 
+## Syntax
+```
+visual="line-clamp:[value]"
+```
+
 ## Values
 
 | Value | CSS Output |

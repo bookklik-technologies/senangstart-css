@@ -2,6 +2,12 @@
 
 Control the spacing between table cell borders when using `border-separate`.
 
+## Syntax
+```
+layout="border-spacing-[value]"
+layout="border-spacing-x-[value] | border-spacing-y-[value]"
+```
+
 ## Usage
 
 Use `border-spacing` to add gaps between table cells. This only works when `border-separate` is applied.
