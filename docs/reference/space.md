@@ -12,20 +12,18 @@ The `space` attribute controls sizing and spacing.
 
 **Scale values:** `none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`
 
-## Properties
-
-### Spacing
+## Spacing
 
 - [Padding](./space/padding) - Inner spacing (`p`, `p-t`, `p-r`, `p-b`, `p-l`, `p-x`, `p-y`)
 - [Margin](./space/margin) - Outer spacing (`m`, `m-t`, `m-r`, `m-b`, `m-l`, `m-x`, `m-y`)
 - [Gap](./space/gap) - Flex/grid spacing (`g`, `g-x`, `g-y`)
 
-### Dimensions
+## Dimensions
 
 - [Width](./space/width) - Element width (`w`, `min-w`, `max-w`)
 - [Height](./space/height) - Element height (`h`, `min-h`, `max-h`)
 
-### Reference
+## Reference
 
 - [Arbitrary Values](./space/arbitrary-values) - Escape hatch syntax `[value]`
 - [Scale Reference](./space/scale-reference) - Scale keyword values
