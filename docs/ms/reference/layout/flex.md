@@ -1,6 +1,6 @@
 # Flex
 
-Harta pintasan flex
+Properti pintasan flex
 
 ## Sintaks
 ```

@@ -9,7 +9,7 @@ space="w:[value]"
 
 ## Nilai
 
-| Harta | CSS Output | Huraian |
+| Properti | CSS Output | Huraian |
 |--------|------------|-------------|
 | `w` | `width: var(--s-{value})` | Lebar |
 | `min-w` | `min-width: var(--s-{value})` | Lebar minimum |

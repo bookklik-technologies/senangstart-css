@@ -9,7 +9,7 @@ space="g:[value]" or space="g-{axis}:[value]"
 
 ## Nilai
 
-| Harta | CSS Output | Huraian |
+| Properti | CSS Output | Huraian |
 |--------|------------|-------------|
 | `g` | `gap: var(--s-{value})` | Semua ruang |
 | `g-x` | `column-gap: var(--s-{value})` | Ruang lajur |

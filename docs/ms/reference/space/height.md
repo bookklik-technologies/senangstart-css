@@ -9,7 +9,7 @@ space="h:[value]"
 
 ## Nilai
 
-| Harta | CSS Output | Huraian |
+| Properti | CSS Output | Huraian |
 |--------|------------|-------------|
 | `h` | `height: var(--s-{value})` | Tinggi |
 | `min-h` | `min-height: var(--s-{value})` | Tinggi minimum |

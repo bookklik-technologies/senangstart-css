@@ -12,12 +12,12 @@ export const transitionProperty = {
   property: 'visual',
   syntax: 'visual="transition:[value]"',
   description: 'Set transition properties',
-  descriptionMs: 'Tetapkan harta peralihan',
+  descriptionMs: 'Tetapkan properti peralihan',
   category: 'visual',
   values: [
     { value: 'none', css: 'transition-property: none;', description: 'No transition', descriptionMs: 'Tiada peralihan' },
-    { value: 'all', css: 'transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;', description: 'All properties', descriptionMs: 'Semua harta' },
-    { value: 'colors', css: 'transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;', description: 'Color properties', descriptionMs: 'Harta warna' },
+    { value: 'all', css: 'transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;', description: 'All properties', descriptionMs: 'Semua properti' },
+    { value: 'colors', css: 'transition-property: color, background-color, border-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;', description: 'Color properties', descriptionMs: 'Properti warna' },
     { value: 'opacity', css: 'transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;', description: 'Opacity only', descriptionMs: 'Kelegapan sahaja' },
     { value: 'shadow', css: 'transition-property: box-shadow; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;', description: 'Shadow only', descriptionMs: 'Bayang sahaja' },
     { value: 'transform', css: 'transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;', description: 'Transform only', descriptionMs: 'Transformasi sahaja' }

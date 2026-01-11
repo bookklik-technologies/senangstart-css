@@ -9,7 +9,7 @@ space="m:[value]" or space="m-{side}:[value]"
 
 ## Nilai
 
-| Harta | CSS Output | Huraian |
+| Properti | CSS Output | Huraian |
 |--------|------------|-------------|
 | `m` | `margin: var(--s-{value})` | Semua sisi |
 | `m-t` | `margin-top: var(--s-{value})` | Atas |

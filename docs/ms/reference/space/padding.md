@@ -9,7 +9,7 @@ space="p:[value]" or space="p-{side}:[value]"
 
 ## Nilai
 
-| Harta | CSS Output | Huraian |
+| Properti | CSS Output | Huraian |
 |--------|------------|-------------|
 | `p` | `padding: var(--s-{value})` | Semua sisi |
 | `p-t` | `padding-top: var(--s-{value})` | Atas |

@@ -62,7 +62,7 @@ function generateMarkdown(definition, locale = 'en') {
     
     if (hasProperty) {
       lines.push(isMs 
-        ? '| Harta | CSS Output | Huraian |'
+        ? '| Properti | CSS Output | Huraian |'
         : '| Property | CSS Output | Description |');
       lines.push('|--------|------------|-------------|');
       

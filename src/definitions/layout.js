@@ -900,7 +900,7 @@ export const flexShorthand = {
   property: 'layout',
   syntax: 'layout="flex:[value]"',
   description: 'Flex shorthand property',
-  descriptionMs: 'Harta pintasan flex',
+  descriptionMs: 'Properti pintasan flex',
   category: 'layout',
   supportsArbitrary: true,
   dynamic: true,
