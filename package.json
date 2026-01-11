@@ -31,7 +31,7 @@
     "natural-language",
     "intent-first"
   ],
-  "author": "",
+  "author": "a-hakim",
   "license": "MIT",
   "dependencies": {
     "chokidar": "^3.5.3",
