@@ -1,46 +1,60 @@
 /**
  * SenangStart CSS - Border & Outline Utility Definitions
- * Border color, width, style, outline
+ * Border color, width, style, outline (including directional variants)
  */
 
 // ======================
-// BORDER COLOR
+// BORDER COLOR (ALL DIRECTIONS)
 // ======================
 
 export const borderColor = {
   name: 'border',
   property: 'visual',
-  syntax: 'visual="border:[color]"',
-  description: 'Set border color',
-  descriptionMs: 'Tetapkan warna sempadan',
+  syntax: 'visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"',
+  description: 'Set border color for all sides or specific sides',
+  descriptionMs: 'Tetapkan warna sempadan untuk semua sisi atau sisi tertentu',
   category: 'visual',
   usesScale: 'colors',
   supportsArbitrary: true,
-  values: [],
+  values: [
+    { value: 'primary', css: 'border-color: var(--c-primary); border-style: solid;', description: 'Primary color border', descriptionMs: 'Sempadan warna utama' },
+    { value: 'gray-300', css: 'border-color: var(--c-gray-300); border-style: solid;', description: 'Light gray border', descriptionMs: 'Sempadan kelabu cerah' },
+    { value: 'danger', css: 'border-color: var(--c-danger); border-style: solid;', description: 'Danger/error border', descriptionMs: 'Sempadan bahaya/ralat' }
+  ],
   examples: [
-    { code: '<div visual="border:primary border-w:small">Bordered element</div>', description: 'Primary border' }
+    { code: '<div visual="border:primary border-w:thin">Primary border</div>', description: 'Border on all sides' },
+    { code: '<div visual="border-t:primary border-t-w:regular">Top only</div>', description: 'Top border only' },
+    { code: '<div visual="border-b:gray-300 border-b-w:thin">Bottom only</div>', description: 'Bottom border only' },
+    { code: '<div visual="border-x:primary border-x-w:regular">Left & right</div>', description: 'Horizontal borders' },
+    { code: '<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>', description: 'Vertical borders' }
   ]
 };
 
 // ======================
-// BORDER WIDTH
+// BORDER WIDTH (ALL DIRECTIONS)
 // ======================
 
 export const borderWidth = {
   name: 'border-width',
   property: 'visual',
-  syntax: 'visual="border-w:[value]"',
-  description: 'Set border width',
-  descriptionMs: 'Tetapkan lebar sempadan',
+  syntax: 'visual="border-w:[value]" | visual="border-{t|b|l|r|x|y}-w:[value]"',
+  description: 'Set border width for all sides or specific sides',
+  descriptionMs: 'Tetapkan lebar sempadan untuk semua sisi atau sisi tertentu',
   category: 'visual',
   usesScale: 'spacing',
   supportsArbitrary: true,
   values: [
-    { value: 'tiny', css: 'border-width: var(--s-tiny); border-style: solid;', description: 'Tiny border', descriptionMs: 'Sempadan kecil' },
-    { value: 'small', css: 'border-width: var(--s-small); border-style: solid;', description: 'Small border', descriptionMs: 'Sempadan kecil' }
+    { value: 'none', css: 'border-width: var(--s-none);', description: 'No border (0px)', descriptionMs: 'Tiada sempadan (0px)' },
+    { value: 'thin', css: 'border-width: var(--s-thin);', description: 'Thin border (1px)', descriptionMs: 'Sempadan nipis (1px)' },
+    { value: 'regular', css: 'border-width: var(--s-regular);', description: 'Standard border (2px)', descriptionMs: 'Sempadan standard (2px)' },
+    { value: 'thick', css: 'border-width: var(--s-thick);', description: 'Thick border (3px)', descriptionMs: 'Sempadan tebal (3px)' }
   ],
   examples: [
-    { code: '<div visual="border:gray-300 border-w:small">Thin border</div>', description: 'Thin border' }
+    { code: '<div visual="border:gray-300 border-w:thin">Thin 1px border</div>', description: 'Thin border (1px)' },
+    { code: '<div visual="border:gray-300 border-w:regular">Standard 2px border</div>', description: 'Regular border (2px)' },
+    { code: '<div visual="border:gray-300 border-w:thick">Thick 3px border</div>', description: 'Thick border (3px)' },
+    { code: '<div visual="border-b:primary border-b-w:regular">Bottom border only</div>', description: 'Bottom border width' },
+    { code: '<div visual="border-x:primary border-x-w:thin">Horizontal borders</div>', description: 'Horizontal border width' }
   ]
 };
 

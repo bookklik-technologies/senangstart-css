@@ -7,7 +7,10 @@ Complete reference for the spacing scale.
 | Keyword | Value | Use Case |
 |---------|-------|----------|
 | `none` | 0px | Reset spacing |
-| `tiny` | 4px | Borders, small offsets |
+| `thin` | 1px | Hairline borders |
+| `regular` | 2px | Standard borders |
+| `thick` | 3px | Bold borders |
+| `tiny` | 4px | Small offsets |
 | `small` | 8px | Group related items |
 | `medium` | 16px | Standard default |
 | `big` | 32px | Separate sections |
@@ -21,6 +24,9 @@ The spacing scale generates these CSS variables:
 ```css
 :root {
   --s-none: 0px;
+  --s-thin: 1px;
+  --s-regular: 2px;
+  --s-thick: 3px;
   --s-tiny: 4px;
   --s-small: 8px;
   --s-medium: 16px;
@@ -43,6 +49,11 @@ The spacing scale generates these CSS variables:
 
 <!-- Gap -->
 <div layout="flex" space="g:small">8px gap between items</div>
+
+<!-- Border Width -->
+<div visual="border:gray-300 border-w:thin">1px border</div>
+<div visual="border:gray-300 border-w:regular">2px border</div>
+<div visual="border:gray-300 border-w:thick">3px border</div>
 ```
 
 ## Customization
@@ -64,11 +75,14 @@ export default {
 ## Visual Guide
 
 ```
-none   │ (no space)
-tiny   │▌ 4px
-small  │██ 8px
-medium │████ 16px
-big    │████████ 32px
-giant  │████████████████ 64px
-vast   │████████████████████████████████ 128px
+none    │ (no space)
+thin    │ 1px
+regular │▏ 2px
+thick   │▎ 3px
+tiny    │▌ 4px
+small   │██ 8px
+medium  │████ 16px
+big     │████████ 32px
+giant   │████████████████ 64px
+vast    │████████████████████████████████ 128px
 ```

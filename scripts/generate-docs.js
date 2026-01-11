@@ -106,6 +106,27 @@ function generateMarkdown(definition, locale = 'en') {
     lines.push('');
   }
   
+  // Preview (live HTML demos)
+  if (definition.preview && definition.preview.length > 0) {
+    lines.push(isMs ? '## Pratonton' : '## Preview');
+    lines.push('');
+    
+    for (let i = 0; i < definition.preview.length; i++) {
+      const p = definition.preview[i];
+      const marginTop = i > 0 ? ' m-t:large' : '';
+      
+      lines.push(`<div layout="flex col" space="g:medium${marginTop}">`);
+      lines.push(p.html);
+      
+      // Description with highlighted code
+      const desc = isMs ? p.descriptionMs : p.description;
+      const highlightCode = p.highlightValue ? `<code>${definition.property}="${p.highlightValue}"</code>` : '';
+      lines.push(`  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm">${highlightCode}${highlightCode && desc ? ' - ' : ''}${desc}</p>`);
+      lines.push('</div>');
+      lines.push('');
+    }
+  }
+  
   // Arbitrary values support
   if (definition.supportsArbitrary) {
     lines.push(isMs ? '## Nilai Arbitrari' : '## Arbitrary Values');

@@ -217,9 +217,9 @@ const enSidebar = {
           text: 'Borders',
           collapsed: true,
           items: [
-            { text: 'Border', link: '/reference/visual/border' },
-            { text: 'Border Radius', link: '/reference/visual/border-radius' },
+            { text: 'Border Color', link: '/reference/visual/border' },
             { text: 'Border Width', link: '/reference/visual/border-width' },
+            { text: 'Border Radius', link: '/reference/visual/border-radius' },
             { text: 'Border Style', link: '/reference/visual/border-style' }
           ]
         },
@@ -580,10 +580,10 @@ const msSidebar = {
           text: 'Sempadan',
           collapsed: true,
           items: [
-            { text: 'Sempadan', link: '/ms/reference/visual/border' },
-            { text: 'Radius Sempadan', link: '/ms/reference/visual/border-radius' },
+            { text: 'Warna Sempadan', link: '/ms/reference/visual/border' },
             { text: 'Lebar Sempadan', link: '/ms/reference/visual/border-width' },
-            { text: 'Gaya Sempadan', link: '/ms/reference/visual/border-style' },
+            { text: 'Radius Sempadan', link: '/ms/reference/visual/border-radius' },
+            { text: 'Gaya Sempadan', link: '/ms/reference/visual/border-style' }
           ]
         },
         {
@@ -742,10 +742,12 @@ export default defineConfig({
   base: '/senangstart-css/',
   
   // Force light mode only (disable toggle)
-  appearance: false,
+  appearance: true,
   
   head: [
-    ['link', { rel: 'icon', href: 'https://senangstart.com/img/ss_icon_accent.svg' }]
+    ['link', { rel: 'icon', href: 'https://senangstart.com/img/ss_icon_accent.svg' }],
+    ['script', { type: 'senangstart/config' }, '{ "darkMode": "selector" }'],
+    ['script', { src: '/senangstart-css/assets/senangstart-css.min.js' }]
   ],
 
   // Search configuration (must be at root level)

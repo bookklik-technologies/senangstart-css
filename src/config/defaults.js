@@ -36,7 +36,10 @@ export const defaultConfig = {
     // Logic: How big is the object/gap physically?
     spacing: {
       'none':   '0px',      // No space
-      'tiny':   '4px',      // Pebble (Borders, offsets)
+      'thin':   '1px',      // Hairline (for borders)
+      'regular': '2px',     // Standard border
+      'thick':  '3px',      // Bold border
+      'tiny':   '4px',      // Pebble (Small offsets)
       'small':  '8px',      // Matchbox (Grouping inside components)
       'medium': '16px',     // Smartphone (Standard default)
       'big':    '32px',     // Laptop (Separation between groups)

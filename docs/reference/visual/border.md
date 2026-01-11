@@ -1,70 +1,43 @@
-# Border Color
+# Border
 
-Set border color using semantic colors or Tailwind-style color tokens.
+Set border color for all sides or specific sides
 
 ## Syntax
 ```
-visual="border:[color]"
-visual="border-t:[color]"   <!-- top only -->
-visual="border-b:[color]"   <!-- bottom only -->
-visual="border-l:[color]"   <!-- left only -->
-visual="border-r:[color]"   <!-- right only -->
-visual="border-x:[color]"   <!-- left + right -->
-visual="border-y:[color]"   <!-- top + bottom -->
+visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"
 ```
 
 ## Values
 
-All color tokens from the theme are supported (e.g., `primary`, `secondary`, `success`, `warning`, `danger`, `gray-500`, `blue-300`, etc.)
+| Value | CSS Output | Description |
+|-------|------------|-------------|
+| `primary` | `border-color: var(--c-primary); border-style: solid` | Primary color border |
+| `gray-300` | `border-color: var(--c-gray-300); border-style: solid` | Light gray border |
+| `danger` | `border-color: var(--c-danger); border-style: solid` | Danger/error border |
 
 ## Examples
 
-### All Sides
 ```html
-<div visual="border:primary border-w:small">Primary border on all sides</div>
-<div visual="border:danger border-w:[2px]">Red border on all sides</div>
-```
-
-### Directional
-```html
-<!-- Top border only -->
-<div visual="border-t:primary border-t-w:[2px]">Top border</div>
-
-<!-- Bottom border only -->
-<div visual="border-b:warning border-b-w:small">Bottom border</div>
-
-<!-- Left and right borders -->
-<div visual="border-x:secondary border-x-w:[1px]">Horizontal borders</div>
-
-<!-- Top and bottom borders -->
-<div visual="border-y:success border-y-w:tiny">Vertical borders</div>
+<div visual="border:primary border-w:thin">Primary border</div>
+<div visual="border-t:primary border-t-w:regular">Top only</div>
+<div visual="border-b:gray-300 border-b-w:thin">Bottom only</div>
+<div visual="border-x:primary border-x-w:regular">Left & right</div>
+<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>
 ```
 
 ## Arbitrary Values
 
-Supports custom CSS color values:
+Supports custom values using bracket syntax:
 
 ```html
-<div visual="border:[#ff5500] border-w:[2px]">Custom orange border</div>
-<div visual="border-t:[rgb(100,150,200)] border-t-w:[1px]">Custom top border</div>
-```
-
-## States
-
-```html
-<button visual="border:gray-300 border-w:[1px] hover:border:primary focus:border:blue-500">
-  Interactive border
-</button>
+<div visual="border:[custom-value]">Custom</div>
 ```
 
 ## Responsive
 
 ```html
-<div visual="border:gray-300 tab:border:primary lap:border:success border-w:[1px]">
-  Responsive border color
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```
-
-::: tip
-When using directional borders, pair the color utility with the matching width utility (e.g., `border-t` with `border-t-w`).
-:::

@@ -16,6 +16,14 @@ import transformDefinitions from './visual-transforms.js';
 import borderDefinitions from './visual-borders.js';
 import svgDefinitions from './visual-svg.js';
 
+// Import split layout definitions
+import flexDefinitions from './layout-flex.js';
+import alignmentDefinitions from './layout-alignment.js';
+import gridDefinitions from './layout-grid.js';
+import positioningDefinitions from './layout-positioning.js';
+import utilitiesDefinitions from './layout-utilities.js';
+import tableDefinitions from './layout-table.js';
+
 // Merge visual definitions
 const allVisualDefinitions = {
   ...visualDefinitions,
@@ -43,6 +51,14 @@ export { transitionDefinitions } from './visual-transitions.js';
 export { transformDefinitions } from './visual-transforms.js';
 export { borderDefinitions } from './visual-borders.js';
 export { svgDefinitions } from './visual-svg.js';
+
+// Re-export split layout definitions
+export { flexDefinitions } from './layout-flex.js';
+export { alignmentDefinitions } from './layout-alignment.js';
+export { gridDefinitions } from './layout-grid.js';
+export { positioningDefinitions } from './layout-positioning.js';
+export { utilitiesDefinitions } from './layout-utilities.js';
+export { tableDefinitions } from './layout-table.js';
 
 // Export builder functions
 export { buildLayoutMap } from './layout.js';

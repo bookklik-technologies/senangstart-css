@@ -1,66 +1,44 @@
 # Border Width
 
-Set border width using spacing scale tokens or arbitrary values.
+Set border width for all sides or specific sides
 
 ## Syntax
 ```
-visual="border-w:[value]"
-visual="border-t-w:[value]"   <!-- top only -->
-visual="border-b-w:[value]"   <!-- bottom only -->
-visual="border-l-w:[value]"   <!-- left only -->
-visual="border-r-w:[value]"   <!-- right only -->
-visual="border-x-w:[value]"   <!-- left + right -->
-visual="border-y-w:[value]"   <!-- top + bottom -->
+visual="border-w:[value]" | visual="border-{t|b|l|r|x|y}-w:[value]"
 ```
 
 ## Values
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `tiny` | `border-width: var(--s-tiny)` | 4px border |
-| `small` | `border-width: var(--s-small)` | 8px border |
-| `medium` | `border-width: var(--s-medium)` | 16px border |
+| `none` | `border-width: var(--s-none)` | No border (0px) |
+| `thin` | `border-width: var(--s-thin)` | Thin border (1px) |
+| `regular` | `border-width: var(--s-regular)` | Standard border (2px) |
+| `thick` | `border-width: var(--s-thick)` | Thick border (3px) |
 
 ## Examples
 
-### All Sides
 ```html
-<div visual="border:gray-300 border-w:small">Thin border on all sides</div>
-<div visual="border:primary border-w:[2px]">2px border on all sides</div>
-```
-
-### Directional
-```html
-<!-- Top border only -->
-<div visual="border-t:primary border-t-w:[2px]">Top border</div>
-
-<!-- Bottom border only -->
-<div visual="border-b:warning border-b-w:small">Bottom border</div>
-
-<!-- Left and right borders -->
-<div visual="border-x:secondary border-x-w:[1px]">Horizontal borders</div>
-
-<!-- Top and bottom borders -->
-<div visual="border-y:success border-y-w:tiny">Vertical borders</div>
+<div visual="border:gray-300 border-w:thin">Thin 1px border</div>
+<div visual="border:gray-300 border-w:regular">Standard 2px border</div>
+<div visual="border:gray-300 border-w:thick">Thick 3px border</div>
+<div visual="border-b:primary border-b-w:regular">Bottom border only</div>
+<div visual="border-x:primary border-x-w:thin">Horizontal borders</div>
 ```
 
 ## Arbitrary Values
 
-Supports custom CSS width values:
+Supports custom values using bracket syntax:
 
 ```html
-<div visual="border:primary border-w:[3px]">3px border</div>
-<div visual="border-t:danger border-t-w:[0.5rem]">0.5rem top border</div>
+<div visual="border:[custom-value]">Custom</div>
 ```
 
 ## Responsive
 
 ```html
-<div visual="border:gray-300 border-w:[1px] tab:border-w:[2px] lap:border-w:small">
-  Responsive border width
+<!-- Responsive example -->
+<div visual="mob:... tab:... lap:...">
+  Responsive content
 </div>
 ```
-
-::: tip
-When using directional width utilities, pair them with matching color utilities (e.g., `border-t-w` with `border-t`).
-:::

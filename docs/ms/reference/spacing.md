@@ -7,7 +7,10 @@ Rujukan lengkap untuk skala jarak.
 | Kata Kunci | Nilai | Kes Penggunaan |
 |------------|-------|----------------|
 | `none` | 0px | Reset jarak |
-| `tiny` | 4px | Sempadan, offset kecil |
+| `thin` | 1px | Sempadan halus |
+| `regular` | 2px | Sempadan standard |
+| `thick` | 3px | Sempadan tebal |
+| `tiny` | 4px | Offset kecil |
 | `small` | 8px | Kumpulkan item berkaitan |
 | `medium` | 16px | Lalai standard |
 | `big` | 32px | Pisahkan seksyen |
@@ -21,6 +24,9 @@ Skala jarak menghasilkan variable CSS ini:
 ```css
 :root {
   --s-none: 0px;
+  --s-thin: 1px;
+  --s-regular: 2px;
+  --s-thick: 3px;
   --s-tiny: 4px;
   --s-small: 8px;
   --s-medium: 16px;
@@ -43,6 +49,11 @@ Skala jarak menghasilkan variable CSS ini:
 
 <!-- Gap -->
 <div layout="flex" space="g:small">8px gap antara item</div>
+
+<!-- Lebar Sempadan -->
+<div visual="border:gray-300 border-w:thin">Sempadan 1px</div>
+<div visual="border:gray-300 border-w:regular">Sempadan 2px</div>
+<div visual="border:gray-300 border-w:thick">Sempadan 3px</div>
 ```
 
 ## Penyesuaian
@@ -64,11 +75,14 @@ export default {
 ## Panduan Visual
 
 ```
-none   │ (tiada ruang)
-tiny   │▌ 4px
-small  │██ 8px
-medium │████ 16px
-big    │████████ 32px
-giant  │████████████████ 64px
-vast   │████████████████████████████████ 128px
+none    │ (tiada ruang)
+thin    │ 1px
+regular │▏ 2px
+thick   │▎ 3px
+tiny    │▌ 4px
+small   │██ 8px
+medium  │████ 16px
+big     │████████ 32px
+giant   │████████████████ 64px
+vast    │████████████████████████████████ 128px
 ```

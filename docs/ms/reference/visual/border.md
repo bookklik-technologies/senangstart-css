@@ -1,70 +1,43 @@
-# Warna Sempadan
+# Border
 
-Tetapkan warna sempadan menggunakan token warna semantik atau warna gaya Tailwind.
+Tetapkan warna sempadan untuk semua sisi atau sisi tertentu
 
 ## Sintaks
 ```
-visual="border:[color]"
-visual="border-t:[color]"   <!-- atas sahaja -->
-visual="border-b:[color]"   <!-- bawah sahaja -->
-visual="border-l:[color]"   <!-- kiri sahaja -->
-visual="border-r:[color]"   <!-- kanan sahaja -->
-visual="border-x:[color]"   <!-- kiri + kanan -->
-visual="border-y:[color]"   <!-- atas + bawah -->
+visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"
 ```
 
 ## Nilai
 
-Semua token warna dari tema disokong (contohnya, `primary`, `secondary`, `success`, `warning`, `danger`, `gray-500`, `blue-300`, dsb.)
+| Nilai | CSS Output | Huraian |
+|-------|------------|-------------|
+| `primary` | `border-color: var(--c-primary); border-style: solid` | Sempadan warna utama |
+| `gray-300` | `border-color: var(--c-gray-300); border-style: solid` | Sempadan kelabu cerah |
+| `danger` | `border-color: var(--c-danger); border-style: solid` | Sempadan bahaya/ralat |
 
 ## Contoh
 
-### Semua Sisi
 ```html
-<div visual="border:primary border-w:small">Sempadan primary pada semua sisi</div>
-<div visual="border:danger border-w:[2px]">Sempadan merah pada semua sisi</div>
-```
-
-### Berarah
-```html
-<!-- Sempadan atas sahaja -->
-<div visual="border-t:primary border-t-w:[2px]">Sempadan atas</div>
-
-<!-- Sempadan bawah sahaja -->
-<div visual="border-b:warning border-b-w:small">Sempadan bawah</div>
-
-<!-- Sempadan kiri dan kanan -->
-<div visual="border-x:secondary border-x-w:[1px]">Sempadan mengufuk</div>
-
-<!-- Sempadan atas dan bawah -->
-<div visual="border-y:success border-y-w:tiny">Sempadan menegak</div>
+<div visual="border:primary border-w:thin">Primary border</div>
+<div visual="border-t:primary border-t-w:regular">Top only</div>
+<div visual="border-b:gray-300 border-b-w:thin">Bottom only</div>
+<div visual="border-x:primary border-x-w:regular">Left & right</div>
+<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>
 ```
 
 ## Nilai Arbitrari
 
-Sokong nilai warna CSS tersuai:
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 
 ```html
-<div visual="border:[#ff5500] border-w:[2px]">Sempadan oren tersuai</div>
-<div visual="border-t:[rgb(100,150,200)] border-t-w:[1px]">Sempadan atas tersuai</div>
-```
-
-## Keadaan
-
-```html
-<button visual="border:gray-300 border-w:[1px] hover:border:primary focus:border:blue-500">
-  Sempadan interaktif
-</button>
+<div visual="border:[custom-value]">Custom</div>
 ```
 
 ## Responsif
 
 ```html
-<div visual="border:gray-300 tab:border:primary lap:border:success border-w:[1px]">
-  Warna sempadan responsif
+<!-- Contoh responsif -->
+<div visual="mob:... tab:... lap:...">
+  Kandungan responsif
 </div>
 ```
-
-::: tip
-Apabila menggunakan sempadan berarah, pasangkan utiliti warna dengan utiliti lebar yang sepadan (contoh: `border-t` dengan `border-t-w`).
-:::
