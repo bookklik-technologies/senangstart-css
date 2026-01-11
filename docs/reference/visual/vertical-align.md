@@ -4,7 +4,7 @@ Set vertical alignment
 
 ## Syntax
 ```
-visual="align-[value]"
+visual="align:[value]"
 ```
 
 ## Values
@@ -23,7 +23,7 @@ visual="align-[value]"
 ## Examples
 
 ```html
-<img visual="align-middle">Vertically centered</img>
+<img visual="align:middle">Vertically centered</img>
 ```
 
 ## Responsive

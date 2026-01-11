@@ -4,7 +4,7 @@ Tetapkan penjajaran menegak
 
 ## Sintaks
 ```
-visual="align-[value]"
+visual="align:[value]"
 ```
 
 ## Nilai
@@ -23,7 +23,7 @@ visual="align-[value]"
 ## Contoh
 
 ```html
-<img visual="align-middle">Vertically centered</img>
+<img visual="align:middle">Vertically centered</img>
 ```
 
 ## Responsif
