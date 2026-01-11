@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenangStart CSS - JIT Engine Test</title>
+  <!-- Load the JIT engine from local dist -->
+  <script src="../dist/senangstart-css.min.js"></script>
+</head>
+<body visual="bg:slate-100">
+  <div space="p:big m:medium max-w:[1200px] m-x:auto">
+    <h1 visual="text-size:vast font:bold text:slate-800">SenangStart CSS - JIT Engine Test</h1>
+    <p visual="text:slate-500 text-size:medium" space="m-b:big">This page tests all utilities supported by the JIT engine using pure Tri-Attribute Syntax.</p>
+    
+    <!-- ============================================ -->
+    <!-- LAYOUT - FLEXBOX -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:indigo-50 border:indigo-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:indigo-900">Layout - Flexbox</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div layout="flex center" space="p:small w:[120px] h:[60px]" visual="bg:indigo-500 text:white rounded:small">
+          flex center
+        </div>
+        <div layout="flex col center" space="p:small w:[120px] h:[60px]" visual="bg:indigo-600 text:white rounded:small">
+          flex col
+        </div>
+        <div layout="flex row-reverse between" space="p:small w:[180px]" visual="bg:indigo-400 text:white rounded:small">
+          <span>1</span><span>2</span><span>3</span>
+        </div>
+        <div layout="flex wrap" space="p:small g:tiny w:[150px]" visual="bg:indigo-100 rounded:small">
+          <span visual="bg:indigo-500 text:white rounded:small" space="p:tiny">A</span>
+          <span visual="bg:indigo-500 text:white rounded:small" space="p:tiny">B</span>
+          <span visual="bg:indigo-500 text:white rounded:small" space="p:tiny">C</span>
+          <span visual="bg:indigo-500 text:white rounded:small" space="p:tiny">D</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- LAYOUT - GRID -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:violet-50 border:violet-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:violet-900">Layout - Grid</h2>
+      <div layout="flex wrap" space="m-t:medium g:medium">
+        <div>
+          <div layout="grid grid-cols:3" space="g:tiny w:[200px]">
+            <div visual="bg:violet-500 text:white text:center rounded:small" space="p:tiny">1</div>
+            <div visual="bg:violet-500 text:white text:center rounded:small" space="p:tiny">2</div>
+            <div visual="bg:violet-500 text:white text:center rounded:small" space="p:tiny">3</div>
+            <div visual="bg:violet-400 text:white text:center rounded:small" space="p:tiny">4</div>
+            <div visual="bg:violet-400 text:white text:center rounded:small" space="p:tiny">5</div>
+            <div visual="bg:violet-400 text:white text:center rounded:small" space="p:tiny">6</div>
+          </div>
+          <div visual="text-size:tiny text:violet-600" space="m-t:tiny">grid-cols:3</div>
+        </div>
+        <div>
+          <div layout="grid grid-cols:2" space="g:tiny w:[150px]">
+            <div layout="col-span:2" visual="bg:violet-600 text:white text:center rounded:small" space="p:tiny">Span 2</div>
+            <div visual="bg:violet-300 text:center rounded:small" space="p:tiny">A</div>
+            <div visual="bg:violet-300 text:center rounded:small" space="p:tiny">B</div>
+          </div>
+          <div visual="text-size:tiny text:violet-600" space="m-t:tiny">col-span:2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SPACING -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:emerald-50 border:emerald-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:emerald-900">Spacing - Padding & Margin</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div space="p:none" visual="bg:emerald-500 text:white rounded:small">p:none</div>
+        <div space="p:tiny" visual="bg:emerald-500 text:white rounded:small">p:tiny</div>
+        <div space="p:small" visual="bg:emerald-500 text:white rounded:small">p:small</div>
+        <div space="p:medium" visual="bg:emerald-500 text:white rounded:small">p:medium</div>
+        <div space="p:big" visual="bg:emerald-500 text:white rounded:small">p:big</div>
+      </div>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div space="p-x:big p-y:tiny" visual="bg:emerald-600 text:white rounded:small">p-x:big p-y:tiny</div>
+        <div space="m-l:big p:small" visual="bg:emerald-400 rounded:small">m-l:big</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SIZING -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:teal-50 border:teal-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:teal-900">Sizing - Width & Height</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div layout="flex center" space="w:[100px] h:[50px]" visual="bg:teal-500 text:white rounded:small">100×50</div>
+        <div layout="flex center" space="w:[150px] h:[80px]" visual="bg:teal-600 text:white rounded:small">150×80</div>
+        <div space="min-w:[200px] p:small" visual="bg:teal-400 rounded:small">min-w:[200px]</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- COLORS -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:sky-50 border:sky-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:sky-900">Visual - Colors</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div space="p:small" visual="bg:primary text:white rounded:small">primary</div>
+        <div space="p:small" visual="bg:secondary text:dark rounded:small">secondary</div>
+        <div space="p:small" visual="bg:success text:white rounded:small">success</div>
+        <div space="p:small" visual="bg:warning text:dark rounded:small">warning</div>
+        <div space="p:small" visual="bg:danger text:white rounded:small">danger</div>
+        <div space="p:small" visual="bg:dark text:white rounded:small">dark</div>
+        <div space="p:small" visual="bg:light text:dark rounded:small">light</div>
+        <div space="p:small" visual="bg:grey text:white rounded:small">grey</div>
+      </div>
+      <h3 visual="text-size:medium font:bold text:sky-800" space="m-t:medium">Tailwind-style Color Shades</h3>
+      <div layout="flex wrap" space="m-t:small g:tiny">
+        <div space="p:tiny" visual="bg:blue-100 text:blue-900 rounded:small">blue-100</div>
+        <div space="p:tiny" visual="bg:blue-300 text:white rounded:small">blue-300</div>
+        <div space="p:tiny" visual="bg:blue-500 text:white rounded:small">blue-500</div>
+        <div space="p:tiny" visual="bg:blue-700 text:white rounded:small">blue-700</div>
+        <div space="p:tiny" visual="bg:blue-900 text:white rounded:small">blue-900</div>
+      </div>
+      <div layout="flex wrap" space="m-t:small g:tiny">
+        <div space="p:tiny" visual="bg:red-500 text:white rounded:small">red-500</div>
+        <div space="p:tiny" visual="bg:green-500 text:white rounded:small">green-500</div>
+        <div space="p:tiny" visual="bg:purple-500 text:white rounded:small">purple-500</div>
+        <div space="p:tiny" visual="bg:orange-500 text:white rounded:small">orange-500</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- BORDERS & RADIUS -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:blue-50 border:blue-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:blue-900">Visual - Borders & Radius</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div space="p:small" visual="border:blue-500 border-w:[1px] rounded:none">rounded:none</div>
+        <div space="p:small" visual="border:blue-500 border-w:[1px] rounded:small">rounded:small</div>
+        <div space="p:small" visual="border:blue-500 border-w:[1px] rounded:medium">rounded:medium</div>
+        <div space="p:small" visual="border:blue-500 border-w:[1px] rounded:big">rounded:big</div>
+        <div layout="flex center" space="p:small w:[80px]" visual="border:blue-500 border-w:[1px] rounded:round">round</div>
+      </div>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div space="p:small" visual="border:danger border-w:[2px]">border:danger</div>
+        <div space="p:small" visual="border:success border-w:[2px]">border:success</div>
+        <div space="p:small" visual="border-t:primary border-w:[2px]">border-t</div>
+        <div space="p:small" visual="border-b:warning border-w:[2px]">border-b</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SHADOWS -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:gray-100 border:gray-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:gray-900">Visual - Shadows</h2>
+      <div layout="flex wrap" space="m-t:medium g:medium">
+        <div space="p:medium" visual="bg:white shadow:none rounded:medium">shadow:none</div>
+        <div space="p:medium" visual="bg:white shadow:small rounded:medium">shadow:small</div>
+        <div space="p:medium" visual="bg:white shadow:medium rounded:medium">shadow:medium</div>
+        <div space="p:medium" visual="bg:white shadow:big rounded:medium">shadow:big</div>
+        <div space="p:medium" visual="bg:white shadow:giant rounded:medium">shadow:giant</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- OPACITY -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:pink-50 border:pink-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:pink-900">Visual - Opacity</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div space="p:small" visual="bg:pink-500 text:white rounded:small opacity:100">100%</div>
+        <div space="p:small" visual="bg:pink-500 text:white rounded:small opacity:75">75%</div>
+        <div space="p:small" visual="bg:pink-500 text:white rounded:small opacity:50">50%</div>
+        <div space="p:small" visual="bg:pink-500 text:white rounded:small opacity:25">25%</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TYPOGRAPHY -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:amber-50 border:amber-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:amber-900">Typography</h2>
+      <div layout="flex col" space="m-t:medium g:small">
+        <div visual="text-size:tiny text:amber-800">text-size:tiny (12px)</div>
+        <div visual="text-size:small text:amber-800">text-size:small (14px)</div>
+        <div visual="text-size:medium text:amber-800">text-size:medium (16px)</div>
+        <div visual="text-size:big text:amber-800">text-size:big (20px)</div>
+        <div visual="text-size:giant text:amber-800">text-size:giant (32px)</div>
+      </div>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div visual="font:normal text:amber-700">font:normal (400)</div>
+        <div visual="font:medium text:amber-700">font:medium (500)</div>
+        <div visual="font:bold text:amber-700">font:bold (700)</div>
+      </div>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div visual="text:left bg:amber-100" space="p:small w:[150px]">text:left</div>
+        <div visual="text:center bg:amber-100" space="p:small w:[150px]">text:center</div>
+        <div visual="text:right bg:amber-100" space="p:small w:[150px]">text:right</div>
+      </div>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <div visual="italic text:amber-700">italic</div>
+        <div visual="underline text:amber-700">underline</div>
+        <div visual="line-through text:amber-700">line-through</div>
+        <div visual="uppercase text:amber-700">uppercase</div>
+        <div visual="lowercase text:amber-700">LOWERCASE</div>
+        <div visual="capitalize text:amber-700">capitalize text</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STATES -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:rose-50 border:rose-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:rose-900">States - Hover & Focus</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <button space="p:small p-x:medium" visual="bg:rose-500 text:white rounded:medium border:none hover:bg:rose-700">
+          Hover me
+        </button>
+        <button space="p:small p-x:medium" visual="bg:amber-400 text:dark rounded:medium border:none hover:bg:rose-500 hover:text:white">
+          Hover (yellow → red)
+        </button>
+        <input 
+          type="text" 
+          placeholder="Focus me" 
+          space="p:small" 
+          visual="border:rose-300 border-w:[1px] rounded:small focus:border:rose-500 focus:shadow:medium">
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TRANSFORMS -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:cyan-50 border:cyan-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:cyan-900">Transforms</h2>
+      <div layout="flex wrap" space="m-t:medium g:medium p:medium">
+        <div space="p:small" visual="bg:cyan-500 text:white rounded:small rotate:45">rotate:45</div>
+        <div space="p:small" visual="bg:cyan-600 text:white rounded:small scale:110">scale:110</div>
+        <div space="p:small" visual="bg:cyan-400 rounded:small translate-x:[10px]">translate-x</div>
+        <div space="p:small" visual="bg:cyan-700 text:white rounded:small skew-x:6">skew-x:6</div>
+      </div>
+      <div layout="flex wrap" space="m-t:medium g:medium p:medium">
+        <div space="p:small" visual="bg:cyan-500 text:white rounded:small origin:top-left rotate:45">origin:top-left</div>
+        <div space="p:small" visual="bg:cyan-600 text:white rounded:small translate-y:small">translate-y:small</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TRANSITIONS -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:lime-50 border:lime-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:lime-900">Transitions & Animations</h2>
+      <div layout="flex wrap" space="m-t:medium g:small">
+        <button space="p:small p-x:medium" visual="bg:lime-500 text:white rounded:medium border:none transition:all duration:slow hover:bg:lime-700 hover:shadow:big">
+          Smooth Hover (300ms)
+        </button>
+        <button space="p:small p-x:medium" visual="bg:lime-600 text:white rounded:medium border:none transition:transform duration:fast hover:scale:110">
+          Scale on Hover
+        </button>
+        <button space="p:small p-x:medium" visual="bg:lime-400 text:dark rounded:medium border:none transition:all ease:out hover:bg:lime-700 hover:text:white">
+          Ease Out
+        </button>
+      </div>
+      <div layout="flex wrap items:center" space="m-t:medium g:small">
+        <div layout="flex center" space="p:small w:[60px] h:[60px]" visual="animate:spin bg:lime-500 text:white rounded:small">⟳</div>
+        <div space="p:small" visual="animate:pulse bg:lime-600 text:white rounded:small">Pulsing</div>
+        <div space="p:small" visual="animate:bounce bg:lime-400 rounded:small">Bouncing</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- POSITION -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:fuchsia-50 border:fuchsia-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:fuchsia-900">Position</h2>
+      <div layout="relative" space="h:[120px] m-t:medium" visual="bg:fuchsia-100 rounded:medium">
+        <div layout="absolute top:small left:small" space="p:tiny" visual="bg:fuchsia-500 text:white rounded:small">top-left</div>
+        <div layout="absolute top:small right:small" space="p:tiny" visual="bg:fuchsia-600 text:white rounded:small">top-right</div>
+        <div layout="absolute bottom:small left:small" space="p:tiny" visual="bg:fuchsia-400 rounded:small">bottom-left</div>
+        <div layout="absolute bottom:small right:small" space="p:tiny" visual="bg:fuchsia-700 text:white rounded:small">bottom-right</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ARBITRARY VALUES -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:purple-50 border:purple-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:purple-900">Arbitrary Values</h2>
+      <div layout="flex wrap" space="m-t:medium g:medium">
+        <div>
+          <div space="p:[20px] m:[10px]" visual="bg:[#8B5CF6] text:white rounded:[12px]">
+            Custom Values
+          </div>
+          <div visual="text-size:tiny text:purple-600" space="m-t:tiny">bg:[#8B5CF6] p:[20px]</div>
+        </div>
+        <div>
+          <div layout="flex center" space="w:[200px] h:[100px]" visual="bg:[linear-gradient(135deg,#667eea,#764ba2)] text:white rounded:medium">
+            Gradient BG
+          </div>
+          <div visual="text-size:tiny text:purple-600" space="m-t:tiny">bg:[linear-gradient(...)]</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- RESPONSIVE -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:orange-50 border:orange-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:orange-900">Responsive (resize browser)</h2>
+      <div 
+        layout="flex center"
+        space="p:medium m-t:medium"
+        visual="bg:blue-500 tab:bg:green-500 lap:bg:amber-500 desk:bg:red-500 text:white rounded:medium">
+        <span>Resize! Blue → Green (≥768px) → Yellow (≥1024px) → Red (≥1280px)</span>
+      </div>
+      <div visual="text-size:tiny text:orange-600 bg:orange-100 rounded:small" space="p:small m-t:small">
+        visual="bg:blue-500 tab:bg:green-500 lap:bg:amber-500 desk:bg:red-500"
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- Z-INDEX -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:red-50 border:red-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:red-900">Z-Index</h2>
+      <div layout="relative" space="h:[100px] m-t:medium">
+        <div layout="absolute z:base top:0 left:0" space="p:medium" visual="bg:red-400 text:white rounded:medium">z:base (0)</div>
+        <div layout="absolute z:low top:[20px] left:[20px]" space="p:medium" visual="bg:red-500 text:white rounded:medium">z:low (10)</div>
+        <div layout="absolute z:mid top:[40px] left:[40px]" space="p:medium" visual="bg:red-600 text:white rounded:medium">z:mid (50)</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CARD EXAMPLE -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium m-b:medium" visual="bg:slate-50 border:slate-200 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:slate-900">Combined Example - Card</h2>
+      <div 
+        layout="flex col" 
+        space="p:medium g:small w:[300px] m-t:medium" 
+        visual="bg:white shadow:medium rounded:big border:slate-200 border-w:[1px] transition:shadow hover:shadow:big">
+        <div layout="flex items:center" space="g:small">
+          <div 
+            layout="flex center" 
+            space="w:[48px] h:[48px]" 
+            visual="bg:blue-500 text:white rounded:round font:bold text-size:big">
+            JD
+          </div>
+          <div>
+            <div visual="font:bold text:slate-900">John Doe</div>
+            <div visual="text-size:small text:slate-500">Software Engineer</div>
+          </div>
+        </div>
+        <div visual="text:slate-600 text-size:small">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </div>
+        <div layout="flex" space="g:small">
+          <button space="p:tiny p-x:small" visual="bg:blue-500 text:white rounded:small border:none transition:all hover:bg:blue-700">
+            Follow
+          </button>
+          <button space="p:tiny p-x:small" visual="bg:white border:blue-500 border-w:[1px] text:blue-500 rounded:small transition:all hover:bg:blue-500 hover:text:white">
+            Message
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- DEBUG -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:medium" visual="bg:zinc-100 border:zinc-300 border-w:[1px] rounded:medium">
+      <h2 visual="text-size:big font:bold text:zinc-900">Debug Information</h2>
+      <div visual="text:zinc-700" space="m-t:small">
+        <p>Open DevTools (F12) and check:</p>
+        <ul space="m-l:medium">
+          <li><strong>Console</strong> - Look for [SenangStart CSS] messages</li>
+          <li><strong>Elements</strong> - Find &lt;style id="senangstart-jit"&gt; in &lt;head&gt;</li>
+          <li><strong>Computed Styles</strong> - Verify CSS properties</li>
+        </ul>
+        <p space="m-t:small"><strong>CSS Variables:</strong> Check :root for --s-*, --r-*, --c-* custom properties.</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
