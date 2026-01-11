@@ -354,6 +354,157 @@ export const blur = {
   ]
 };
 
+// ======================
+// CURSOR
+// ======================
+
+export const cursor = {
+  name: 'cursor',
+  property: 'visual',
+  syntax: 'visual="cursor:[value]"',
+  description: 'Set cursor style',
+  descriptionMs: 'Tetapkan gaya kursor',
+  category: 'visual',
+  values: [
+    { value: 'auto', css: 'cursor: auto;', description: 'Auto cursor', descriptionMs: 'Kursor automatik' },
+    { value: 'default', css: 'cursor: default;', description: 'Default cursor', descriptionMs: 'Kursor lalai' },
+    { value: 'pointer', css: 'cursor: pointer;', description: 'Pointer cursor', descriptionMs: 'Kursor penunjuk' },
+    { value: 'wait', css: 'cursor: wait;', description: 'Wait cursor', descriptionMs: 'Kursor tunggu' },
+    { value: 'text', css: 'cursor: text;', description: 'Text cursor', descriptionMs: 'Kursor teks' },
+    { value: 'move', css: 'cursor: move;', description: 'Move cursor', descriptionMs: 'Kursor alih' },
+    { value: 'not-allowed', css: 'cursor: not-allowed;', description: 'Not allowed', descriptionMs: 'Tidak dibenarkan' },
+    { value: 'grab', css: 'cursor: grab;', description: 'Grab cursor', descriptionMs: 'Kursor genggam' },
+    { value: 'grabbing', css: 'cursor: grabbing;', description: 'Grabbing cursor', descriptionMs: 'Kursor menggenggam' }
+  ],
+  examples: [
+    { code: '<button visual="cursor:pointer">Clickable</button>', description: 'Pointer cursor' }
+  ]
+};
+
+// ======================
+// USER SELECT
+// ======================
+
+export const userSelect = {
+  name: 'user-select',
+  property: 'visual',
+  syntax: 'visual="select:[value]"',
+  description: 'Control text selection',
+  descriptionMs: 'Kawal pemilihan teks',
+  category: 'visual',
+  values: [
+    { value: 'none', css: 'user-select: none;', description: 'Prevent selection', descriptionMs: 'Halang pemilihan' },
+    { value: 'text', css: 'user-select: text;', description: 'Allow text selection', descriptionMs: 'Benarkan pemilihan teks' },
+    { value: 'all', css: 'user-select: all;', description: 'Select all on click', descriptionMs: 'Pilih semua pada klik' },
+    { value: 'auto', css: 'user-select: auto;', description: 'Default behavior', descriptionMs: 'Kelakuan lalai' }
+  ],
+  examples: [
+    { code: '<div visual="select:none">Cannot select this text</div>', description: 'Prevent selection' }
+  ]
+};
+
+// ======================
+// POINTER EVENTS
+// ======================
+
+export const pointerEvents = {
+  name: 'pointer-events',
+  property: 'visual',
+  syntax: 'visual="pointer-events:[value]"',
+  description: 'Control pointer events',
+  descriptionMs: 'Kawal peristiwa penunjuk',
+  category: 'visual',
+  values: [
+    { value: 'none', css: 'pointer-events: none;', description: 'Ignore pointer events', descriptionMs: 'Abaikan peristiwa penunjuk' },
+    { value: 'auto', css: 'pointer-events: auto;', description: 'Normal pointer events', descriptionMs: 'Peristiwa penunjuk normal' }
+  ],
+  examples: [
+    { code: '<div visual="pointer-events:none">Click through</div>', description: 'Click through element' }
+  ]
+};
+
+// ======================
+// MIX BLEND MODE
+// ======================
+
+export const mixBlendMode = {
+  name: 'blend-modes',
+  property: 'visual',
+  syntax: 'visual="mix-blend:[value]"',
+  description: 'Set mix blend mode',
+  descriptionMs: 'Tetapkan mod campuran',
+  category: 'visual',
+  values: [
+    { value: 'normal', css: 'mix-blend-mode: normal;', description: 'Normal blend', descriptionMs: 'Campuran normal' },
+    { value: 'multiply', css: 'mix-blend-mode: multiply;', description: 'Multiply blend', descriptionMs: 'Campuran darab' },
+    { value: 'screen', css: 'mix-blend-mode: screen;', description: 'Screen blend', descriptionMs: 'Campuran skrin' },
+    { value: 'overlay', css: 'mix-blend-mode: overlay;', description: 'Overlay blend', descriptionMs: 'Campuran tindanan' },
+    { value: 'darken', css: 'mix-blend-mode: darken;', description: 'Darken blend', descriptionMs: 'Campuran gelap' },
+    { value: 'lighten', css: 'mix-blend-mode: lighten;', description: 'Lighten blend', descriptionMs: 'Campuran cerah' }
+  ],
+  examples: [
+    { code: '<div visual="mix-blend:multiply">Multiply blend</div>', description: 'Multiply blend mode' }
+  ]
+};
+
+// ======================
+// ACCENT COLOR
+// ======================
+
+export const accentColor = {
+  name: 'accent-color',
+  property: 'visual',
+  syntax: 'visual="accent:[color]"',
+  description: 'Set accent color for form controls',
+  descriptionMs: 'Tetapkan warna aksen untuk kawalan borang',
+  category: 'visual',
+  usesScale: 'colors',
+  supportsArbitrary: true,
+  values: [],
+  examples: [
+    { code: '<input type="checkbox" visual="accent:primary">', description: 'Primary accent' }
+  ]
+};
+
+// ======================
+// CARET COLOR
+// ======================
+
+export const caretColor = {
+  name: 'caret-color',
+  property: 'visual',
+  syntax: 'visual="caret:[color]"',
+  description: 'Set text input caret color',
+  descriptionMs: 'Tetapkan warna karet input teks',
+  category: 'visual',
+  usesScale: 'colors',
+  supportsArbitrary: true,
+  values: [],
+  examples: [
+    { code: '<input visual="caret:primary">', description: 'Primary caret' }
+  ]
+};
+
+// ======================
+// APPEARANCE
+// ======================
+
+export const appearance = {
+  name: 'appearance',
+  property: 'visual',
+  syntax: 'visual="appearance:[value]"',
+  description: 'Control native appearance',
+  descriptionMs: 'Kawal penampilan asli',
+  category: 'visual',
+  values: [
+    { value: 'none', css: 'appearance: none;', description: 'Remove native styling', descriptionMs: 'Buang gaya asli' },
+    { value: 'auto', css: 'appearance: auto;', description: 'Default appearance', descriptionMs: 'Penampilan lalai' }
+  ],
+  examples: [
+    { code: '<select visual="appearance:none">Custom select</select>', description: 'Remove native styling' }
+  ]
+};
+
 // Export all visual definitions
 export const visualDefinitions = {
   backgroundColor,
@@ -367,7 +518,14 @@ export const visualDefinitions = {
   borderRadius,
   boxShadow,
   opacity,
-  blur
+  blur,
+  cursor,
+  userSelect,
+  pointerEvents,
+  mixBlendMode,
+  accentColor,
+  caretColor,
+  appearance
 };
 
 // Build typography keywords map for CSS generator

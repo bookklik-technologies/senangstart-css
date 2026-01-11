@@ -4,7 +4,7 @@ Create new stacking context
 
 ## Syntax
 ```
-layout="[isolation-value]"
+layout="isolation:[value]"
 ```
 
 ## Values
@@ -12,12 +12,12 @@ layout="[isolation-value]"
 | Value | CSS Output | Description |
 |-------|------------|-------------|
 | `isolate` | `isolation: isolate` | Create stacking context |
-| `isolate-auto` | `isolation: auto` | Auto isolation |
+| `auto` | `isolation: auto` | Auto isolation |
 
 ## Examples
 
 ```html
-<div layout="isolate">Isolated</div>
+<div layout="isolation:isolate">Isolated</div>
 ```
 
 ## Responsive

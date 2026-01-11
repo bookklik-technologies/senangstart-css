@@ -405,16 +405,16 @@ export const shorthandAlignment = {
 export const boxSizing = {
   name: 'box-sizing',
   property: 'layout',
-  syntax: 'layout="[box-sizing-value]"',
+  syntax: 'layout="box:[value]"',
   description: 'Control how width and height are calculated',
   descriptionMs: 'Kawal cara lebar dan tinggi dikira',
   category: 'layout',
   values: [
-    { value: 'box-border', css: 'box-sizing: border-box;', description: 'Include padding and border in size', descriptionMs: 'Termasuk padding dan sempadan dalam saiz' },
-    { value: 'box-content', css: 'box-sizing: content-box;', description: 'Exclude padding and border', descriptionMs: 'Tidak termasuk padding dan sempadan' }
+    { value: 'border', css: 'box-sizing: border-box;', description: 'Include padding and border in size', descriptionMs: 'Termasuk padding dan sempadan dalam saiz' },
+    { value: 'content', css: 'box-sizing: content-box;', description: 'Exclude padding and border', descriptionMs: 'Tidak termasuk padding dan sempadan' }
   ],
   examples: [
-    { code: '<div layout="box-border">Border box</div>', description: 'Include border in width' }
+    { code: '<div layout="box:border">Border box</div>', description: 'Include border in width' }
   ]
 };
 
@@ -425,21 +425,18 @@ export const boxSizing = {
 export const floatClear = {
   name: 'float-clear',
   property: 'layout',
-  syntax: 'layout="[float-value]" or layout="[clear-value]"',
+  syntax: 'layout="float:[value]" or layout="clear:[value]"',
   description: 'Control element floating and clearing',
   descriptionMs: 'Kawal pengapungan dan pembersihan elemen',
   category: 'layout',
   values: [
-    { value: 'float-left', css: 'float: left;', description: 'Float left', descriptionMs: 'Apung kiri' },
-    { value: 'float-right', css: 'float: right;', description: 'Float right', descriptionMs: 'Apung kanan' },
-    { value: 'float-none', css: 'float: none;', description: 'No float', descriptionMs: 'Tiada pengapungan' },
-    { value: 'clear-left', css: 'clear: left;', description: 'Clear left floats', descriptionMs: 'Bersihkan apungan kiri' },
-    { value: 'clear-right', css: 'clear: right;', description: 'Clear right floats', descriptionMs: 'Bersihkan apungan kanan' },
-    { value: 'clear-both', css: 'clear: both;', description: 'Clear all floats', descriptionMs: 'Bersihkan semua apungan' },
-    { value: 'clear-none', css: 'clear: none;', description: 'No clearing', descriptionMs: 'Tiada pembersihan' }
+    { value: 'left', css: 'float: left;', description: 'Float left', descriptionMs: 'Apung kiri' },
+    { value: 'right', css: 'float: right;', description: 'Float right', descriptionMs: 'Apung kanan' },
+    { value: 'none', css: 'float: none;', description: 'No float', descriptionMs: 'Tiada pengapungan' }
   ],
   examples: [
-    { code: '<img layout="float-left">Float left</img>', description: 'Float image left' }
+    { code: '<img layout="float:left">Float left</img>', description: 'Float image left' },
+    { code: '<div layout="clear:both">Clear floats</div>', description: 'Clear all floats' }
   ]
 };
 
@@ -538,16 +535,16 @@ export const container = {
 export const isolation = {
   name: 'isolation',
   property: 'layout',
-  syntax: 'layout="[isolation-value]"',
+  syntax: 'layout="isolation:[value]"',
   description: 'Create new stacking context',
   descriptionMs: 'Cipta konteks tindanan baharu',
   category: 'layout',
   values: [
     { value: 'isolate', css: 'isolation: isolate;', description: 'Create stacking context', descriptionMs: 'Cipta konteks tindanan' },
-    { value: 'isolate-auto', css: 'isolation: auto;', description: 'Auto isolation', descriptionMs: 'Pengasingan automatik' }
+    { value: 'auto', css: 'isolation: auto;', description: 'Auto isolation', descriptionMs: 'Pengasingan automatik' }
   ],
   examples: [
-    { code: '<div layout="isolate">Isolated</div>', description: 'Create stacking context' }
+    { code: '<div layout="isolation:isolate">Isolated</div>', description: 'Create stacking context' }
   ]
 };
 
@@ -558,19 +555,19 @@ export const isolation = {
 export const gridAutoFlow = {
   name: 'grid-auto-flow',
   property: 'layout',
-  syntax: 'layout="[grid-flow-value]"',
+  syntax: 'layout="grid-flow:[value]"',
   description: 'Control how auto-placed items flow in grid',
   descriptionMs: 'Kawal bagaimana item diletakkan automatik dalam grid',
   category: 'layout',
   values: [
-    { value: 'grid-flow-row', css: 'grid-auto-flow: row;', description: 'Place by row', descriptionMs: 'Letakkan mengikut baris' },
-    { value: 'grid-flow-col', css: 'grid-auto-flow: column;', description: 'Place by column', descriptionMs: 'Letakkan mengikut lajur' },
-    { value: 'grid-flow-dense', css: 'grid-auto-flow: dense;', description: 'Dense packing', descriptionMs: 'Pembungkusan padat' },
-    { value: 'grid-flow-row-dense', css: 'grid-auto-flow: row dense;', description: 'Row with dense', descriptionMs: 'Baris dengan padat' },
-    { value: 'grid-flow-col-dense', css: 'grid-auto-flow: column dense;', description: 'Column with dense', descriptionMs: 'Lajur dengan padat' }
+    { value: 'row', css: 'grid-auto-flow: row;', description: 'Place by row', descriptionMs: 'Letakkan mengikut baris' },
+    { value: 'col', css: 'grid-auto-flow: column;', description: 'Place by column', descriptionMs: 'Letakkan mengikut lajur' },
+    { value: 'dense', css: 'grid-auto-flow: dense;', description: 'Dense packing', descriptionMs: 'Pembungkusan padat' },
+    { value: 'row-dense', css: 'grid-auto-flow: row dense;', description: 'Row with dense', descriptionMs: 'Baris dengan padat' },
+    { value: 'col-dense', css: 'grid-auto-flow: column dense;', description: 'Column with dense', descriptionMs: 'Lajur dengan padat' }
   ],
   examples: [
-    { code: '<div layout="grid grid-flow-col">Column flow</div>', description: 'Column-based flow' }
+    { code: '<div layout="grid grid-flow:col">Column flow</div>', description: 'Column-based flow' }
   ]
 };
 
@@ -674,16 +671,16 @@ export const columns = {
 export const borderCollapse = {
   name: 'border-collapse',
   property: 'layout',
-  syntax: 'layout="[border-collapse-value]"',
+  syntax: 'layout="border:[value]"',
   description: 'Control table border collapse',
   descriptionMs: 'Kawal runtuhan sempadan jadual',
   category: 'layout',
   values: [
-    { value: 'border-collapse', css: 'border-collapse: collapse;', description: 'Collapse borders', descriptionMs: 'Runtuhkan sempadan' },
-    { value: 'border-separate', css: 'border-collapse: separate;', description: 'Separate borders', descriptionMs: 'Asingkan sempadan' }
+    { value: 'collapse', css: 'border-collapse: collapse;', description: 'Collapse borders', descriptionMs: 'Runtuhkan sempadan' },
+    { value: 'separate', css: 'border-collapse: separate;', description: 'Separate borders', descriptionMs: 'Asingkan sempadan' }
   ],
   examples: [
-    { code: '<table layout="border-collapse">Collapsed table</table>', description: 'Collapse table borders' }
+    { code: '<table layout="border:collapse">Collapsed table</table>', description: 'Collapse table borders' }
   ]
 };
 
@@ -718,16 +715,16 @@ export const borderSpacing = {
 export const tableLayout = {
   name: 'table-layout',
   property: 'layout',
-  syntax: 'layout="[table-layout-value]"',
+  syntax: 'layout="table:[value]"',
   description: 'Control table layout algorithm',
   descriptionMs: 'Kawal algoritma susun atur jadual',
   category: 'layout',
   values: [
-    { value: 'table-auto', css: 'table-layout: auto;', description: 'Auto layout', descriptionMs: 'Susun atur automatik' },
-    { value: 'table-fixed', css: 'table-layout: fixed;', description: 'Fixed layout', descriptionMs: 'Susun atur tetap' }
+    { value: 'auto', css: 'table-layout: auto;', description: 'Auto layout', descriptionMs: 'Susun atur automatik' },
+    { value: 'fixed', css: 'table-layout: fixed;', description: 'Fixed layout', descriptionMs: 'Susun atur tetap' }
   ],
   examples: [
-    { code: '<table layout="table-fixed">Fixed width columns</table>', description: 'Fixed column widths' }
+    { code: '<table layout="table:fixed">Fixed width columns</table>', description: 'Fixed column widths' }
   ]
 };
 
@@ -738,16 +735,16 @@ export const tableLayout = {
 export const captionSide = {
   name: 'caption-side',
   property: 'layout',
-  syntax: 'layout="[caption-value]"',
+  syntax: 'layout="caption:[value]"',
   description: 'Control table caption position',
   descriptionMs: 'Kawal kedudukan kapsyen jadual',
   category: 'layout',
   values: [
-    { value: 'caption-top', css: 'caption-side: top;', description: 'Caption on top', descriptionMs: 'Kapsyen di atas' },
-    { value: 'caption-bottom', css: 'caption-side: bottom;', description: 'Caption on bottom', descriptionMs: 'Kapsyen di bawah' }
+    { value: 'top', css: 'caption-side: top;', description: 'Caption on top', descriptionMs: 'Kapsyen di atas' },
+    { value: 'bottom', css: 'caption-side: bottom;', description: 'Caption on bottom', descriptionMs: 'Kapsyen di bawah' }
   ],
   examples: [
-    { code: '<caption layout="caption-bottom">Bottom caption</caption>', description: 'Bottom caption' }
+    { code: '<caption layout="caption:bottom">Bottom caption</caption>', description: 'Bottom caption' }
   ]
 };
 

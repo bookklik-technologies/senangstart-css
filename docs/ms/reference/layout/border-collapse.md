@@ -4,20 +4,20 @@ Kawal runtuhan sempadan jadual
 
 ## Sintaks
 ```
-layout="[border-collapse-value]"
+layout="border:[value]"
 ```
 
 ## Nilai
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `border-collapse` | `border-collapse: collapse` | Runtuhkan sempadan |
-| `border-separate` | `border-collapse: separate` | Asingkan sempadan |
+| `collapse` | `border-collapse: collapse` | Runtuhkan sempadan |
+| `separate` | `border-collapse: separate` | Asingkan sempadan |
 
 ## Contoh
 
 ```html
-<table layout="border-collapse">Collapsed table</table>
+<table layout="border:collapse">Collapsed table</table>
 ```
 
 ## Responsif

@@ -4,25 +4,22 @@ Control element floating and clearing
 
 ## Syntax
 ```
-layout="[float-value]" or layout="[clear-value]"
+layout="float:[value]" or layout="clear:[value]"
 ```
 
 ## Values
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `float-left` | `float: left` | Float left |
-| `float-right` | `float: right` | Float right |
-| `float-none` | `float: none` | No float |
-| `clear-left` | `clear: left` | Clear left floats |
-| `clear-right` | `clear: right` | Clear right floats |
-| `clear-both` | `clear: both` | Clear all floats |
-| `clear-none` | `clear: none` | No clearing |
+| `left` | `float: left` | Float left |
+| `right` | `float: right` | Float right |
+| `none` | `float: none` | No float |
 
 ## Examples
 
 ```html
-<img layout="float-left">Float left</img>
+<img layout="float:left">Float left</img>
+<div layout="clear:both">Clear floats</div>
 ```
 
 ## Responsive

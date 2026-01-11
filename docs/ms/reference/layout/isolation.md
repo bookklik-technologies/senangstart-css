@@ -4,7 +4,7 @@ Cipta konteks tindanan baharu
 
 ## Sintaks
 ```
-layout="[isolation-value]"
+layout="isolation:[value]"
 ```
 
 ## Nilai
@@ -12,12 +12,12 @@ layout="[isolation-value]"
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
 | `isolate` | `isolation: isolate` | Cipta konteks tindanan |
-| `isolate-auto` | `isolation: auto` | Pengasingan automatik |
+| `auto` | `isolation: auto` | Pengasingan automatik |
 
 ## Contoh
 
 ```html
-<div layout="isolate">Isolated</div>
+<div layout="isolation:isolate">Isolated</div>
 ```
 
 ## Responsif

@@ -6,31 +6,43 @@
 import layoutDefinitions, { buildLayoutMap } from './layout.js';
 import spaceDefinitions, { buildSpacePropertyMap } from './space.js';
 import visualDefinitions, { buildTypographyKeywordsMap } from './visual.js';
-import extendedVisualDefinitions from './visual-extended.js';
 import backgroundDefinitions from './visual-backgrounds.js';
 import interactivityDefinitions from './visual-interactivity.js';
 import typographyDefinitions from './visual-typography.js';
 import transform3dDefinitions from './visual-transform3d.js';
+import filterDefinitions from './visual-filters.js';
+import transitionDefinitions from './visual-transitions.js';
+import transformDefinitions from './visual-transforms.js';
+import borderDefinitions from './visual-borders.js';
+import svgDefinitions from './visual-svg.js';
 
 // Merge visual definitions
 const allVisualDefinitions = {
   ...visualDefinitions,
-  ...extendedVisualDefinitions,
   ...backgroundDefinitions,
   ...interactivityDefinitions,
   ...typographyDefinitions,
-  ...transform3dDefinitions
+  ...transform3dDefinitions,
+  ...filterDefinitions,
+  ...transitionDefinitions,
+  ...transformDefinitions,
+  ...borderDefinitions,
+  ...svgDefinitions
 };
 
 // Re-export all definitions
 export { layoutDefinitions } from './layout.js';
 export { spaceDefinitions } from './space.js';
 export { visualDefinitions } from './visual.js';
-export { extendedVisualDefinitions } from './visual-extended.js';
 export { backgroundDefinitions } from './visual-backgrounds.js';
 export { interactivityDefinitions } from './visual-interactivity.js';
 export { typographyDefinitions } from './visual-typography.js';
 export { transform3dDefinitions } from './visual-transform3d.js';
+export { filterDefinitions } from './visual-filters.js';
+export { transitionDefinitions } from './visual-transitions.js';
+export { transformDefinitions } from './visual-transforms.js';
+export { borderDefinitions } from './visual-borders.js';
+export { svgDefinitions } from './visual-svg.js';
 
 // Export builder functions
 export { buildLayoutMap } from './layout.js';

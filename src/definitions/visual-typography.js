@@ -208,7 +208,7 @@ export const textIndent = {
 export const verticalAlign = {
   name: 'vertical-align',
   property: 'visual',
-  syntax: 'visual="align-[value]"',
+  syntax: 'visual="align:[value]"',
   description: 'Set vertical alignment',
   descriptionMs: 'Tetapkan penjajaran menegak',
   category: 'visual',
@@ -223,7 +223,7 @@ export const verticalAlign = {
     { value: 'super', css: 'vertical-align: super;', description: 'Superscript', descriptionMs: 'Superskrip' }
   ],
   examples: [
-    { code: '<img visual="align-middle">Vertically centered</img>', description: 'Middle alignment' }
+    { code: '<img visual="align:middle">Vertically centered</img>', description: 'Middle alignment' }
   ]
 };
 
@@ -298,7 +298,7 @@ export const lineClamp = {
 export const listStyle = {
   name: 'list-style',
   property: 'visual',
-  syntax: 'visual="list-[value]"',
+  syntax: 'visual="list:[value]"',
   description: 'Set list style',
   descriptionMs: 'Tetapkan gaya senarai',
   category: 'visual',
@@ -311,7 +311,7 @@ export const listStyle = {
     { value: 'outside', css: 'list-style-position: outside;', description: 'Outside position', descriptionMs: 'Kedudukan luar' }
   ],
   examples: [
-    { code: '<ul visual="list-none">No bullets</ul>', description: 'Remove bullets' }
+    { code: '<ul visual="list:none">No bullets</ul>', description: 'Remove bullets' }
   ]
 };
 

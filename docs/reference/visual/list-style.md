@@ -4,7 +4,7 @@ Set list style
 
 ## Syntax
 ```
-visual="list-[value]"
+visual="list:[value]"
 ```
 
 ## Values
@@ -21,7 +21,7 @@ visual="list-[value]"
 ## Examples
 
 ```html
-<ul visual="list-none">No bullets</ul>
+<ul visual="list:none">No bullets</ul>
 ```
 
 ## Responsive

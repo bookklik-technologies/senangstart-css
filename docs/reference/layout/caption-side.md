@@ -4,20 +4,20 @@ Control table caption position
 
 ## Syntax
 ```
-layout="[caption-value]"
+layout="caption:[value]"
 ```
 
 ## Values
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `caption-top` | `caption-side: top` | Caption on top |
-| `caption-bottom` | `caption-side: bottom` | Caption on bottom |
+| `top` | `caption-side: top` | Caption on top |
+| `bottom` | `caption-side: bottom` | Caption on bottom |
 
 ## Examples
 
 ```html
-<caption layout="caption-bottom">Bottom caption</caption>
+<caption layout="caption:bottom">Bottom caption</caption>
 ```
 
 ## Responsive

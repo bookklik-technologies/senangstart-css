@@ -4,7 +4,7 @@ Tetapkan gaya senarai
 
 ## Sintaks
 ```
-visual="list-[value]"
+visual="list:[value]"
 ```
 
 ## Nilai
@@ -21,7 +21,7 @@ visual="list-[value]"
 ## Contoh
 
 ```html
-<ul visual="list-none">No bullets</ul>
+<ul visual="list:none">No bullets</ul>
 ```
 
 ## Responsif

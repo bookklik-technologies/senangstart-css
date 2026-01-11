@@ -4,20 +4,20 @@ Control table layout algorithm
 
 ## Syntax
 ```
-layout="[table-layout-value]"
+layout="table:[value]"
 ```
 
 ## Values
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `table-auto` | `table-layout: auto` | Auto layout |
-| `table-fixed` | `table-layout: fixed` | Fixed layout |
+| `auto` | `table-layout: auto` | Auto layout |
+| `fixed` | `table-layout: fixed` | Fixed layout |
 
 ## Examples
 
 ```html
-<table layout="table-fixed">Fixed width columns</table>
+<table layout="table:fixed">Fixed width columns</table>
 ```
 
 ## Responsive

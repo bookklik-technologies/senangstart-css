@@ -190,6 +190,56 @@ export const backgroundBlendMode = {
 };
 
 // ======================
+// BACKDROP BLUR
+// ======================
+
+export const backdropBlur = {
+  name: 'backdrop-blur',
+  property: 'visual',
+  syntax: 'visual="backdrop-blur:[value]"',
+  description: 'Blur backdrop',
+  descriptionMs: 'Kaburkan latar belakang',
+  category: 'visual',
+  supportsArbitrary: true,
+  values: [
+    { value: 'none', css: 'backdrop-filter: blur(0);', description: 'No blur', descriptionMs: 'Tiada kabur' },
+    { value: 'tiny', css: 'backdrop-filter: blur(2px);', description: 'Tiny blur', descriptionMs: 'Kabur kecil' },
+    { value: 'small', css: 'backdrop-filter: blur(4px);', description: 'Small blur', descriptionMs: 'Kabur kecil' },
+    { value: 'medium', css: 'backdrop-filter: blur(8px);', description: 'Medium blur', descriptionMs: 'Kabur sederhana' },
+    { value: 'big', css: 'backdrop-filter: blur(12px);', description: 'Large blur', descriptionMs: 'Kabur besar' },
+    { value: 'giant', css: 'backdrop-filter: blur(24px);', description: 'Giant blur', descriptionMs: 'Kabur gergasi' },
+    { value: 'vast', css: 'backdrop-filter: blur(48px);', description: 'Vast blur', descriptionMs: 'Kabur luas' }
+  ],
+  examples: [
+    { code: '<div visual="backdrop-blur:medium bg:[rgba(255,255,255,0.5)]">Frosted glass</div>', description: 'Glassmorphism effect' }
+  ]
+};
+
+// ======================
+// BACKDROP BRIGHTNESS
+// ======================
+
+export const backdropBrightness = {
+  name: 'backdrop-brightness',
+  property: 'visual',
+  syntax: 'visual="backdrop-brightness:[value]"',
+  description: 'Adjust backdrop brightness',
+  descriptionMs: 'Laraskan kecerahan latar belakang',
+  category: 'visual',
+  supportsArbitrary: true,
+  values: [
+    { value: 'dim', css: 'backdrop-filter: brightness(0.5);', description: '50% brightness', descriptionMs: '50% kecerahan' },
+    { value: 'dark', css: 'backdrop-filter: brightness(0.75);', description: '75% brightness', descriptionMs: '75% kecerahan' },
+    { value: 'normal', css: 'backdrop-filter: brightness(1);', description: 'Normal brightness', descriptionMs: 'Kecerahan normal' },
+    { value: 'bright', css: 'backdrop-filter: brightness(1.25);', description: '125% brightness', descriptionMs: '125% kecerahan' },
+    { value: 'vivid', css: 'backdrop-filter: brightness(1.5);', description: '150% brightness', descriptionMs: '150% kecerahan' }
+  ],
+  examples: [
+    { code: '<div visual="backdrop-brightness:dark">Darkened backdrop</div>', description: 'Darken backdrop' }
+  ]
+};
+
+// ======================
 // BACKDROP CONTRAST
 // ======================
 
@@ -359,6 +409,8 @@ export const backgroundDefinitions = {
   backgroundRepeat,
   backgroundSize,
   backgroundBlendMode,
+  backdropBlur,
+  backdropBrightness,
   backdropContrast,
   backdropGrayscale,
   backdropHueRotate,

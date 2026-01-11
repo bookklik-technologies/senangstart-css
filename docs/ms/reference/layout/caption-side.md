@@ -4,20 +4,20 @@ Kawal kedudukan kapsyen jadual
 
 ## Sintaks
 ```
-layout="[caption-value]"
+layout="caption:[value]"
 ```
 
 ## Nilai
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `caption-top` | `caption-side: top` | Kapsyen di atas |
-| `caption-bottom` | `caption-side: bottom` | Kapsyen di bawah |
+| `top` | `caption-side: top` | Kapsyen di atas |
+| `bottom` | `caption-side: bottom` | Kapsyen di bawah |
 
 ## Contoh
 
 ```html
-<caption layout="caption-bottom">Bottom caption</caption>
+<caption layout="caption:bottom">Bottom caption</caption>
 ```
 
 ## Responsif

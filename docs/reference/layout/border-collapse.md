@@ -4,20 +4,20 @@ Control table border collapse
 
 ## Syntax
 ```
-layout="[border-collapse-value]"
+layout="border:[value]"
 ```
 
 ## Values
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `border-collapse` | `border-collapse: collapse` | Collapse borders |
-| `border-separate` | `border-collapse: separate` | Separate borders |
+| `collapse` | `border-collapse: collapse` | Collapse borders |
+| `separate` | `border-collapse: separate` | Separate borders |
 
 ## Examples
 
 ```html
-<table layout="border-collapse">Collapsed table</table>
+<table layout="border:collapse">Collapsed table</table>
 ```
 
 ## Responsive

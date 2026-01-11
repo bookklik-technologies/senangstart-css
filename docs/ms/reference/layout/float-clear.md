@@ -4,25 +4,22 @@ Kawal pengapungan dan pembersihan elemen
 
 ## Sintaks
 ```
-layout="[float-value]" or layout="[clear-value]"
+layout="float:[value]" or layout="clear:[value]"
 ```
 
 ## Nilai
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `float-left` | `float: left` | Apung kiri |
-| `float-right` | `float: right` | Apung kanan |
-| `float-none` | `float: none` | Tiada pengapungan |
-| `clear-left` | `clear: left` | Bersihkan apungan kiri |
-| `clear-right` | `clear: right` | Bersihkan apungan kanan |
-| `clear-both` | `clear: both` | Bersihkan semua apungan |
-| `clear-none` | `clear: none` | Tiada pembersihan |
+| `left` | `float: left` | Apung kiri |
+| `right` | `float: right` | Apung kanan |
+| `none` | `float: none` | Tiada pengapungan |
 
 ## Contoh
 
 ```html
-<img layout="float-left">Float left</img>
+<img layout="float:left">Float left</img>
+<div layout="clear:both">Clear floats</div>
 ```
 
 ## Responsif
