@@ -530,7 +530,14 @@ img, video {
     'clear-left': 'clear: left;',
     'clear-right': 'clear: right;',
     'clear-both': 'clear: both;',
-    'clear-none': 'clear: none;'
+    'clear-none': 'clear: none;',
+    
+    // Container
+    'container': 'width: 100%; margin-left: auto; margin-right: auto;',
+    
+    // Table Border Collapse
+    'border-collapse': 'border-collapse: collapse;',
+    'border-separate': 'border-collapse: separate;'
   };
 
   // ============================================
@@ -870,6 +877,31 @@ img, video {
       return `grid-auto-rows: ${cssValue};`;
     }
     
+    // Table Layout
+    if (property === 'table') {
+      const tableMap = { 'auto': 'auto', 'fixed': 'fixed' };
+      return `table-layout: ${tableMap[value] || value};`;
+    }
+    
+    // Caption Side
+    if (property === 'caption') {
+      return `caption-side: ${value};`;
+    }
+    
+    // Border Spacing
+    if (property === 'border-spacing') {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `border-spacing: ${cssValue};`;
+    }
+    if (property === 'border-spacing-x') {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `border-spacing: ${cssValue} 0;`;
+    }
+    if (property === 'border-spacing-y') {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `border-spacing: 0 ${cssValue};`;
+    }
+    
     return layoutKeywords[property] || '';
   }
 
@@ -1108,7 +1140,6 @@ img, video {
       'rounded': () => `border-radius: var(--r-${value});`,
       'shadow': () => `box-shadow: var(--shadow-${value});`,
       'opacity': () => {
-        // Convert percentage (0-100) to CSS opacity (0-1)
         const opacityValue = isArbitrary ? value : (parseFloat(value) / 100);
         return `opacity: ${opacityValue};`;
       },
@@ -1224,6 +1255,458 @@ img, video {
           'bounce': 'animation: bounce 1s infinite;'
         };
         return animateMap[value] || `animation: ${value};`;
+      },
+      
+      // ============================================
+      // FILTER UTILITIES
+      // ============================================
+      'blur': () => {
+        const blurScale = {
+          'none': '0',
+          'sm': '4px',
+          'md': '8px',
+          'lg': '12px',
+          'xl': '16px',
+          '2xl': '24px',
+          '3xl': '40px'
+        };
+        const cssValue = isArbitrary ? value : (blurScale[value] || `${value}px`);
+        return `filter: blur(${cssValue});`;
+      },
+      'brightness': () => {
+        const brightnessScale = {
+          '0': '0',
+          '50': '0.5',
+          '75': '0.75',
+          '90': '0.9',
+          '95': '0.95',
+          '100': '1',
+          '105': '1.05',
+          '110': '1.1',
+          '125': '1.25',
+          '150': '1.5',
+          '200': '2'
+        };
+        const cssValue = isArbitrary ? value : (brightnessScale[value] || (parseFloat(value) / 100));
+        return `filter: brightness(${cssValue});`;
+      },
+      'contrast': () => {
+        const contrastScale = {
+          '0': '0',
+          '50': '0.5',
+          '75': '0.75',
+          '100': '1',
+          '125': '1.25',
+          '150': '1.5',
+          '200': '2'
+        };
+        const cssValue = isArbitrary ? value : (contrastScale[value] || (parseFloat(value) / 100));
+        return `filter: contrast(${cssValue});`;
+      },
+      'grayscale': () => {
+        const grayscaleScale = { '0': '0', '100': '1', 'full': '1' };
+        const cssValue = isArbitrary ? value : (grayscaleScale[value] || (parseFloat(value) / 100));
+        return `filter: grayscale(${cssValue});`;
+      },
+      'hue-rotate': () => {
+        const cssValue = isArbitrary ? value : `${value}deg`;
+        return `filter: hue-rotate(${cssValue});`;
+      },
+      'invert': () => {
+        const invertScale = { '0': '0', '100': '1', 'full': '1' };
+        const cssValue = isArbitrary ? value : (invertScale[value] || (parseFloat(value) / 100));
+        return `filter: invert(${cssValue});`;
+      },
+      'saturate': () => {
+        const saturateScale = {
+          '0': '0',
+          '50': '0.5',
+          '100': '1',
+          '150': '1.5',
+          '200': '2'
+        };
+        const cssValue = isArbitrary ? value : (saturateScale[value] || (parseFloat(value) / 100));
+        return `filter: saturate(${cssValue});`;
+      },
+      'sepia': () => {
+        const sepiaScale = { '0': '0', '100': '1', 'full': '1' };
+        const cssValue = isArbitrary ? value : (sepiaScale[value] || (parseFloat(value) / 100));
+        return `filter: sepia(${cssValue});`;
+      },
+      'drop-shadow': () => {
+        const shadowMap = {
+          'sm': 'drop-shadow(0 1px 1px rgb(0 0 0 / 0.05))',
+          'md': 'drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))',
+          'lg': 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))',
+          'xl': 'drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))',
+          '2xl': 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
+          'none': 'drop-shadow(0 0 #0000)'
+        };
+        const cssValue = isArbitrary ? `drop-shadow(${value.replace(/_/g, ' ')})` : (shadowMap[value] || shadowMap['md']);
+        return `filter: ${cssValue};`;
+      },
+      
+      // ============================================
+      // BACKGROUND UTILITIES
+      // ============================================
+      'bg-size': () => {
+        const sizeMap = { 'auto': 'auto', 'cover': 'cover', 'contain': 'contain' };
+        const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (sizeMap[value] || value);
+        return `background-size: ${cssValue};`;
+      },
+      'bg-pos': () => {
+        const posMap = {
+          'center': 'center',
+          'top': 'top',
+          'top-right': 'top right',
+          'right': 'right',
+          'bottom-right': 'bottom right',
+          'bottom': 'bottom',
+          'bottom-left': 'bottom left',
+          'left': 'left',
+          'top-left': 'top left'
+        };
+        const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (posMap[value] || value);
+        return `background-position: ${cssValue};`;
+      },
+      'bg-repeat': () => {
+        const repeatMap = {
+          'repeat': 'repeat',
+          'no-repeat': 'no-repeat',
+          'repeat-x': 'repeat-x',
+          'repeat-y': 'repeat-y',
+          'round': 'round',
+          'space': 'space'
+        };
+        return `background-repeat: ${repeatMap[value] || value};`;
+      },
+      'bg-attachment': () => {
+        return `background-attachment: ${value};`;
+      },
+      'bg-clip': () => {
+        const clipMap = {
+          'border': 'border-box',
+          'padding': 'padding-box',
+          'content': 'content-box',
+          'text': 'text'
+        };
+        return `background-clip: ${clipMap[value] || value};`;
+      },
+      'bg-origin': () => {
+        const originMap = {
+          'border': 'border-box',
+          'padding': 'padding-box',
+          'content': 'content-box'
+        };
+        return `background-origin: ${originMap[value] || value};`;
+      },
+      'bg-blend': () => {
+        return `background-blend-mode: ${value};`;
+      },
+      'bg-image': () => {
+        const gradientMap = {
+          'none': 'none',
+          'gradient-to-t': 'linear-gradient(to top, var(--tw-gradient-stops))',
+          'gradient-to-tr': 'linear-gradient(to top right, var(--tw-gradient-stops))',
+          'gradient-to-r': 'linear-gradient(to right, var(--tw-gradient-stops))',
+          'gradient-to-br': 'linear-gradient(to bottom right, var(--tw-gradient-stops))',
+          'gradient-to-b': 'linear-gradient(to bottom, var(--tw-gradient-stops))',
+          'gradient-to-bl': 'linear-gradient(to bottom left, var(--tw-gradient-stops))',
+          'gradient-to-l': 'linear-gradient(to left, var(--tw-gradient-stops))',
+          'gradient-to-tl': 'linear-gradient(to top left, var(--tw-gradient-stops))'
+        };
+        const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (gradientMap[value] || value);
+        return `background-image: ${cssValue};`;
+      },
+      
+      // ============================================
+      // BACKDROP FILTER UTILITIES
+      // ============================================
+      'backdrop-blur': () => {
+        const blurScale = {
+          'none': '0',
+          'sm': '4px',
+          'md': '8px',
+          'lg': '12px',
+          'xl': '16px',
+          '2xl': '24px',
+          '3xl': '40px'
+        };
+        const cssValue = isArbitrary ? value : (blurScale[value] || `${value}px`);
+        return `backdrop-filter: blur(${cssValue});`;
+      },
+      'backdrop-brightness': () => {
+        const cssValue = isArbitrary ? value : (parseFloat(value) / 100);
+        return `backdrop-filter: brightness(${cssValue});`;
+      },
+      'backdrop-contrast': () => {
+        const cssValue = isArbitrary ? value : (parseFloat(value) / 100);
+        return `backdrop-filter: contrast(${cssValue});`;
+      },
+      'backdrop-grayscale': () => {
+        const grayscaleScale = { '0': '0', '100': '1', 'full': '1' };
+        const cssValue = isArbitrary ? value : (grayscaleScale[value] || (parseFloat(value) / 100));
+        return `backdrop-filter: grayscale(${cssValue});`;
+      },
+      'backdrop-hue-rotate': () => {
+        const cssValue = isArbitrary ? value : `${value}deg`;
+        return `backdrop-filter: hue-rotate(${cssValue});`;
+      },
+      'backdrop-invert': () => {
+        const invertScale = { '0': '0', '100': '1', 'full': '1' };
+        const cssValue = isArbitrary ? value : (invertScale[value] || (parseFloat(value) / 100));
+        return `backdrop-filter: invert(${cssValue});`;
+      },
+      'backdrop-opacity': () => {
+        const cssValue = isArbitrary ? value : (parseFloat(value) / 100);
+        return `backdrop-filter: opacity(${cssValue});`;
+      },
+      'backdrop-saturate': () => {
+        const cssValue = isArbitrary ? value : (parseFloat(value) / 100);
+        return `backdrop-filter: saturate(${cssValue});`;
+      },
+      'backdrop-sepia': () => {
+        const sepiaScale = { '0': '0', '100': '1', 'full': '1' };
+        const cssValue = isArbitrary ? value : (sepiaScale[value] || (parseFloat(value) / 100));
+        return `backdrop-filter: sepia(${cssValue});`;
+      },
+      
+      // ============================================
+      // ANIMATION EXTENDED PROPERTIES
+      // ============================================
+      'animation-duration': () => {
+        const durationMap = {
+          'instant': '75ms',
+          'quick': '100ms',
+          'fast': '150ms',
+          'normal': '200ms',
+          'slow': '300ms',
+          'slower': '500ms',
+          'lazy': '700ms'
+        };
+        const cssValue = isArbitrary ? value : (durationMap[value] || `${value}ms`);
+        return `animation-duration: ${cssValue};`;
+      },
+      'animation-delay': () => {
+        const delayMap = {
+          'instant': '75ms',
+          'quick': '100ms',
+          'fast': '150ms',
+          'normal': '200ms',
+          'slow': '300ms'
+        };
+        const cssValue = isArbitrary ? value : (delayMap[value] || `${value}ms`);
+        return `animation-delay: ${cssValue};`;
+      },
+      'animation-iteration': () => {
+        const iterationMap = { 'infinite': 'infinite', 'once': '1', 'twice': '2' };
+        const cssValue = iterationMap[value] || value;
+        return `animation-iteration-count: ${cssValue};`;
+      },
+      'animation-direction': () => {
+        return `animation-direction: ${value};`;
+      },
+      'animation-fill': () => {
+        return `animation-fill-mode: ${value};`;
+      },
+      'animation-play': () => {
+        return `animation-play-state: ${value};`;
+      },
+      'animation-timing': () => {
+        const easeMap = {
+          'linear': 'linear',
+          'in': 'cubic-bezier(0.4, 0, 1, 1)',
+          'out': 'cubic-bezier(0, 0, 0.2, 1)',
+          'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)'
+        };
+        const cssValue = easeMap[value] || value;
+        return `animation-timing-function: ${cssValue};`;
+      },
+      
+      // ============================================
+      // SCROLL & INTERACTIVITY UTILITIES
+      // ============================================
+      'scroll-behavior': () => {
+        return `scroll-behavior: ${value};`;
+      },
+      'scroll-m': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `scroll-margin: ${cssValue};`;
+      },
+      'scroll-m-x': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `scroll-margin-left: ${cssValue}; scroll-margin-right: ${cssValue};`;
+      },
+      'scroll-m-y': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `scroll-margin-top: ${cssValue}; scroll-margin-bottom: ${cssValue};`;
+      },
+      'scroll-p': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `scroll-padding: ${cssValue};`;
+      },
+      'scroll-p-x': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `scroll-padding-left: ${cssValue}; scroll-padding-right: ${cssValue};`;
+      },
+      'scroll-p-y': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `scroll-padding-top: ${cssValue}; scroll-padding-bottom: ${cssValue};`;
+      },
+      'snap-align': () => {
+        return `scroll-snap-align: ${value};`;
+      },
+      'snap-stop': () => {
+        return `scroll-snap-stop: ${value};`;
+      },
+      'snap-type': () => {
+        const typeMap = {
+          'none': 'none',
+          'x': 'x mandatory',
+          'y': 'y mandatory',
+          'both': 'both mandatory',
+          'x-proximity': 'x proximity',
+          'y-proximity': 'y proximity'
+        };
+        return `scroll-snap-type: ${typeMap[value] || value};`;
+      },
+      'touch': () => {
+        const touchMap = {
+          'auto': 'auto',
+          'none': 'none',
+          'pan-x': 'pan-x',
+          'pan-y': 'pan-y',
+          'pan-left': 'pan-left',
+          'pan-right': 'pan-right',
+          'pan-up': 'pan-up',
+          'pan-down': 'pan-down',
+          'pinch-zoom': 'pinch-zoom',
+          'manipulation': 'manipulation'
+        };
+        return `touch-action: ${touchMap[value] || value};`;
+      },
+      'resize': () => {
+        const resizeMap = {
+          'none': 'none',
+          'both': 'both',
+          'x': 'horizontal',
+          'y': 'vertical'
+        };
+        return `resize: ${resizeMap[value] || value};`;
+      },
+      'will-change': () => {
+        const willChangeMap = {
+          'auto': 'auto',
+          'scroll': 'scroll-position',
+          'contents': 'contents',
+          'transform': 'transform',
+          'opacity': 'opacity'
+        };
+        return `will-change: ${willChangeMap[value] || value};`;
+      },
+      'color-scheme': () => {
+        return `color-scheme: ${value};`;
+      },
+      'field-sizing': () => {
+        return `field-sizing: ${value};`;
+      },
+      'forced-color': () => {
+        return `forced-color-adjust: ${value};`;
+      },
+      
+      // ============================================
+      // BORDER & OUTLINE UTILITIES
+      // ============================================
+      'border-style': () => {
+        return `border-style: ${value};`;
+      },
+      'outline': () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `outline-color: ${cssValue};`;
+      },
+      'outline-style': () => {
+        return `outline-style: ${value};`;
+      },
+      'outline-w': () => {
+        const cssValue = isArbitrary ? value : `${value}px`;
+        return `outline-width: ${cssValue};`;
+      },
+      'outline-offset': () => {
+        const cssValue = isArbitrary ? value : `${value}px`;
+        return `outline-offset: ${cssValue};`;
+      },
+      
+      // ============================================
+      // SVG UTILITIES
+      // ============================================
+      'stroke': () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `stroke: ${cssValue};`;
+      },
+      'stroke-w': () => {
+        const cssValue = isArbitrary ? value : value;
+        return `stroke-width: ${cssValue};`;
+      },
+      'fill': () => {
+        if (value === 'none') return 'fill: none;';
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `fill: ${cssValue};`;
+      },
+      
+      // ============================================
+      // MIX BLEND MODE
+      // ============================================
+      'mix-blend': () => {
+        return `mix-blend-mode: ${value};`;
+      },
+      
+      // ============================================
+      // 3D TRANSFORM UTILITIES
+      // ============================================
+      'perspective': () => {
+        const perspectiveMap = {
+          'none': 'none',
+          'sm': '500px',
+          'md': '1000px',
+          'lg': '1500px',
+          'xl': '2000px'
+        };
+        const cssValue = isArbitrary ? value : (perspectiveMap[value] || value);
+        return `perspective: ${cssValue};`;
+      },
+      'perspective-origin': () => {
+        const originMap = {
+          'center': 'center',
+          'top': 'top',
+          'top-right': 'top right',
+          'right': 'right',
+          'bottom-right': 'bottom right',
+          'bottom': 'bottom',
+          'bottom-left': 'bottom left',
+          'left': 'left',
+          'top-left': 'top left'
+        };
+        const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (originMap[value] || value);
+        return `perspective-origin: ${cssValue};`;
+      },
+      'rotate-x': () => {
+        const rotateValue = isArbitrary ? value : `${value}deg`;
+        return `transform: rotateX(${rotateValue});`;
+      },
+      'rotate-y': () => {
+        const rotateValue = isArbitrary ? value : `${value}deg`;
+        return `transform: rotateY(${rotateValue});`;
+      },
+      'rotate-z': () => {
+        const rotateValue = isArbitrary ? value : `${value}deg`;
+        return `transform: rotateZ(${rotateValue});`;
+      },
+      'transform-style': () => {
+        return `transform-style: ${value};`;
+      },
+      'backface': () => {
+        const backfaceMap = { 'visible': 'visible', 'hidden': 'hidden' };
+        return `backface-visibility: ${backfaceMap[value] || value};`;
       }
     };
     
