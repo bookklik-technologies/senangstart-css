@@ -13,7 +13,7 @@ const sharedThemeConfig = {
   ],
   footer: {
     message: 'Released under the MIT License.',
-    copyright: 'Copyright © 2026 SenangStart'
+    copyright: 'Copyright © 2026 Bookklik Technologies'
   }
 }
 
