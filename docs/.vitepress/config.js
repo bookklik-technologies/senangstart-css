@@ -762,7 +762,7 @@ export default defineConfig({
       label: 'English',
       lang: 'en',
       title: 'SenangStart CSS',
-      description: 'The Intent-First CSS Engine - Speak Human, Compile to Logic',
+      description: 'Fluent Style Utilities for Humans and AI',
       themeConfig: {
         ...sharedThemeConfig,
         nav: [
@@ -784,7 +784,7 @@ export default defineConfig({
       label: 'Bahasa Melayu',
       lang: 'ms',
       title: 'SenangStart CSS',
-      description: 'Enjin CSS Intent-First - Cakap Manusia, Kompil ke Logik',
+      description: 'Utiliti Gaya Fasih untuk Manusia dan AI',
       themeConfig: {
         ...sharedThemeConfig,
         nav: [
