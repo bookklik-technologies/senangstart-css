@@ -766,6 +766,7 @@ export default defineConfig({
       themeConfig: {
         ...sharedThemeConfig,
         nav: [
+          { text: 'Home', link: '/' },
           { text: 'Guide', link: '/guide/getting-started' },
           { text: 'Reference', link: '/reference/layout' },
           { text: 'Examples', link: '/examples/' },
@@ -788,6 +789,7 @@ export default defineConfig({
       themeConfig: {
         ...sharedThemeConfig,
         nav: [
+          { text: 'Utama', link: '/ms/' },
           { text: 'Panduan', link: '/ms/guide/getting-started' },
           { text: 'Rujukan', link: '/ms/reference/layout' },
           { text: 'Contoh', link: '/ms/examples/' },
