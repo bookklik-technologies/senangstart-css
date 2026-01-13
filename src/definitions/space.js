@@ -31,6 +31,32 @@ export const padding = {
     { code: '<div space="p-x:big p-y:small">Different padding</div>', description: 'Axis padding' },
     { code: '<div space="p:[20px]">Custom padding</div>', description: 'Arbitrary value' }
   ],
+  preview: [
+    {
+      title: 'Padding Scale',
+      titleMs: 'Skala Padding',
+      description: 'Different padding sizes from the scale',
+      descriptionMs: 'Saiz padding berbeza dari skala',
+      html: `<div layout="flex" space="g:small">
+  <div space="p:tiny" visual="bg:primary text:white rounded:small">tiny</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">small</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small">medium</div>
+  <div space="p:big" visual="bg:primary text:white rounded:small">big</div>
+</div>`,
+      highlightValue: 'p:medium'
+    },
+    {
+      title: 'Directional Padding',
+      titleMs: 'Padding Arah',
+      description: 'Apply padding to specific sides',
+      descriptionMs: 'Padamkan padding pada sisi tertentu',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p-x:big p-y:small" visual="bg:primary text:white rounded:small">p-x:big p-y:small</div>
+  <div space="p-t:big" visual="bg:primary text:white rounded:small">p-t:big</div>
+</div>`,
+      highlightValue: 'p-x:big'
+    }
+  ],
   footnotes: [
     {
       title: 'Tailwind Scale Support',
@@ -70,6 +96,30 @@ export const margin = {
     { code: '<div space="m-x:auto">Centered horizontally</div>', description: 'Auto centering' },
     { code: '<div space="m-t:big">Top margin</div>', description: 'Top margin only' }
   ],
+  preview: [
+    {
+      title: 'Margin Scale',
+      titleMs: 'Skala Margin',
+      description: 'Different margin sizes from the scale',
+      descriptionMs: 'Saiz margin berbeza dari skala',
+      html: `<div layout="flex col" space="g:tiny p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="m:tiny" visual="bg:primary text:white rounded:small">m:tiny</div>
+  <div space="m:small" visual="bg:primary text:white rounded:small">m:small</div>
+  <div space="m:medium" visual="bg:primary text:white rounded:small">m:medium</div>
+</div>`,
+      highlightValue: 'm:medium'
+    },
+    {
+      title: 'Auto Centering',
+      titleMs: 'Tengah Automatik',
+      description: 'Use m-x:auto to center horizontally',
+      descriptionMs: 'Guna m-x:auto untuk tengahkan mendatar',
+      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="m-x:auto p:small" visual="bg:primary text:white rounded:small" style="width: fit-content;">m-x:auto</div>
+</div>`,
+      highlightValue: 'm-x:auto'
+    }
+  ],
   footnotes: [
     {
       title: 'Tailwind Scale Support',
@@ -103,6 +153,35 @@ export const gap = {
   examples: [
     { code: '<div layout="flex" space="g:medium">Gap between items</div>', description: 'Flex gap' },
     { code: '<div layout="grid" space="g-x:big g-y:small">Grid gaps</div>', description: 'Different axis gaps' }
+  ],
+  preview: [
+    {
+      title: 'Flex Gap',
+      titleMs: 'Gap Flex',
+      description: 'Space between flex items',
+      descriptionMs: 'Ruang antara item flex',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+</div>`,
+      highlightValue: 'g:medium'
+    },
+    {
+      title: 'Grid Gap',
+      titleMs: 'Gap Grid',
+      description: 'Space between grid items',
+      descriptionMs: 'Ruang antara item grid',
+      html: `<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">4</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">5</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">6</span>
+</div>`,
+      highlightValue: 'g:small'
+    }
   ],
   footnotes: [
     {
@@ -139,6 +218,30 @@ export const width = {
     { code: '<div space="max-w:[1200px]">Max width container</div>', description: 'Max width' },
     { code: '<div space="min-w:[300px]">Min width</div>', description: 'Minimum width' }
   ],
+  preview: [
+    {
+      title: 'Width Control',
+      titleMs: 'Kawal Lebar',
+      description: 'Set fixed or percentage widths',
+      descriptionMs: 'Tetapkan lebar tetap atau peratusan',
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="w:[100%] p:small" visual="bg:primary text:white rounded:small">w:[100%]</div>
+  <div space="w:[75%] p:small" visual="bg:primary text:white rounded:small">w:[75%]</div>
+  <div space="w:[50%] p:small" visual="bg:primary text:white rounded:small">w:[50%]</div>
+</div>`,
+      highlightValue: 'w:[100%]'
+    },
+    {
+      title: 'Max Width',
+      titleMs: 'Lebar Maksimum',
+      description: 'Constrain maximum width',
+      descriptionMs: 'Hadkan lebar maksimum',
+      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="max-w:[200px] p:small" visual="bg:primary text:white rounded:small">max-w:[200px]</div>
+</div>`,
+      highlightValue: 'max-w:[200px]'
+    }
+  ],
   footnotes: [
     {
       title: 'Tailwind Scale Support',
@@ -172,6 +275,30 @@ export const height = {
   examples: [
     { code: '<div space="h:[100vh]">Full viewport height</div>', description: 'Full height' },
     { code: '<div space="min-h:[400px]">Min height</div>', description: 'Minimum height' }
+  ],
+  preview: [
+    {
+      title: 'Height Control',
+      titleMs: 'Kawal Tinggi',
+      description: 'Set fixed heights',
+      descriptionMs: 'Tetapkan tinggi tetap',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 120px;">
+  <div space="h:[100%] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[100%]</div>
+  <div space="h:[80px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[80px]</div>
+  <div space="h:[60px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[60px]</div>
+</div>`,
+      highlightValue: 'h:[100%]'
+    },
+    {
+      title: 'Min Height',
+      titleMs: 'Tinggi Minimum',
+      description: 'Set minimum height constraint',
+      descriptionMs: 'Tetapkan kekangan tinggi minimum',
+      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="min-h:[80px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">min-h:[80px]</div>
+</div>`,
+      highlightValue: 'min-h:[80px]'
+    }
   ],
   footnotes: [
     {

@@ -31,6 +31,64 @@ space="p:[value]" or space="p-{side}:[value]"
 <div space="p:[20px]">Custom padding</div>
 ```
 
+## Pratonton
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Skala Padding
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="p:medium"</code> - Saiz padding berbeza dari skala</p>
+<div layout="flex" space="g:small">
+  <div space="p:tiny" visual="bg:primary text:white rounded:small">tiny</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">small</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small">medium</div>
+  <div space="p:big" visual="bg:primary text:white rounded:small">big</div>
+</div>
+</div>
+
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div layout="flex" space="g:small">
+  <div space="p:tiny" visual="bg:primary text:white rounded:small">tiny</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">small</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small">medium</div>
+  <div space="p:big" visual="bg:primary text:white rounded:small">big</div>
+</div>
+```
+
+</details>
+
+</div>
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Padding Arah
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="p-x:big"</code> - Padamkan padding pada sisi tertentu</p>
+<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p-x:big p-y:small" visual="bg:primary text:white rounded:small">p-x:big p-y:small</div>
+  <div space="p-t:big" visual="bg:primary text:white rounded:small">p-t:big</div>
+</div>
+</div>
+
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p-x:big p-y:small" visual="bg:primary text:white rounded:small">p-x:big p-y:small</div>
+  <div space="p-t:big" visual="bg:primary text:white rounded:small">p-t:big</div>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Nilai Arbitrari
 
 Sokong nilai tersuai menggunakan sintaks kurungan segi empat:

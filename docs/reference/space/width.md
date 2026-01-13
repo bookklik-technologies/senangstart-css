@@ -27,6 +27,60 @@ space="w:[value]"
 <div space="min-w:[300px]">Min width</div>
 ```
 
+## Preview
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Width Control
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="w:[100%]"</code> - Set fixed or percentage widths</p>
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="w:[100%] p:small" visual="bg:primary text:white rounded:small">w:[100%]</div>
+  <div space="w:[75%] p:small" visual="bg:primary text:white rounded:small">w:[75%]</div>
+  <div space="w:[50%] p:small" visual="bg:primary text:white rounded:small">w:[50%]</div>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="w:[100%] p:small" visual="bg:primary text:white rounded:small">w:[100%]</div>
+  <div space="w:[75%] p:small" visual="bg:primary text:white rounded:small">w:[75%]</div>
+  <div space="w:[50%] p:small" visual="bg:primary text:white rounded:small">w:[50%]</div>
+</div>
+```
+
+</details>
+
+</div>
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Max Width
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="max-w:[200px]"</code> - Constrain maximum width</p>
+<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="max-w:[200px] p:small" visual="bg:primary text:white rounded:small">max-w:[200px]</div>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="max-w:[200px] p:small" visual="bg:primary text:white rounded:small">max-w:[200px]</div>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Arbitrary Values
 
 Supports custom values using bracket syntax:
