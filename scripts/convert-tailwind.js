@@ -526,7 +526,7 @@ function convertClass(twClass, options = {}) {
     /^font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/
   );
   if (fontWeightMatch)
-    return { category: 'visual', value: prefix + "font:" + fontWeightMatch[1] };
+    return { category: 'visual', value: prefix + "font:tw-" + fontWeightMatch[1] };
 
   // Border width
   const borderWidthMatch = baseClass.match(

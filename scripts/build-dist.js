@@ -2,10 +2,11 @@
 
 /**
  * Build script for creating the dist folder
- * Copies and minifies files for NPM distribution
+ * Uses esbuild to bundle JIT runtime from ESM sources
  */
 
-import { mkdirSync, copyFileSync, readFileSync, writeFileSync, existsSync } from 'fs';
+import * as esbuild from 'esbuild';
+import { mkdirSync, statSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -16,33 +17,37 @@ const root = join(__dirname, '..');
 const distDir = join(root, 'dist');
 mkdirSync(distDir, { recursive: true });
 
-// Copy jit.js as senangstart-css.js
-const jitSrc = join(root, 'src', 'cdn', 'jit.js');
-const jitDest = join(distDir, 'senangstart-css.js');
-copyFileSync(jitSrc, jitDest);
-console.log('✓ Created senangstart-css.js');
+console.log('📦 Building SenangStart CSS...\n');
 
-// Simple minification (removes comments and extra whitespace)
-function minifyJS(code) {
-  return code
-    // Remove multi-line comments
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    // Remove single-line comments (but not URLs)
-    .replace(/(?<!:)\/\/.*$/gm, '')
-    // Remove leading/trailing whitespace per line
-    .split('\n')
-    .map(line => line.trim())
-    .filter(line => line.length > 0)
-    .join('\n')
-    // Reduce multiple newlines to single
-    .replace(/\n+/g, '\n');
-}
+// Build unminified version
+await esbuild.build({
+  entryPoints: [join(root, 'src', 'cdn', 'jit.js')],
+  bundle: true,
+  format: 'iife',
+  outfile: join(distDir, 'senangstart-css.js'),
+  minify: false,
+  banner: {
+    js: '/* SenangStart CSS - JIT Runtime v0.2.0 | MIT License */'
+  }
+});
 
-// Create minified version
-const jitContent = readFileSync(jitSrc, 'utf8');
-const jitMinified = minifyJS(jitContent);
-writeFileSync(join(distDir, 'senangstart-css.min.js'), jitMinified);
-console.log('✓ Created senangstart-css.min.js');
+const unminSize = statSync(join(distDir, 'senangstart-css.js')).size;
+console.log(`✓ Created senangstart-css.js (${(unminSize / 1024).toFixed(1)} KB)`);
+
+// Build minified version
+await esbuild.build({
+  entryPoints: [join(root, 'src', 'cdn', 'jit.js')],
+  bundle: true,
+  format: 'iife',
+  outfile: join(distDir, 'senangstart-css.min.js'),
+  minify: true,
+  banner: {
+    js: '/* SenangStart CSS v0.2.0 | MIT */'
+  }
+});
+
+const minSize = statSync(join(distDir, 'senangstart-css.min.js')).size;
+console.log(`✓ Created senangstart-css.min.js (${(minSize / 1024).toFixed(1)} KB)`);
 
 console.log('\n📦 Dist build complete!');
 console.log('   dist/senangstart-css.js');

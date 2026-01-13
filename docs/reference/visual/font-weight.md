@@ -19,7 +19,17 @@ visual="font:[weight]"
 
 ```html
 <div visual="font:bold">Bold text</div>
+<div visual="font:tw-semibold">Semibold text</div>
 ```
+
+## Notes
+
+> [!TIP]
+> **Tailwind Scale Support**
+> 
+> Use `tw-` prefix to access Tailwind font weight scale: `font:tw-thin` (100), `font:tw-semibold` (600), `font:tw-extrabold` (800)
+> 
+> [Reference](https://tailwindcss.com/docs/font-weight)
 
 ## Responsive
 

@@ -19,7 +19,17 @@ visual="font:[weight]"
 
 ```html
 <div visual="font:bold">Bold text</div>
+<div visual="font:tw-semibold">Semibold text</div>
 ```
+
+## Nota
+
+> [!TIP]
+> **Sokongan Skala Tailwind**
+> 
+> Gunakan awalan `tw-` untuk mengakses skala berat fon Tailwind: `font:tw-thin` (100), `font:tw-semibold` (600), `font:tw-extrabold` (800)
+> 
+> [Rujukan](https://tailwindcss.com/docs/font-weight)
 
 ## Responsif
 

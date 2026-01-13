@@ -523,7 +523,7 @@
           /^font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/
         );
         if (fontWeightMatch)
-          return { cat: "visual", val: prefix + "font:" + fontWeightMatch[1] };
+          return { cat: "visual", val: prefix + "font:tw-" + fontWeightMatch[1] };
 
         // Border width
         const borderWidthMatch = baseClass.match(

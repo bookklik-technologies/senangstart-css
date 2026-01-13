@@ -118,6 +118,22 @@ export function generateCSSVariables(config) {
     css += `  --tw-text-${key}: ${value};\n`;
   }
   
+  // Tailwind Font Weight Scale
+  const twFontWeight = {
+    'thin': '100',
+    'extralight': '200',
+    'light': '300',
+    'normal': '400',
+    'medium': '500',
+    'semibold': '600',
+    'bold': '700',
+    'extrabold': '800',
+    'black': '900'
+  };
+  for (const [key, value] of Object.entries(twFontWeight)) {
+    css += `  --tw-font-${key}: ${value};\n`;
+  }
+  
   css += '}\n\n';
   return css;
 }
@@ -803,7 +819,15 @@ function generateVisualRule(token, config) {
     
     // Font size
     'text-size': () => {
-      const cssValue = isArbitrary ? value : `var(--font-${value})`;
+      let cssValue;
+      if (isArbitrary) {
+        cssValue = value;
+      } else if (value.startsWith('tw-')) {
+        const twValue = value.slice(3);
+        cssValue = `var(--tw-text-${twValue})`;
+      } else {
+        cssValue = `var(--font-${value})`;
+      }
       return `font-size: ${cssValue};`;
     },
     
@@ -817,7 +841,17 @@ function generateVisualRule(token, config) {
       if (fontFamilies[value]) {
         return `font-family: ${fontFamilies[value]};`;
       }
-      return `font-weight: var(--fw-${value});`;
+      // Font weight with tw- prefix support
+      let cssValue;
+      if (isArbitrary) {
+        cssValue = value;
+      } else if (value.startsWith('tw-')) {
+        const twValue = value.slice(3);
+        cssValue = `var(--tw-font-${twValue})`;
+      } else {
+        cssValue = `var(--fw-${value})`;
+      }
+      return `font-weight: ${cssValue};`;
     },
     
     // Letter spacing

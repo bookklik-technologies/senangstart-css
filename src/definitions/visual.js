@@ -95,7 +95,17 @@ export const fontWeight = {
     { value: 'bold', css: 'font-weight: var(--fw-bold);', description: 'Bold weight', descriptionMs: 'Berat tebal' }
   ],
   examples: [
-    { code: '<div visual="font:bold">Bold text</div>', description: 'Bold weight' }
+    { code: '<div visual="font:bold">Bold text</div>', description: 'Bold weight' },
+    { code: '<div visual="font:tw-semibold">Semibold text</div>', description: 'Tailwind semibold' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind font weight scale: `font:tw-thin` (100), `font:tw-semibold` (600), `font:tw-extrabold` (800)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala berat fon Tailwind: `font:tw-thin` (100), `font:tw-semibold` (600), `font:tw-extrabold` (800)',
+      link: 'https://tailwindcss.com/docs/font-weight'
+    }
   ]
 };
 

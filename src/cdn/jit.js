@@ -10,6 +10,10 @@
  * <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
  */
 
+// Core module imports (bundled by esbuild)
+import { BREAKPOINTS, STATES, LAYOUT_KEYWORDS } from '../core/constants.js';
+import { tokenize, parseToken } from '../core/tokenizer-core.js';
+
 (function() {
   'use strict';
 
@@ -379,6 +383,22 @@
       css += `  --tw-text-${key}: ${value};\n`;
     }
     
+    // Tailwind Font Weight Scale
+    const twFontWeight = {
+      'thin': '100',
+      'extralight': '200',
+      'light': '300',
+      'normal': '400',
+      'medium': '500',
+      'semibold': '600',
+      'bold': '700',
+      'extrabold': '800',
+      'black': '900'
+    };
+    for (const [key, value] of Object.entries(twFontWeight)) {
+      css += `  --tw-font-${key}: ${value};\n`;
+    }
+    
     css += '}\n\n';
     
     return css;
@@ -658,154 +678,12 @@ img, video {
   // RULE GENERATORS
   // ============================================
   
-  const breakpoints = ['mob', 'tab', 'lap', 'desk', 'tw-sm', 'tw-md', 'tw-lg', 'tw-xl', 'tw-2xl'];
-  const states = ['hover', 'focus', 'active', 'disabled', 'dark'];
+  // Import shared constants from core
+  const breakpoints = BREAKPOINTS;
+  const states = STATES;
 
-function parseToken(raw) {
-    const token = {
-      raw,
-      breakpoint: null,
-      state: null,
-      property: null,
-      value: null,
-      isArbitrary: false
-    };
-
-    const parts = raw.split(':');
-    let idx = 0;
-
-    // Check for breakpoint
-    if (breakpoints.includes(parts[0])) {
-      token.breakpoint = parts[0];
-      idx++;
-    }
-
-    // Check for state
-    if (states.includes(parts[idx])) {
-      token.state = parts[idx];
-      idx++;
-    }
-
-    // Property
-    if (idx < parts.length) {
-      token.property = parts[idx];
-      idx++;
-    }
-
-    // Value
-    if (idx < parts.length) {
-      let value = parts.slice(idx).join(':');
-      const arbitraryMatch = value.match(/^\[(.+)\]$/);
-      if (arbitraryMatch) {
-        token.value = arbitraryMatch[1].replace(/_/g, ' ');
-        token.isArbitrary = true;
-      } else {
-        token.value = value;
-      }
-    }
-
-    return token;
-  }
-
-  // Tokenizer function (matches the main tokenizer logic)
-  function tokenize(raw, attrType) {
-    // Validate input
-    if (typeof raw !== 'string' || raw.length === 0 || raw.length > 200) {
-      return {
-        raw,
-        breakpoint: null,
-        state: null,
-        property: null,
-        value: null,
-        isArbitrary: false,
-        attrType,
-        error: 'Invalid token format'
-      };
-    }
-
-    const token = {
-      raw,
-      breakpoint: null,
-      state: null,
-      property: null,
-      value: null,
-      isArbitrary: false,
-      attrType
-    };
-
-    // Handle layout keywords (simple words like 'flex', 'center')
-    if (attrType === 'layout') {
-      // Simple layout keyword
-      const layoutKeywords = [
-        'flex', 'grid', 'block', 'inline', 'hidden',
-        'row', 'col', 'row-reverse', 'col-reverse',
-        'center', 'start', 'end', 'between', 'around', 'evenly',
-        'wrap', 'nowrap',
-        'absolute', 'relative', 'fixed', 'sticky'
-      ];
-      
-      if (layoutKeywords.includes(raw)) {
-        token.property = raw;
-        token.value = raw;
-        return token;
-      }
-      
-      // Check for responsive layout (e.g., tab:row)
-      const parts = raw.split(':');
-      if (parts.length === 2 && breakpoints.includes(parts[0])) {
-        token.breakpoint = parts[0];
-        token.property = parts[1];
-        token.value = parts[1];
-        return token;
-      }
-    }
-
-    // Handle space and visual attributes with colon syntax
-    const parts = raw.split(':');
-    
-    if (parts.length === 1) {
-      // Single value (shouldn't happen for space/visual, but handle it)
-      token.property = raw;
-      token.value = raw;
-      return token;
-    }
-    
-    let idx = 0;
-    
-    // Check for breakpoint prefix
-    if (breakpoints.includes(parts[0])) {
-      token.breakpoint = parts[0];
-      idx++;
-    }
-    
-    // Check for state prefix
-    if (states.includes(parts[idx])) {
-      token.state = parts[idx];
-      idx++;
-    }
-    
-    // Property
-    if (idx < parts.length) {
-      token.property = parts[idx];
-      idx++;
-    }
-    
-    // Value
-    if (idx < parts.length) {
-      let value = parts.slice(idx).join(':');
-
-      // Check for arbitrary value in brackets
-      const arbitraryMatch = value.match(/^\[(.+)\]$/);
-      if (arbitraryMatch) {
-        token.value = arbitraryMatch[1].replace(/_/g, ' ');
-        token.isArbitrary = true;
-      } else {
-        token.value = value;
-      }
-    }
-
-    return token;
-  }
+// Use shared parseToken from core module
+  // (parseToken is imported from core, using local alias for scoping)
 
   function generateLayoutRule(token) {
     const { property, value, isArbitrary } = token;
@@ -1316,8 +1194,17 @@ function parseToken(raw) {
         if (fontFamilies[value]) {
           return `font-family: ${fontFamilies[value]};`;
         }
-        // Font weight
-        return `font-weight: var(--fw-${value});`;
+        // Font weight with tw- prefix support
+        let cssValue;
+        if (isArbitrary) {
+          cssValue = value;
+        } else if (value.startsWith('tw-')) {
+          const twValue = value.slice(3);
+          cssValue = `var(--tw-font-${twValue})`;
+        } else {
+          cssValue = `var(--fw-${value})`;
+        }
+        return `font-weight: ${cssValue};`;
       },
       'tracking': () => {
         // Letter spacing

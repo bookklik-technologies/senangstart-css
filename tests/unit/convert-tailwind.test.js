@@ -109,8 +109,8 @@ describe('convertClass', () => {
     });
 
     it('should convert font weight classes', () => {
-      assert.deepStrictEqual(convertClass('font-bold'), { category: 'visual', value: 'font:bold' });
-      assert.deepStrictEqual(convertClass('font-medium'), { category: 'visual', value: 'font:medium' });
+      assert.deepStrictEqual(convertClass('font-bold'), { category: 'visual', value: 'font:tw-bold' });
+      assert.deepStrictEqual(convertClass('font-medium'), { category: 'visual', value: 'font:tw-medium' });
     });
 
     it('should convert typography keywords', () => {
