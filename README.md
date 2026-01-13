@@ -28,6 +28,28 @@ senangstart init
 senangstart dev
 ```
 
+## Tailwind CSS Converter
+
+Migrate from Tailwind to SenangStart with the built-in converter:
+
+```bash
+# Convert HTML file
+node scripts/convert-tailwind.js input.html -o output.html
+
+# Convert inline string
+node scripts/convert-tailwind.js --string "<div class='flex p-4 bg-blue-500'>"
+```
+
+**Before (Tailwind):**
+```html
+<div class="flex items-center p-8 bg-blue-500 text-white rounded-lg">
+```
+
+**After (SenangStart):**
+```html
+<div layout="flex items:center" space="p:big" visual="bg:blue-500 text:white rounded:medium">
+```
+
 ## Documentation
 
 Full docs at [bookklik-technologies.github.io/senangstart-css](https://bookklik-technologies.github.io/senangstart-css/)
