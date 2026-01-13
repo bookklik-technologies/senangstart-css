@@ -26,6 +26,44 @@ export const justifyContent = {
   examples: [
     { code: '<div layout="flex justify:center">Centered</div>', description: 'Center items' },
     { code: '<div layout="flex justify:between">Spaced</div>', description: 'Space between' }
+  ],
+  preview: [
+    {
+      title: 'Justify Start',
+      titleMs: 'Jajar Permulaan',
+      description: 'Items aligned to the start of container',
+      descriptionMs: 'Item dijajarkan ke permulaan bekas',
+      html: `<div layout="flex justify:start" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+</div>`,
+      highlightValue: 'justify:start'
+    },
+    {
+      title: 'Justify Center',
+      titleMs: 'Jajar Tengah',
+      description: 'Items centered along the main axis',
+      descriptionMs: 'Item berpusat sepanjang paksi utama',
+      html: `<div layout="flex justify:center" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+</div>`,
+      highlightValue: 'justify:center'
+    },
+    {
+      title: 'Justify Between',
+      titleMs: 'Jajar Antara',
+      description: 'Items with equal space between them',
+      descriptionMs: 'Item dengan ruang sama antara mereka',
+      html: `<div layout="flex justify:between" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+</div>`,
+      highlightValue: 'justify:between'
+    }
   ]
 };
 
@@ -49,6 +87,44 @@ export const alignItems = {
   ],
   examples: [
     { code: '<div layout="flex items:center">Centered</div>', description: 'Center vertically' }
+  ],
+  preview: [
+    {
+      title: 'Items Center',
+      titleMs: 'Item Tengah',
+      description: 'Items centered along cross axis',
+      descriptionMs: 'Item berpusat sepanjang paksi silang',
+      html: `<div layout="flex items:center" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span space="p:small" visual="bg:primary text:white rounded:small">Short</span>
+  <span space="p:large" visual="bg:primary text:white rounded:small">Tall</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">Short</span>
+</div>`,
+      highlightValue: 'items:center'
+    },
+    {
+      title: 'Items Start',
+      titleMs: 'Item Permulaan',
+      description: 'Items aligned to the start of cross axis',
+      descriptionMs: 'Item dijajarkan ke permulaan paksi silang',
+      html: `<div layout="flex items:start" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span space="p:small" visual="bg:primary text:white rounded:small">Short</span>
+  <span space="p:large" visual="bg:primary text:white rounded:small">Tall</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">Short</span>
+</div>`,
+      highlightValue: 'items:start'
+    },
+    {
+      title: 'Items Stretch',
+      titleMs: 'Item Regang',
+      description: 'Items stretched to fill container height',
+      descriptionMs: 'Item diregangkan untuk mengisi ketinggian bekas',
+      html: `<div layout="flex items:stretch" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span layout="flex center" space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span layout="flex center" space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span layout="flex center" space="p:small" visual="bg:primary text:white rounded:small">3</span>
+</div>`,
+      highlightValue: 'items:stretch'
+    }
   ]
 };
 
@@ -73,6 +149,20 @@ export const alignSelf = {
   ],
   examples: [
     { code: '<div layout="self:center">Centered item</div>', description: 'Center single item' }
+  ],
+  preview: [
+    {
+      title: 'Align Self',
+      titleMs: 'Jajar Kendiri',
+      description: 'Override parent alignment for one item',
+      descriptionMs: 'Ganti penjajaran induk untuk satu item',
+      html: `<div layout="flex items:start" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small">Start</span>
+  <span layout="self:center" space="p:small" visual="bg:primary text:white rounded:small">self:center</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small">Start</span>
+</div>`,
+      highlightValue: 'self:center'
+    }
   ]
 };
 
@@ -98,6 +188,34 @@ export const alignContent = {
   ],
   examples: [
     { code: '<div layout="flex wrap content:center">Centered rows</div>', description: 'Center wrapped rows' }
+  ],
+  preview: [
+    {
+      title: 'Content Center',
+      titleMs: 'Kandungan Tengah',
+      description: 'Center wrapped rows in multi-line container',
+      descriptionMs: 'Tengahkan baris bungkus dalam bekas berbilang baris',
+      html: `<div layout="flex wrap content:center" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 150px; max-width: 200px;">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">4</span>
+</div>`,
+      highlightValue: 'content:center'
+    },
+    {
+      title: 'Content Between',
+      titleMs: 'Kandungan Antara',
+      description: 'Space between wrapped rows',
+      descriptionMs: 'Ruang antara baris bungkus',
+      html: `<div layout="flex wrap content:between" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 150px; max-width: 200px;">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">4</span>
+</div>`,
+      highlightValue: 'content:between'
+    }
   ]
 };
 
@@ -122,6 +240,29 @@ export const shorthandAlignment = {
   ],
   examples: [
     { code: '<div layout="flex center">Centered content</div>', description: 'Center on both axes' }
+  ],
+  preview: [
+    {
+      title: 'Center Shorthand',
+      titleMs: 'Pintasan Tengah',
+      description: 'Center items on both axes at once',
+      descriptionMs: 'Tengahkan item pada kedua-dua paksi sekaligus',
+      html: `<div layout="flex center" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span space="p:small" visual="bg:primary text:white rounded:small">Centered</span>
+</div>`,
+      highlightValue: 'center'
+    },
+    {
+      title: 'Between Shorthand',
+      titleMs: 'Pintasan Antara',
+      description: 'Quick space-between layout',
+      descriptionMs: 'Susun atur space-between pantas',
+      html: `<div layout="flex between" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">Left</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">Right</span>
+</div>`,
+      highlightValue: 'between'
+    }
   ]
 };
 
@@ -144,6 +285,20 @@ export const justifyItems = {
   ],
   examples: [
     { code: '<div layout="grid justify-items:center">Centered items</div>', description: 'Center grid items' }
+  ],
+  preview: [
+    {
+      title: 'Justify Items Center',
+      titleMs: 'Jajar Item Tengah',
+      description: 'Center all grid items horizontally within their cells',
+      descriptionMs: 'Tengahkan semua item grid secara mendatar dalam sel mereka',
+      html: `<div layout="grid grid-cols:3 justify-items:center" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+</div>`,
+      highlightValue: 'justify-items:center'
+    }
   ]
 };
 
@@ -167,6 +322,20 @@ export const justifySelf = {
   ],
   examples: [
     { code: '<div layout="justify-self:end">End aligned</div>', description: 'Align item to end' }
+  ],
+  preview: [
+    {
+      title: 'Justify Self',
+      titleMs: 'Jajar Kendiri',
+      description: 'Override horizontal alignment for one grid item',
+      descriptionMs: 'Ganti penjajaran mendatar untuk satu item grid',
+      html: `<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small">Default</span>
+  <span layout="justify-self:center" space="p:small" visual="bg:primary text:white rounded:small">center</span>
+  <span layout="justify-self:end" space="p:small" visual="bg:primary text:white rounded:small">end</span>
+</div>`,
+      highlightValue: 'justify-self:center'
+    }
   ]
 };
 
@@ -192,6 +361,19 @@ export const placeContent = {
   ],
   examples: [
     { code: '<div layout="grid place-content:center">Centered content</div>', description: 'Center both axes' }
+  ],
+  preview: [
+    {
+      title: 'Place Content Center',
+      titleMs: 'Letakkan Kandungan Tengah',
+      description: 'Center entire grid content in both directions',
+      descriptionMs: 'Tengahkan keseluruhan kandungan grid dalam kedua-dua arah',
+      html: `<div layout="grid grid-cols:2 place-content:center" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 120px;">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+</div>`,
+      highlightValue: 'place-content:center'
+    }
   ]
 };
 
@@ -214,6 +396,20 @@ export const placeItems = {
   ],
   examples: [
     { code: '<div layout="grid place-items:center">Centered items</div>', description: 'Center all items' }
+  ],
+  preview: [
+    {
+      title: 'Place Items Center',
+      titleMs: 'Letakkan Item Tengah',
+      description: 'Center all items within their grid cells',
+      descriptionMs: 'Tengahkan semua item dalam sel grid mereka',
+      html: `<div layout="grid grid-cols:3 place-items:center" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span space="p:small" visual="bg:primary text:white rounded:small">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">3</span>
+</div>`,
+      highlightValue: 'place-items:center'
+    }
   ]
 };
 
@@ -237,6 +433,20 @@ export const placeSelf = {
   ],
   examples: [
     { code: '<div layout="place-self:center">Centered item</div>', description: 'Center single item' }
+  ],
+  preview: [
+    {
+      title: 'Place Self Center',
+      titleMs: 'Letakkan Kendiri Tengah',
+      description: 'Center one item in both directions within its cell',
+      descriptionMs: 'Tengahkan satu item dalam kedua-dua arah dalam selnya',
+      html: `<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small">Default</span>
+  <span layout="place-self:center" space="p:small" visual="bg:primary text:white rounded:small">center</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small">Default</span>
+</div>`,
+      highlightValue: 'place-self:center'
+    }
   ]
 };
 

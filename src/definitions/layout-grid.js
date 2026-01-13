@@ -23,6 +23,36 @@ export const gridColumns = {
   examples: [
     { code: '<div layout="grid grid-cols:3">3 columns</div>', description: 'Three column grid' },
     { code: '<div layout="grid grid-cols:12">12 columns</div>', description: 'Twelve column grid' }
+  ],
+  preview: [
+    {
+      title: '3 Column Grid',
+      titleMs: 'Grid 3 Lajur',
+      description: 'Equal width columns with grid-cols:3',
+      descriptionMs: 'Lajur lebar sama dengan grid-cols:3',
+      html: `<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">4</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">5</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">6</span>
+</div>`,
+      highlightValue: 'grid-cols:3'
+    },
+    {
+      title: '4 Column Grid',
+      titleMs: 'Grid 4 Lajur',
+      description: 'Four equal columns layout',
+      descriptionMs: 'Susun atur empat lajur sama',
+      html: `<div layout="grid grid-cols:4" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">4</span>
+</div>`,
+      highlightValue: 'grid-cols:4'
+    }
   ]
 };
 
@@ -45,6 +75,23 @@ export const gridRows = {
   ],
   examples: [
     { code: '<div layout="grid grid-rows:3">3 rows</div>', description: 'Three row grid' }
+  ],
+  preview: [
+    {
+      title: 'Grid Rows',
+      titleMs: 'Baris Grid',
+      description: 'Define explicit row tracks in a grid',
+      descriptionMs: 'Tentukan trek baris eksplisit dalam grid',
+      html: `<div layout="grid grid-rows:3 grid-cols:2" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">4</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">5</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">6</span>
+</div>`,
+      highlightValue: 'grid-rows:3'
+    }
   ]
 };
 
@@ -67,6 +114,35 @@ export const gridColSpan = {
   examples: [
     { code: '<div layout="col-span:2">Spans 2 columns</div>', description: 'Span two columns' },
     { code: '<div layout="col-span:full">Full width</div>', description: 'Span all columns' }
+  ],
+  preview: [
+    {
+      title: 'Column Span',
+      titleMs: 'Rentang Lajur',
+      description: 'Item spanning multiple columns',
+      descriptionMs: 'Item merentangi berbilang lajur',
+      html: `<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span layout="col-span:2" space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">col-span:2</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
+</div>`,
+      highlightValue: 'col-span:2'
+    },
+    {
+      title: 'Full Width Span',
+      titleMs: 'Rentang Lebar Penuh',
+      description: 'Item spanning all columns',
+      descriptionMs: 'Item merentangi semua lajur',
+      html: `<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">3</span>
+  <span layout="col-span:full" space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">col-span:full</span>
+</div>`,
+      highlightValue: 'col-span:full'
+    }
   ]
 };
 
@@ -88,6 +164,22 @@ export const gridRowSpan = {
   ],
   examples: [
     { code: '<div layout="row-span:2">Spans 2 rows</div>', description: 'Span two rows' }
+  ],
+  preview: [
+    {
+      title: 'Row Span',
+      titleMs: 'Rentang Baris',
+      description: 'Item spanning multiple rows',
+      descriptionMs: 'Item merentangi berbilang baris',
+      html: `<div layout="grid grid-cols:3 grid-rows:2" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span layout="row-span:2 flex center" space="p:small" visual="bg:primary text:white rounded:small">row-span:2</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">4</span>
+</div>`,
+      highlightValue: 'row-span:2'
+    }
   ]
 };
 
@@ -111,6 +203,34 @@ export const gridAutoFlow = {
   ],
   examples: [
     { code: '<div layout="grid grid-flow:col">Column flow</div>', description: 'Column-based flow' }
+  ],
+  preview: [
+    {
+      title: 'Row Flow',
+      titleMs: 'Aliran Baris',
+      description: 'Items flow by row (default)',
+      descriptionMs: 'Item mengalir mengikut baris (lalai)',
+      html: `<div layout="grid grid-cols:3 grid-flow:row" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">4</span>
+</div>`,
+      highlightValue: 'grid-flow:row'
+    },
+    {
+      title: 'Column Flow',
+      titleMs: 'Aliran Lajur',
+      description: 'Items flow by column',
+      descriptionMs: 'Item mengalir mengikut lajur',
+      html: `<div layout="grid grid-rows:2 grid-flow:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">4</span>
+</div>`,
+      highlightValue: 'grid-flow:col'
+    }
   ]
 };
 
@@ -134,6 +254,20 @@ export const gridAutoSizing = {
   ],
   examples: [
     { code: '<div layout="grid auto-cols:min">Auto min columns</div>', description: 'Min-content columns' }
+  ],
+  preview: [
+    {
+      title: 'Auto Columns',
+      titleMs: 'Lajur Automatik',
+      description: 'Automatically sized column tracks',
+      descriptionMs: 'Trek lajur bersaiz automatik',
+      html: `<div layout="grid grid-flow:col auto-cols:fr" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">Auto 1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">Auto 2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">Auto 3</span>
+</div>`,
+      highlightValue: 'auto-cols:fr'
+    }
   ]
 };
 

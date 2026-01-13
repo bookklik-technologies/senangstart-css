@@ -24,6 +24,29 @@ export const position = {
   examples: [
     { code: '<div layout="absolute">Absolute positioned</div>', description: 'Absolute position' },
     { code: '<div layout="fixed">Fixed to viewport</div>', description: 'Fixed position' }
+  ],
+  preview: [
+    {
+      title: 'Relative Position',
+      titleMs: 'Kedudukan Relatif',
+      description: 'Element positioned relative to normal flow',
+      descriptionMs: 'Elemen diletakkan relatif kepada aliran normal',
+      html: `<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">Relative Container</span>
+  <span layout="absolute" style="top: 0; right: 0;" space="p:tiny" visual="bg:danger text:white rounded:small">Abs</span>
+</div>`,
+      highlightValue: 'relative'
+    },
+    {
+      title: 'Sticky Position',
+      titleMs: 'Kedudukan Melekit',
+      description: 'Element sticks when scrolling past it',
+      descriptionMs: 'Elemen melekat apabila skrol melepasi',
+      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span layout="sticky" style="top: 0;" space="p:small" visual="bg:primary text:white rounded:small">Sticky Header</span>
+</div>`,
+      highlightValue: 'sticky'
+    }
   ]
 };
 
@@ -52,6 +75,32 @@ export const inset = {
   examples: [
     { code: '<div layout="absolute inset:0">Full coverage</div>', description: 'Cover parent' },
     { code: '<div layout="absolute top:medium left:medium">Offset</div>', description: 'Offset positioning' }
+  ],
+  preview: [
+    {
+      title: 'Inset Zero',
+      titleMs: 'Inset Sifar',
+      description: 'Cover entire parent with inset:0',
+      descriptionMs: 'Tutup keseluruhan induk dengan inset:0',
+      html: `<div layout="relative" space="p:large" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 100px;">
+  <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small">Parent</span>
+  <span layout="absolute inset:0 flex center" visual="bg:primary/50 text:white rounded:medium">inset:0</span>
+</div>`,
+      highlightValue: 'inset:0'
+    },
+    {
+      title: 'Directional Insets',
+      titleMs: 'Inset Arah',
+      description: 'Position with top, right, bottom, left',
+      descriptionMs: 'Kedudukan dengan atas, kanan, bawah, kiri',
+      html: `<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
+  <span layout="absolute top:0 left:0" space="p:tiny" visual="bg:primary text:white rounded:small">TL</span>
+  <span layout="absolute top:0 right:0" space="p:tiny" visual="bg:primary text:white rounded:small">TR</span>
+  <span layout="absolute bottom:0 left:0" space="p:tiny" visual="bg:primary text:white rounded:small">BL</span>
+  <span layout="absolute bottom:0 right:0" space="p:tiny" visual="bg:primary text:white rounded:small">BR</span>
+</div>`,
+      highlightValue: 'top:0'
+    }
   ]
 };
 
@@ -76,6 +125,21 @@ export const zIndex = {
   ],
   examples: [
     { code: '<div layout="z:top">On top</div>', description: 'Highest z-index' }
+  ],
+  preview: [
+    {
+      title: 'Z-Index Layers',
+      titleMs: 'Lapisan Z-Index',
+      description: 'Control stacking order of positioned elements',
+      descriptionMs: 'Kawal susunan tindanan elemen yang diletakkan',
+      html: `<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
+  <span layout="absolute z:base" style="left: 0; top: 10px;" space="p:small" visual="bg:neutral-400 text:white rounded:small">z:base</span>
+  <span layout="absolute z:low" style="left: 30px; top: 20px;" space="p:small" visual="bg:neutral-500 text:white rounded:small">z:low</span>
+  <span layout="absolute z:mid" style="left: 60px; top: 30px;" space="p:small" visual="bg:neutral-600 text:white rounded:small">z:mid</span>
+  <span layout="absolute z:high" style="left: 90px; top: 40px;" space="p:small" visual="bg:primary text:white rounded:small">z:high</span>
+</div>`,
+      highlightValue: 'z:high'
+    }
   ]
 };
 

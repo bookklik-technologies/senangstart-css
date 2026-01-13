@@ -20,6 +20,20 @@ export const visibility = {
   ],
   examples: [
     { code: '<div layout="invisible">Invisible but present</div>', description: 'Hide visually' }
+  ],
+  preview: [
+    {
+      title: 'Visible vs Invisible',
+      titleMs: 'Kelihatan vs Tidak Kelihatan',
+      description: 'Invisible elements still take up space',
+      descriptionMs: 'Elemen tidak kelihatan masih mengambil ruang',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">Visible</span>
+  <span layout="invisible" space="p:small" visual="bg:neutral-300 rounded:small">Invisible</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">Visible</span>
+</div>`,
+      highlightValue: 'invisible'
+    }
   ]
 };
 
@@ -44,6 +58,28 @@ export const overflow = {
   examples: [
     { code: '<div layout="overflow:hidden">Clipped content</div>', description: 'Hide overflow' },
     { code: '<div layout="overflow:auto">Scrollable</div>', description: 'Auto scrollbar' }
+  ],
+  preview: [
+    {
+      title: 'Overflow Hidden',
+      titleMs: 'Limpahan Tersembunyi',
+      description: 'Content clipped at container edge',
+      descriptionMs: 'Kandungan dipotong di tepi bekas',
+      html: `<div layout="overflow:hidden" space="p:small" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 60px; width: 150px;">
+  <p visual="text:neutral-800 dark:text:neutral-200">This is a long text that will be clipped because overflow is hidden.</p>
+</div>`,
+      highlightValue: 'overflow:hidden'
+    },
+    {
+      title: 'Overflow Auto',
+      titleMs: 'Limpahan Auto',
+      description: 'Scrollbar appears when content overflows',
+      descriptionMs: 'Bar skrol muncul apabila kandungan melimpah',
+      html: `<div layout="overflow:auto" space="p:small" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 60px; width: 150px;">
+  <p visual="text:neutral-800 dark:text:neutral-200">This is a long text that will show a scrollbar because overflow is auto.</p>
+</div>`,
+      highlightValue: 'overflow:auto'
+    }
   ]
 };
 
@@ -64,6 +100,18 @@ export const boxSizing = {
   ],
   examples: [
     { code: '<div layout="box:border">Border box</div>', description: 'Include border in width' }
+  ],
+  preview: [
+    {
+      title: 'Border Box',
+      titleMs: 'Kotak Sempadan',
+      description: 'Padding and border included in width',
+      descriptionMs: 'Padding dan sempadan termasuk dalam lebar',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="box:border" space="p:medium" visual="bg:primary text:white border:4 border:white rounded:small" style="width: 100px;">box:border<br>100px</div>
+</div>`,
+      highlightValue: 'box:border'
+    }
   ]
 };
 
@@ -86,6 +134,19 @@ export const floatClear = {
   examples: [
     { code: '<img layout="float:left">Float left</img>', description: 'Float image left' },
     { code: '<div layout="clear:both">Clear floats</div>', description: 'Clear all floats' }
+  ],
+  preview: [
+    {
+      title: 'Float Left',
+      titleMs: 'Apung Kiri',
+      description: 'Element floats to the left of content',
+      descriptionMs: 'Elemen mengapung ke kiri kandungan',
+      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="float:left" space="p:small m-r:small m-b:small" visual="bg:primary text:white rounded:small">Float</div>
+  <p visual="text:neutral-800 dark:text:neutral-200">Text wraps around the floated element naturally.</p>
+</div>`,
+      highlightValue: 'float:left'
+    }
   ]
 };
 
@@ -109,6 +170,19 @@ export const aspectRatio = {
   examples: [
     { code: '<div layout="aspect:square">Square</div>', description: 'Square aspect ratio' },
     { code: '<div layout="aspect:[4/3]">4:3</div>', description: 'Custom ratio' }
+  ],
+  preview: [
+    {
+      title: 'Aspect Ratio Square',
+      titleMs: 'Nisbah Aspek Segi Empat',
+      description: '1:1 aspect ratio',
+      descriptionMs: 'Nisbah aspek 1:1',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="aspect:square flex center" visual="bg:primary text:white rounded:small" style="width: 80px;">1:1</div>
+  <div layout="aspect:video flex center" visual="bg:primary text:white rounded:small" style="width: 80px;">16:9</div>
+</div>`,
+      highlightValue: 'aspect:square'
+    }
   ]
 };
 
@@ -132,6 +206,34 @@ export const objectFit = {
   ],
   examples: [
     { code: '<img layout="object:cover">Cover image</img>', description: 'Cover fit' }
+  ],
+  preview: [
+    {
+      title: 'Object Fit Cover',
+      titleMs: 'Objek Muat Tutup',
+      description: 'Image covers container, may crop',
+      descriptionMs: 'Imej menutup bekas, mungkin dipotong',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div style="width: 80px; height: 60px;" visual="bg:neutral-300 rounded:small" layout="overflow:hidden">
+    <div layout="object:cover" style="width: 100%; height: 100%;" visual="bg:primary"></div>
+  </div>
+  <span layout="flex center" visual="text:neutral-600 dark:text:neutral-400">object:cover</span>
+</div>`,
+      highlightValue: 'object:cover'
+    },
+    {
+      title: 'Object Fit Contain',
+      titleMs: 'Objek Muat Kandung',
+      description: 'Image fits inside, preserves ratio',
+      descriptionMs: 'Imej muat di dalam, kekalkan nisbah',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div style="width: 80px; height: 60px;" visual="bg:neutral-300 rounded:small" layout="flex center">
+    <div layout="object:contain" style="width: 60%; height: 60%;" visual="bg:primary rounded:small"></div>
+  </div>
+  <span layout="flex center" visual="text:neutral-600 dark:text:neutral-400">object:contain</span>
+</div>`,
+      highlightValue: 'object:contain'
+    }
   ]
 };
 
@@ -160,6 +262,20 @@ export const objectPosition = {
   ],
   examples: [
     { code: '<img layout="object:cover object-pos:top">Top positioned</img>', description: 'Top position' }
+  ],
+  preview: [
+    {
+      title: 'Object Position',
+      titleMs: 'Kedudukan Objek',
+      description: 'Control where media is positioned within container',
+      descriptionMs: 'Kawal di mana media diletakkan dalam bekas',
+      html: `<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div style="height: 50px;" visual="bg:neutral-300 rounded:small" layout="flex items:start justify:center"><span space="p:tiny" visual="bg:primary text:white rounded:small">top</span></div>
+  <div style="height: 50px;" visual="bg:neutral-300 rounded:small" layout="flex center"><span space="p:tiny" visual="bg:primary text:white rounded:small">center</span></div>
+  <div style="height: 50px;" visual="bg:neutral-300 rounded:small" layout="flex items:end justify:center"><span space="p:tiny" visual="bg:primary text:white rounded:small">bottom</span></div>
+</div>`,
+      highlightValue: 'object-pos:center'
+    }
   ]
 };
 
@@ -179,6 +295,18 @@ export const container = {
   ],
   examples: [
     { code: '<div layout="container">Centered content</div>', description: 'Container' }
+  ],
+  preview: [
+    {
+      title: 'Container',
+      titleMs: 'Bekas',
+      description: 'Centered container with max-width',
+      descriptionMs: 'Bekas berpusat dengan lebar maksimum',
+      html: `<div visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" space="p:small">
+  <div layout="container" space="p:medium" visual="bg:primary text:white rounded:small" layout="text:center">Centered Container</div>
+</div>`,
+      highlightValue: 'container'
+    }
   ]
 };
 
@@ -199,6 +327,18 @@ export const isolation = {
   ],
   examples: [
     { code: '<div layout="isolation:isolate">Isolated</div>', description: 'Create stacking context' }
+  ],
+  preview: [
+    {
+      title: 'Isolation',
+      titleMs: 'Pengasingan',
+      description: 'Create new stacking context',
+      descriptionMs: 'Cipta konteks tindanan baharu',
+      html: `<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="isolation:isolate" space="p:small" visual="bg:primary text:white rounded:small">isolation:isolate</div>
+</div>`,
+      highlightValue: 'isolation:isolate'
+    }
   ]
 };
 
@@ -220,6 +360,18 @@ export const overscroll = {
   ],
   examples: [
     { code: '<div layout="overscroll:contain">Contained scroll</div>', description: 'Prevent scroll chaining' }
+  ],
+  preview: [
+    {
+      title: 'Overscroll Contain',
+      titleMs: 'Kandungan Overscroll',
+      description: 'Prevent scroll from affecting parent',
+      descriptionMs: 'Halang skrol daripada mempengaruhi induk',
+      html: `<div layout="overscroll:contain overflow:auto" space="p:small" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 60px;">
+  <p visual="text:neutral-800 dark:text:neutral-200">Scroll here won't chain to parent. Content continues for demo purposes to show scrolling behavior.</p>
+</div>`,
+      highlightValue: 'overscroll:contain'
+    }
   ]
 };
 
@@ -241,6 +393,18 @@ export const columns = {
   ],
   examples: [
     { code: '<div layout="cols:3">Three columns</div>', description: 'Three column text' }
+  ],
+  preview: [
+    {
+      title: 'Multi-Column Layout',
+      titleMs: 'Susun Atur Berbilang Lajur',
+      description: 'Text flows into multiple columns',
+      descriptionMs: 'Teks mengalir ke berbilang lajur',
+      html: `<div layout="cols:2" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <p visual="text:neutral-800 dark:text:neutral-200">This text will automatically flow into two columns. Great for newspaper-style layouts and improving readability of long text content.</p>
+</div>`,
+      highlightValue: 'cols:2'
+    }
   ]
 };
 
