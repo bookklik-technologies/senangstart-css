@@ -19,12 +19,3 @@ visual="scroll-behavior:[value]"
 ```html
 <html visual="scroll-behavior:smooth">Smooth scrolling</html>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

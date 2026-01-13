@@ -25,12 +25,3 @@ visual="touch:[value]"
 ```html
 <div visual="touch:manipulation">Touch optimized</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

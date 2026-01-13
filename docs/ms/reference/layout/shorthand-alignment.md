@@ -23,12 +23,3 @@ layout="[alignment]"
 ```html
 <div layout="flex center">Centered content</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

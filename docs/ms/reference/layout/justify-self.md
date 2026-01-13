@@ -22,12 +22,3 @@ layout="justify-self:[value]"
 ```html
 <div layout="justify-self:end">End aligned</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

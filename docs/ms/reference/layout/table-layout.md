@@ -19,12 +19,3 @@ layout="table:[value]"
 ```html
 <table layout="table:fixed">Fixed width columns</table>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

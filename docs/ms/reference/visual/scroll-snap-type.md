@@ -23,12 +23,3 @@ visual="snap-type:[value]"
 ```html
 <div visual="snap-type:x">Horizontal snap container</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

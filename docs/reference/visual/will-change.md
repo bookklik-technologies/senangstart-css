@@ -22,12 +22,3 @@ visual="will-change:[value]"
 ```html
 <div visual="will-change:transform">Optimized for animation</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

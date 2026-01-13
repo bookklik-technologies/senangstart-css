@@ -32,12 +32,3 @@ visual="rounded:[value]"
 > Gunakan awalan `tw-` untuk mengakses skala jejari Tailwind: `rounded:tw-lg` (0.5rem), `rounded:tw-2xl` (1rem)
 > 
 > [Rujukan](https://tailwindcss.com/docs/border-radius)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

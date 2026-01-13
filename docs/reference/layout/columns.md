@@ -19,12 +19,3 @@ layout="cols:[value]"
 ```html
 <div layout="cols:3">Three columns</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

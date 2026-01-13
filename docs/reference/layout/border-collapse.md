@@ -19,12 +19,3 @@ layout="border:[value]"
 ```html
 <table layout="border:collapse">Collapsed table</table>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

@@ -22,12 +22,3 @@ layout="items:[value]"
 ```html
 <div layout="flex items:center">Centered</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

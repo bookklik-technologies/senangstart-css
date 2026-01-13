@@ -19,12 +19,3 @@ layout="isolation:[value]"
 ```html
 <div layout="isolation:isolate">Isolated</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

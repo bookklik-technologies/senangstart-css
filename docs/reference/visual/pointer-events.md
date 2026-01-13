@@ -19,12 +19,3 @@ visual="pointer-events:[value]"
 ```html
 <div visual="pointer-events:none">Click through</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

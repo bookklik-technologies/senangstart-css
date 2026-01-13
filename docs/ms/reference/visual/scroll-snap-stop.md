@@ -19,12 +19,3 @@ visual="snap-stop:[value]"
 ```html
 <div visual="snap-stop:always">Always stop here</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

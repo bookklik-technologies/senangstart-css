@@ -20,12 +20,3 @@ visual="bg-attachment:[value]"
 ```html
 <div visual="bg-attachment:fixed">Parallax effect</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

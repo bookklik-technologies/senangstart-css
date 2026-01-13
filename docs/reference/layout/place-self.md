@@ -22,12 +22,3 @@ layout="place-self:[value]"
 ```html
 <div layout="place-self:center">Centered item</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

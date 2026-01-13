@@ -47,12 +47,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 > Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `m:tw-4` (1rem), `m-t:tw-8` (2rem)
 > 
 > [Rujukan](https://tailwindcss.com/docs/margin)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div space="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

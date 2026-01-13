@@ -23,12 +23,3 @@ visual="bg-repeat:[value]"
 ```html
 <div visual="bg-repeat:no-repeat">Single background</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

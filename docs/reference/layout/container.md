@@ -18,12 +18,3 @@ layout="container"
 ```html
 <div layout="container">Centered content</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

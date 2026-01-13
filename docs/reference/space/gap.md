@@ -42,12 +42,3 @@ Supports custom values using bracket syntax:
 > Use `tw-` prefix to access Tailwind numeric scale: `g:tw-4` (1rem), `g:tw-8` (2rem)
 > 
 > [Reference](https://tailwindcss.com/docs/gap)
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div space="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

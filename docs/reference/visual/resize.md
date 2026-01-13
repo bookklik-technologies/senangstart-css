@@ -21,12 +21,3 @@ visual="resize:[value]"
 ```html
 <textarea visual="resize:y">Vertical resize only</textarea>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

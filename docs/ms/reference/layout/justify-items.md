@@ -21,12 +21,3 @@ layout="justify-items:[value]"
 ```html
 <div layout="grid justify-items:center">Centered items</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

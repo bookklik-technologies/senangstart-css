@@ -26,12 +26,3 @@ visual="hover:... focus:... active:..."
 ```html
 <button visual="hover:bg:primary focus:outline:primary">Interactive button</button>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

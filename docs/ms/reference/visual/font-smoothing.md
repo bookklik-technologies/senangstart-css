@@ -19,12 +19,3 @@ visual="[smoothing-value]"
 ```html
 <body visual="antialiased">Smooth fonts</body>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

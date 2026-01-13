@@ -21,12 +21,3 @@ layout="float:[value]" or layout="clear:[value]"
 <img layout="float:left">Float left</img>
 <div layout="clear:both">Clear floats</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

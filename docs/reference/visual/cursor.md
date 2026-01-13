@@ -26,12 +26,3 @@ visual="cursor:[value]"
 ```html
 <button visual="cursor:pointer">Clickable</button>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

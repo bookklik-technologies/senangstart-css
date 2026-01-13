@@ -30,12 +30,3 @@ visual="font:[weight]"
 > Use `tw-` prefix to access Tailwind font weight scale: `font:tw-thin` (100), `font:tw-semibold` (600), `font:tw-extrabold` (800)
 > 
 > [Reference](https://tailwindcss.com/docs/font-weight)
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

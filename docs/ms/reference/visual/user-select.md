@@ -21,12 +21,3 @@ visual="select:[value]"
 ```html
 <div visual="select:none">Cannot select this text</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

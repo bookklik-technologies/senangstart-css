@@ -20,12 +20,3 @@ visual="hyphens:[value]"
 ```html
 <p visual="hyphens:auto">Automatic hyphenation</p>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

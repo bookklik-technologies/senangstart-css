@@ -29,16 +29,34 @@ layout="[display-value]"
 
 ## Pratonton
 
+### Bekas Flexbox
+
 <div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="flex"</code> - Item disusun secara mendatar</p>
 <div layout="flex row" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span space="p:small" visual="bg:primary text:white rounded:small">Item 1</span>
   <span space="p:small" visual="bg:primary text:white rounded:small">Item 2</span>
   <span space="p:small" visual="bg:primary text:white rounded:small">Item 3</span>
 </div>
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="flex"</code> - Item disusun secara mendatar</p>
 </div>
 
-<div layout="flex col" space="g:medium m-t:large">
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div layout="flex row" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small">Item 1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">Item 2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small">Item 3</span>
+</div>
+```
+
+</details>
+
+### Bekas Grid
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="grid"</code> - Item dalam susun atur grid</p>
 <div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
   <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
@@ -47,14 +65,20 @@ layout="[display-value]"
   <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">5</span>
   <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">6</span>
 </div>
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="grid"</code> - Item dalam susun atur grid</p>
 </div>
 
-## Responsif
+<details>
+<summary>Lihat Kod</summary>
 
 ```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
+<div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">1</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">2</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">3</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">4</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">5</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">6</span>
 </div>
 ```
+
+</details>

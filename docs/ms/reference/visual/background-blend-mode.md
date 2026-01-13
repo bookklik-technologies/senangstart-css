@@ -23,12 +23,3 @@ visual="bg-blend:[value]"
 ```html
 <div visual="bg-blend:multiply">Multiplied background</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

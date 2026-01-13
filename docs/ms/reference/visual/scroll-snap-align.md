@@ -21,12 +21,3 @@ visual="snap-align:[value]"
 ```html
 <div visual="snap-align:start">Snap to start</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

@@ -21,12 +21,3 @@ visual="animation-direction:[value]"
 ```html
 <div visual="animate:bounce animation-direction:alternate">Alternating</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

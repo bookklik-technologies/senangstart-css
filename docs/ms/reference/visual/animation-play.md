@@ -19,12 +19,3 @@ visual="animation-play:[value]"
 ```html
 <div visual="animate:spin hover:animation-play:paused">Pause on hover</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

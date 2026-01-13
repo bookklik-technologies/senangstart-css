@@ -20,12 +20,3 @@ layout="col-span:[value]"
 <div layout="col-span:2">Spans 2 columns</div>
 <div layout="col-span:full">Full width</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

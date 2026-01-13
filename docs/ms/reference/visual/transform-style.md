@@ -19,12 +19,3 @@ visual="transform-style:[value]"
 ```html
 <div visual="transform-style:preserve-3d">3D space</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

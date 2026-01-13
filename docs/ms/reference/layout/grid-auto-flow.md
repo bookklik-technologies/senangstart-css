@@ -22,12 +22,3 @@ layout="grid-flow:[value]"
 ```html
 <div layout="grid grid-flow:col">Column flow</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

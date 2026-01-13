@@ -113,16 +113,35 @@ function generateMarkdown(definition, locale = 'en') {
     
     for (let i = 0; i < definition.preview.length; i++) {
       const p = definition.preview[i];
-      const marginTop = i > 0 ? ' m-t:large' : '';
+      const title = isMs ? (p.titleMs || p.title) : p.title;
       
-      lines.push(`<div layout="flex col" space="g:medium${marginTop}">`);
-      lines.push(p.html);
+      // Title for this preview
+      if (title) {
+        lines.push(`### ${title}`);
+        lines.push('');
+      }
       
-      // Description with highlighted code
+      // Live preview
+      lines.push(`<div layout="flex col" space="g:medium">`);
+      
+      // Description with highlighted code (above the preview)
       const desc = isMs ? p.descriptionMs : p.description;
       const highlightCode = p.highlightValue ? `<code>${definition.property}="${p.highlightValue}"</code>` : '';
       lines.push(`  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm">${highlightCode}${highlightCode && desc ? ' - ' : ''}${desc}</p>`);
+      
+      lines.push(p.html);
       lines.push('</div>');
+      lines.push('');
+      
+      // Code block showing the HTML used (collapsible)
+      lines.push('<details>');
+      lines.push(`<summary>${isMs ? 'Lihat Kod' : 'View Code'}</summary>`);
+      lines.push('');
+      lines.push('```html');
+      lines.push(p.html);
+      lines.push('```');
+      lines.push('');
+      lines.push('</details>');
       lines.push('');
     }
   }
@@ -164,18 +183,18 @@ function generateMarkdown(definition, locale = 'en') {
   }
   
   // Responsive
-  lines.push(isMs ? '## Responsif' : '## Responsive');
-  lines.push('');
-  lines.push('```html');
-  if (definition.examples && definition.examples[0]) {
-    const baseExample = definition.examples[0].code;
-    lines.push(`<!-- ${isMs ? 'Contoh responsif' : 'Responsive example'} -->`);
-    lines.push(`<div ${definition.property}="mob:... tab:... lap:...">`);
-    lines.push(`  ${isMs ? 'Kandungan responsif' : 'Responsive content'}`);
-    lines.push('</div>');
-  }
-  lines.push('```');
-  lines.push('');
+  // lines.push(isMs ? '## Responsif' : '## Responsive');
+  // lines.push('');
+  // lines.push('```html');
+  // if (definition.examples && definition.examples[0]) {
+  //   const baseExample = definition.examples[0].code;
+  //   lines.push(`<!-- ${isMs ? 'Contoh responsif' : 'Responsive example'} -->`);
+  //   lines.push(`<div ${definition.property}="mob:... tab:... lap:...">`);
+  //   lines.push(`  ${isMs ? 'Kandungan responsif' : 'Responsive content'}`);
+  //   lines.push('</div>');
+  // }
+  // lines.push('```');
+  // lines.push('');
   
   return lines.join('\n');
 }

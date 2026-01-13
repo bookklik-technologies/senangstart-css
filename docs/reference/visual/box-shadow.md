@@ -31,12 +31,3 @@ visual="shadow:[value]"
 > Use `tw-` prefix to access Tailwind shadow scale: `shadow:tw-md`, `shadow:tw-lg`, `shadow:tw-xl`
 > 
 > [Reference](https://tailwindcss.com/docs/box-shadow)
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

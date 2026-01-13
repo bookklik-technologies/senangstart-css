@@ -27,12 +27,3 @@ Supports custom values using bracket syntax:
 ```html
 <div visual="fill:[custom-value]">Custom</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

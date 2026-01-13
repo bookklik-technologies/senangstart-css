@@ -34,12 +34,3 @@ Supports custom values using bracket syntax:
 ```html
 <div layout="object:[custom-value]">Custom</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

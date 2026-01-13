@@ -70,12 +70,3 @@ visual="[keyword]"
 <span visual="uppercase">Uppercase</span>
 <span visual="truncate">Truncated text...</span>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

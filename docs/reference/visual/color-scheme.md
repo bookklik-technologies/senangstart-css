@@ -20,12 +20,3 @@ visual="color-scheme:[value]"
 ```html
 <html visual="color-scheme:dark">Dark mode</html>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

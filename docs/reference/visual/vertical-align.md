@@ -25,12 +25,3 @@ visual="align:[value]"
 ```html
 <img visual="align:middle">Vertically centered</img>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

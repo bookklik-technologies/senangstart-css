@@ -33,12 +33,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 ```html
 <div layout="inset:[custom-value]">Custom</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

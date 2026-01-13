@@ -22,12 +22,3 @@ layout="[direction]"
 <div layout="flex row">Row direction</div>
 <div layout="flex col">Column direction</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

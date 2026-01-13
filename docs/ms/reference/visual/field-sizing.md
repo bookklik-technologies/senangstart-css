@@ -19,12 +19,3 @@ visual="field-sizing:[value]"
 ```html
 <textarea visual="field-sizing:content">Auto-grow textarea</textarea>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

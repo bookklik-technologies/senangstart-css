@@ -24,12 +24,3 @@ layout="content:[value]"
 ```html
 <div layout="flex wrap content:center">Centered rows</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

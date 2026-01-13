@@ -23,12 +23,3 @@ visual="list:[value]"
 ```html
 <ul visual="list:none">No bullets</ul>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

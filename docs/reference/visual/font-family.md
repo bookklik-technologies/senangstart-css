@@ -20,12 +20,3 @@ visual="font:[family]"
 ```html
 <div visual="font:mono">Monospace text</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

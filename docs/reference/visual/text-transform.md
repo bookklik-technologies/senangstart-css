@@ -21,12 +21,3 @@ visual="[transform-value]"
 ```html
 <span visual="uppercase">Uppercase text</span>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

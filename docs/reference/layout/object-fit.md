@@ -22,12 +22,3 @@ layout="object:[value]"
 ```html
 <img layout="object:cover">Cover image</img>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

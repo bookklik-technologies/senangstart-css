@@ -21,12 +21,3 @@ visual="text:[alignment]"
 ```html
 <p visual="text:center">Centered text</p>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

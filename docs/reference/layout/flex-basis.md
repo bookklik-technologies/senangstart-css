@@ -27,12 +27,3 @@ Supports custom values using bracket syntax:
 ```html
 <div layout="flex:[custom-value]">Custom</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

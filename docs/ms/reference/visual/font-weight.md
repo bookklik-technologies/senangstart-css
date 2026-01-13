@@ -30,12 +30,3 @@ visual="font:[weight]"
 > Gunakan awalan `tw-` untuk mengakses skala berat fon Tailwind: `font:tw-thin` (100), `font:tw-semibold` (600), `font:tw-extrabold` (800)
 > 
 > [Rujukan](https://tailwindcss.com/docs/font-weight)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

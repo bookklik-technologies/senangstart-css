@@ -19,12 +19,3 @@ visual="forced-color:[value]"
 ```html
 <div visual="forced-color:none">Preserve colors in high contrast</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

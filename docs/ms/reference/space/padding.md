@@ -47,12 +47,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 > Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `p:tw-4` (1rem), `p:tw-8` (2rem)
 > 
 > [Rujukan](https://tailwindcss.com/docs/padding)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div space="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

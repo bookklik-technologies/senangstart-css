@@ -19,12 +19,3 @@ layout="table:[value]"
 ```html
 <table layout="table:fixed">Fixed width columns</table>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

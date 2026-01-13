@@ -19,12 +19,3 @@ layout="row-span:[value]"
 ```html
 <div layout="row-span:2">Spans 2 rows</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

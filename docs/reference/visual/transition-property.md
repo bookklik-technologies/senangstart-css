@@ -23,12 +23,3 @@ visual="transition:[value]"
 ```html
 <button visual="transition:all hover:bg:primary">Smooth hover</button>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

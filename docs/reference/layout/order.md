@@ -21,12 +21,3 @@ layout="order:[value]"
 ```html
 <div layout="order:first">First item</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

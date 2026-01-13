@@ -23,12 +23,3 @@ layout="overflow:[value]"
 <div layout="overflow:hidden">Clipped content</div>
 <div layout="overflow:auto">Scrollable</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

@@ -22,12 +22,3 @@ visual="opacity:[value]"
 ```html
 <div visual="opacity:50">Half visible</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

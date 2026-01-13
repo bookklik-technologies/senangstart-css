@@ -31,12 +31,3 @@ visual="shadow:[value]"
 > Gunakan awalan `tw-` untuk mengakses skala bayang Tailwind: `shadow:tw-md`, `shadow:tw-lg`, `shadow:tw-xl`
 > 
 > [Rujukan](https://tailwindcss.com/docs/box-shadow)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

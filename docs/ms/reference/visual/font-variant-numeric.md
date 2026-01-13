@@ -24,12 +24,3 @@ visual="[variant-value]"
 ```html
 <span visual="tabular-nums">123,456.00</span>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

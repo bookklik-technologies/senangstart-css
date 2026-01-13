@@ -21,12 +21,3 @@ layout="grid-cols:[value]"
 <div layout="grid grid-cols:3">3 columns</div>
 <div layout="grid grid-cols:12">12 columns</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

@@ -27,12 +27,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 ```html
 <div visual="stroke:[custom-value]">Custom</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

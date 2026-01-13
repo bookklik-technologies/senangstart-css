@@ -21,12 +21,3 @@ visual="animation-fill:[value]"
 ```html
 <div visual="animate:bounce animation-fill:forwards">Stays at end</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

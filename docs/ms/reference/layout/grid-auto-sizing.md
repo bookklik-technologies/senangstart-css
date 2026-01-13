@@ -21,12 +21,3 @@ layout="auto-cols:[value]" or layout="auto-rows:[value]"
 ```html
 <div layout="grid auto-cols:min">Auto min columns</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

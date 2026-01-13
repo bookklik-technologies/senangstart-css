@@ -21,12 +21,3 @@ visual="[decoration-value]"
 ```html
 <a visual="no-underline">No underline link</a>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

@@ -19,12 +19,3 @@ layout="[visibility-value]"
 ```html
 <div layout="invisible">Invisible but present</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

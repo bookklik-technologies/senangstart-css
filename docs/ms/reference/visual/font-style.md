@@ -19,12 +19,3 @@ visual="[style-value]"
 ```html
 <em visual="not-italic">Normal style emphasis</em>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

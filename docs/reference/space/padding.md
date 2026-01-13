@@ -47,12 +47,3 @@ Supports custom values using bracket syntax:
 > Use `tw-` prefix to access Tailwind numeric scale: `p:tw-4` (1rem), `p:tw-8` (2rem)
 > 
 > [Reference](https://tailwindcss.com/docs/padding)
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div space="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

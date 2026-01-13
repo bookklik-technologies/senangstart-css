@@ -20,12 +20,3 @@ layout="[wrap-value]"
 ```html
 <div layout="flex wrap">Wrapping flex</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

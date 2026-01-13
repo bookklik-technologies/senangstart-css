@@ -19,12 +19,3 @@ visual="animation-iteration:[value]"
 ```html
 <div visual="animate:bounce animation-iteration:1">Bounce once</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

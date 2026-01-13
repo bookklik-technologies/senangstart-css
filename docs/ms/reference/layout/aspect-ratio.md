@@ -29,12 +29,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 ```html
 <div layout="aspect:[custom-value]">Custom</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

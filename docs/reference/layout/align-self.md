@@ -23,12 +23,3 @@ layout="self:[value]"
 ```html
 <div layout="self:center">Centered item</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

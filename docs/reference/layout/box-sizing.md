@@ -19,12 +19,3 @@ layout="box:[value]"
 ```html
 <div layout="box:border">Border box</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

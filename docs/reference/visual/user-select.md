@@ -21,12 +21,3 @@ visual="select:[value]"
 ```html
 <div visual="select:none">Cannot select this text</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

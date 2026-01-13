@@ -43,12 +43,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 > Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `w:tw-64` (16rem), `max-w:tw-96` (24rem)
 > 
 > [Rujukan](https://tailwindcss.com/docs/width)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div space="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

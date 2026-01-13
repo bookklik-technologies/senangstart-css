@@ -20,12 +20,3 @@ layout="overscroll:[value]"
 ```html
 <div layout="overscroll:contain">Contained scroll</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

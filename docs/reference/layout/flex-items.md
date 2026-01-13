@@ -21,12 +21,3 @@ layout="[flex-item-value]"
 ```html
 <div layout="grow">Growing item</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

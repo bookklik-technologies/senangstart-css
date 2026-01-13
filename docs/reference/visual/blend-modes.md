@@ -23,12 +23,3 @@ visual="mix-blend:[value]"
 ```html
 <div visual="mix-blend:multiply">Multiply blend</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

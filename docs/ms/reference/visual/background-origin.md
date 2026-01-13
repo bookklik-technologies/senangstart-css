@@ -20,12 +20,3 @@ visual="bg-origin:[value]"
 ```html
 <div visual="bg-origin:content">Content origin</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

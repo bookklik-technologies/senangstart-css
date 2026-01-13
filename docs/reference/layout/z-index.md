@@ -22,12 +22,3 @@ layout="z:[value]"
 ```html
 <div layout="z:top">On top</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

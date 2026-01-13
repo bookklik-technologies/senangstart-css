@@ -25,12 +25,3 @@ layout="justify:[value]"
 <div layout="flex justify:center">Centered</div>
 <div layout="flex justify:between">Spaced</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

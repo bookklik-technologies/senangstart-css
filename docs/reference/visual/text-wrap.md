@@ -21,12 +21,3 @@ visual="[wrap-value]"
 ```html
 <h1 visual="text-balance">Balanced heading</h1>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

@@ -20,12 +20,3 @@ layout="grid-rows:[value]"
 ```html
 <div layout="grid grid-rows:3">3 rows</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

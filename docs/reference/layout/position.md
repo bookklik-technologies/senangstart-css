@@ -23,12 +23,3 @@ layout="[position-value]"
 <div layout="absolute">Absolute positioned</div>
 <div layout="fixed">Fixed to viewport</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div layout="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

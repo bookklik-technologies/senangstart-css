@@ -19,12 +19,3 @@ layout="caption:[value]"
 ```html
 <caption layout="caption:bottom">Bottom caption</caption>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

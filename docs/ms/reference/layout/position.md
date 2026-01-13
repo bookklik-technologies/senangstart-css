@@ -23,12 +23,3 @@ layout="[position-value]"
 <div layout="absolute">Absolute positioned</div>
 <div layout="fixed">Fixed to viewport</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

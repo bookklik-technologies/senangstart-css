@@ -42,12 +42,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 > Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `g:tw-4` (1rem), `g:tw-8` (2rem)
 > 
 > [Rujukan](https://tailwindcss.com/docs/gap)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div space="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

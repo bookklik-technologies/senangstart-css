@@ -19,12 +19,3 @@ visual="backface:[value]"
 ```html
 <div visual="backface:hidden">Hidden when rotated</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

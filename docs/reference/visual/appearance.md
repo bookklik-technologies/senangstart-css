@@ -19,12 +19,3 @@ visual="appearance:[value]"
 ```html
 <select visual="appearance:none">Custom select</select>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

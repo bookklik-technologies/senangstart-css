@@ -21,12 +21,3 @@ layout="place-items:[value]"
 ```html
 <div layout="grid place-items:center">Centered items</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div layout="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

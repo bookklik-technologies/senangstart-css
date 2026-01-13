@@ -21,12 +21,3 @@ visual="[break-value]"
 ```html
 <div visual="break-words">Long words break properly</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

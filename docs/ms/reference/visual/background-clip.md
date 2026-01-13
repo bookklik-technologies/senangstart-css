@@ -21,12 +21,3 @@ visual="bg-clip:[value]"
 ```html
 <div visual="bg-clip:text text:transparent bg:gradient">Gradient text</div>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

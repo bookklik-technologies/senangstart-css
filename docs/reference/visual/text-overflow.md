@@ -20,12 +20,3 @@ visual="[overflow-value]"
 ```html
 <div visual="truncate">Very long text that gets truncated...</div>
 ```
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div visual="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

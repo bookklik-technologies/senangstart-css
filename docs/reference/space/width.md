@@ -43,12 +43,3 @@ Supports custom values using bracket syntax:
 > Use `tw-` prefix to access Tailwind numeric scale: `w:tw-64` (16rem), `max-w:tw-96` (24rem)
 > 
 > [Reference](https://tailwindcss.com/docs/width)
-
-## Responsive
-
-```html
-<!-- Responsive example -->
-<div space="mob:... tab:... lap:...">
-  Responsive content
-</div>
-```

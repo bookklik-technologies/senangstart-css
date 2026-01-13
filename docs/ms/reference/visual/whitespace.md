@@ -23,12 +23,3 @@ visual="whitespace:[value]"
 ```html
 <pre visual="whitespace:pre">Preserved whitespace</pre>
 ```
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div visual="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```

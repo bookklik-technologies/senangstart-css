@@ -42,12 +42,3 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 > Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `h:tw-64` (16rem), `min-h:tw-96` (24rem)
 > 
 > [Rujukan](https://tailwindcss.com/docs/height)
-
-## Responsif
-
-```html
-<!-- Contoh responsif -->
-<div space="mob:... tab:... lap:...">
-  Kandungan responsif
-</div>
-```
