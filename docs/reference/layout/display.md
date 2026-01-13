@@ -29,6 +29,8 @@ layout="[display-value]"
 
 ## Preview
 
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
 ### Flexbox Container
 
 <div layout="flex col" space="g:medium">
@@ -52,6 +54,10 @@ layout="[display-value]"
 ```
 
 </details>
+
+</div>
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
 
 ### Grid Container
 
@@ -82,3 +88,5 @@ layout="[display-value]"
 ```
 
 </details>
+
+</div>

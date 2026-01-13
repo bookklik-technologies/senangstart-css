@@ -115,6 +115,10 @@ function generateMarkdown(definition, locale = 'en') {
       const p = definition.preview[i];
       const title = isMs ? (p.titleMs || p.title) : p.title;
       
+      // Wrapper container for each preview
+      lines.push('<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">');
+      lines.push('');
+      
       // Title for this preview
       if (title) {
         lines.push(`### ${title}`);
@@ -142,6 +146,10 @@ function generateMarkdown(definition, locale = 'en') {
       lines.push('```');
       lines.push('');
       lines.push('</details>');
+      lines.push('');
+      
+      // Close wrapper container
+      lines.push('</div>');
       lines.push('');
     }
   }

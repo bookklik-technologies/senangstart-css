@@ -29,6 +29,8 @@ layout="[display-value]"
 
 ## Pratonton
 
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
 ### Bekas Flexbox
 
 <div layout="flex col" space="g:medium">
@@ -52,6 +54,10 @@ layout="[display-value]"
 ```
 
 </details>
+
+</div>
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
 
 ### Bekas Grid
 
@@ -82,3 +88,5 @@ layout="[display-value]"
 ```
 
 </details>
+
+</div>
