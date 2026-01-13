@@ -11,7 +11,7 @@
  */
 
 // Breakpoint prefixes
-const BREAKPOINTS = ['mob', 'tab', 'lap', 'desk'];
+const BREAKPOINTS = ['mob', 'tab', 'lap', 'desk', 'tw-sm', 'tw-md', 'tw-lg', 'tw-xl', 'tw-2xl'];
 
 // State prefixes
 const STATES = ['hover', 'focus', 'active', 'disabled', 'dark'];

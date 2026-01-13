@@ -133,8 +133,8 @@ describe('convertClass', () => {
 
   describe('Prefixed classes', () => {
     it('should handle responsive prefixes', () => {
-      assert.deepStrictEqual(convertClass('md:flex'), { category: 'layout', value: 'md:flex' });
-      assert.deepStrictEqual(convertClass('lg:p-8'), { category: 'space', value: 'lg:p:big' });
+      assert.deepStrictEqual(convertClass('md:flex'), { category: 'layout', value: 'tw-md:flex' });
+      assert.deepStrictEqual(convertClass('lg:p-8'), { category: 'space', value: 'tw-lg:p:big' });
     });
 
     it('should handle dark mode prefix', () => {

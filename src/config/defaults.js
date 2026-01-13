@@ -87,7 +87,14 @@ export const defaultConfig = {
       'mob':  '480px',      // Mobile
       'tab':  '768px',      // Tablet
       'lap':  '1024px',     // Laptop
-      'desk': '1280px'      // Desktop
+      'desk': '1280px',     // Desktop
+      
+      // Tailwind Compatibility
+      'tw-sm': '640px',
+      'tw-md': '768px',
+      'tw-lg': '1024px',
+      'tw-xl': '1280px',
+      'tw-2xl': '1536px'
     },
 
     // 7. COLORS: Palette Scales

@@ -127,3 +127,28 @@ Guna breakpoint tersuai anda:
   Padding extra besar pada skrin lebar
 </div>
 ```
+
+## Keserasian Tailwind
+
+SenangStart menyokong titik henti (breakpoint) lalai Tailwind CSS secara terus menggunakan prefiks `tw-`. Ini berguna apabila berpindah dari Tailwind atau jika anda lebih suka skala breakpoint Tailwind.
+
+| Prefiks | Min-Width | Persamaan Tailwind |
+|---------|-----------|--------------------|
+| `tw-sm:` | 640px | `sm:` |
+| `tw-md:` | 768px | `md:` |
+| `tw-lg:` | 1024px | `lg:` |
+| `tw-xl:` | 1280px | `xl:` |
+| `tw-2xl:` | 1536px | `2xl:` |
+
+### Penggunaan dengan Skala Tailwind
+
+Anda boleh menggabungkan prefiks breakpoint `tw-` dengan nilai gaya Tailwind (juga bermula dengan `tw-`):
+
+```html
+<div 
+  space="p:tw-4 tw-md:p:tw-8" 
+  visual="rounded:tw-lg tw-lg:shadow:tw-xl"
+>
+  Penskalaan serasi Tailwind
+</div>
+```

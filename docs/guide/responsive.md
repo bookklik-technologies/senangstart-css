@@ -127,3 +127,28 @@ Use your custom breakpoint:
   Extra large padding on wide screens
 </div>
 ```
+
+## Tailwind Compatibility
+
+SenangStart supports Tailwind CSS default breakpoints out-of-the-box using the `tw-` prefix. This is useful when migrating from Tailwind or when you prefer Tailwind's breakpoint scale.
+
+| Prefix | Min-Width | Tailwind Equiv. |
+|--------|-----------|-----------------|
+| `tw-sm:` | 640px | `sm:` |
+| `tw-md:` | 768px | `md:` |
+| `tw-lg:` | 1024px | `lg:` |
+| `tw-xl:` | 1280px | `xl:` |
+| `tw-2xl:` | 1536px | `2xl:` |
+
+### Usage with Tailwind Scale
+
+You can combine `tw-` prefixed breakpoints with Tailwind-style values (also prefixed with `tw-`):
+
+```html
+<div 
+  space="p:tw-4 tw-md:p:tw-8" 
+  visual="rounded:tw-lg tw-lg:shadow:tw-xl"
+>
+  Tailwind-compatible scaling
+</div>
+```

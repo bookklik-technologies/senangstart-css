@@ -59,7 +59,13 @@
         'mob':  '480px',
         'tab':  '768px',
         'lap':  '1024px',
-        'desk': '1280px'
+        'desk': '1280px',
+        // Tailwind compatibility
+        'tw-sm': '640px',
+        'tw-md': '768px',
+        'tw-lg': '1024px',
+        'tw-xl': '1280px',
+        'tw-2xl': '1536px'
       },
       colors: {
         // Base colors
@@ -601,7 +607,7 @@ img, video {
   // RULE GENERATORS
   // ============================================
   
-  const breakpoints = ['mob', 'tab', 'lap', 'desk'];
+  const breakpoints = ['mob', 'tab', 'lap', 'desk', 'tw-sm', 'tw-md', 'tw-lg', 'tw-xl', 'tw-2xl'];
   const states = ['hover', 'focus', 'active', 'disabled', 'dark'];
 
   function parseToken(raw) {
@@ -653,6 +659,11 @@ img, video {
   function generateLayoutRule(token) {
     const { property, value, isArbitrary } = token;
     
+    // Container
+    if (property === 'container') {
+      return 'width: 100%; margin-left: auto; margin-right: auto;';
+    }
+
     // Justify Content (justify:[value])
     if (property === 'justify') {
       const justifyMap = {
@@ -1889,7 +1900,22 @@ img, video {
       selector += `:${token.state}`;
     }
 
-    return `${selector} { ${cssDeclaration} }\n`;
+    let rule = `${selector} { ${cssDeclaration} }\n`;
+
+    // Special handling for dark mode
+    if (token.state === 'dark') {
+      rule = `:where(.dark) ${rule}`;
+    }
+    
+    // Wrap in media query if breakpoint is present
+    if (token.breakpoint) {
+      const screenWidth = defaultConfig.theme.screens[token.breakpoint];
+      if (screenWidth) {
+        return `@media (min-width: ${screenWidth}) { ${rule} }\n`;
+      }
+    }
+    
+    return rule;
   }
 
   // ============================================

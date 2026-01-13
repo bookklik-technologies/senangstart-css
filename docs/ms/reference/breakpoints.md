@@ -12,6 +12,29 @@ Rujukan lengkap untuk breakpoint responsif.
 | `lap:` | 1024px | Komputer riba |
 | `desk:` | 1280px | Desktop |
 
+## Keserasian Tailwind
+
+SenangStart menyokong titik henti (breakpoint) lalai Tailwind CSS menggunakan prefiks `tw-`.
+
+| Prefiks | Min-Width | Persamaan Tailwind |
+|---------|-----------|--------------------|
+| `tw-sm:` | 640px | `sm:` |
+| `tw-md:` | 768px | `md:` |
+| `tw-lg:` | 1024px | `lg:` |
+| `tw-xl:` | 1280px | `xl:` |
+| `tw-2xl:` | 1536px | `2xl:` |
+
+### Penggunaan dengan Skala Tailwind
+
+```html
+<div 
+  space="p:tw-4 tw-md:p:tw-8" 
+  visual="rounded:tw-lg tw-lg:shadow:tw-xl"
+>
+  Penskalaan serasi Tailwind
+</div>
+```
+
 ## Media Query CSS
 
 ```css

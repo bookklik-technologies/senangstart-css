@@ -12,6 +12,29 @@ Complete reference for responsive breakpoints.
 | `lap:` | 1024px | Laptop |
 | `desk:` | 1280px | Desktop |
 
+## Tailwind Compatibility
+
+SenangStart supports Tailwind CSS default breakpoints using the `tw-` prefix.
+
+| Prefix | Min-Width | Tailwind Equiv. |
+|--------|-----------|-----------------|
+| `tw-sm:` | 640px | `sm:` |
+| `tw-md:` | 768px | `md:` |
+| `tw-lg:` | 1024px | `lg:` |
+| `tw-xl:` | 1280px | `xl:` |
+| `tw-2xl:` | 1536px | `2xl:` |
+
+### Usage with Tailwind Scale
+
+```html
+<div 
+  space="p:tw-4 tw-md:p:tw-8" 
+  visual="rounded:tw-lg tw-lg:shadow:tw-xl"
+>
+  Tailwind-compatible scaling
+</div>
+```
+
 ## CSS Media Queries
 
 ```css
