@@ -27,6 +27,20 @@ export const transformScale = {
   ],
   examples: [
     { code: '<div visual="transition:transform hover:scale:110">Hover to grow</div>', description: 'Scale on hover' }
+  ],
+  preview: [
+    {
+      title: 'Scale Transform',
+      titleMs: 'Transformasi Skala',
+      description: 'Scale elements up or down',
+      descriptionMs: 'Skala elemen ke atas atau ke bawah',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(0.75);">75%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">100%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(1.25);">125%</div>
+</div>`,
+      highlightValue: 'scale:110'
+    }
   ]
 };
 
@@ -51,6 +65,20 @@ export const transformRotate = {
   ],
   examples: [
     { code: '<div visual="rotate:45">Rotated 45 degrees</div>', description: '45 degree rotation' }
+  ],
+  preview: [
+    {
+      title: 'Rotate Transform',
+      titleMs: 'Transformasi Putaran',
+      description: 'Rotate elements by degrees',
+      descriptionMs: 'Putar elemen mengikut darjah',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(0deg);">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg);">45°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(90deg);">90°</div>
+</div>`,
+      highlightValue: 'rotate:45'
+    }
   ]
 };
 
@@ -75,6 +103,20 @@ export const transformTranslate = {
   ],
   examples: [
     { code: '<div visual="translate-x:full">Moved right</div>', description: 'Translate right' }
+  ],
+  preview: [
+    {
+      title: 'Translate Transform',
+      titleMs: 'Transformasi Alih',
+      description: 'Move elements position',
+      descriptionMs: 'Alihkan kedudukan elemen',
+      html: `<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
+  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(0);">0</div>
+  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(60px);">60px</div>
+  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(120px);">120px</div>
+</div>`,
+      highlightValue: 'translate-x:full'
+    }
   ]
 };
 
@@ -99,6 +141,20 @@ export const transformSkew = {
   ],
   examples: [
     { code: '<div visual="skew-x:6">Skewed element</div>', description: 'Skew 6 degrees' }
+  ],
+  preview: [
+    {
+      title: 'Skew Transform',
+      titleMs: 'Transformasi Condong',
+      description: 'Skew elements along axes',
+      descriptionMs: 'Condongkan elemen sepanjang paksi',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(0deg);">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(6deg);">6°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(12deg);">12°</div>
+</div>`,
+      highlightValue: 'skew-x:6'
+    }
   ]
 };
 
@@ -127,6 +183,19 @@ export const transformOrigin = {
   ],
   examples: [
     { code: '<div visual="rotate:45 origin:top-left">Rotate from corner</div>', description: 'Rotate from corner' }
+  ],
+  preview: [
+    {
+      title: 'Transform Origin',
+      titleMs: 'Asal Transformasi',
+      description: 'Set the pivot point for transforms',
+      descriptionMs: 'Tetapkan titik pangsi untuk transformasi',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg); transform-origin: center;">center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg); transform-origin: top-left;">top-left</div>
+</div>`,
+      highlightValue: 'origin:center'
+    }
   ]
 };
 

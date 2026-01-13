@@ -25,6 +25,64 @@ visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"
 <div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>
 ```
 
+## Preview
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Border Colors
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="border:primary"</code> - Apply border with color on all sides</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border:primary border-w:regular rounded:small">primary</div>
+  <div space="p:medium" visual="border:danger border-w:regular rounded:small">danger</div>
+  <div space="p:medium" visual="border:neutral-400 border-w:regular rounded:small">neutral</div>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border:primary border-w:regular rounded:small">primary</div>
+  <div space="p:medium" visual="border:danger border-w:regular rounded:small">danger</div>
+  <div space="p:medium" visual="border:neutral-400 border-w:regular rounded:small">neutral</div>
+</div>
+```
+
+</details>
+
+</div>
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Directional Borders
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="border-t:primary"</code> - Apply borders to specific sides</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border-t:primary border-t-w:regular bg:white dark:bg:neutral-800 rounded:small">top</div>
+  <div space="p:medium" visual="border-b:primary border-b-w:regular bg:white dark:bg:neutral-800 rounded:small">bottom</div>
+  <div space="p:medium" visual="border-l:primary border-l-w:regular bg:white dark:bg:neutral-800 rounded:small">left</div>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border-t:primary border-t-w:regular bg:white dark:bg:neutral-800 rounded:small">top</div>
+  <div space="p:medium" visual="border-b:primary border-b-w:regular bg:white dark:bg:neutral-800 rounded:small">bottom</div>
+  <div space="p:medium" visual="border-l:primary border-l-w:regular bg:white dark:bg:neutral-800 rounded:small">left</div>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Arbitrary Values
 
 Supports custom values using bracket syntax:

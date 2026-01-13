@@ -25,6 +25,34 @@ visual="animation-duration:[value]"
 <div visual="animate:spin animation-duration:slow">Slow spin</div>
 ```
 
+## Pratonton
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Tempoh Animasi
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animation-duration:slow"</code> - Kawal kelajuan animasi</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+</div>
+</div>
+
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Nilai Arbitrari
 
 Sokong nilai tersuai menggunakan sintaks kurungan segi empat:

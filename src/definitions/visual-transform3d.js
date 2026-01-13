@@ -26,6 +26,18 @@ export const perspective = {
   ],
   examples: [
     { code: '<div visual="perspective:normal">3D container</div>', description: 'Normal perspective' }
+  ],
+  preview: [
+    {
+      title: '3D Perspective',
+      titleMs: 'Perspektif 3D',
+      description: 'Control 3D depth perception',
+      descriptionMs: 'Kawal persepsi kedalaman 3D',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">perspective</div>
+</div>`,
+      highlightValue: 'perspective:normal'
+    }
   ]
 };
 
@@ -54,6 +66,18 @@ export const perspectiveOrigin = {
   ],
   examples: [
     { code: '<div visual="perspective-origin:top">Top origin</div>', description: 'Top origin' }
+  ],
+  preview: [
+    {
+      title: 'Perspective Origin',
+      titleMs: 'Asal Perspektif',
+      description: 'Set vanishing point location',
+      descriptionMs: 'Tetapkan lokasi titik lenyap',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">origin:center</div>
+</div>`,
+      highlightValue: 'perspective-origin:center'
+    }
   ]
 };
 
@@ -74,6 +98,19 @@ export const transformStyle = {
   ],
   examples: [
     { code: '<div visual="transform-style:preserve-3d">3D space</div>', description: 'Preserve 3D' }
+  ],
+  preview: [
+    {
+      title: 'Transform Style',
+      titleMs: 'Gaya Transformasi',
+      description: 'Flat or preserve 3D rendering',
+      descriptionMs: 'Persembahan rata atau kekalkan 3D',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">flat</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">preserve-3d</div>
+</div>`,
+      highlightValue: 'transform-style:preserve-3d'
+    }
   ]
 };
 
@@ -94,6 +131,19 @@ export const backfaceVisibility = {
   ],
   examples: [
     { code: '<div visual="backface:hidden">Hidden when rotated</div>', description: 'Hide backface' }
+  ],
+  preview: [
+    {
+      title: 'Backface Visibility',
+      titleMs: 'Keterlihatan Belakang',
+      description: 'Show or hide element back side',
+      descriptionMs: 'Tunjukkan atau sembunyikan bahagian belakang',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">visible</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">hidden</div>
+</div>`,
+      highlightValue: 'backface:hidden'
+    }
   ]
 };
 
@@ -116,6 +166,18 @@ export const mask = {
   ],
   examples: [
     { code: '<div visual="mask:fade-y">Faded edges</div>', description: 'Vertical fade mask' }
+  ],
+  preview: [
+    {
+      title: 'Mask',
+      titleMs: 'Topeng',
+      description: 'Apply gradient mask to edges',
+      descriptionMs: 'Terapkan topeng kecerunan pada tepi',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="bg:primary text:white rounded:small">mask:fade-y</div>
+</div>`,
+      highlightValue: 'mask:fade-y'
+    }
   ]
 };
 
@@ -143,6 +205,18 @@ export const statePrefixes = {
   ],
   examples: [
     { code: '<button visual="hover:bg:primary focus:outline:primary">Interactive button</button>', description: 'State prefixes' }
+  ],
+  preview: [
+    {
+      title: 'State Prefixes',
+      titleMs: 'Awalan Keadaan',
+      description: 'Apply styles on hover, focus, etc.',
+      descriptionMs: 'Terapkan gaya pada hover, fokus, dll.',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all hover:bg:primary-dark">hover:bg:primary-dark</button>
+</div>`,
+      highlightValue: 'hover:bg:primary'
+    }
   ]
 };
 

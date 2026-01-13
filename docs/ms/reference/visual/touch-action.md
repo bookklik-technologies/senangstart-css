@@ -25,3 +25,33 @@ visual="touch:[value]"
 ```html
 <div visual="touch:manipulation">Touch optimized</div>
 ```
+
+## Pratonton
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Tindakan Sentuh
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="touch:manipulation"</code> - Kawal gerak isyarat sentuh</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">pan-x</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">pan-y</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">manipulation</div>
+</div>
+</div>
+
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">pan-x</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">pan-y</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">manipulation</div>
+</div>
+```
+
+</details>
+
+</div>

@@ -24,6 +24,19 @@ export const backgroundImage = {
   ],
   examples: [
     { code: '<div visual="bg-image:gradient-to-r">Gradient background</div>', description: 'Right gradient' }
+  ],
+  preview: [
+    {
+      title: 'Background Gradient',
+      titleMs: 'Gradien Latar',
+      description: 'Apply gradient backgrounds',
+      descriptionMs: 'Terapkan latar gradien',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to right, #3b82f6, #8b5cf6);">gradient-to-r</div>
+  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to bottom, #10b981, #3b82f6);">gradient-to-b</div>
+</div>`,
+      highlightValue: 'bg-image:gradient-to-r'
+    }
   ]
 };
 
@@ -45,6 +58,19 @@ export const backgroundAttachment = {
   ],
   examples: [
     { code: '<div visual="bg-attachment:fixed">Parallax effect</div>', description: 'Fixed background' }
+  ],
+  preview: [
+    {
+      title: 'Background Attachment',
+      titleMs: 'Lampiran Latar',
+      description: 'Control how background scrolls',
+      descriptionMs: 'Kawal cara latar skrol',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">fixed</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">scroll</div>
+</div>`,
+      highlightValue: 'bg-attachment:fixed'
+    }
   ]
 };
 
@@ -67,6 +93,18 @@ export const backgroundClip = {
   ],
   examples: [
     { code: '<div visual="bg-clip:text text:transparent bg:gradient">Gradient text</div>', description: 'Gradient text effect' }
+  ],
+  preview: [
+    {
+      title: 'Background Clip',
+      titleMs: 'Keratan Latar',
+      description: 'Clip background to text for gradient text effect',
+      descriptionMs: 'Keratan latar kepada teks untuk kesan teks gradien',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span style="font-size: 1.5rem; font-weight: bold; background: linear-gradient(to right, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">Gradient Text</span>
+</div>`,
+      highlightValue: 'bg-clip:text'
+    }
   ]
 };
 
@@ -88,6 +126,20 @@ export const backgroundOrigin = {
   ],
   examples: [
     { code: '<div visual="bg-origin:content">Content origin</div>', description: 'Content box origin' }
+  ],
+  preview: [
+    {
+      title: 'Background Origin',
+      titleMs: 'Asal Latar',
+      description: 'Set background positioning origin',
+      descriptionMs: 'Tetapkan asal kedudukan latar',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">border</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">padding</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">content</div>
+</div>`,
+      highlightValue: 'bg-origin:content'
+    }
   ]
 };
 
@@ -116,6 +168,20 @@ export const backgroundPosition = {
   ],
   examples: [
     { code: '<div visual="bg-pos:center">Centered background</div>', description: 'Center position' }
+  ],
+  preview: [
+    {
+      title: 'Background Position',
+      titleMs: 'Kedudukan Latar',
+      description: 'Position background image',
+      descriptionMs: 'Kedudukkan imej latar',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">top</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">bottom</div>
+</div>`,
+      highlightValue: 'bg-pos:center'
+    }
   ]
 };
 
@@ -140,6 +206,20 @@ export const backgroundRepeat = {
   ],
   examples: [
     { code: '<div visual="bg-repeat:no-repeat">Single background</div>', description: 'No repeat' }
+  ],
+  preview: [
+    {
+      title: 'Background Repeat',
+      titleMs: 'Ulangan Latar',
+      description: 'Control background tiling',
+      descriptionMs: 'Kawal jubin latar',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">repeat</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">no-repeat</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">repeat-x</div>
+</div>`,
+      highlightValue: 'bg-repeat:no-repeat'
+    }
   ]
 };
 
@@ -162,6 +242,20 @@ export const backgroundSize = {
   ],
   examples: [
     { code: '<div visual="bg-size:cover">Full coverage background</div>', description: 'Cover background' }
+  ],
+  preview: [
+    {
+      title: 'Background Size',
+      titleMs: 'Saiz Latar',
+      description: 'Scale background image',
+      descriptionMs: 'Skala imej latar',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">auto</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">cover</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">contain</div>
+</div>`,
+      highlightValue: 'bg-size:cover'
+    }
   ]
 };
 
@@ -186,6 +280,20 @@ export const backgroundBlendMode = {
   ],
   examples: [
     { code: '<div visual="bg-blend:multiply">Multiplied background</div>', description: 'Multiply blend' }
+  ],
+  preview: [
+    {
+      title: 'Background Blend Mode',
+      titleMs: 'Mod Campuran Latar',
+      description: 'Blend backgrounds together',
+      descriptionMs: 'Campurkan latar bersama',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">multiply</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">screen</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">overlay</div>
+</div>`,
+      highlightValue: 'bg-blend:multiply'
+    }
   ]
 };
 
@@ -212,6 +320,20 @@ export const backdropBlur = {
   ],
   examples: [
     { code: '<div visual="backdrop-blur:medium bg:[rgba(255,255,255,0.5)]">Frosted glass</div>', description: 'Glassmorphism effect' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Blur',
+      titleMs: 'Kabur Latar Belakang',
+      description: 'Creates a frosted glass effect on content behind the element',
+      descriptionMs: 'Mencipta kesan kaca beku pada kandungan di belakang elemen',
+      html: `<div layout="relative" space="p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); min-height: 100px;">
+  <div layout="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); backdrop-filter: blur(8px); background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 0.5rem;">
+    <span visual="text:white">Frosted Glass</span>
+  </div>
+</div>`,
+      highlightValue: 'backdrop-blur:medium'
+    }
   ]
 };
 
@@ -236,6 +358,20 @@ export const backdropBrightness = {
   ],
   examples: [
     { code: '<div visual="backdrop-brightness:dark">Darkened backdrop</div>', description: 'Darken backdrop' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Brightness',
+      titleMs: 'Kecerahan Latar Belakang',
+      description: 'Dim or brighten the backdrop behind an overlay',
+      descriptionMs: 'Redupkan atau cerahkan latar belakang di sebalik tindanan',
+      html: `<div layout="flex" space="g:medium p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #f97316, #ef4444);">
+  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(0.5);">dim (50%)</div>
+  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1);">normal</div>
+  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1.5);">bright (150%)</div>
+</div>`,
+      highlightValue: 'backdrop-brightness:dark'
+    }
   ]
 };
 
@@ -260,6 +396,20 @@ export const backdropContrast = {
   ],
   examples: [
     { code: '<div visual="backdrop-contrast:high">High contrast backdrop</div>', description: 'High contrast' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Contrast',
+      titleMs: 'Kontras Latar Belakang',
+      description: 'Adjust contrast behind element',
+      descriptionMs: 'Laraskan kontras di belakang elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">low</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">high</div>
+</div>`,
+      highlightValue: 'backdrop-contrast:high'
+    }
   ]
 };
 
@@ -282,6 +432,19 @@ export const backdropGrayscale = {
   ],
   examples: [
     { code: '<div visual="backdrop-grayscale:full">Grayscale backdrop</div>', description: 'Full grayscale' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Grayscale',
+      titleMs: 'Skala Kelabu Latar Belakang',
+      description: 'Remove color from backdrop, creating a desaturated effect',
+      descriptionMs: 'Alih keluar warna dari latar belakang, mencipta kesan tidak tepu',
+      html: `<div layout="flex" space="g:medium" visual="rounded:medium">
+  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
+  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: grayscale(100%);">Grayscale</div>
+</div>`,
+      highlightValue: 'backdrop-grayscale:full'
+    }
   ]
 };
 
@@ -305,6 +468,20 @@ export const backdropHueRotate = {
   ],
   examples: [
     { code: '<div visual="backdrop-hue-rotate:90">Rotated hue backdrop</div>', description: 'Rotate 90 degrees' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Hue Rotate',
+      titleMs: 'Putaran Rona Latar Belakang',
+      description: 'Rotate colors behind element',
+      descriptionMs: 'Putar warna di belakang elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">180°</div>
+</div>`,
+      highlightValue: 'backdrop-hue-rotate:90'
+    }
   ]
 };
 
@@ -327,6 +504,19 @@ export const backdropInvert = {
   ],
   examples: [
     { code: '<div visual="backdrop-invert:full">Inverted backdrop</div>', description: 'Full inversion' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Invert',
+      titleMs: 'Songsang Latar Belakang',
+      description: 'Invert colors behind element',
+      descriptionMs: 'Songsangkan warna di belakang elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">full</div>
+</div>`,
+      highlightValue: 'backdrop-invert:full'
+    }
   ]
 };
 
@@ -350,6 +540,20 @@ export const backdropOpacity = {
   ],
   examples: [
     { code: '<div visual="backdrop-opacity:50">Semi-transparent backdrop</div>', description: '50% opacity' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Opacity',
+      titleMs: 'Kelegapan Latar Belakang',
+      description: 'Control backdrop transparency',
+      descriptionMs: 'Kawal ketelusan latar belakang',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">0</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">50</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">100</div>
+</div>`,
+      highlightValue: 'backdrop-opacity:50'
+    }
   ]
 };
 
@@ -374,6 +578,20 @@ export const backdropSaturate = {
   ],
   examples: [
     { code: '<div visual="backdrop-saturate:vivid">Vivid backdrop</div>', description: 'High saturation' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Saturate',
+      titleMs: 'Ketepuan Latar Belakang',
+      description: 'Adjust saturation behind element',
+      descriptionMs: 'Laraskan ketepuan di belakang elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">vivid</div>
+</div>`,
+      highlightValue: 'backdrop-saturate:vivid'
+    }
   ]
 };
 
@@ -396,6 +614,19 @@ export const backdropSepia = {
   ],
   examples: [
     { code: '<div visual="backdrop-sepia:full">Vintage backdrop</div>', description: 'Full sepia' }
+  ],
+  preview: [
+    {
+      title: 'Backdrop Sepia',
+      titleMs: 'Sepia Latar Belakang',
+      description: 'Apply vintage sepia tone to the backdrop',
+      descriptionMs: 'Terapkan ton sepia vintaj pada latar belakang',
+      html: `<div layout="flex" space="g:medium" visual="rounded:medium">
+  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
+  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: sepia(100%);">Sepia</div>
+</div>`,
+      highlightValue: 'backdrop-sepia:full'
+    }
   ]
 };
 

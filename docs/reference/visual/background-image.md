@@ -23,6 +23,34 @@ visual="bg-image:[value]"
 <div visual="bg-image:gradient-to-r">Gradient background</div>
 ```
 
+## Preview
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Background Gradient
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="bg-image:gradient-to-r"</code> - Apply gradient backgrounds</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to right, #3b82f6, #8b5cf6);">gradient-to-r</div>
+  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to bottom, #10b981, #3b82f6);">gradient-to-b</div>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to right, #3b82f6, #8b5cf6);">gradient-to-r</div>
+  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to bottom, #10b981, #3b82f6);">gradient-to-b</div>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Arbitrary Values
 
 Supports custom values using bracket syntax:

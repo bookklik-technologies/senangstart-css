@@ -24,6 +24,20 @@ export const filterBrightness = {
   ],
   examples: [
     { code: '<img visual="brightness:bright">Brighter image</img>', description: 'Increase brightness' }
+  ],
+  preview: [
+    {
+      title: 'Brightness Filter',
+      titleMs: 'Penapis Kecerahan',
+      description: 'Adjust element brightness',
+      descriptionMs: 'Laraskan kecerahan elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(0.5);">dim</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(1.5);">vivid</div>
+</div>`,
+      highlightValue: 'brightness:bright'
+    }
   ]
 };
 
@@ -48,6 +62,20 @@ export const filterContrast = {
   ],
   examples: [
     { code: '<img visual="contrast:high">High contrast</img>', description: 'Increase contrast' }
+  ],
+  preview: [
+    {
+      title: 'Contrast Filter',
+      titleMs: 'Penapis Kontras',
+      description: 'Adjust element contrast',
+      descriptionMs: 'Laraskan kontras elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(0.5);">low</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(1.5);">high</div>
+</div>`,
+      highlightValue: 'contrast:high'
+    }
   ]
 };
 
@@ -70,6 +98,20 @@ export const filterGrayscale = {
   ],
   examples: [
     { code: '<img visual="grayscale:full">Black and white</img>', description: 'Full grayscale' }
+  ],
+  preview: [
+    {
+      title: 'Grayscale Filter',
+      titleMs: 'Penapis Skala Kelabu',
+      description: 'Convert to grayscale',
+      descriptionMs: 'Tukar ke skala kelabu',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: grayscale(50%);">partial</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: grayscale(100%);">full</div>
+</div>`,
+      highlightValue: 'grayscale:full'
+    }
   ]
 };
 
@@ -93,6 +135,20 @@ export const filterHueRotate = {
   ],
   examples: [
     { code: '<img visual="hue-rotate:90">Shifted hue</img>', description: 'Rotate hue 90 degrees' }
+  ],
+  preview: [
+    {
+      title: 'Hue Rotate Filter',
+      titleMs: 'Penapis Putaran Rona',
+      description: 'Rotate color hues',
+      descriptionMs: 'Putar rona warna',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(90deg);">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(180deg);">180°</div>
+</div>`,
+      highlightValue: 'hue-rotate:90'
+    }
   ]
 };
 
@@ -115,6 +171,19 @@ export const filterInvert = {
   ],
   examples: [
     { code: '<img visual="invert:full">Inverted colors</img>', description: 'Invert all colors' }
+  ],
+  preview: [
+    {
+      title: 'Invert Filter',
+      titleMs: 'Penapis Songsang',
+      description: 'Invert element colors',
+      descriptionMs: 'Songsangkan warna elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: invert(100%);">full</div>
+</div>`,
+      highlightValue: 'invert:full'
+    }
   ]
 };
 
@@ -139,6 +208,20 @@ export const filterSaturate = {
   ],
   examples: [
     { code: '<img visual="saturate:vivid">Vivid colors</img>', description: 'Increase saturation' }
+  ],
+  preview: [
+    {
+      title: 'Saturate Filter',
+      titleMs: 'Penapis Ketepuan',
+      description: 'Adjust color saturation',
+      descriptionMs: 'Laraskan ketepuan warna',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: saturate(0);">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: saturate(2);">vivid</div>
+</div>`,
+      highlightValue: 'saturate:vivid'
+    }
   ]
 };
 
@@ -161,6 +244,20 @@ export const filterSepia = {
   ],
   examples: [
     { code: '<img visual="sepia:full">Vintage look</img>', description: 'Full sepia effect' }
+  ],
+  preview: [
+    {
+      title: 'Sepia Filter',
+      titleMs: 'Penapis Sepia',
+      description: 'Apply vintage sepia tone',
+      descriptionMs: 'Terapkan ton sepia vintaj',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(50%);">partial</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(100%);">full</div>
+</div>`,
+      highlightValue: 'sepia:full'
+    }
   ]
 };
 
@@ -186,6 +283,20 @@ export const filterDropShadow = {
   ],
   examples: [
     { code: '<img visual="drop-shadow:medium">Shadow on image</img>', description: 'Drop shadow on irregular shapes' }
+  ],
+  preview: [
+    {
+      title: 'Drop Shadow',
+      titleMs: 'Bayang Jatuh',
+      description: 'Add shadow to elements',
+      descriptionMs: 'Tambah bayang pada elemen',
+      html: `<div layout="flex" space="g:medium p:big" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));">small</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">medium</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));">big</div>
+</div>`,
+      highlightValue: 'drop-shadow:medium'
+    }
   ]
 };
 

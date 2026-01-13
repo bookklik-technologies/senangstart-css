@@ -30,7 +30,7 @@ layout="col-span:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="col-span:2"</code> - Item merentangi berbilang lajur</p>
 <div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span layout="col-span:2" space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">col-span:2</span>
+  <span layout="col-span:2 text:center" space="p:small" visual="bg:primary text:white rounded:small">col-span:2</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
@@ -43,7 +43,7 @@ layout="col-span:[value]"
 
 ```html
 <div layout="grid grid-cols:3" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span layout="col-span:2" space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">col-span:2</span>
+  <span layout="col-span:2 text:center" space="p:small" visual="bg:primary text:white rounded:small">col-span:2</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
@@ -65,7 +65,7 @@ layout="col-span:[value]"
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">2</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">3</span>
-  <span layout="col-span:full" space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">col-span:full</span>
+  <span layout="col-span:full text:center" space="p:small" visual="bg:primary text:white rounded:small">col-span:full</span>
 </div>
 </div>
 
@@ -77,7 +77,7 @@ layout="col-span:[value]"
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">1</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">2</span>
   <span space="p:small" visual="bg:neutral-300 dark:bg:neutral-700 text:neutral-800 dark:text:neutral-200 rounded:small" layout="text:center">3</span>
-  <span layout="col-span:full" space="p:small" visual="bg:primary text:white rounded:small" layout="text:center">col-span:full</span>
+  <span layout="col-span:full text:center" space="p:small" visual="bg:primary text:white rounded:small">col-span:full</span>
 </div>
 ```
 

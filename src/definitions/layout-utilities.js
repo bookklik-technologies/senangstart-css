@@ -303,7 +303,7 @@ export const container = {
       description: 'Centered container with max-width',
       descriptionMs: 'Bekas berpusat dengan lebar maksimum',
       html: `<div visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" space="p:small">
-  <div layout="container" space="p:medium" visual="bg:primary text:white rounded:small" layout="text:center">Centered Container</div>
+  <div layout="container text:center" space="p:medium" visual="bg:primary text:white rounded:small">Centered Container</div>
 </div>`,
       highlightValue: 'container'
     }

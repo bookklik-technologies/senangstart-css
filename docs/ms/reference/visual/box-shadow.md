@@ -23,6 +23,36 @@ visual="shadow:[value]"
 <div visual="shadow:medium">Card with shadow</div>
 ```
 
+## Pratonton
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Bayang Kotak
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="shadow:medium"</code> - Tambah ketinggian dengan bayang dari halus hingga dramatik</p>
+<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">small</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">medium</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 10px 15px rgba(0,0,0,0.15);">big</div>
+</div>
+</div>
+
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">small</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">medium</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 10px 15px rgba(0,0,0,0.15);">big</div>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Nota
 
 > [!TIP]

@@ -27,6 +27,32 @@ export const borderColor = {
     { code: '<div visual="border-b:gray-300 border-b-w:thin">Bottom only</div>', description: 'Bottom border only' },
     { code: '<div visual="border-x:primary border-x-w:regular">Left & right</div>', description: 'Horizontal borders' },
     { code: '<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>', description: 'Vertical borders' }
+  ],
+  preview: [
+    {
+      title: 'Border Colors',
+      titleMs: 'Warna Sempadan',
+      description: 'Apply border with color on all sides',
+      descriptionMs: 'Terapkan sempadan dengan warna pada semua sisi',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border:primary border-w:regular rounded:small">primary</div>
+  <div space="p:medium" visual="border:danger border-w:regular rounded:small">danger</div>
+  <div space="p:medium" visual="border:neutral-400 border-w:regular rounded:small">neutral</div>
+</div>`,
+      highlightValue: 'border:primary'
+    },
+    {
+      title: 'Directional Borders',
+      titleMs: 'Sempadan Arah',
+      description: 'Apply borders to specific sides',
+      descriptionMs: 'Terapkan sempadan pada sisi tertentu',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border-t:primary border-t-w:regular bg:white dark:bg:neutral-800 rounded:small">top</div>
+  <div space="p:medium" visual="border-b:primary border-b-w:regular bg:white dark:bg:neutral-800 rounded:small">bottom</div>
+  <div space="p:medium" visual="border-l:primary border-l-w:regular bg:white dark:bg:neutral-800 rounded:small">left</div>
+</div>`,
+      highlightValue: 'border-t:primary'
+    }
   ]
 };
 
@@ -55,6 +81,20 @@ export const borderWidth = {
     { code: '<div visual="border:gray-300 border-w:thick">Thick 3px border</div>', description: 'Thick border (3px)' },
     { code: '<div visual="border-b:primary border-b-w:regular">Bottom border only</div>', description: 'Bottom border width' },
     { code: '<div visual="border-x:primary border-x-w:thin">Horizontal borders</div>', description: 'Horizontal border width' }
+  ],
+  preview: [
+    {
+      title: 'Border Widths',
+      titleMs: 'Lebar Sempadan',
+      description: 'Different border width options',
+      descriptionMs: 'Pilihan lebar sempadan berbeza',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border:neutral-500 border-w:thin rounded:small bg:white dark:bg:neutral-800">thin</div>
+  <div space="p:medium" visual="border:neutral-500 border-w:regular rounded:small bg:white dark:bg:neutral-800">regular</div>
+  <div space="p:medium" visual="border:neutral-500 border-w:thick rounded:small bg:white dark:bg:neutral-800">thick</div>
+</div>`,
+      highlightValue: 'border-w:regular'
+    }
   ]
 };
 
@@ -78,6 +118,20 @@ export const borderStyle = {
   ],
   examples: [
     { code: '<div visual="border:gray-300 border-style:dashed">Dashed border</div>', description: 'Dashed border' }
+  ],
+  preview: [
+    {
+      title: 'Border Styles',
+      titleMs: 'Gaya Sempadan',
+      description: 'Different border style options',
+      descriptionMs: 'Pilihan gaya sempadan berbeza',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="border:neutral-500 border-w:regular border-style:solid rounded:small bg:white dark:bg:neutral-800">solid</div>
+  <div space="p:medium" visual="border:neutral-500 border-w:regular border-style:dashed rounded:small bg:white dark:bg:neutral-800">dashed</div>
+  <div space="p:medium" visual="border:neutral-500 border-w:regular border-style:dotted rounded:small bg:white dark:bg:neutral-800">dotted</div>
+</div>`,
+      highlightValue: 'border-style:dashed'
+    }
   ]
 };
 
@@ -97,6 +151,18 @@ export const outlineColor = {
   values: [],
   examples: [
     { code: '<button visual="focus:outline:primary">Focus outline</button>', description: 'Focus outline' }
+  ],
+  preview: [
+    {
+      title: 'Outline',
+      titleMs: 'Garis Luar',
+      description: 'Outline does not affect layout',
+      descriptionMs: 'Garis luar tidak mempengaruhi susun atur',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <button space="p:small" visual="outline:primary bg:white dark:bg:neutral-800 rounded:small" style="outline-width: 2px; outline-style: solid;">outline:primary</button>
+</div>`,
+      highlightValue: 'outline:primary'
+    }
   ]
 };
 

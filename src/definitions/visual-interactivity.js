@@ -20,6 +20,19 @@ export const scrollBehavior = {
   ],
   examples: [
     { code: '<html visual="scroll-behavior:smooth">Smooth scrolling</html>', description: 'Smooth scroll' }
+  ],
+  preview: [
+    {
+      title: 'Scroll Behavior',
+      titleMs: 'Kelakuan Skrol',
+      description: 'Smooth or instant scrolling',
+      descriptionMs: 'Skrol lancar atau serta-merta',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">auto</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">smooth</div>
+</div>`,
+      highlightValue: 'scroll-behavior:smooth'
+    }
   ]
 };
 
@@ -46,6 +59,18 @@ export const scrollMargin = {
   ],
   examples: [
     { code: '<div visual="scroll-m:medium">Scroll margin</div>', description: 'Scroll margin' }
+  ],
+  preview: [
+    {
+      title: 'Scroll Margin',
+      titleMs: 'Margin Skrol',
+      description: 'Offset for scroll snap',
+      descriptionMs: 'Offset untuk snap skrol',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">scroll-m:medium</div>
+</div>`,
+      highlightValue: 'scroll-m:medium'
+    }
   ]
 };
 
@@ -72,6 +97,18 @@ export const scrollPadding = {
   ],
   examples: [
     { code: '<div visual="scroll-p:big">Scroll padding</div>', description: 'Scroll padding' }
+  ],
+  preview: [
+    {
+      title: 'Scroll Padding',
+      titleMs: 'Padding Skrol',
+      description: 'Padding for scroll snap container',
+      descriptionMs: 'Padding untuk bekas snap skrol',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">scroll-p:big</div>
+</div>`,
+      highlightValue: 'scroll-p:big'
+    }
   ]
 };
 
@@ -94,6 +131,20 @@ export const scrollSnapAlign = {
   ],
   examples: [
     { code: '<div visual="snap-align:start">Snap to start</div>', description: 'Start alignment' }
+  ],
+  preview: [
+    {
+      title: 'Snap Alignment',
+      titleMs: 'Penjajaran Snap',
+      description: 'Where to snap within container',
+      descriptionMs: 'Tempat untuk snap dalam bekas',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">start</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">end</div>
+</div>`,
+      highlightValue: 'snap-align:start'
+    }
   ]
 };
 
@@ -114,6 +165,19 @@ export const scrollSnapStop = {
   ],
   examples: [
     { code: '<div visual="snap-stop:always">Always stop here</div>', description: 'Force stop' }
+  ],
+  preview: [
+    {
+      title: 'Snap Stop',
+      titleMs: 'Hentian Snap',
+      description: 'Control whether to stop at snap point',
+      descriptionMs: 'Kawal sama ada berhenti di titik snap',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">always</div>
+</div>`,
+      highlightValue: 'snap-stop:always'
+    }
   ]
 };
 
@@ -138,6 +202,20 @@ export const scrollSnapType = {
   ],
   examples: [
     { code: '<div visual="snap-type:x">Horizontal snap container</div>', description: 'Horizontal snap' }
+  ],
+  preview: [
+    {
+      title: 'Snap Type',
+      titleMs: 'Jenis Snap',
+      description: 'Enable scroll snapping',
+      descriptionMs: 'Dayakan snapping skrol',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">x</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">y</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">both</div>
+</div>`,
+      highlightValue: 'snap-type:x'
+    }
   ]
 };
 
@@ -164,6 +242,20 @@ export const touchAction = {
   ],
   examples: [
     { code: '<div visual="touch:manipulation">Touch optimized</div>', description: 'Optimized touch' }
+  ],
+  preview: [
+    {
+      title: 'Touch Action',
+      titleMs: 'Tindakan Sentuh',
+      description: 'Control touch gestures',
+      descriptionMs: 'Kawal gerak isyarat sentuh',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">pan-x</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">pan-y</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">manipulation</div>
+</div>`,
+      highlightValue: 'touch:manipulation'
+    }
   ]
 };
 
@@ -186,6 +278,21 @@ export const resize = {
   ],
   examples: [
     { code: '<textarea visual="resize:y">Vertical resize only</textarea>', description: 'Vertical resize' }
+  ],
+  preview: [
+    {
+      title: 'Resize',
+      titleMs: 'Saiz Semula',
+      description: 'Allow element resizing',
+      descriptionMs: 'Benarkan saiz semula elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">x</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">y</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">both</div>
+</div>`,
+      highlightValue: 'resize:y'
+    }
   ]
 };
 
@@ -209,6 +316,19 @@ export const willChange = {
   ],
   examples: [
     { code: '<div visual="will-change:transform">Optimized for animation</div>', description: 'Transform optimization' }
+  ],
+  preview: [
+    {
+      title: 'Will Change',
+      titleMs: 'Akan Berubah',
+      description: 'Optimize for upcoming changes',
+      descriptionMs: 'Optimumkan untuk perubahan akan datang',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">transform</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">opacity</div>
+</div>`,
+      highlightValue: 'will-change:transform'
+    }
   ]
 };
 
@@ -230,6 +350,19 @@ export const colorScheme = {
   ],
   examples: [
     { code: '<html visual="color-scheme:dark">Dark mode</html>', description: 'Dark mode' }
+  ],
+  preview: [
+    {
+      title: 'Color Scheme',
+      titleMs: 'Skema Warna',
+      description: 'Set preferred color mode',
+      descriptionMs: 'Tetapkan mod warna pilihan',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">light</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">dark</div>
+</div>`,
+      highlightValue: 'color-scheme:dark'
+    }
   ]
 };
 
@@ -250,6 +383,19 @@ export const fieldSizing = {
   ],
   examples: [
     { code: '<textarea visual="field-sizing:content">Auto-grow textarea</textarea>', description: 'Auto-grow' }
+  ],
+  preview: [
+    {
+      title: 'Field Sizing',
+      titleMs: 'Saiz Medan',
+      description: 'Grow field with content',
+      descriptionMs: 'Besarkan medan dengan kandungan',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">fixed</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">content</div>
+</div>`,
+      highlightValue: 'field-sizing:content'
+    }
   ]
 };
 
@@ -270,6 +416,19 @@ export const forcedColorAdjust = {
   ],
   examples: [
     { code: '<div visual="forced-color:none">Preserve colors in high contrast</div>', description: 'Preserve colors' }
+  ],
+  preview: [
+    {
+      title: 'Forced Color Adjust',
+      titleMs: 'Penyesuaian Warna Paksa',
+      description: 'Control high contrast mode',
+      descriptionMs: 'Kawal mod kontras tinggi',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small">auto</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
+</div>`,
+      highlightValue: 'forced-color:none'
+    }
   ]
 };
 

@@ -24,6 +24,36 @@ visual="leading:[value]"
 <div visual="leading:relaxed">Relaxed line height</div>
 ```
 
+## Preview
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Line Height
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="leading:relaxed"</code> - Control vertical spacing between lines</p>
+<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <p style="line-height: 1; margin: 0;">Tight leading<br>for headings</p>
+  <p style="line-height: 1.5; margin: 0;">Normal leading<br>for body text</p>
+  <p style="line-height: 2; margin: 0;">Loose leading<br>for readability</p>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <p style="line-height: 1; margin: 0;">Tight leading<br>for headings</p>
+  <p style="line-height: 1.5; margin: 0;">Normal leading<br>for body text</p>
+  <p style="line-height: 2; margin: 0;">Loose leading<br>for readability</p>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Arbitrary Values
 
 Supports custom values using bracket syntax:

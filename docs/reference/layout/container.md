@@ -28,7 +28,7 @@ layout="container"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="container"</code> - Centered container with max-width</p>
 <div visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" space="p:small">
-  <div layout="container" space="p:medium" visual="bg:primary text:white rounded:small" layout="text:center">Centered Container</div>
+  <div layout="container text:center" space="p:medium" visual="bg:primary text:white rounded:small">Centered Container</div>
 </div>
 </div>
 
@@ -37,7 +37,7 @@ layout="container"
 
 ```html
 <div visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" space="p:small">
-  <div layout="container" space="p:medium" visual="bg:primary text:white rounded:small" layout="text:center">Centered Container</div>
+  <div layout="container text:center" space="p:medium" visual="bg:primary text:white rounded:small">Centered Container</div>
 </div>
 ```
 

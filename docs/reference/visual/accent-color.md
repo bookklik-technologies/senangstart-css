@@ -13,6 +13,36 @@ visual="accent:[color]"
 <input type="checkbox" visual="accent:primary">
 ```
 
+## Preview
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Accent Color
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="accent:primary"</code> - Style native form controls (checkboxes, radios, range)</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <input type="checkbox" checked style="accent-color: #3b82f6; width: 20px; height: 20px;">
+  <input type="radio" checked style="accent-color: #10b981; width: 20px; height: 20px;">
+  <input type="range" style="accent-color: #8b5cf6; width: 100px;">
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <input type="checkbox" checked style="accent-color: #3b82f6; width: 20px; height: 20px;">
+  <input type="radio" checked style="accent-color: #10b981; width: 20px; height: 20px;">
+  <input type="range" style="accent-color: #8b5cf6; width: 100px;">
+</div>
+```
+
+</details>
+
+</div>
+
 ## Arbitrary Values
 
 Supports custom values using bracket syntax:

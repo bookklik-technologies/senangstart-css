@@ -26,3 +26,33 @@ visual="cursor:[value]"
 ```html
 <button visual="cursor:pointer">Clickable</button>
 ```
+
+## Preview
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Cursor
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="cursor:pointer"</code> - Change mouse cursor on hover</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: pointer;">pointer</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: wait;">wait</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: not-allowed;">not-allowed</div>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: pointer;">pointer</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: wait;">wait</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: not-allowed;">not-allowed</div>
+</div>
+```
+
+</details>
+
+</div>

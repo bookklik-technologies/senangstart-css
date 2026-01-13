@@ -24,6 +24,36 @@ visual="tracking:[value]"
 <div visual="tracking:wide">Wide tracking</div>
 ```
 
+## Pratonton
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Jarak Huruf
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="tracking:wide"</code> - Laraskan jarak antara aksara</p>
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span style="letter-spacing: -0.05em;">tighter spacing</span>
+  <span style="letter-spacing: 0;">normal spacing</span>
+  <span style="letter-spacing: 0.1em;">widest spacing</span>
+</div>
+</div>
+
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span style="letter-spacing: -0.05em;">tighter spacing</span>
+  <span style="letter-spacing: 0;">normal spacing</span>
+  <span style="letter-spacing: 0.1em;">widest spacing</span>
+</div>
+```
+
+</details>
+
+</div>
+
 ## Nilai Arbitrari
 
 Sokong nilai tersuai menggunakan sintaks kurungan segi empat:

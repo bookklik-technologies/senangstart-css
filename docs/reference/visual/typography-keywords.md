@@ -70,3 +70,35 @@ visual="[keyword]"
 <span visual="uppercase">Uppercase</span>
 <span visual="truncate">Truncated text...</span>
 ```
+
+## Preview
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Typography Keywords
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="italic"</code> - Quick typography utilities without value syntax</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span style="font-style: italic;">italic</span>
+  <span style="text-transform: uppercase;">upper</span>
+  <span style="text-decoration: underline;">underline</span>
+  <span style="text-decoration: line-through;">strike</span>
+</div>
+</div>
+
+<details>
+<summary>View Code</summary>
+
+```html
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span style="font-style: italic;">italic</span>
+  <span style="text-transform: uppercase;">upper</span>
+  <span style="text-decoration: underline;">underline</span>
+  <span style="text-decoration: line-through;">strike</span>
+</div>
+```
+
+</details>
+
+</div>
