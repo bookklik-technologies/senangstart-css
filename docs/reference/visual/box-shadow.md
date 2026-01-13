@@ -23,6 +23,15 @@ visual="shadow:[value]"
 <div visual="shadow:medium">Card with shadow</div>
 ```
 
+## Notes
+
+> [!TIP]
+> **Tailwind Scale Support**
+> 
+> Use `tw-` prefix to access Tailwind shadow scale: `shadow:tw-md`, `shadow:tw-lg`, `shadow:tw-xl`
+> 
+> [Reference](https://tailwindcss.com/docs/box-shadow)
+
 ## Responsive
 
 ```html

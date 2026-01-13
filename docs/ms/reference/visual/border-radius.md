@@ -24,6 +24,15 @@ visual="rounded:[value]"
 <div visual="rounded:round">Pill shape</div>
 ```
 
+## Nota
+
+> [!TIP]
+> **Sokongan Skala Tailwind**
+> 
+> Gunakan awalan `tw-` untuk mengakses skala jejari Tailwind: `rounded:tw-lg` (0.5rem), `rounded:tw-2xl` (1rem)
+> 
+> [Rujukan](https://tailwindcss.com/docs/border-radius)
+
 ## Responsif
 
 ```html

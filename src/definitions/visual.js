@@ -65,6 +65,15 @@ export const fontSize = {
   examples: [
     { code: '<div visual="text-size:big">Large text</div>', description: 'Scale value' },
     { code: '<div visual="text-size:[24px]">24px text</div>', description: 'Arbitrary' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind font scale: `text-size:tw-xl` (1.25rem), `text-size:tw-2xl` (1.5rem)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala fon Tailwind: `text-size:tw-xl` (1.25rem), `text-size:tw-2xl` (1.5rem)',
+      link: 'https://tailwindcss.com/docs/font-size'
+    }
   ]
 };
 
@@ -277,6 +286,15 @@ export const borderRadius = {
   examples: [
     { code: '<div visual="rounded:medium">Rounded corners</div>', description: 'Medium radius' },
     { code: '<div visual="rounded:round">Pill shape</div>', description: 'Pill' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind radius scale: `rounded:tw-lg` (0.5rem), `rounded:tw-2xl` (1rem)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala jejari Tailwind: `rounded:tw-lg` (0.5rem), `rounded:tw-2xl` (1rem)',
+      link: 'https://tailwindcss.com/docs/border-radius'
+    }
   ]
 };
 
@@ -301,6 +319,15 @@ export const boxShadow = {
   ],
   examples: [
     { code: '<div visual="shadow:medium">Card with shadow</div>', description: 'Medium shadow' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind shadow scale: `shadow:tw-md`, `shadow:tw-lg`, `shadow:tw-xl`',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala bayang Tailwind: `shadow:tw-md`, `shadow:tw-lg`, `shadow:tw-xl`',
+      link: 'https://tailwindcss.com/docs/box-shadow'
+    }
   ]
 };
 

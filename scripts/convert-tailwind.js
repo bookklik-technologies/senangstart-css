@@ -325,8 +325,35 @@ const visualKeywordMappings = {
 
 /**
  * Get spacing scale value from Tailwind number
+ * @param {string} value - The Tailwind spacing value
+ * @param {Object} options - Conversion options
+ * @param {boolean} options.exact - If true, output tw-{value} prefix instead of semantic scale
  */
-function getSpacingScale(value) {
+function getSpacingScale(value, options = {}) {
+  // Exact mode: output tw-{value} for Tailwind scale
+  if (options.exact) {
+    // Handle arbitrary values like [20px]
+    if (value.startsWith('[') && value.endsWith(']')) {
+      return value;
+    }
+    // Special keywords that don't map to tw- scale
+    const specialKeywords = ['full', 'screen', 'min', 'max', 'fit', 'auto'];
+    if (specialKeywords.includes(value)) {
+      const specialMap = {
+        'full': '[100%]',
+        'screen': '[100vw]',
+        'min': '[min-content]',
+        'max': '[max-content]',
+        'fit': '[fit-content]',
+        'auto': 'auto'
+      };
+      return specialMap[value];
+    }
+    // Output tw- prefix for numeric scale
+    return `tw-${value}`;
+  }
+  
+  // Semantic mode (default)
   if (spacingScale[value]) {
     return spacingScale[value];
   }
@@ -341,8 +368,11 @@ function getSpacingScale(value) {
 /**
  * Convert a single Tailwind class to SenangStart
  * Returns { category: 'layout'|'space'|'visual'|null, value: string }
+ * @param {string} twClass - The Tailwind class to convert
+ * @param {Object} options - Conversion options
+ * @param {boolean} options.exact - If true, output tw-{value} prefix instead of semantic scale
  */
-function convertClass(twClass) {
+function convertClass(twClass, options = {}) {
   // Check for responsive/state prefixes
   const prefixMatch = twClass.match(/^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|active:|disabled:|dark:)(.+)$/);
   let prefix = '';
@@ -383,7 +413,7 @@ function convertClass(twClass) {
   // Text size
   const textSizeMatch = baseClass.match(/^text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)$/);
   if (textSizeMatch) {
-    const size = fontSizeScale[textSizeMatch[1]] || textSizeMatch[1];
+    const size = options.exact ? `tw-${textSizeMatch[1]}` : (fontSizeScale[textSizeMatch[1]] || textSizeMatch[1]);
     return { category: 'visual', value: prefix + 'text-size:' + size };
   }
   
@@ -403,7 +433,7 @@ function convertClass(twClass) {
   const paddingMatch = baseClass.match(/^p([trblxy])?-(.+)$/);
   if (paddingMatch) {
     const side = paddingMatch[1] ? '-' + paddingMatch[1] : '';
-    const value = getSpacingScale(paddingMatch[2]);
+    const value = getSpacingScale(paddingMatch[2], options);
     return { category: 'space', value: prefix + 'p' + side + ':' + value };
   }
   
@@ -412,8 +442,11 @@ function convertClass(twClass) {
   if (marginMatch) {
     const isNegative = baseClass.startsWith('-');
     const side = marginMatch[1] ? '-' + marginMatch[1] : '';
-    let value = getSpacingScale(marginMatch[2]);
-    if (isNegative && !value.startsWith('[')) {
+    let value = getSpacingScale(marginMatch[2], options);
+    if (isNegative && !value.startsWith('[') && !value.startsWith('tw-')) {
+      value = '[-' + value + ']';
+    } else if (isNegative && value.startsWith('tw-')) {
+      // For exact mode with negative, wrap in arbitrary
       value = '[-' + value + ']';
     }
     return { category: 'space', value: prefix + 'm' + side + ':' + value };
@@ -423,7 +456,7 @@ function convertClass(twClass) {
   const gapMatch = baseClass.match(/^gap-([xy])?-?(.+)$/);
   if (gapMatch) {
     const axis = gapMatch[1] ? '-' + gapMatch[1] : '';
-    const value = getSpacingScale(gapMatch[2]);
+    const value = getSpacingScale(gapMatch[2], options);
     return { category: 'space', value: prefix + 'g' + axis + ':' + value };
   }
   
@@ -431,7 +464,7 @@ function convertClass(twClass) {
   const widthMatch = baseClass.match(/^(min-w|max-w|w)-(.+)$/);
   if (widthMatch) {
     const prop = widthMatch[1] === 'w' ? 'w' : widthMatch[1];
-    const value = getSpacingScale(widthMatch[2]);
+    const value = getSpacingScale(widthMatch[2], options);
     return { category: 'space', value: prefix + prop + ':' + value };
   }
   
@@ -439,7 +472,7 @@ function convertClass(twClass) {
   const heightMatch = baseClass.match(/^(min-h|max-h|h)-(.+)$/);
   if (heightMatch) {
     const prop = heightMatch[1] === 'h' ? 'h' : heightMatch[1];
-    let value = getSpacingScale(heightMatch[2]);
+    let value = getSpacingScale(heightMatch[2], options);
     if (heightMatch[2] === 'screen') {
       value = '[100vh]';
     }
@@ -452,9 +485,13 @@ function convertClass(twClass) {
     const size = roundedMatch[1] || '';
     // Check if it's a side-specific rounded (rounded-t, rounded-b, etc.)
     if (['t', 'r', 'b', 'l', 'tl', 'tr', 'bl', 'br'].includes(size)) {
-      return { category: 'visual', value: prefix + 'rounded-' + size + ':medium' };
+      const sideScale = options.exact ? 'tw-DEFAULT' : 'medium';
+      return { category: 'visual', value: prefix + 'rounded-' + size + ':' + sideScale };
     }
-    const scale = radiusScale[size] || 'medium';
+    // Exact mode: output tw-{size} or tw-DEFAULT for base 'rounded'
+    const scale = options.exact 
+      ? (size === '' ? 'tw-DEFAULT' : `tw-${size}`)
+      : (radiusScale[size] || 'medium');
     return { category: 'visual', value: prefix + 'rounded:' + scale };
   }
   
@@ -462,7 +499,10 @@ function convertClass(twClass) {
   const shadowMatch = baseClass.match(/^shadow(?:-(.+))?$/);
   if (shadowMatch) {
     const size = shadowMatch[1] || '';
-    const scale = shadowScale[size] || 'medium';
+    // Exact mode: output tw-{size} or tw-DEFAULT for base 'shadow'
+    const scale = options.exact
+      ? (size === '' ? 'tw-DEFAULT' : `tw-${size}`)
+      : (shadowScale[size] || 'medium');
     return { category: 'visual', value: prefix + 'shadow:' + scale };
   }
   
@@ -651,7 +691,7 @@ function convertClass(twClass) {
 /**
  * Convert HTML string with Tailwind classes to SenangStart syntax
  */
-export function convertHTML(html) {
+export function convertHTML(html, options = {}) {
   // Match elements with class attribute
   const classRegex = /class\s*=\s*["']([^"']+)["']/gi;
   
@@ -671,7 +711,7 @@ export function convertHTML(html) {
   // Process in reverse to maintain indices
   for (let i = matches.length - 1; i >= 0; i--) {
     const m = matches[i];
-    const converted = convertClasses(m.classes);
+    const converted = convertClasses(m.classes, options);
     
     // Build replacement attributes
     const attrs = [];
@@ -697,8 +737,11 @@ export function convertHTML(html) {
 
 /**
  * Convert a class string to categorized SenangStart values
+ * @param {string} classString - Space-separated Tailwind classes
+ * @param {Object} options - Conversion options
+ * @param {boolean} options.exact - If true, output tw-{value} prefix instead of semantic scale
  */
-export function convertClasses(classString) {
+export function convertClasses(classString, options = {}) {
   const classes = classString.trim().split(/\s+/);
   
   const result = {
@@ -711,7 +754,7 @@ export function convertClasses(classString) {
   for (const cls of classes) {
     if (!cls) continue;
     
-    const converted = convertClass(cls);
+    const converted = convertClass(cls, options);
     
     if (converted) {
       result[converted.category].push(converted.value);
@@ -729,6 +772,10 @@ export function convertClasses(classString) {
 function main() {
   const args = argv.slice(2);
   
+  // Parse --exact flag
+  const exactMode = args.includes('--exact') || args.includes('-e');
+  const options = { exact: exactMode };
+  
   if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
     console.log(`
 Tailwind CSS to SenangStart CSS Converter
@@ -740,11 +787,13 @@ Usage:
 Options:
   -o, --output    Output file path (default: stdout)
   --string        Convert a single HTML string
+  -e, --exact     Use Tailwind numeric scale with tw- prefix (e.g., p:tw-4)
   -h, --help      Show this help message
 
 Examples:
   node scripts/convert-tailwind.js template.html -o converted.html
   node scripts/convert-tailwind.js --string "<div class='flex items-center p-4'>"
+  node scripts/convert-tailwind.js --exact --string "<div class='p-4 rounded-lg'>"
 `);
     return;
   }
@@ -759,7 +808,7 @@ Examples:
       process.exit(1);
     }
     
-    const result = convertHTML(htmlString);
+    const result = convertHTML(htmlString, options);
     console.log(result);
     return;
   }
@@ -780,7 +829,7 @@ Examples:
   
   try {
     const input = readFileSync(inputFile, 'utf-8');
-    const result = convertHTML(input);
+    const result = convertHTML(input, options);
     
     if (outputFile) {
       writeFileSync(outputFile, result);

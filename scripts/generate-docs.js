@@ -141,6 +141,28 @@ function generateMarkdown(definition, locale = 'en') {
     lines.push('');
   }
   
+  // Footnotes (e.g., Tailwind scale compatibility notes)
+  if (definition.footnotes && definition.footnotes.length > 0) {
+    lines.push(isMs ? '## Nota' : '## Notes');
+    lines.push('');
+    
+    for (const footnote of definition.footnotes) {
+      const title = isMs ? (footnote.titleMs || footnote.title) : footnote.title;
+      const content = isMs ? (footnote.contentMs || footnote.content) : footnote.content;
+      
+      // Use VitePress TIP alert for footnotes
+      lines.push('> [!TIP]');
+      lines.push(`> **${title}**`);
+      lines.push(`> `);
+      lines.push(`> ${content}`);
+      if (footnote.link) {
+        lines.push(`> `);
+        lines.push(`> [${isMs ? 'Rujukan' : 'Reference'}](${footnote.link})`);
+      }
+      lines.push('');
+    }
+  }
+  
   // Responsive
   lines.push(isMs ? '## Responsif' : '## Responsive');
   lines.push('');

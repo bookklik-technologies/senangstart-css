@@ -23,6 +23,15 @@ visual="shadow:[value]"
 <div visual="shadow:medium">Card with shadow</div>
 ```
 
+## Nota
+
+> [!TIP]
+> **Sokongan Skala Tailwind**
+> 
+> Gunakan awalan `tw-` untuk mengakses skala bayang Tailwind: `shadow:tw-md`, `shadow:tw-lg`, `shadow:tw-xl`
+> 
+> [Rujukan](https://tailwindcss.com/docs/box-shadow)
+
 ## Responsif
 
 ```html

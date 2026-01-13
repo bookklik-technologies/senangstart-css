@@ -50,6 +50,22 @@ node scripts/convert-tailwind.js --string "<div class='flex p-4 bg-blue-500'>"
 <div layout="flex items:center" space="p:big" visual="bg:blue-500 text:white rounded:medium">
 ```
 
+### Exact Mode (tw- prefix)
+
+Use `--exact` to preserve Tailwind's numeric scale with `tw-` prefix:
+
+```bash
+node scripts/convert-tailwind.js --exact --string "<div class='p-4 rounded-lg'>"
+# Output: space="p:tw-4" visual="rounded:tw-lg"
+```
+
+| Tailwind | Semantic | Exact (tw-) |
+|----------|----------|-------------|
+| `p-4` | `p:small` | `p:tw-4` |
+| `mt-8` | `m-t:big` | `m-t:tw-8` |
+| `rounded-lg` | `rounded:medium` | `rounded:tw-lg` |
+| `text-2xl` | `text-size:giant` | `text-size:tw-2xl` |
+
 ## Documentation
 
 Full docs at [bookklik-technologies.github.io/senangstart-css](https://bookklik-technologies.github.io/senangstart-css/)

@@ -22,6 +22,15 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 <div visual="text:[custom-value]">Custom</div>
 ```
 
+## Nota
+
+> [!TIP]
+> **Sokongan Skala Tailwind**
+> 
+> Gunakan awalan `tw-` untuk mengakses skala fon Tailwind: `text-size:tw-xl` (1.25rem), `text-size:tw-2xl` (1.5rem)
+> 
+> [Rujukan](https://tailwindcss.com/docs/font-size)
+
 ## Responsif
 
 ```html

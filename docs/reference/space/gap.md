@@ -34,6 +34,15 @@ Supports custom values using bracket syntax:
 <div space="gap:[custom-value]">Custom</div>
 ```
 
+## Notes
+
+> [!TIP]
+> **Tailwind Scale Support**
+> 
+> Use `tw-` prefix to access Tailwind numeric scale: `g:tw-4` (1rem), `g:tw-8` (2rem)
+> 
+> [Reference](https://tailwindcss.com/docs/gap)
+
 ## Responsive
 
 ```html

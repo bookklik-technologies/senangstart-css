@@ -35,6 +35,15 @@ Supports custom values using bracket syntax:
 <div space="width:[custom-value]">Custom</div>
 ```
 
+## Notes
+
+> [!TIP]
+> **Tailwind Scale Support**
+> 
+> Use `tw-` prefix to access Tailwind numeric scale: `w:tw-64` (16rem), `max-w:tw-96` (24rem)
+> 
+> [Reference](https://tailwindcss.com/docs/width)
+
 ## Responsive
 
 ```html

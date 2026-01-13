@@ -231,3 +231,94 @@ describe('spacingScale', () => {
     assert.strictEqual(spacingScale['auto'], 'auto');
   });
 });
+
+describe('Exact mode (tw- prefix)', () => {
+  describe('Spacing with exact mode', () => {
+    it('should output tw- prefix for padding', () => {
+      assert.deepStrictEqual(
+        convertClass('p-4', { exact: true }),
+        { category: 'space', value: 'p:tw-4' }
+      );
+      assert.deepStrictEqual(
+        convertClass('p-8', { exact: true }),
+        { category: 'space', value: 'p:tw-8' }
+      );
+    });
+
+    it('should output tw- prefix for margin', () => {
+      assert.deepStrictEqual(
+        convertClass('mt-4', { exact: true }),
+        { category: 'space', value: 'm-t:tw-4' }
+      );
+    });
+
+    it('should output tw- prefix for gap', () => {
+      assert.deepStrictEqual(
+        convertClass('gap-4', { exact: true }),
+        { category: 'space', value: 'g:tw-4' }
+      );
+    });
+
+    it('should output tw- prefix for width/height', () => {
+      assert.deepStrictEqual(
+        convertClass('w-8', { exact: true }),
+        { category: 'space', value: 'w:tw-8' }
+      );
+    });
+  });
+
+  describe('Border radius with exact mode', () => {
+    it('should output tw- prefix for rounded', () => {
+      assert.deepStrictEqual(
+        convertClass('rounded', { exact: true }),
+        { category: 'visual', value: 'rounded:tw-DEFAULT' }
+      );
+      assert.deepStrictEqual(
+        convertClass('rounded-lg', { exact: true }),
+        { category: 'visual', value: 'rounded:tw-lg' }
+      );
+    });
+  });
+
+  describe('Shadow with exact mode', () => {
+    it('should output tw- prefix for shadow', () => {
+      assert.deepStrictEqual(
+        convertClass('shadow', { exact: true }),
+        { category: 'visual', value: 'shadow:tw-DEFAULT' }
+      );
+      assert.deepStrictEqual(
+        convertClass('shadow-lg', { exact: true }),
+        { category: 'visual', value: 'shadow:tw-lg' }
+      );
+    });
+  });
+
+  describe('Font size with exact mode', () => {
+    it('should output tw- prefix for text size', () => {
+      assert.deepStrictEqual(
+        convertClass('text-2xl', { exact: true }),
+        { category: 'visual', value: 'text-size:tw-2xl' }
+      );
+    });
+  });
+
+  describe('convertClasses with exact mode', () => {
+    it('should group classes with tw- prefix', () => {
+      const result = convertClasses('flex p-4 rounded-lg', { exact: true });
+      
+      assert.deepStrictEqual(result.layout, ['flex']);
+      assert.deepStrictEqual(result.space, ['p:tw-4']);
+      assert.deepStrictEqual(result.visual, ['rounded:tw-lg']);
+    });
+  });
+
+  describe('convertHTML with exact mode', () => {
+    it('should convert HTML with tw- prefix', () => {
+      const input = '<div class="p-4 rounded-lg"></div>';
+      const result = convertHTML(input, { exact: true });
+      
+      assert.ok(result.includes('space="p:tw-4"'));
+      assert.ok(result.includes('visual="rounded:tw-lg"'));
+    });
+  });
+});

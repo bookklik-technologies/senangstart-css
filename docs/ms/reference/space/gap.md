@@ -34,6 +34,15 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 <div space="gap:[custom-value]">Custom</div>
 ```
 
+## Nota
+
+> [!TIP]
+> **Sokongan Skala Tailwind**
+> 
+> Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `g:tw-4` (1rem), `g:tw-8` (2rem)
+> 
+> [Rujukan](https://tailwindcss.com/docs/gap)
+
 ## Responsif
 
 ```html

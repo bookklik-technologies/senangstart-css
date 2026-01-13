@@ -30,6 +30,15 @@ export const padding = {
     { code: '<div space="p:medium">Padding all sides</div>', description: 'Medium padding' },
     { code: '<div space="p-x:big p-y:small">Different padding</div>', description: 'Axis padding' },
     { code: '<div space="p:[20px]">Custom padding</div>', description: 'Arbitrary value' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind numeric scale: `p:tw-4` (1rem), `p:tw-8` (2rem)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `p:tw-4` (1rem), `p:tw-8` (2rem)',
+      link: 'https://tailwindcss.com/docs/padding'
+    }
   ]
 };
 
@@ -60,6 +69,15 @@ export const margin = {
     { code: '<div space="m:medium">Margin all sides</div>', description: 'Medium margin' },
     { code: '<div space="m-x:auto">Centered horizontally</div>', description: 'Auto centering' },
     { code: '<div space="m-t:big">Top margin</div>', description: 'Top margin only' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind numeric scale: `m:tw-4` (1rem), `m-t:tw-8` (2rem)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `m:tw-4` (1rem), `m-t:tw-8` (2rem)',
+      link: 'https://tailwindcss.com/docs/margin'
+    }
   ]
 };
 
@@ -85,6 +103,15 @@ export const gap = {
   examples: [
     { code: '<div layout="flex" space="g:medium">Gap between items</div>', description: 'Flex gap' },
     { code: '<div layout="grid" space="g-x:big g-y:small">Grid gaps</div>', description: 'Different axis gaps' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind numeric scale: `g:tw-4` (1rem), `g:tw-8` (2rem)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `g:tw-4` (1rem), `g:tw-8` (2rem)',
+      link: 'https://tailwindcss.com/docs/gap'
+    }
   ]
 };
 
@@ -111,6 +138,15 @@ export const width = {
     { code: '<div space="w:[100%]">Full width</div>', description: 'Full width' },
     { code: '<div space="max-w:[1200px]">Max width container</div>', description: 'Max width' },
     { code: '<div space="min-w:[300px]">Min width</div>', description: 'Minimum width' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind numeric scale: `w:tw-64` (16rem), `max-w:tw-96` (24rem)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `w:tw-64` (16rem), `max-w:tw-96` (24rem)',
+      link: 'https://tailwindcss.com/docs/width'
+    }
   ]
 };
 
@@ -136,6 +172,15 @@ export const height = {
   examples: [
     { code: '<div space="h:[100vh]">Full viewport height</div>', description: 'Full height' },
     { code: '<div space="min-h:[400px]">Min height</div>', description: 'Minimum height' }
+  ],
+  footnotes: [
+    {
+      title: 'Tailwind Scale Support',
+      titleMs: 'Sokongan Skala Tailwind',
+      content: 'Use `tw-` prefix to access Tailwind numeric scale: `h:tw-64` (16rem), `min-h:tw-96` (24rem)',
+      contentMs: 'Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `h:tw-64` (16rem), `min-h:tw-96` (24rem)',
+      link: 'https://tailwindcss.com/docs/height'
+    }
   ]
 };
 

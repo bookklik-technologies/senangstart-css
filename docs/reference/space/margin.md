@@ -39,6 +39,15 @@ Supports custom values using bracket syntax:
 <div space="margin:[custom-value]">Custom</div>
 ```
 
+## Notes
+
+> [!TIP]
+> **Tailwind Scale Support**
+> 
+> Use `tw-` prefix to access Tailwind numeric scale: `m:tw-4` (1rem), `m-t:tw-8` (2rem)
+> 
+> [Reference](https://tailwindcss.com/docs/margin)
+
 ## Responsive
 
 ```html

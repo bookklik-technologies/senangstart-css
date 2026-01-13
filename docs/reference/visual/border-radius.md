@@ -24,6 +24,15 @@ visual="rounded:[value]"
 <div visual="rounded:round">Pill shape</div>
 ```
 
+## Notes
+
+> [!TIP]
+> **Tailwind Scale Support**
+> 
+> Use `tw-` prefix to access Tailwind radius scale: `rounded:tw-lg` (0.5rem), `rounded:tw-2xl` (1rem)
+> 
+> [Reference](https://tailwindcss.com/docs/border-radius)
+
 ## Responsive
 
 ```html

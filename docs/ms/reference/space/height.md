@@ -34,6 +34,15 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 <div space="height:[custom-value]">Custom</div>
 ```
 
+## Nota
+
+> [!TIP]
+> **Sokongan Skala Tailwind**
+> 
+> Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `h:tw-64` (16rem), `min-h:tw-96` (24rem)
+> 
+> [Rujukan](https://tailwindcss.com/docs/height)
+
 ## Responsif
 
 ```html

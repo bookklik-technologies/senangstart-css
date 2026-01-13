@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenangStart CSS - Tailwind Scale (tw-) Support Demo</title>
+  <!-- Load the JIT engine from local dist -->
+  <script src="../dist/senangstart-css.min.js"></script>
+</head>
+<body visual="bg:slate-100">
+  <div space="p:tw-8 m:tw-4 max-w:[1200px] m-x:auto">
+    <h1 visual="text-size:tw-4xl font:bold text:slate-800">Tailwind Scale Support (tw- prefix)</h1>
+    <p visual="text:slate-500 text-size:tw-lg" space="m-b:tw-8">
+      This demo shows how to use Tailwind's numeric scale with the <code visual="bg:slate-200 rounded:tw-md" space="p-x:tw-1">tw-</code> prefix.
+    </p>
+    
+    <!-- ============================================ -->
+    <!-- SPACING: PADDING -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:blue-50 border:blue-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:blue-900">Spacing - Padding (p:tw-*)</h2>
+      <p visual="text:blue-600 text-size:tw-sm" space="m-t:tw-2">Uses Tailwind spacing: tw-1 (0.25rem), tw-4 (1rem), tw-8 (2rem)...</p>
+      
+      <div layout="flex wrap" space="m-t:tw-4 g:tw-4">
+        <div space="p:tw-1" visual="bg:blue-500 text:white rounded:tw-sm">p:tw-1 (4px)</div>
+        <div space="p:tw-2" visual="bg:blue-500 text:white rounded:tw-sm">p:tw-2 (8px)</div>
+        <div space="p:tw-4" visual="bg:blue-500 text:white rounded:tw-sm">p:tw-4 (16px)</div>
+        <div space="p:tw-6" visual="bg:blue-500 text:white rounded:tw-sm">p:tw-6 (24px)</div>
+        <div space="p:tw-8" visual="bg:blue-500 text:white rounded:tw-sm">p:tw-8 (32px)</div>
+      </div>
+      
+      <div layout="flex wrap" space="m-t:tw-4 g:tw-4">
+        <div space="p-x:tw-8 p-y:tw-2" visual="bg:blue-600 text:white rounded:tw-sm">p-x:tw-8 p-y:tw-2</div>
+        <div space="p-t:tw-10 p-b:tw-2 p-x:tw-4" visual="bg:blue-400 text:white rounded:tw-sm">p-t:tw-10</div>
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- SPACING: MARGIN -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:emerald-50 border:emerald-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:emerald-900">Spacing - Margin (m:tw-*)</h2>
+      
+      <div layout="flex wrap" space="m-t:tw-4 g:tw-2" visual="bg:emerald-100 rounded:tw-md p:tw-2">
+        <div space="m:tw-1 p:tw-2" visual="bg:emerald-500 text:white rounded:tw-sm">m:tw-1</div>
+        <div space="m:tw-2 p:tw-2" visual="bg:emerald-500 text:white rounded:tw-sm">m:tw-2</div>
+        <div space="m:tw-4 p:tw-2" visual="bg:emerald-500 text:white rounded:tw-sm">m:tw-4</div>
+      </div>
+      
+      <div layout="flex" space="m-t:tw-4 g:tw-4">
+        <div space="m-l:tw-16 p:tw-3" visual="bg:emerald-600 text:white rounded:tw-sm">m-l:tw-16 (64px left)</div>
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- SPACING: GAP -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:violet-50 border:violet-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:violet-900">Spacing - Gap (g:tw-*)</h2>
+      
+      <div layout="flex wrap" space="g:tw-8 m-t:tw-4">
+        <div space="p:tw-4" visual="bg:violet-500 text:white rounded:tw-sm">Item 1</div>
+        <div space="p:tw-4" visual="bg:violet-500 text:white rounded:tw-sm">Item 2</div>
+        <div space="p:tw-4" visual="bg:violet-500 text:white rounded:tw-sm">Item 3</div>
+      </div>
+      <div visual="text:violet-600 text-size:tw-sm" space="m-t:tw-2">g:tw-8 (32px gap)</div>
+      
+      <div layout="grid grid-cols:3" space="g-x:tw-12 g-y:tw-4 m-t:tw-4 w:[300px]">
+        <div visual="bg:violet-400 text:white text:center rounded:tw-sm" space="p:tw-2">1</div>
+        <div visual="bg:violet-400 text:white text:center rounded:tw-sm" space="p:tw-2">2</div>
+        <div visual="bg:violet-400 text:white text:center rounded:tw-sm" space="p:tw-2">3</div>
+        <div visual="bg:violet-300 text:center rounded:tw-sm" space="p:tw-2">4</div>
+        <div visual="bg:violet-300 text:center rounded:tw-sm" space="p:tw-2">5</div>
+        <div visual="bg:violet-300 text:center rounded:tw-sm" space="p:tw-2">6</div>
+      </div>
+      <div visual="text:violet-600 text-size:tw-sm" space="m-t:tw-2">g-x:tw-12 g-y:tw-4</div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- SIZING: WIDTH & HEIGHT -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:amber-50 border:amber-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:amber-900">Sizing - Width & Height (w:tw-*, h:tw-*)</h2>
+      
+      <div layout="flex wrap items:end" space="m-t:tw-4 g:tw-4">
+        <div layout="flex center" space="w:tw-16 h:tw-16" visual="bg:amber-500 text:white rounded:tw-sm">tw-16</div>
+        <div layout="flex center" space="w:tw-24 h:tw-12" visual="bg:amber-600 text:white rounded:tw-sm">w:tw-24 h:tw-12</div>
+        <div layout="flex center" space="w:tw-32 h:tw-20" visual="bg:amber-400 rounded:tw-sm">w:tw-32 h:tw-20</div>
+        <div layout="flex center" space="w:tw-48 h:tw-12" visual="bg:amber-500 text:white rounded:tw-sm">w:tw-48</div>
+      </div>
+      
+      <div visual="text:amber-600 text-size:tw-sm" space="m-t:tw-4">
+        tw-16 = 4rem, tw-24 = 6rem, tw-32 = 8rem, tw-48 = 12rem
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- BORDER RADIUS -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:cyan-50 border:cyan-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:cyan-900">Border Radius (rounded:tw-*)</h2>
+      <p visual="text:cyan-600 text-size:tw-sm" space="m-t:tw-2">Uses Tailwind radius: tw-sm, tw-md, tw-lg, tw-xl, tw-2xl, tw-full...</p>
+      
+      <div layout="flex wrap" space="m-t:tw-4 g:tw-4">
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-none">rounded:tw-none</div>
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-sm">rounded:tw-sm</div>
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-DEFAULT">rounded:tw-DEFAULT</div>
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-md">rounded:tw-md</div>
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-lg">rounded:tw-lg</div>
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-xl">rounded:tw-xl</div>
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-2xl">rounded:tw-2xl</div>
+        <div space="p:tw-4" visual="bg:cyan-500 text:white rounded:tw-3xl">rounded:tw-3xl</div>
+        <div layout="flex center" space="p:tw-4 w:tw-20" visual="bg:cyan-600 text:white rounded:tw-full">tw-full</div>
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- BOX SHADOW -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:gray-100 border:gray-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:gray-900">Box Shadow (shadow:tw-*)</h2>
+      <p visual="text:gray-600 text-size:tw-sm" space="m-t:tw-2">Uses Tailwind shadows: tw-sm, tw-md, tw-lg, tw-xl, tw-2xl...</p>
+      
+      <div layout="flex wrap" space="m-t:tw-6 g:tw-6">
+        <div space="p:tw-6" visual="bg:white shadow:tw-sm rounded:tw-lg">shadow:tw-sm</div>
+        <div space="p:tw-6" visual="bg:white shadow:tw-DEFAULT rounded:tw-lg">shadow:tw-DEFAULT</div>
+        <div space="p:tw-6" visual="bg:white shadow:tw-md rounded:tw-lg">shadow:tw-md</div>
+        <div space="p:tw-6" visual="bg:white shadow:tw-lg rounded:tw-lg">shadow:tw-lg</div>
+        <div space="p:tw-6" visual="bg:white shadow:tw-xl rounded:tw-lg">shadow:tw-xl</div>
+        <div space="p:tw-6" visual="bg:white shadow:tw-2xl rounded:tw-lg">shadow:tw-2xl</div>
+      </div>
+      
+      <div layout="flex" space="m-t:tw-6 g:tw-6">
+        <div space="p:tw-6" visual="bg:white shadow:tw-inner rounded:tw-lg">shadow:tw-inner</div>
+        <div space="p:tw-6" visual="bg:white shadow:tw-none rounded:tw-lg border:gray-300 border-w:[1px]">shadow:tw-none</div>
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- FONT SIZE -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:rose-50 border:rose-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:rose-900">Font Size (text-size:tw-*)</h2>
+      <p visual="text:rose-600 text-size:tw-sm" space="m-t:tw-2">Uses Tailwind font sizes: tw-xs, tw-sm, tw-base, tw-lg, tw-xl, tw-2xl...</p>
+      
+      <div layout="flex col" space="m-t:tw-4 g:tw-2">
+        <div visual="text-size:tw-xs text:rose-800">text-size:tw-xs (0.75rem / 12px)</div>
+        <div visual="text-size:tw-sm text:rose-800">text-size:tw-sm (0.875rem / 14px)</div>
+        <div visual="text-size:tw-base text:rose-800">text-size:tw-base (1rem / 16px)</div>
+        <div visual="text-size:tw-lg text:rose-800">text-size:tw-lg (1.125rem / 18px)</div>
+        <div visual="text-size:tw-xl text:rose-800">text-size:tw-xl (1.25rem / 20px)</div>
+        <div visual="text-size:tw-2xl text:rose-800">text-size:tw-2xl (1.5rem / 24px)</div>
+        <div visual="text-size:tw-3xl text:rose-800">text-size:tw-3xl (1.875rem / 30px)</div>
+        <div visual="text-size:tw-4xl text:rose-800">text-size:tw-4xl (2.25rem / 36px)</div>
+        <div visual="text-size:tw-5xl text:rose-800">text-size:tw-5xl (3rem / 48px)</div>
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- MIXING SEMANTIC & TAILWIND SCALES -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:indigo-50 border:indigo-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:indigo-900">Mixing Semantic & Tailwind Scales</h2>
+      <p visual="text:indigo-600 text-size:tw-sm" space="m-t:tw-2">You can mix semantic values (small, big) with tw- values in the same element!</p>
+      
+      <div layout="flex wrap" space="m-t:tw-4 g:tw-4">
+        <div space="p:medium m:tw-4" visual="bg:indigo-500 text:white rounded:big shadow:tw-lg">
+          p:medium + m:tw-4 + shadow:tw-lg
+        </div>
+        <div space="p:tw-6 m:small" visual="bg:indigo-600 text:white rounded:tw-xl shadow:medium">
+          p:tw-6 + m:small + shadow:medium
+        </div>
+        <div space="p:big" visual="bg:indigo-400 text:white rounded:tw-2xl text-size:tw-lg">
+          p:big + rounded:tw-2xl + text-size:tw-lg
+        </div>
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- CARD EXAMPLE -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6 m-b:tw-6" visual="bg:slate-50 border:slate-200 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-2xl font:bold text:slate-900">Card Example (All Tailwind Scale)</h2>
+      
+      <div 
+        layout="flex col" 
+        space="p:tw-6 g:tw-4 w:tw-80 m-t:tw-6" 
+        visual="bg:white shadow:tw-xl rounded:tw-2xl transition:shadow hover:shadow:tw-2xl">
+        <div layout="flex items:center" space="g:tw-4">
+          <div 
+            layout="flex center" 
+            space="w:tw-14 h:tw-14" 
+            visual="bg:blue-500 text:white rounded:tw-full font:bold text-size:tw-xl">
+            JD
+          </div>
+          <div>
+            <div visual="font:bold text:slate-900 text-size:tw-lg">John Doe</div>
+            <div visual="text-size:tw-sm text:slate-500">Software Engineer</div>
+          </div>
+        </div>
+        <div visual="text:slate-600 text-size:tw-sm">
+          This card uses Tailwind scales throughout: tw-6 padding, tw-80 width, tw-xl shadow, tw-2xl radius.
+        </div>
+        <div layout="flex" space="g:tw-3">
+          <button space="p-y:tw-2 p-x:tw-4" visual="bg:blue-500 text:white rounded:tw-lg border:none transition:all hover:bg:blue-700">
+            Follow
+          </button>
+          <button space="p-y:tw-2 p-x:tw-4" visual="bg:white border:blue-500 border-w:[1px] text:blue-500 rounded:tw-lg transition:all hover:bg:blue-500 hover:text:white">
+            Message
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- DEBUG INFO -->
+    <!-- ============================================ -->
+    <div layout="flex col" space="p:tw-6" visual="bg:zinc-100 border:zinc-300 border-w:[1px] rounded:tw-lg">
+      <h2 visual="text-size:tw-xl font:bold text:zinc-900">Debug Info</h2>
+      <div visual="text:zinc-700 text-size:tw-sm" space="m-t:tw-4">
+        <p>Open DevTools (F12) and check:</p>
+        <ul space="m-l:tw-6 m-t:tw-2">
+          <li><strong>Elements → :root</strong> - Look for <code visual="bg:zinc-200 rounded:tw-sm" space="p-x:tw-1">--tw-*</code> CSS variables</li>
+          <li><strong>Computed Styles</strong> - Verify properties resolve to correct rem values</li>
+        </ul>
+        <p space="m-t:tw-4"><strong>CSS Variable Examples:</strong></p>
+        <ul space="m-l:tw-6 m-t:tw-2">
+          <li><code visual="bg:zinc-200 rounded:tw-sm" space="p-x:tw-1">--tw-4: 1rem</code> → 16px</li>
+          <li><code visual="bg:zinc-200 rounded:tw-sm" space="p-x:tw-1">--tw-rounded-lg: 0.5rem</code> → 8px</li>
+          <li><code visual="bg:zinc-200 rounded:tw-sm" space="p-x:tw-1">--tw-shadow-lg</code> → Tailwind's lg shadow</li>
+          <li><code visual="bg:zinc-200 rounded:tw-sm" space="p-x:tw-1">--tw-text-2xl: 1.5rem</code> → 24px</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

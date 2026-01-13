@@ -39,6 +39,15 @@ Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
 <div space="margin:[custom-value]">Custom</div>
 ```
 
+## Nota
+
+> [!TIP]
+> **Sokongan Skala Tailwind**
+> 
+> Gunakan awalan `tw-` untuk mengakses skala numerik Tailwind: `m:tw-4` (1rem), `m-t:tw-8` (2rem)
+> 
+> [Rujukan](https://tailwindcss.com/docs/margin)
+
 ## Responsif
 
 ```html
