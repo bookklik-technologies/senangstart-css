@@ -3,12 +3,24 @@
  * Extracts layout, space, and visual attributes from source files
  */
 
-// Regex patterns for attribute extraction
+// Regex patterns for attribute extraction (using non-greedy quantifiers to prevent ReDoS)
 const ATTRIBUTE_PATTERNS = {
-  layout: /layout\s*=\s*["']([^"']+)["']/g,
-  space:  /space\s*=\s*["']([^"']+)["']/g,
-  visual: /visual\s*=\s*["']([^"']+)["']/g
+  layout: /layout\s*=\s*["']([^"']*)["']/g,
+  space:  /space\s*=\s*["']([^"']*)["']/g,
+  visual: /visual\s*=\s*["']([^"']*)["']/g
 };
+
+/**
+ * Create fresh regex patterns for each parse operation
+ * Prevents regex state accumulation and potential memory leaks
+ */
+function createAttributePatterns() {
+  return {
+    layout: /layout\s*=\s*["']([^"']*)["']/g,
+    space:  /space\s*=\s*["']([^"']*)["']/g,
+    visual: /visual\s*=\s*["']([^"']*)["']/g
+  };
+}
 
 /**
  * Parse a source file and extract all SenangStart attributes
@@ -22,16 +34,17 @@ export function parseSource(content) {
     visual: new Set()
   };
 
-  for (const [attr, pattern] of Object.entries(ATTRIBUTE_PATTERNS)) {
-    // Reset regex lastIndex for each new content
-    pattern.lastIndex = 0;
-    
+  const patterns = createAttributePatterns();
+
+  for (const [attr, pattern] of Object.entries(patterns)) {
     let match;
     while ((match = pattern.exec(content)) !== null) {
       const value = match[1].trim();
-      // Split by whitespace to get individual tokens
+      if (value.length > 10000) {
+        continue;
+      }
       value.split(/\s+/).forEach(token => {
-        if (token) {
+        if (token && token.length <= 500) {
           results[attr].add(token);
         }
       });

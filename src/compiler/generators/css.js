@@ -6,6 +6,23 @@
 import { generatePreflight } from './preflight.js';
 
 /**
+ * Sanitize arbitrary value to prevent CSS injection
+ * @param {string} value - Value to sanitize
+ * @returns {string} - Sanitized value
+ */
+function sanitizeArbitraryValue(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+  // Remove potentially dangerous characters that could break CSS syntax
+  const dangerousChars = /[;}{]/g;
+  if (dangerousChars.test(value)) {
+    return value.replace(dangerousChars, '_');
+  }
+  return value;
+}
+
+/**
  * Generate CSS custom properties from config
  * @param {Object} config - Configuration object
  * @returns {string} - CSS custom properties block
@@ -409,11 +426,13 @@ function generateLayoutRule(token, config) {
       return 'grid-template-columns: subgrid;';
     }
     if (isArbitrary) {
-      return `grid-template-columns: ${value.replace(/_/g, ' ')};`;
+      const sanitized = sanitizeArbitraryValue(value);
+      return `grid-template-columns: ${sanitized.replace(/_/g, ' ')};`;
     }
+    // Numeric value: repeat(n, minmax(0, 1fr))
     return `grid-template-columns: repeat(${value}, minmax(0, 1fr));`;
   }
-  
+
   // Grid Template Rows
   if (property === 'grid-rows') {
     if (value === 'none') {
@@ -423,11 +442,12 @@ function generateLayoutRule(token, config) {
       return 'grid-template-rows: subgrid;';
     }
     if (isArbitrary) {
-      return `grid-template-rows: ${value.replace(/_/g, ' ')};`;
+      const sanitized = sanitizeArbitraryValue(value);
+      return `grid-template-rows: ${sanitized.replace(/_/g, ' ')};`;
     }
     return `grid-template-rows: repeat(${value}, minmax(0, 1fr));`;
   }
-  
+
   // Grid Column Span
   if (property === 'col-span') {
     if (value === 'full') {
@@ -681,7 +701,7 @@ function generateVisualRule(token, config) {
     
     // Background Image
     'bg-image': () => {
-      const cssValue = isArbitrary ? value : `url(${value})`;
+      const cssValue = isArbitrary ? sanitizeArbitraryValue(`url(${value})`) : `url(${value})`;
       return `background-image: ${cssValue};`;
     },
     
@@ -994,7 +1014,8 @@ function generateVisualRule(token, config) {
     
     // Mask Image
     'mask-image': () => {
-      const cssValue = isArbitrary ? value : `url(${value})`;
+      const sanitizedUrl = sanitizeArbitraryValue(value);
+      const cssValue = isArbitrary ? `url(${sanitizedUrl})` : `url(${value})`;
       return `mask-image: ${cssValue};`;
     },
     
@@ -1063,7 +1084,8 @@ function generateVisualRule(token, config) {
     
     // Content
     'content': () => {
-      return `content: "${value}";`;
+      const sanitizedValue = sanitizeArbitraryValue(value).replace(/"/g, '\\"');
+      return `content: "${sanitizedValue}";`;
     },
     
     // Filter utilities
@@ -1849,15 +1871,15 @@ function getDarkModeSelector(config) {
  */
 export function generateCSS(tokens, config) {
   let css = '';
-  
+
   // Add CSS variables
   css += generateCSSVariables(config);
-  
+
   // Add Preflight base styles if enabled (default: true)
   if (config.preflight !== false) {
     css += generatePreflight(config);
   }
-  
+
   // Add animation keyframes
   css += `/* SenangStart CSS - Animation Keyframes */
 @keyframes spin {
@@ -1876,18 +1898,18 @@ export function generateCSS(tokens, config) {
 
 /* SenangStart CSS - Utility Classes */
 `;
-  
+
   // Group tokens by breakpoint and dark mode
   const baseTokens = [];
   const darkTokens = [];
   const breakpointTokens = {};
-  
+
   // Initialize breakpoint collections from config
   const { screens } = config.theme;
   for (const bp of Object.keys(screens)) {
     breakpointTokens[bp] = [];
   }
-  
+
   for (const token of tokens) {
     if (token.state === 'dark') {
       darkTokens.push(token);
@@ -1900,29 +1922,77 @@ export function generateCSS(tokens, config) {
       baseTokens.push(token);
     }
   }
-  
+
+  // Track display properties to handle conflicts like Tailwind
+  // When responsive display property conflicts with base display property on the same element,
+  // we need to add reset rules in the responsive media query
+  const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'hidden', 'contents'];
+
+  // Map: attrType -> Set of raw values that have display properties in base
+  // e.g., { 'layout' => new Set(['hidden', 'block']) }
+  const baseDisplayTokens = new Map();
+
+  // Find display properties in base tokens
+  for (const token of baseTokens) {
+    if (token.attrType && displayProps.includes(token.property)) {
+      if (!baseDisplayTokens.has(token.attrType)) {
+        baseDisplayTokens.set(token.attrType, new Set());
+      }
+      baseDisplayTokens.get(token.attrType).add(token.raw);
+    }
+  }
+
   // Generate base rules
   for (const token of baseTokens) {
     css += generateRule(token, config);
   }
-  
+
   // Generate responsive rules
-  
+
   for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
     if (bpTokens.length > 0) {
       css += `\n@media (min-width: ${screens[bp]}) {\n`;
+
+      // Add display reset rules for responsive tokens that have display properties
+      // when the same attribute has ANY base display properties (for that attrType)
+      // This handles the case where the same element has multiple display tokens
+      // e.g., layout="hidden tw-lg:flex" - hidden is base, flex is responsive
+      const processedResetSelectors = new Set();
+
+      for (const bpToken of bpTokens) {
+        if (bpToken.attrType && displayProps.includes(bpToken.property)) {
+          // Check if there are any base tokens with display properties for this attrType
+          // AND the responsive token is different from base tokens
+          if (baseDisplayTokens.has(bpToken.attrType)) {
+            const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
+
+            // Only add reset if:
+            // 1. There are base display tokens for this attrType
+            // 2. This responsive token's raw value is different from base display tokens
+            //    (meaning it's a different display property on the same element)
+            if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
+              // Add reset rule for this responsive token
+              const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
+              css += `  ${selector} { display: revert-layer; }\n`;
+              processedResetSelectors.add(bpToken.raw);
+            }
+          }
+        }
+      }
+
+      // Generate responsive token rules
       for (const token of bpTokens) {
         css += '  ' + generateRule(token, config);
       }
       css += '}\n';
     }
   }
-  
+
   // Generate dark mode rules
   if (darkTokens.length > 0) {
     const darkMode = config.darkMode || 'media';
     const darkSelector = getDarkModeSelector(config);
-    
+
     if (darkMode === 'media') {
       // Media query strategy
       css += `\n/* Dark Mode (prefers-color-scheme) */\n`;
@@ -1942,7 +2012,7 @@ export function generateCSS(tokens, config) {
       }
     }
   }
-  
+
   return css;
 }
 

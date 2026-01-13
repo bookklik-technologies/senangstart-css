@@ -191,13 +191,59 @@
   // ============================================
   // CONFIG LOADER
   // ============================================
-  
+
+  const configSchema = {
+    theme: {
+      type: 'object',
+      properties: {
+        spacing: { type: 'object' },
+        radius: { type: 'object' },
+        shadow: { type: 'object' },
+        fontSize: { type: 'object' },
+        fontWeight: { type: 'object' },
+        screens: { type: 'object' },
+        colors: { type: 'object' },
+        zIndex: { type: 'object' }
+      }
+    },
+    darkMode: { type: 'string', enum: ['media', 'selector'] },
+    preflight: { type: 'boolean' }
+  };
+
+  function validateConfig(config) {
+    if (!config || typeof config !== 'object' || Array.isArray(config)) {
+      return false;
+    }
+
+    if (config.theme && (typeof config.theme !== 'object' || Array.isArray(config.theme))) {
+      return false;
+    }
+
+    if (config.darkMode !== undefined &&
+        config.darkMode !== 'media' &&
+        config.darkMode !== 'selector' &&
+        !Array.isArray(config.darkMode)) {
+      return false;
+    }
+
+    if (config.preflight !== undefined && typeof config.preflight !== 'boolean') {
+      return false;
+    }
+
+    return true;
+  }
+
   function loadInlineConfig() {
     const configEl = document.querySelector('script[type="senangstart/config"]');
     if (!configEl) return {};
-    
+
     try {
-      return JSON.parse(configEl.textContent);
+      const parsed = JSON.parse(configEl.textContent);
+      if (!validateConfig(parsed)) {
+        console.error('[SenangStart] Invalid config structure');
+        return {};
+      }
+      return parsed;
     } catch (e) {
       console.error('[SenangStart] Invalid config JSON:', e);
       return {};
@@ -205,8 +251,13 @@
   }
 
   function mergeConfig(user) {
+    if (!validateConfig(user)) {
+      console.error('[SenangStart] Invalid user config, using defaults');
+      return JSON.parse(JSON.stringify(defaultConfig));
+    }
+
     const merged = JSON.parse(JSON.stringify(defaultConfig));
-    
+
     if (user.theme) {
       for (const key of Object.keys(merged.theme)) {
         if (user.theme[key]) {
@@ -214,17 +265,17 @@
         }
       }
     }
-    
+
     // Handle darkMode option
     if (user.darkMode !== undefined) {
       merged.darkMode = user.darkMode;
     }
-    
+
     // Handle preflight option
     if (user.preflight !== undefined) {
       merged.preflight = user.preflight;
     }
-    
+
     return merged;
   }
 
@@ -610,7 +661,7 @@ img, video {
   const breakpoints = ['mob', 'tab', 'lap', 'desk', 'tw-sm', 'tw-md', 'tw-lg', 'tw-xl', 'tw-2xl'];
   const states = ['hover', 'focus', 'active', 'disabled', 'dark'];
 
-  function parseToken(raw) {
+function parseToken(raw) {
     const token = {
       raw,
       breakpoint: null,
@@ -644,6 +695,106 @@ img, video {
     // Value
     if (idx < parts.length) {
       let value = parts.slice(idx).join(':');
+      const arbitraryMatch = value.match(/^\[(.+)\]$/);
+      if (arbitraryMatch) {
+        token.value = arbitraryMatch[1].replace(/_/g, ' ');
+        token.isArbitrary = true;
+      } else {
+        token.value = value;
+      }
+    }
+
+    return token;
+  }
+
+  // Tokenizer function (matches the main tokenizer logic)
+  function tokenize(raw, attrType) {
+    // Validate input
+    if (typeof raw !== 'string' || raw.length === 0 || raw.length > 200) {
+      return {
+        raw,
+        breakpoint: null,
+        state: null,
+        property: null,
+        value: null,
+        isArbitrary: false,
+        attrType,
+        error: 'Invalid token format'
+      };
+    }
+
+    const token = {
+      raw,
+      breakpoint: null,
+      state: null,
+      property: null,
+      value: null,
+      isArbitrary: false,
+      attrType
+    };
+
+    // Handle layout keywords (simple words like 'flex', 'center')
+    if (attrType === 'layout') {
+      // Simple layout keyword
+      const layoutKeywords = [
+        'flex', 'grid', 'block', 'inline', 'hidden',
+        'row', 'col', 'row-reverse', 'col-reverse',
+        'center', 'start', 'end', 'between', 'around', 'evenly',
+        'wrap', 'nowrap',
+        'absolute', 'relative', 'fixed', 'sticky'
+      ];
+      
+      if (layoutKeywords.includes(raw)) {
+        token.property = raw;
+        token.value = raw;
+        return token;
+      }
+      
+      // Check for responsive layout (e.g., tab:row)
+      const parts = raw.split(':');
+      if (parts.length === 2 && breakpoints.includes(parts[0])) {
+        token.breakpoint = parts[0];
+        token.property = parts[1];
+        token.value = parts[1];
+        return token;
+      }
+    }
+
+    // Handle space and visual attributes with colon syntax
+    const parts = raw.split(':');
+    
+    if (parts.length === 1) {
+      // Single value (shouldn't happen for space/visual, but handle it)
+      token.property = raw;
+      token.value = raw;
+      return token;
+    }
+    
+    let idx = 0;
+    
+    // Check for breakpoint prefix
+    if (breakpoints.includes(parts[0])) {
+      token.breakpoint = parts[0];
+      idx++;
+    }
+    
+    // Check for state prefix
+    if (states.includes(parts[idx])) {
+      token.state = parts[idx];
+      idx++;
+    }
+    
+    // Property
+    if (idx < parts.length) {
+      token.property = parts[idx];
+      idx++;
+    }
+    
+    // Value
+    if (idx < parts.length) {
+      let value = parts.slice(idx).join(':');
+
+      // Check for arbitrary value in brackets
       const arbitraryMatch = value.match(/^\[(.+)\]$/);
       if (arbitraryMatch) {
         token.value = arbitraryMatch[1].replace(/_/g, ' ');
@@ -1945,7 +2096,7 @@ img, video {
     return tokens;
   }
 
-  // ============================================
+// ============================================
   // CSS COMPILER
   // ============================================
   
@@ -1957,67 +2108,118 @@ img, video {
       css += generatePreflight();
     }
     
-    const baseRules = [];
-    const darkRules = [];
-    const mediaRules = {
-      mob: [],
-      tab: [],
-      lap: [],
-      desk: []
-    };
-
+    // Convert tokens to array for processing
+    const tokenArray = [];
     for (const [attrType, values] of Object.entries(tokens)) {
       for (const raw of values) {
-        const rule = generateRule(raw, attrType);
-        if (rule) {
-          // Check for dark: prefix
-          if (raw.match(/^(mob:|tab:|lap:|desk:)?dark:/)) {
-            darkRules.push(rule);
-          }
-          // Check for breakpoint prefix
-          else {
-            const bpMatch = raw.match(/^(mob|tab|lap|desk):/);
-            if (bpMatch) {
-              mediaRules[bpMatch[1]].push(rule);
-            } else {
-              baseRules.push(rule);
+        tokenArray.push({ raw, attrType });
+      }
+    }
+    
+    // Group tokens by breakpoint and dark mode
+    const baseTokens = [];
+    const darkTokens = [];
+    const breakpointTokens = {};
+    
+    // Initialize breakpoint collections from config
+    const { screens } = config.theme;
+    for (const bp of Object.keys(screens)) {
+      breakpointTokens[bp] = [];
+    }
+    
+    // Parse tokens and group them
+    for (const token of tokenArray) {
+      const parsed = tokenize(token.raw, token.attrType);
+      if (parsed.state === 'dark') {
+        darkTokens.push(parsed);
+      } else if (parsed.breakpoint) {
+        if (!breakpointTokens[parsed.breakpoint]) {
+          breakpointTokens[parsed.breakpoint] = [];
+        }
+        breakpointTokens[parsed.breakpoint].push(parsed);
+      } else {
+        baseTokens.push(parsed);
+      }
+    }
+    
+    // Track display properties to handle conflicts like Tailwind
+    const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'hidden', 'contents'];
+    
+    // Map: attrType -> Set of raw values that have display properties in base
+    const baseDisplayTokens = new Map();
+    
+    // Find display properties in base tokens
+    for (const token of baseTokens) {
+      if (token.attrType && displayProps.includes(token.property)) {
+        if (!baseDisplayTokens.has(token.attrType)) {
+          baseDisplayTokens.set(token.attrType, new Set());
+        }
+        baseDisplayTokens.get(token.attrType).add(token.raw);
+      }
+    }
+    
+    // Generate base rules
+    for (const token of baseTokens) {
+      css += generateRule(token.raw, token.attrType);
+    }
+    
+    // Generate responsive rules
+    for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
+      if (bpTokens.length > 0) {
+        css += `\n@media (min-width: ${screens[bp]}) {\n`;
+        
+        // Add display reset rules for responsive tokens that have display properties
+        // when the same attribute has ANY base display properties
+        const processedResetSelectors = new Set();
+        
+        for (const bpToken of bpTokens) {
+          if (bpToken.attrType && displayProps.includes(bpToken.property)) {
+            // Check if there are any base tokens with display properties for this attrType
+            if (baseDisplayTokens.has(bpToken.attrType)) {
+              const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
+              
+              // Only add reset if:
+              // 1. There are base display tokens for this attrType
+              // 2. This responsive token's raw value is different from base display tokens
+              if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
+                // Add reset rule for this responsive token
+                const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
+                css += `  ${selector} { display: revert-layer; }\n`;
+                processedResetSelectors.add(bpToken.raw);
+              }
             }
           }
         }
-      }
-    }
-
-    // Add base rules
-    css += baseRules.join('');
-
-    // Add media queries
-    const { screens } = config.theme;
-    for (const [bp, rules] of Object.entries(mediaRules)) {
-      if (rules.length > 0) {
-        css += `\n@media (min-width: ${screens[bp]}) {\n`;
-        css += rules.map(r => '  ' + r).join('');
+        
+        // Generate responsive token rules
+        for (const token of bpTokens) {
+          css += '  ' + generateRule(token.raw, token.attrType);
+        }
         css += '}\n';
       }
     }
-
-    // Add dark mode rules
-    if (darkRules.length > 0) {
+    
+    // Generate dark mode rules
+    if (darkTokens.length > 0) {
       const darkMode = config.darkMode || 'media';
       
       if (darkMode === 'media') {
         css += `\n@media (prefers-color-scheme: dark) {\n`;
-        css += darkRules.map(r => '  ' + r).join('');
+        for (const token of darkTokens) {
+          css += '  ' + generateRule(token.raw, token.attrType);
+        }
         css += '}\n';
       } else {
         // Selector strategy
         const darkSelector = Array.isArray(darkMode) ? darkMode[1] : '.dark';
         css += `\n/* Dark Mode */\n`;
-        for (const rule of darkRules) {
+        for (const token of darkTokens) {
+          const rule = generateRule(token.raw, token.attrType);
           css += rule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
         }
       }
     }
-
+    
     return css;
   }
 

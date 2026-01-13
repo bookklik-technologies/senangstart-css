@@ -4,7 +4,7 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
-import { join, dirname } from 'path';
+import { join, dirname, resolve } from 'path';
 import { defaultConfig, mergeConfig } from '../../config/defaults.js';
 import { parseSource } from '../../compiler/parser.js';
 import { tokenizeAll } from '../../compiler/tokenizer.js';
@@ -38,11 +38,11 @@ function findFiles(patterns) {
             }
           }
         } catch (e) {
-          // Skip
+          logger.debug(`Skipping file: ${entry} - ${e.message}`);
         }
       }
     } catch (e) {
-      // Skip
+      logger.debug(`Skipping directory: ${dir} - ${e.message}`);
     }
   }
   
@@ -51,16 +51,24 @@ function findFiles(patterns) {
 }
 
 /**
- * Load user config
+ * Load user config with path traversal protection
  */
 async function loadConfig(configPath) {
   const fullPath = join(process.cwd(), configPath);
-  
+
   if (!existsSync(fullPath)) {
     logger.warn('No config file found, using defaults');
     return defaultConfig;
   }
-  
+
+  // Validate path is within allowed directory
+  const resolvedPath = dirname(fullPath);
+  const cwdResolved = resolve(process.cwd());
+  if (!resolvedPath.startsWith(cwdResolved)) {
+    logger.error(`Invalid config path: ${configPath}`);
+    return defaultConfig;
+  }
+
   try {
     const userConfig = await import('file://' + fullPath);
     return mergeConfig(userConfig.default || userConfig);

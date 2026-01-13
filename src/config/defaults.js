@@ -415,43 +415,63 @@ export const defaultConfig = {
 };
 
 /**
+ * Deep merge utility - safely merges nested objects
+ * @param {Object} target - Target object
+ * @param {Object} source - Source object to merge
+ * @param {WeakSet} [visited] - Track visited objects to prevent infinite recursion
+ * @returns {Object} - Merged object
+ */
+export function deepMerge(target, source, visited = new WeakSet()) {
+  if (visited.has(target) || visited.has(source)) {
+    return source;
+  }
+
+  visited.add(target);
+  visited.add(source);
+
+  const result = { ...target };
+
+  for (const key of Object.keys(source)) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      result[key] = deepMerge(result[key] || {}, source[key], visited);
+    } else {
+      result[key] = source[key];
+    }
+  }
+
+  return result;
+}
+
+/**
  * Merge user config with defaults
  */
 export function mergeConfig(userConfig = {}) {
   const merged = { ...defaultConfig };
-  
+
   if (userConfig.content) {
     merged.content = userConfig.content;
   }
-  
+
   if (userConfig.output) {
     merged.output = { ...merged.output, ...userConfig.output };
   }
-  
+
   // Handle darkMode setting
   if (userConfig.darkMode !== undefined) {
     merged.darkMode = userConfig.darkMode;
   }
-  
+
   // Handle preflight setting
   if (userConfig.preflight !== undefined) {
     merged.preflight = userConfig.preflight;
   }
-  
+
   if (userConfig.theme) {
-    merged.theme = {
-      spacing: { ...merged.theme.spacing, ...userConfig.theme?.spacing },
-      radius: { ...merged.theme.radius, ...userConfig.theme?.radius },
-      shadow: { ...merged.theme.shadow, ...userConfig.theme?.shadow },
-      fontSize: { ...merged.theme.fontSize, ...userConfig.theme?.fontSize },
-      fontWeight: { ...merged.theme.fontWeight, ...userConfig.theme?.fontWeight },
-      screens: { ...merged.theme.screens, ...userConfig.theme?.screens },
-      colors: { ...merged.theme.colors, ...userConfig.theme?.colors },
-      zIndex: { ...merged.theme.zIndex, ...userConfig.theme?.zIndex }
-    };
+    merged.theme = deepMerge(merged.theme, userConfig.theme);
   }
-  
+
   return merged;
 }
 
-export default defaultConfig;
+export { defaultConfig as default };
+

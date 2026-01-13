@@ -11,6 +11,7 @@
 
 import { readFileSync, writeFileSync } from 'fs';
 import { argv } from 'process';
+import { resolve, join, sep } from 'path';
 
 // ======================
 // SPACING SCALE MAPPING
@@ -725,10 +726,18 @@ Examples:
   }
   
   try {
+    if (!isValidFilePath(inputFile)) {
+      console.error(`Error: File path outside allowed directory: ${inputFile}`);
+      process.exit(1);
+    }
     const input = readFileSync(inputFile, 'utf-8');
     const result = convertHTML(input, options);
-    
+
     if (outputFile) {
+      if (!isValidFilePath(outputFile)) {
+        console.error(`Error: Output file path outside allowed directory: ${outputFile}`);
+        process.exit(1);
+      }
       writeFileSync(outputFile, result);
       console.log(`Converted: ${inputFile} -> ${outputFile}`);
     } else {

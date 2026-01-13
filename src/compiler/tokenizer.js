@@ -26,12 +26,67 @@ const LAYOUT_KEYWORDS = [
 ];
 
 /**
+ * Validate token structure
+ * @param {Object} token - Token to validate
+ * @returns {boolean} - True if valid
+ */
+function isValidToken(token) {
+  if (!token.property || typeof token.property !== 'string') {
+    return false;
+  }
+  if (token.property.length > 100) {
+    return false;
+  }
+  if (token.value !== null && typeof token.value !== 'string') {
+    return false;
+  }
+  if (token.value && token.value.length > 500) {
+    return false;
+  }
+  if (token.breakpoint && !BREAKPOINTS.includes(token.breakpoint)) {
+    return false;
+  }
+  if (token.state && !STATES.includes(token.state)) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Sanitize token value to prevent injection
+ * @param {string} value - Value to sanitize
+ * @returns {string} - Sanitized value
+ */
+function sanitizeValue(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+  // Only remove semicolons which can terminate CSS rules
+  // Allow braces for legitimate use cases like content:["{icon}"]
+  return value.replace(/;/g, '_');
+}
+
+/**
  * Tokenize a single attribute value string
  * @param {string} raw - Raw token string (e.g., "tab:p:big")
  * @param {string} attrType - Attribute type: 'layout', 'space', or 'visual'
  * @returns {Object} - Parsed token object
  */
 export function tokenize(raw, attrType) {
+  // Validate input
+  if (typeof raw !== 'string' || raw.length === 0 || raw.length > 200) {
+    return {
+      raw,
+      breakpoint: null,
+      state: null,
+      property: null,
+      value: null,
+      isArbitrary: false,
+      attrType,
+      error: 'Invalid token format'
+    };
+  }
+
   const token = {
     raw,
     breakpoint: null,
@@ -108,17 +163,22 @@ export function tokenize(raw, attrType) {
   // Value
   if (idx < parts.length) {
     let value = parts.slice(idx).join(':');
-    
+
     // Check for arbitrary value in brackets
     const arbitraryMatch = value.match(/^\[(.+)\]$/);
     if (arbitraryMatch) {
-      token.value = arbitraryMatch[1].replace(/_/g, ' ');
+      token.value = sanitizeValue(arbitraryMatch[1].replace(/_/g, ' '));
       token.isArbitrary = true;
     } else {
-      token.value = value;
+      token.value = sanitizeValue(value);
     }
   }
-  
+
+  // Validate the token structure
+  if (!isValidToken(token)) {
+    token.error = 'Invalid token structure';
+  }
+
   return token;
 }
 

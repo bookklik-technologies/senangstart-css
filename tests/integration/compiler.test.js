@@ -234,12 +234,73 @@ describe('Compiler Integration', () => {
         </main>
       `;
       const config = createTestConfig();
-      
+
       const result = compileSource(html, config);
-      
+
       assert.ok(result.css.includes('display: grid'));
       assert.ok(result.css.includes('grid-template-columns'));
       assert.ok(result.css.includes('grid-column'));
+    });
+
+    it('handles display property conflicts between base and responsive breakpoints (like Tailwind hidden lg:flex)', () => {
+      const html = `<div layout="hidden lap:flex relative">Content</div>`;
+      const config = createTestConfig();
+
+      const result = compileSource(html, config);
+
+      // Base rule: hidden should apply everywhere
+      assert.ok(result.css.includes('[layout~="hidden"]'));
+
+      // Responsive rule: flex should apply at lap+ with display reset
+      assert.ok(result.css.includes('@media (min-width: 1024px)'));
+
+      // Check that display: revert-layer is added to reset the base display: none
+      assert.ok(result.css.includes('display: revert-layer'));
+      assert.ok(result.css.includes('[layout~="lap:flex"]'));
+    });
+
+    it('does not add display reset when display properties are the same', () => {
+      const html = `<div layout="block lap:flex">Content</div>`;
+      const config = createTestConfig();
+
+      const result = compileSource(html, config);
+
+      // Both are display properties but different ones, so reset should be added
+      assert.ok(result.css.includes('@media (min-width: 1024px)'));
+      // Should have display reset since block != flex
+      assert.ok(result.css.includes('display: revert-layer'));
+    });
+
+    it('does not add display reset for non-display properties', () => {
+      const html = `<div layout="relative lap:flex">Content</div>`;
+      const config = createTestConfig();
+
+      const result = compileSource(html, config);
+
+      // relative is not a display property, so no reset needed
+      assert.ok(result.css.includes('@media (min-width: 1024px)'));
+      // No display reset since base doesn't have display property
+      const mediaQueryMatch = result.css.match(/@media \(min-width: 1024px\) \{([^}]+)\}/s);
+      assert.ok(mediaQueryMatch);
+      assert.ok(!mediaQueryMatch[1].includes('display: revert-layer'));
+    });
+
+    it('handles multiple conflicting display properties correctly', () => {
+      const html = `<div layout="hidden tab:flex desk:grid">Content</div>`;
+      const config = createTestConfig();
+
+      const result = compileSource(html, config);
+
+      // Base: hidden
+      assert.ok(result.css.includes('[layout~="hidden"]'));
+
+      // tab:flex should reset hidden
+      assert.ok(result.css.includes('@media (min-width: 768px)'));
+      assert.ok(result.css.includes('display: revert-layer'));
+
+      // desk:grid should reset flex
+      assert.ok(result.css.includes('@media (min-width: 1280px)'));
+      assert.ok(result.css.includes('display: revert-layer'));
     });
 
   });
