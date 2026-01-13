@@ -6,7 +6,7 @@ hero:
   text: Natural Language Engine
   tagline: Fluent Style Utilities for Humans and AI
   image:
-    src: https://senangstart.com/img/use_senangstart.svg
+    src: /assets/senangstart-css-logo.svg
     alt: SenangStart CSS
   actions:
     - theme: brand

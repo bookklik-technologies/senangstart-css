@@ -6,7 +6,7 @@ hero:
   text: Enjin Bahasa Natural
   tagline: Stail Utiliti yang Fasih untuk Manusia dan AI
   image:
-    src: https://senangstart.com/img/use_senangstart.svg
+    src: /assets/senangstart-css-logo.svg
     alt: SenangStart CSS
   actions:
     - theme: brand
