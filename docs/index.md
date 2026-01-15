@@ -37,6 +37,12 @@ features:
     details: Override any scale, add custom colors, extend the theme to match your brand.
 ---
 
+<style>
+  .VPImage {
+    filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
+  }
+</style>
+
 ## Quick Example
 
 ```html
