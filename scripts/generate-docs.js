@@ -362,15 +362,17 @@ function compareDocs(options = {}) {
  */
 function extractValuesFromTable(markdown) {
   const values = [];
-  const tableRegex = /\|[^|]+\|[^|]+\|[^|]+\|/g;
-  const matches = markdown.match(tableRegex) || [];
+  const lines = markdown.split('\n');
   
-  for (const match of matches) {
-    // Skip header rows
-    if (match.includes('Value') || match.includes('Nilai') || match.includes('---')) continue;
+  for (let line of lines) {
+    line = line.trim();
+    // Skip non-table lines, header rows, and separator rows
+    if (!line.startsWith('|')) continue;
+    if (line.includes('Value') || line.includes('Nilai') || line.includes('Property') || line.includes('Properti')) continue;
+    if (line.includes('---')) continue;
     
-    // Extract first cell (value name)
-    const cellMatch = match.match(/\|\s*`([^`]+)`/);
+    // Extract first cell (value name) - look for backtick-quoted value
+    const cellMatch = line.match(/\|\s*`([^`]+)`/);
     if (cellMatch) {
       values.push(cellMatch[1]);
     }

@@ -1,7 +1,7 @@
 # SenangStart CSS - Syntax Reference
 
-> Auto-generated on 2026-01-11
-> Total definitions: 147
+> Auto-generated on 2026-01-15
+> Total definitions: 149
 
 This document provides a complete reference of all utility syntax patterns in SenangStart CSS.
 
@@ -13,8 +13,8 @@ This document provides a complete reference of all utility syntax patterns in Se
 |----------|-------|
 | Layout | 41 |
 | Space | 5 |
-| Visual | 101 |
-| **Total** | **147** |
+| Visual | 103 |
+| **Total** | **149** |
 
 ---
 
@@ -110,10 +110,10 @@ This document provides a complete reference of all utility syntax patterns in Se
 | background-repeat | `bg-repeat:[value]` | Set background repeat behavior |
 | background-size | `bg-size:[value]` | Set background size |
 | blend-modes | `mix-blend:[value]` | Set mix blend mode |
-| border | `border:[color]` | Set border color |
+| border | `border:[color]` | `border-{t|b|l|r|x|y}:[color]` | Set border color for all sides or specific sides |
 | border-radius | `rounded:[value]` | Set border radius |
 | border-style | `border-style:[value]` | Set border style |
-| border-width | `border-w:[value]` | Set border width |
+| border-width | `border-w:[value]` | `border-{t|b|l|r|x|y}-w:[value]` | Set border width for all sides or specific sides |
 | box-shadow | `shadow:[value]` | Add box shadow |
 | caret-color | `caret:[color]` | Set text input caret color |
 | color-scheme | `color-scheme:[value]` | Set preferred color scheme |
@@ -164,15 +164,17 @@ This document provides a complete reference of all utility syntax patterns in Se
 | text-transform | `[transform-value]` | Transform text case |
 | text-wrap | `[wrap-value]` | Control text wrapping |
 | touch-action | `touch:[value]` | Control touch interactions |
-| transform-backface | `backface:[value]` | Control backface visibility |
+| transform-backface | `backface:[value]` | Control visibility of element back side when rotated in 3D |
 | transform-origin | `origin:[value]` | Set transform origin point |
-| transform-perspective | `perspective:[value]` | Set 3D perspective |
-| transform-perspective-origin | `perspective-origin:[value]` | Set perspective origin point |
+| transform-perspective | `perspective:[value]` | Set 3D perspective on container (apply to parent of transformed elements) |
+| transform-perspective-origin | `perspective-origin:[value]` | Set perspective vanishing point location |
 | transform-rotate | `rotate:[degrees]` | Rotate element |
+| transform-rotate-3d | `rotate-x:[degrees]` or `rotate-y:[degrees]` or `rotate-z:[degrees]` | Rotate element in 3D space along X, Y, or Z axis |
 | transform-scale | `scale:[value]` | Scale element |
 | transform-skew | `skew-x:[degrees]` or `skew-y:[degrees]` | Skew element |
-| transform-style | `transform-style:[value]` | Set 3D transform style |
-| transform-translate | `translate-x:[value]` or `translate-y:[value]` | Translate element position |
+| transform-style | `transform-style:[value]` | Preserve 3D space for nested transformed elements |
+| transform-translate | `translate-x:[value]` or `translate-y:[value]` or `translate-z:[value]` | Translate element position along X, Y, or Z axis |
+| transform-translate-z | `translate-z:[value]` | Translate element along Z axis (depth) in 3D space |
 | transition-delay | `delay:[value]` | Set transition delay |
 | transition-duration | `duration:[value]` | Set transition duration |
 | transition-property | `transition:[value]` | Set transition properties |
@@ -856,6 +858,14 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `darken` | `mix-blend-mode: darken;` |
 | `lighten` | `mix-blend-mode: lighten;` |
 
+#### border
+
+| Value | CSS Output |
+|-------|------------|
+| `primary` | `border-color: var(--c-primary); border-style: solid;` |
+| `gray-300` | `border-color: var(--c-gray-300); border-style: solid;` |
+| `danger` | `border-color: var(--c-danger); border-style: solid;` |
+
 #### border-radius
 
 | Value | CSS Output |
@@ -880,8 +890,10 @@ This document provides a complete reference of all utility syntax patterns in Se
 
 | Value | CSS Output |
 |-------|------------|
-| `tiny` | `border-width: var(--s-tiny); border-style: solid;` |
-| `small` | `border-width: var(--s-small); border-style: solid;` |
+| `none` | `border-width: var(--s-none);` |
+| `thin` | `border-width: var(--s-thin);` |
+| `regular` | `border-width: var(--s-regular);` |
+| `thick` | `border-width: var(--s-thick);` |
 
 #### box-shadow
 
@@ -1367,6 +1379,15 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `90` | `transform: rotate(90deg);` |
 | `180` | `transform: rotate(180deg);` |
 
+#### transform-rotate-3d
+
+| Value | CSS Output |
+|-------|------------|
+| `0` | `transform: rotateX(0deg);` |
+| `45` | `transform: rotateX(45deg);` |
+| `90` | `transform: rotateX(90deg);` |
+| `180` | `transform: rotateX(180deg);` |
+
 #### transform-scale
 
 | Value | CSS Output |
@@ -1400,8 +1421,22 @@ This document provides a complete reference of all utility syntax patterns in Se
 | Value | CSS Output |
 |-------|------------|
 | `0` | `transform: translateX(0);` |
+| `tiny` | `transform: translateX(var(--sp-tiny));` |
+| `small` | `transform: translateX(var(--sp-small));` |
+| `medium` | `transform: translateX(var(--sp-medium));` |
+| `big` | `transform: translateX(var(--sp-big));` |
 | `full` | `transform: translateX(100%);` |
 | `1/2` | `transform: translateX(50%);` |
+| `-full` | `transform: translateX(-100%);` |
+| `-1/2` | `transform: translateX(-50%);` |
+
+#### transform-translate-z
+
+| Value | CSS Output |
+|-------|------------|
+| `0` | `transform: translateZ(0);` |
+| `near` | `transform: translateZ(50px);` |
+| `far` | `transform: translateZ(-50px);` |
 
 #### transition-delay
 

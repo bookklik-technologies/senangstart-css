@@ -6,14 +6,13 @@ const pkg = require('../../package.json')
 
 // Shared theme config
 const sharedThemeConfig = {
-  logo: 'https://senangstart.com/img/ss_logo_typo.svg',
-  siteTitle: false,
+  logo: '/assets/ss-logo.svg',
   socialLinks: [
     { icon: 'github', link: 'https://github.com/bookklik-technologies/senangstart-css' }
   ],
   footer: {
-    message: 'Released under the MIT License.',
-    copyright: 'Copyright © 2026 Bookklik Technologies'
+    message: 'SenangStart CSS v' + pkg.version + ' is part of the <a href="https://senangstart.com/" target="_blank" style="color: var(--vp-c-brand)">SenangStart</a> ecosystem.',
+    copyright: `Copyright © ${new Date().getFullYear()} <a href="https://bookklik.com/" target="_blank" style="color: #ff6600">Bookklik Technologies</a>. Released under the MIT License.`
   }
 }
 

@@ -54,6 +54,43 @@
     "supportsArbitrary": false
   },
   {
+    "name": "flex",
+    "property": "layout",
+    "syntax": "layout=\"flex:[value]\"",
+    "category": "layout",
+    "values": [
+      "1",
+      "auto",
+      "initial",
+      "none"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "flex-basis",
+    "property": "layout",
+    "syntax": "layout=\"basis:[value]\"",
+    "category": "layout",
+    "values": [
+      "auto",
+      "0"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "order",
+    "property": "layout",
+    "syntax": "layout=\"order:[value]\"",
+    "category": "layout",
+    "values": [
+      "first",
+      "last",
+      "none",
+      "1-12"
+    ],
+    "supportsArbitrary": false
+  },
+  {
     "name": "justify-content",
     "property": "layout",
     "syntax": "layout=\"justify:[value]\"",
@@ -115,27 +152,87 @@
     "supportsArbitrary": false
   },
   {
-    "name": "position",
+    "name": "shorthand-alignment",
     "property": "layout",
-    "syntax": "layout=\"[position-value]\"",
+    "syntax": "layout=\"[alignment]\"",
     "category": "layout",
     "values": [
-      "static",
-      "relative",
-      "absolute",
-      "fixed",
-      "sticky"
+      "center",
+      "start",
+      "end",
+      "between",
+      "around",
+      "evenly"
     ],
     "supportsArbitrary": false
   },
   {
-    "name": "visibility",
+    "name": "justify-items",
     "property": "layout",
-    "syntax": "layout=\"[visibility-value]\"",
+    "syntax": "layout=\"justify-items:[value]\"",
     "category": "layout",
     "values": [
-      "visible",
-      "invisible"
+      "start",
+      "end",
+      "center",
+      "stretch"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "justify-self",
+    "property": "layout",
+    "syntax": "layout=\"justify-self:[value]\"",
+    "category": "layout",
+    "values": [
+      "auto",
+      "start",
+      "end",
+      "center",
+      "stretch"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "place-content",
+    "property": "layout",
+    "syntax": "layout=\"place-content:[value]\"",
+    "category": "layout",
+    "values": [
+      "start",
+      "end",
+      "center",
+      "between",
+      "around",
+      "evenly",
+      "stretch"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "place-items",
+    "property": "layout",
+    "syntax": "layout=\"place-items:[value]\"",
+    "category": "layout",
+    "values": [
+      "start",
+      "end",
+      "center",
+      "stretch"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "place-self",
+    "property": "layout",
+    "syntax": "layout=\"place-self:[value]\"",
+    "category": "layout",
+    "values": [
+      "auto",
+      "start",
+      "end",
+      "center",
+      "stretch"
     ],
     "supportsArbitrary": false
   },
@@ -213,18 +310,34 @@
     "supportsArbitrary": false
   },
   {
-    "name": "overflow",
+    "name": "position",
     "property": "layout",
-    "syntax": "layout=\"overflow:[value]\"",
+    "syntax": "layout=\"[position-value]\"",
     "category": "layout",
     "values": [
-      "auto",
-      "hidden",
-      "visible",
-      "scroll",
-      "clip"
+      "static",
+      "relative",
+      "absolute",
+      "fixed",
+      "sticky"
     ],
     "supportsArbitrary": false
+  },
+  {
+    "name": "inset",
+    "property": "layout",
+    "syntax": "layout=\"inset:[value]\" or layout=\"top:[value]\"",
+    "category": "layout",
+    "values": [
+      "inset",
+      "inset-x",
+      "inset-y",
+      "top",
+      "right",
+      "bottom",
+      "left"
+    ],
+    "supportsArbitrary": true
   },
   {
     "name": "z-index",
@@ -241,17 +354,27 @@
     "supportsArbitrary": false
   },
   {
-    "name": "shorthand-alignment",
+    "name": "visibility",
     "property": "layout",
-    "syntax": "layout=\"[alignment]\"",
+    "syntax": "layout=\"[visibility-value]\"",
     "category": "layout",
     "values": [
-      "center",
-      "start",
-      "end",
-      "between",
-      "around",
-      "evenly"
+      "visible",
+      "invisible"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "overflow",
+    "property": "layout",
+    "syntax": "layout=\"overflow:[value]\"",
+    "category": "layout",
+    "values": [
+      "auto",
+      "hidden",
+      "visible",
+      "scroll",
+      "clip"
     ],
     "supportsArbitrary": false
   },
@@ -323,19 +446,6 @@
     "supportsArbitrary": true
   },
   {
-    "name": "order",
-    "property": "layout",
-    "syntax": "layout=\"order:[value]\"",
-    "category": "layout",
-    "values": [
-      "first",
-      "last",
-      "none",
-      "1-12"
-    ],
-    "supportsArbitrary": false
-  },
-  {
     "name": "container",
     "property": "layout",
     "syntax": "layout=\"container\"",
@@ -355,22 +465,6 @@
       "auto"
     ],
     "supportsArbitrary": false
-  },
-  {
-    "name": "inset",
-    "property": "layout",
-    "syntax": "layout=\"inset:[value]\" or layout=\"top:[value]\"",
-    "category": "layout",
-    "values": [
-      "inset",
-      "inset-x",
-      "inset-y",
-      "top",
-      "right",
-      "bottom",
-      "left"
-    ],
-    "supportsArbitrary": true
   },
   {
     "name": "overscroll",
@@ -439,100 +533,6 @@
       "bottom"
     ],
     "supportsArbitrary": false
-  },
-  {
-    "name": "justify-items",
-    "property": "layout",
-    "syntax": "layout=\"justify-items:[value]\"",
-    "category": "layout",
-    "values": [
-      "start",
-      "end",
-      "center",
-      "stretch"
-    ],
-    "supportsArbitrary": false
-  },
-  {
-    "name": "justify-self",
-    "property": "layout",
-    "syntax": "layout=\"justify-self:[value]\"",
-    "category": "layout",
-    "values": [
-      "auto",
-      "start",
-      "end",
-      "center",
-      "stretch"
-    ],
-    "supportsArbitrary": false
-  },
-  {
-    "name": "place-content",
-    "property": "layout",
-    "syntax": "layout=\"place-content:[value]\"",
-    "category": "layout",
-    "values": [
-      "start",
-      "end",
-      "center",
-      "between",
-      "around",
-      "evenly",
-      "stretch"
-    ],
-    "supportsArbitrary": false
-  },
-  {
-    "name": "place-items",
-    "property": "layout",
-    "syntax": "layout=\"place-items:[value]\"",
-    "category": "layout",
-    "values": [
-      "start",
-      "end",
-      "center",
-      "stretch"
-    ],
-    "supportsArbitrary": false
-  },
-  {
-    "name": "place-self",
-    "property": "layout",
-    "syntax": "layout=\"place-self:[value]\"",
-    "category": "layout",
-    "values": [
-      "auto",
-      "start",
-      "end",
-      "center",
-      "stretch"
-    ],
-    "supportsArbitrary": false
-  },
-  {
-    "name": "flex",
-    "property": "layout",
-    "syntax": "layout=\"flex:[value]\"",
-    "category": "layout",
-    "values": [
-      "1",
-      "auto",
-      "initial",
-      "none"
-    ],
-    "supportsArbitrary": true
-  },
-  {
-    "name": "flex-basis",
-    "property": "layout",
-    "syntax": "layout=\"basis:[value]\"",
-    "category": "layout",
-    "values": [
-      "auto",
-      "0"
-    ],
-    "supportsArbitrary": true
   },
   {
     "name": "padding",
@@ -1517,6 +1517,31 @@
     "supportsArbitrary": true
   },
   {
+    "name": "transform-rotate-3d",
+    "property": "visual",
+    "syntax": "visual=\"rotate-x:[degrees]\" or visual=\"rotate-y:[degrees]\" or visual=\"rotate-z:[degrees]\"",
+    "category": "visual",
+    "values": [
+      "0",
+      "45",
+      "90",
+      "180"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "transform-translate-z",
+    "property": "visual",
+    "syntax": "visual=\"translate-z:[value]\"",
+    "category": "visual",
+    "values": [
+      "0",
+      "near",
+      "far"
+    ],
+    "supportsArbitrary": true
+  },
+  {
     "name": "transform-style",
     "property": "visual",
     "syntax": "visual=\"transform-style:[value]\"",
@@ -1855,12 +1880,18 @@
   {
     "name": "transform-translate",
     "property": "visual",
-    "syntax": "visual=\"translate-x:[value]\" or visual=\"translate-y:[value]\"",
+    "syntax": "visual=\"translate-x:[value]\" or visual=\"translate-y:[value]\" or visual=\"translate-z:[value]\"",
     "category": "visual",
     "values": [
       "0",
+      "tiny",
+      "small",
+      "medium",
+      "big",
       "full",
-      "1/2"
+      "1/2",
+      "-full",
+      "-1/2"
     ],
     "supportsArbitrary": true
   },
@@ -1898,19 +1929,25 @@
   {
     "name": "border",
     "property": "visual",
-    "syntax": "visual=\"border:[color]\"",
+    "syntax": "visual=\"border:[color]\" | visual=\"border-{t|b|l|r|x|y}:[color]\"",
     "category": "visual",
-    "values": [],
+    "values": [
+      "primary",
+      "gray-300",
+      "danger"
+    ],
     "supportsArbitrary": true
   },
   {
     "name": "border-width",
     "property": "visual",
-    "syntax": "visual=\"border-w:[value]\"",
+    "syntax": "visual=\"border-w:[value]\" | visual=\"border-{t|b|l|r|x|y}-w:[value]\"",
     "category": "visual",
     "values": [
-      "tiny",
-      "small"
+      "none",
+      "thin",
+      "regular",
+      "thick"
     ],
     "supportsArbitrary": true
   },
