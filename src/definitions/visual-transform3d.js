@@ -1,6 +1,6 @@
 /**
  * SenangStart CSS - 3D Transform Utility Definitions
- * Perspective, backface, and 3D transform utilities
+ * Perspective, backface, 3D rotation, translate-z, and 3D transform utilities
  */
 
 // ======================
@@ -11,8 +11,8 @@ export const perspective = {
   name: 'transform-perspective',
   property: 'visual',
   syntax: 'visual="perspective:[value]"',
-  description: 'Set 3D perspective',
-  descriptionMs: 'Tetapkan perspektif 3D',
+  description: 'Set 3D perspective on container (apply to parent of transformed elements)',
+  descriptionMs: 'Tetapkan perspektif 3D pada bekas (terapkan pada induk elemen transformasi)',
   category: 'visual',
   supportsArbitrary: true,
   values: [
@@ -25,18 +25,33 @@ export const perspective = {
     { value: 'distant', css: 'perspective: 1200px;', description: 'Distant perspective', descriptionMs: 'Perspektif jauh sekali' }
   ],
   examples: [
-    { code: '<div visual="perspective:normal">3D container</div>', description: 'Normal perspective' }
+    { code: '<div visual="perspective:normal"><div visual="rotate-y:45">3D rotated</div></div>', description: 'Parent perspective for 3D child' }
   ],
   preview: [
     {
       title: '3D Perspective',
       titleMs: 'Perspektif 3D',
-      description: 'Control 3D depth perception for child transforms',
-      descriptionMs: 'Kawal persepsi kedalaman 3D untuk transformasi anak',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:normal">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:near">near</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:far">far</div>
+      description: 'Control 3D depth perception - apply to parent, transform children',
+      descriptionMs: 'Kawal persepsi kedalaman 3D - terapkan pada induk, transformasi anak',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">dramatic</span>
+    <div space="p:medium" visual="perspective:dramatic">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">normal</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">far</span>
+    <div space="p:medium" visual="perspective:far">
+      <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
 </div>`,
       highlightValue: 'perspective:normal'
     }
@@ -51,8 +66,8 @@ export const perspectiveOrigin = {
   name: 'transform-perspective-origin',
   property: 'visual',
   syntax: 'visual="perspective-origin:[value]"',
-  description: 'Set perspective origin point',
-  descriptionMs: 'Tetapkan titik asal perspektif',
+  description: 'Set perspective vanishing point location',
+  descriptionMs: 'Tetapkan lokasi titik lenyap perspektif',
   category: 'visual',
   supportsArbitrary: true,
   values: [
@@ -67,20 +82,142 @@ export const perspectiveOrigin = {
     { value: 'bottom-right', css: 'perspective-origin: bottom right;', description: 'Bottom right', descriptionMs: 'Bawah kanan' }
   ],
   examples: [
-    { code: '<div visual="perspective-origin:top">Top origin</div>', description: 'Top origin' }
+    { code: '<div visual="perspective:normal perspective-origin:top">Top origin</div>', description: 'Top vanishing point' }
   ],
   preview: [
     {
       title: 'Perspective Origin',
       titleMs: 'Asal Perspektif',
-      description: 'Set vanishing point location',
-      descriptionMs: 'Tetapkan lokasi titik lenyap',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:center">center</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:top">top</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:bottom-left">bottom-left</div>
+      description: 'Set vanishing point location for 3D transforms',
+      descriptionMs: 'Tetapkan lokasi titik lenyap untuk transformasi 3D',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">left</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:left">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">center</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:center">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">right</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:right">
+      <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
 </div>`,
       highlightValue: 'perspective-origin:center'
+    }
+  ]
+};
+
+// ======================
+// 3D ROTATION
+// ======================
+
+export const rotate3d = {
+  name: 'transform-rotate-3d',
+  property: 'visual',
+  syntax: 'visual="rotate-x:[degrees]" or visual="rotate-y:[degrees]" or visual="rotate-z:[degrees]"',
+  description: 'Rotate element in 3D space along X, Y, or Z axis',
+  descriptionMs: 'Putar elemen dalam ruang 3D sepanjang paksi X, Y, atau Z',
+  category: 'visual',
+  supportsArbitrary: true,
+  dynamic: true,
+  values: [
+    { value: '0', css: 'transform: rotateX(0deg);', description: 'No rotation', descriptionMs: 'Tiada putaran' },
+    { value: '45', css: 'transform: rotateX(45deg);', description: '45° rotation', descriptionMs: 'Putaran 45°' },
+    { value: '90', css: 'transform: rotateX(90deg);', description: '90° rotation', descriptionMs: 'Putaran 90°' },
+    { value: '180', css: 'transform: rotateX(180deg);', description: '180° rotation', descriptionMs: 'Putaran 180°' }
+  ],
+  examples: [
+    { code: '<div visual="perspective:normal"><div visual="rotate-x:45">Tilted forward</div></div>', description: 'X-axis rotation' },
+    { code: '<div visual="perspective:normal"><div visual="rotate-y:45">Turned sideways</div></div>', description: 'Y-axis rotation' },
+    { code: '<div visual="rotate-z:45">Spun flat</div>', description: 'Z-axis rotation (same as rotate)' }
+  ],
+  preview: [
+    {
+      title: '3D Rotation',
+      titleMs: 'Putaran 3D',
+      description: 'Rotate elements along X, Y, or Z axis in 3D space',
+      descriptionMs: 'Putar elemen sepanjang paksi X, Y, atau Z dalam ruang 3D',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">rotate-x:45</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-x:45">X</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">rotate-y:45</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">Y</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">rotate-z:45</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:warning text:black rounded:small rotate-z:45">Z</div>
+    </div>
+  </div>
+</div>`,
+      highlightValue: 'rotate-y:45'
+    }
+  ]
+};
+
+// ======================
+// TRANSLATE Z (3D)
+// ======================
+
+export const translateZ = {
+  name: 'transform-translate-z',
+  property: 'visual',
+  syntax: 'visual="translate-z:[value]"',
+  description: 'Translate element along Z axis (depth) in 3D space',
+  descriptionMs: 'Alihkan elemen sepanjang paksi Z (kedalaman) dalam ruang 3D',
+  category: 'visual',
+  supportsArbitrary: true,
+  dynamic: true,
+  values: [
+    { value: '0', css: 'transform: translateZ(0);', description: 'No Z translation', descriptionMs: 'Tiada alihan Z' },
+    { value: 'near', css: 'transform: translateZ(50px);', description: 'Move near (forward)', descriptionMs: 'Alih dekat (ke hadapan)' },
+    { value: 'far', css: 'transform: translateZ(-50px);', description: 'Move far (backward)', descriptionMs: 'Alih jauh (ke belakang)' }
+  ],
+  examples: [
+    { code: '<div visual="perspective:normal"><div visual="translate-z:near">Closer</div></div>', description: 'Move forward in 3D' }
+  ],
+  preview: [
+    {
+      title: 'Translate Z (3D Depth)',
+      titleMs: 'Alih Z (Kedalaman 3D)',
+      description: 'Move elements forward or backward in 3D space',
+      descriptionMs: 'Alihkan elemen ke hadapan atau belakang dalam ruang 3D',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">translate-z:far</span>
+    <div space="p:medium" visual="perspective:near">
+      <div space="p:small" visual="bg:primary text:white rounded:small translate-z:far">far</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">translate-z:0</span>
+    <div space="p:medium" visual="perspective:near">
+      <div space="p:small" visual="bg:success text:white rounded:small translate-z:0">0</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">translate-z:near</span>
+    <div space="p:medium" visual="perspective:near">
+      <div space="p:small" visual="bg:warning text:black rounded:small translate-z:near">near</div>
+    </div>
+  </div>
+</div>`,
+      highlightValue: 'translate-z:near'
     }
   ]
 };
@@ -93,25 +230,35 @@ export const transformStyle = {
   name: 'transform-style',
   property: 'visual',
   syntax: 'visual="transform-style:[value]"',
-  description: 'Set 3D transform style',
-  descriptionMs: 'Tetapkan gaya transform 3D',
+  description: 'Preserve 3D space for nested transformed elements',
+  descriptionMs: 'Kekalkan ruang 3D untuk elemen transformasi bersarang',
   category: 'visual',
   values: [
-    { value: 'flat', css: 'transform-style: flat;', description: 'Flat rendering', descriptionMs: 'Persembahan rata' },
-    { value: 'preserve-3d', css: 'transform-style: preserve-3d;', description: 'Preserve 3D', descriptionMs: 'Kekalkan 3D' }
+    { value: 'flat', css: 'transform-style: flat;', description: 'Flatten 3D children', descriptionMs: 'Ratakan anak 3D' },
+    { value: 'preserve-3d', css: 'transform-style: preserve-3d;', description: 'Preserve 3D depth', descriptionMs: 'Kekalkan kedalaman 3D' }
   ],
   examples: [
-    { code: '<div visual="transform-style:preserve-3d">3D space</div>', description: 'Preserve 3D' }
+    { code: '<div visual="transform-style:preserve-3d">Nested 3D transforms preserved</div>', description: 'Preserve 3D' }
   ],
   preview: [
     {
       title: 'Transform Style',
       titleMs: 'Gaya Transformasi',
-      description: 'Flat or preserve 3D rendering',
-      descriptionMs: 'Persembahan rata atau kekalkan 3D',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small transform-style:flat">flat</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small transform-style:preserve-3d">preserve-3d</div>
+      description: 'Flat or preserve 3D for nested transforms',
+      descriptionMs: 'Rata atau kekalkan 3D untuk transformasi bersarang',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">flat</span>
+    <div space="p:medium" visual="perspective:normal transform-style:flat rotate-x:20">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">flat</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">preserve-3d</span>
+    <div space="p:medium" visual="perspective:normal transform-style:preserve-3d rotate-x:20">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
 </div>`,
       highlightValue: 'transform-style:preserve-3d'
     }
@@ -126,25 +273,35 @@ export const backfaceVisibility = {
   name: 'transform-backface',
   property: 'visual',
   syntax: 'visual="backface:[value]"',
-  description: 'Control backface visibility',
-  descriptionMs: 'Kawal keterlihatan belakang',
+  description: 'Control visibility of element back side when rotated in 3D',
+  descriptionMs: 'Kawal keterlihatan bahagian belakang elemen apabila diputar dalam 3D',
   category: 'visual',
   values: [
     { value: 'visible', css: 'backface-visibility: visible;', description: 'Backface visible', descriptionMs: 'Belakang kelihatan' },
     { value: 'hidden', css: 'backface-visibility: hidden;', description: 'Backface hidden', descriptionMs: 'Belakang tersembunyi' }
   ],
   examples: [
-    { code: '<div visual="backface:hidden">Hidden when rotated</div>', description: 'Hide backface' }
+    { code: '<div visual="backface:hidden rotate-y:180">Hidden when flipped</div>', description: 'Hide backface for card flip' }
   ],
   preview: [
     {
       title: 'Backface Visibility',
       titleMs: 'Keterlihatan Belakang',
-      description: 'Show or hide element back side when rotated',
-      descriptionMs: 'Tunjukkan atau sembunyikan bahagian belakang apabila diputar',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small backface:visible">visible</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small backface:hidden">hidden</div>
+      description: 'Show or hide backside when rotated 180°',
+      descriptionMs: 'Tunjukkan atau sembunyikan bahagian belakang apabila diputar 180°',
+      html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">visible + rotate-y:180</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:primary text:white rounded:small backface:visible rotate-y:180">👀</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">hidden + rotate-y:180</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:danger text:white rounded:small backface:hidden rotate-y:180">🙈</div>
+    </div>
+  </div>
 </div>`,
       highlightValue: 'backface:hidden'
     }
@@ -231,6 +388,8 @@ export const statePrefixes = {
 export const transform3dDefinitions = {
   perspective,
   perspectiveOrigin,
+  rotate3d,
+  translateZ,
   transformStyle,
   backfaceVisibility,
   mask,

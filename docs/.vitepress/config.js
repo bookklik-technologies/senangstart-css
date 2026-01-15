@@ -305,6 +305,8 @@ const enSidebar = {
           items: [
             { text: 'Perspective', link: '/reference/visual/transform-perspective' },
             { text: 'Perspective Origin', link: '/reference/visual/transform-perspective-origin' },
+            { text: '3D Rotation', link: '/reference/visual/transform-rotate-3d' },
+            { text: 'Translate Z', link: '/reference/visual/transform-translate-z' },
             { text: 'Transform Style', link: '/reference/visual/transform-style' },
             { text: 'Backface Visibility', link: '/reference/visual/transform-backface' }
           ]
@@ -668,6 +670,8 @@ const msSidebar = {
           items: [
             { text: 'Perspektif', link: '/ms/reference/visual/transform-perspective' },
             { text: 'Asal Perspektif', link: '/ms/reference/visual/transform-perspective-origin' },
+            { text: 'Putaran 3D', link: '/ms/reference/visual/transform-rotate-3d' },
+            { text: 'Alih Z', link: '/ms/reference/visual/transform-translate-z' },
             { text: 'Gaya Transform', link: '/ms/reference/visual/transform-style' },
             { text: 'Keterlihatan Belakang', link: '/ms/reference/visual/transform-backface' }
           ]

@@ -89,33 +89,50 @@ export const transformRotate = {
 export const transformTranslate = {
   name: 'transform-translate',
   property: 'visual',
-  syntax: 'visual="translate-x:[value]" or visual="translate-y:[value]"',
-  description: 'Translate element position',
-  descriptionMs: 'Alihkan kedudukan elemen',
+  syntax: 'visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translate-z:[value]"',
+  description: 'Translate element position along X, Y, or Z axis',
+  descriptionMs: 'Alihkan kedudukan elemen sepanjang paksi X, Y, atau Z',
   category: 'visual',
   usesScale: 'spacing',
   supportsArbitrary: true,
   dynamic: true,
   values: [
     { value: '0', css: 'transform: translateX(0);', description: 'No translation', descriptionMs: 'Tiada alihan' },
-    { value: 'full', css: 'transform: translateX(100%);', description: 'Full width', descriptionMs: 'Lebar penuh' },
-    { value: '1/2', css: 'transform: translateX(50%);', description: 'Half width', descriptionMs: 'Separuh lebar' }
+    { value: 'tiny', css: 'transform: translateX(var(--sp-tiny));', description: 'Tiny offset', descriptionMs: 'Alihan kecil' },
+    { value: 'small', css: 'transform: translateX(var(--sp-small));', description: 'Small offset', descriptionMs: 'Alihan kecil' },
+    { value: 'medium', css: 'transform: translateX(var(--sp-medium));', description: 'Medium offset', descriptionMs: 'Alihan sederhana' },
+    { value: 'big', css: 'transform: translateX(var(--sp-big));', description: 'Big offset', descriptionMs: 'Alihan besar' },
+    { value: 'full', css: 'transform: translateX(100%);', description: 'Full width/height', descriptionMs: 'Lebar/ketinggian penuh' },
+    { value: '1/2', css: 'transform: translateX(50%);', description: 'Half width/height', descriptionMs: 'Separuh lebar/ketinggian' },
+    { value: '-full', css: 'transform: translateX(-100%);', description: 'Negative full', descriptionMs: 'Negatif penuh' },
+    { value: '-1/2', css: 'transform: translateX(-50%);', description: 'Negative half', descriptionMs: 'Negatif separuh' }
   ],
   examples: [
-    { code: '<div visual="translate-x:full">Moved right</div>', description: 'Translate right' }
+    { code: '<div visual="translate-x:medium">Moved right</div>', description: 'Translate X' },
+    { code: '<div visual="translate-y:small">Moved down</div>', description: 'Translate Y' },
+    { code: '<div visual="translate-z:[50px]">Moved forward in 3D</div>', description: 'Translate Z (3D)' }
   ],
   preview: [
     {
       title: 'Translate Transform',
       titleMs: 'Transformasi Alih',
-      description: 'Move elements position',
-      descriptionMs: 'Alihkan kedudukan elemen',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
+      description: 'Move elements along X, Y, or Z axis',
+      descriptionMs: 'Alihkan elemen sepanjang paksi X, Y, atau Z',
+      html: `<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex" space="g:small">
+    <span visual="text:neutral-500 text-size:small">X axis:</span>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
+  </div>
+  <div layout="flex" space="g:small">
+    <span visual="text:neutral-500 text-size:small">Y axis:</span>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:0">0</div>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:small">small</div>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:medium">medium</div>
+  </div>
 </div>`,
-      highlightValue: 'translate-x:small'
+      highlightValue: 'translate-x:medium'
     }
   ]
 };

@@ -1,10 +1,10 @@
 # Transform Translate
 
-Translate element position
+Translate element position along X, Y, or Z axis
 
 ## Syntax
 ```
-visual="translate-x:[value]" or visual="translate-y:[value]"
+visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translate-z:[value]"
 ```
 
 ## Values
@@ -12,13 +12,21 @@ visual="translate-x:[value]" or visual="translate-y:[value]"
 | Value | CSS Output | Description |
 |-------|------------|-------------|
 | `0` | `transform: translateX(0)` | No translation |
-| `full` | `transform: translateX(100%)` | Full width |
-| `1/2` | `transform: translateX(50%)` | Half width |
+| `tiny` | `transform: translateX(var(--sp-tiny))` | Tiny offset |
+| `small` | `transform: translateX(var(--sp-small))` | Small offset |
+| `medium` | `transform: translateX(var(--sp-medium))` | Medium offset |
+| `big` | `transform: translateX(var(--sp-big))` | Big offset |
+| `full` | `transform: translateX(100%)` | Full width/height |
+| `1/2` | `transform: translateX(50%)` | Half width/height |
+| `-full` | `transform: translateX(-100%)` | Negative full |
+| `-1/2` | `transform: translateX(-50%)` | Negative half |
 
 ## Examples
 
 ```html
-<div visual="translate-x:full">Moved right</div>
+<div visual="translate-x:medium">Moved right</div>
+<div visual="translate-y:small">Moved down</div>
+<div visual="translate-z:[50px]">Moved forward in 3D</div>
 ```
 
 ## Preview
@@ -28,11 +36,20 @@ visual="translate-x:[value]" or visual="translate-y:[value]"
 ### Translate Transform
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="translate-x:small"</code> - Move elements position</p>
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="translate-x:medium"</code> - Move elements along X, Y, or Z axis</p>
+<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex" space="g:small">
+    <span visual="text:neutral-500 text-size:small">X axis:</span>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
+  </div>
+  <div layout="flex" space="g:small">
+    <span visual="text:neutral-500 text-size:small">Y axis:</span>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:0">0</div>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:small">small</div>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:medium">medium</div>
+  </div>
 </div>
 </div>
 
@@ -40,10 +57,19 @@ visual="translate-x:[value]" or visual="translate-y:[value]"
 <summary>View Code</summary>
 
 ```html
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
+<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex" space="g:small">
+    <span visual="text:neutral-500 text-size:small">X axis:</span>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
+    <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
+  </div>
+  <div layout="flex" space="g:small">
+    <span visual="text:neutral-500 text-size:small">Y axis:</span>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:0">0</div>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:small">small</div>
+    <div space="p:small" visual="bg:success text:white rounded:small translate-y:medium">medium</div>
+  </div>
 </div>
 ```
 

@@ -1,6 +1,6 @@
 # Transform Perspective Origin
 
-Set perspective origin point
+Set perspective vanishing point location
 
 ## Syntax
 ```
@@ -24,7 +24,7 @@ visual="perspective-origin:[value]"
 ## Examples
 
 ```html
-<div visual="perspective-origin:top">Top origin</div>
+<div visual="perspective:normal perspective-origin:top">Top origin</div>
 ```
 
 ## Preview
@@ -34,11 +34,26 @@ visual="perspective-origin:[value]"
 ### Perspective Origin
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="perspective-origin:center"</code> - Set vanishing point location</p>
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:center">center</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:top">top</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:bottom-left">bottom-left</div>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="perspective-origin:center"</code> - Set vanishing point location for 3D transforms</p>
+<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">left</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:left">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">center</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:center">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">right</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:right">
+      <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -46,10 +61,25 @@ visual="perspective-origin:[value]"
 <summary>View Code</summary>
 
 ```html
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:center">center</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:top">top</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:bottom-left">bottom-left</div>
+<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">left</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:left">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">center</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:center">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">right</span>
+    <div space="p:medium" visual="perspective:normal perspective-origin:right">
+      <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:30">3D</div>
+    </div>
+  </div>
 </div>
 ```
 

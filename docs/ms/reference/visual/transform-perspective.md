@@ -1,6 +1,6 @@
 # Transform Perspective
 
-Tetapkan perspektif 3D
+Tetapkan perspektif 3D pada bekas (terapkan pada induk elemen transformasi)
 
 ## Sintaks
 ```
@@ -22,7 +22,7 @@ visual="perspective:[value]"
 ## Contoh
 
 ```html
-<div visual="perspective:normal">3D container</div>
+<div visual="perspective:normal"><div visual="rotate-y:45">3D rotated</div></div>
 ```
 
 ## Pratonton
@@ -32,11 +32,26 @@ visual="perspective:[value]"
 ### Perspektif 3D
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="perspective:normal"</code> - Kawal persepsi kedalaman 3D untuk transformasi anak</p>
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:normal">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:near">near</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:far">far</div>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="perspective:normal"</code> - Kawal persepsi kedalaman 3D - terapkan pada induk, transformasi anak</p>
+<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">dramatic</span>
+    <div space="p:medium" visual="perspective:dramatic">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">normal</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">far</span>
+    <div space="p:medium" visual="perspective:far">
+      <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -44,10 +59,25 @@ visual="perspective:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:normal">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:near">near</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small perspective:far">far</div>
+<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">dramatic</span>
+    <div space="p:medium" visual="perspective:dramatic">
+      <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">normal</span>
+    <div space="p:medium" visual="perspective:normal">
+      <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
+  <div layout="flex:col" space="g:tiny">
+    <span visual="text:neutral-500 text-size:tiny">far</span>
+    <div space="p:medium" visual="perspective:far">
+      <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:45">3D</div>
+    </div>
+  </div>
 </div>
 ```
 
