@@ -70,8 +70,8 @@ export const transitionDuration = {
       description: 'Control transition speed',
       descriptionMs: 'Kawal kelajuan peralihan',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all duration:fast hover:scale:110">fast</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all duration:slow hover:scale:110">slow</button>
 </div>`,
       highlightValue: 'duration:slow'
     }
@@ -106,9 +106,9 @@ export const transitionTiming = {
       description: 'Control acceleration curve',
       descriptionMs: 'Kawal lengkung pecutan',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">ease:in</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">ease:out</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">ease:in-out</div>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all ease:in hover:scale:110">ease:in</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all ease:out hover:scale:110">ease:out</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all ease:in-out hover:scale:110">ease:in-out</button>
 </div>`,
       highlightValue: 'ease:out'
     }
@@ -144,7 +144,8 @@ export const transitionDelay = {
       description: 'Delay before transition starts',
       descriptionMs: 'Kelewatan sebelum peralihan bermula',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">delay:slow (300ms)</div>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all delay:instant hover:scale:110">instant</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all delay:slow hover:scale:110">slow</button>
 </div>`,
       highlightValue: 'delay:slow'
     }
@@ -180,9 +181,9 @@ export const animation = {
       description: 'Ready-to-use animations',
       descriptionMs: 'Animasi sedia guna',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">spin</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">pulse</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">bounce</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin">spin</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse">pulse</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce">bounce</div>
 </div>`,
       highlightValue: 'animate:spin'
     }
@@ -220,8 +221,8 @@ export const animationDuration = {
       description: 'Control animation speed',
       descriptionMs: 'Kawal kelajuan animasi',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-duration:fast">fast</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-duration:slow">slow</div>
 </div>`,
       highlightValue: 'animation-duration:slow'
     }
@@ -257,7 +258,8 @@ export const animationDelay = {
       description: 'Delay before animation starts',
       descriptionMs: 'Kelewatan sebelum animasi bermula',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">delay:slow (300ms)</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse animation-delay:instant">instant</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse animation-delay:slow">slow</div>
 </div>`,
       highlightValue: 'animation-delay:slow'
     }
@@ -290,10 +292,10 @@ export const animationIteration = {
       description: 'Control number of loops',
       descriptionMs: 'Kawal bilangan gelung',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">1 (once)</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">infinite</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce animation-iteration:1">once</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce animation-iteration:infinite">infinite</div>
 </div>`,
-      highlightValue: 'animation-iteration:1'
+      highlightValue: 'animation-iteration:infinite'
     }
   ]
 };
@@ -325,9 +327,9 @@ export const animationDirection = {
       description: 'Control playback direction',
       descriptionMs: 'Kawal arah main balik',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">reverse</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">alternate</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:normal">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:reverse">reverse</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:alternate">alternate</div>
 </div>`,
       highlightValue: 'animation-direction:alternate'
     }
@@ -358,12 +360,24 @@ export const animationFill = {
     {
       title: 'Animation Fill',
       titleMs: 'Pengisian Animasi',
-      description: 'Control state before/after animation',
-      descriptionMs: 'Kawal keadaan sebelum/selepas animasi',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">forwards</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">both</div>
+      description: 'Control state before/after animation. "forwards" keeps the final state, "none" returns to original.',
+      descriptionMs: 'Kawal keadaan sebelum/selepas animasi. "forwards" kekalkan keadaan akhir, "none" kembali kepada asal.',
+      html: `<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <p visual="text-size:small text:neutral-600 dark:text:neutral-400">Hover to replay animation:</p>
+  <div layout="flex" space="g:medium">
+    <div layout="flex:col" space="g:tiny">
+      <span visual="text-size:tiny text:neutral-500">none (returns)</span>
+      <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce animation-iteration:1 animation-fill:none hover:animate:bounce">⬆</div>
+    </div>
+    <div layout="flex:col" space="g:tiny">
+      <span visual="text-size:tiny text:neutral-500">forwards (stays)</span>
+      <div space="p:small" visual="bg:success text:white rounded:small animate:bounce animation-iteration:1 animation-fill:forwards hover:animate:bounce">⬆</div>
+    </div>
+    <div layout="flex:col" space="g:tiny">
+      <span visual="text-size:tiny text:neutral-500">both</span>
+      <div space="p:small" visual="bg:warning text:white rounded:small animate:bounce animation-iteration:1 animation-fill:both hover:animate:bounce">⬆</div>
+    </div>
+  </div>
 </div>`,
       highlightValue: 'animation-fill:forwards'
     }
@@ -395,8 +409,8 @@ export const animationPlay = {
       description: 'Pause or resume animations',
       descriptionMs: 'Jeda atau sambung animasi',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">running</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">paused</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-play:running">running</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-play:paused">paused</div>
 </div>`,
       highlightValue: 'animation-play:paused'
     }

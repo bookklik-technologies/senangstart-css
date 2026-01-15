@@ -29,11 +29,11 @@ visual="line-clamp:[value]"
 ### Line Clamp
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="line-clamp:3"</code> - Limit text to specific lines</p>
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">1</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">2</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">3</div>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="line-clamp:2"</code> - Limit text to specific lines</p>
+<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small line-clamp:1">This is a very long text that will be clamped to just one single line with ellipsis.</div>
+  <div space="p:small w:[200px]" visual="bg:success text:white rounded:small line-clamp:2">This is a very long text that will be clamped to exactly two lines with ellipsis at the end.</div>
+  <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small line-clamp:3">This is a very long text that will be clamped to exactly three lines with ellipsis shown at the end of the third line.</div>
 </div>
 </div>
 
@@ -41,10 +41,10 @@ visual="line-clamp:[value]"
 <summary>View Code</summary>
 
 ```html
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">1</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">2</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">3</div>
+<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small line-clamp:1">This is a very long text that will be clamped to just one single line with ellipsis.</div>
+  <div space="p:small w:[200px]" visual="bg:success text:white rounded:small line-clamp:2">This is a very long text that will be clamped to exactly two lines with ellipsis at the end.</div>
+  <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small line-clamp:3">This is a very long text that will be clamped to exactly three lines with ellipsis shown at the end of the third line.</div>
 </div>
 ```
 

@@ -32,11 +32,11 @@ visual="scale:[value]"
 ### Scale Transform
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="scale:110"</code> - Scale elements up or down</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="scale:75"</code> - Scale elements up or down</p>
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(0.75);">75%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">100%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(1.25);">125%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:75">75%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:100">100%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:125">125%</div>
 </div>
 </div>
 
@@ -45,9 +45,9 @@ visual="scale:[value]"
 
 ```html
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(0.75);">75%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">100%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(1.25);">125%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:75">75%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:100">100%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:125">125%</div>
 </div>
 ```
 

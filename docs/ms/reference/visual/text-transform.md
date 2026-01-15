@@ -31,9 +31,9 @@ visual="[transform-value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="uppercase"</code> - Ubah kes teks</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: uppercase;">upper</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: lowercase;">LOWER</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: capitalize;">capitalize</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small uppercase">upper</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small lowercase">LOWER</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small capitalize">capitalize me</span>
 </div>
 </div>
 
@@ -42,9 +42,9 @@ visual="[transform-value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: uppercase;">upper</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: lowercase;">LOWER</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: capitalize;">capitalize</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small uppercase">upper</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small lowercase">LOWER</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small capitalize">capitalize me</span>
 </div>
 ```
 

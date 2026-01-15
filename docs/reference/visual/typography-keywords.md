@@ -80,10 +80,10 @@ visual="[keyword]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="italic"</code> - Quick typography utilities without value syntax</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-style: italic;">italic</span>
-  <span style="text-transform: uppercase;">upper</span>
-  <span style="text-decoration: underline;">underline</span>
-  <span style="text-decoration: line-through;">strike</span>
+  <span visual="italic">italic</span>
+  <span visual="uppercase">upper</span>
+  <span visual="underline">underline</span>
+  <span visual="line-through">strike</span>
 </div>
 </div>
 
@@ -92,10 +92,10 @@ visual="[keyword]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-style: italic;">italic</span>
-  <span style="text-transform: uppercase;">upper</span>
-  <span style="text-decoration: underline;">underline</span>
-  <span style="text-decoration: line-through;">strike</span>
+  <span visual="italic">italic</span>
+  <span visual="uppercase">upper</span>
+  <span visual="underline">underline</span>
+  <span visual="line-through">strike</span>
 </div>
 ```
 

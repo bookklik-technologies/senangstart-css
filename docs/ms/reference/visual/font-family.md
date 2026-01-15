@@ -29,10 +29,10 @@ visual="font:[family]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="font:sans"</code> - Pilih antara sans, serif, atau mono</p>
-<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-family: ui-sans-serif, system-ui, sans-serif;">Sans-serif font</span>
-  <span style="font-family: ui-serif, Georgia, serif;">Serif font</span>
-  <span style="font-family: ui-monospace, monospace;">Monospace font</span>
+<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="font:sans">Sans-serif font</span>
+  <span visual="font:serif">Serif font</span>
+  <span visual="font:mono">Monospace font</span>
 </div>
 </div>
 
@@ -40,10 +40,10 @@ visual="font:[family]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-family: ui-sans-serif, system-ui, sans-serif;">Sans-serif font</span>
-  <span style="font-family: ui-serif, Georgia, serif;">Serif font</span>
-  <span style="font-family: ui-monospace, monospace;">Monospace font</span>
+<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="font:sans">Sans-serif font</span>
+  <span visual="font:serif">Serif font</span>
+  <span visual="font:mono">Monospace font</span>
 </div>
 ```
 

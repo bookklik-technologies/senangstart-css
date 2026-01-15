@@ -36,9 +36,9 @@ visual="cursor:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="cursor:pointer"</code> - Tukar kursor tetikus semasa hover</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: pointer;">pointer</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: wait;">wait</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: not-allowed;">not-allowed</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:pointer">pointer</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:wait">wait</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:not-allowed">not-allowed</div>
 </div>
 </div>
 
@@ -47,9 +47,9 @@ visual="cursor:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: pointer;">pointer</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: wait;">wait</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: not-allowed;">not-allowed</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:pointer">pointer</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:wait">wait</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:not-allowed">not-allowed</div>
 </div>
 ```
 

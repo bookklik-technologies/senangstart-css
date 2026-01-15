@@ -29,8 +29,8 @@ visual="[style-value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="italic"</code> - Teks italic atau normal</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="font-style: italic;">italic</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small">normal</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small italic">italic</span>
+  <span space="p:small" visual="bg:success text:white rounded:small not-italic">not-italic</span>
 </div>
 </div>
 
@@ -39,8 +39,8 @@ visual="[style-value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="font-style: italic;">italic</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small">normal</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small italic">italic</span>
+  <span space="p:small" visual="bg:success text:white rounded:small not-italic">not-italic</span>
 </div>
 ```
 

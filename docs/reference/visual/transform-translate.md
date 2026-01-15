@@ -28,11 +28,11 @@ visual="translate-x:[value]" or visual="translate-y:[value]"
 ### Translate Transform
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="translate-x:full"</code> - Move elements position</p>
-<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(0);">0</div>
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(60px);">60px</div>
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(120px);">120px</div>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="translate-x:small"</code> - Move elements position</p>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
 </div>
 </div>
 
@@ -40,10 +40,10 @@ visual="translate-x:[value]" or visual="translate-y:[value]"
 <summary>View Code</summary>
 
 ```html
-<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(0);">0</div>
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(60px);">60px</div>
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(120px);">120px</div>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
 </div>
 ```
 

@@ -66,9 +66,9 @@ export const textTransform = {
       description: 'Change text case',
       descriptionMs: 'Ubah kes teks',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: uppercase;">upper</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: lowercase;">LOWER</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-transform: capitalize;">capitalize</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small uppercase">upper</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small lowercase">LOWER</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small capitalize">capitalize me</span>
 </div>`,
       highlightValue: 'uppercase'
     }
@@ -102,8 +102,9 @@ export const textDecoration = {
       description: 'Add lines to text',
       descriptionMs: 'Tambah garis pada teks',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-decoration: underline;">underline</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="text-decoration: line-through;">line-through</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small underline">underline</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small line-through">line-through</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small overline">overline</span>
 </div>`,
       highlightValue: 'underline'
     }
@@ -135,8 +136,9 @@ export const textOverflow = {
       titleMs: 'Limpahan Teks',
       description: 'Handle overflowing text',
       descriptionMs: 'Kendalikan teks yang melimpah',
-      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">This is truncated text...</div>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small w:[150px]" visual="bg:primary text:white rounded:small truncate">This long text will be truncated with ellipsis</div>
+  <div space="p:small w:[150px]" visual="bg:success text:white rounded:small text-clip">This long text will be clipped without ellipsis</div>
 </div>`,
       highlightValue: 'truncate'
     }
@@ -169,10 +171,10 @@ export const textWrap = {
       titleMs: 'Pembalutan Teks',
       description: 'Control line wrapping',
       descriptionMs: 'Kawal pembalutan baris',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">wrap</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">nowrap</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">balance</div>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small text-wrap">This text will wrap normally when needed</div>
+  <div space="p:small w:[200px]" visual="bg:success text:white rounded:small text-nowrap">This text won't wrap at all</div>
+  <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small text-balance">This heading text is balanced</div>
 </div>`,
       highlightValue: 'text-balance'
     }
@@ -207,10 +209,10 @@ export const whitespace = {
       titleMs: 'Ruang Putih',
       description: 'Control whitespace handling',
       descriptionMs: 'Kawal pengendalian ruang putih',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">nowrap</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">pre</div>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small whitespace:normal">Normal   spaces   collapse</div>
+  <div space="p:small" visual="bg:success text:white rounded:small whitespace:nowrap">This text won't wrap to next line</div>
+  <div space="p:small" visual="bg:warning text:black rounded:small whitespace:pre">Preserved   spaces   here</div>
 </div>`,
       highlightValue: 'whitespace:pre'
     }
@@ -243,10 +245,10 @@ export const wordBreak = {
       titleMs: 'Pemecahan Perkataan',
       description: 'Control word breaking',
       descriptionMs: 'Kawal pemecahan perkataan',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">break-words</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">break-all</div>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small w:[120px]" visual="bg:primary text:white rounded:small break-normal">Supercalifragilisticexpialidocious</div>
+  <div space="p:small w:[120px]" visual="bg:success text:white rounded:small break-words">Supercalifragilisticexpialidocious</div>
+  <div space="p:small w:[120px]" visual="bg:warning text:black rounded:small break-all">Supercalifragilisticexpialidocious</div>
 </div>`,
       highlightValue: 'break-words'
     }
@@ -279,9 +281,9 @@ export const hyphens = {
       description: 'Control automatic hyphenation',
       descriptionMs: 'Kawal sempang automatik',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">manual</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">auto</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hyphens:none">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hyphens:manual">manual</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hyphens:auto">auto</div>
 </div>`,
       highlightValue: 'hyphens:auto'
     }
@@ -314,8 +316,10 @@ export const textIndent = {
       titleMs: 'Inden Teks',
       description: 'Indent first line of text',
       descriptionMs: 'Inden baris pertama teks',
-      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <p visual="bg:primary text:white rounded:small" space="p:small" style="text-indent: 2rem;">Indented text example...</p>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <p space="p:small" visual="bg:primary text:white rounded:small indent:0">No indent on this text paragraph.</p>
+  <p space="p:small" visual="bg:success text:white rounded:small indent:medium">Medium indent on this first line of the paragraph.</p>
+  <p space="p:small" visual="bg:warning text:black rounded:small indent:big">Bigger indent on this first line of the paragraph.</p>
 </div>`,
       highlightValue: 'indent:medium'
     }
@@ -352,10 +356,11 @@ export const verticalAlign = {
       titleMs: 'Penjajaran Menegak',
       description: 'Align inline elements',
       descriptionMs: 'Jajarkan elemen sebaris',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">top</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">middle</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">bottom</div>
+      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small align:top">top</span>
+  <span space="p:small" visual="bg:success text:white rounded:small align:middle">middle</span>
+  <span space="p:small" visual="bg:warning text:black rounded:small align:bottom">bottom</span>
+  <span visual="text-size:huge text:neutral-500">Big</span>
 </div>`,
       highlightValue: 'align:middle'
     }
@@ -387,8 +392,8 @@ export const fontStyle = {
       description: 'Italic or normal text',
       descriptionMs: 'Teks italic atau normal',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span space="p:small" visual="bg:primary text:white rounded:small" style="font-style: italic;">italic</span>
-  <span space="p:small" visual="bg:primary text:white rounded:small">normal</span>
+  <span space="p:small" visual="bg:primary text:white rounded:small italic">italic</span>
+  <span space="p:small" visual="bg:success text:white rounded:small not-italic">not-italic</span>
 </div>`,
       highlightValue: 'italic'
     }
@@ -420,8 +425,8 @@ export const fontSmoothing = {
       description: 'Control text rendering',
       descriptionMs: 'Kawal persembahan teks',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">antialiased</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">subpixel</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small antialiased">antialiased</div>
+  <div space="p:small" visual="bg:success text:white rounded:small subpixel-antialiased">subpixel</div>
 </div>`,
       highlightValue: 'antialiased'
     }
@@ -456,12 +461,12 @@ export const lineClamp = {
       titleMs: 'Had Baris',
       description: 'Limit text to specific lines',
       descriptionMs: 'Hadkan teks kepada baris tertentu',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">1</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">2</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">3</div>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small line-clamp:1">This is a very long text that will be clamped to just one single line with ellipsis.</div>
+  <div space="p:small w:[200px]" visual="bg:success text:white rounded:small line-clamp:2">This is a very long text that will be clamped to exactly two lines with ellipsis at the end.</div>
+  <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small line-clamp:3">This is a very long text that will be clamped to exactly three lines with ellipsis shown at the end of the third line.</div>
 </div>`,
-      highlightValue: 'line-clamp:3'
+      highlightValue: 'line-clamp:2'
     }
   ]
 };
@@ -495,11 +500,11 @@ export const listStyle = {
       description: 'Control list markers',
       descriptionMs: 'Kawal penanda senarai',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">disc</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">decimal</div>
+  <ul space="p:small" visual="bg:primary text:white rounded:small list:none"><li>none</li><li>no bullets</li></ul>
+  <ul space="p:small" visual="bg:success text:white rounded:small list:disc"><li>disc</li><li>bullet</li></ul>
+  <ol space="p:small" visual="bg:warning text:black rounded:small list:decimal"><li>decimal</li><li>numbers</li></ol>
 </div>`,
-      highlightValue: 'list:none'
+      highlightValue: 'list:disc'
     }
   ]
 };
@@ -532,7 +537,10 @@ export const textShadow = {
       description: 'Add shadow to text',
       descriptionMs: 'Tambah bayang pada teks',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3);">shadow</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small text-shadow:none text-size:big">none</div>
+  <div space="p:small" visual="bg:success text:white rounded:small text-shadow:small text-size:big">small</div>
+  <div space="p:small" visual="bg:warning text:black rounded:small text-shadow:medium text-size:big">medium</div>
+  <div space="p:small" visual="bg:danger text:white rounded:small text-shadow:big text-size:big">big</div>
 </div>`,
       highlightValue: 'text-shadow:medium'
     }
@@ -569,8 +577,9 @@ export const fontVariantNumeric = {
       description: 'Control number display',
       descriptionMs: 'Kawal paparan nombor',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">tabular-nums</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">ordinal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small tabular-nums text-size:big">123,456.00</div>
+  <div space="p:small" visual="bg:success text:white rounded:small slashed-zero text-size:big">0123</div>
+  <div space="p:small" visual="bg:warning text:black rounded:small ordinal text-size:big">1st 2nd 3rd</div>
 </div>`,
       highlightValue: 'tabular-nums'
     }

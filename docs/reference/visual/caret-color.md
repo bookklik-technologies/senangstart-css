@@ -22,7 +22,7 @@ visual="caret:[color]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="caret:primary"</code> - Style the text cursor in input fields</p>
 <div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <input type="text" placeholder="Type here..." style="caret-color: #3b82f6; padding: 0.5rem; border: 1px solid #e5e7eb; border-radius: 0.25rem;">
+  <input type="text" placeholder="Type here..." space="p:small" visual="caret:primary border:neutral-300 rounded:small">
 </div>
 </div>
 
@@ -31,7 +31,7 @@ visual="caret:[color]"
 
 ```html
 <div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <input type="text" placeholder="Type here..." style="caret-color: #3b82f6; padding: 0.5rem; border: 1px solid #e5e7eb; border-radius: 0.25rem;">
+  <input type="text" placeholder="Type here..." space="p:small" visual="caret:primary border:neutral-300 rounded:small">
 </div>
 ```
 

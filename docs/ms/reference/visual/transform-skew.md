@@ -31,9 +31,9 @@ visual="skew-x:[degrees]" or visual="skew-y:[degrees]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="skew-x:6"</code> - Condongkan elemen sepanjang paksi</p>
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(0deg);">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(6deg);">6°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(12deg);">12°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:0">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:6">6°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:12">12°</div>
 </div>
 </div>
 
@@ -42,9 +42,9 @@ visual="skew-x:[degrees]" or visual="skew-y:[degrees]"
 
 ```html
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(0deg);">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(6deg);">6°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(12deg);">12°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:0">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:6">6°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:12">12°</div>
 </div>
 ```
 

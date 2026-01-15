@@ -112,12 +112,12 @@ export const fontSize = {
       titleMs: 'Saiz Fon',
       description: 'Scale text size from tiny to giant',
       descriptionMs: 'Skala saiz teks dari kecil hingga gergasi',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="align-items: baseline;">
-  <span style="font-size: 0.75rem;">tiny</span>
-  <span style="font-size: 0.875rem;">small</span>
-  <span style="font-size: 1rem;">medium</span>
-  <span style="font-size: 1.25rem;">big</span>
-  <span style="font-size: 1.5rem;">giant</span>
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="text-size:tiny">tiny</span>
+  <span visual="text-size:small">small</span>
+  <span visual="text-size:medium">medium</span>
+  <span visual="text-size:big">big</span>
+  <span visual="text-size:giant">giant</span>
 </div>`,
       highlightValue: 'text-size:big'
     }
@@ -161,9 +161,9 @@ export const fontWeight = {
       description: 'Control text thickness',
       descriptionMs: 'Kawal ketebalan teks',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-weight: 400;">normal</span>
-  <span style="font-weight: 500;">medium</span>
-  <span style="font-weight: 700;">bold</span>
+  <span visual="font:normal">normal</span>
+  <span visual="font:medium">medium</span>
+  <span visual="font:bold">bold</span>
 </div>`,
       highlightValue: 'font:bold'
     }
@@ -195,10 +195,10 @@ export const fontFamily = {
       titleMs: 'Keluarga Fon',
       description: 'Choose between sans, serif, or mono',
       descriptionMs: 'Pilih antara sans, serif, atau mono',
-      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-family: ui-sans-serif, system-ui, sans-serif;">Sans-serif font</span>
-  <span style="font-family: ui-serif, Georgia, serif;">Serif font</span>
-  <span style="font-family: ui-monospace, monospace;">Monospace font</span>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="font:sans">Sans-serif font</span>
+  <span visual="font:serif">Serif font</span>
+  <span visual="font:mono">Monospace font</span>
 </div>`,
       highlightValue: 'font:sans'
     }
@@ -304,10 +304,10 @@ export const typographyKeywords = {
       description: 'Quick typography utilities without value syntax',
       descriptionMs: 'Utiliti tipografi pantas tanpa sintaks nilai',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-style: italic;">italic</span>
-  <span style="text-transform: uppercase;">upper</span>
-  <span style="text-decoration: underline;">underline</span>
-  <span style="text-decoration: line-through;">strike</span>
+  <span visual="italic">italic</span>
+  <span visual="uppercase">upper</span>
+  <span visual="underline">underline</span>
+  <span visual="line-through">strike</span>
 </div>`,
       highlightValue: 'italic'
     }
@@ -343,10 +343,10 @@ export const letterSpacing = {
       titleMs: 'Jarak Huruf',
       description: 'Adjust spacing between characters',
       descriptionMs: 'Laraskan jarak antara aksara',
-      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="letter-spacing: -0.05em;">tighter spacing</span>
-  <span style="letter-spacing: 0;">normal spacing</span>
-  <span style="letter-spacing: 0.1em;">widest spacing</span>
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="tracking:tighter">tighter spacing</span>
+  <span visual="tracking:normal">normal spacing</span>
+  <span visual="tracking:widest">widest spacing</span>
 </div>`,
       highlightValue: 'tracking:wide'
     }
@@ -382,10 +382,10 @@ export const lineHeight = {
       titleMs: 'Ketinggian Baris',
       description: 'Control vertical spacing between lines',
       descriptionMs: 'Kawal jarak menegak antara baris',
-      html: `<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <p style="line-height: 1; margin: 0;">Tight leading<br>for headings</p>
-  <p style="line-height: 1.5; margin: 0;">Normal leading<br>for body text</p>
-  <p style="line-height: 2; margin: 0;">Loose leading<br>for readability</p>
+      html: `<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <p space="m:0" visual="leading:tight">Tight leading<br>for headings</p>
+  <p space="m:0" visual="leading:normal">Normal leading<br>for body text</p>
+  <p space="m:0" visual="leading:loose">Loose leading<br>for readability</p>
 </div>`,
       highlightValue: 'leading:relaxed'
     }
@@ -431,10 +431,10 @@ export const borderRadius = {
       description: 'Round element corners from subtle to pill-shaped',
       descriptionMs: 'Bulatkan sudut elemen dari halus hingga berbentuk pil',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white" style="border-radius: 0;">none</div>
-  <div space="p:small" visual="bg:primary text:white" style="border-radius: 0.25rem;">small</div>
-  <div space="p:small" visual="bg:primary text:white" style="border-radius: 0.5rem;">medium</div>
-  <div space="p:small" visual="bg:primary text:white" style="border-radius: 9999px;">round</div>
+  <div space="p:small" visual="bg:primary text:white rounded:none">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small">small</div>
+  <div space="p:small" visual="bg:primary text:white rounded:medium">medium</div>
+  <div space="p:small" visual="bg:primary text:white rounded:round">round</div>
 </div>`,
       highlightValue: 'rounded:medium'
     }
@@ -479,9 +479,9 @@ export const boxShadow = {
       description: 'Add elevation with shadows from subtle to dramatic',
       descriptionMs: 'Tambah ketinggian dengan bayang dari halus hingga dramatik',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">small</div>
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">medium</div>
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 10px 15px rgba(0,0,0,0.15);">big</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:small">small</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:medium">medium</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:big">big</div>
 </div>`,
       highlightValue: 'shadow:medium'
     }
@@ -517,10 +517,10 @@ export const opacity = {
       description: 'Control element transparency from invisible to fully visible',
       descriptionMs: 'Kawal ketelusan elemen dari tidak kelihatan hingga sepenuhnya kelihatan',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.25;">25%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.5;">50%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.75;">75%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 1;">100%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:25">25%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:50">50%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:75">75%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:100">100%</div>
 </div>`,
       highlightValue: 'opacity:50'
     }
@@ -558,11 +558,11 @@ export const blur = {
       description: 'Apply gaussian blur filter to an element',
       descriptionMs: 'Terapkan penapis kabur gaussian pada elemen',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: blur(2px);">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: blur(4px);">medium</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:none">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:tiny">tiny</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:small">small</div>
 </div>`,
-      highlightValue: 'blur:medium'
+      highlightValue: 'blur:small'
     }
   ]
 };
@@ -599,9 +599,9 @@ export const cursor = {
       description: 'Change mouse cursor on hover',
       descriptionMs: 'Tukar kursor tetikus semasa hover',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: pointer;">pointer</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: wait;">wait</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="cursor: not-allowed;">not-allowed</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:pointer">pointer</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:wait">wait</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small cursor:not-allowed">not-allowed</div>
 </div>`,
       highlightValue: 'cursor:pointer'
     }
@@ -635,8 +635,8 @@ export const userSelect = {
       description: 'Control whether text can be selected',
       descriptionMs: 'Kawal sama ada teks boleh dipilih',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="user-select: none;">none (try select)</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="user-select: all;">all (click to select)</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small select:none">none (try select)</div>
+  <div space="p:small" visual="bg:success text:white rounded:small select:all">all (click to select)</div>
 </div>`,
       highlightValue: 'select:none'
     }
@@ -668,8 +668,8 @@ export const pointerEvents = {
       description: 'Make elements click-through or interactive',
       descriptionMs: 'Jadikan elemen boleh klik tembus atau interaktif',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">auto (clickable)</div>
-  <div space="p:small" visual="bg:neutral-400 text:white rounded:small">none (click-through)</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small pointer-events:auto">auto (clickable)</div>
+  <div space="p:small" visual="bg:neutral-400 text:white rounded:small pointer-events:none">none (click-through)</div>
 </div>`,
       highlightValue: 'pointer-events:none'
     }
@@ -704,9 +704,9 @@ export const mixBlendMode = {
       titleMs: 'Mod Campuran',
       description: 'Blend element with content behind it',
       descriptionMs: 'Campurkan elemen dengan kandungan di belakangnya',
-      html: `<div layout="flex" space="g:medium p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #ef4444, #f97316);">
-  <div space="p:small" visual="text:white rounded:small" style="mix-blend-mode: multiply; background: #3b82f6;">multiply</div>
-  <div space="p:small" visual="text:white rounded:small" style="mix-blend-mode: screen; background: #3b82f6;">screen</div>
+      html: `<div layout="flex" space="g:medium p:medium" visual="rounded:medium bg:gradient-red-orange">
+  <div space="p:small" visual="bg:blue-500 text:white rounded:small mix-blend:multiply">multiply</div>
+  <div space="p:small" visual="bg:blue-500 text:white rounded:small mix-blend:screen">screen</div>
 </div>`,
       highlightValue: 'mix-blend:multiply'
     }
@@ -737,9 +737,9 @@ export const accentColor = {
       description: 'Style native form controls (checkboxes, radios, range)',
       descriptionMs: 'Gaya kawalan borang asli (kotak semak, radio, julat)',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <input type="checkbox" checked style="accent-color: #3b82f6; width: 20px; height: 20px;">
-  <input type="radio" checked style="accent-color: #10b981; width: 20px; height: 20px;">
-  <input type="range" style="accent-color: #8b5cf6; width: 100px;">
+  <input type="checkbox" checked visual="accent:primary w:[20px] h:[20px]">
+  <input type="radio" checked visual="accent:success w:[20px] h:[20px]">
+  <input type="range" visual="accent:secondary w:[100px]">
 </div>`,
       highlightValue: 'accent:primary'
     }
@@ -770,7 +770,7 @@ export const caretColor = {
       description: 'Style the text cursor in input fields',
       descriptionMs: 'Gaya kursor teks dalam medan input',
       html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <input type="text" placeholder="Type here..." style="caret-color: #3b82f6; padding: 0.5rem; border: 1px solid #e5e7eb; border-radius: 0.25rem;">
+  <input type="text" placeholder="Type here..." space="p:small" visual="caret:primary border:neutral-300 rounded:small">
 </div>`,
       highlightValue: 'caret:primary'
     }
@@ -802,8 +802,8 @@ export const appearance = {
       description: 'Remove native browser styling from form elements',
       descriptionMs: 'Buang gaya pelayar asli dari elemen borang',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <select style="appearance: auto; padding: 0.25rem;"><option>Native</option></select>
-  <select style="appearance: none; padding: 0.25rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.25rem;"><option>Custom</option></select>
+  <select space="p:tiny" visual="appearance:auto"><option>Native</option></select>
+  <select space="p:tiny" visual="appearance:none bg:white border:neutral-300 rounded:small"><option>Custom</option></select>
 </div>`,
       highlightValue: 'appearance:none'
     }

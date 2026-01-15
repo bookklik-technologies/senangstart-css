@@ -30,7 +30,9 @@ visual="mask:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="mask:fade-y"</code> - Apply gradient mask to edges</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:medium" visual="bg:primary text:white rounded:small">mask:fade-y</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:none">none</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:fade-y">fade-y</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:fade-x">fade-x</div>
 </div>
 </div>
 
@@ -39,7 +41,9 @@ visual="mask:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:medium" visual="bg:primary text:white rounded:small">mask:fade-y</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:none">none</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:fade-y">fade-y</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:fade-x">fade-x</div>
 </div>
 ```
 

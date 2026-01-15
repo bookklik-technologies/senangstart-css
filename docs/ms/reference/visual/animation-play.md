@@ -29,8 +29,8 @@ visual="animation-play:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animation-play:paused"</code> - Jeda atau sambung animasi</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">running</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">paused</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-play:running">running</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-play:paused">paused</div>
 </div>
 </div>
 
@@ -39,8 +39,8 @@ visual="animation-play:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">running</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">paused</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-play:running">running</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-play:paused">paused</div>
 </div>
 ```
 

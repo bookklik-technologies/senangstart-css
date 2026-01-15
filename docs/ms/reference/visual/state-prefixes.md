@@ -34,9 +34,10 @@ visual="hover:... focus:... active:..."
 ### Awalan Keadaan
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="hover:bg:primary"</code> - Terapkan gaya pada hover, fokus, dll.</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="hover:scale:110"</code> - Terapkan gaya pada hover, fokus, dll.</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <button space="p:small" visual="bg:primary text:white rounded:small transition:all hover:bg:primary-dark">hover:bg:primary-dark</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all hover:scale:110">hover:scale:110</button>
+  <button space="p:small" visual="bg:neutral-500 text:white rounded:small transition:all hover:bg:primary">hover:bg:primary</button>
 </div>
 </div>
 
@@ -45,7 +46,8 @@ visual="hover:... focus:... active:..."
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <button space="p:small" visual="bg:primary text:white rounded:small transition:all hover:bg:primary-dark">hover:bg:primary-dark</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all hover:scale:110">hover:scale:110</button>
+  <button space="p:small" visual="bg:neutral-500 text:white rounded:small transition:all hover:bg:primary">hover:bg:primary</button>
 </div>
 ```
 

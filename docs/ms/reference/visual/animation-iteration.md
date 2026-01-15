@@ -27,10 +27,10 @@ visual="animation-iteration:[value]"
 ### Ulangan Animasi
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animation-iteration:1"</code> - Kawal bilangan gelung</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animation-iteration:infinite"</code> - Kawal bilangan gelung</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">1 (once)</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">infinite</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce animation-iteration:1">once</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce animation-iteration:infinite">infinite</div>
 </div>
 </div>
 
@@ -39,8 +39,8 @@ visual="animation-iteration:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">1 (once)</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">infinite</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce animation-iteration:1">once</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce animation-iteration:infinite">infinite</div>
 </div>
 ```
 

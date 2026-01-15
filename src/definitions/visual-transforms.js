@@ -35,11 +35,11 @@ export const transformScale = {
       description: 'Scale elements up or down',
       descriptionMs: 'Skala elemen ke atas atau ke bawah',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(0.75);">75%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">100%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: scale(1.25);">125%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:75">75%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:100">100%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small scale:125">125%</div>
 </div>`,
-      highlightValue: 'scale:110'
+      highlightValue: 'scale:75'
     }
   ]
 };
@@ -73,9 +73,9 @@ export const transformRotate = {
       description: 'Rotate elements by degrees',
       descriptionMs: 'Putar elemen mengikut darjah',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(0deg);">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg);">45°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(90deg);">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:0">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:45">45°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:90">90°</div>
 </div>`,
       highlightValue: 'rotate:45'
     }
@@ -110,12 +110,12 @@ export const transformTranslate = {
       titleMs: 'Transformasi Alih',
       description: 'Move elements position',
       descriptionMs: 'Alihkan kedudukan elemen',
-      html: `<div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(0);">0</div>
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(60px);">60px</div>
-  <div layout="absolute" space="p:small" visual="bg:primary text:white rounded:small" style="transform: translateX(120px);">120px</div>
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:small">small</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small translate-x:medium">medium</div>
 </div>`,
-      highlightValue: 'translate-x:full'
+      highlightValue: 'translate-x:small'
     }
   ]
 };
@@ -149,9 +149,9 @@ export const transformSkew = {
       description: 'Skew elements along axes',
       descriptionMs: 'Condongkan elemen sepanjang paksi',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(0deg);">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(6deg);">6°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: skewX(12deg);">12°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:0">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:6">6°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small skew-x:12">12°</div>
 </div>`,
       highlightValue: 'skew-x:6'
     }
@@ -191,8 +191,8 @@ export const transformOrigin = {
       description: 'Set the pivot point for transforms',
       descriptionMs: 'Tetapkan titik pangsi untuk transformasi',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg); transform-origin: center;">center</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg); transform-origin: top-left;">top-left</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:45 origin:center">center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:45 origin:top-left">top-left</div>
 </div>`,
       highlightValue: 'origin:center'
     }

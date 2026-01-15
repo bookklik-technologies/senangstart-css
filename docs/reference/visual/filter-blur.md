@@ -32,11 +32,11 @@ visual="blur:[value]"
 ### Blur
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="blur:medium"</code> - Apply gaussian blur filter to an element</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="blur:small"</code> - Apply gaussian blur filter to an element</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: blur(2px);">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: blur(4px);">medium</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:none">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:tiny">tiny</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:small">small</div>
 </div>
 </div>
 
@@ -45,9 +45,9 @@ visual="blur:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: blur(2px);">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: blur(4px);">medium</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:none">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:tiny">tiny</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small blur:small">small</div>
 </div>
 ```
 

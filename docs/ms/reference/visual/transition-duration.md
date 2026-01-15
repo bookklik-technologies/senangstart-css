@@ -34,8 +34,8 @@ visual="duration:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="duration:slow"</code> - Kawal kelajuan peralihan</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all duration:fast hover:scale:110">fast</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all duration:slow hover:scale:110">slow</button>
 </div>
 </div>
 
@@ -44,8 +44,8 @@ visual="duration:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all duration:fast hover:scale:110">fast</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all duration:slow hover:scale:110">slow</button>
 </div>
 ```
 

@@ -32,9 +32,9 @@ visual="mix-blend:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="mix-blend:multiply"</code> - Campurkan elemen dengan kandungan di belakangnya</p>
-<div layout="flex" space="g:medium p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #ef4444, #f97316);">
-  <div space="p:small" visual="text:white rounded:small" style="mix-blend-mode: multiply; background: #3b82f6;">multiply</div>
-  <div space="p:small" visual="text:white rounded:small" style="mix-blend-mode: screen; background: #3b82f6;">screen</div>
+<div layout="flex" space="g:medium p:medium" visual="rounded:medium bg:gradient-red-orange">
+  <div space="p:small" visual="bg:blue-500 text:white rounded:small mix-blend:multiply">multiply</div>
+  <div space="p:small" visual="bg:blue-500 text:white rounded:small mix-blend:screen">screen</div>
 </div>
 </div>
 
@@ -42,9 +42,9 @@ visual="mix-blend:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex" space="g:medium p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #ef4444, #f97316);">
-  <div space="p:small" visual="text:white rounded:small" style="mix-blend-mode: multiply; background: #3b82f6;">multiply</div>
-  <div space="p:small" visual="text:white rounded:small" style="mix-blend-mode: screen; background: #3b82f6;">screen</div>
+<div layout="flex" space="g:medium p:medium" visual="rounded:medium bg:gradient-red-orange">
+  <div space="p:small" visual="bg:blue-500 text:white rounded:small mix-blend:multiply">multiply</div>
+  <div space="p:small" visual="bg:blue-500 text:white rounded:small mix-blend:screen">screen</div>
 </div>
 ```
 

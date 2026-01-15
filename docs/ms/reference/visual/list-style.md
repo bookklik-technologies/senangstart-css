@@ -31,11 +31,11 @@ visual="list:[value]"
 ### Gaya Senarai
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="list:none"</code> - Kawal penanda senarai</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="list:disc"</code> - Kawal penanda senarai</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">disc</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">decimal</div>
+  <ul space="p:small" visual="bg:primary text:white rounded:small list:none"><li>none</li><li>no bullets</li></ul>
+  <ul space="p:small" visual="bg:success text:white rounded:small list:disc"><li>disc</li><li>bullet</li></ul>
+  <ol space="p:small" visual="bg:warning text:black rounded:small list:decimal"><li>decimal</li><li>numbers</li></ol>
 </div>
 </div>
 
@@ -44,9 +44,9 @@ visual="list:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">disc</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">decimal</div>
+  <ul space="p:small" visual="bg:primary text:white rounded:small list:none"><li>none</li><li>no bullets</li></ul>
+  <ul space="p:small" visual="bg:success text:white rounded:small list:disc"><li>disc</li><li>bullet</li></ul>
+  <ol space="p:small" visual="bg:warning text:black rounded:small list:decimal"><li>decimal</li><li>numbers</li></ol>
 </div>
 ```
 

@@ -31,10 +31,12 @@ export const perspective = {
     {
       title: '3D Perspective',
       titleMs: 'Perspektif 3D',
-      description: 'Control 3D depth perception',
-      descriptionMs: 'Kawal persepsi kedalaman 3D',
+      description: 'Control 3D depth perception for child transforms',
+      descriptionMs: 'Kawal persepsi kedalaman 3D untuk transformasi anak',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">perspective</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective:normal">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective:near">near</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective:far">far</div>
 </div>`,
       highlightValue: 'perspective:normal'
     }
@@ -74,7 +76,9 @@ export const perspectiveOrigin = {
       description: 'Set vanishing point location',
       descriptionMs: 'Tetapkan lokasi titik lenyap',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">origin:center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:center">center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:top">top</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:bottom-left">bottom-left</div>
 </div>`,
       highlightValue: 'perspective-origin:center'
     }
@@ -106,8 +110,8 @@ export const transformStyle = {
       description: 'Flat or preserve 3D rendering',
       descriptionMs: 'Persembahan rata atau kekalkan 3D',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">flat</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">preserve-3d</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small transform-style:flat">flat</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small transform-style:preserve-3d">preserve-3d</div>
 </div>`,
       highlightValue: 'transform-style:preserve-3d'
     }
@@ -136,11 +140,11 @@ export const backfaceVisibility = {
     {
       title: 'Backface Visibility',
       titleMs: 'Keterlihatan Belakang',
-      description: 'Show or hide element back side',
-      descriptionMs: 'Tunjukkan atau sembunyikan bahagian belakang',
+      description: 'Show or hide element back side when rotated',
+      descriptionMs: 'Tunjukkan atau sembunyikan bahagian belakang apabila diputar',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">visible</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">hidden</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small backface:visible">visible</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small backface:hidden">hidden</div>
 </div>`,
       highlightValue: 'backface:hidden'
     }
@@ -174,7 +178,9 @@ export const mask = {
       description: 'Apply gradient mask to edges',
       descriptionMs: 'Terapkan topeng kecerunan pada tepi',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:medium" visual="bg:primary text:white rounded:small">mask:fade-y</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:none">none</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:fade-y">fade-y</div>
+  <div space="p:medium" visual="bg:primary text:white rounded:small mask:fade-x">fade-x</div>
 </div>`,
       highlightValue: 'mask:fade-y'
     }
@@ -213,9 +219,10 @@ export const statePrefixes = {
       description: 'Apply styles on hover, focus, etc.',
       descriptionMs: 'Terapkan gaya pada hover, fokus, dll.',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <button space="p:small" visual="bg:primary text:white rounded:small transition:all hover:bg:primary-dark">hover:bg:primary-dark</button>
+  <button space="p:small" visual="bg:primary text:white rounded:small transition:all hover:scale:110">hover:scale:110</button>
+  <button space="p:small" visual="bg:neutral-500 text:white rounded:small transition:all hover:bg:primary">hover:bg:primary</button>
 </div>`,
-      highlightValue: 'hover:bg:primary'
+      highlightValue: 'hover:scale:110'
     }
   ]
 };

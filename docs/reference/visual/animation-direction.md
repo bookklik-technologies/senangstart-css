@@ -31,9 +31,9 @@ visual="animation-direction:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animation-direction:alternate"</code> - Control playback direction</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">reverse</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">alternate</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:normal">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:reverse">reverse</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:alternate">alternate</div>
 </div>
 </div>
 
@@ -42,9 +42,9 @@ visual="animation-direction:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">reverse</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">alternate</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:normal">normal</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:reverse">reverse</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-direction:alternate">alternate</div>
 </div>
 ```
 

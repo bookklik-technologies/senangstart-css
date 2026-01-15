@@ -34,8 +34,8 @@ visual="animation-duration:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animation-duration:slow"</code> - Control animation speed</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-duration:fast">fast</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-duration:slow">slow</div>
 </div>
 </div>
 
@@ -44,8 +44,8 @@ visual="animation-duration:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">fast: 150ms</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">slow: 300ms</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-duration:fast">fast</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin animation-duration:slow">slow</div>
 </div>
 ```
 

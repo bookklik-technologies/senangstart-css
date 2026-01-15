@@ -27,10 +27,10 @@ visual="backface:[value]"
 ### Backface Visibility
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="backface:hidden"</code> - Show or hide element back side</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="backface:hidden"</code> - Show or hide element back side when rotated</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">visible</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">hidden</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small backface:visible">visible</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small backface:hidden">hidden</div>
 </div>
 </div>
 
@@ -39,8 +39,8 @@ visual="backface:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">visible</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">hidden</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small backface:visible">visible</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small backface:hidden">hidden</div>
 </div>
 ```
 

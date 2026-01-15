@@ -36,7 +36,9 @@ visual="perspective-origin:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="perspective-origin:center"</code> - Tetapkan lokasi titik lenyap</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">origin:center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:center">center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:top">top</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:bottom-left">bottom-left</div>
 </div>
 </div>
 
@@ -45,7 +47,9 @@ visual="perspective-origin:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">origin:center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:center">center</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:top">top</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small perspective-origin:bottom-left">bottom-left</div>
 </div>
 ```
 

@@ -22,9 +22,9 @@ visual="accent:[color]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="accent:primary"</code> - Style native form controls (checkboxes, radios, range)</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <input type="checkbox" checked style="accent-color: #3b82f6; width: 20px; height: 20px;">
-  <input type="radio" checked style="accent-color: #10b981; width: 20px; height: 20px;">
-  <input type="range" style="accent-color: #8b5cf6; width: 100px;">
+  <input type="checkbox" checked visual="accent:primary w:[20px] h:[20px]">
+  <input type="radio" checked visual="accent:success w:[20px] h:[20px]">
+  <input type="range" visual="accent:secondary w:[100px]">
 </div>
 </div>
 
@@ -33,9 +33,9 @@ visual="accent:[color]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <input type="checkbox" checked style="accent-color: #3b82f6; width: 20px; height: 20px;">
-  <input type="radio" checked style="accent-color: #10b981; width: 20px; height: 20px;">
-  <input type="range" style="accent-color: #8b5cf6; width: 100px;">
+  <input type="checkbox" checked visual="accent:primary w:[20px] h:[20px]">
+  <input type="radio" checked visual="accent:success w:[20px] h:[20px]">
+  <input type="range" visual="accent:secondary w:[100px]">
 </div>
 ```
 

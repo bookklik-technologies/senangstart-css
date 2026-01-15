@@ -32,10 +32,10 @@ visual="opacity:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="opacity:50"</code> - Control element transparency from invisible to fully visible</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.25;">25%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.5;">50%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.75;">75%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 1;">100%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:25">25%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:50">50%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:75">75%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:100">100%</div>
 </div>
 </div>
 
@@ -44,10 +44,10 @@ visual="opacity:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.25;">25%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.5;">50%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 0.75;">75%</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="opacity: 1;">100%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:25">25%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:50">50%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:75">75%</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small opacity:100">100%</div>
 </div>
 ```
 

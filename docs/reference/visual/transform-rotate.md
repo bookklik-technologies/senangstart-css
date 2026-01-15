@@ -31,9 +31,9 @@ visual="rotate:[degrees]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="rotate:45"</code> - Rotate elements by degrees</p>
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(0deg);">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg);">45°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(90deg);">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:0">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:45">45°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:90">90°</div>
 </div>
 </div>
 
@@ -42,9 +42,9 @@ visual="rotate:[degrees]"
 
 ```html
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(0deg);">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(45deg);">45°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="transform: rotate(90deg);">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:0">0°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:45">45°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small rotate:90">90°</div>
 </div>
 ```
 

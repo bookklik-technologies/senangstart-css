@@ -31,7 +31,10 @@ visual="text-shadow:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="text-shadow:medium"</code> - Add shadow to text</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3);">shadow</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small text-shadow:none text-size:big">none</div>
+  <div space="p:small" visual="bg:success text:white rounded:small text-shadow:small text-size:big">small</div>
+  <div space="p:small" visual="bg:warning text:black rounded:small text-shadow:medium text-size:big">medium</div>
+  <div space="p:small" visual="bg:danger text:white rounded:small text-shadow:big text-size:big">big</div>
 </div>
 </div>
 
@@ -40,7 +43,10 @@ visual="text-shadow:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3);">shadow</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small text-shadow:none text-size:big">none</div>
+  <div space="p:small" visual="bg:success text:white rounded:small text-shadow:small text-size:big">small</div>
+  <div space="p:small" visual="bg:warning text:black rounded:small text-shadow:medium text-size:big">medium</div>
+  <div space="p:small" visual="bg:danger text:white rounded:small text-shadow:big text-size:big">big</div>
 </div>
 ```
 

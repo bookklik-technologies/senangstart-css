@@ -32,9 +32,9 @@ visual="shadow:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="shadow:medium"</code> - Add elevation with shadows from subtle to dramatic</p>
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">small</div>
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">medium</div>
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 10px 15px rgba(0,0,0,0.15);">big</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:small">small</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:medium">medium</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:big">big</div>
 </div>
 </div>
 
@@ -43,9 +43,9 @@ visual="shadow:[value]"
 
 ```html
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">small</div>
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">medium</div>
-  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small" style="box-shadow: 0 10px 15px rgba(0,0,0,0.15);">big</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:small">small</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:medium">medium</div>
+  <div space="p:small" visual="bg:white dark:bg:neutral-800 rounded:small shadow:big">big</div>
 </div>
 ```
 

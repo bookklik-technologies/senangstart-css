@@ -34,10 +34,11 @@ visual="align:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="align:middle"</code> - Jajarkan elemen sebaris</p>
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">top</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">middle</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">bottom</div>
+<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small align:top">top</span>
+  <span space="p:small" visual="bg:success text:white rounded:small align:middle">middle</span>
+  <span space="p:small" visual="bg:warning text:black rounded:small align:bottom">bottom</span>
+  <span visual="text-size:huge text:neutral-500">Big</span>
 </div>
 </div>
 
@@ -45,10 +46,11 @@ visual="align:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">top</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">middle</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">bottom</div>
+<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span space="p:small" visual="bg:primary text:white rounded:small align:top">top</span>
+  <span space="p:small" visual="bg:success text:white rounded:small align:middle">middle</span>
+  <span space="p:small" visual="bg:warning text:black rounded:small align:bottom">bottom</span>
+  <span visual="text-size:huge text:neutral-500">Big</span>
 </div>
 ```
 

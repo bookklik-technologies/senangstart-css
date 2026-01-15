@@ -13,7 +13,7 @@
     "build": "npm run build:dist && vitepress build docs",
     "build:dist": "node scripts/build-dist.js",
     "prepublishOnly": "npm run build:dist",
-    "docs": "vitepress dev docs",
+    "docs:dev": "vitepress dev docs",
     "docs:generate": "node scripts/generate-docs.js",
     "docs:sync-check": "node scripts/generate-docs.js --compare",
     "docs:syntax": "node scripts/extract-syntax.js",

@@ -31,9 +31,9 @@ visual="font:[weight]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="font:bold"</code> - Kawal ketebalan teks</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-weight: 400;">normal</span>
-  <span style="font-weight: 500;">medium</span>
-  <span style="font-weight: 700;">bold</span>
+  <span visual="font:normal">normal</span>
+  <span visual="font:medium">medium</span>
+  <span visual="font:bold">bold</span>
 </div>
 </div>
 
@@ -42,9 +42,9 @@ visual="font:[weight]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-weight: 400;">normal</span>
-  <span style="font-weight: 500;">medium</span>
-  <span style="font-weight: 700;">bold</span>
+  <span visual="font:normal">normal</span>
+  <span visual="font:medium">medium</span>
+  <span visual="font:bold">bold</span>
 </div>
 ```
 

@@ -32,9 +32,9 @@ visual="animate:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animate:spin"</code> - Animasi sedia guna</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">spin</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">pulse</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">bounce</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin">spin</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse">pulse</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce">bounce</div>
 </div>
 </div>
 
@@ -43,9 +43,9 @@ visual="animate:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">spin</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">pulse</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">bounce</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:spin">spin</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse">pulse</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:bounce">bounce</div>
 </div>
 ```
 

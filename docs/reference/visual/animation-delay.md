@@ -32,7 +32,8 @@ visual="animation-delay:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="animation-delay:slow"</code> - Delay before animation starts</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">delay:slow (300ms)</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse animation-delay:instant">instant</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse animation-delay:slow">slow</div>
 </div>
 </div>
 
@@ -41,7 +42,8 @@ visual="animation-delay:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small">delay:slow (300ms)</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse animation-delay:instant">instant</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small animate:pulse animation-delay:slow">slow</div>
 </div>
 ```
 
