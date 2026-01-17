@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SenangStart</title>
+  <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
+</head>
+
+<body>
+  <div layout="flex col center" space="p:big" visual="bg:primary text:white">
+    <h1 visual="text-size:giant font:bold">Hello SenangStart!</h1>
+    <p space="m-y:small">Zero config, instant styling.</p>
+    <div layout="flex items:center" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium text:black">
+      <span visual="text-size:tiny">tiny</span>
+      <span visual="text-size:small">small</span>
+      <span visual="text-size:medium">medium</span>
+      <span visual="text-size:big">big</span>
+      <span visual="text-size:giant">giant</span>
+    </div>
+  </div>
+</body>
+
+</html>
