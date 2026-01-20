@@ -51,6 +51,13 @@ export function generateCSSVariables(config) {
     css += `  --font-${key}: ${value};\n`;
   }
   
+  // Font size line-height variables (paired with font sizes)
+  if (theme.fontSizeLineHeight) {
+    for (const [key, value] of Object.entries(theme.fontSizeLineHeight)) {
+      css += `  --font-lh-${key}: ${value};\n`;
+    }
+  }
+  
   // Font weight variables
   for (const [key, value] of Object.entries(theme.fontWeight)) {
     css += `  --fw-${key}: ${value};\n`;
@@ -116,6 +123,16 @@ export function generateCSSVariables(config) {
   };
   for (const [key, value] of Object.entries(twFontSize)) {
     css += `  --tw-text-${key}: ${value};\n`;
+  }
+  
+  // Tailwind Line Height Scale (paired with font sizes)
+  const twLeading = {
+    'xs': '1rem', 'sm': '1.25rem', 'base': '1.5rem', 'lg': '1.75rem', 'xl': '1.75rem',
+    '2xl': '2rem', '3xl': '2.25rem', '4xl': '2.5rem', '5xl': '1',
+    '6xl': '1', '7xl': '1', '8xl': '1', '9xl': '1'
+  };
+  for (const [key, value] of Object.entries(twLeading)) {
+    css += `  --tw-leading-${key}: ${value};\n`;
   }
   
   // Tailwind Font Weight Scale
@@ -817,18 +834,23 @@ function generateVisualRule(token, config) {
       return `text-shadow: ${cssValue};`;
     },
     
-    // Font size
+    // Font size (with paired line-height)
     'text-size': () => {
       let cssValue;
+      let lineHeightValue;
       if (isArbitrary) {
         cssValue = value;
+        // No line-height for arbitrary values
+        return `font-size: ${cssValue};`;
       } else if (value.startsWith('tw-')) {
         const twValue = value.slice(3);
         cssValue = `var(--tw-text-${twValue})`;
+        lineHeightValue = `var(--tw-leading-${twValue})`;
       } else {
         cssValue = `var(--font-${value})`;
+        lineHeightValue = `var(--font-lh-${value})`;
       }
-      return `font-size: ${cssValue};`;
+      return `font-size: ${cssValue}; line-height: ${lineHeightValue};`;
     },
     
     // Font weight / family

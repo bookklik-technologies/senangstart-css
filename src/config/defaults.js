@@ -65,14 +65,38 @@ export const defaultConfig = {
       'giant':  '0 25px 50px rgba(0,0,0,0.25)'
     },
 
-    // 4. FONT SIZES: Reading Scale
+    // 4. FONT SIZES: Reading Scale (with paired line-heights)
     fontSize: {
-      'tiny':   '12px',
-      'small':  '14px',
-      'medium': '16px',
-      'big':    '20px',
-      'giant':  '32px',
-      'vast':   '48px'
+      'mini':     '0.75rem',   // 12px          
+      'small':    '0.875rem',  // 14px          
+      'base':     '1rem',      // 16px          
+      'large':    '1.125rem',  // 18px          
+      'big':      '1.25rem',   // 20px (xl)     
+      'huge':     '1.5rem',    // 24px (2xl)    
+      'grand':    '1.875rem',  // 30px (3xl)    
+      'giant':    '2.25rem',   // 36px (4xl)    
+      'mount':    '3rem',      // 48px (5xl)    
+      'mega':     '3.75rem',   // 60px (6xl)    
+      'giga':     '4.5rem',    // 72px (7xl)    
+      'tera':     '6rem',      // 96px (8xl)    
+      'hero':     '8rem'       // 128px         
+    },
+
+    // 4b. FONT SIZE LINE-HEIGHTS: Paired with font sizes
+    fontSizeLineHeight: {
+      'mini':     '1rem',      // 16px
+      'small':    '1.25rem',   // 20px
+      'base':     '1.5rem',    // 24px
+      'large':    '1.75rem',   // 28px
+      'big':      '1.75rem',   // 28px
+      'huge':     '2rem',      // 32px
+      'grand':    '2.25rem',   // 36px
+      'giant':    '2.5rem',    // 40px
+      'mount':    '1',         // 48px (unitless 1)
+      'mega':     '1',         // 60px (unitless 1)
+      'giga':     '1',         // 72px (unitless 1)
+      'tera':     '1',         // 96px (unitless 1)
+      'hero':     '1'          // 128px (unitless 1)
     },
 
     // 5. FONT WEIGHTS

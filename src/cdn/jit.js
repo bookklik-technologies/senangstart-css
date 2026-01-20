@@ -47,12 +47,34 @@ import { tokenize, parseToken } from '../core/tokenizer-core.js';
         'giant':  '0 25px 50px rgba(0,0,0,0.25)'
       },
       fontSize: {
-        'tiny':   '12px',
-        'small':  '14px',
-        'medium': '16px',
-        'big':    '20px',
-        'giant':  '32px',
-        'vast':   '48px'
+        'mini':     '0.75rem',   // 12px
+        'small':    '0.875rem',  // 14px
+        'base':     '1rem',      // 16px
+        'large':    '1.125rem',  // 18px
+        'big':      '1.25rem',   // 20px
+        'huge':     '1.5rem',    // 24px
+        'grand':    '1.875rem',  // 30px
+        'giant':    '2.25rem',   // 36px
+        'mount':    '3rem',      // 48px
+        'mega':     '3.75rem',   // 60px
+        'giga':     '4.5rem',    // 72px
+        'tera':     '6rem',      // 96px
+        'hero':     '8rem'       // 128px
+      },
+      fontSizeLineHeight: {
+        'mini':     '1rem',      // 16px
+        'small':    '1.25rem',   // 20px
+        'base':     '1.5rem',    // 24px
+        'large':    '1.75rem',   // 28px
+        'big':      '1.75rem',   // 28px
+        'huge':     '2rem',      // 32px
+        'grand':    '2.25rem',   // 36px
+        'giant':    '2.5rem',    // 40px
+        'mount':    '1',         // unitless 1
+        'mega':     '1',         // unitless 1
+        'giga':     '1',         // unitless 1
+        'tera':     '1',         // unitless 1
+        'hero':     '1'          // unitless 1
       },
       fontWeight: {
         'normal': '400',
@@ -311,6 +333,13 @@ import { tokenize, parseToken } from '../core/tokenizer-core.js';
       css += `  --font-${key}: ${value};\n`;
     }
     
+    // Font size line-height (paired with font sizes)
+    if (theme.fontSizeLineHeight) {
+      for (const [key, value] of Object.entries(theme.fontSizeLineHeight)) {
+        css += `  --font-lh-${key}: ${value};\n`;
+      }
+    }
+    
     // Font weight
     for (const [key, value] of Object.entries(theme.fontWeight)) {
       css += `  --fw-${key}: ${value};\n`;
@@ -381,6 +410,16 @@ import { tokenize, parseToken } from '../core/tokenizer-core.js';
     };
     for (const [key, value] of Object.entries(twFontSize)) {
       css += `  --tw-text-${key}: ${value};\n`;
+    }
+    
+    // Tailwind Line Height Scale (paired with font sizes)
+    const twLeading = {
+      'xs': '1rem', 'sm': '1.25rem', 'base': '1.5rem', 'lg': '1.75rem', 'xl': '1.75rem',
+      '2xl': '2rem', '3xl': '2.25rem', '4xl': '2.5rem', '5xl': '1',
+      '6xl': '1', '7xl': '1', '8xl': '1', '9xl': '1'
+    };
+    for (const [key, value] of Object.entries(twLeading)) {
+      css += `  --tw-leading-${key}: ${value};\n`;
     }
     
     // Tailwind Font Weight Scale
@@ -1174,15 +1213,20 @@ img, video {
       },
       'text-size': () => {
         let cssValue;
+        let lineHeightValue;
         if (isArbitrary) {
           cssValue = value;
+          // No line-height for arbitrary values
+          return `font-size: ${cssValue};`;
         } else if (value.startsWith('tw-')) {
           const twValue = value.slice(3);
           cssValue = `var(--tw-text-${twValue})`;
+          lineHeightValue = `var(--tw-leading-${twValue})`;
         } else {
           cssValue = `var(--font-${value})`;
+          lineHeightValue = `var(--font-lh-${value})`;
         }
-        return `font-size: ${cssValue};`;
+        return `font-size: ${cssValue}; line-height: ${lineHeightValue};`;
       },
       'font': () => {
         // Check for font-family presets

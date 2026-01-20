@@ -93,6 +93,21 @@ export const fontSize = {
   category: 'visual',
   usesScale: 'fontSize',
   supportsArbitrary: true,
+  values: [
+    { value: 'mini', css: 'font-size: var(--font-mini); line-height: var(--font-lh-mini);', description: 'Mini size (0.75rem / 1rem)', descriptionMs: 'Saiz mini (0.75rem / 1rem)' },
+    { value: 'small', css: 'font-size: var(--font-small); line-height: var(--font-lh-small);', description: 'Small size (0.875rem / 1.25rem)', descriptionMs: 'Saiz kecil (0.875rem / 1.25rem)' },
+    { value: 'base', css: 'font-size: var(--font-base); line-height: var(--font-lh-base);', description: 'Base size (1rem / 1.5rem)', descriptionMs: 'Saiz asas (1rem / 1.5rem)' },
+    { value: 'large', css: 'font-size: var(--font-large); line-height: var(--font-lh-large);', description: 'Large size (1.125rem / 1.75rem)', descriptionMs: 'Saiz besar (1.125rem / 1.75rem)' },
+    { value: 'big', css: 'font-size: var(--font-big); line-height: var(--font-lh-big);', description: 'Big size (1.25rem / 1.75rem)', descriptionMs: 'Saiz besar (1.25rem / 1.75rem)' },
+    { value: 'huge', css: 'font-size: var(--font-huge); line-height: var(--font-lh-huge);', description: 'Huge size (1.5rem / 2rem)', descriptionMs: 'Saiz besar sekali (1.5rem / 2rem)' },
+    { value: 'grand', css: 'font-size: var(--font-grand); line-height: var(--font-lh-grand);', description: 'Grand size (1.875rem / 2.25rem)', descriptionMs: 'Saiz agung (1.875rem / 2.25rem)' },
+    { value: 'giant', css: 'font-size: var(--font-giant); line-height: var(--font-lh-giant);', description: 'Giant size (2.25rem / 2.5rem)', descriptionMs: 'Saiz gergasi (2.25rem / 2.5rem)' },
+    { value: 'mount', css: 'font-size: var(--font-mount); line-height: var(--font-lh-mount);', description: 'Mount size (3rem / 1)', descriptionMs: 'Saiz gunung (3rem / 1)' },
+    { value: 'mega', css: 'font-size: var(--font-mega); line-height: var(--font-lh-mega);', description: 'Mega size (3.75rem / 1)', descriptionMs: 'Saiz mega (3.75rem / 1)' },
+    { value: 'giga', css: 'font-size: var(--font-giga); line-height: var(--font-lh-giga);', description: 'Giga size (4.5rem / 1)', descriptionMs: 'Saiz giga (4.5rem / 1)' },
+    { value: 'tera', css: 'font-size: var(--font-tera); line-height: var(--font-lh-tera);', description: 'Tera size (6rem / 1)', descriptionMs: 'Saiz tera (6rem / 1)' },
+    { value: 'hero', css: 'font-size: var(--font-hero); line-height: var(--font-lh-hero);', description: 'Hero size (8rem / 1)', descriptionMs: 'Saiz hero (8rem / 1)' }
+  ],
   examples: [
     { code: '<div visual="text-size:big">Large text</div>', description: 'Scale value' },
     { code: '<div visual="text-size:[24px]">24px text</div>', description: 'Arbitrary' }
@@ -110,14 +125,14 @@ export const fontSize = {
     {
       title: 'Font Size',
       titleMs: 'Saiz Fon',
-      description: 'Scale text size from tiny to giant',
-      descriptionMs: 'Skala saiz teks dari kecil hingga gergasi',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span visual="text-size:tiny">tiny</span>
-  <span visual="text-size:small">small</span>
-  <span visual="text-size:medium">medium</span>
-  <span visual="text-size:big">big</span>
-  <span visual="text-size:giant">giant</span>
+      description: 'Scale text size with paired line-height',
+      descriptionMs: 'Skala saiz teks dengan ketinggian baris berpasangan',
+      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="text-size:mini">mini (0.75rem / 1rem)</span>
+  <span visual="text-size:small">small (0.875rem / 1.25rem)</span>
+  <span visual="text-size:base">base (1rem / 1.5rem)</span>
+  <span visual="text-size:big">big (1.25rem / 1.75rem)</span>
+  <span visual="text-size:giant">giant (2.25rem / 2.5rem)</span>
 </div>`,
       highlightValue: 'text-size:big'
     }
