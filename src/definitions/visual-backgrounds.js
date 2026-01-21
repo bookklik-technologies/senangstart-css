@@ -32,8 +32,8 @@ export const backgroundImage = {
       description: 'Apply gradient backgrounds',
       descriptionMs: 'Terapkan latar gradien',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to right, #3b82f6, #8b5cf6);">gradient-to-r</div>
-  <div space="p:medium" visual="text:white rounded:small" style="background-image: linear-gradient(to bottom, #10b981, #3b82f6);">gradient-to-b</div>
+  <div space="p:medium" visual="bg-image:gradient-to-r from:blue-500 to:violet-500 text:white rounded:small">gradient-to-r</div>
+  <div space="p:medium" visual="bg-image:gradient-to-b from:emerald-500 to:blue-500 text:white rounded:small">gradient-to-b</div>
 </div>`,
       highlightValue: 'bg-image:gradient-to-r'
     }
@@ -101,7 +101,7 @@ export const backgroundClip = {
       description: 'Clip background to text for gradient text effect',
       descriptionMs: 'Keratan latar kepada teks untuk kesan teks gradien',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-size: 1.5rem; font-weight: bold; background: linear-gradient(to right, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">Gradient Text</span>
+  <span text="size:large weight:bold" visual="bg-image:gradient-to-r from:blue-500 to:violet-500 bg-clip:text text:transparent">Gradient Text</span>
 </div>`,
       highlightValue: 'bg-clip:text'
     }
@@ -327,8 +327,8 @@ export const backdropBlur = {
       titleMs: 'Kabur Latar Belakang',
       description: 'Creates a frosted glass effect on content behind the element',
       descriptionMs: 'Mencipta kesan kaca beku pada kandungan di belakang elemen',
-      html: `<div layout="relative" space="p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); min-height: 100px;">
-  <div layout="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); backdrop-filter: blur(8px); background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 0.5rem;">
+      html: `<div layout="flex:center" space="p:large" visual="bg-image:gradient-to-br from:blue-500 to:violet-500 rounded:medium">
+  <div space="p:medium" visual="backdrop-blur:medium bg:[rgba(255,255,255,0.2)] rounded:small">
     <span visual="text:white">Frosted Glass</span>
   </div>
 </div>`,
@@ -365,10 +365,10 @@ export const backdropBrightness = {
       titleMs: 'Kecerahan Latar Belakang',
       description: 'Dim or brighten the backdrop behind an overlay',
       descriptionMs: 'Redupkan atau cerahkan latar belakang di sebalik tindanan',
-      html: `<div layout="flex" space="g:medium p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #f97316, #ef4444);">
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(0.5);">dim (50%)</div>
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1);">normal</div>
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1.5);">bright (150%)</div>
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg-image:gradient-to-br from:orange-500 to:red-500 rounded:medium">
+  <div space="p:small" visual="backdrop-brightness:dim rounded:small text:white">dim (50%)</div>
+  <div space="p:small" visual="backdrop-brightness:normal rounded:small text:white">normal</div>
+  <div space="p:small" visual="backdrop-brightness:vivid rounded:small text:white">bright (150%)</div>
 </div>`,
       highlightValue: 'backdrop-brightness:dark'
     }
@@ -439,9 +439,9 @@ export const backdropGrayscale = {
       titleMs: 'Skala Kelabu Latar Belakang',
       description: 'Remove color from backdrop, creating a desaturated effect',
       descriptionMs: 'Alih keluar warna dari latar belakang, mencipta kesan tidak tepu',
-      html: `<div layout="flex" space="g:medium" visual="rounded:medium">
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: grayscale(100%);">Grayscale</div>
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 rounded:small text:white">Original</div>
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 filter-grayscale:full rounded:small text:white">Grayscale</div>
 </div>`,
       highlightValue: 'backdrop-grayscale:full'
     }
@@ -621,11 +621,106 @@ export const backdropSepia = {
       titleMs: 'Sepia Latar Belakang',
       description: 'Apply vintage sepia tone to the backdrop',
       descriptionMs: 'Terapkan ton sepia vintaj pada latar belakang',
-      html: `<div layout="flex" space="g:medium" visual="rounded:medium">
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: sepia(100%);">Sepia</div>
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 rounded:small text:white">Original</div>
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 filter-sepia:full rounded:small text:white">Sepia</div>
 </div>`,
       highlightValue: 'backdrop-sepia:full'
+    }
+  ]
+};
+
+// ======================
+// GRADIENT COLOR STOPS
+// ======================
+
+export const gradientFrom = {
+  name: 'gradient-from',
+  property: 'visual',
+  syntax: 'visual="from:[color]"',
+  description: 'Set gradient start color',
+  descriptionMs: 'Tetapkan warna mula gradien',
+  category: 'visual',
+  usesScale: 'colors',
+  supportsArbitrary: true,
+  values: [
+    { value: 'primary', css: '--tw-gradient-from: var(--c-primary); --tw-gradient-to: transparent; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);', description: 'Start from primary', descriptionMs: 'Mula dari utama' },
+    { value: 'blue-500', css: '--tw-gradient-from: var(--c-blue-500); --tw-gradient-to: transparent; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);', description: 'Start from blue', descriptionMs: 'Mula dari biru' }
+  ],
+  examples: [
+    { code: '<div visual="bg-image:gradient-to-r from:blue-500 to:purple-500">Gradient</div>', description: 'Blue to purple gradient' }
+  ],
+  preview: [
+    {
+      title: 'Gradient From',
+      titleMs: 'Mula Gradien',
+      description: 'Set the starting color of a gradient',
+      descriptionMs: 'Tetapkan warna permulaan gradien',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="bg-image:gradient-to-r from:blue-500 to:purple-500 text:white rounded:small">from:blue-500 to:purple-500</div>
+  <div space="p:medium" visual="bg-image:gradient-to-r from:emerald-500 to:blue-500 text:white rounded:small">from:emerald-500 to:blue-500</div>
+</div>`,
+      highlightValue: 'from:blue-500'
+    }
+  ]
+};
+
+export const gradientVia = {
+  name: 'gradient-via',
+  property: 'visual',
+  syntax: 'visual="via:[color]"',
+  description: 'Set gradient middle color',
+  descriptionMs: 'Tetapkan warna tengah gradien',
+  category: 'visual',
+  usesScale: 'colors',
+  supportsArbitrary: true,
+  values: [
+    { value: 'purple-500', css: '--tw-gradient-via: var(--c-purple-500); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to);', description: 'Via purple', descriptionMs: 'Melalui ungu' }
+  ],
+  examples: [
+    { code: '<div visual="bg-image:gradient-to-r from:blue-500 via:purple-500 to:pink-500">Three-color gradient</div>', description: 'Three-color gradient' }
+  ],
+  preview: [
+    {
+      title: 'Gradient Via',
+      titleMs: 'Pertengahan Gradien',
+      description: 'Add a middle color stop to gradients',
+      descriptionMs: 'Tambah hentian warna tengah pada gradien',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="bg-image:gradient-to-r from:blue-500 via:purple-500 to:pink-500 text:white rounded:small">from:blue via:purple to:pink</div>
+</div>`,
+      highlightValue: 'via:purple-500'
+    }
+  ]
+};
+
+export const gradientTo = {
+  name: 'gradient-to',
+  property: 'visual',
+  syntax: 'visual="to:[color]"',
+  description: 'Set gradient end color',
+  descriptionMs: 'Tetapkan warna akhir gradien',
+  category: 'visual',
+  usesScale: 'colors',
+  supportsArbitrary: true,
+  values: [
+    { value: 'purple-500', css: '--tw-gradient-to: var(--c-purple-500);', description: 'End at purple', descriptionMs: 'Akhir di ungu' },
+    { value: 'pink-500', css: '--tw-gradient-to: var(--c-pink-500);', description: 'End at pink', descriptionMs: 'Akhir di merah jambu' }
+  ],
+  examples: [
+    { code: '<div visual="bg-image:gradient-to-r from:blue-500 to:purple-500">Blue to purple</div>', description: 'End color' }
+  ],
+  preview: [
+    {
+      title: 'Gradient To',
+      titleMs: 'Akhir Gradien',
+      description: 'Set the ending color of a gradient',
+      descriptionMs: 'Tetapkan warna pengakhiran gradien',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="bg-image:gradient-to-r from:blue-500 to:purple-500 text:white rounded:small">to:purple-500</div>
+  <div space="p:medium" visual="bg-image:gradient-to-r from:blue-500 to:pink-500 text:white rounded:small">to:pink-500</div>
+</div>`,
+      highlightValue: 'to:purple-500'
     }
   ]
 };
@@ -640,6 +735,9 @@ export const backgroundDefinitions = {
   backgroundRepeat,
   backgroundSize,
   backgroundBlendMode,
+  gradientFrom,
+  gradientVia,
+  gradientTo,
   backdropBlur,
   backdropBrightness,
   backdropContrast,

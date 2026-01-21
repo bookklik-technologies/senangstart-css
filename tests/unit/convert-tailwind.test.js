@@ -129,6 +129,14 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('cursor-pointer'), { category: 'visual', value: 'cursor:pointer' });
       assert.deepStrictEqual(convertClass('cursor-not-allowed'), { category: 'visual', value: 'cursor:not-allowed' });
     });
+
+    it('should convert gradient classes', () => {
+      assert.deepStrictEqual(convertClass('bg-gradient-to-r'), { category: 'visual', value: 'bg-image:gradient-to-r' });
+      assert.deepStrictEqual(convertClass('bg-gradient-to-br'), { category: 'visual', value: 'bg-image:gradient-to-br' });
+      assert.deepStrictEqual(convertClass('from-blue-500'), { category: 'visual', value: 'from:blue-500' });
+      assert.deepStrictEqual(convertClass('via-purple-500'), { category: 'visual', value: 'via:purple-500' });
+      assert.deepStrictEqual(convertClass('to-pink-500'), { category: 'visual', value: 'to:pink-500' });
+    });
   });
 
   describe('Prefixed classes', () => {

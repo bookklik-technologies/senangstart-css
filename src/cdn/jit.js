@@ -25,6 +25,9 @@ import { tokenize, parseToken } from '../core/tokenizer-core.js';
     theme: {
       spacing: {
         'none':   '0px',
+        'thin':   '1px', 
+        'regular': '2px',
+        'thick':  '3px', 
         'tiny':   '4px',
         'small':  '8px',
         'medium': '16px',
@@ -1656,6 +1659,22 @@ img, video {
         };
         const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (gradientMap[value] || value);
         return `background-image: ${cssValue};`;
+      },
+      
+      // ============================================
+      // GRADIENT COLOR STOPS
+      // ============================================
+      'from': () => {
+        const color = isArbitrary ? value : `var(--c-${value})`;
+        return `--tw-gradient-from: ${color}; --tw-gradient-to: transparent; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);`;
+      },
+      'via': () => {
+        const color = isArbitrary ? value : `var(--c-${value})`;
+        return `--tw-gradient-via: ${color}; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to);`;
+      },
+      'to': () => {
+        const color = isArbitrary ? value : `var(--c-${value})`;
+        return `--tw-gradient-to: ${color};`;
       },
       
       // ============================================

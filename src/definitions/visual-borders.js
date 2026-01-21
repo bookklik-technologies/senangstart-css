@@ -159,7 +159,7 @@ export const outlineColor = {
       description: 'Outline does not affect layout',
       descriptionMs: 'Garis luar tidak mempengaruhi susun atur',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <button space="p:small" visual="outline:primary bg:white dark:bg:neutral-800 rounded:small" style="outline-width: 2px; outline-style: solid;">outline:primary</button>
+  <button space="p:small" visual="outline:primary bg:white dark:bg:neutral-800 rounded:small">outline:primary</button>
 </div>`,
       highlightValue: 'outline:primary'
     }

@@ -66,8 +66,8 @@ export const svgStroke = {
       description: 'Stroke SVG elements with color',
       descriptionMs: 'Guris elemen SVG dengan warna',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <svg visual="stroke:primary fill:none" width="40" height="40" viewBox="0 0 24 24" style="stroke-width: 2px;"><circle cx="12" cy="12" r="10"/></svg>
-  <svg visual="stroke:danger fill:none" width="40" height="40" viewBox="0 0 24 24" style="stroke-width: 2px;"><circle cx="12" cy="12" r="10"/></svg>
+  <svg visual="stroke:primary fill:none stroke-w:2" width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+  <svg visual="stroke:danger fill:none stroke-w:2" width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
 </div>`,
       highlightValue: 'stroke:primary'
     }
@@ -102,9 +102,9 @@ export const svgStrokeWidth = {
       description: 'Control SVG stroke thickness',
       descriptionMs: 'Kawal ketebalan gurisan SVG',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <svg visual="stroke:primary fill:none" width="40" height="40" viewBox="0 0 24 24" style="stroke-width: 1px;"><circle cx="12" cy="12" r="10"/></svg>
-  <svg visual="stroke:primary fill:none" width="40" height="40" viewBox="0 0 24 24" style="stroke-width: 2px;"><circle cx="12" cy="12" r="10"/></svg>
-  <svg visual="stroke:primary fill:none" width="40" height="40" viewBox="0 0 24 24" style="stroke-width: 3px;"><circle cx="12" cy="12" r="10"/></svg>
+  <svg visual="stroke:primary fill:none stroke-w:1" width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+  <svg visual="stroke:primary fill:none stroke-w:2" width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+  <svg visual="stroke:primary fill:none stroke-w:3" width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
 </div>`,
       highlightValue: 'stroke-w:2'
     }

@@ -32,9 +32,9 @@ export const filterBrightness = {
       description: 'Adjust element brightness',
       descriptionMs: 'Laraskan kecerahan elemen',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(0.5);">dim</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small brightness:dim">dim</div>
   <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(1.5);">vivid</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small brightness:vivid">vivid</div>
 </div>`,
       highlightValue: 'brightness:bright'
     }
@@ -70,9 +70,9 @@ export const filterContrast = {
       description: 'Adjust element contrast',
       descriptionMs: 'Laraskan kontras elemen',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(0.5);">low</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small contrast:low">low</div>
   <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(1.5);">high</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small contrast:max">high</div>
 </div>`,
       highlightValue: 'contrast:high'
     }
@@ -107,8 +107,8 @@ export const filterGrayscale = {
       descriptionMs: 'Tukar ke skala kelabu',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: grayscale(50%);">partial</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: grayscale(100%);">full</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small grayscale:partial">partial</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small grayscale:full">full</div>
 </div>`,
       highlightValue: 'grayscale:full'
     }
@@ -144,8 +144,8 @@ export const filterHueRotate = {
       descriptionMs: 'Putar rona warna',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(90deg);">90°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(180deg);">180°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hue-rotate:90">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hue-rotate:180">180°</div>
 </div>`,
       highlightValue: 'hue-rotate:90'
     }
@@ -180,7 +180,7 @@ export const filterInvert = {
       descriptionMs: 'Songsangkan warna elemen',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: invert(100%);">full</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small invert:full">full</div>
 </div>`,
       highlightValue: 'invert:full'
     }
@@ -216,9 +216,9 @@ export const filterSaturate = {
       description: 'Adjust color saturation',
       descriptionMs: 'Laraskan ketepuan warna',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: saturate(0);">none</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small saturate:none">none</div>
   <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: saturate(2);">vivid</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small saturate:vivid">vivid</div>
 </div>`,
       highlightValue: 'saturate:vivid'
     }
@@ -253,8 +253,8 @@ export const filterSepia = {
       descriptionMs: 'Terapkan ton sepia vintaj',
       html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(50%);">partial</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(100%);">full</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small sepia:partial">partial</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small sepia:full">full</div>
 </div>`,
       highlightValue: 'sepia:full'
     }
@@ -291,9 +291,9 @@ export const filterDropShadow = {
       description: 'Add shadow to elements',
       descriptionMs: 'Tambah bayang pada elemen',
       html: `<div layout="flex" space="g:medium p:big" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">medium</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));">big</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small drop-shadow:small">small</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small drop-shadow:medium">medium</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small drop-shadow:big">big</div>
 </div>`,
       highlightValue: 'drop-shadow:medium'
     }

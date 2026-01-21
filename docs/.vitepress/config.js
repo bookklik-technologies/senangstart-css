@@ -163,6 +163,9 @@ const enSidebar = {
           items: [
             { text: 'Background Color', link: '/reference/visual/background-color' },
             { text: 'Background Image', link: '/reference/visual/background-image' },
+            { text: 'Gradient From', link: '/reference/visual/gradient-from' },
+            { text: 'Gradient Via', link: '/reference/visual/gradient-via' },
+            { text: 'Gradient To', link: '/reference/visual/gradient-to' },
             { text: 'Background Attachment', link: '/reference/visual/background-attachment' },
             { text: 'Background Clip', link: '/reference/visual/background-clip' },
             { text: 'Background Origin', link: '/reference/visual/background-origin' },
@@ -529,6 +532,9 @@ const msSidebar = {
           collapsed: true,
           items: [
             { text: 'Imej Latar Belakang', link: '/ms/reference/visual/background-image' },
+            { text: 'Gradien Mula', link: '/ms/reference/visual/gradient-from' },
+            { text: 'Gradien Laluan', link: '/ms/reference/visual/gradient-via' },
+            { text: 'Gradien Tamat', link: '/ms/reference/visual/gradient-to' },
             { text: 'Lampiran Latar Belakang', link: '/ms/reference/visual/background-attachment' },
             { text: 'Klip Latar Belakang', link: '/ms/reference/visual/background-clip' },
             { text: 'Asal Latar Belakang', link: '/ms/reference/visual/background-origin' },

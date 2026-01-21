@@ -583,6 +583,30 @@ function convertClass(twClass, options = {}) {
     return { category: 'visual', value: prefix + "opacity:" + opacityMatch[1] };
   }
 
+  // Gradient direction (bg-gradient-to-*)
+  const bgGradientMatch = baseClass.match(/^bg-gradient-to-(t|tr|r|br|b|bl|l|tl)$/);
+  if (bgGradientMatch) {
+    return { category: 'visual', value: prefix + "bg-image:gradient-to-" + bgGradientMatch[1] };
+  }
+
+  // Gradient from-* (starting color)
+  const fromMatch = baseClass.match(/^from-(.+)$/);
+  if (fromMatch) {
+    return { category: 'visual', value: prefix + "from:" + fromMatch[1] };
+  }
+
+  // Gradient via-* (middle color)
+  const viaMatch = baseClass.match(/^via-(.+)$/);
+  if (viaMatch) {
+    return { category: 'visual', value: prefix + "via:" + viaMatch[1] };
+  }
+
+  // Gradient to-* (ending color) - Note: must come after bg-gradient-to-*
+  const toMatch = baseClass.match(/^to-(.+)$/);
+  if (toMatch) {
+    return { category: 'visual', value: prefix + "to:" + toMatch[1] };
+  }
+
   return null;
 }
 

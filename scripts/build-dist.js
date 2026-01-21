@@ -6,7 +6,7 @@
  */
 
 import * as esbuild from 'esbuild';
-import { mkdirSync, statSync } from 'fs';
+import { mkdirSync, statSync, copyFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -49,6 +49,48 @@ await esbuild.build({
 const minSize = statSync(join(distDir, 'senangstart-css.min.js')).size;
 console.log(`✓ Created senangstart-css.min.js (${(minSize / 1024).toFixed(1)} KB)`);
 
+// Build Tailwind converter - unminified
+await esbuild.build({
+  entryPoints: [join(root, 'src', 'cdn', 'tw-conversion-engine.js')],
+  bundle: true,
+  format: 'iife',
+  outfile: join(distDir, 'senangstart-tw.js'),
+  minify: false,
+  banner: {
+    js: '/* SenangStart CSS - Tailwind Converter v0.2.0 | MIT License */'
+  }
+});
+
+const twUnminSize = statSync(join(distDir, 'senangstart-tw.js')).size;
+console.log(`✓ Created senangstart-tw.js (${(twUnminSize / 1024).toFixed(1)} KB)`);
+
+// Build Tailwind converter - minified
+await esbuild.build({
+  entryPoints: [join(root, 'src', 'cdn', 'tw-conversion-engine.js')],
+  bundle: true,
+  format: 'iife',
+  outfile: join(distDir, 'senangstart-tw.min.js'),
+  minify: true,
+  banner: {
+    js: '/* SenangStart TW v0.2.0 | MIT */'
+  }
+});
+
+const twMinSize = statSync(join(distDir, 'senangstart-tw.min.js')).size;
+console.log(`✓ Created senangstart-tw.min.js (${(twMinSize / 1024).toFixed(1)} KB)`);
+
+// Copy to docs/public/assets for VitePress
+const docsAssetsDir = join(root, 'docs', 'public', 'assets');
+mkdirSync(docsAssetsDir, { recursive: true });
+copyFileSync(
+  join(distDir, 'senangstart-css.min.js'),
+  join(docsAssetsDir, 'senangstart-css.min.js')
+);
+console.log(`✓ Copied to docs/public/assets/senangstart-css.min.js`);
+
 console.log('\n📦 Dist build complete!');
 console.log('   dist/senangstart-css.js');
 console.log('   dist/senangstart-css.min.js');
+console.log('   dist/senangstart-tw.js');
+console.log('   dist/senangstart-tw.min.js');
+
