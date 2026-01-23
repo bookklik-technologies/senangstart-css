@@ -32,9 +32,9 @@ visual="contrast:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="contrast:high"</code> - Adjust element contrast</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(0.5);">low</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small contrast:low">low</div>
   <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(1.5);">high</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small contrast:max">high</div>
 </div>
 </div>
 
@@ -43,9 +43,9 @@ visual="contrast:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(0.5);">low</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small contrast:low">low</div>
   <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: contrast(1.5);">high</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small contrast:max">high</div>
 </div>
 ```
 

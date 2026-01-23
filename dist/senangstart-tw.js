@@ -3,91 +3,144 @@
   // src/cdn/tw-conversion-engine.js
   var spacingScale = {
     0: "none",
-    px: "[1px]",
-    0.5: "tiny",
+    // 0px → none
+    px: "thin",
+    // 1px → thin (was [1px])
+    0.5: "thin",
+    // 2px → thin (closest to regular:2px)
     1: "tiny",
+    // 4px → tiny
     1.5: "tiny",
-    2: "tiny",
+    // 6px → tiny (closest)
+    2: "small",
+    // 8px → small
     2.5: "small",
+    // 10px → small (closest)
     3: "small",
+    // 12px → small (closest)
     3.5: "small",
-    4: "small",
+    // 14px → small (closest)
+    4: "medium",
+    // 16px → medium
     5: "medium",
+    // 20px → medium (closest)
     6: "medium",
+    // 24px → medium (closest)
     7: "medium",
+    // 28px → medium (closest)
     8: "big",
+    // 32px → big
     9: "big",
+    // 36px → big (closest)
     10: "big",
+    // 40px → big (closest)
     11: "big",
-    12: "giant",
+    // 44px → big (closest)
+    12: "big",
+    // 48px → big (closest)
     14: "giant",
+    // 56px → giant (closest)
     16: "giant",
-    20: "vast",
-    24: "vast",
-    28: "vast",
+    // 64px → giant
+    20: "giant",
+    // 80px → giant (closest)
+    24: "giant",
+    // 96px → giant (closest)
+    28: "giant",
+    // 112px → giant (closest)
     32: "vast",
+    // 128px → vast
     36: "vast",
+    // 144px → vast
     40: "vast",
+    // 160px → vast
     44: "vast",
+    // 176px → vast
     48: "vast",
+    // 192px → vast
     52: "vast",
+    // 208px → vast
     56: "vast",
+    // 224px → vast
     60: "vast",
+    // 240px → vast
     64: "vast",
+    // 256px → vast
     72: "vast",
+    // 288px → vast
     80: "vast",
+    // 320px → vast
     96: "vast",
+    // 384px → vast
     full: "[100%]",
     screen: "[100vw]",
     auto: "auto"
   };
   var radiusScale = {
     none: "none",
+    // 0px → none
     sm: "small",
+    // 2px → small (closest to 4px)
     "": "small",
-    md: "medium",
+    // 4px → small (Tailwind DEFAULT)
+    md: "small",
+    // 6px → small (closest to 4px)
     lg: "medium",
-    xl: "big",
+    // 8px → medium
+    xl: "medium",
+    // 12px → medium (closest to 8px)
     "2xl": "big",
+    // 16px → big
     "3xl": "big",
+    // 24px → big (closest to 16px)
     full: "round"
+    // 9999px → round
   };
   var shadowScale = {
+    none: "none",
+    // none → none
     sm: "small",
+    // small shadow → small
     "": "small",
+    // DEFAULT shadow → small
     md: "medium",
+    // medium shadow → medium
     lg: "big",
+    // large shadow → big
     xl: "giant",
+    // xl shadow → giant
     "2xl": "giant",
-    none: "none"
+    // 2xl shadow → giant
+    inner: "none"
+    // inner shadow not directly supported
   };
   var fontSizeScale = {
     xs: "mini",
-    // 0.75rem
+    // 0.75rem → mini
     sm: "small",
-    // 0.875rem
+    // 0.875rem → small
     base: "base",
-    // 1rem
+    // 1rem → base
     lg: "large",
-    // 1.125rem
+    // 1.125rem → large
     xl: "big",
-    // 1.25rem
+    // 1.25rem → big
     "2xl": "huge",
-    // 1.5rem
+    // 1.5rem → huge
     "3xl": "grand",
-    // 1.875rem
+    // 1.875rem → grand
     "4xl": "giant",
-    // 2.25rem
+    // 2.25rem → giant
     "5xl": "mount",
-    // 3rem
+    // 3rem → mount
     "6xl": "mega",
-    // 3.75rem
+    // 3.75rem → mega
     "7xl": "giga",
-    // 4.5rem
+    // 4.5rem → giga
     "8xl": "tera",
-    // 6rem
+    // 6rem → tera
     "9xl": "hero"
-    // 8rem
+    // 8rem → hero
   };
   var layoutMappings = {
     container: "container",
@@ -168,6 +221,9 @@
     "select-all": "select:all"
   };
   function getSpacing(value, exact) {
+    if (value.startsWith("[") && value.endsWith("]")) {
+      return value;
+    }
     if (exact) {
       if (["full", "screen", "auto"].includes(value))
         return spacingScale[value] || `[${value}]`;
@@ -175,9 +231,28 @@
     }
     return spacingScale[value] || `[${value}]`;
   }
+  var borderWidthScale = {
+    0: "none",
+    1: "thin",
+    // 1px → thin (was [1px])
+    2: "regular",
+    // 2px → regular
+    3: "thick",
+    // 3px → thick
+    4: "tiny",
+    // 4px → tiny
+    8: "small"
+    // 8px → small
+  };
+  function getBorderWidth(value, exact) {
+    if (exact) {
+      return `tw-${value}`;
+    }
+    return borderWidthScale[value] || `[${value}px]`;
+  }
   function convertClass(twClass, exact) {
     const prefixMatch = twClass.match(
-      /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|active:|disabled:|dark:)(.+)$/
+      /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|focus-visible:|active:|disabled:|dark:)(.+)$/
     );
     let prefix = "", baseClass = twClass;
     if (prefixMatch) {
@@ -213,9 +288,21 @@
       return { cat: "visual", val: prefix + "text-size:" + size };
     }
     const bgMatch = baseClass.match(
-      /^bg-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
+      /^bg-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?|transparent|current|inherit)$/
     );
-    if (bgMatch) return { cat: "visual", val: prefix + "bg:" + bgMatch[1] };
+    if (bgMatch) {
+      const colorVal = bgMatch[1];
+      if (colorVal === "transparent") {
+        return { cat: "visual", val: prefix + "bg:[transparent]" };
+      }
+      if (colorVal === "current") {
+        return { cat: "visual", val: prefix + "bg:[currentColor]" };
+      }
+      if (colorVal === "inherit") {
+        return { cat: "visual", val: prefix + "bg:[inherit]" };
+      }
+      return { cat: "visual", val: prefix + "bg:" + colorVal };
+    }
     const borderColorMatch = baseClass.match(
       /^border-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
     );
@@ -291,8 +378,23 @@
       const width = borderWidthMatch[2] || "1";
       return {
         cat: "visual",
-        val: prefix + "border" + side + ":[" + width + "px]"
+        val: prefix + "border" + side + ":" + getBorderWidth(width, exact)
       };
+    }
+    const positionMatch = baseClass.match(/^(top|right|bottom|left|inset|inset-x|inset-y)-(\d+|px|auto|full|\[.+\])$/);
+    if (positionMatch) {
+      const prop = positionMatch[1];
+      let val = positionMatch[2];
+      if (val === "0") {
+        val = "none";
+      } else if (val.startsWith("[") && val.endsWith("]")) {
+      } else {
+        val = getSpacing(val, exact);
+      }
+      return { cat: "layout", val: prefix + prop + ":" + val };
+    }
+    if (baseClass === "outline-none") {
+      return { cat: "visual", val: prefix + "outline:none" };
     }
     const orderMatch = baseClass.match(/^order-(\d+|first|last|none)$/);
     if (orderMatch) {
@@ -333,6 +435,52 @@
     const toMatch = baseClass.match(/^to-(.+)$/);
     if (toMatch) {
       return { cat: "visual", val: prefix + "to:" + toMatch[1] };
+    }
+    const transitionMatch = baseClass.match(/^transition(?:-(all|colors|opacity|shadow|transform|none))?$/);
+    if (transitionMatch) {
+      const type = transitionMatch[1] || "all";
+      return { cat: "visual", val: prefix + "transition:" + type };
+    }
+    const durationMatch = baseClass.match(/^duration-(\d+)$/);
+    if (durationMatch) {
+      const ms = parseInt(durationMatch[1]);
+      let durationVal;
+      if (ms <= 75) durationVal = "instant";
+      else if (ms <= 100) durationVal = "quick";
+      else if (ms <= 150) durationVal = "fast";
+      else if (ms <= 200) durationVal = "normal";
+      else if (ms <= 300) durationVal = "slow";
+      else if (ms <= 500) durationVal = "slower";
+      else durationVal = "lazy";
+      return { cat: "visual", val: prefix + "duration:" + durationVal };
+    }
+    const easeMatch = baseClass.match(/^ease-(linear|in|out|in-out)$/);
+    if (easeMatch) {
+      return { cat: "visual", val: prefix + "ease:" + easeMatch[1] };
+    }
+    const ringMatch = baseClass.match(/^ring(?:-(\d+))?$/);
+    if (ringMatch) {
+      const width = ringMatch[1] || "3";
+      if (width === "0") {
+        return { cat: "visual", val: prefix + "ring:none" };
+      }
+      const ringScale = {
+        "1": "thin",
+        "2": "regular",
+        "3": "small",
+        "4": "medium",
+        "8": "big"
+      };
+      const scale = ringScale[width] || `[${width}px]`;
+      return { cat: "visual", val: prefix + "ring:" + scale };
+    }
+    const ringOffsetMatch = baseClass.match(/^ring-offset-(\d+)$/);
+    if (ringOffsetMatch) {
+      return { cat: "visual", val: prefix + "ring-offset:" + ringOffsetMatch[1] };
+    }
+    const ringColorMatch = baseClass.match(/^ring-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
+    if (ringColorMatch) {
+      return { cat: "visual", val: prefix + "ring-color:" + ringColorMatch[1] };
     }
     return null;
   }

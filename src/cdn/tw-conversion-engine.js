@@ -7,83 +7,98 @@
 // MAPPING SCALES
 // ============================
 
+// Spacing scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: none(0px), thin(1px), regular(2px), thick(3px), tiny(4px), 
+//                       small(8px), medium(16px), big(32px), giant(64px), vast(128px)
+// Tailwind base: 4px per unit (1 = 0.25rem = 4px)
 const spacingScale = {
-  0: "none",
-  px: "[1px]",
-  0.5: "tiny",
-  1: "tiny",
-  1.5: "tiny",
-  2: "tiny",
-  2.5: "small",
-  3: "small",
-  3.5: "small",
-  4: "small",
-  5: "medium",
-  6: "medium",
-  7: "medium",
-  8: "big",
-  9: "big",
-  10: "big",
-  11: "big",
-  12: "giant",
-  14: "giant",
-  16: "giant",
-  20: "vast",
-  24: "vast",
-  28: "vast",
-  32: "vast",
-  36: "vast",
-  40: "vast",
-  44: "vast",
-  48: "vast",
-  52: "vast",
-  56: "vast",
-  60: "vast",
-  64: "vast",
-  72: "vast",
-  80: "vast",
-  96: "vast",
+  0: "none",           // 0px → none
+  px: "thin",          // 1px → thin (was [1px])
+  0.5: "thin",         // 2px → thin (closest to regular:2px)
+  1: "tiny",           // 4px → tiny
+  1.5: "small",        // 6px → small 
+  2: "small",          // 8px → small (base)
+  2.5: "small",        // 10px → small 
+  3: "medium",         // 12px → medium 
+  3.5: "medium",       // 14px → medium 
+  4: "medium",         // 16px → medium (base)
+  5: "medium",         // 20px → medium 
+  6: "medium",         // 24px → medium 
+  7: "big",            // 28px → big 
+  8: "big",            // 32px → big   (base)
+  9: "big",            // 36px → big 
+  10: "big",           // 40px → big 
+  11: "big",           // 44px → big 
+  12: "big",           // 48px → big 
+  14: "giant",         // 56px → giant 
+  16: "giant",         // 64px → giant (base)
+  20: "giant",         // 80px → giant 
+  24: "giant",         // 96px → giant 
+  28: "giant",         // 112px → giant 
+  32: "vast",          // 128px → vast (base)
+  36: "vast",          // 144px → vast
+  40: "vast",          // 160px → vast
+  44: "vast",          // 176px → vast
+  48: "vast",          // 192px → vast
+  52: "vast",          // 208px → vast
+  56: "vast",          // 224px → vast
+  60: "vast",          // 240px → vast
+  64: "vast",          // 256px → vast
+  72: "vast",          // 288px → vast
+  80: "vast",          // 320px → vast
+  96: "vast",          // 384px → vast
   full: "[100%]",
   screen: "[100vw]",
   auto: "auto",
 };
 
+// Radius scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: none(0px), small(4px), medium(8px), big(16px), round(9999px)
+// Tailwind: none(0), sm(0.125rem=2px), DEFAULT(0.25rem=4px), md(0.375rem=6px), 
+//           lg(0.5rem=8px), xl(0.75rem=12px), 2xl(1rem=16px), 3xl(1.5rem=24px), full(9999px)
 const radiusScale = {
-  none: "none",
-  sm: "small",
-  "": "small",
-  md: "medium",
-  lg: "medium",
-  xl: "big",
-  "2xl": "big",
-  "3xl": "big",
-  full: "round",
+  none: "none",        // 0px → none
+  sm: "small",         // 2px → small (closest to 4px)
+  "": "small",         // 4px → small (Tailwind DEFAULT)
+  md: "small",         // 6px → small (closest to 4px)
+  lg: "medium",        // 8px → medium
+  xl: "medium",        // 12px → medium (closest to 8px)
+  "2xl": "big",        // 16px → big
+  "3xl": "big",        // 24px → big (closest to 16px)
+  full: "round",       // 9999px → round
 };
 
+// Shadow scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: none, small, medium, big, giant
 const shadowScale = {
-  sm: "small",
-  "": "small",
-  md: "medium",
-  lg: "big",
-  xl: "giant",
-  "2xl": "giant",
-  none: "none",
+  none: "none",        // none → none
+  sm: "small",         // small shadow → small
+  "": "small",         // DEFAULT shadow → small
+  md: "medium",        // medium shadow → medium
+  lg: "big",           // large shadow → big
+  xl: "giant",         // xl shadow → giant
+  "2xl": "giant",      // 2xl shadow → giant
+  inner: "none",       // inner shadow not directly supported
 };
 
+// Font size scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: mini(0.75rem), small(0.875rem), base(1rem), large(1.125rem),
+//                       big(1.25rem), huge(1.5rem), grand(1.875rem), giant(2.25rem),
+//                       mount(3rem), mega(3.75rem), giga(4.5rem), tera(6rem), hero(8rem)
 const fontSizeScale = {
-  xs: "mini",      // 0.75rem
-  sm: "small",     // 0.875rem
-  base: "base",    // 1rem
-  lg: "large",     // 1.125rem
-  xl: "big",       // 1.25rem
-  "2xl": "huge",   // 1.5rem
-  "3xl": "grand",  // 1.875rem
-  "4xl": "giant",  // 2.25rem
-  "5xl": "mount",  // 3rem
-  "6xl": "mega",   // 3.75rem
-  "7xl": "giga",   // 4.5rem
-  "8xl": "tera",   // 6rem
-  "9xl": "hero",   // 8rem
+  xs: "mini",          // 0.75rem → mini
+  sm: "small",         // 0.875rem → small
+  base: "base",        // 1rem → base
+  lg: "large",         // 1.125rem → large
+  xl: "big",           // 1.25rem → big
+  "2xl": "huge",       // 1.5rem → huge
+  "3xl": "grand",      // 1.875rem → grand
+  "4xl": "giant",      // 2.25rem → giant
+  "5xl": "mount",      // 3rem → mount
+  "6xl": "mega",       // 3.75rem → mega
+  "7xl": "giga",       // 4.5rem → giga
+  "8xl": "tera",       // 6rem → tera
+  "9xl": "hero",       // 8rem → hero
 };
 
 const layoutMappings = {
@@ -171,12 +186,34 @@ const visualKeywords = {
 // ============================
 
 function getSpacing(value, exact) {
+  // Check if it's already an arbitrary value with brackets
+  if (value.startsWith('[') && value.endsWith(']')) {
+    return value; // Return as-is, don't double-wrap
+  }
   if (exact) {
     if (["full", "screen", "auto"].includes(value))
       return spacingScale[value] || `[${value}]`;
     return `tw-${value}`;
   }
   return spacingScale[value] || `[${value}]`;
+}
+
+// Border width scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: none(0), thin(1px), regular(2px), thick(3px)
+const borderWidthScale = {
+  0: "none",
+  1: "thin",           // 1px → thin (was [1px])
+  2: "regular",        // 2px → regular
+  3: "thick",          // 3px → thick
+  4: "tiny",           // 4px → tiny
+  8: "small",          // 8px → small
+};
+
+function getBorderWidth(value, exact) {
+  if (exact) {
+    return `tw-${value}`;
+  }
+  return borderWidthScale[value] || `[${value}px]`;
 }
 
 // ============================
@@ -186,7 +223,7 @@ function getSpacing(value, exact) {
 function convertClass(twClass, exact) {
   // Handle prefixes (hover:, sm:, md:, etc.)
   const prefixMatch = twClass.match(
-    /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|active:|disabled:|dark:)(.+)$/
+    /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|focus-visible:|active:|disabled:|dark:)(.+)$/
   );
   let prefix = "",
     baseClass = twClass;
@@ -239,9 +276,22 @@ function convertClass(twClass, exact) {
 
   // Background color
   const bgMatch = baseClass.match(
-    /^bg-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
+    /^bg-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?|transparent|current|inherit)$/
   );
-  if (bgMatch) return { cat: "visual", val: prefix + "bg:" + bgMatch[1] };
+  if (bgMatch) {
+    const colorVal = bgMatch[1];
+    // Handle special values
+    if (colorVal === 'transparent') {
+      return { cat: "visual", val: prefix + "bg:[transparent]" };
+    }
+    if (colorVal === 'current') {
+      return { cat: "visual", val: prefix + "bg:[currentColor]" };
+    }
+    if (colorVal === 'inherit') {
+      return { cat: "visual", val: prefix + "bg:[inherit]" };
+    }
+    return { cat: "visual", val: prefix + "bg:" + colorVal };
+  }
 
   // Border color
   const borderColorMatch = baseClass.match(
@@ -350,8 +400,29 @@ function convertClass(twClass, exact) {
     const width = borderWidthMatch[2] || "1";
     return {
       cat: "visual",
-      val: prefix + "border" + side + ":[" + width + "px]",
+      val: prefix + "border" + side + ":" + getBorderWidth(width, exact),
     };
+  }
+
+  // Positional properties (top-0, right-0, bottom-0, left-0, inset-0, etc.)
+  const positionMatch = baseClass.match(/^(top|right|bottom|left|inset|inset-x|inset-y)-(\d+|px|auto|full|\[.+\])$/);
+  if (positionMatch) {
+    const prop = positionMatch[1];
+    let val = positionMatch[2];
+    // Handle 0 specially
+    if (val === '0') {
+      val = 'none';
+    } else if (val.startsWith('[') && val.endsWith(']')) {
+      // Keep arbitrary values as-is
+    } else {
+      val = getSpacing(val, exact);
+    }
+    return { cat: "layout", val: prefix + prop + ":" + val };
+  }
+
+  // Outline none
+  if (baseClass === 'outline-none') {
+    return { cat: "visual", val: prefix + "outline:none" };
   }
 
   // Order
@@ -412,6 +483,63 @@ function convertClass(twClass, exact) {
   const toMatch = baseClass.match(/^to-(.+)$/);
   if (toMatch) {
     return { cat: "visual", val: prefix + "to:" + toMatch[1] };
+  }
+
+  // Transition utilities
+  const transitionMatch = baseClass.match(/^transition(?:-(all|colors|opacity|shadow|transform|none))?$/);
+  if (transitionMatch) {
+    const type = transitionMatch[1] || 'all';
+    return { cat: "visual", val: prefix + "transition:" + type };
+  }
+
+  // Duration utilities
+  const durationMatch = baseClass.match(/^duration-(\d+)$/);
+  if (durationMatch) {
+    // Map Tailwind duration (ms) to SenangStart semantic values
+    const ms = parseInt(durationMatch[1]);
+    let durationVal;
+    if (ms <= 75) durationVal = 'instant';
+    else if (ms <= 100) durationVal = 'quick';
+    else if (ms <= 150) durationVal = 'fast';
+    else if (ms <= 200) durationVal = 'normal';
+    else if (ms <= 300) durationVal = 'slow';
+    else if (ms <= 500) durationVal = 'slower';
+    else durationVal = 'lazy';
+    return { cat: "visual", val: prefix + "duration:" + durationVal };
+  }
+
+  // Ease utilities
+  const easeMatch = baseClass.match(/^ease-(linear|in|out|in-out)$/);
+  if (easeMatch) {
+    return { cat: "visual", val: prefix + "ease:" + easeMatch[1] };
+  }
+
+  // Ring utilities - Convert to native ring utilities
+  // Tailwind ring-4 generates: box-shadow: 0 0 0 4px var(--tw-ring-color)
+  const ringMatch = baseClass.match(/^ring(?:-(\d+))?$/);
+  if (ringMatch) {
+    const width = ringMatch[1] || '3';
+    if (width === '0') {
+      return { cat: "visual", val: prefix + "ring:none" };
+    }
+    // Map Tailwind ring widths to SenangStart semantic values
+    const ringScale = {
+      '1': 'thin', '2': 'regular', '3': 'small', '4': 'medium', '8': 'big'
+    };
+    const scale = ringScale[width] || `[${width}px]`;
+    return { cat: "visual", val: prefix + "ring:" + scale };
+  }
+
+  // Ring offset - converts to native ring-offset utility
+  const ringOffsetMatch = baseClass.match(/^ring-offset-(\d+)$/);
+  if (ringOffsetMatch) {
+    return { cat: "visual", val: prefix + "ring-offset:" + ringOffsetMatch[1] };
+  }
+
+  // Ring color - converts to native ring-color utility
+  const ringColorMatch = baseClass.match(/^ring-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
+  if (ringColorMatch) {
+    return { cat: "visual", val: prefix + "ring-color:" + ringColorMatch[1] };
   }
 
   return null;

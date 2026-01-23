@@ -32,9 +32,9 @@ visual="brightness:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="brightness:bright"</code> - Laraskan kecerahan elemen</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(0.5);">dim</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small brightness:dim">dim</div>
   <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(1.5);">vivid</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small brightness:vivid">vivid</div>
 </div>
 </div>
 
@@ -43,9 +43,9 @@ visual="brightness:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(0.5);">dim</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small brightness:dim">dim</div>
   <div space="p:small" visual="bg:primary text:white rounded:small">normal</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: brightness(1.5);">vivid</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small brightness:vivid">vivid</div>
 </div>
 ```
 

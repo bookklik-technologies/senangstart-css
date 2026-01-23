@@ -21,7 +21,7 @@ console.log('📦 Building SenangStart CSS...\n');
 
 // Build unminified version
 await esbuild.build({
-  entryPoints: [join(root, 'src', 'cdn', 'jit.js')],
+  entryPoints: [join(root, 'src', 'cdn', 'senangstart-engine.js')],
   bundle: true,
   format: 'iife',
   outfile: join(distDir, 'senangstart-css.js'),
@@ -36,7 +36,7 @@ console.log(`✓ Created senangstart-css.js (${(unminSize / 1024).toFixed(1)} KB
 
 // Build minified version
 await esbuild.build({
-  entryPoints: [join(root, 'src', 'cdn', 'jit.js')],
+  entryPoints: [join(root, 'src', 'cdn', 'senangstart-engine.js')],
   bundle: true,
   format: 'iife',
   outfile: join(distDir, 'senangstart-css.min.js'),

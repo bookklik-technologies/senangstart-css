@@ -69,7 +69,7 @@ Now you can use your custom values:
 For local development without a CDN, use the local JIT file:
 
 ```html
-<script src="./path/to/senangstart/src/cdn/jit.js"></script>
+<script src="./path/to/senangstart/src/cdn/senangstart-engine.js"></script>
 ```
 
 ## Performance Considerations

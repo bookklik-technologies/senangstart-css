@@ -31,8 +31,8 @@ visual="hue-rotate:[degrees]"
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="hue-rotate:90"</code> - Putar rona warna</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(90deg);">90°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(180deg);">180°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hue-rotate:90">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hue-rotate:180">180°</div>
 </div>
 </div>
 
@@ -42,8 +42,8 @@ visual="hue-rotate:[degrees]"
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">0°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(90deg);">90°</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: hue-rotate(180deg);">180°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hue-rotate:90">90°</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small hue-rotate:180">180°</div>
 </div>
 ```
 

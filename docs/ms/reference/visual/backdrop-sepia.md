@@ -29,9 +29,9 @@ visual="backdrop-sepia:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="backdrop-sepia:full"</code> - Terapkan ton sepia vintaj pada latar belakang</p>
-<div layout="flex" space="g:medium" visual="rounded:medium">
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: sepia(100%);">Sepia</div>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 rounded:small text:white">Original</div>
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 filter-sepia:full rounded:small text:white">Sepia</div>
 </div>
 </div>
 
@@ -39,9 +39,9 @@ visual="backdrop-sepia:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex" space="g:medium" visual="rounded:medium">
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: sepia(100%);">Sepia</div>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 rounded:small text:white">Original</div>
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 filter-sepia:full rounded:small text:white">Sepia</div>
 </div>
 ```
 

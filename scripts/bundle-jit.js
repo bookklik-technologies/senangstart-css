@@ -2,7 +2,7 @@
 
 /**
  * Bundle JIT Runtime with esbuild
- * Bundles src/cdn/jit.js into a self-contained IIFE for browser use
+ * Bundles src/cdn/senangstart-engine.js into a self-contained IIFE for browser use
  */
 
 import * as esbuild from 'esbuild';
@@ -16,7 +16,7 @@ console.log('📦 Bundling JIT runtime...');
 
 // Build unminified version
 await esbuild.build({
-  entryPoints: [join(root, 'src', 'cdn', 'jit.js')],
+  entryPoints: [join(root, 'src', 'cdn', 'senangstart-engine.js')],
   bundle: true,
   format: 'iife',
   outfile: join(root, 'dist', 'senangstart-css.js'),
@@ -30,7 +30,7 @@ console.log('✓ Created dist/senangstart-css.js');
 
 // Build minified version
 await esbuild.build({
-  entryPoints: [join(root, 'src', 'cdn', 'jit.js')],
+  entryPoints: [join(root, 'src', 'cdn', 'senangstart-engine.js')],
   bundle: true,
   format: 'iife',
   outfile: join(root, 'dist', 'senangstart-css.min.js'),

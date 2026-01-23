@@ -31,8 +31,8 @@ visual="sepia:[value]"
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="sepia:full"</code> - Terapkan ton sepia vintaj</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(50%);">partial</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(100%);">full</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small sepia:partial">partial</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small sepia:full">full</div>
 </div>
 </div>
 
@@ -42,8 +42,8 @@ visual="sepia:[value]"
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(50%);">partial</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: sepia(100%);">full</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small sepia:partial">partial</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small sepia:full">full</div>
 </div>
 ```
 

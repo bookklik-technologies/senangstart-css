@@ -32,10 +32,10 @@ layout="z:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="z:high"</code> - Control stacking order of positioned elements</p>
 <div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
-  <span layout="absolute z:base" style="left: 0; top: 10px;" space="p:small" visual="bg:neutral-400 text:white rounded:small">z:base</span>
-  <span layout="absolute z:low" style="left: 30px; top: 20px;" space="p:small" visual="bg:neutral-500 text:white rounded:small">z:low</span>
-  <span layout="absolute z:mid" style="left: 60px; top: 30px;" space="p:small" visual="bg:neutral-600 text:white rounded:small">z:mid</span>
-  <span layout="absolute z:high" style="left: 90px; top: 40px;" space="p:small" visual="bg:primary text:white rounded:small">z:high</span>
+  <span layout="absolute z:base left:0 top:10px" space="p:small" visual="bg:neutral-400 text:white rounded:small">z:base</span>
+  <span layout="absolute z:low left:30px top:20px" space="p:small" visual="bg:neutral-500 text:white rounded:small">z:low</span>
+  <span layout="absolute z:mid left:60px top:30px" space="p:small" visual="bg:neutral-600 text:white rounded:small">z:mid</span>
+  <span layout="absolute z:high left:90px top:40px" space="p:small" visual="bg:primary text:white rounded:small">z:high</span>
 </div>
 </div>
 
@@ -44,10 +44,10 @@ layout="z:[value]"
 
 ```html
 <div layout="relative" space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 80px;">
-  <span layout="absolute z:base" style="left: 0; top: 10px;" space="p:small" visual="bg:neutral-400 text:white rounded:small">z:base</span>
-  <span layout="absolute z:low" style="left: 30px; top: 20px;" space="p:small" visual="bg:neutral-500 text:white rounded:small">z:low</span>
-  <span layout="absolute z:mid" style="left: 60px; top: 30px;" space="p:small" visual="bg:neutral-600 text:white rounded:small">z:mid</span>
-  <span layout="absolute z:high" style="left: 90px; top: 40px;" space="p:small" visual="bg:primary text:white rounded:small">z:high</span>
+  <span layout="absolute z:base left:0 top:10px" space="p:small" visual="bg:neutral-400 text:white rounded:small">z:base</span>
+  <span layout="absolute z:low left:30px top:20px" space="p:small" visual="bg:neutral-500 text:white rounded:small">z:low</span>
+  <span layout="absolute z:mid left:60px top:30px" space="p:small" visual="bg:neutral-600 text:white rounded:small">z:mid</span>
+  <span layout="absolute z:high left:90px top:40px" space="p:small" visual="bg:primary text:white rounded:small">z:high</span>
 </div>
 ```
 

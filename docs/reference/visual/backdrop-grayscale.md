@@ -29,9 +29,9 @@ visual="backdrop-grayscale:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="backdrop-grayscale:full"</code> - Remove color from backdrop, creating a desaturated effect</p>
-<div layout="flex" space="g:medium" visual="rounded:medium">
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: grayscale(100%);">Grayscale</div>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 rounded:small text:white">Original</div>
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 filter-grayscale:full rounded:small text:white">Grayscale</div>
 </div>
 </div>
 
@@ -39,9 +39,9 @@ visual="backdrop-grayscale:[value]"
 <summary>View Code</summary>
 
 ```html
-<div layout="flex" space="g:medium" visual="rounded:medium">
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981);">Original</div>
-  <div space="p:small" visual="rounded:small text:white" style="background: linear-gradient(135deg, #3b82f6, #10b981); filter: grayscale(100%);">Grayscale</div>
+<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 rounded:small text:white">Original</div>
+  <div space="p:small" visual="bg-image:gradient-to-br from:blue-500 to:emerald-500 filter-grayscale:full rounded:small text:white">Grayscale</div>
 </div>
 ```
 

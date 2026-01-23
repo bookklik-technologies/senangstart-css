@@ -7,7 +7,7 @@
 export const BREAKPOINTS = ['mob', 'tab', 'lap', 'desk', 'tw-sm', 'tw-md', 'tw-lg', 'tw-xl', 'tw-2xl'];
 
 // State prefixes
-export const STATES = ['hover', 'focus', 'active', 'disabled', 'dark'];
+export const STATES = ['hover', 'focus', 'focus-visible', 'active', 'disabled', 'dark'];
 
 // Layout keywords (no colon syntax)
 export const LAYOUT_KEYWORDS = [

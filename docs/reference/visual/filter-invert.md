@@ -31,7 +31,7 @@ visual="invert:[value]"
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="invert:full"</code> - Invert element colors</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: invert(100%);">full</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small invert:full">full</div>
 </div>
 </div>
 
@@ -41,7 +41,7 @@ visual="invert:[value]"
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small" style="filter: invert(100%);">full</div>
+  <div space="p:small" visual="bg:primary text:white rounded:small invert:full">full</div>
 </div>
 ```
 

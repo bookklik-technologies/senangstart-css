@@ -31,7 +31,7 @@ visual="bg-clip:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="bg-clip:text"</code> - Keratan latar kepada teks untuk kesan teks gradien</p>
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-size: 1.5rem; font-weight: bold; background: linear-gradient(to right, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">Gradient Text</span>
+  <span text="size:large weight:bold" visual="bg-image:gradient-to-r from:blue-500 to:violet-500 bg-clip:text text:transparent">Gradient Text</span>
 </div>
 </div>
 
@@ -40,7 +40,7 @@ visual="bg-clip:[value]"
 
 ```html
 <div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span style="font-size: 1.5rem; font-weight: bold; background: linear-gradient(to right, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">Gradient Text</span>
+  <span text="size:large weight:bold" visual="bg-image:gradient-to-r from:blue-500 to:violet-500 bg-clip:text text:transparent">Gradient Text</span>
 </div>
 ```
 

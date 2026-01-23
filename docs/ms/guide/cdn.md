@@ -69,7 +69,7 @@ Sekarang anda boleh guna nilai tersuai anda:
 Untuk pembangunan tempatan tanpa CDN, guna fail JIT tempatan:
 
 ```html
-<script src="./path/to/senangstart/src/cdn/jit.js"></script>
+<script src="./path/to/senangstart/src/cdn/senangstart-engine.js"></script>
 ```
 
 ## Pertimbangan Prestasi

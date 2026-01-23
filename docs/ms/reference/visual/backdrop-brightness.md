@@ -31,10 +31,10 @@ visual="backdrop-brightness:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="backdrop-brightness:dark"</code> - Redupkan atau cerahkan latar belakang di sebalik tindanan</p>
-<div layout="flex" space="g:medium p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #f97316, #ef4444);">
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(0.5);">dim (50%)</div>
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1);">normal</div>
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1.5);">bright (150%)</div>
+<div layout="flex" space="g:medium p:medium" visual="bg-image:gradient-to-br from:orange-500 to:red-500 rounded:medium">
+  <div space="p:small" visual="backdrop-brightness:dim rounded:small text:white">dim (50%)</div>
+  <div space="p:small" visual="backdrop-brightness:normal rounded:small text:white">normal</div>
+  <div space="p:small" visual="backdrop-brightness:vivid rounded:small text:white">bright (150%)</div>
 </div>
 </div>
 
@@ -42,10 +42,10 @@ visual="backdrop-brightness:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex" space="g:medium p:medium" visual="rounded:medium" style="background: linear-gradient(135deg, #f97316, #ef4444);">
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(0.5);">dim (50%)</div>
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1);">normal</div>
-  <div space="p:small" visual="rounded:small text:white" style="backdrop-filter: brightness(1.5);">bright (150%)</div>
+<div layout="flex" space="g:medium p:medium" visual="bg-image:gradient-to-br from:orange-500 to:red-500 rounded:medium">
+  <div space="p:small" visual="backdrop-brightness:dim rounded:small text:white">dim (50%)</div>
+  <div space="p:small" visual="backdrop-brightness:normal rounded:small text:white">normal</div>
+  <div space="p:small" visual="backdrop-brightness:vivid rounded:small text:white">bright (150%)</div>
 </div>
 ```
 

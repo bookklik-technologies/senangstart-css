@@ -205,6 +205,15 @@ import { tokenize, parseToken } from '../core/tokenizer-core.js';
         'mid':    '50',
         'high':   '100',
         'top':    '9999'
+      },
+      ring: {
+        'none':    '0px',
+        'thin':    '1px',
+        'regular': '2px',
+        'thick':   '3px',
+        'small':   '4px',
+        'medium':  '6px',
+        'big':     '8px'
       }
     },
     // Dark mode configuration
@@ -232,7 +241,8 @@ import { tokenize, parseToken } from '../core/tokenizer-core.js';
         fontWeight: { type: 'object' },
         screens: { type: 'object' },
         colors: { type: 'object' },
-        zIndex: { type: 'object' }
+        zIndex: { type: 'object' },
+        ring: { type: 'object' }
       }
     },
     darkMode: { type: 'string', enum: ['media', 'selector'] },
@@ -357,6 +367,17 @@ import { tokenize, parseToken } from '../core/tokenizer-core.js';
     for (const [key, value] of Object.entries(theme.zIndex)) {
       css += `  --z-${key}: ${value};\n`;
     }
+    
+    // Ring (focus ring utilities)
+    if (theme.ring) {
+      for (const [key, value] of Object.entries(theme.ring)) {
+        css += `  --ring-${key}: ${value};\n`;
+      }
+    }
+    // Ring default values
+    css += `  --ring-color: var(--c-primary);\n`;
+    css += `  --ring-offset: 0px;\n`;
+    css += `  --ring-offset-color: #fff;\n`;
     
     // ============================================
     // TAILWIND SCALE COMPATIBILITY (tw-* prefix)
@@ -1892,6 +1913,29 @@ img, video {
       'outline-offset': () => {
         const cssValue = isArbitrary ? value : `${value}px`;
         return `outline-offset: ${cssValue};`;
+      },
+      
+      // ============================================
+      // RING UTILITIES (Focus Ring)
+      // ============================================
+      'ring': () => {
+        if (value === 'none') {
+          return `box-shadow: 0 0 0 0 transparent;`;
+        }
+        const cssValue = isArbitrary ? value : `var(--ring-${value})`;
+        return `box-shadow: 0 0 0 var(--ring-offset) var(--ring-offset-color), 0 0 0 calc(${cssValue} + var(--ring-offset)) var(--ring-color);`;
+      },
+      'ring-color': () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `--ring-color: ${cssValue};`;
+      },
+      'ring-offset': () => {
+        const cssValue = isArbitrary ? value : `${value}px`;
+        return `--ring-offset: ${cssValue};`;
+      },
+      'ring-offset-color': () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `--ring-offset-color: ${cssValue};`;
       },
       
       // ============================================
