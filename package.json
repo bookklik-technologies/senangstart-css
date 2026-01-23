@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "node src/cli/index.js dev",
-    "build": "npm run build:dist && vitepress build docs",
+    "build": "npm run build:dist && npm run docs:generate && vitepress build docs && npm run docs:llms",
     "build:dist": "node scripts/build-dist.js",
     "prepublishOnly": "npm run build:dist",
     "docs:dev": "vitepress dev docs",
@@ -32,6 +32,7 @@
     "natural-language",
     "intent-first"
   ],
+  "homepage": "https://bookklik-technologies.github.io/senangstart-css",
   "author": "a-hakim",
   "license": "MIT",
   "dependencies": {
