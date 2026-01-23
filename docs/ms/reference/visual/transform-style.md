@@ -29,13 +29,13 @@ visual="transform-style:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="transform-style:preserve-3d"</code> - Rata atau kekalkan 3D untuk transformasi bersarang</p>
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">flat</span>
     <div space="p:medium" visual="perspective:normal transform-style:flat rotate-x:20">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">flat</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">preserve-3d</span>
     <div space="p:medium" visual="perspective:normal transform-style:preserve-3d rotate-x:20">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
@@ -49,13 +49,13 @@ visual="transform-style:[value]"
 
 ```html
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">flat</span>
     <div space="p:medium" visual="perspective:normal transform-style:flat rotate-x:20">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">flat</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">preserve-3d</span>
     <div space="p:medium" visual="perspective:normal transform-style:preserve-3d rotate-x:20">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>

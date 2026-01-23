@@ -30,7 +30,7 @@ visual="[wrap-value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="text-balance"</code> - Kawal pembalutan baris</p>
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small text-wrap">This text will wrap normally when needed</div>
   <div space="p:small w:[200px]" visual="bg:success text:white rounded:small text-nowrap">This text won't wrap at all</div>
   <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small text-balance">This heading text is balanced</div>
@@ -41,7 +41,7 @@ visual="[wrap-value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small text-wrap">This text will wrap normally when needed</div>
   <div space="p:small w:[200px]" visual="bg:success text:white rounded:small text-nowrap">This text won't wrap at all</div>
   <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small text-balance">This heading text is balanced</div>

@@ -32,7 +32,7 @@ visual="leading:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="leading:relaxed"</code> - Kawal jarak menegak antara baris</p>
-<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <p space="m:0" visual="leading:tight">Tight leading<br>for headings</p>
   <p space="m:0" visual="leading:normal">Normal leading<br>for body text</p>
   <p space="m:0" visual="leading:loose">Loose leading<br>for readability</p>
@@ -43,7 +43,7 @@ visual="leading:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <p space="m:0" visual="leading:tight">Tight leading<br>for headings</p>
   <p space="m:0" visual="leading:normal">Normal leading<br>for body text</p>
   <p space="m:0" visual="leading:loose">Loose leading<br>for readability</p>

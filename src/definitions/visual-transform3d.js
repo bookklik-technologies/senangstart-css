@@ -34,19 +34,19 @@ export const perspective = {
       description: 'Control 3D depth perception - apply to parent, transform children',
       descriptionMs: 'Kawal persepsi kedalaman 3D - terapkan pada induk, transformasi anak',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">dramatic</span>
     <div space="p:medium" visual="perspective:dramatic">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">normal</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">far</span>
     <div space="p:medium" visual="perspective:far">
       <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:45">3D</div>
@@ -91,19 +91,19 @@ export const perspectiveOrigin = {
       description: 'Set vanishing point location for 3D transforms',
       descriptionMs: 'Tetapkan lokasi titik lenyap untuk transformasi 3D',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">left</span>
     <div space="p:medium" visual="perspective:normal perspective-origin:left">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:30">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">center</span>
     <div space="p:medium" visual="perspective:normal perspective-origin:center">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:30">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">right</span>
     <div space="p:medium" visual="perspective:normal perspective-origin:right">
       <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:30">3D</div>
@@ -146,19 +146,19 @@ export const rotate3d = {
       description: 'Rotate elements along X, Y, or Z axis in 3D space',
       descriptionMs: 'Putar elemen sepanjang paksi X, Y, atau Z dalam ruang 3D',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">rotate-x:45</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-x:45">X</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">rotate-y:45</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">Y</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">rotate-z:45</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:warning text:black rounded:small rotate-z:45">Z</div>
@@ -198,19 +198,19 @@ export const translateZ = {
       description: 'Move elements forward or backward in 3D space',
       descriptionMs: 'Alihkan elemen ke hadapan atau belakang dalam ruang 3D',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:far</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:primary text:white rounded:small translate-z:far">far</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:0</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:success text:white rounded:small translate-z:0">0</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:near</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:warning text:black rounded:small translate-z:near">near</div>
@@ -247,13 +247,13 @@ export const transformStyle = {
       description: 'Flat or preserve 3D for nested transforms',
       descriptionMs: 'Rata atau kekalkan 3D untuk transformasi bersarang',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">flat</span>
     <div space="p:medium" visual="perspective:normal transform-style:flat rotate-x:20">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">flat</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">preserve-3d</span>
     <div space="p:medium" visual="perspective:normal transform-style:preserve-3d rotate-x:20">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
@@ -290,13 +290,13 @@ export const backfaceVisibility = {
       description: 'Show or hide backside when rotated 180°',
       descriptionMs: 'Tunjukkan atau sembunyikan bahagian belakang apabila diputar 180°',
       html: `<div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">visible + rotate-y:180</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:primary text:white rounded:small backface:visible rotate-y:180">👀</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">hidden + rotate-y:180</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:danger text:white rounded:small backface:hidden rotate-y:180">🙈</div>

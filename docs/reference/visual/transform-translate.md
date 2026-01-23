@@ -37,7 +37,7 @@ visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translat
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="translate-x:medium"</code> - Move elements along X, Y, or Z axis</p>
-<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div layout="flex" space="g:small">
     <span visual="text:neutral-500 text-size:small">X axis:</span>
     <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>
@@ -57,7 +57,7 @@ visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translat
 <summary>View Code</summary>
 
 ```html
-<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div layout="flex" space="g:small">
     <span visual="text:neutral-500 text-size:small">X axis:</span>
     <div space="p:small" visual="bg:primary text:white rounded:small translate-x:0">0</div>

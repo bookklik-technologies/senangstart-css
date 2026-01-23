@@ -29,7 +29,7 @@ visual="font:[family]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="font:sans"</code> - Choose between sans, serif, or mono</p>
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="font:sans">Sans-serif font</span>
   <span visual="font:serif">Serif font</span>
   <span visual="font:mono">Monospace font</span>
@@ -40,7 +40,7 @@ visual="font:[family]"
 <summary>View Code</summary>
 
 ```html
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="font:sans">Sans-serif font</span>
   <span visual="font:serif">Serif font</span>
   <span visual="font:mono">Monospace font</span>

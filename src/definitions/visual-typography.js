@@ -136,7 +136,7 @@ export const textOverflow = {
       titleMs: 'Limpahan Teks',
       description: 'Handle overflowing text',
       descriptionMs: 'Kendalikan teks yang melimpah',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small w:[150px]" visual="bg:primary text:white rounded:small truncate">This long text will be truncated with ellipsis</div>
   <div space="p:small w:[150px]" visual="bg:success text:white rounded:small text-clip">This long text will be clipped without ellipsis</div>
 </div>`,
@@ -171,7 +171,7 @@ export const textWrap = {
       titleMs: 'Pembalutan Teks',
       description: 'Control line wrapping',
       descriptionMs: 'Kawal pembalutan baris',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small text-wrap">This text will wrap normally when needed</div>
   <div space="p:small w:[200px]" visual="bg:success text:white rounded:small text-nowrap">This text won't wrap at all</div>
   <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small text-balance">This heading text is balanced</div>
@@ -209,7 +209,7 @@ export const whitespace = {
       titleMs: 'Ruang Putih',
       description: 'Control whitespace handling',
       descriptionMs: 'Kawal pengendalian ruang putih',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small" visual="bg:primary text:white rounded:small whitespace:normal">Normal   spaces   collapse</div>
   <div space="p:small" visual="bg:success text:white rounded:small whitespace:nowrap">This text won't wrap to next line</div>
   <div space="p:small" visual="bg:warning text:black rounded:small whitespace:pre">Preserved   spaces   here</div>
@@ -245,7 +245,7 @@ export const wordBreak = {
       titleMs: 'Pemecahan Perkataan',
       description: 'Control word breaking',
       descriptionMs: 'Kawal pemecahan perkataan',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small w:[120px]" visual="bg:primary text:white rounded:small break-normal">Supercalifragilisticexpialidocious</div>
   <div space="p:small w:[120px]" visual="bg:success text:white rounded:small break-words">Supercalifragilisticexpialidocious</div>
   <div space="p:small w:[120px]" visual="bg:warning text:black rounded:small break-all">Supercalifragilisticexpialidocious</div>
@@ -316,7 +316,7 @@ export const textIndent = {
       titleMs: 'Inden Teks',
       description: 'Indent first line of text',
       descriptionMs: 'Inden baris pertama teks',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <p space="p:small" visual="bg:primary text:white rounded:small indent:0">No indent on this text paragraph.</p>
   <p space="p:small" visual="bg:success text:white rounded:small indent:medium">Medium indent on this first line of the paragraph.</p>
   <p space="p:small" visual="bg:warning text:black rounded:small indent:big">Bigger indent on this first line of the paragraph.</p>
@@ -461,7 +461,7 @@ export const lineClamp = {
       titleMs: 'Had Baris',
       description: 'Limit text to specific lines',
       descriptionMs: 'Hadkan teks kepada baris tertentu',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <div space="p:small w:[200px]" visual="bg:primary text:white rounded:small line-clamp:1">This is a very long text that will be clamped to just one single line with ellipsis.</div>
   <div space="p:small w:[200px]" visual="bg:success text:white rounded:small line-clamp:2">This is a very long text that will be clamped to exactly two lines with ellipsis at the end.</div>
   <div space="p:small w:[200px]" visual="bg:warning text:black rounded:small line-clamp:3">This is a very long text that will be clamped to exactly three lines with ellipsis shown at the end of the third line.</div>

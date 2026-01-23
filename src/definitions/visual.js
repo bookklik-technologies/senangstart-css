@@ -127,7 +127,7 @@ export const fontSize = {
       titleMs: 'Saiz Fon',
       description: 'Scale text size with paired line-height',
       descriptionMs: 'Skala saiz teks dengan ketinggian baris berpasangan',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="text-size:mini">mini (0.75rem / 1rem)</span>
   <span visual="text-size:small">small (0.875rem / 1.25rem)</span>
   <span visual="text-size:base">base (1rem / 1.5rem)</span>
@@ -210,7 +210,7 @@ export const fontFamily = {
       titleMs: 'Keluarga Fon',
       description: 'Choose between sans, serif, or mono',
       descriptionMs: 'Pilih antara sans, serif, atau mono',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="font:sans">Sans-serif font</span>
   <span visual="font:serif">Serif font</span>
   <span visual="font:mono">Monospace font</span>
@@ -358,7 +358,7 @@ export const letterSpacing = {
       titleMs: 'Jarak Huruf',
       description: 'Adjust spacing between characters',
       descriptionMs: 'Laraskan jarak antara aksara',
-      html: `<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="tracking:tighter">tighter spacing</span>
   <span visual="tracking:normal">normal spacing</span>
   <span visual="tracking:widest">widest spacing</span>
@@ -397,7 +397,7 @@ export const lineHeight = {
       titleMs: 'Ketinggian Baris',
       description: 'Control vertical spacing between lines',
       descriptionMs: 'Kawal jarak menegak antara baris',
-      html: `<div layout="flex:col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+      html: `<div layout="flex col" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <p space="m:0" visual="leading:tight">Tight leading<br>for headings</p>
   <p space="m:0" visual="leading:normal">Normal leading<br>for body text</p>
   <p space="m:0" visual="leading:loose">Loose leading<br>for readability</p>

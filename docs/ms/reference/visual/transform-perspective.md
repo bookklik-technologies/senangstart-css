@@ -34,19 +34,19 @@ visual="perspective:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="perspective:normal"</code> - Kawal persepsi kedalaman 3D - terapkan pada induk, transformasi anak</p>
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">dramatic</span>
     <div space="p:medium" visual="perspective:dramatic">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">normal</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">far</span>
     <div space="p:medium" visual="perspective:far">
       <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:45">3D</div>
@@ -60,19 +60,19 @@ visual="perspective:[value]"
 
 ```html
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">dramatic</span>
     <div space="p:medium" visual="perspective:dramatic">
       <div space="p:small" visual="bg:primary text:white rounded:small rotate-y:45">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">normal</span>
     <div space="p:medium" visual="perspective:normal">
       <div space="p:small" visual="bg:success text:white rounded:small rotate-y:45">3D</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">far</span>
     <div space="p:medium" visual="perspective:far">
       <div space="p:small" visual="bg:warning text:black rounded:small rotate-y:45">3D</div>

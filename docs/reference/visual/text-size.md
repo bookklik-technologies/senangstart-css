@@ -40,7 +40,7 @@ visual="text-size:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="text-size:big"</code> - Scale text size with paired line-height</p>
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="text-size:mini">mini (0.75rem / 1rem)</span>
   <span visual="text-size:small">small (0.875rem / 1.25rem)</span>
   <span visual="text-size:base">base (1rem / 1.5rem)</span>
@@ -53,7 +53,7 @@ visual="text-size:[value]"
 <summary>View Code</summary>
 
 ```html
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="text-size:mini">mini (0.75rem / 1rem)</span>
   <span visual="text-size:small">small (0.875rem / 1.25rem)</span>
   <span visual="text-size:base">base (1rem / 1.5rem)</span>

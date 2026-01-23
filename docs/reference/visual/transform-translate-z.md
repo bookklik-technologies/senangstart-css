@@ -30,19 +30,19 @@ visual="translate-z:[value]"
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="translate-z:near"</code> - Move elements forward or backward in 3D space</p>
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:far</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:primary text:white rounded:small translate-z:far">far</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:0</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:success text:white rounded:small translate-z:0">0</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:near</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:warning text:black rounded:small translate-z:near">near</div>
@@ -56,19 +56,19 @@ visual="translate-z:[value]"
 
 ```html
 <div layout="flex" space="g:big p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:far</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:primary text:white rounded:small translate-z:far">far</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:0</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:success text:white rounded:small translate-z:0">0</div>
     </div>
   </div>
-  <div layout="flex:col" space="g:tiny">
+  <div layout="flex col" space="g:tiny">
     <span visual="text:neutral-500 text-size:tiny">translate-z:near</span>
     <div space="p:medium" visual="perspective:near">
       <div space="p:small" visual="bg:warning text:black rounded:small translate-z:near">near</div>

@@ -32,7 +32,7 @@ visual="tracking:[value]"
 
 <div layout="flex col" space="g:medium">
   <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>visual="tracking:wide"</code> - Adjust spacing between characters</p>
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="tracking:tighter">tighter spacing</span>
   <span visual="tracking:normal">normal spacing</span>
   <span visual="tracking:widest">widest spacing</span>
@@ -43,7 +43,7 @@ visual="tracking:[value]"
 <summary>View Code</summary>
 
 ```html
-<div layout="flex:col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
   <span visual="tracking:tighter">tighter spacing</span>
   <span visual="tracking:normal">normal spacing</span>
   <span visual="tracking:widest">widest spacing</span>
