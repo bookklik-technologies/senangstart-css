@@ -24,7 +24,15 @@ export const padding = {
     { property: 'p-x', css: 'padding-left: var(--s-{value}); padding-right: var(--s-{value});', description: 'Horizontal', descriptionMs: 'Mendatar' },
     { property: 'p-y', css: 'padding-top: var(--s-{value}); padding-bottom: var(--s-{value});', description: 'Vertical', descriptionMs: 'Menegak' }
   ],
-  scaleValues: ['none', 'tiny', 'small', 'medium', 'big', 'giant', 'vast'],
+  scaleValues: [
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'small', 'small-2x', 'small-3x', 'small-4x',
+    'medium', 'medium-2x', 'medium-3x', 'medium-4x',
+    'large', 'large-2x', 'large-3x', 'large-4x',
+    'big', 'big-2x', 'big-3x', 'big-4x',
+    'giant', 'giant-2x', 'giant-3x', 'giant-4x',
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x'
+  ],
   supportsArbitrary: true,
   examples: [
     { code: '<div space="p:medium">Padding all sides</div>', description: 'Medium padding' },
@@ -89,7 +97,16 @@ export const margin = {
     { property: 'm-x', css: 'margin-left: var(--s-{value}); margin-right: var(--s-{value});', description: 'Horizontal', descriptionMs: 'Mendatar' },
     { property: 'm-y', css: 'margin-top: var(--s-{value}); margin-bottom: var(--s-{value});', description: 'Vertical', descriptionMs: 'Menegak' }
   ],
-  scaleValues: ['none', 'tiny', 'small', 'medium', 'big', 'giant', 'vast', 'auto'],
+  scaleValues: [
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'small', 'small-2x', 'small-3x', 'small-4x',
+    'medium', 'medium-2x', 'medium-3x', 'medium-4x',
+    'large', 'large-2x', 'large-3x', 'large-4x',
+    'big', 'big-2x', 'big-3x', 'big-4x',
+    'giant', 'giant-2x', 'giant-3x', 'giant-4x',
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
+    'auto'
+  ],
   supportsArbitrary: true,
   examples: [
     { code: '<div space="m:medium">Margin all sides</div>', description: 'Medium margin' },
@@ -148,7 +165,15 @@ export const gap = {
     { property: 'g-x', css: 'column-gap: var(--s-{value});', description: 'Column gap', descriptionMs: 'Ruang lajur' },
     { property: 'g-y', css: 'row-gap: var(--s-{value});', description: 'Row gap', descriptionMs: 'Ruang baris' }
   ],
-  scaleValues: ['none', 'tiny', 'small', 'medium', 'big', 'giant', 'vast'],
+  scaleValues: [
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'small', 'small-2x', 'small-3x', 'small-4x',
+    'medium', 'medium-2x', 'medium-3x', 'medium-4x',
+    'large', 'large-2x', 'large-3x', 'large-4x',
+    'big', 'big-2x', 'big-3x', 'big-4x',
+    'giant', 'giant-2x', 'giant-3x', 'giant-4x',
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x'
+  ],
   supportsArbitrary: true,
   examples: [
     { code: '<div layout="flex" space="g:medium">Gap between items</div>', description: 'Flex gap' },
@@ -211,7 +236,15 @@ export const width = {
     { property: 'min-w', css: 'min-width: var(--s-{value});', description: 'Minimum width', descriptionMs: 'Lebar minimum' },
     { property: 'max-w', css: 'max-width: var(--s-{value});', description: 'Maximum width', descriptionMs: 'Lebar maksimum' }
   ],
-  scaleValues: ['none', 'tiny', 'small', 'medium', 'big', 'giant', 'vast'],
+  scaleValues: [
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'small', 'small-2x', 'small-3x', 'small-4x',
+    'medium', 'medium-2x', 'medium-3x', 'medium-4x',
+    'large', 'large-2x', 'large-3x', 'large-4x',
+    'big', 'big-2x', 'big-3x', 'big-4x',
+    'giant', 'giant-2x', 'giant-3x', 'giant-4x',
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x'
+  ],
   supportsArbitrary: true,
   examples: [
     { code: '<div space="w:[100%]">Full width</div>', description: 'Full width' },
@@ -270,7 +303,15 @@ export const height = {
     { property: 'min-h', css: 'min-height: var(--s-{value});', description: 'Minimum height', descriptionMs: 'Tinggi minimum' },
     { property: 'max-h', css: 'max-height: var(--s-{value});', description: 'Maximum height', descriptionMs: 'Tinggi maksimum' }
   ],
-  scaleValues: ['none', 'tiny', 'small', 'medium', 'big', 'giant', 'vast'],
+  scaleValues: [
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'small', 'small-2x', 'small-3x', 'small-4x',
+    'medium', 'medium-2x', 'medium-3x', 'medium-4x',
+    'large', 'large-2x', 'large-3x', 'large-4x',
+    'big', 'big-2x', 'big-3x', 'big-4x',
+    'giant', 'giant-2x', 'giant-3x', 'giant-4x',
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x'
+  ],
   supportsArbitrary: true,
   examples: [
     { code: '<div space="h:[100vh]">Full viewport height</div>', description: 'Full height' },

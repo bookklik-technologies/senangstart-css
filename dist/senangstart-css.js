@@ -178,15 +178,47 @@
       theme: {
         spacing: {
           "none": "0px",
+          // No space
           "thin": "1px",
+          // Hairline (for borders)
           "regular": "2px",
+          // Standard border
           "thick": "3px",
+          // Bold border
           "tiny": "4px",
+          // Small offsets
+          "tiny-2x": "6px",
+          // Tiny multiplied
           "small": "8px",
+          "small-2x": "10px",
+          "small-3x": "12px",
+          "small-4x": "14px",
           "medium": "16px",
-          "big": "32px",
-          "giant": "64px",
-          "vast": "128px"
+          "medium-2x": "20px",
+          "medium-3x": "24px",
+          "medium-4x": "28px",
+          "large": "32px",
+          "large-2x": "36px",
+          "large-3x": "40px",
+          "large-4x": "44px",
+          "big": "48px",
+          "big-2x": "56px",
+          "big-3x": "64px",
+          "big-4x": "80px",
+          "giant": "96px",
+          "giant-2x": "112px",
+          "giant-3x": "128px",
+          "giant-4x": "144px",
+          "vast": "160px",
+          "vast-2x": "176px",
+          "vast-3x": "192px",
+          "vast-4x": "208px",
+          "vast-5x": "224px",
+          "vast-6x": "240px",
+          "vast-7x": "256px",
+          "vast-8x": "288px",
+          "vast-9x": "320px",
+          "vast-10x": "384px"
         },
         radius: {
           "none": "0px",

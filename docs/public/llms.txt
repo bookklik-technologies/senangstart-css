@@ -1,0 +1,3320 @@
+# @bookklik/senangstart-css
+> Fluent Style Utilities for Humans and AI
+
+## Docs
+- [Documentation](https://senangstart.com/docs)
+
+## Source
+- [Repository](https://github.com/bookklik-technologies/senangstart-css)
+
+
+# Documentation Guides
+
+# What is SenangStart CSS?
+
+SenangStart CSS is a utility-first CSS framework that replaces abstract naming conventions with **Natural Adjectives**.
+
+## The Problem
+
+Traditional utility frameworks make you memorize arbitrary scales:
+
+```html
+<!-- What does px-4 even mean? -->
+<div class="px-4 py-8 mt-16 mb-32">...</div>
+```
+
+Is `px-4` pixels? Is `mt-16` bigger than `mb-32`? You need to constantly look up the documentation.
+
+## The Solution
+
+SenangStart uses words you already understand:
+
+```html
+<!-- Instantly understandable -->
+<div space="p-x:small p-y:medium m-t:big m-b:giant">...</div>
+```
+
+**No mental math. No lookup tables. Just describe what you want.**
+
+## Core Principles
+
+### 1. Natural Language First
+
+| Instead of... | Use... |
+|---------------|--------|
+| `px-4` | `tiny` |
+| `px-8` | `small` |
+| `px-16` | `medium` |
+| `px-32` | `big` |
+| `px-64` | `giant` |
+| `px-128` | `vast` |
+
+### 2. Separation of Concerns
+
+Three attributes, three responsibilities:
+
+| Attribute | Purpose | Example |
+|-----------|---------|---------|
+| `layout` | Structure & flow | `layout="flex col center"` |
+| `space` | Spacing & sizing | `space="p:medium g:small"` |
+| `visual` | Colors & appearance | `visual="bg:white rounded:big"` |
+
+### 3. AI-Friendly
+
+SenangStart generates context files that help AI assistants understand your design system:
+
+> **When user says:** "tighten it up"  
+> **AI knows to:** Scale spacing DOWN (medium → small → tiny)
+
+> **When user says:** "give it air"  
+> **AI knows to:** Scale spacing UP (medium → big → giant)
+
+## Next Steps
+
+- [Getting Started](/guide/getting-started) — Install and use SenangStart
+- [The Natural Scale](/guide/natural-scale) — Understand the spacing philosophy
+- [Tri-Attribute Syntax](/guide/tri-attribute) — Learn layout, space, and visual
+
+
+# Why Natural Language?
+
+The philosophy behind SenangStart's natural adjective approach.
+
+## The Problem with Numbers
+
+Traditional utility frameworks use abstract numeric scales:
+
+```html
+<!-- What do these numbers mean? -->
+<div class="p-4 m-8 gap-2 text-xl">
+```
+
+Every developer asks:
+- Is `p-4` bigger than `m-8`?
+- What's the difference between `gap-2` and `gap-4`?
+- Is `text-xl` larger than `text-lg`?
+
+**You constantly lookup documentation.** Mental overhead slows you down.
+
+## The Natural Solution
+
+SenangStart uses words you already understand:
+
+```html
+<!-- Instantly clear -->
+<div space="p:medium m:big g:small" visual="text-size:big">
+```
+
+No lookup needed. You *know* that:
+- `big` is larger than `medium`
+- `medium` is larger than `small`
+- `giant` is larger than `big`
+
+## Physical Mental Models
+
+Each scale maps to a physical object you can visualize:
+
+| Keyword | Physical Model | Example Use |
+|---------|---------------|-------------|
+| `tiny` | 🪨 Pebble | Icon gaps, borders |
+| `small` | 📦 Matchbox | Form field spacing |
+| `medium` | 📱 Smartphone | Standard padding |
+| `big` | 💻 Laptop | Section spacing |
+| `giant` | 🚪 Door | Layout divisions |
+| `vast` | 🏠 House | Hero sections |
+
+When you think "I need laptop-sized spacing here", you write `big`.
+
+## AI-Friendly Communication
+
+Natural language works better with AI assistants:
+
+### Traditional Approach
+> "Make the padding larger"  
+> AI: "Should I use p-6, p-8, or p-12?"
+
+### SenangStart Approach
+> "Make the padding larger"  
+> AI: "Changed from `medium` to `big`" ✓
+
+The AI understands the *intent* behind your words.
+
+## Semantic Conversations
+
+With SenangStart, you can speak naturally:
+
+| You Say | AI Understands |
+|---------|---------------|
+| "tighten it up" | Scale DOWN (medium → small → tiny) |
+| "give it breathing room" | Scale UP (medium → big → giant) |
+| "make it more compact" | Use smaller spacing |
+| "it feels cramped" | Increase spacing |
+| "too much whitespace" | Reduce spacing |
+
+## Separation of Concerns
+
+Three attributes keep your code organized:
+
+```html
+<div
+  layout="flex col center"   <!-- Structure -->
+  space="p:medium g:small"   <!-- Sizing -->
+  visual="bg:white rounded:big"  <!-- Appearance -->
+>
+```
+
+Anyone reading this code instantly knows:
+- **What it does** (flexbox, column, centered)
+- **How big it is** (medium padding, small gap)
+- **How it looks** (white, rounded)
+
+## The Intent-First Mindset
+
+Stop thinking in pixels. Start describing intent.
+
+| Instead of... | Think... |
+|---------------|----------|
+| "I need 16px padding" | "I need medium padding" |
+| "Add 8px gap" | "Add a small gap" |
+| "Make it 32px margin" | "Give it big margin" |
+
+**Your code becomes self-documenting.**
+
+
+# Getting Started
+
+Get up and running with SenangStart CSS in minutes.
+
+## CDN (Zero Build) <Badge type="tip" text="Recommended for prototyping" />
+
+The fastest way to try SenangStart — no build step required:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My App</title>
+  <!-- Just add this single script -->
+  <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
+</head>
+<body>
+  <div
+    layout="flex col center"
+    space="p:big"
+    visual="bg:primary text:white rounded:big"
+  >
+    <h1 visual="text-size:giant font:bold">Hello SenangStart!</h1>
+    <p space="m-t:small">Zero config, instant styling.</p>
+  </div>
+</body>
+</html>
+```
+
+### How CDN JIT Works
+
+1. **Scans DOM** — Finds all `layout`, `space`, and `visual` attributes
+2. **Generates CSS** — Compiles styles on-the-fly in the browser
+3. **Injects Styles** — Creates `<style>` tags with compiled CSS
+4. **Watches Changes** — Uses MutationObserver for dynamic updates
+
+### Custom CDN Config
+
+```html
+<script type="senangstart/config">
+{
+  "theme": {
+    "colors": {
+      "brand": "#8B5CF6",
+      "accent": "#EC4899"
+    }
+  }
+}
+</script>
+<script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
+```
+
+::: warning
+CDN JIT is perfect for prototyping and learning. For production, use the CLI build for better performance.
+:::
+
+## CLI (Production) <Badge type="info" text="Recommended for production" />
+
+### Installation
+
+```bash
+# Install globally
+npm install -g @bookklik/senangstart-css
+
+# Or use npx
+npx @bookklik/senangstart-css init
+```
+
+### Initialize Config
+
+```bash
+senangstart init
+```
+
+This creates `senangstart.config.js` in your project root.
+
+### Add to HTML
+
+```html
+<head>
+  <link rel="stylesheet" href="./public/senangstart.css">
+</head>
+```
+
+### Start Development
+
+```bash
+senangstart dev
+```
+
+This watches your files and rebuilds on changes.
+
+### Build for Production
+
+```bash
+senangstart build --minify
+```
+
+## Your First Component
+
+Let's create a simple card:
+
+```html
+<div
+  layout="flex col"
+  space="w:[320px] p:medium"
+  visual="bg:white rounded:big shadow:medium"
+>
+  <div layout="flex between" space="m-b:big">
+    <span visual="font:bold text-size:big">Profile</span>
+    <span visual="text:primary">Edit</span>
+  </div>
+  <div layout="flex col" space="g:small">
+    <label visual="text:grey text-size:small">Username</label>
+    <div visual="text:dark">@senang_dev</div>
+  </div>
+</div>
+```
+
+**What's happening:**
+
+- `layout="flex col"` — Flexbox, vertical direction
+- `space="w:[320px] p:medium"` — 320px width, medium padding
+- `visual="bg:white rounded:big shadow:medium"` — White background, rounded corners, shadow
+
+## Next Steps
+
+- [Tri-Attribute Syntax](/guide/tri-attribute) — Deep dive into layout, space, visual
+- [The Natural Scale](/guide/natural-scale) — Understand spacing philosophy
+- [Configuration](/guide/configuration) — Customize the theme
+
+
+# The Natural Scale
+
+SenangStart uses natural adjectives that map to physical objects you can visualize.
+
+## The Philosophy
+
+Instead of arbitrary numbers, think of **physical objects**:
+
+| Keyword | Size | Mental Model |
+|---------|------|--------------|
+| `none` | 0px | No space |
+| `tiny` | 4px | 🪨 **Pebble** — Borders, small offsets |
+| `small` | 8px | 📦 **Matchbox** — Group related items |
+| `medium` | 16px | 📱 **Smartphone** — Standard default |
+| `big` | 32px | 💻 **Laptop** — Separate sections |
+| `giant` | 64px | 🚪 **Door** — Layout divisions |
+| `vast` | 128px | 🏠 **House** — Hero sections |
+
+## Using the Scale
+
+### When to use each size
+
+**`tiny` (4px)** — For subtle details
+- Icon spacing within buttons
+- Border widths
+- Small visual offsets
+
+```html
+<button space="p-x:small p-y:tiny">
+  <icon /> Button
+</button>
+```
+
+**`small` (8px)** — For grouping related items
+- Gap between label and input
+- Spacing between avatar and name
+- Tight list items
+
+```html
+<div layout="flex col" space="g:small">
+  <label>Email</label>
+  <input type="email" />
+</div>
+```
+
+**`medium` (16px)** — The standard default
+- Card padding
+- Form field margins
+- Standard component spacing
+
+```html
+<div space="p:medium">
+  Standard card content
+</div>
+```
+
+**`big` (32px)** — For separating distinct sections
+- Between header and content
+- Between form groups
+- Between major UI blocks
+
+```html
+<header space="m-b:big">Page Title</header>
+<main>Content separated from header</main>
+```
+
+**`giant` (64px)** — For layout divisions
+- Between page sections
+- Major structural breaks
+- Desktop navigation padding
+
+```html
+<section space="p-y:giant">
+  Major page section
+</section>
+```
+
+**`vast` (128px)** — For hero sections and major spacing
+- Hero section padding
+- Large decorative spacing
+- Full-bleed sections
+
+```html
+<section space="p:vast" visual="bg:dark">
+  <h1>Welcome to the App</h1>
+</section>
+```
+
+## Natural Language Mapping
+
+When talking about spacing adjustments, use natural language:
+
+| You say... | Action |
+|------------|--------|
+| "tighten it up" | Scale DOWN (medium → small → tiny) |
+| "compact" | Use small or tiny |
+| "give it air" | Scale UP (medium → big → giant) |
+| "breathe" | Increase spacing |
+| "spacious" | Use big or giant |
+| "cramped" | Too much tiny/small, increase scale |
+
+## Customizing the Scale
+
+Override defaults in `senangstart.config.js`:
+
+```javascript
+export default {
+  theme: {
+    spacing: {
+      'tiny': '2px',      // Tighter tiny
+      'huge': '256px',    // Add custom scale
+      'massive': '512px'  // Even bigger!
+    }
+  }
+}
+```
+
+Use your custom scales:
+
+```html
+<section space="p:huge">Huge padding</section>
+<div space="m-b:massive">Massive margin</div>
+```
+
+
+# Tri-Attribute Syntax
+
+SenangStart separates styling concerns into three distinct attributes.
+
+## Overview
+
+| Attribute | Purpose | Example |
+|-----------|---------|---------|
+| `layout` | Structure & positioning | `layout="flex col center"` |
+| `space` | Sizing & spacing | `space="p:medium g:small"` |
+| `visual` | Colors & appearance | `visual="bg:white rounded:big"` |
+
+## Why Three Attributes?
+
+### Traditional CSS classes are chaotic:
+
+```html
+<div class="flex flex-col items-center p-4 gap-2 bg-white rounded-lg shadow-md">
+```
+
+Everything is mixed together. What's layout? What's spacing? What's visual?
+
+### SenangStart is organized:
+
+```html
+<div
+  layout="flex col center"
+  space="p:medium g:small"
+  visual="bg:white rounded:big shadow:medium"
+>
+```
+
+**Clear separation.** Anyone reading this code instantly knows:
+- **Structure:** Flexbox column, centered
+- **Sizing:** Medium padding, small gap
+- **Appearance:** White, rounded, shadowed
+
+## The `layout` Attribute
+
+Controls **how elements are positioned** and **how they flow**.
+
+### Display Types
+
+```html
+<div layout="flex">Flexbox container</div>
+<div layout="grid">Grid container</div>
+<div layout="block">Block element</div>
+<div layout="hidden">Hidden element</div>
+```
+
+### Flex Direction
+
+```html
+<div layout="flex row">Horizontal (default)</div>
+<div layout="flex col">Vertical</div>
+<div layout="flex row-reverse">Reversed horizontal</div>
+<div layout="flex col-reverse">Reversed vertical</div>
+```
+
+### Alignment
+
+```html
+<div layout="flex center">Center both axes</div>
+<div layout="flex between">Space between items</div>
+<div layout="flex start">Align to start</div>
+<div layout="flex end">Align to end</div>
+```
+
+### Position
+
+```html
+<nav layout="fixed z:top">Fixed navigation</nav>
+<div layout="sticky">Sticky element</div>
+<div layout="absolute z:high">Absolute positioned</div>
+<div layout="relative">Relative positioned</div>
+```
+
+## The `space` Attribute
+
+Controls **sizing and spacing** using the natural scale.
+
+### Syntax
+
+```
+[breakpoint]:[property]:[scale]
+```
+
+### Padding
+
+```html
+<div space="p:medium">All sides</div>
+<div space="p-x:big p-y:small">Horizontal & vertical</div>
+<div space="p-t:small p-b:big">Top & bottom</div>
+```
+
+### Margin
+
+```html
+<div space="m:medium">All sides</div>
+<div space="m-b:big">Bottom only</div>
+<div space="m-x:auto">Center horizontally</div>
+```
+
+### Gap (Flex/Grid)
+
+```html
+<div layout="flex" space="g:small">Small gap</div>
+<div layout="grid" space="g:medium">Medium gap</div>
+```
+
+### Sizing
+
+```html
+<div space="w:[100%] h:[400px]">Explicit size</div>
+<div space="max-w:[1200px] min-h:[80vh]">Constraints</div>
+```
+
+### Arbitrary Values (Escape Hatch)
+
+Use brackets for specific values:
+
+```html
+<div space="w:[350px]">350px width</div>
+<div space="p:[20px_40px]">20px top/bottom, 40px left/right</div>
+<div space="m-t:[5rem]">5rem top margin</div>
+```
+
+## The `visual` Attribute
+
+Controls **colors, textures, and appearance**.
+
+### Background
+
+```html
+<div visual="bg:white">White background</div>
+<div visual="bg:primary">Primary color</div>
+<div visual="bg:[#FF5733]">Custom hex</div>
+```
+
+### Text
+
+```html
+<span visual="text:dark">Dark text</span>
+<span visual="text:grey text-size:small">Grey, small text</span>
+<span visual="font:bold">Bold text</span>
+```
+
+### Borders & Shadows
+
+```html
+<div visual="rounded:medium shadow:big">Rounded with shadow</div>
+<div visual="border:grey border-w:[2px]">Grey border</div>
+```
+
+### Combining Properties
+
+```html
+<div visual="bg:white rounded:big shadow:medium text:dark">
+  Card with multiple visual properties
+</div>
+```
+
+## Combining All Three
+
+Here's a complete example:
+
+```html
+<div
+  layout="flex col"
+  space="w:[320px] p:medium g:small"
+  visual="bg:white rounded:big shadow:medium"
+>
+  <h2 visual="font:bold text-size:big text:dark">Card Title</h2>
+  <p visual="text:grey">Card description goes here.</p>
+  <button
+    space="p-x:big p-y:small"
+    visual="bg:primary text:white rounded:medium"
+  >
+    Action
+  </button>
+</div>
+```
+
+**Reading this code:**
+- The container is a vertical flex column, 320px wide, with medium padding, small gap, white background, big rounded corners, and medium shadow
+- The title is bold, big text, dark color
+- The button has big horizontal padding, small vertical padding, primary background, white text, medium rounded corners
+
+
+# CDN (Zero Build)
+
+The fastest way to use SenangStart CSS — no build step required.
+
+## Quick Start
+
+Add a single script tag to your HTML:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My App</title>
+  <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
+</head>
+<body>
+  <div
+    layout="flex col center"
+    space="p:big"
+    visual="bg:primary text:white rounded:big"
+  >
+    Hello SenangStart!
+  </div>
+</body>
+</html>
+```
+
+That's it! No npm, no build process, no configuration.
+
+## How It Works
+
+The CDN JIT (Just-In-Time) runtime:
+
+1. **Scans the DOM** — Finds all elements with `layout`, `space`, and `visual` attributes
+2. **Generates CSS** — Compiles styles on-the-fly in the browser
+3. **Injects Styles** — Creates a `<style>` tag with the compiled CSS
+4. **Watches Changes** — Uses MutationObserver to handle dynamic content
+
+## Custom Configuration
+
+Override default theme values with inline config:
+
+```html
+<script type="senangstart/config">
+{
+  "theme": {
+    "colors": {
+      "brand": "#8B5CF6",
+      "accent": "#EC4899"
+    },
+    "spacing": {
+      "huge": "256px"
+    }
+  }
+}
+</script>
+<script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
+```
+
+Now you can use your custom values:
+
+```html
+<div visual="bg:brand text:accent">Custom colors!</div>
+<div space="p:huge">Huge padding!</div>
+```
+
+## Local Development
+
+For local development without a CDN, use the local JIT file:
+
+```html
+<script src="./path/to/senangstart/src/cdn/senangstart-engine.js"></script>
+```
+
+## Performance Considerations
+
+::: warning When to Use CLI Instead
+The CDN JIT is perfect for:
+- Prototyping and experimentation
+- Learning the framework
+- Small projects and demos
+- Rapid development
+
+For production applications, consider the [CLI build](/guide/cli) for:
+- Better performance (pre-compiled CSS)
+- Smaller file sizes
+- No runtime overhead
+:::
+
+## Browser Support
+
+The CDN JIT uses modern JavaScript features:
+- ES6+ syntax
+- MutationObserver API
+- CSS Custom Properties
+
+Supported in all modern browsers (Chrome, Firefox, Safari, Edge).
+
+## Debugging
+
+Open your browser's Developer Tools to see:
+
+```
+[SenangStart CSS] JIT runtime initialized ✓
+```
+
+If you don't see this message, check that:
+1. The script is loading correctly
+2. There are no JavaScript errors in the console
+3. The config JSON (if used) is valid
+
+
+# CLI Build
+
+Use the CLI for production-ready builds with optimized output.
+
+## Installation
+
+```bash
+# Install globally
+npm install -g @bookklik/senangstart-css
+
+# Or use npx (no install)
+npx @bookklik/senangstart-css init
+```
+
+## Commands
+
+### `senangstart init`
+
+Create a configuration file:
+
+```bash
+senangstart init
+```
+
+This creates `senangstart.config.js` in your project root with sensible defaults.
+
+### `senangstart build`
+
+Compile CSS from your source files:
+
+```bash
+senangstart build
+```
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--minify` | Minify the output CSS |
+| `--config <path>` | Path to config file |
+
+```bash
+# Production build with minification
+senangstart build --minify
+
+# Use custom config
+senangstart build --config ./custom.config.js
+```
+
+### `senangstart dev`
+
+Watch mode for development:
+
+```bash
+senangstart dev
+```
+
+This watches your source files and rebuilds automatically on changes.
+
+## Output Files
+
+The CLI generates three files:
+
+| File | Description |
+|------|-------------|
+| `public/senangstart.css` | Compiled stylesheet |
+| `.cursorrules` | AI context file for LLMs |
+| `types/senang.d.ts` | TypeScript definitions |
+
+## Project Setup
+
+### 1. Initialize
+
+```bash
+cd your-project
+npm init -y
+npm i @bookklik/senangstart-css
+npx senangstart init
+```
+
+### 2. Add HTML
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="./public/senangstart.css">
+</head>
+<body>
+  <div
+    layout="flex col center"
+    space="p:big"
+    visual="bg:primary text:white rounded:big"
+  >
+    Hello SenangStart!
+  </div>
+</body>
+</html>
+```
+
+### 3. Build
+
+```bash
+npx senangstart build
+```
+
+### 4. Develop
+
+```bash
+npx senangstart dev
+```
+
+## Package.json Scripts
+
+Add these scripts to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "build:css": "senangstart build --minify",
+    "dev:css": "senangstart dev"
+  }
+}
+```
+
+## Integration with Frameworks
+
+### Vite / React / Vue
+
+Add to your build process:
+
+```json
+{
+  "scripts": {
+    "dev": "concurrently \"vite\" \"senangstart dev\"",
+    "build": "senangstart build --minify && vite build"
+  }
+}
+```
+
+### Next.js
+
+Import the generated CSS in `_app.js`:
+
+```jsx
+import '../public/senangstart.css'
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
+
+export default MyApp
+```
+
+## CI/CD Integration
+
+Add to your build pipeline:
+
+```yaml
+# GitHub Actions example
+- name: Build CSS
+  run: npx senangstart build --minify
+```
+
+## CDN vs CLI Comparison
+
+| Feature | CDN JIT | CLI Build |
+|---------|---------|-----------|
+| Setup | Zero config | Requires npm |
+| Build Step | None | Required |
+| Performance | Runtime overhead | Pre-compiled |
+| File Size | ~15KB JS | Only CSS used |
+| Use Case | Prototyping | Production |
+| Dynamic Content | ✅ Automatic | Requires rebuild |
+
+
+# Configuration
+
+Customize SenangStart CSS with `senangstart.config.js`.
+
+## Creating a Config File
+
+Run the init command to create a config file:
+
+```bash
+senangstart init
+```
+
+Or create it manually:
+
+```javascript
+// senangstart.config.js
+export default {
+  // Files to scan for SenangStart attributes
+  content: [
+    './**/*.html',
+    './src/**/*.{html,jsx,tsx,vue,svelte}',
+    './components/**/*.{html,jsx,tsx}'
+  ],
+
+  // Output configuration
+  output: {
+    css: './public/senangstart.css',
+    minify: true,
+    aiContext: './.cursorrules',
+    typescript: './types/senang.d.ts'
+  },
+
+  // Theme customization
+  theme: {
+    // Your overrides here
+  }
+}
+```
+
+## Content Patterns
+
+Specify which files to scan:
+
+```javascript
+content: [
+  './**/*.html',           // All HTML files
+  './src/**/*.jsx',        // React components
+  './pages/**/*.vue',      // Vue pages
+  './components/**/*.svelte'
+]
+```
+
+## Output Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `css` | Output CSS path | `./public/senangstart.css` |
+| `minify` | Minify output | `false` |
+| `aiContext` | AI context file path | `./.cursorrules` |
+| `typescript` | TypeScript definitions path | `./types/senang.d.ts` |
+
+## Theme Customization
+
+### Custom Spacing
+
+```javascript
+theme: {
+  spacing: {
+    'tiny': '2px',       // Override existing
+    'huge': '256px',     // Add new scale
+    'massive': '512px'
+  }
+}
+```
+
+### Custom Colors
+
+```javascript
+theme: {
+  colors: {
+    'brand': '#8B5CF6',
+    'accent': '#EC4899',
+    'custom': '#FF5733'
+  }
+}
+```
+
+### Custom Breakpoints
+
+```javascript
+theme: {
+  screens: {
+    'mob': '480px',
+    'tab': '768px',
+    'lap': '1024px',
+    'desk': '1280px',
+    'wide': '1536px'    // Add wider breakpoint
+  }
+}
+```
+
+### Custom Shadows
+
+```javascript
+theme: {
+  shadow: {
+    'glow': '0 0 20px rgba(59, 130, 246, 0.5)',
+    'inset': 'inset 0 2px 4px rgba(0,0,0,0.1)'
+  }
+}
+```
+
+## Full Example
+
+```javascript
+export default {
+  content: [
+    './src/**/*.{html,jsx,tsx}',
+    './components/**/*.vue'
+  ],
+
+  output: {
+    css: './dist/styles.css',
+    minify: true,
+    aiContext: './.cursorrules',
+    typescript: './src/types/senang.d.ts'
+  },
+
+  theme: {
+    spacing: {
+      'huge': '256px'
+    },
+    colors: {
+      'brand': '#8B5CF6',
+      'accent': '#EC4899'
+    },
+    screens: {
+      'wide': '1536px'
+    }
+  }
+}
+```
+
+## Using Custom Values
+
+After configuring, use your custom scales:
+
+```html
+<div space="p:huge">Custom huge padding</div>
+<div visual="bg:brand text:accent">Custom colors</div>
+<div space="tab:p:big wide:p:huge">Custom breakpoint</div>
+```
+
+
+# Dark Mode
+
+Add dark mode styling with the `dark:` prefix, similar to Tailwind CSS.
+
+## Configuration
+
+By default, dark mode uses the `media` strategy based on system preferences. You can change this in your config:
+
+```js
+// senangstart.config.js
+export default {
+  // Option 1: System preference (default)
+  darkMode: 'media',
+  
+  // Option 2: Class-based toggle
+  darkMode: 'selector',  // Uses .dark class
+  
+  // Option 3: Custom selector
+  darkMode: ['selector', '[data-theme="dark"]']
+}
+```
+
+For CDN usage:
+```html
+<script type="senangstart/config">
+{
+  "darkMode": "selector"
+}
+</script>
+```
+
+## Basic Usage
+
+Add dark mode styles using the `dark:` prefix:
+
+```html
+<div visual="bg:white dark:bg:slate-900 text:dark dark:text:white">
+  This adapts to dark mode
+</div>
+```
+
+## Strategy Comparison
+
+### Media Strategy (Default)
+
+Automatically follows the user's OS preference:
+
+```css
+/* Generated CSS */
+@media (prefers-color-scheme: dark) {
+  [visual~="dark:bg:slate-900"] { background-color: var(--c-slate-900); }
+}
+```
+
+No JavaScript required. Respects system settings automatically.
+
+### Selector Strategy
+
+Manual control via `.dark` class:
+
+```css
+/* Generated CSS */
+.dark [visual~="dark:bg:slate-900"] { background-color: var(--c-slate-900); }
+```
+
+Toggle with JavaScript:
+```js
+document.documentElement.classList.toggle('dark');
+```
+
+## Common Patterns
+
+### Card with Dark Mode
+
+```html
+<div
+  layout="flex col"
+  space="p:medium g:small"
+  visual="
+    bg:white dark:bg:slate-800
+    rounded:big
+    shadow:medium dark:shadow:none
+    border:gray-200 dark:border:slate-700
+    border-w:[1px]
+  "
+>
+  <h3 visual="text:dark dark:text:white font:bold">Card Title</h3>
+  <p visual="text:grey dark:text:gray-400">Description text</p>
+</div>
+```
+
+### Button with Dark Mode
+
+```html
+<button
+  space="p-x:big p-y:small"
+  visual="
+    bg:primary dark:bg:blue-500
+    text:white
+    rounded:medium
+    hover:bg:blue-700 dark:hover:bg:blue-400
+  "
+>
+  Submit
+</button>
+```
+
+### Navigation
+
+```html
+<nav 
+  layout="flex between"
+  space="p:medium"
+  visual="bg:white dark:bg:slate-900"
+>
+  <a visual="text:dark dark:text:white hover:text:primary">Home</a>
+  <a visual="text:grey dark:text:gray-400 hover:text:primary">About</a>
+</nav>
+```
+
+## Toggle Implementation
+
+For the selector strategy, implement a toggle:
+
+```html
+<button onclick="toggleDarkMode()">
+  <span visual="dark:hidden">🌙</span>
+  <span visual="hidden dark:inline">☀️</span>
+</button>
+
+<script>
+function toggleDarkMode() {
+  document.documentElement.classList.toggle('dark');
+  // Optionally save preference
+  localStorage.setItem('theme', 
+    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  );
+}
+
+// Load saved preference
+if (localStorage.getItem('theme') === 'dark') {
+  document.documentElement.classList.add('dark');
+}
+</script>
+```
+
+## Tips
+
+- Use semantic color names like `slate`, `gray`, `zinc` for dark backgrounds
+- Dark text on light, light text on dark: `text:dark dark:text:white`
+- Reduce shadows in dark mode: `shadow:medium dark:shadow:none`
+- Subtle borders often look better in dark mode
+
+
+---
+title: Preflight
+description: An opinionated set of base styles that resets browser defaults
+---
+
+# Preflight
+
+Preflight is SenangStart CSS's opinionated set of base styles, designed to smooth over cross-browser inconsistencies and make it easier for you to work within the constraints of your design system.
+
+## Overview
+
+When you include SenangStart CSS in your project, Preflight is automatically applied. It's built on top of [modern-normalize](https://github.com/sindresorhus/modern-normalize) and adds additional opinionated styles that we've found helpful.
+
+## What Preflight Does
+
+### Box-Sizing Reset
+
+All elements use `border-box` sizing, making it easier to manage widths with padding and borders:
+
+```css
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+}
+```
+
+### Margins Removed
+
+Default margins are stripped from all elements for a consistent starting point:
+
+```css
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+  margin: 0;
+}
+```
+
+### Headings Reset
+
+Headings are unstyled by default, inheriting font size and weight. This encourages using semantic markup while styling headings via your design system:
+
+```css
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+```
+
+### Lists Unstyled
+
+Lists have their default styling removed. Add list styles back when you need them:
+
+```css
+ol, ul, menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+```
+
+### Images Block-Level
+
+Images and other replaced elements are set to `display: block` and constrained to their parent width:
+
+```css
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+  vertical-align: middle;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+### Form Element Normalization
+
+Form elements inherit font properties from their parent:
+
+```css
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+```
+
+### Buttons Have Cursor Pointer
+
+Buttons and elements with `role="button"` get a pointer cursor:
+
+```css
+button, [role="button"] {
+  cursor: pointer;
+}
+```
+
+## Disabling Preflight
+
+If you need to disable Preflight entirely, you can do so in your configuration:
+
+### Via Configuration File
+
+```js
+// senangstart.config.js
+export default {
+  preflight: false,
+  // ... other options
+}
+```
+
+### Via CLI Flag
+
+```bash
+# Build without Preflight
+npx senangstart build --no-preflight
+
+# Dev mode without Preflight
+npx senangstart dev --no-preflight
+```
+
+## When to Disable Preflight
+
+Consider disabling Preflight if:
+
+- You're integrating SenangStart CSS into an existing project with its own reset/normalize
+- You're using another CSS framework that already provides base styles
+- You need to preserve browser default styling for specific use cases
+
+## Full Preflight Styles
+
+For the complete list of Preflight styles, view the [preflight.js source](https://github.com/bookklik-technologies/senangstart-css/blob/main/src/compiler/generators/preflight.js).
+
+
+# Responsive Design
+
+SenangStart uses mobile-first responsive prefixes.
+
+## Breakpoints
+
+| Prefix | Min-Width | Device |
+|--------|-----------|--------|
+| (none) | 0px | Mobile (default) |
+| `mob:` | 480px | Large mobile |
+| `tab:` | 768px | Tablet |
+| `lap:` | 1024px | Laptop |
+| `desk:` | 1280px | Desktop |
+
+## Usage
+
+Add breakpoint prefixes to any space or layout value:
+
+```html
+<div space="p:small tab:p:medium lap:p:big">
+  <!-- Small padding on mobile -->
+  <!-- Medium padding on tablet+ -->
+  <!-- Big padding on laptop+ -->
+</div>
+```
+
+## Common Patterns
+
+### Responsive Padding
+
+```html
+<section space="p:medium tab:p:big desk:p:giant">
+  Content with progressive padding
+</section>
+```
+
+### Responsive Layout
+
+```html
+<div layout="flex col tab:row">
+  <!-- Stacked on mobile, horizontal on tablet+ -->
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+```
+
+### Responsive Grid
+
+```html
+<div
+  layout="grid"
+  space="g:small tab:g:medium"
+  style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));"
+>
+  <div>Card 1</div>
+  <div>Card 2</div>
+  <div>Card 3</div>
+</div>
+```
+
+### Hide on Mobile
+
+```html
+<nav layout="hidden tab:flex">
+  <!-- Hidden on mobile, flex on tablet+ -->
+</nav>
+```
+
+### Mobile Navigation
+
+```html
+<!-- Mobile menu button -->
+<button layout="block tab:hidden">☰ Menu</button>
+
+<!-- Desktop navigation -->
+<nav layout="hidden tab:flex" space="g:medium">
+  <a>Home</a>
+  <a>About</a>
+  <a>Contact</a>
+</nav>
+```
+
+## Full Responsive Example
+
+```html
+<div
+  layout="flex col lap:row"
+  space="p:medium tab:p:big gap:medium tab:gap:big"
+>
+  <!-- Sidebar -->
+  <aside
+    space="w:[100%] lap:w:[300px]"
+    visual="bg:light"
+  >
+    Sidebar content
+  </aside>
+  
+  <!-- Main content -->
+  <main space="w:[100%] lap:w:[calc(100%-300px)]">
+    Main content
+  </main>
+</div>
+```
+
+## Custom Breakpoints
+
+Override in `senangstart.config.js`:
+
+```javascript
+export default {
+  theme: {
+    screens: {
+      'mob': '480px',
+      'tab': '768px',
+      'lap': '1024px',
+      'desk': '1280px',
+      'wide': '1536px'  // Add custom breakpoint
+    }
+  }
+}
+```
+
+Use your custom breakpoint:
+
+```html
+<div space="p:big wide:p:giant">
+  Extra large padding on wide screens
+</div>
+```
+
+## Tailwind Compatibility
+
+SenangStart supports Tailwind CSS default breakpoints out-of-the-box using the `tw-` prefix. This is useful when migrating from Tailwind or when you prefer Tailwind's breakpoint scale.
+
+| Prefix | Min-Width | Tailwind Equiv. |
+|--------|-----------|-----------------|
+| `tw-sm:` | 640px | `sm:` |
+| `tw-md:` | 768px | `md:` |
+| `tw-lg:` | 1024px | `lg:` |
+| `tw-xl:` | 1280px | `xl:` |
+| `tw-2xl:` | 1536px | `2xl:` |
+
+### Usage with Tailwind Scale
+
+You can combine `tw-` prefixed breakpoints with Tailwind-style values (also prefixed with `tw-`):
+
+```html
+<div 
+  space="p:tw-4 tw-md:p:tw-8" 
+  visual="rounded:tw-lg tw-lg:shadow:tw-xl"
+>
+  Tailwind-compatible scaling
+</div>
+```
+
+
+# Hover & States
+
+Add interactive styles with state prefixes.
+
+## State Prefixes
+
+| Prefix | Trigger |
+|--------|---------|
+| `hover:` | Mouse over element |
+| `focus:` | Element has focus |
+| `active:` | Element is being clicked |
+| `disabled:` | Element is disabled |
+
+## Basic Usage
+
+### Hover
+
+```html
+<button visual="bg:primary hover:bg:[#2563EB] text:white">
+  Hover me
+</button>
+
+<a visual="text:grey hover:text:primary">
+  Link with hover color
+</a>
+```
+
+### Focus
+
+```html
+<input
+  visual="border:grey focus:border:primary"
+  space="p:small"
+/>
+```
+
+### Active
+
+```html
+<button visual="bg:primary active:bg:[#1D4ED8]">
+  Click me
+</button>
+```
+
+### Disabled
+
+```html
+<button visual="bg:primary disabled:bg:grey disabled:opacity:[0.5]">
+  Submit
+</button>
+```
+
+## Common Patterns
+
+### Button with States
+
+```html
+<button
+  space="p-x:big p-y:small"
+  visual="
+    bg:primary 
+    text:white 
+    rounded:medium
+    hover:bg:[#2563EB]
+    active:bg:[#1D4ED8]
+    disabled:bg:grey
+    disabled:opacity:[0.5]
+  "
+>
+  Submit
+</button>
+```
+
+### Card with Hover Effect
+
+```html
+<div
+  layout="flex col"
+  space="p:medium"
+  visual="
+    bg:white 
+    rounded:big 
+    shadow:small
+    hover:shadow:big
+  "
+>
+  <h3>Card Title</h3>
+  <p>Card content that lifts on hover.</p>
+</div>
+```
+
+### Link Navigation
+
+```html
+<nav layout="flex" space="g:medium">
+  <a visual="text:dark hover:text:primary font:medium">Home</a>
+  <a visual="text:grey hover:text:primary">About</a>
+  <a visual="text:grey hover:text:primary">Contact</a>
+</nav>
+```
+
+### Input with Focus Ring
+
+```html
+<input
+  type="text"
+  space="p:small w:[100%]"
+  visual="
+    border:grey 
+    border-w:[1px]
+    rounded:small
+    focus:border:primary
+  "
+  placeholder="Enter your email"
+/>
+```
+
+### Toggle Button
+
+```html
+<button
+  space="p:small"
+  visual="
+    bg:light
+    text:dark
+    rounded:medium
+    hover:bg:grey
+    active:bg:dark
+    active:text:white
+  "
+>
+  Toggle
+</button>
+```
+
+## Combining with Responsive
+
+States can be combined with responsive prefixes:
+
+```html
+<button visual="
+  bg:primary
+  hover:bg:[#2563EB]
+  tab:hover:shadow:big
+">
+  Hover shadow only on tablet+
+</button>
+```
+
+## Accessibility Note
+
+Always ensure sufficient color contrast for hover and focus states. The `:focus` state is especially important for keyboard navigation.
+
+```html
+<button visual="
+  bg:primary
+  text:white
+  focus:shadow:[0_0_0_3px_rgba(59,130,246,0.5)]
+">
+  Accessible focus ring
+</button>
+```
+
+
+
+# Utility Definitions
+
+## accent-color
+> Set accent color for form controls
+
+**Syntax:** `visual="accent:[color]"`
+
+
+## align-content
+> Align content rows in multi-line flex container
+
+**Syntax:** `layout="content:[value]"`
+
+* `start`: Align to start (`align-content: flex-start;`)
+* `end`: Align to end (`align-content: flex-end;`)
+* `center`: Center content (`align-content: center;`)
+* `between`: Space between rows (`align-content: space-between;`)
+* `around`: Space around rows (`align-content: space-around;`)
+* `evenly`: Even spacing (`align-content: space-evenly;`)
+* `stretch`: Stretch rows (`align-content: stretch;`)
+
+## align-items
+> Align items along the cross axis
+
+**Syntax:** `layout="items:[value]"`
+
+* `start`: Align to start (`align-items: flex-start;`)
+* `end`: Align to end (`align-items: flex-end;`)
+* `center`: Center items (`align-items: center;`)
+* `baseline`: Align to baseline (`align-items: baseline;`)
+* `stretch`: Stretch items (`align-items: stretch;`)
+
+## align-self
+> Override alignment for a single item
+
+**Syntax:** `layout="self:[value]"`
+
+* `auto`: Use parent alignment (`align-self: auto;`)
+* `start`: Align to start (`align-self: flex-start;`)
+* `end`: Align to end (`align-self: flex-end;`)
+* `center`: Center item (`align-self: center;`)
+* `baseline`: Align to baseline (`align-self: baseline;`)
+* `stretch`: Stretch item (`align-self: stretch;`)
+
+## animation-builtin
+> Apply built-in animations
+
+**Syntax:** `visual="animate:[value]"`
+
+* `none`: No animation (`animation: none;`)
+* `spin`: Spinning (`animation: spin 1s linear infinite;`)
+* `ping`: Ping effect
+* `pulse`: Pulsing
+* `bounce`: Bouncing (`animation: bounce 1s infinite;`)
+
+## animation-delay
+> Set animation delay
+
+**Syntax:** `visual="animation-delay:[value]"`
+
+* `instant`: 75ms delay (`animation-delay: 75ms;`)
+* `quick`: 100ms delay (`animation-delay: 100ms;`)
+* `fast`: 150ms delay (`animation-delay: 150ms;`)
+* `normal`: 200ms delay (`animation-delay: 200ms;`)
+* `slow`: 300ms delay (`animation-delay: 300ms;`)
+
+## animation-direction
+> Set animation direction
+
+**Syntax:** `visual="animation-direction:[value]"`
+
+* `normal`: Normal direction (`animation-direction: normal;`)
+* `reverse`: Reverse direction (`animation-direction: reverse;`)
+* `alternate`: Alternate direction (`animation-direction: alternate;`)
+* `alternate-reverse`: Alternate reverse (`animation-direction: alternate-reverse;`)
+
+## animation-duration
+> Set animation duration
+
+**Syntax:** `visual="animation-duration:[value]"`
+
+* `instant`: 75ms (`animation-duration: 75ms;`)
+* `quick`: 100ms (`animation-duration: 100ms;`)
+* `fast`: 150ms (`animation-duration: 150ms;`)
+* `normal`: 200ms (`animation-duration: 200ms;`)
+* `slow`: 300ms (`animation-duration: 300ms;`)
+* `slower`: 500ms (`animation-duration: 500ms;`)
+* `lazy`: 700ms (`animation-duration: 700ms;`)
+
+## animation-fill
+> Set animation fill mode
+
+**Syntax:** `visual="animation-fill:[value]"`
+
+* `none`: No fill (`animation-fill-mode: none;`)
+* `forwards`: Keep end state (`animation-fill-mode: forwards;`)
+* `backwards`: Apply start state (`animation-fill-mode: backwards;`)
+* `both`: Both directions (`animation-fill-mode: both;`)
+
+## animation-iteration
+> Set animation iteration count
+
+**Syntax:** `visual="animation-iteration:[value]"`
+
+* `1`: Once (`animation-iteration-count: 1;`)
+* `infinite`: Forever (`animation-iteration-count: infinite;`)
+
+## animation-play
+> Control animation play state
+
+**Syntax:** `visual="animation-play:[value]"`
+
+* `running`: Animation running (`animation-play-state: running;`)
+* `paused`: Animation paused (`animation-play-state: paused;`)
+
+## appearance
+> Control native appearance
+
+**Syntax:** `visual="appearance:[value]"`
+
+* `none`: Remove native styling (`appearance: none;`)
+* `auto`: Default appearance (`appearance: auto;`)
+
+## aspect-ratio
+> Set element aspect ratio
+
+**Syntax:** `layout="aspect:[value]"`
+
+* `auto`: Natural aspect ratio (`aspect-ratio: auto;`)
+* `square`: 1:1 square (`aspect-ratio: 1 / 1;`)
+* `video`: 16:9 video (`aspect-ratio: 16 / 9;`)
+
+## backdrop-blur
+> Blur backdrop
+
+**Syntax:** `visual="backdrop-blur:[value]"`
+
+* `none`: No blur (`backdrop-filter: blur(0);`)
+* `tiny`: Tiny blur (`backdrop-filter: blur(2px);`)
+* `small`: Small blur (`backdrop-filter: blur(4px);`)
+* `medium`: Medium blur (`backdrop-filter: blur(8px);`)
+* `big`: Large blur (`backdrop-filter: blur(12px);`)
+* `giant`: Giant blur (`backdrop-filter: blur(24px);`)
+* `vast`: Vast blur (`backdrop-filter: blur(48px);`)
+
+## backdrop-brightness
+> Adjust backdrop brightness
+
+**Syntax:** `visual="backdrop-brightness:[value]"`
+
+* `dim`: 50% brightness (`backdrop-filter: brightness(0.5);`)
+* `dark`: 75% brightness (`backdrop-filter: brightness(0.75);`)
+* `normal`: Normal brightness (`backdrop-filter: brightness(1);`)
+* `bright`: 125% brightness (`backdrop-filter: brightness(1.25);`)
+* `vivid`: 150% brightness (`backdrop-filter: brightness(1.5);`)
+
+## backdrop-contrast
+> Adjust backdrop contrast
+
+**Syntax:** `visual="backdrop-contrast:[value]"`
+
+* `low`: Low contrast (`backdrop-filter: contrast(0.5);`)
+* `reduced`: Reduced contrast (`backdrop-filter: contrast(0.75);`)
+* `normal`: Normal contrast (`backdrop-filter: contrast(1);`)
+* `high`: High contrast (`backdrop-filter: contrast(1.25);`)
+* `max`: Maximum contrast (`backdrop-filter: contrast(1.5);`)
+
+## backdrop-grayscale
+> Apply grayscale to backdrop
+
+**Syntax:** `visual="backdrop-grayscale:[value]"`
+
+* `none`: No grayscale (`backdrop-filter: grayscale(0%);`)
+* `partial`: 50% grayscale (`backdrop-filter: grayscale(50%);`)
+* `full`: Full grayscale (`backdrop-filter: grayscale(100%);`)
+
+## backdrop-hue-rotate
+> Rotate backdrop hue
+
+**Syntax:** `visual="backdrop-hue-rotate:[degrees]"`
+
+* `0`: No rotation (`backdrop-filter: hue-rotate(0deg);`)
+* `90`: 90° rotation (`backdrop-filter: hue-rotate(90deg);`)
+* `180`: 180° rotation (`backdrop-filter: hue-rotate(180deg);`)
+
+## backdrop-invert
+> Invert backdrop colors
+
+**Syntax:** `visual="backdrop-invert:[value]"`
+
+* `none`: No inversion (`backdrop-filter: invert(0%);`)
+* `partial`: 50% inversion (`backdrop-filter: invert(50%);`)
+* `full`: Full inversion (`backdrop-filter: invert(100%);`)
+
+## backdrop-opacity
+> Set backdrop opacity
+
+**Syntax:** `visual="backdrop-opacity:[value]"`
+
+* `0`: Transparent (`backdrop-filter: opacity(0);`)
+* `50`: 50% opacity (`backdrop-filter: opacity(0.5);`)
+* `100`: Fully opaque (`backdrop-filter: opacity(1);`)
+
+## backdrop-saturate
+> Adjust backdrop saturation
+
+**Syntax:** `visual="backdrop-saturate:[value]"`
+
+* `none`: Desaturated (`backdrop-filter: saturate(0);`)
+* `low`: Low saturation (`backdrop-filter: saturate(0.5);`)
+* `normal`: Normal saturation (`backdrop-filter: saturate(1);`)
+* `high`: High saturation (`backdrop-filter: saturate(1.5);`)
+* `vivid`: Very saturated (`backdrop-filter: saturate(2);`)
+
+## backdrop-sepia
+> Apply sepia to backdrop
+
+**Syntax:** `visual="backdrop-sepia:[value]"`
+
+* `none`: No sepia (`backdrop-filter: sepia(0%);`)
+* `partial`: 50% sepia (`backdrop-filter: sepia(50%);`)
+* `full`: Full sepia (`backdrop-filter: sepia(100%);`)
+
+## background-attachment
+> Set background attachment behavior
+
+**Syntax:** `visual="bg-attachment:[value]"`
+
+* `fixed`: Fixed background (`background-attachment: fixed;`)
+* `local`: Local scroll (`background-attachment: local;`)
+* `scroll`: Scroll with page (`background-attachment: scroll;`)
+
+## background-blend-mode
+> Set background blend mode
+
+**Syntax:** `visual="bg-blend:[value]"`
+
+* `normal`: Normal blend (`background-blend-mode: normal;`)
+* `multiply`: Multiply blend (`background-blend-mode: multiply;`)
+* `screen`: Screen blend (`background-blend-mode: screen;`)
+* `overlay`: Overlay blend (`background-blend-mode: overlay;`)
+* `darken`: Darken blend (`background-blend-mode: darken;`)
+* `lighten`: Lighten blend (`background-blend-mode: lighten;`)
+
+## background-clip
+> Set background clipping area
+
+**Syntax:** `visual="bg-clip:[value]"`
+
+* `border`: Clip to border (`background-clip: border-box;`)
+* `padding`: Clip to padding (`background-clip: padding-box;`)
+* `content`: Clip to content (`background-clip: content-box;`)
+* `text`: Clip to text
+
+## background-color
+> Set background color
+
+**Syntax:** `visual="bg:[color]"`
+
+
+## background-image
+> Set background image or gradient
+
+**Syntax:** `visual="bg-image:[value]"`
+
+* `none`: No background image (`background-image: none;`)
+* `gradient-to-t`: Gradient to top
+* `gradient-to-b`: Gradient to bottom
+* `gradient-to-l`: Gradient to left
+* `gradient-to-r`: Gradient to right
+
+## background-origin
+> Set background positioning origin
+
+**Syntax:** `visual="bg-origin:[value]"`
+
+* `border`: Origin at border (`background-origin: border-box;`)
+* `padding`: Origin at padding (`background-origin: padding-box;`)
+* `content`: Origin at content (`background-origin: content-box;`)
+
+## background-position
+> Set background position
+
+**Syntax:** `visual="bg-pos:[value]"`
+
+* `center`: Center position (`background-position: center;`)
+* `top`: Top position (`background-position: top;`)
+* `bottom`: Bottom position (`background-position: bottom;`)
+* `left`: Left position (`background-position: left;`)
+* `right`: Right position (`background-position: right;`)
+* `top-left`: Top left (`background-position: top left;`)
+* `top-right`: Top right (`background-position: top right;`)
+* `bottom-left`: Bottom left (`background-position: bottom left;`)
+* `bottom-right`: Bottom right (`background-position: bottom right;`)
+
+## background-repeat
+> Set background repeat behavior
+
+**Syntax:** `visual="bg-repeat:[value]"`
+
+* `repeat`: Repeat both axes (`background-repeat: repeat;`)
+* `no-repeat`: No repeat (`background-repeat: no-repeat;`)
+* `repeat-x`: Repeat horizontally (`background-repeat: repeat-x;`)
+* `repeat-y`: Repeat vertically (`background-repeat: repeat-y;`)
+* `round`: Round repeat (`background-repeat: round;`)
+* `space`: Spaced repeat (`background-repeat: space;`)
+
+## background-size
+> Set background size
+
+**Syntax:** `visual="bg-size:[value]"`
+
+* `auto`: Original size (`background-size: auto;`)
+* `cover`: Cover container (`background-size: cover;`)
+* `contain`: Contain in container (`background-size: contain;`)
+
+## blend-modes
+> Set mix blend mode
+
+**Syntax:** `visual="mix-blend:[value]"`
+
+* `normal`: Normal blend (`mix-blend-mode: normal;`)
+* `multiply`: Multiply blend (`mix-blend-mode: multiply;`)
+* `screen`: Screen blend (`mix-blend-mode: screen;`)
+* `overlay`: Overlay blend (`mix-blend-mode: overlay;`)
+* `darken`: Darken blend (`mix-blend-mode: darken;`)
+* `lighten`: Lighten blend (`mix-blend-mode: lighten;`)
+
+## border
+> Set border color for all sides or specific sides
+
+**Syntax:** `visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"`
+
+* `primary`: Primary color border
+* `gray-300`: Light gray border
+* `danger`: Danger/error border
+
+## border-collapse
+> Control table border collapse
+
+**Syntax:** `layout="border:[value]"`
+
+* `collapse`: Collapse borders (`border-collapse: collapse;`)
+* `separate`: Separate borders (`border-collapse: separate;`)
+
+## border-radius
+> Set border radius
+
+**Syntax:** `visual="rounded:[value]"`
+
+* `none`: No rounding (`border-radius: var(--r-none);`)
+* `small`: Small radius (`border-radius: var(--r-small);`)
+* `medium`: Medium radius (`border-radius: var(--r-medium);`)
+* `big`: Large radius (`border-radius: var(--r-big);`)
+* `round`: Fully round (`border-radius: var(--r-round);`)
+
+## border-spacing
+> Control spacing between table borders
+
+**Syntax:** `layout="border-spacing:[value]"`
+
+* `border-spacing`: All spacing (`border-spacing: {value};`)
+* `border-spacing-x`: Horizontal spacing (`border-spacing: {value} 0;`)
+* `border-spacing-y`: Vertical spacing (`border-spacing: 0 {value};`)
+
+## border-style
+> Set border style
+
+**Syntax:** `visual="border-style:[value]"`
+
+* `solid`: Solid border (`border-style: solid;`)
+* `dashed`: Dashed border (`border-style: dashed;`)
+* `dotted`: Dotted border (`border-style: dotted;`)
+* `double`: Double border (`border-style: double;`)
+* `none`: No border (`border-style: none;`)
+
+## border-width
+> Set border width for all sides or specific sides
+
+**Syntax:** `visual="border-w:[value]" | visual="border-{t|b|l|r|x|y}-w:[value]"`
+
+* `none`: No border (0px) (`border-width: var(--s-none);`)
+* `thin`: Thin border (1px) (`border-width: var(--s-thin);`)
+* `regular`: Standard border (2px) (`border-width: var(--s-regular);`)
+* `thick`: Thick border (3px) (`border-width: var(--s-thick);`)
+
+## box-shadow
+> Add box shadow
+
+**Syntax:** `visual="shadow:[value]"`
+
+* `none`: No shadow (`box-shadow: var(--shadow-none);`)
+* `small`: Small shadow (`box-shadow: var(--shadow-small);`)
+* `medium`: Medium shadow (`box-shadow: var(--shadow-medium);`)
+* `big`: Large shadow (`box-shadow: var(--shadow-big);`)
+* `giant`: Giant shadow (`box-shadow: var(--shadow-giant);`)
+
+## box-sizing
+> Control how width and height are calculated
+
+**Syntax:** `layout="box:[value]"`
+
+* `border`: Include padding and border in size (`box-sizing: border-box;`)
+* `content`: Exclude padding and border (`box-sizing: content-box;`)
+
+## caption-side
+> Control table caption position
+
+**Syntax:** `layout="caption:[value]"`
+
+* `top`: Caption on top (`caption-side: top;`)
+* `bottom`: Caption on bottom (`caption-side: bottom;`)
+
+## caret-color
+> Set text input caret color
+
+**Syntax:** `visual="caret:[color]"`
+
+
+## color-scheme
+> Set preferred color scheme
+
+**Syntax:** `visual="color-scheme:[value]"`
+
+* `light`: Light mode (`color-scheme: light;`)
+* `dark`: Dark mode (`color-scheme: dark;`)
+* `normal`: System default (`color-scheme: normal;`)
+
+## columns
+> Create multi-column layouts
+
+**Syntax:** `layout="cols:[value]"`
+
+* `1-12`: N columns (`columns: {n};`)
+* `auto`: Auto columns (`columns: auto;`)
+
+## container
+> Create a centered container with max-width
+
+**Syntax:** `layout="container"`
+
+* `container`: Centered container
+
+## cursor
+> Set cursor style
+
+**Syntax:** `visual="cursor:[value]"`
+
+* `auto`: Auto cursor (`cursor: auto;`)
+* `default`: Default cursor (`cursor: default;`)
+* `pointer`: Pointer cursor (`cursor: pointer;`)
+* `wait`: Wait cursor (`cursor: wait;`)
+* `text`: Text cursor (`cursor: text;`)
+* `move`: Move cursor (`cursor: move;`)
+* `not-allowed`: Not allowed (`cursor: not-allowed;`)
+* `grab`: Grab cursor (`cursor: grab;`)
+* `grabbing`: Grabbing cursor (`cursor: grabbing;`)
+
+## display
+> Control the display type of elements
+
+**Syntax:** `layout="[display-value]"`
+
+* `flex`: Flexbox container (`display: flex;`)
+* `inline-flex`: Inline flexbox container (`display: inline-flex;`)
+* `grid`: Grid container (`display: grid;`)
+* `inline-grid`: Inline grid container (`display: inline-grid;`)
+* `block`: Block element (`display: block;`)
+* `inline`: Inline block element (`display: inline-block;`)
+* `hidden`: Hidden element (`display: none;`)
+
+## field-sizing
+> Control form field sizing
+
+**Syntax:** `visual="field-sizing:[value]"`
+
+* `fixed`: Fixed size (`field-sizing: fixed;`)
+* `content`: Size to content (`field-sizing: content;`)
+
+## fill
+> Set SVG fill color
+
+**Syntax:** `visual="fill:[color]"`
+
+* `none`: No fill (`fill: none;`)
+* `current`: Current color (`fill: currentColor;`)
+
+## filter-blur
+> Apply blur filter
+
+**Syntax:** `visual="blur:[value]"`
+
+* `none`: No blur (`filter: blur(0);`)
+* `tiny`: Tiny blur (`filter: blur(2px);`)
+* `small`: Small blur (`filter: blur(4px);`)
+* `medium`: Medium blur (`filter: blur(8px);`)
+* `big`: Large blur (`filter: blur(12px);`)
+* `giant`: Giant blur (`filter: blur(24px);`)
+* `vast`: Vast blur (`filter: blur(48px);`)
+
+## filter-brightness
+> Adjust brightness
+
+**Syntax:** `visual="brightness:[value]"`
+
+* `dim`: 50% brightness (`filter: brightness(0.5);`)
+* `dark`: 75% brightness (`filter: brightness(0.75);`)
+* `normal`: Normal brightness (`filter: brightness(1);`)
+* `bright`: 125% brightness (`filter: brightness(1.25);`)
+* `vivid`: 150% brightness (`filter: brightness(1.5);`)
+
+## filter-contrast
+> Adjust contrast
+
+**Syntax:** `visual="contrast:[value]"`
+
+* `low`: Low contrast (`filter: contrast(0.5);`)
+* `reduced`: Reduced contrast (`filter: contrast(0.75);`)
+* `normal`: Normal contrast (`filter: contrast(1);`)
+* `high`: High contrast (`filter: contrast(1.25);`)
+* `max`: Maximum contrast (`filter: contrast(1.5);`)
+
+## filter-drop-shadow
+> Add drop shadow
+
+**Syntax:** `visual="drop-shadow:[value]"`
+
+* `none`: No shadow (`filter: drop-shadow(none);`)
+* `tiny`: Tiny shadow (`filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));`)
+* `small`: Small shadow (`filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));`)
+* `medium`: Medium shadow (`filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07));`)
+* `big`: Large shadow (`filter: drop-shadow(0 10px 8px rgba(0,0,0,0.04));`)
+* `giant`: Giant shadow
+
+## filter-grayscale
+> Apply grayscale filter
+
+**Syntax:** `visual="grayscale:[value]"`
+
+* `none`: No grayscale (`filter: grayscale(0%);`)
+* `partial`: 50% grayscale (`filter: grayscale(50%);`)
+* `full`: Full grayscale (`filter: grayscale(100%);`)
+
+## filter-hue-rotate
+> Rotate hue colors
+
+**Syntax:** `visual="hue-rotate:[degrees]"`
+
+* `0`: No rotation (`filter: hue-rotate(0deg);`)
+* `90`: 90° rotation (`filter: hue-rotate(90deg);`)
+* `180`: 180° rotation (`filter: hue-rotate(180deg);`)
+
+## filter-invert
+> Invert colors
+
+**Syntax:** `visual="invert:[value]"`
+
+* `none`: No inversion (`filter: invert(0%);`)
+* `partial`: 50% inversion (`filter: invert(50%);`)
+* `full`: Full inversion (`filter: invert(100%);`)
+
+## filter-saturate
+> Adjust saturation
+
+**Syntax:** `visual="saturate:[value]"`
+
+* `none`: Desaturated (`filter: saturate(0);`)
+* `low`: Low saturation (`filter: saturate(0.5);`)
+* `normal`: Normal saturation (`filter: saturate(1);`)
+* `high`: High saturation (`filter: saturate(1.5);`)
+* `vivid`: Very saturated (`filter: saturate(2);`)
+
+## filter-sepia
+> Apply sepia filter
+
+**Syntax:** `visual="sepia:[value]"`
+
+* `none`: No sepia (`filter: sepia(0%);`)
+* `partial`: 50% sepia (`filter: sepia(50%);`)
+* `full`: Full sepia (`filter: sepia(100%);`)
+
+## flex
+> Flex shorthand property
+
+**Syntax:** `layout="flex:[value]"`
+
+* `1`: Flex 1 (`flex: 1 1 0%;`)
+* `auto`: Flex auto (`flex: 1 1 auto;`)
+* `initial`: Initial flex (`flex: 0 1 auto;`)
+* `none`: No flex (`flex: none;`)
+
+## flex-basis
+> Set initial size of flex item
+
+**Syntax:** `layout="basis:[value]"`
+
+* `auto`: Auto basis (`flex-basis: auto;`)
+* `0`: Zero basis (`flex-basis: 0;`)
+
+## flex-direction
+> Set the direction of flex items
+
+**Syntax:** `layout="[direction]"`
+
+* `row`: Horizontal (default) (`flex-direction: row;`)
+* `col`: Vertical (`flex-direction: column;`)
+* `row-reverse`: Horizontal reversed (`flex-direction: row-reverse;`)
+* `col-reverse`: Vertical reversed (`flex-direction: column-reverse;`)
+
+## flex-items
+> Control flex grow and shrink behavior
+
+**Syntax:** `layout="[flex-item-value]"`
+
+* `grow`: Allow item to grow (`flex-grow: 1;`)
+* `grow-0`: Prevent growing (`flex-grow: 0;`)
+* `shrink`: Allow item to shrink (`flex-shrink: 1;`)
+* `shrink-0`: Prevent shrinking (`flex-shrink: 0;`)
+
+## flex-wrap
+> Control how flex items wrap
+
+**Syntax:** `layout="[wrap-value]"`
+
+* `wrap`: Allow wrapping (`flex-wrap: wrap;`)
+* `nowrap`: Prevent wrapping (`flex-wrap: nowrap;`)
+* `wrap-reverse`: Wrap in reverse (`flex-wrap: wrap-reverse;`)
+
+## float-clear
+> Control element floating and clearing
+
+**Syntax:** `layout="float:[value]" or layout="clear:[value]"`
+
+* `left`: Float left (`float: left;`)
+* `right`: Float right (`float: right;`)
+* `none`: No float (`float: none;`)
+
+## font-family
+> Set font family
+
+**Syntax:** `visual="font:[family]"`
+
+* `sans`: Sans-serif
+* `serif`: Serif (`font-family: ui-serif, Georgia, serif;`)
+* `mono`: Monospace (`font-family: ui-monospace, monospace;`)
+
+## font-smoothing
+> Control font smoothing
+
+**Syntax:** `visual="[smoothing-value]"`
+
+* `antialiased`: Antialiased
+* `subpixel-antialiased`: Subpixel antialiased
+
+## font-style
+> Set font style
+
+**Syntax:** `visual="[style-value]"`
+
+* `italic`: Italic text (`font-style: italic;`)
+* `not-italic`: Normal style (`font-style: normal;`)
+
+## font-variant-numeric
+> Control numeric font variants
+
+**Syntax:** `visual="[variant-value]"`
+
+* `normal-nums`: Normal numbers (`font-variant-numeric: normal;`)
+* `ordinal`: Ordinal markers (`font-variant-numeric: ordinal;`)
+* `slashed-zero`: Slashed zero (`font-variant-numeric: slashed-zero;`)
+* `lining-nums`: Lining numbers (`font-variant-numeric: lining-nums;`)
+* `oldstyle-nums`: Oldstyle numbers (`font-variant-numeric: oldstyle-nums;`)
+* `proportional-nums`: Proportional numbers (`font-variant-numeric: proportional-nums;`)
+* `tabular-nums`: Tabular numbers (`font-variant-numeric: tabular-nums;`)
+
+## font-weight
+> Set font weight
+
+**Syntax:** `visual="font:[weight]"`
+
+* `normal`: Normal weight (`font-weight: var(--fw-normal);`)
+* `medium`: Medium weight (`font-weight: var(--fw-medium);`)
+* `bold`: Bold weight (`font-weight: var(--fw-bold);`)
+
+## forced-color-adjust
+> Control forced colors mode behavior
+
+**Syntax:** `visual="forced-color:[value]"`
+
+* `auto`: Auto adjust (`forced-color-adjust: auto;`)
+* `none`: No adjustment (`forced-color-adjust: none;`)
+
+## gap
+> Add gap between flex/grid items
+
+**Syntax:** `space="g:[value]" or space="g-{axis}:[value]"`
+
+* `undefined`: All gaps (`gap: var(--s-{value});`)
+* `undefined`: Column gap (`column-gap: var(--s-{value});`)
+* `undefined`: Row gap (`row-gap: var(--s-{value});`)
+
+## gradient-from
+> Set gradient start color
+
+**Syntax:** `visual="from:[color]"`
+
+* `primary`: Start from primary
+* `blue-500`: Start from blue
+
+## gradient-to
+> Set gradient end color
+
+**Syntax:** `visual="to:[color]"`
+
+* `purple-500`: End at purple (`--tw-gradient-to: var(--c-purple-500);`)
+* `pink-500`: End at pink (`--tw-gradient-to: var(--c-pink-500);`)
+
+## gradient-via
+> Set gradient middle color
+
+**Syntax:** `visual="via:[color]"`
+
+* `purple-500`: Via purple
+
+## grid-auto-flow
+> Control how auto-placed items flow in grid
+
+**Syntax:** `layout="grid-flow:[value]"`
+
+* `row`: Place by row (`grid-auto-flow: row;`)
+* `col`: Place by column (`grid-auto-flow: column;`)
+* `dense`: Dense packing (`grid-auto-flow: dense;`)
+* `row-dense`: Row with dense (`grid-auto-flow: row dense;`)
+* `col-dense`: Column with dense (`grid-auto-flow: column dense;`)
+
+## grid-auto-sizing
+> Control size of auto-generated grid tracks
+
+**Syntax:** `layout="auto-cols:[value]" or layout="auto-rows:[value]"`
+
+* `auto`: Auto size (`auto`)
+* `min`: Minimum content (`min-content`)
+* `max`: Maximum content (`max-content`)
+* `fr`: Fractional unit (`minmax(0, 1fr)`)
+
+## grid-column-span
+> Span across grid columns
+
+**Syntax:** `layout="col-span:[value]"`
+
+* `1-12`: Span N columns (`grid-column: span {n} / span {n};`)
+* `full`: Span all columns (`grid-column: 1 / -1;`)
+
+## grid-columns
+> Define grid template columns
+
+**Syntax:** `layout="grid-cols:[value]"`
+
+* `1-12`: N equal columns
+* `none`: No columns defined (`grid-template-columns: none;`)
+* `subgrid`: Use parent grid (`grid-template-columns: subgrid;`)
+
+## grid-row-span
+> Span across grid rows
+
+**Syntax:** `layout="row-span:[value]"`
+
+* `1-12`: Span N rows (`grid-row: span {n} / span {n};`)
+* `full`: Span all rows (`grid-row: 1 / -1;`)
+
+## grid-rows
+> Define grid template rows
+
+**Syntax:** `layout="grid-rows:[value]"`
+
+* `1-12`: N equal rows (`grid-template-rows: repeat({n}, minmax(0, 1fr));`)
+* `none`: No rows defined (`grid-template-rows: none;`)
+* `subgrid`: Use parent grid (`grid-template-rows: subgrid;`)
+
+## height
+> Set element height
+
+**Syntax:** `space="h:[value]"`
+
+* `undefined`: Height (`height: var(--s-{value});`)
+* `undefined`: Minimum height (`min-height: var(--s-{value});`)
+* `undefined`: Maximum height (`max-height: var(--s-{value});`)
+
+## hyphens
+> Control hyphenation
+
+**Syntax:** `visual="hyphens:[value]"`
+
+* `none`: No hyphens (`hyphens: none;`)
+* `manual`: Manual hyphens (`hyphens: manual;`)
+* `auto`: Auto hyphens (`hyphens: auto;`)
+
+## inset
+> Control positioning offsets
+
+**Syntax:** `layout="inset:[value]" or layout="top:[value]"`
+
+* `inset`: All sides (`inset: {value};`)
+* `inset-x`: Left and right (`left: {value}; right: {value};`)
+* `inset-y`: Top and bottom (`top: {value}; bottom: {value};`)
+* `top`: Top offset (`top: {value};`)
+* `right`: Right offset (`right: {value};`)
+* `bottom`: Bottom offset (`bottom: {value};`)
+* `left`: Left offset (`left: {value};`)
+
+## isolation
+> Create new stacking context
+
+**Syntax:** `layout="isolation:[value]"`
+
+* `isolate`: Create stacking context (`isolation: isolate;`)
+* `auto`: Auto isolation (`isolation: auto;`)
+
+## justify-content
+> Align items along the main axis
+
+**Syntax:** `layout="justify:[value]"`
+
+* `start`: Align to start (`justify-content: flex-start;`)
+* `end`: Align to end (`justify-content: flex-end;`)
+* `center`: Center items (`justify-content: center;`)
+* `between`: Space between items (`justify-content: space-between;`)
+* `around`: Space around items (`justify-content: space-around;`)
+* `evenly`: Even spacing (`justify-content: space-evenly;`)
+* `stretch`: Stretch items (`justify-content: stretch;`)
+
+## justify-items
+> Align grid items on inline axis
+
+**Syntax:** `layout="justify-items:[value]"`
+
+* `start`: Start alignment (`justify-items: start;`)
+* `end`: End alignment (`justify-items: end;`)
+* `center`: Center alignment (`justify-items: center;`)
+* `stretch`: Stretch items (`justify-items: stretch;`)
+
+## justify-self
+> Align single grid item on inline axis
+
+**Syntax:** `layout="justify-self:[value]"`
+
+* `auto`: Auto alignment (`justify-self: auto;`)
+* `start`: Start alignment (`justify-self: start;`)
+* `end`: End alignment (`justify-self: end;`)
+* `center`: Center alignment (`justify-self: center;`)
+* `stretch`: Stretch item (`justify-self: stretch;`)
+
+## letter-spacing
+> Set letter spacing
+
+**Syntax:** `visual="tracking:[value]"`
+
+* `tighter`: Tighter spacing (`letter-spacing: -0.05em;`)
+* `tight`: Tight spacing (`letter-spacing: -0.025em;`)
+* `normal`: Normal spacing (`letter-spacing: 0;`)
+* `wide`: Wide spacing (`letter-spacing: 0.025em;`)
+* `wider`: Wider spacing (`letter-spacing: 0.05em;`)
+* `widest`: Widest spacing (`letter-spacing: 0.1em;`)
+
+## line-clamp
+> Limit text to specific lines
+
+**Syntax:** `visual="line-clamp:[value]"`
+
+* `1`: Single line
+* `2`: Two lines
+* `3`: Three lines
+* `none`: No clamp
+
+## line-height
+> Set line height
+
+**Syntax:** `visual="leading:[value]"`
+
+* `none`: No extra height (`line-height: 1;`)
+* `tight`: Tight leading (`line-height: 1.25;`)
+* `snug`: Snug leading (`line-height: 1.375;`)
+* `normal`: Normal leading (`line-height: 1.5;`)
+* `relaxed`: Relaxed leading (`line-height: 1.625;`)
+* `loose`: Loose leading (`line-height: 2;`)
+
+## list-style
+> Set list style
+
+**Syntax:** `visual="list:[value]"`
+
+* `none`: No bullets (`list-style-type: none;`)
+* `disc`: Disc bullets (`list-style-type: disc;`)
+* `decimal`: Numbers (`list-style-type: decimal;`)
+* `square`: Square bullets (`list-style-type: square;`)
+* `inside`: Inside position (`list-style-position: inside;`)
+* `outside`: Outside position (`list-style-position: outside;`)
+
+## margin
+> Add margin to elements
+
+**Syntax:** `space="m:[value]" or space="m-{side}:[value]"`
+
+* `undefined`: All sides (`margin: var(--s-{value});`)
+* `undefined`: Top (`margin-top: var(--s-{value});`)
+* `undefined`: Right (`margin-right: var(--s-{value});`)
+* `undefined`: Bottom (`margin-bottom: var(--s-{value});`)
+* `undefined`: Left (`margin-left: var(--s-{value});`)
+* `undefined`: Horizontal
+* `undefined`: Vertical
+
+## mask
+> Apply mask to element
+
+**Syntax:** `visual="mask:[value]"`
+
+* `none`: No mask (`mask-image: none;`)
+* `fade-y`: Vertical fade
+* `fade-x`: Horizontal fade
+
+## object-fit
+> Control how media content fits its container
+
+**Syntax:** `layout="object:[value]"`
+
+* `contain`: Scale to fit, preserve ratio (`object-fit: contain;`)
+* `cover`: Cover container, may crop (`object-fit: cover;`)
+* `fill`: Stretch to fill (`object-fit: fill;`)
+* `none`: No scaling (`object-fit: none;`)
+* `scale-down`: Smaller of none or contain (`object-fit: scale-down;`)
+
+## object-position
+> Position replaced element content within container
+
+**Syntax:** `layout="object-pos:[value]"`
+
+* `center`: Center position (`object-position: center;`)
+* `top`: Top position (`object-position: top;`)
+* `bottom`: Bottom position (`object-position: bottom;`)
+* `left`: Left position (`object-position: left;`)
+* `right`: Right position (`object-position: right;`)
+* `top-left`: Top left (`object-position: top left;`)
+* `top-right`: Top right (`object-position: top right;`)
+* `bottom-left`: Bottom left (`object-position: bottom left;`)
+* `bottom-right`: Bottom right (`object-position: bottom right;`)
+
+## opacity
+> Set element opacity (0-100)
+
+**Syntax:** `visual="opacity:[value]"`
+
+* `0`: Invisible (`opacity: 0;`)
+* `25`: 25% visible (`opacity: 0.25;`)
+* `50`: 50% visible (`opacity: 0.5;`)
+* `75`: 75% visible (`opacity: 0.75;`)
+* `100`: Fully visible (`opacity: 1;`)
+
+## order
+> Control flex/grid item order
+
+**Syntax:** `layout="order:[value]"`
+
+* `first`: Move to first (`order: -9999;`)
+* `last`: Move to last (`order: 9999;`)
+* `none`: Default order (`order: 0;`)
+* `1-12`: Specific order (`order: {n};`)
+
+## outline
+> Set outline color
+
+**Syntax:** `visual="outline:[color]"`
+
+
+## overflow
+> Control content overflow behavior
+
+**Syntax:** `layout="overflow:[value]"`
+
+* `auto`: Scrollbar when needed (`overflow: auto;`)
+* `hidden`: Hide overflow (`overflow: hidden;`)
+* `visible`: Show overflow (`overflow: visible;`)
+* `scroll`: Always show scrollbar (`overflow: scroll;`)
+* `clip`: Clip overflow (`overflow: clip;`)
+
+## overscroll
+> Control scroll chaining behavior
+
+**Syntax:** `layout="overscroll:[value]"`
+
+* `auto`: Default behavior (`overscroll-behavior: auto;`)
+* `contain`: Contain scroll (`overscroll-behavior: contain;`)
+* `none`: No scroll chaining (`overscroll-behavior: none;`)
+
+## padding
+> Add padding to elements
+
+**Syntax:** `space="p:[value]" or space="p-{side}:[value]"`
+
+* `undefined`: All sides (`padding: var(--s-{value});`)
+* `undefined`: Top (`padding-top: var(--s-{value});`)
+* `undefined`: Right (`padding-right: var(--s-{value});`)
+* `undefined`: Bottom (`padding-bottom: var(--s-{value});`)
+* `undefined`: Left (`padding-left: var(--s-{value});`)
+* `undefined`: Horizontal
+* `undefined`: Vertical
+
+## place-content
+> Shorthand for align-content and justify-content
+
+**Syntax:** `layout="place-content:[value]"`
+
+* `start`: Start alignment (`place-content: start;`)
+* `end`: End alignment (`place-content: end;`)
+* `center`: Center alignment (`place-content: center;`)
+* `between`: Space between (`place-content: space-between;`)
+* `around`: Space around (`place-content: space-around;`)
+* `evenly`: Even spacing (`place-content: space-evenly;`)
+* `stretch`: Stretch content (`place-content: stretch;`)
+
+## place-items
+> Shorthand for align-items and justify-items
+
+**Syntax:** `layout="place-items:[value]"`
+
+* `start`: Start alignment (`place-items: start;`)
+* `end`: End alignment (`place-items: end;`)
+* `center`: Center alignment (`place-items: center;`)
+* `stretch`: Stretch items (`place-items: stretch;`)
+
+## place-self
+> Shorthand for align-self and justify-self
+
+**Syntax:** `layout="place-self:[value]"`
+
+* `auto`: Auto alignment (`place-self: auto;`)
+* `start`: Start alignment (`place-self: start;`)
+* `end`: End alignment (`place-self: end;`)
+* `center`: Center alignment (`place-self: center;`)
+* `stretch`: Stretch item (`place-self: stretch;`)
+
+## pointer-events
+> Control pointer events
+
+**Syntax:** `visual="pointer-events:[value]"`
+
+* `none`: Ignore pointer events (`pointer-events: none;`)
+* `auto`: Normal pointer events (`pointer-events: auto;`)
+
+## position
+> Set the positioning method
+
+**Syntax:** `layout="[position-value]"`
+
+* `static`: Default positioning (`position: static;`)
+* `relative`: Relative to normal position (`position: relative;`)
+* `absolute`: Absolute within container (`position: absolute;`)
+* `fixed`: Fixed to viewport (`position: fixed;`)
+* `sticky`: Sticky positioning (`position: sticky;`)
+
+## resize
+> Control element resizing
+
+**Syntax:** `visual="resize:[value]"`
+
+* `none`: No resize (`resize: none;`)
+* `both`: Resize both (`resize: both;`)
+* `x`: Resize horizontal (`resize: horizontal;`)
+* `y`: Resize vertical (`resize: vertical;`)
+
+## ring
+> Add focus ring around element using box-shadow
+
+**Syntax:** `visual="ring:[size]"`
+
+* `none`: No ring (`box-shadow: 0 0 0 0 transparent;`)
+* `thin`: Thin ring (1px) (`box-shadow: 0 0 0 1px var(--ring-color);`)
+* `regular`: Regular ring (2px) (`box-shadow: 0 0 0 2px var(--ring-color);`)
+* `small`: Small ring (4px) (`box-shadow: 0 0 0 4px var(--ring-color);`)
+* `medium`: Medium ring (6px) (`box-shadow: 0 0 0 6px var(--ring-color);`)
+* `big`: Big ring (8px) (`box-shadow: 0 0 0 8px var(--ring-color);`)
+
+## ring-color
+> Set ring color
+
+**Syntax:** `visual="ring-color:[color]"`
+
+* `primary`: Primary ring color (`--ring-color: var(--c-primary);`)
+* `blue-500`: Blue ring color (`--ring-color: var(--c-blue-500);`)
+
+## ring-offset
+> Add gap between ring and element
+
+**Syntax:** `visual="ring-offset:[size]"`
+
+* `0`: No offset (`--ring-offset: 0px;`)
+* `2`: 2px offset (`--ring-offset: 2px;`)
+* `4`: 4px offset (`--ring-offset: 4px;`)
+
+## scroll-behavior
+> Set scroll behavior
+
+**Syntax:** `visual="scroll-behavior:[value]"`
+
+* `auto`: Instant scroll (`scroll-behavior: auto;`)
+* `smooth`: Smooth scroll (`scroll-behavior: smooth;`)
+
+## scroll-margin
+> Set scroll margin for snap
+
+**Syntax:** `visual="scroll-m:[value]"`
+
+* `scroll-m`: All sides (`scroll-margin: {value};`)
+* `scroll-m-t`: Top margin (`scroll-margin-top: {value};`)
+* `scroll-m-r`: Right margin (`scroll-margin-right: {value};`)
+* `scroll-m-b`: Bottom margin (`scroll-margin-bottom: {value};`)
+* `scroll-m-l`: Left margin (`scroll-margin-left: {value};`)
+
+## scroll-padding
+> Set scroll padding for snap
+
+**Syntax:** `visual="scroll-p:[value]"`
+
+* `scroll-p`: All sides (`scroll-padding: {value};`)
+* `scroll-p-t`: Top padding (`scroll-padding-top: {value};`)
+* `scroll-p-r`: Right padding (`scroll-padding-right: {value};`)
+* `scroll-p-b`: Bottom padding (`scroll-padding-bottom: {value};`)
+* `scroll-p-l`: Left padding (`scroll-padding-left: {value};`)
+
+## scroll-snap-align
+> Set scroll snap alignment
+
+**Syntax:** `visual="snap-align:[value]"`
+
+* `start`: Snap to start (`scroll-snap-align: start;`)
+* `end`: Snap to end (`scroll-snap-align: end;`)
+* `center`: Snap to center (`scroll-snap-align: center;`)
+* `none`: No snap (`scroll-snap-align: none;`)
+
+## scroll-snap-stop
+> Control scroll snap stop behavior
+
+**Syntax:** `visual="snap-stop:[value]"`
+
+* `normal`: Normal stop (`scroll-snap-stop: normal;`)
+* `always`: Always stop (`scroll-snap-stop: always;`)
+
+## scroll-snap-type
+> Set scroll snap type
+
+**Syntax:** `visual="snap-type:[value]"`
+
+* `none`: No snapping (`scroll-snap-type: none;`)
+* `x`: Horizontal snap (`scroll-snap-type: x mandatory;`)
+* `y`: Vertical snap (`scroll-snap-type: y mandatory;`)
+* `both`: Both axes (`scroll-snap-type: both mandatory;`)
+* `x-proximity`: Horizontal proximity (`scroll-snap-type: x proximity;`)
+* `y-proximity`: Vertical proximity (`scroll-snap-type: y proximity;`)
+
+## shorthand-alignment
+> Quick alignment shortcuts
+
+**Syntax:** `layout="[alignment]"`
+
+* `center`: Center both axes (`justify-content: center; align-items: center;`)
+* `start`: Align to start
+* `end`: Align to end (`justify-content: flex-end; align-items: flex-end;`)
+* `between`: Space between (`justify-content: space-between;`)
+* `around`: Space around (`justify-content: space-around;`)
+* `evenly`: Even spacing (`justify-content: space-evenly;`)
+
+## state-prefixes
+> Apply styles on specific states
+
+**Syntax:** `visual="hover:... focus:... active:..."`
+
+* `hover:`: On hover (`:hover`)
+* `focus:`: On focus (`:focus`)
+* `active:`: On active (`:active`)
+* `disabled:`: When disabled (`:disabled`)
+* `visited:`: When visited (`:visited`)
+* `first:`: First child (`:first-child`)
+* `last:`: Last child (`:last-child`)
+* `odd:`: Odd children (`:nth-child(odd)`)
+* `even:`: Even children (`:nth-child(even)`)
+
+## stroke
+> Set SVG stroke color
+
+**Syntax:** `visual="stroke:[color]"`
+
+* `none`: No stroke (`stroke: none;`)
+* `current`: Current color (`stroke: currentColor;`)
+
+## stroke-width
+> Set SVG stroke width
+
+**Syntax:** `visual="stroke-w:[value]"`
+
+* `0`: No stroke (`stroke-width: 0;`)
+* `1`: 1px stroke (`stroke-width: 1px;`)
+* `2`: 2px stroke (`stroke-width: 2px;`)
+
+## table-layout
+> Control table layout algorithm
+
+**Syntax:** `layout="table:[value]"`
+
+* `auto`: Auto layout (`table-layout: auto;`)
+* `fixed`: Fixed layout (`table-layout: fixed;`)
+
+## text-alignment
+> Set text alignment
+
+**Syntax:** `visual="text:[alignment]"`
+
+* `left`: Left align (`text-align: left;`)
+* `center`: Center align (`text-align: center;`)
+* `right`: Right align (`text-align: right;`)
+* `justify`: Justify (`text-align: justify;`)
+
+## text-color
+> Set text color
+
+**Syntax:** `visual="text:[color]"`
+
+* `left`: Align left (`text-align: left;`)
+* `center`: Align center (`text-align: center;`)
+* `right`: Align right (`text-align: right;`)
+* `justify`: Justify text (`text-align: justify;`)
+
+## text-decoration
+> Set text decoration
+
+**Syntax:** `visual="[decoration-value]"`
+
+* `underline`: Underline (`text-decoration-line: underline;`)
+* `overline`: Overline (`text-decoration-line: overline;`)
+* `line-through`: Strikethrough (`text-decoration-line: line-through;`)
+* `no-underline`: No decoration (`text-decoration-line: none;`)
+
+## text-indent
+> Set text indentation
+
+**Syntax:** `visual="indent:[value]"`
+
+* `0`: No indent (`text-indent: 0;`)
+
+## text-overflow
+> Handle text overflow
+
+**Syntax:** `visual="[overflow-value]"`
+
+* `truncate`: Truncate with ellipsis
+* `text-ellipsis`: Ellipsis overflow (`text-overflow: ellipsis;`)
+* `text-clip`: Clip overflow (`text-overflow: clip;`)
+
+## text-shadow
+> Add text shadow
+
+**Syntax:** `visual="text-shadow:[value]"`
+
+* `none`: No shadow (`text-shadow: none;`)
+* `small`: Small shadow (`text-shadow: 0 1px 2px rgba(0,0,0,0.1);`)
+* `medium`: Medium shadow (`text-shadow: 0 2px 4px rgba(0,0,0,0.1);`)
+* `big`: Large shadow (`text-shadow: 0 4px 8px rgba(0,0,0,0.1);`)
+
+## text-size
+> Set font size
+
+**Syntax:** `visual="text-size:[value]"`
+
+* `mini`: Mini size (0.75rem / 1rem)
+* `small`: Small size (0.875rem / 1.25rem)
+* `base`: Base size (1rem / 1.5rem)
+* `large`: Large size (1.125rem / 1.75rem)
+* `big`: Big size (1.25rem / 1.75rem)
+* `huge`: Huge size (1.5rem / 2rem)
+* `grand`: Grand size (1.875rem / 2.25rem)
+* `giant`: Giant size (2.25rem / 2.5rem)
+* `mount`: Mount size (3rem / 1)
+* `mega`: Mega size (3.75rem / 1)
+* `giga`: Giga size (4.5rem / 1)
+* `tera`: Tera size (6rem / 1)
+* `hero`: Hero size (8rem / 1)
+
+## text-transform
+> Transform text case
+
+**Syntax:** `visual="[transform-value]"`
+
+* `uppercase`: All uppercase (`text-transform: uppercase;`)
+* `lowercase`: All lowercase (`text-transform: lowercase;`)
+* `capitalize`: Capitalize words (`text-transform: capitalize;`)
+* `normal-case`: Normal case (`text-transform: none;`)
+
+## text-wrap
+> Control text wrapping
+
+**Syntax:** `visual="[wrap-value]"`
+
+* `text-wrap`: Wrap text (`text-wrap: wrap;`)
+* `text-nowrap`: No wrap (`text-wrap: nowrap;`)
+* `text-balance`: Balanced wrap (`text-wrap: balance;`)
+* `text-pretty`: Pretty wrap (`text-wrap: pretty;`)
+
+## touch-action
+> Control touch interactions
+
+**Syntax:** `visual="touch:[value]"`
+
+* `auto`: Default touch (`touch-action: auto;`)
+* `none`: Disable touch (`touch-action: none;`)
+* `pan-x`: Pan horizontally (`touch-action: pan-x;`)
+* `pan-y`: Pan vertically (`touch-action: pan-y;`)
+* `pan-left`: Pan left (`touch-action: pan-left;`)
+* `pan-right`: Pan right (`touch-action: pan-right;`)
+* `pinch-zoom`: Pinch to zoom (`touch-action: pinch-zoom;`)
+* `manipulation`: Pan and pinch only (`touch-action: manipulation;`)
+
+## transform-backface
+> Control visibility of element back side when rotated in 3D
+
+**Syntax:** `visual="backface:[value]"`
+
+* `visible`: Backface visible (`backface-visibility: visible;`)
+* `hidden`: Backface hidden (`backface-visibility: hidden;`)
+
+## transform-origin
+> Set transform origin point
+
+**Syntax:** `visual="origin:[value]"`
+
+* `center`: Center origin (`transform-origin: center;`)
+* `top`: Top origin (`transform-origin: top;`)
+* `top-right`: Top right (`transform-origin: top right;`)
+* `right`: Right origin (`transform-origin: right;`)
+* `bottom-right`: Bottom right (`transform-origin: bottom right;`)
+* `bottom`: Bottom origin (`transform-origin: bottom;`)
+* `bottom-left`: Bottom left (`transform-origin: bottom left;`)
+* `left`: Left origin (`transform-origin: left;`)
+* `top-left`: Top left (`transform-origin: top left;`)
+
+## transform-perspective
+> Set 3D perspective on container (apply to parent of transformed elements)
+
+**Syntax:** `visual="perspective:[value]"`
+
+* `none`: No perspective (`perspective: none;`)
+* `dramatic`: Dramatic perspective (`perspective: 100px;`)
+* `near`: Near perspective (`perspective: 300px;`)
+* `normal`: Normal perspective (`perspective: 500px;`)
+* `midrange`: Midrange perspective (`perspective: 800px;`)
+* `far`: Far perspective (`perspective: 1000px;`)
+* `distant`: Distant perspective (`perspective: 1200px;`)
+
+## transform-perspective-origin
+> Set perspective vanishing point location
+
+**Syntax:** `visual="perspective-origin:[value]"`
+
+* `center`: Center origin (`perspective-origin: center;`)
+* `top`: Top origin (`perspective-origin: top;`)
+* `bottom`: Bottom origin (`perspective-origin: bottom;`)
+* `left`: Left origin (`perspective-origin: left;`)
+* `right`: Right origin (`perspective-origin: right;`)
+* `top-left`: Top left (`perspective-origin: top left;`)
+* `top-right`: Top right (`perspective-origin: top right;`)
+* `bottom-left`: Bottom left (`perspective-origin: bottom left;`)
+* `bottom-right`: Bottom right (`perspective-origin: bottom right;`)
+
+## transform-rotate
+> Rotate element
+
+**Syntax:** `visual="rotate:[degrees]"`
+
+* `0`: No rotation (`transform: rotate(0deg);`)
+* `45`: 45° rotation (`transform: rotate(45deg);`)
+* `90`: 90° rotation (`transform: rotate(90deg);`)
+* `180`: 180° rotation (`transform: rotate(180deg);`)
+
+## transform-rotate-3d
+> Rotate element in 3D space along X, Y, or Z axis
+
+**Syntax:** `visual="rotate-x:[degrees]" or visual="rotate-y:[degrees]" or visual="rotate-z:[degrees]"`
+
+* `0`: No rotation (`transform: rotateX(0deg);`)
+* `45`: 45° rotation (`transform: rotateX(45deg);`)
+* `90`: 90° rotation (`transform: rotateX(90deg);`)
+* `180`: 180° rotation (`transform: rotateX(180deg);`)
+
+## transform-scale
+> Scale element
+
+**Syntax:** `visual="scale:[value]"`
+
+* `0`: Scale to 0 (`transform: scale(0);`)
+* `50`: Scale to 50% (`transform: scale(0.5);`)
+* `75`: Scale to 75% (`transform: scale(0.75);`)
+* `100`: Normal scale (`transform: scale(1);`)
+* `110`: Scale to 110% (`transform: scale(1.1);`)
+* `125`: Scale to 125% (`transform: scale(1.25);`)
+* `150`: Scale to 150% (`transform: scale(1.5);`)
+
+## transform-skew
+> Skew element
+
+**Syntax:** `visual="skew-x:[degrees]" or visual="skew-y:[degrees]"`
+
+* `0`: No skew (`transform: skewX(0deg);`)
+* `3`: 3° skew (`transform: skewX(3deg);`)
+* `6`: 6° skew (`transform: skewX(6deg);`)
+* `12`: 12° skew (`transform: skewX(12deg);`)
+
+## transform-style
+> Preserve 3D space for nested transformed elements
+
+**Syntax:** `visual="transform-style:[value]"`
+
+* `flat`: Flatten 3D children (`transform-style: flat;`)
+* `preserve-3d`: Preserve 3D depth (`transform-style: preserve-3d;`)
+
+## transform-translate
+> Translate element position along X, Y, or Z axis
+
+**Syntax:** `visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translate-z:[value]"`
+
+* `0`: No translation (`transform: translateX(0);`)
+* `tiny`: Tiny offset (`transform: translateX(var(--sp-tiny));`)
+* `small`: Small offset (`transform: translateX(var(--sp-small));`)
+* `medium`: Medium offset (`transform: translateX(var(--sp-medium));`)
+* `big`: Big offset (`transform: translateX(var(--sp-big));`)
+* `full`: Full width/height (`transform: translateX(100%);`)
+* `1/2`: Half width/height (`transform: translateX(50%);`)
+* `-full`: Negative full (`transform: translateX(-100%);`)
+* `-1/2`: Negative half (`transform: translateX(-50%);`)
+
+## transform-translate-z
+> Translate element along Z axis (depth) in 3D space
+
+**Syntax:** `visual="translate-z:[value]"`
+
+* `0`: No Z translation (`transform: translateZ(0);`)
+* `near`: Move near (forward) (`transform: translateZ(50px);`)
+* `far`: Move far (backward) (`transform: translateZ(-50px);`)
+
+## transition-delay
+> Set transition delay
+
+**Syntax:** `visual="delay:[value]"`
+
+* `instant`: 75ms delay (`transition-delay: 75ms;`)
+* `quick`: 100ms delay (`transition-delay: 100ms;`)
+* `fast`: 150ms delay (`transition-delay: 150ms;`)
+* `normal`: 200ms delay (`transition-delay: 200ms;`)
+* `slow`: 300ms delay (`transition-delay: 300ms;`)
+
+## transition-duration
+> Set transition duration
+
+**Syntax:** `visual="duration:[value]"`
+
+* `instant`: 75ms (`transition-duration: 75ms;`)
+* `quick`: 100ms (`transition-duration: 100ms;`)
+* `fast`: 150ms (`transition-duration: 150ms;`)
+* `normal`: 200ms (`transition-duration: 200ms;`)
+* `slow`: 300ms (`transition-duration: 300ms;`)
+* `slower`: 500ms (`transition-duration: 500ms;`)
+* `lazy`: 700ms (`transition-duration: 700ms;`)
+
+## transition-property
+> Set transition properties
+
+**Syntax:** `visual="transition:[value]"`
+
+* `none`: No transition (`transition-property: none;`)
+* `all`: All properties
+* `colors`: Color properties
+* `opacity`: Opacity only
+* `shadow`: Shadow only
+* `transform`: Transform only
+
+## transition-timing
+> Set transition timing function
+
+**Syntax:** `visual="ease:[value]"`
+
+* `linear`: Linear timing (`transition-timing-function: linear;`)
+* `in`: Ease in
+* `out`: Ease out
+* `in-out`: Ease in-out
+
+## typography-keywords
+> Typography utility keywords
+
+**Syntax:** `visual="[keyword]"`
+
+* `italic`: Italic text (`font-style: italic;`)
+* `not-italic`: Normal style (`font-style: normal;`)
+* `antialiased`: Antialiased text
+* `subpixel-antialiased`: Subpixel antialiasing
+* `uppercase`: Uppercase text (`text-transform: uppercase;`)
+* `lowercase`: Lowercase text (`text-transform: lowercase;`)
+* `capitalize`: Capitalize words (`text-transform: capitalize;`)
+* `normal-case`: Normal case (`text-transform: none;`)
+* `underline`: Underline text (`text-decoration-line: underline;`)
+* `overline`: Overline text (`text-decoration-line: overline;`)
+* `line-through`: Strikethrough (`text-decoration-line: line-through;`)
+* `no-underline`: No decoration (`text-decoration-line: none;`)
+* `decoration-solid`: Solid line (`text-decoration-style: solid;`)
+* `decoration-double`: Double line (`text-decoration-style: double;`)
+* `decoration-dotted`: Dotted line (`text-decoration-style: dotted;`)
+* `decoration-dashed`: Dashed line (`text-decoration-style: dashed;`)
+* `decoration-wavy`: Wavy line (`text-decoration-style: wavy;`)
+* `truncate`: Truncate with ellipsis
+* `text-ellipsis`: Ellipsis overflow (`text-overflow: ellipsis;`)
+* `text-clip`: Clip overflow (`text-overflow: clip;`)
+* `text-wrap`: Wrap text (`text-wrap: wrap;`)
+* `text-nowrap`: No wrap (`text-wrap: nowrap;`)
+* `text-balance`: Balanced wrapping (`text-wrap: balance;`)
+* `text-pretty`: Pretty wrapping (`text-wrap: pretty;`)
+* `whitespace-normal`: Normal whitespace (`white-space: normal;`)
+* `whitespace-nowrap`: No wrap whitespace (`white-space: nowrap;`)
+* `whitespace-pre`: Preserve whitespace (`white-space: pre;`)
+* `whitespace-pre-line`: Pre-line whitespace (`white-space: pre-line;`)
+* `whitespace-pre-wrap`: Pre-wrap whitespace (`white-space: pre-wrap;`)
+* `whitespace-break-spaces`: Break spaces (`white-space: break-spaces;`)
+* `break-normal`: Normal word break (`overflow-wrap: normal; word-break: normal;`)
+* `break-words`: Break words (`overflow-wrap: break-word;`)
+* `break-all`: Break all (`word-break: break-all;`)
+* `break-keep`: Keep all (`word-break: keep-all;`)
+* `hyphens-none`: No hyphens (`hyphens: none;`)
+* `hyphens-manual`: Manual hyphens (`hyphens: manual;`)
+* `hyphens-auto`: Auto hyphens (`hyphens: auto;`)
+* `align-baseline`: Baseline align (`vertical-align: baseline;`)
+* `align-top`: Top align (`vertical-align: top;`)
+* `align-middle`: Middle align (`vertical-align: middle;`)
+* `align-bottom`: Bottom align (`vertical-align: bottom;`)
+* `align-text-top`: Text top align (`vertical-align: text-top;`)
+* `align-text-bottom`: Text bottom align (`vertical-align: text-bottom;`)
+* `align-sub`: Subscript align (`vertical-align: sub;`)
+* `align-super`: Superscript align (`vertical-align: super;`)
+* `list-none`: No list style (`list-style-type: none;`)
+* `list-disc`: Disc bullets (`list-style-type: disc;`)
+* `list-decimal`: Decimal numbers (`list-style-type: decimal;`)
+* `list-square`: Square bullets (`list-style-type: square;`)
+* `list-inside`: Inside position (`list-style-position: inside;`)
+* `list-outside`: Outside position (`list-style-position: outside;`)
+
+## user-select
+> Control text selection
+
+**Syntax:** `visual="select:[value]"`
+
+* `none`: Prevent selection (`user-select: none;`)
+* `text`: Allow text selection (`user-select: text;`)
+* `all`: Select all on click (`user-select: all;`)
+* `auto`: Default behavior (`user-select: auto;`)
+
+## vertical-align
+> Set vertical alignment
+
+**Syntax:** `visual="align:[value]"`
+
+* `baseline`: Baseline (`vertical-align: baseline;`)
+* `top`: Top (`vertical-align: top;`)
+* `middle`: Middle (`vertical-align: middle;`)
+* `bottom`: Bottom (`vertical-align: bottom;`)
+* `text-top`: Text top (`vertical-align: text-top;`)
+* `text-bottom`: Text bottom (`vertical-align: text-bottom;`)
+* `sub`: Subscript (`vertical-align: sub;`)
+* `super`: Superscript (`vertical-align: super;`)
+
+## visibility
+> Control element visibility
+
+**Syntax:** `layout="[visibility-value]"`
+
+* `visible`: Element is visible (`visibility: visible;`)
+* `invisible`: Element is invisible but takes space (`visibility: hidden;`)
+
+## whitespace
+> Control whitespace handling
+
+**Syntax:** `visual="whitespace:[value]"`
+
+* `normal`: Normal whitespace (`white-space: normal;`)
+* `nowrap`: No wrap (`white-space: nowrap;`)
+* `pre`: Preserve whitespace (`white-space: pre;`)
+* `pre-line`: Pre-line (`white-space: pre-line;`)
+* `pre-wrap`: Pre-wrap (`white-space: pre-wrap;`)
+* `break-spaces`: Break spaces (`white-space: break-spaces;`)
+
+## width
+> Set element width
+
+**Syntax:** `space="w:[value]"`
+
+* `undefined`: Width (`width: var(--s-{value});`)
+* `undefined`: Minimum width (`min-width: var(--s-{value});`)
+* `undefined`: Maximum width (`max-width: var(--s-{value});`)
+
+## will-change
+> Hint browser about upcoming changes
+
+**Syntax:** `visual="will-change:[value]"`
+
+* `auto`: Auto optimization (`will-change: auto;`)
+* `scroll`: Scroll changes (`will-change: scroll-position;`)
+* `contents`: Content changes (`will-change: contents;`)
+* `transform`: Transform changes (`will-change: transform;`)
+* `opacity`: Opacity changes (`will-change: opacity;`)
+
+## word-break
+> Control word breaking
+
+**Syntax:** `visual="[break-value]"`
+
+* `break-normal`: Normal break (`overflow-wrap: normal; word-break: normal;`)
+* `break-words`: Break words (`overflow-wrap: break-word;`)
+* `break-all`: Break all (`word-break: break-all;`)
+* `break-keep`: Keep all (`word-break: keep-all;`)
+
+## z-index
+> Control stacking order
+
+**Syntax:** `layout="z:[value]"`
+
+* `base`: Base layer (0) (`z-index: var(--z-base);`)
+* `low`: Low layer (10) (`z-index: var(--z-low);`)
+* `mid`: Middle layer (50) (`z-index: var(--z-mid);`)
+* `high`: High layer (100) (`z-index: var(--z-high);`)
+* `top`: Top layer (9999) (`z-index: var(--z-top);`)
+

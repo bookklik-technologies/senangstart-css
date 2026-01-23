@@ -5,73 +5,73 @@
     0: "none",
     // 0px → none
     px: "thin",
-    // 1px → thin (was [1px])
-    0.5: "thin",
-    // 2px → thin (closest to regular:2px)
+    // 1px → thin
+    0.5: "regular",
+    // 2px → regular
     1: "tiny",
     // 4px → tiny
-    1.5: "tiny",
-    // 6px → tiny (closest)
+    1.5: "tiny-2x",
+    // 6px → tiny-2x
     2: "small",
     // 8px → small
-    2.5: "small",
-    // 10px → small (closest)
-    3: "small",
-    // 12px → small (closest)
-    3.5: "small",
-    // 14px → small (closest)
+    2.5: "small-2x",
+    // 10px → small-2x
+    3: "small-3x",
+    // 12px → small-3x
+    3.5: "small-4x",
+    // 14px → small-4x
     4: "medium",
     // 16px → medium
-    5: "medium",
-    // 20px → medium (closest)
-    6: "medium",
-    // 24px → medium (closest)
-    7: "medium",
-    // 28px → medium (closest)
-    8: "big",
-    // 32px → big
-    9: "big",
-    // 36px → big (closest)
-    10: "big",
-    // 40px → big (closest)
-    11: "big",
-    // 44px → big (closest)
+    5: "medium-2x",
+    // 20px → medium-2x
+    6: "medium-3x",
+    // 24px → medium-3x
+    7: "medium-4x",
+    // 28px → medium-4x
+    8: "large",
+    // 32px → large
+    9: "large-2x",
+    // 36px → large-2x
+    10: "large-3x",
+    // 40px → large-3x
+    11: "large-4x",
+    // 44px → large-4x
     12: "big",
-    // 48px → big (closest)
-    14: "giant",
-    // 56px → giant (closest)
-    16: "giant",
-    // 64px → giant
-    20: "giant",
-    // 80px → giant (closest)
+    // 48px → big
+    14: "big-2x",
+    // 56px → big-2x
+    16: "big-3x",
+    // 64px → big-3x
+    20: "big-4x",
+    // 80px → big-4x
     24: "giant",
-    // 96px → giant (closest)
-    28: "giant",
-    // 112px → giant (closest)
-    32: "vast",
-    // 128px → vast
-    36: "vast",
-    // 144px → vast
+    // 96px → giant
+    28: "giant-2x",
+    // 112px → giant-2x
+    32: "giant-3x",
+    // 128px → giant-3x
+    36: "giant-4x",
+    // 144px → giant-4x
     40: "vast",
     // 160px → vast
-    44: "vast",
-    // 176px → vast
-    48: "vast",
-    // 192px → vast
-    52: "vast",
-    // 208px → vast
-    56: "vast",
-    // 224px → vast
-    60: "vast",
-    // 240px → vast
-    64: "vast",
-    // 256px → vast
-    72: "vast",
-    // 288px → vast
-    80: "vast",
-    // 320px → vast
-    96: "vast",
-    // 384px → vast
+    44: "vast-2x",
+    // 176px → vast-2x
+    48: "vast-3x",
+    // 192px → vast-3x
+    52: "vast-4x",
+    // 208px → vast-4x
+    56: "vast-5x",
+    // 224px → vast-5x
+    60: "vast-6x",
+    // 240px → vast-6x
+    64: "vast-7x",
+    // 256px → vast-7x
+    72: "vast-8x",
+    // 288px → vast-8x
+    80: "vast-9x",
+    // 320px → vast-9x
+    96: "vast-10x",
+    // 384px → vast-10x
     full: "[100%]",
     screen: "[100vw]",
     auto: "auto"

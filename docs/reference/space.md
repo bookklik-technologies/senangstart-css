@@ -10,7 +10,7 @@ The `space` attribute controls sizing and spacing.
 
 **Breakpoints:** `mob:`, `tab:`, `lap:`, `desk:`
 
-**Scale values:** `none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`
+**Scale values:** `none`, `thin`, `regular`, `thick`, `tiny`, `small`, `medium`, `large`, `big`, `giant`, `vast` (and numeric multipliers)
 
 ## Spacing
 

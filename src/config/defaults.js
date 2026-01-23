@@ -32,19 +32,45 @@ export const defaultConfig = {
   preflight: true,
 
   theme: {
-    // 1. SPACING: The "Natural Object" Scale
+    // 1. SPACING: The "Natural Object" Scale with multiplier variants
     // Logic: How big is the object/gap physically?
     spacing: {
-      'none':   '0px',      // No space
-      'thin':   '1px',      // Hairline (for borders)
-      'regular': '2px',     // Standard border
-      'thick':  '3px',      // Bold border
-      'tiny':   '4px',      // Pebble (Small offsets)
-      'small':  '8px',      // Matchbox (Grouping inside components)
-      'medium': '16px',     // Smartphone (Standard default)
-      'big':    '32px',     // Laptop (Separation between groups)
-      'giant':  '64px',     // Door (Layout sections)
-      'vast':   '128px'     // House (Hero sections)
+      'none':      '0px',       // No space
+      'thin':      '1px',       // Hairline (for borders)
+      'regular':   '2px',       // Standard border
+      'thick':     '3px',       // Bold border
+      'tiny':      '4px',       // Small offsets
+      'tiny-2x':   '6px',       // Tiny multiplied
+      'small':     '8px',       // Grouping inside components
+      'small-2x':  '10px',      // 
+      'small-3x':  '12px',      // 
+      'small-4x':  '14px',      // 
+      'medium':    '16px',      // Standard default
+      'medium-2x': '20px',      // 
+      'medium-3x': '24px',      // 
+      'medium-4x': '28px',      // 
+      'large':     '32px',      // Separation between groups
+      'large-2x':  '36px',      // 
+      'large-3x':  '40px',      // 
+      'large-4x':  '44px',      // 
+      'big':       '48px',      // Layout sections
+      'big-2x':    '56px',      // 
+      'big-3x':    '64px',      // 
+      'big-4x':    '80px',      // 
+      'giant':     '96px',      // Hero sections
+      'giant-2x':  '112px',     // 
+      'giant-3x':  '128px',     // 
+      'giant-4x':  '144px',     // 
+      'vast':      '160px',     // Page-level spacing
+      'vast-2x':   '176px',     // 
+      'vast-3x':   '192px',     // 
+      'vast-4x':   '208px',     // 
+      'vast-5x':   '224px',     // 
+      'vast-6x':   '240px',     // 
+      'vast-7x':   '256px',     // 
+      'vast-8x':   '288px',     // 
+      'vast-9x':   '320px',     // 
+      'vast-10x':  '384px',     // 
     },
 
     // 2. RADIUS: Tactile Feel

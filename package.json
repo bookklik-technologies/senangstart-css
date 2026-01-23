@@ -17,6 +17,7 @@
     "docs:generate": "node scripts/generate-docs.js",
     "docs:sync-check": "node scripts/generate-docs.js --compare",
     "docs:syntax": "node scripts/extract-syntax.js",
+    "docs:llms": "node scripts/generate-llms-txt.js",
     "test": "node --test tests/",
     "test:unit": "node --test tests/unit/",
     "test:integration": "node --test tests/integration/",

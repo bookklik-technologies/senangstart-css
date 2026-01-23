@@ -10,7 +10,7 @@ Atribut `space` mengawal saiz dan jarak.
 
 **Titik Henti:** `mob:`, `tab:`, `lap:`, `desk:`
 
-**Nilai skala:** `none`, `tiny`, `small`, `medium`, `big`, `giant`, `vast`
+**Nilai skala:** `none`, `thin`, `regular`, `thick`, `tiny`, `small`, `medium`, `large`, `big`, `giant`, `vast` (dan pengganda numerik)
 
 ## Jarak
 
