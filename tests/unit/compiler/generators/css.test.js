@@ -716,4 +716,196 @@ describe('CSS Generator', () => {
 
   });
 
+  describe('3D Transforms', () => {
+
+    describe('Perspective', () => {
+
+      it('generates perspective: none', () => {
+        const token = { property: 'perspective', value: 'none', attrType: 'visual', raw: 'perspective:none' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: none'));
+      });
+
+      it('generates perspective: small', () => {
+        const token = { property: 'perspective', value: 'small', attrType: 'visual', raw: 'perspective:small' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: 250px'));
+      });
+
+      it('generates perspective: medium', () => {
+        const token = { property: 'perspective', value: 'medium', attrType: 'visual', raw: 'perspective:medium' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: 500px'));
+      });
+
+      it('generates perspective: big', () => {
+        const token = { property: 'perspective', value: 'big', attrType: 'visual', raw: 'perspective:big' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: 750px'));
+      });
+
+      it('generates perspective: giant', () => {
+        const token = { property: 'perspective', value: 'giant', attrType: 'visual', raw: 'perspective:giant' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: 1000px'));
+      });
+
+      it('generates perspective: vast', () => {
+        const token = { property: 'perspective', value: 'vast', attrType: 'visual', raw: 'perspective:vast' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: 1500px'));
+      });
+
+      it('generates perspective with arbitrary value', () => {
+        const token = { property: 'perspective', value: '600px', isArbitrary: true, attrType: 'visual', raw: 'perspective:[600px]' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: 600px'));
+      });
+    });
+
+    describe('Perspective Origin', () => {
+
+      it('generates perspective-origin: center', () => {
+        const token = { property: 'perspective-origin', value: 'center', attrType: 'visual', raw: 'perspective-origin:center' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective-origin: center'));
+      });
+
+      it('generates perspective-origin: top', () => {
+        const token = { property: 'perspective-origin', value: 'top', attrType: 'visual', raw: 'perspective-origin:top' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective-origin: top'));
+      });
+
+      it('generates perspective-origin: bottom', () => {
+        const token = { property: 'perspective-origin', value: 'bottom', attrType: 'visual', raw: 'perspective-origin:bottom' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective-origin: bottom'));
+      });
+
+      it('generates perspective-origin: top-left', () => {
+        const token = { property: 'perspective-origin', value: 'top-left', attrType: 'visual', raw: 'perspective-origin:top-left' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective-origin: top left'));
+      });
+
+      it('generates perspective-origin with arbitrary value', () => {
+        const token = { property: 'perspective-origin', value: '30% 70%', isArbitrary: true, attrType: 'visual', raw: 'perspective-origin:[30%_70%]' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective-origin: 30% 70%'));
+      });
+    });
+
+    describe('3D Rotation (Rotate X/Y/Z)', () => {
+
+      it('generates rotate-x', () => {
+        const token = { property: 'rotate-x', value: '45', attrType: 'visual', raw: 'rotate-x:45' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform: rotateX(45deg)'));
+      });
+
+      it('generates rotate-y', () => {
+        const token = { property: 'rotate-y', value: '90', attrType: 'visual', raw: 'rotate-y:90' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform: rotateY(90deg)'));
+      });
+
+      it('generates rotate-z (same as rotate)', () => {
+        const token = { property: 'rotate', value: '180', attrType: 'visual', raw: 'rotate:180' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform: rotate(180deg)'));
+      });
+
+      it('generates rotate-x with arbitrary degrees', () => {
+        const token = { property: 'rotate-x', value: '30deg', isArbitrary: true, attrType: 'visual', raw: 'rotate-x:[30deg]' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform: rotateX(30deg)'));
+      });
+    });
+
+    describe('3D Translation (Translate Z)', () => {
+
+      it('generates translate-z with arbitrary px', () => {
+        const token = { property: 'translate-z', value: '100px', isArbitrary: true, attrType: 'visual', raw: 'translate-z:[100px]' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform: translateZ(100px)'));
+      });
+    });
+
+    describe('Transform Style', () => {
+
+      it('generates transform-style: flat', () => {
+        const token = { property: 'transform-style', value: 'flat', attrType: 'visual', raw: 'transform-style:flat' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform-style: flat'));
+      });
+
+      it('generates transform-style: preserve-3d', () => {
+        const token = { property: 'transform-style', value: 'preserve-3d', attrType: 'visual', raw: 'transform-style:preserve-3d' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform-style: preserve-3d'));
+      });
+    });
+
+    describe('Backface Visibility', () => {
+
+      it('generates backface: visible', () => {
+        const token = { property: 'backface', value: 'visible', attrType: 'visual', raw: 'backface:visible' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('backface-visibility: visible'));
+      });
+
+      it('generates backface: hidden', () => {
+        const token = { property: 'backface', value: 'hidden', attrType: 'visual', raw: 'backface:hidden' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('backface-visibility: hidden'));
+      });
+    });
+
+    describe('Transform Origin', () => {
+
+      it('generates origin: center', () => {
+        const token = { property: 'origin', value: 'center', attrType: 'visual', raw: 'origin:center' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform-origin: center'));
+      });
+
+      it('generates origin: top-left', () => {
+        const token = { property: 'origin', value: 'top-left', attrType: 'visual', raw: 'origin:top-left' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform-origin: top left'));
+      });
+
+      it('generates origin with arbitrary value', () => {
+        const token = { property: 'origin', value: '50% 50%', isArbitrary: true, attrType: 'visual', raw: 'origin:[50%_50%]' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('transform-origin: 50% 50%'));
+      });
+    });
+  });
+
 });

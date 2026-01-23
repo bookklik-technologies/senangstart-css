@@ -1577,6 +1577,33 @@ function generateVisualRule(token, config) {
       return `transform: skewY(${cssValue});`;
     },
     
+    // 3D Rotation (Rotate X/Y/Z)
+    'rotate-x': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `transform: rotateX(${cssValue});`;
+    },
+    
+    'rotate-y': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `transform: rotateY(${cssValue});`;
+    },
+    
+    'rotate-z': () => {
+      const cssValue = isArbitrary ? value : `${value}deg`;
+      return `transform: rotateZ(${cssValue});`;
+    },
+    
+    // 3D Translation (Translate Z)
+    'translate-z': () => {
+      const translatePresets = {
+        'near': '50px',
+        'far': '-50px',
+        '0': '0'
+      };
+      const cssValue = isArbitrary ? value : (translatePresets[value] || `var(--s-${value})`);
+      return `transform: translateZ(${cssValue});`;
+    },
+    
     // Transform Origin
     'origin': () => {
       const originMap = {

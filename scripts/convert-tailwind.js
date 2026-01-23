@@ -318,7 +318,21 @@ const visualKeywordMappings = {
   
   // Appearance
   'appearance-none': 'appearance:none',
-  'appearance-auto': 'appearance:auto'
+  'appearance-auto': 'appearance:auto',
+  
+  // 3D Transforms
+  'perspective': 'perspective',
+  'perspective-origin': 'perspective-origin',
+  'transform-style': 'transform-style',
+  'backface-visibility': 'backface',
+  'mask': 'mask',
+  'mask-image': 'mask-image',
+  'mask-mode': 'mask-mode',
+  'mask-origin': 'mask-origin',
+  'mask-position': 'mask-position',
+  'mask-repeat': 'mask-repeat',
+  'mask-size': 'mask-size',
+  'mask-type': 'mask-type'
 };
 
 // ======================
@@ -606,7 +620,148 @@ function convertClass(twClass, options = {}) {
   if (toMatch) {
     return { category: 'visual', value: prefix + "to:" + toMatch[1] };
   }
-
+  
+  // ======================
+  // 3D TRANSFORMS
+  // ======================
+  
+  // Perspective
+  const perspectiveMatch = baseClass.match(/^perspective(?:-(.+))?$/);
+  if (perspectiveMatch) {
+    const val = perspectiveMatch[1] || 'normal';
+    return { category: 'visual', value: prefix + "perspective:" + val };
+  }
+  
+  // Perspective origin
+  const perspectiveOriginMatch = baseClass.match(/^perspective-origin(?:-(.+))?$/);
+  if (perspectiveOriginMatch) {
+    const val = perspectiveOriginMatch[1] || 'center';
+    return { category: 'visual', value: prefix + "perspective-origin:" + val };
+  }
+  
+  // Rotate X/Y/Z (3D rotation)
+  const rotateAxisMatch = baseClass.match(/^rotate-([xyz])(?:-(.+))?$/);
+  if (rotateAxisMatch) {
+    const axis = rotateAxisMatch[1].toLowerCase();
+    const val = rotateAxisMatch[2] || '0';
+    return { category: 'visual', value: prefix + `rotate-${axis}:${val}` };
+  }
+  
+  // Rotate (2D)
+  const rotateMatch = baseClass.match(/^rotate(?:-(.+))?$/);
+  if (rotateMatch && !rotateAxisMatch) {
+    const val = rotateMatch[1] || '0';
+    return { category: 'visual', value: prefix + `rotate:${val}` };
+  }
+  
+  // Scale X/Y
+  const scaleAxisMatch = baseClass.match(/^scale-([xy])(?:-(.+))?$/);
+  if (scaleAxisMatch) {
+    const axis = scaleAxisMatch[1].toLowerCase();
+    const val = scaleAxisMatch[2] || '100';
+    return { category: 'visual', value: prefix + `scale-${axis}:${val}` };
+  }
+  
+  // Scale (uniform)
+  const scaleMatch = baseClass.match(/^scale(?:-(.+))?$/);
+  if (scaleMatch && !scaleAxisMatch) {
+    const val = scaleMatch[1] || '100';
+    return { category: 'visual', value: prefix + `scale:${val}` };
+  }
+  
+  // Skew X/Y
+  const skewAxisMatch = baseClass.match(/^skew-([xy])(?:-(.+))?$/);
+  if (skewAxisMatch) {
+    const axis = skewAxisMatch[1].toLowerCase();
+    const val = skewAxisMatch[2] || '0';
+    return { category: 'visual', value: prefix + `skew-${axis}:${val}` };
+  }
+  
+  // Translate X/Y/Z
+  const translateAxisMatch = baseClass.match(/^translate-([xyz])(?:-(.+))?$/);
+  if (translateAxisMatch) {
+    const axis = translateAxisMatch[1].toLowerCase();
+    const val = translateAxisMatch[2] || '0';
+    return { category: 'visual', value: prefix + `translate-${axis}:${val}` };
+  }
+  
+  // Transform style
+  const transformStyleMatch = baseClass.match(/^transform-style(?:-(.+))?$/);
+  if (transformStyleMatch) {
+    const val = transformStyleMatch[1] || 'flat';
+    return { category: 'visual', value: prefix + "transform-style:" + val };
+  }
+  
+  // Backface visibility
+  const backfaceMatch = baseClass.match(/^backface(?:-(.+))?$/);
+  if (backfaceMatch) {
+    const val = backfaceMatch[1] || 'hidden';
+    return { category: 'visual', value: prefix + "backface:" + val };
+  }
+  
+  // Transform origin
+  const originMatch = baseClass.match(/^origin(?:-(.+))?$/);
+  if (originMatch) {
+    const val = originMatch[1] || 'center';
+    return { category: 'visual', value: prefix + "origin:" + val };
+  }
+  
+  // Mask
+  const maskMatch = baseClass.match(/^mask(?:-(.+))?$/);
+  if (maskMatch) {
+    const val = maskMatch[1] || 'none';
+    return { category: 'visual', value: prefix + "mask:" + val };
+  }
+  
+  // Mask image
+  const maskImageMatch = baseClass.match(/^mask-image(?:-(.+))?$/);
+  if (maskImageMatch) {
+    const val = maskImageMatch[1] || 'none';
+    return { category: 'visual', value: prefix + "mask-image:" + val };
+  }
+  
+  // Mask mode
+  const maskModeMatch = baseClass.match(/^mask-mode(?:-(.+))?$/);
+  if (maskModeMatch) {
+    const val = maskModeMatch[1] || 'match';
+    return { category: 'visual', value: prefix + "mask-mode:" + val };
+  }
+  
+  // Mask origin
+  const maskOriginMatch = baseClass.match(/^mask-origin(?:-(.+))?$/);
+  if (maskOriginMatch) {
+    const val = maskOriginMatch[1] || 'center';
+    return { category: 'visual', value: prefix + "mask-origin:" + val };
+  }
+  
+  // Mask position
+  const maskPositionMatch = baseClass.match(/^mask-position(?:-(.+))?$/);
+  if (maskPositionMatch) {
+    const val = maskPositionMatch[1] || 'center';
+    return { category: 'visual', value: prefix + "mask-position:" + val };
+  }
+  
+  // Mask repeat
+  const maskRepeatMatch = baseClass.match(/^mask-repeat(?:-(.+))?$/);
+  if (maskRepeatMatch) {
+    const val = maskRepeatMatch[1] || 'repeat';
+    return { category: 'visual', value: prefix + "mask-repeat:" + val };
+  }
+  
+  // Mask size
+  const maskSizeMatch = baseClass.match(/^mask-size(?:-(.+))?$/);
+  if (maskSizeMatch) {
+    const val = maskSizeMatch[1] || 'auto';
+    return { category: 'visual', value: prefix + "mask-size:" + val };
+  }
+  
+  // Mask type
+  const maskTypeMatch = baseClass.match(/^mask-type(?:-(.+))?$/);
+  if (maskTypeMatch) {
+    const val = maskTypeMatch[1] || 'luminance';
+    return { category: 'visual', value: prefix + "mask-type:" + val };
+  }
+  
   return null;
 }
 
