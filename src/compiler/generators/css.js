@@ -1042,24 +1042,13 @@ function generateVisualRule(token, config) {
     },
     
     // Divide width - directional
-    // Divide width - directional
     'divide-x-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `
-        border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse, 0));
-        border-left-width: calc(${cssValue} * calc(1 - var(--ss-divide-x-reverse, 0)));
-        border-left-style: solid;
-        border-right-style: solid;
-      `;
+      return `border-left-width: ${cssValue}; border-right-width: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
     },
     'divide-y-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `
-        border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse, 0));
-        border-top-width: calc(${cssValue} * calc(1 - var(--ss-divide-y-reverse, 0)));
-        border-top-style: solid;
-        border-bottom-style: solid;
-      `;
+      return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
     },
     
     // Divide style
