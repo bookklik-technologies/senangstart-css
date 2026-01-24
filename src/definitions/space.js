@@ -243,13 +243,17 @@ export const width = {
     'large', 'large-2x', 'large-3x', 'large-4x',
     'big', 'big-2x', 'big-3x', 'big-4x',
     'giant', 'giant-2x', 'giant-3x', 'giant-4x',
-    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x'
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
+    'min', 'max', 'fit'
   ],
   supportsArbitrary: true,
   examples: [
     { code: '<div space="w:[100%]">Full width</div>', description: 'Full width' },
     { code: '<div space="max-w:[1200px]">Max width container</div>', description: 'Max width' },
-    { code: '<div space="min-w:[300px]">Min width</div>', description: 'Minimum width' }
+    { code: '<div space="min-w:[300px]">Min width</div>', description: 'Minimum width' },
+    { code: '<div space="w:max">Content width</div>', description: 'Width based on content (max-content)' },
+    { code: '<div space="max-w:max">Max content width</div>', description: 'Maximum content width' },
+    { code: '<div space="min-w:min">Min content width</div>', description: 'Minimum content width' }
   ],
   preview: [
     {
@@ -265,14 +269,28 @@ export const width = {
       highlightValue: 'w:[100%]'
     },
     {
-      title: 'Max Width',
-      titleMs: 'Lebar Maksimum',
-      description: 'Constrain maximum width',
-      descriptionMs: 'Hadkan lebar maksimum',
+      title: 'Content-Based Sizing',
+      titleMs: 'Saiz Berdasarkan Kandungan',
+      description: 'Use min, max, or fit for content-based sizing',
+      descriptionMs: 'Guna min, max, atau fit untuk saiz berdasarkan kandungan',
       html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="max-w:[200px] p:small" visual="bg:primary text:white rounded:small">max-w:[200px]</div>
+  <div space="w:min p:small m-b:small" visual="bg:primary text:white rounded:small">w:min shrinks to minimum</div>
+  <div space="w:max p:small m-b:small" visual="bg:pink-600 text:white rounded:small">w:max expands to fit all content without wrapping</div>
+  <div space="w:fit p:small" visual="bg:green-600 text:white rounded:small">w:fit adapts to available space while respecting content</div>
 </div>`,
-      highlightValue: 'max-w:[200px]'
+      highlightValue: 'w:max'
+    },
+    {
+      title: 'Max Width with Content Values',
+      titleMs: 'Lebar Maksimum dengan Nilai Kandungan',
+      description: 'Constrain maximum width using content values',
+      descriptionMs: 'Hadkan lebar maksimum menggunakan nilai kandungan',
+      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="max-w:min p:small m-b:small" visual="bg:primary text:white rounded:small">max-w:min - Text will wrap to minimum width needed</div>
+  <div space="max-w:max p:small m-b:small" visual="bg:pink-600 text:white rounded:small">max-w:max - Expands to content</div>
+  <div space="max-w:[200px] p:small" visual="bg:green-600 text:white rounded:small">max-w:[200px] - Fixed max</div>
+</div>`,
+      highlightValue: 'max-w:min'
     }
   ],
   footnotes: [
@@ -310,12 +328,16 @@ export const height = {
     'large', 'large-2x', 'large-3x', 'large-4x',
     'big', 'big-2x', 'big-3x', 'big-4x',
     'giant', 'giant-2x', 'giant-3x', 'giant-4x',
-    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x'
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
+    'min', 'max', 'fit'
   ],
   supportsArbitrary: true,
   examples: [
     { code: '<div space="h:[100vh]">Full viewport height</div>', description: 'Full height' },
-    { code: '<div space="min-h:[400px]">Min height</div>', description: 'Minimum height' }
+    { code: '<div space="min-h:[400px]">Min height</div>', description: 'Minimum height' },
+    { code: '<div space="h:max">Content height</div>', description: 'Height based on content (max-content)' },
+    { code: '<div space="max-h:max">Max content height</div>', description: 'Maximum content height' },
+    { code: '<div space="min-h:min">Min content height</div>', description: 'Minimum content height' }
   ],
   preview: [
     {
@@ -331,14 +353,28 @@ export const height = {
       highlightValue: 'h:[100%]'
     },
     {
-      title: 'Min Height',
-      titleMs: 'Tinggi Minimum',
-      description: 'Set minimum height constraint',
-      descriptionMs: 'Tetapkan kekangan tinggi minimum',
-      html: `<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="min-h:[80px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">min-h:[80px]</div>
+      title: 'Content-Based Height',
+      titleMs: 'Tinggi Berdasarkan Kandungan',
+      description: 'Use min, max, or fit for content-based height',
+      descriptionMs: 'Guna min, max, atau fit untuk tinggi berdasarkan kandungan',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="h:min p:small" visual="bg:primary text:white rounded:small">h:min</div>
+  <div space="h:max p:small" visual="bg:pink-600 text:white rounded:small">h:max<br>Multi<br>Line</div>
+  <div space="h:fit p:small" visual="bg:amber-600 text:white rounded:small">h:fit</div>
 </div>`,
-      highlightValue: 'min-h:[80px]'
+      highlightValue: 'h:max'
+    },
+    {
+      title: 'Min/Max Height with Content Values',
+      titleMs: 'Tinggi Min/Max dengan Nilai Kandungan',
+      description: 'Constrain height using content values',
+      descriptionMs: 'Hadkan tinggi menggunakan nilai kandungan',
+      html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="min-h:min p:small" visual="bg:primary text:white rounded:small">min-h:min</div>
+  <div space="max-h:max p:small" visual="bg:pink-600 text:white rounded:small">max-h:max</div>
+  <div space="min-h:[80px] p:small" visual="bg:amber-600 text:white rounded:small" layout="flex center">min-h:[80px]</div>
+</div>`,
+      highlightValue: 'min-h:min'
     }
   ],
   footnotes: [

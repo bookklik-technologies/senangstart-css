@@ -1360,6 +1360,24 @@ img, video {
         };
         return autoMap[property] || "";
       }
+      const sizingSpecialValues = {
+        "min": "min-content",
+        "max": "max-content",
+        "fit": "fit-content"
+      };
+      const sizingProps = ["w", "h", "min-w", "max-w", "min-h", "max-h"];
+      if (sizingProps.includes(property) && sizingSpecialValues[value]) {
+        const cssValue2 = sizingSpecialValues[value];
+        const propMap = {
+          "w": `width: ${cssValue2};`,
+          "h": `height: ${cssValue2};`,
+          "min-w": `min-width: ${cssValue2};`,
+          "max-w": `max-width: ${cssValue2};`,
+          "min-h": `min-height: ${cssValue2};`,
+          "max-h": `max-height: ${cssValue2};`
+        };
+        return propMap[property] || "";
+      }
       let cssValue;
       if (isArbitrary) {
         cssValue = value;

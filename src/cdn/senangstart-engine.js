@@ -1107,6 +1107,28 @@ img, video {
       return autoMap[property] || '';
     }
     
+    // Handle special sizing values for width/height utilities
+    const sizingSpecialValues = {
+      'min': 'min-content',
+      'max': 'max-content',
+      'fit': 'fit-content'
+    };
+    
+    // Check if this is a sizing utility with a special value
+    const sizingProps = ['w', 'h', 'min-w', 'max-w', 'min-h', 'max-h'];
+    if (sizingProps.includes(property) && sizingSpecialValues[value]) {
+      const cssValue = sizingSpecialValues[value];
+      const propMap = {
+        'w': `width: ${cssValue};`,
+        'h': `height: ${cssValue};`,
+        'min-w': `min-width: ${cssValue};`,
+        'max-w': `max-width: ${cssValue};`,
+        'min-h': `min-height: ${cssValue};`,
+        'max-h': `max-height: ${cssValue};`
+      };
+      return propMap[property] || '';
+    }
+    
     // Handle Tailwind scale prefix (tw-*)
     let cssValue;
     if (isArbitrary) {

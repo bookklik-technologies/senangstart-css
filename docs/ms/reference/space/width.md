@@ -17,7 +17,7 @@ space="w:[value]"
 
 ## Nilai Skala
 
-`none`, `thin`, `regular`, `thick`, `tiny`, `tiny-2x`, `small`, `small-2x`, `small-3x`, `small-4x`, `medium`, `medium-2x`, `medium-3x`, `medium-4x`, `large`, `large-2x`, `large-3x`, `large-4x`, `big`, `big-2x`, `big-3x`, `big-4x`, `giant`, `giant-2x`, `giant-3x`, `giant-4x`, `vast`, `vast-2x`, `vast-3x`, `vast-4x`, `vast-5x`, `vast-6x`, `vast-7x`, `vast-8x`, `vast-9x`, `vast-10x`
+`none`, `thin`, `regular`, `thick`, `tiny`, `tiny-2x`, `small`, `small-2x`, `small-3x`, `small-4x`, `medium`, `medium-2x`, `medium-3x`, `medium-4x`, `large`, `large-2x`, `large-3x`, `large-4x`, `big`, `big-2x`, `big-3x`, `big-4x`, `giant`, `giant-2x`, `giant-3x`, `giant-4x`, `vast`, `vast-2x`, `vast-3x`, `vast-4x`, `vast-5x`, `vast-6x`, `vast-7x`, `vast-8x`, `vast-9x`, `vast-10x`, `min`, `max`, `fit`
 
 ## Contoh
 
@@ -25,6 +25,9 @@ space="w:[value]"
 <div space="w:[100%]">Full width</div>
 <div space="max-w:[1200px]">Max width container</div>
 <div space="min-w:[300px]">Min width</div>
+<div space="w:max">Content width</div>
+<div space="max-w:max">Max content width</div>
+<div space="min-w:min">Min content width</div>
 ```
 
 ## Pratonton
@@ -59,12 +62,14 @@ space="w:[value]"
 
 <div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
 
-### Lebar Maksimum
+### Saiz Berdasarkan Kandungan
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="max-w:[200px]"</code> - Hadkan lebar maksimum</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="w:max"</code> - Guna min, max, atau fit untuk saiz berdasarkan kandungan</p>
 <div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="max-w:[200px] p:small" visual="bg:primary text:white rounded:small">max-w:[200px]</div>
+  <div space="w:min p:small m-b:small" visual="bg:primary text:white rounded:small">w:min shrinks to minimum</div>
+  <div space="w:max p:small m-b:small" visual="bg:pink-600 text:white rounded:small">w:max expands to fit all content without wrapping</div>
+  <div space="w:fit p:small" visual="bg:green-600 text:white rounded:small">w:fit adapts to available space while respecting content</div>
 </div>
 </div>
 
@@ -73,7 +78,37 @@ space="w:[value]"
 
 ```html
 <div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="max-w:[200px] p:small" visual="bg:primary text:white rounded:small">max-w:[200px]</div>
+  <div space="w:min p:small m-b:small" visual="bg:primary text:white rounded:small">w:min shrinks to minimum</div>
+  <div space="w:max p:small m-b:small" visual="bg:pink-600 text:white rounded:small">w:max expands to fit all content without wrapping</div>
+  <div space="w:fit p:small" visual="bg:green-600 text:white rounded:small">w:fit adapts to available space while respecting content</div>
+</div>
+```
+
+</details>
+
+</div>
+
+<div space="p-x:big p-b:medium m-t:medium" visual="border-w:thin border:neutral-100 dark:border:neutral-800 rounded:medium">
+
+### Lebar Maksimum dengan Nilai Kandungan
+
+<div layout="flex col" space="g:medium">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="max-w:min"</code> - Hadkan lebar maksimum menggunakan nilai kandungan</p>
+<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="max-w:min p:small m-b:small" visual="bg:primary text:white rounded:small">max-w:min - Text will wrap to minimum width needed</div>
+  <div space="max-w:max p:small m-b:small" visual="bg:pink-600 text:white rounded:small">max-w:max - Expands to content</div>
+  <div space="max-w:[200px] p:small" visual="bg:green-600 text:white rounded:small">max-w:[200px] - Fixed max</div>
+</div>
+</div>
+
+<details>
+<summary>Lihat Kod</summary>
+
+```html
+<div space="p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="max-w:min p:small m-b:small" visual="bg:primary text:white rounded:small">max-w:min - Text will wrap to minimum width needed</div>
+  <div space="max-w:max p:small m-b:small" visual="bg:pink-600 text:white rounded:small">max-w:max - Expands to content</div>
+  <div space="max-w:[200px] p:small" visual="bg:green-600 text:white rounded:small">max-w:[200px] - Fixed max</div>
 </div>
 ```
 

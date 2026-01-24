@@ -564,6 +564,28 @@ function generateLayoutRule(token, config) {
 function generateSpaceRule(token, config) {
   const { property, value, isArbitrary } = token;
   
+  // Handle special sizing values for width/height utilities
+  const sizingSpecialValues = {
+    'min': 'min-content',
+    'max': 'max-content',
+    'fit': 'fit-content'
+  };
+  
+  // Check if this is a sizing utility with a special value
+  const sizingProps = ['w', 'h', 'min-w', 'max-w', 'min-h', 'max-h'];
+  if (sizingProps.includes(property) && sizingSpecialValues[value]) {
+    const cssVal = sizingSpecialValues[value];
+    const propMap = {
+      'w': `width: ${cssVal};`,
+      'h': `height: ${cssVal};`,
+      'min-w': `min-width: ${cssVal};`,
+      'max-w': `max-width: ${cssVal};`,
+      'min-h': `min-height: ${cssVal};`,
+      'max-h': `max-height: ${cssVal};`
+    };
+    return propMap[property] || '';
+  }
+  
   // Determine the CSS value
   const cssValue = isArbitrary ? value : `var(--s-${value})`;
   
