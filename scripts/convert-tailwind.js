@@ -381,6 +381,26 @@ function getSpacingScale(value, options = {}) {
   return `[${value}]`;
 }
 
+// ======================
+// BORDER WIDTH MAPPING
+// ======================
+const borderWidthScale = {
+  '0': 'none',
+  '1': 'thin',
+  '2': 'regular',
+  '3': 'thick',
+  '4': 'tiny',
+  '8': 'small'
+};
+
+function getBorderWidth(value, options = {}) {
+  if (options.exact) {
+    return `tw-${value}`;
+  }
+  return borderWidthScale[value] || `[${value}px]`;
+}
+
+
 /**
  * Convert a single Tailwind class to SenangStart
  * Returns { category: 'layout'|'space'|'visual'|null, value: string }
@@ -760,6 +780,79 @@ function convertClass(twClass, options = {}) {
   if (maskTypeMatch) {
     const val = maskTypeMatch[1] || 'luminance';
     return { category: 'visual', value: prefix + "mask-type:" + val };
+  }
+  
+  // Divide utilities - check these BEFORE other visual checks to avoid conflicts
+  const divideXMatch = baseClass.match(/^divide-x-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/);
+  if (divideXMatch) {
+    return {
+      category: "visual",
+      value: prefix + "divide-x:" + divideXMatch[1],
+    };
+  }
+  
+  const divideYMatch = baseClass.match(/^divide-y-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/);
+  if (divideYMatch) {
+    return {
+      category: "visual",
+      value: prefix + "divide-y:" + divideYMatch[1],
+    };
+  }
+  
+  const divideColorMatch = baseClass.match(/^divide-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/);
+  if (divideColorMatch) {
+    return {
+      category: "visual",
+      value: prefix + "divide:" + divideColorMatch[1],
+    };
+  }
+  
+  // Divide reverse (check these FIRST as they are specific)
+  if (baseClass === 'divide-x-reverse') {
+    return { category: 'visual', value: prefix + "divide-x:reverse" };
+  }
+  if (baseClass === 'divide-y-reverse') {
+    return { category: 'visual', value: prefix + "divide-y:reverse" };
+  }
+  
+  const divideWidthMatch = baseClass.match(/^divide-(\d+)$/);
+  if (divideWidthMatch) {
+    return {
+      category: "visual",
+      value: prefix + "divide-w:" + getBorderWidth(divideWidthMatch[1], options),
+    };
+  }
+  
+  // Implicit divide width
+  if (baseClass === 'divide-x') {
+    return { category: 'visual', value: prefix + "divide-x-w:thin" };
+  }
+  if (baseClass === 'divide-y') {
+    return { category: 'visual', value: prefix + "divide-y-w:thin" };
+  }
+  
+  const divideXWidthMatch = baseClass.match(/^divide-x-(\d+)$/);
+  if (divideXWidthMatch) {
+    return {
+      category: "visual",
+      value: prefix + "divide-x-w:" + getBorderWidth(divideXWidthMatch[1], options),
+    };
+  }
+  
+  const divideYWidthMatch = baseClass.match(/^divide-y-(\d+)$/);
+  if (divideYWidthMatch) {
+    return {
+      category: "visual",
+      value: prefix + "divide-y-w:" + getBorderWidth(divideYWidthMatch[1], options),
+    };
+  }
+  
+  const divideStyleMatch = baseClass.match(/^divide-(solid|dashed|dotted|double|none)$/);
+  if (divideStyleMatch) {
+    return {
+      category: "visual",
+      value: prefix + "divide-style:" + divideStyleMatch[1],
+    };
   }
   
   return null;

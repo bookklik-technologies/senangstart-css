@@ -222,7 +222,11 @@ const enSidebar = {
             { text: 'Border Color', link: '/reference/visual/border' },
             { text: 'Border Width', link: '/reference/visual/border-width' },
             { text: 'Border Radius', link: '/reference/visual/border-radius' },
-            { text: 'Border Style', link: '/reference/visual/border-style' }
+            { text: 'Border Style', link: '/reference/visual/border-style' },
+            { text: 'Divide Color', link: '/reference/visual/divide' },
+            { text: 'Divide Width', link: '/reference/visual/divide-width' },
+            { text: 'Divide Style', link: '/reference/visual/divide-style' },
+            { text: 'Divide Reverse', link: '/reference/visual/divide-reverse' }
           ]
         },
         {
@@ -590,7 +594,11 @@ const msSidebar = {
             { text: 'Warna Sempadan', link: '/ms/reference/visual/border' },
             { text: 'Lebar Sempadan', link: '/ms/reference/visual/border-width' },
             { text: 'Radius Sempadan', link: '/ms/reference/visual/border-radius' },
-            { text: 'Gaya Sempadan', link: '/ms/reference/visual/border-style' }
+            { text: 'Gaya Sempadan', link: '/ms/reference/visual/border-style' },
+            { text: 'Warna Pemisah', link: '/ms/reference/visual/divide-color' },
+            { text: 'Lebar Pemisah', link: '/ms/reference/visual/divide-width' },
+            { text: 'Gaya Pemisah', link: '/ms/reference/visual/divide-style' },
+            { text: 'Pemisah Terbalik', link: '/ms/reference/visual/divide-reverse' }
           ]
         },
         {

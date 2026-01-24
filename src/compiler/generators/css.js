@@ -1007,6 +1007,66 @@ function generateVisualRule(token, config) {
       return `border-radius: var(--r-${value});`;
     },
     
+    // =====================
+    // DIVIDE UTILITIES
+    // =====================
+    
+    // Divide color - all sides
+    'divide': () => {
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `border-color: ${cssValue}; border-style: solid;`;
+    },
+    
+    // Divide color - directional
+    'divide-x': () => {
+      // Handle divide-x:reverse specially
+      if (value === 'reverse') {
+        return '--ss-divide-x-reverse: 1;';
+      }
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+    },
+    'divide-y': () => {
+      // Handle divide-y:reverse specially
+      if (value === 'reverse') {
+        return '--ss-divide-y-reverse: 1;';
+      }
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+    },
+    
+    // Divide width - all sides
+    'divide-w': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `border-width: ${cssValue}; border-style: solid;`;
+    },
+    
+    // Divide width - directional
+    // Divide width - directional
+    'divide-x-w': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `
+        border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse, 0));
+        border-left-width: calc(${cssValue} * calc(1 - var(--ss-divide-x-reverse, 0)));
+        border-left-style: solid;
+        border-right-style: solid;
+      `;
+    },
+    'divide-y-w': () => {
+      const cssValue = isArbitrary ? value : `var(--s-${value})`;
+      return `
+        border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse, 0));
+        border-top-width: calc(${cssValue} * calc(1 - var(--ss-divide-y-reverse, 0)));
+        border-top-style: solid;
+        border-bottom-style: solid;
+      `;
+    },
+    
+    // Divide style
+    'divide-style': () => {
+      return `border-style: ${value};`;
+    },
+    
     // Outline Width
     'outline-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
@@ -1914,12 +1974,27 @@ export function generateRule(token, config, skipDarkWrapper = false) {
   
   if (!cssDeclaration) return '';
   
+  // Check if this is a divide utility (needs special selector)
+  const isDivide = raw.startsWith('divide');
+  
   // Build selector
-  let selector = `[${attrType}~="${raw}"]`;
+  let selector = '';
+  
+  if (isDivide) {
+    // Divide utilities use special child selector pattern
+    selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
+  } else {
+    selector = `[${attrType}~="${raw}"]`;
+  }
   
   // Add state pseudo-class (but not for 'dark' - it's handled separately)
   if (state && state !== 'dark') {
-    selector += `:${state}`;
+    if (isDivide) {
+      // For divide utilities, add state to the element after tilde
+      selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+    } else {
+      selector += `:${state}`;
+    }
   }
   
   return `${selector} { ${cssDeclaration} }\n`;

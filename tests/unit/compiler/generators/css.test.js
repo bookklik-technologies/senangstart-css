@@ -474,7 +474,7 @@ describe('CSS Generator', () => {
     });
 
     describe('Shadow', () => {
-
+      
       it('generates box-shadow', () => {
         const token = { property: 'shadow', value: 'medium', attrType: 'visual', raw: 'shadow:medium' };
         const config = createTestConfig();
@@ -482,9 +482,81 @@ describe('CSS Generator', () => {
         
         assert.ok(css.includes('box-shadow: var(--shadow-medium)'));
       });
-
+      
     });
-
+    
+    describe('Divide', () => {
+      
+      it('generates divide color', () => {
+        const token = { property: 'divide', value: 'primary', attrType: 'visual', raw: 'divide:primary' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
+        assert.ok(css.includes('border-color: var(--c-primary)'));
+        assert.ok(css.includes('border-style: solid'));
+      });
+      
+      it('generates divide-x', () => {
+        const token = { property: 'divide-x', value: 'gray-300', attrType: 'visual', raw: 'divide-x:gray-300' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
+        assert.ok(css.includes('border-left-color: var(--c-gray-300)'));
+        assert.ok(css.includes('border-right-color: var(--c-gray-300)'));
+      });
+      
+      it('generates divide-y', () => {
+        const token = { property: 'divide-y', value: 'danger', attrType: 'visual', raw: 'divide-y:danger' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
+        assert.ok(css.includes('border-top-color: var(--c-danger)'));
+        assert.ok(css.includes('border-bottom-color: var(--c-danger)'));
+      });
+      
+      it('generates divide width', () => {
+        const token = { property: 'divide-w', value: 'thin', attrType: 'visual', raw: 'divide-w:thin' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
+        assert.ok(css.includes('border-width: var(--s-thin)'));
+      });
+      
+      it('generates divide-x-w', () => {
+        const token = { property: 'divide-x-w', value: 'regular', attrType: 'visual', raw: 'divide-x-w:regular' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
+        assert.ok(css.includes('border-left-width: var(--s-regular)'));
+        assert.ok(css.includes('border-right-width: var(--s-regular)'));
+      });
+      
+      it('generates divide-y-w', () => {
+        const token = { property: 'divide-y-w', value: 'thick', attrType: 'visual', raw: 'divide-y-w:thick' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
+        assert.ok(css.includes('border-top-width: var(--s-thick)'));
+        assert.ok(css.includes('border-bottom-width: var(--s-thick)'));
+      });
+      
+      it('generates divide style', () => {
+        const token = { property: 'divide-style', value: 'dashed', attrType: 'visual', raw: 'divide-style:dashed' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
+        assert.ok(css.includes('border-style: dashed'));
+      });
+      
+    });
+    
     describe('Typography Keywords', () => {
 
       it('generates italic', () => {

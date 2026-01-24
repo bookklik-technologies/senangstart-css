@@ -554,6 +554,44 @@ export default {
 * `inline`: Inline block element (`display: inline-block;`)
 * `hidden`: Hidden element (`display: none;`)
 
+## divide
+> Add borders between child elements
+
+**Syntax:** `visual="divide:[color]" | visual="divide-{x|y}:[color]" | visual="divide-{x|y}:reverse"`
+
+* `primary`: Primary color divider
+* `gray-300`: Light gray divider
+* `danger`: Danger/error divider
+
+## divide-reverse
+> Reverse border side for flex-reverse
+
+**Syntax:** `visual="divide-{x|y}:reverse"`
+
+* `divide-x:reverse`: Reverse X-axis divider (`--ss-divide-x-reverse: 1;`)
+* `divide-y:reverse`: Reverse Y-axis divider (`--ss-divide-y-reverse: 1;`)
+
+## divide-style
+> Set divider style
+
+**Syntax:** `visual="divide-style:[value]"`
+
+* `solid`: Solid divider (`border-style: solid;`)
+* `dashed`: Dashed divider (`border-style: dashed;`)
+* `dotted`: Dotted divider (`border-style: dotted;`)
+* `double`: Double divider (`border-style: double;`)
+* `none`: No divider (`border-style: none;`)
+
+## divide-width
+> Set divider width
+
+**Syntax:** `visual="divide-w:[value]" | visual="divide-{x|y}-w:[value]"`
+
+* `none`: No divider (0px) (`border-width: var(--s-none);`)
+* `thin`: Thin divider (1px) (`border-width: var(--s-thin);`)
+* `regular`: Standard divider (2px) (`border-width: var(--s-regular);`)
+* `thick`: Thick divider (3px) (`border-width: var(--s-thick);`)
+
 ## field-sizing
 > Control form field sizing
 

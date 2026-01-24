@@ -14,6 +14,7 @@ import filterDefinitions from './visual-filters.js';
 import transitionDefinitions from './visual-transitions.js';
 import transformDefinitions from './visual-transforms.js';
 import borderDefinitions from './visual-borders.js';
+import divideDefinitions from './visual-divide.js';
 import svgDefinitions from './visual-svg.js';
 
 // Import split layout definitions
@@ -35,6 +36,7 @@ const allVisualDefinitions = {
   ...transitionDefinitions,
   ...transformDefinitions,
   ...borderDefinitions,
+  ...divideDefinitions,
   ...svgDefinitions
 };
 
@@ -50,6 +52,7 @@ export { filterDefinitions } from './visual-filters.js';
 export { transitionDefinitions } from './visual-transitions.js';
 export { transformDefinitions } from './visual-transforms.js';
 export { borderDefinitions } from './visual-borders.js';
+export { divideDefinitions } from './visual-divide.js';
 export { svgDefinitions } from './visual-svg.js';
 
 // Re-export split layout definitions

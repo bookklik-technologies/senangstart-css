@@ -46,12 +46,18 @@ The `visual` attribute controls colors, textures, typography, and appearance.
 - [Font Variant Numeric](./visual/font-variant-numeric) - `tabular-nums`, `ordinal`
 
 ## Borders
-
+ 
 - [Border Color](./visual/border) - `border:grey`, `border:primary`
 - [Border Width](./visual/border-width) - `border-w:thin`, `border-w:thick`
 - [Border Radius](./visual/border-radius) - `rounded:small`, `rounded:big`, `rounded:round`
 - [Border Style](./visual/border-style) - `border-solid`, `border-dashed`, `border-dotted`
-
+ 
+## Divide
+ 
+- [Divide Color](./visual/divide) - `divide:primary`, `divide:gray-300`
+- [Divide Width](./visual/divide-width) - `divide-w:thin`, `divide-w:regular`, `divide-w:thick`
+- [Divide Style](./visual/divide-style) - `divide-style:solid`, `divide-style:dashed`, `divide-style:dotted`
+ 
 ## Effects
 
 - [Box Shadow](./visual/box-shadow) - `shadow:small`, `shadow:medium`, `shadow:big`

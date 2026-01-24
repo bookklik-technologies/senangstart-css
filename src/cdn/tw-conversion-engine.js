@@ -548,7 +548,86 @@ function convertClass(twClass, exact) {
   if (ringColorMatch) {
     return { cat: "visual", val: prefix + "ring-color:" + ringColorMatch[1] };
   }
-
+  
+  // Divide color - directional (check divide-x and divide-y BEFORE generic divide)
+  const divideXMatch = baseClass.match(/^divide-x-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
+  if (divideXMatch) {
+    return {
+      cat: "visual",
+      val: prefix + "divide-x:" + divideXMatch[1],
+    };
+  }
+  
+  const divideYMatch = baseClass.match(/^divide-y-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
+  if (divideYMatch) {
+    return {
+      cat: "visual",
+      val: prefix + "divide-y:" + divideYMatch[1],
+    };
+  }
+  
+  // Divide color - all directions (check divide-x and divide-y AFTER generic divide)
+  const divideColorMatch = baseClass.match(/^divide-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
+  if (divideColorMatch) {
+    return {
+      cat: "visual",
+      val: prefix + "divide:" + divideColorMatch[1],
+    };
+  }
+  
+  // Divide width - all directions
+  const divideWidthMatch = baseClass.match(/^divide-(\d+)$/);
+  if (divideWidthMatch) {
+    return {
+      cat: "visual",
+      val: prefix + "divide-w:" + getBorderWidth(divideWidthMatch[1], exact),
+    };
+  }
+  
+  // Divide reverse (check these FIRST as they are specific)
+  if (baseClass === 'divide-x-reverse') {
+    return { cat: "visual", val: prefix + "divide-x:reverse" };
+  }
+  if (baseClass === 'divide-y-reverse') {
+    return { cat: "visual", val: prefix + "divide-y:reverse" };
+  }
+  
+  // Divide width - directional
+  const divideXWidthMatch = baseClass.match(/^divide-x-(\d+)$/);
+  if (divideXWidthMatch) {
+    return {
+      cat: "visual",
+      val: prefix + "divide-x-w:" + getBorderWidth(divideXWidthMatch[1], exact),
+    };
+  }
+  
+  // Divide width (implicit x/y from Tailwind divide-x/y without number is usually 1px)
+  // Tailwind: divide-x = border-right-width: 1px (or left if reverse).
+  // SenangStart: divide-x-w:thin
+  if (baseClass === 'divide-x') {
+    return { cat: "visual", val: prefix + "divide-x-w:thin" };
+  }
+  if (baseClass === 'divide-y') {
+    return { cat: "visual", val: prefix + "divide-y-w:thin" };
+  }
+  
+  const divideYWidthMatch = baseClass.match(/^divide-y-(\d+)$/);
+  if (divideYWidthMatch) {
+    return {
+      cat: "visual",
+      val: prefix + "divide-y-w:" + getBorderWidth(divideYWidthMatch[1], exact),
+    };
+  }
+  
+  // Divide style
+  const divideStyleMatch = baseClass.match(/^divide-(solid|dashed|dotted|double|none)$/);
+  if (divideStyleMatch) {
+    return {
+      cat: "visual",
+      val: prefix + "divide-style:" + divideStyleMatch[1], // Fixed category from 'color' to 'visual'
+    };
+  }
+  
   return null;
 }
 

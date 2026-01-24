@@ -1961,12 +1961,70 @@ img, video {
       },
       'ring-offset-color': () => {
         const cssValue = isArbitrary ? value : `var(--c-${value})`;
-        return `--ring-offset-color: ${cssValue};`;
+        return `--ring-offset-color ${cssValue};`;
+      },
+      
+
+      
+      // ============================================
+      // DIVIDE UTILITIES
+      // ============================================
+      'divide': () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `border-color: ${cssValue}; border-style: solid;`;
+      },
+      'divide-x': () => {
+        // Handle divide-x:reverse specially
+        if (value === 'reverse') {
+          return '--ss-divide-x-reverse: 1;';
+        }
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+      },
+      'divide-y': () => {
+        // Handle divide-y:reverse specially
+        if (value === 'reverse') {
+          return '--ss-divide-y-reverse: 1;';
+        }
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+      },
+      'divide-w': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `border-width: ${cssValue}; border-style: solid;`;
+      },
+      'divide-x-w': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `
+          border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse, 0));
+          border-left-width: calc(${cssValue} * (1 - var(--ss-divide-x-reverse, 0)));
+          border-left-style: solid; 
+          border-right-style: solid;
+        `;
+      },
+      'divide-y-w': () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `
+          border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse, 0));
+          border-top-width: calc(${cssValue} * (1 - var(--ss-divide-y-reverse, 0)));
+          border-top-style: solid; 
+          border-bottom-style: solid;
+        `;
+      },
+      'divide-x:reverse': () => {
+        return '--ss-divide-x-reverse: 1;';
+      },
+      'divide-y:reverse': () => {
+        return '--ss-divide-y-reverse: 1;';
+      },
+      'divide-style': () => {
+        return `border-style: ${value};`;
       },
       
       // ============================================
       // SVG UTILITIES
       // ============================================
+
       'stroke': () => {
         const cssValue = isArbitrary ? value : `var(--c-${value})`;
         return `stroke: ${cssValue};`;
@@ -2042,15 +2100,15 @@ img, video {
     return gen ? gen() : '';
   }
 
-  function generateRule(raw, attrType) {
+   function generateRule(raw, attrType) {
     // Handle simple layout keywords
     if (attrType === 'layout' && layoutKeywords[raw]) {
       return `[layout~="${raw}"] { ${layoutKeywords[raw]} }\n`;
     }
-
+    
     const token = parseToken(raw);
     let cssDeclaration = '';
-
+    
     switch (attrType) {
       case 'layout':
         cssDeclaration = generateLayoutRule(token);
@@ -2062,37 +2120,33 @@ img, video {
         cssDeclaration = generateVisualRule(token);
         break;
     }
-
+    
     if (!cssDeclaration) return '';
-
-    let selector = `[${attrType}~="${raw}"]`;
-    // Add pseudo-class for states (but not for 'dark' - handled separately)
-    if (token.state && token.state !== 'dark') {
-      selector += `:${token.state}`;
-    }
-
-    let rule = `${selector} { ${cssDeclaration} }\n`;
-
-    // Special handling for dark mode
-    if (token.state === 'dark') {
-      rule = `:where(.dark) ${rule}`;
+    
+    // Check if this is a divide utility
+    const isDivide = raw.startsWith('divide') && !raw.includes(':reverse');
+    
+    // Build selector
+    let selector = '';
+    if (isDivide) {
+      // Divide utilities use special child selector pattern
+      selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
+    } else {
+      selector = `[${attrType}~="${raw}"]`;
     }
     
-    // Wrap in media query if breakpoint is present
-    if (token.breakpoint) {
-      const screenWidth = defaultConfig.theme.screens[token.breakpoint];
-      if (screenWidth) {
-        return `@media (min-width: ${screenWidth}) { ${rule} }\n`;
+    // Add pseudo-class for states (but not for 'dark' - it's handled separately)
+    if (token.state && token.state !== 'dark') {
+      if (isDivide) {
+        // For divide utilities, add state after the tilde
+        selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden]):${token.state}`;
+      } else {
+        selector += `:${token.state}`;
       }
     }
     
-    return rule;
+    return `${selector} { ${cssDeclaration} }\n`;
   }
-
-  // ============================================
-  // DOM SCANNER
-  // ============================================
-  
   function scanDOM() {
     const tokens = {
       layout: new Set(),

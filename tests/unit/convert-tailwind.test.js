@@ -309,7 +309,65 @@ describe('Exact mode (tw- prefix)', () => {
       );
     });
   });
-
+  
+  describe('Divide utilities', () => {
+    it('should convert divide color', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-gray-200'),
+        { category: 'visual', value: 'divide:gray-200' }
+      );
+    });
+    
+    it('should convert divide-x', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-x-gray-200'),
+        { category: 'visual', value: 'divide-x:gray-200' }
+      );
+    });
+    
+    it('should convert divide-y', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-y-gray-200'),
+        { category: 'visual', value: 'divide-y:gray-200' }
+      );
+    });
+    
+    it('should convert divide width', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-2'),
+        { category: 'visual', value: 'divide-w:regular' }
+      );
+    });
+    
+    it('should convert divide-x width', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-x-2'),
+        { category: 'visual', value: 'divide-x-w:regular' }
+      );
+    });
+    
+    it('should convert divide-y width', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-y-2'),
+        { category: 'visual', value: 'divide-y-w:regular' }
+      );
+    });
+    
+    it('should convert divide style', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-dashed'),
+        { category: 'visual', value: 'divide-style:dashed' }
+      );
+    });
+    
+    it('should convert divide style with exact mode', () => {
+      assert.deepStrictEqual(
+        convertClass('divide-dashed', { exact: true }),
+        { category: 'visual', value: 'divide-style:dashed' }
+      );
+    });
+  });
+  
   describe('convertClasses with exact mode', () => {
     it('should group classes with tw- prefix', () => {
       const result = convertClasses('flex p-4 rounded-lg', { exact: true });

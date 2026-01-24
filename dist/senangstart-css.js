@@ -2175,7 +2175,59 @@ img, video {
         },
         "ring-offset-color": () => {
           const cssValue = isArbitrary ? value : `var(--c-${value})`;
-          return `--ring-offset-color: ${cssValue};`;
+          return `--ring-offset-color ${cssValue};`;
+        },
+        // ============================================
+        // DIVIDE UTILITIES
+        // ============================================
+        "divide": () => {
+          const cssValue = isArbitrary ? value : `var(--c-${value})`;
+          return `border-color: ${cssValue}; border-style: solid;`;
+        },
+        "divide-x": () => {
+          if (value === "reverse") {
+            return "--ss-divide-x-reverse: 1;";
+          }
+          const cssValue = isArbitrary ? value : `var(--c-${value})`;
+          return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+        },
+        "divide-y": () => {
+          if (value === "reverse") {
+            return "--ss-divide-y-reverse: 1;";
+          }
+          const cssValue = isArbitrary ? value : `var(--c-${value})`;
+          return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+        },
+        "divide-w": () => {
+          const cssValue = isArbitrary ? value : `var(--s-${value})`;
+          return `border-width: ${cssValue}; border-style: solid;`;
+        },
+        "divide-x-w": () => {
+          const cssValue = isArbitrary ? value : `var(--s-${value})`;
+          return `
+          border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse, 0));
+          border-left-width: calc(${cssValue} * (1 - var(--ss-divide-x-reverse, 0)));
+          border-left-style: solid; 
+          border-right-style: solid;
+        `;
+        },
+        "divide-y-w": () => {
+          const cssValue = isArbitrary ? value : `var(--s-${value})`;
+          return `
+          border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse, 0));
+          border-top-width: calc(${cssValue} * (1 - var(--ss-divide-y-reverse, 0)));
+          border-top-style: solid; 
+          border-bottom-style: solid;
+        `;
+        },
+        "divide-x:reverse": () => {
+          return "--ss-divide-x-reverse: 1;";
+        },
+        "divide-y:reverse": () => {
+          return "--ss-divide-y-reverse: 1;";
+        },
+        "divide-style": () => {
+          return `border-style: ${value};`;
         },
         // ============================================
         // SVG UTILITIES
@@ -2270,23 +2322,22 @@ img, video {
           break;
       }
       if (!cssDeclaration) return "";
-      let selector = `[${attrType}~="${raw}"]`;
+      const isDivide = raw.startsWith("divide") && !raw.includes(":reverse");
+      let selector = "";
+      if (isDivide) {
+        selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
+      } else {
+        selector = `[${attrType}~="${raw}"]`;
+      }
       if (token.state && token.state !== "dark") {
-        selector += `:${token.state}`;
-      }
-      let rule = `${selector} { ${cssDeclaration} }
-`;
-      if (token.state === "dark") {
-        rule = `:where(.dark) ${rule}`;
-      }
-      if (token.breakpoint) {
-        const screenWidth = defaultConfig.theme.screens[token.breakpoint];
-        if (screenWidth) {
-          return `@media (min-width: ${screenWidth}) { ${rule} }
-`;
+        if (isDivide) {
+          selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden]):${token.state}`;
+        } else {
+          selector += `:${token.state}`;
         }
       }
-      return rule;
+      return `${selector} { ${cssDeclaration} }
+`;
     }
     function scanDOM() {
       const tokens = {
