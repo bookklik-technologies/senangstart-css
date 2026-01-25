@@ -123,6 +123,12 @@ Mari cipta kad ringkas:
 - `space="w:[320px] p:medium"` — Lebar 320px, padding medium
 - `visual="bg:white rounded:big shadow:medium"` — Latar putih, sudut bulat, bayang
 
+## Untuk Pembantu AI
+
+Jika anda menggunakan pembantu pengekodan AI (seperti Cursor, Windsurf, atau lain-lain), anda boleh membekalkan fail konteks khusus kami kepada mereka. Fail ini mengandungi senarai penuh rujukan yang tersedia dan arahan penggunaan dalam format yang disokong untuk LLMs.
+
+Lokasi fail: [`https://bookklik-technologies.github.io/senangstart-css/llms.txt`](https://bookklik-technologies.github.io/senangstart-css/llms.txt)
+
 ## Langkah Seterusnya
 
 - [Sintaksis Tri-Atribusi](/ms/guide/tri-attribute) — Selami layout, space, visual

@@ -123,6 +123,12 @@ Let's create a simple card:
 - `space="w:[320px] p:medium"` — 320px width, medium padding
 - `visual="bg:white rounded:big shadow:medium"` — White background, rounded corners, shadow
 
+## For AI Assistants
+
+If you are using AI coding assistants (like Cursor, Windsurf, or others), you can provide them with our specialized context file. This file contains the full list of available references and usage instructions in a format optimized for LLMs.
+
+File location: [`https://bookklik-technologies.github.io/senangstart-css/llms.txt`](https://bookklik-technologies.github.io/senangstart-css/llms.txt)
+
 ## Next Steps
 
 - [Tri-Attribute Syntax](/guide/tri-attribute) — Deep dive into layout, space, visual
