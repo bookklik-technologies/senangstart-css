@@ -55,41 +55,6 @@
     }
     return true;
   }
-  function parseToken(raw) {
-    const token = {
-      raw,
-      breakpoint: null,
-      state: null,
-      property: null,
-      value: null,
-      isArbitrary: false
-    };
-    const parts = raw.split(":");
-    let idx = 0;
-    if (BREAKPOINTS.includes(parts[0])) {
-      token.breakpoint = parts[0];
-      idx++;
-    }
-    if (STATES.includes(parts[idx])) {
-      token.state = parts[idx];
-      idx++;
-    }
-    if (idx < parts.length) {
-      token.property = parts[idx];
-      idx++;
-    }
-    if (idx < parts.length) {
-      let value = parts.slice(idx).join(":");
-      const arbitraryMatch = value.match(/^\[(.+)\]$/);
-      if (arbitraryMatch) {
-        token.value = arbitraryMatch[1].replace(/_/g, " ");
-        token.isArbitrary = true;
-      } else {
-        token.value = value;
-      }
-    }
-    return token;
-  }
   function tokenize(raw, attrType) {
     if (typeof raw !== "string" || raw.length === 0 || raw.length > 200) {
       return {
@@ -1106,6 +1071,9 @@ img, video {
     const states = STATES;
     function generateLayoutRule(token) {
       const { property, value, isArbitrary } = token;
+      if (property === value && layoutKeywords[property]) {
+        return layoutKeywords[property];
+      }
       if (property === "container") {
         return "width: 100%; margin-left: auto; margin-right: auto;";
       }
@@ -1381,11 +1349,17 @@ img, video {
       let cssValue;
       if (isArbitrary) {
         cssValue = value;
-      } else if (value.startsWith("tw-")) {
-        const twValue = value.slice(3);
-        cssValue = `var(--tw-${twValue})`;
       } else {
-        cssValue = `var(--s-${value})`;
+        const isNegative = value.startsWith("-");
+        const cleanValue = isNegative ? value.substring(1) : value;
+        let baseValue;
+        if (cleanValue.startsWith("tw-")) {
+          const twValue = cleanValue.slice(3);
+          baseValue = `var(--tw-${twValue})`;
+        } else {
+          baseValue = `var(--s-${cleanValue})`;
+        }
+        cssValue = isNegative ? `calc(${baseValue} * -1)` : baseValue;
       }
       const map = {
         "p": `padding: ${cssValue};`,
@@ -2326,7 +2300,7 @@ img, video {
         return `[layout~="${raw}"] { ${layoutKeywords[raw]} }
 `;
       }
-      const token = parseToken(raw);
+      const token = tokenize(raw, attrType);
       let cssDeclaration = "";
       switch (attrType) {
         case "layout":
@@ -2495,7 +2469,7 @@ img, video {
         attributeFilter: ["layout", "space", "visual"]
       });
       console.log(
-        "%c[SenangStart CSS]%c JIT runtime initialized \u2713",
+        "%c[SenangStart CSS]%c Just-in-Time runtime initialized \u2713",
         "color: #2563EB; font-weight: bold;",
         "color: #10B981;"
       );

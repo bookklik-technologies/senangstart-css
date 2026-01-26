@@ -322,13 +322,23 @@ function convertClass(twClass, exact) {
 
   // Margin
   const marginMatch = baseClass.match(
-    /^-?m([trblxy])?-(\d+\.?\d*|px|auto|full|screen)$/
+    /^-?m([trblxy])?-(\[.+\]|\d+\.?\d*|px|auto|full|screen)$/
   );
   if (marginMatch) {
     const isNeg = baseClass.startsWith("-");
     const side = marginMatch[1] ? "-" + marginMatch[1] : "";
     let val = getSpacing(marginMatch[2], exact);
-    if (isNeg) val = "[-" + val + "]";
+    
+    if (isNeg) {
+      if (val.startsWith('[') && val.endsWith(']')) {
+        // Handle arbitrary value: [10px] -> [-10px]
+        const inner = val.slice(1, -1);
+        val = `[-${inner}]`;
+      } else {
+        // Handle named/scale value: medium -> -medium
+        val = `-${val}`;
+      }
+    }
     return { cat: "space", val: prefix + "m" + side + ":" + val };
   }
 

@@ -71,6 +71,18 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('h-screen'), { category: 'space', value: 'h:[100vh]' });
       assert.deepStrictEqual(convertClass('max-w-4'), { category: 'space', value: 'max-w:small' });
     });
+
+    it('should convert negative margin classes', () => {
+      // Standard exact=false
+      assert.deepStrictEqual(convertClass('-m-4'), { category: 'space', value: 'm:-small' });
+      assert.deepStrictEqual(convertClass('-mt-8'), { category: 'space', value: 'm-t:-big' });
+      
+      // Exact=true
+      assert.deepStrictEqual(convertClass('-m-4', { exact: true }), { category: 'space', value: 'm:-tw-4' });
+
+      // Arbitrary
+      assert.deepStrictEqual(convertClass('-m-[10px]'), { category: 'space', value: 'm:[-10px]' });
+    });
   });
 
   describe('Visual classes', () => {

@@ -146,7 +146,8 @@ Controls dimensions and spacing using the Natural Scale.
     - \`vast\` (160px), \`vast-2x\` (176px), \`vast-3x\` (192px), \`vast-4x\` (208px)
     - \`vast-5x\` (224px), \`vast-6x\` (240px), \`vast-7x\` (256px), \`vast-8x\` (288px)
     - \`vast-9x\` (320px), \`vast-10x\` (384px)
-- **Arbitrary**: \`space="w:[350px]"\`
+    - **Negative**: \`space="m:-small m-x:-tw-4"\` (Negative scale values).
+    - **Arbitrary**: \`space="w:[350px] m:[-10px]"\`
 
 ### 3. Visual Attribute
 Controls appearance.

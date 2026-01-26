@@ -11,8 +11,8 @@
  */
 
 // Core module imports (bundled by esbuild)
-import { BREAKPOINTS, STATES, LAYOUT_KEYWORDS } from '../core/constants.js';
-import { tokenize, parseToken } from '../core/tokenizer-core.js';
+import { BREAKPOINTS, STATES } from '../core/constants.js';
+import { tokenize } from '../core/tokenizer-core.js';
 
 (function() {
   'use strict';
@@ -771,11 +771,13 @@ img, video {
   const breakpoints = BREAKPOINTS;
   const states = STATES;
 
-// Use shared parseToken from core module
-  // (parseToken is imported from core, using local alias for scoping)
-
   function generateLayoutRule(token) {
     const { property, value, isArbitrary } = token;
+
+    // Check for simple layout keywords first (property === value means it's a keyword like 'flex', 'grid', etc.)
+    if (property === value && layoutKeywords[property]) {
+      return layoutKeywords[property];
+    }
     
     // Container
     if (property === 'container') {
@@ -1129,15 +1131,25 @@ img, video {
       return propMap[property] || '';
     }
     
-    // Handle Tailwind scale prefix (tw-*)
+    // Handle Tailwind scale prefix (tw-*) and negative values
     let cssValue;
     if (isArbitrary) {
       cssValue = value;
-    } else if (value.startsWith('tw-')) {
-      const twValue = value.slice(3); // Remove 'tw-' prefix
-      cssValue = `var(--tw-${twValue})`;
     } else {
-      cssValue = `var(--s-${value})`;
+      // Check for negative value
+      const isNegative = value.startsWith('-');
+      const cleanValue = isNegative ? value.substring(1) : value;
+      
+      let baseValue;
+      if (cleanValue.startsWith('tw-')) {
+        const twValue = cleanValue.slice(3); // Remove 'tw-' prefix
+        baseValue = `var(--tw-${twValue})`;
+      } else {
+        baseValue = `var(--s-${cleanValue})`;
+      }
+      
+      // Apply negative calculation if needed
+      cssValue = isNegative ? `calc(${baseValue} * -1)` : baseValue;
     }
     
     const map = {
@@ -2128,7 +2140,7 @@ img, video {
       return `[layout~="${raw}"] { ${layoutKeywords[raw]} }\n`;
     }
     
-    const token = parseToken(raw);
+    const token = tokenize(raw, attrType);
     let cssDeclaration = '';
     
     switch (attrType) {
@@ -2359,7 +2371,7 @@ img, video {
       attributeFilter: ['layout', 'space', 'visual']
     });
 
-    console.log('%c[SenangStart CSS]%c JIT runtime initialized ✓', 
+    console.log('%c[SenangStart CSS]%c Just-in-Time runtime initialized ✓', 
       'color: #2563EB; font-weight: bold;', 
       'color: #10B981;'
     );

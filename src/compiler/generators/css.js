@@ -587,7 +587,25 @@ function generateSpaceRule(token, config) {
   }
   
   // Determine the CSS value
-  const cssValue = isArbitrary ? value : `var(--s-${value})`;
+  let cssValue;
+  if (isArbitrary) {
+    cssValue = value;
+  } else {
+    // Check for negative value
+    const isNegative = value.startsWith('-');
+    const cleanValue = isNegative ? value.substring(1) : value;
+    
+    let baseValue;
+    if (cleanValue.startsWith('tw-')) {
+      const twValue = cleanValue.slice(3); // Remove 'tw-' prefix
+      baseValue = `var(--tw-${twValue})`;
+    } else {
+      baseValue = `var(--s-${cleanValue})`;
+    }
+    
+    // Apply negative calculation if needed
+    cssValue = isNegative ? `calc(${baseValue} * -1)` : baseValue;
+  }
   
   // Handle special values
   if (value === 'auto') {

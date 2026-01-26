@@ -492,13 +492,23 @@ function convertClass(twClass, options = {}) {
 
   // Margin
   const marginMatch = baseClass.match(
-    /^-?m([trblxy])?-(\d+\.?\d*|px|auto|full|screen)$/
+    /^-?m([trblxy])?-(\[.+\]|\d+\.?\d*|px|auto|full|screen)$/
   );
   if (marginMatch) {
     const isNeg = baseClass.startsWith("-");
     const side = marginMatch[1] ? "-" + marginMatch[1] : "";
     let val = getSpacingScale(marginMatch[2], options);
-    if (isNeg) val = "[-" + val + "]";
+    
+    if (isNeg) {
+      if (val.startsWith('[') && val.endsWith(']')) {
+        // Handle arbitrary value: [10px] -> [-10px]
+        const inner = val.slice(1, -1);
+        val = `[-${inner}]`;
+      } else {
+        // Handle named/scale value: small -> -small
+        val = `-${val}`;
+      }
+    }
     return { category: 'space', value: prefix + "m" + side + ":" + val };
   }
 
