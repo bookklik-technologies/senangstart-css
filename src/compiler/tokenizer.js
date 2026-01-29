@@ -7,7 +7,6 @@
 export { 
   tokenize, 
   tokenizeAll, 
-  parseToken, 
   sanitizeValue, 
   isValidToken 
 } from '../core/tokenizer-core.js';

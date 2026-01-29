@@ -4,22 +4,15 @@
  */
 
 import { generatePreflight } from './preflight.js';
+import { sanitizeValue } from '../../utils/common.js';
+import { buildAllMaps } from '../../definitions/index.js';
 
-/**
- * Sanitize arbitrary value to prevent CSS injection
- * @param {string} value - Value to sanitize
- * @returns {string} - Sanitized value
- */
+// Initialize maps from definitions - Single Source of Truth
+const { layoutMap, typographyKeywords } = buildAllMaps();
+
+// Helper to sanitize arbitrary values using common utility
 function sanitizeArbitraryValue(value) {
-  if (typeof value !== 'string') {
-    return '';
-  }
-  // Remove potentially dangerous characters that could break CSS syntax
-  const dangerousChars = /[;}{]/g;
-  if (dangerousChars.test(value)) {
-    return value.replace(dangerousChars, '_');
-  }
-  return value;
+  return sanitizeValue(value);
 }
 
 /**
@@ -88,8 +81,9 @@ export function generateCSSVariables(config) {
     '60': '15rem', '64': '16rem', '72': '18rem', '80': '20rem', '96': '24rem'
   };
   for (const [key, value] of Object.entries(twSpacing)) {
-    css += `  --tw-${key}: ${value};\n`;
+    css += `  --tw-${key.replace(/\./g, '\\\\.')}: ${value};\n`;
   }
+
   
   // Tailwind Border Radius Scale
   const twRadius = {
@@ -161,95 +155,8 @@ export function generateCSSVariables(config) {
 function generateLayoutRule(token, config) {
   const { property, value, isArbitrary } = token;
   
-  const layoutMap = {
-    // Display
-    'flex': 'display: flex;',
-    'grid': 'display: grid;',
-    'inline-flex': 'display: inline-flex;',
-    'inline-grid': 'display: inline-grid;',
-    'block': 'display: block;',
-    'inline': 'display: inline-block;',
-    'hidden': 'display: none;',
-    
-    // Flex Direction
-    'row': 'flex-direction: row;',
-    'col': 'flex-direction: column;',
-    'row-reverse': 'flex-direction: row-reverse;',
-    'col-reverse': 'flex-direction: column-reverse;',
-    
-    // Flex Wrap
-    'wrap': 'flex-wrap: wrap;',
-    'nowrap': 'flex-wrap: nowrap;',
-    'wrap-reverse': 'flex-wrap: wrap-reverse;',
-    
-    // Flex Item
-    'grow': 'flex-grow: 1;',
-    'grow-0': 'flex-grow: 0;',
-    'shrink': 'flex-shrink: 1;',
-    'shrink-0': 'flex-shrink: 0;',
-    
-    // Grid Auto Flow
-    'grid-flow-row': 'grid-auto-flow: row;',
-    'grid-flow-col': 'grid-auto-flow: column;',
-    'grid-flow-dense': 'grid-auto-flow: dense;',
-    'grid-flow-row-dense': 'grid-auto-flow: row dense;',
-    'grid-flow-col-dense': 'grid-auto-flow: column dense;',
-    
-    // Shorthand Alignment (backwards compat - simple keywords)
-    'center': 'justify-content: center; align-items: center;',
-    'start': 'justify-content: flex-start; align-items: flex-start;',
-    'end': 'justify-content: flex-end; align-items: flex-end;',
-    'between': 'justify-content: space-between;',
-    'around': 'justify-content: space-around;',
-    'evenly': 'justify-content: space-evenly;',
-    
-    // Position
-    'absolute': 'position: absolute;',
-    'relative': 'position: relative;',
-    'fixed': 'position: fixed;',
-    'sticky': 'position: sticky;',
-    'static': 'position: static;',
-    
-    // Visibility
-    'visible': 'visibility: visible;',
-    'invisible': 'visibility: hidden;',
-    
-    // Isolation
-    'isolate': 'isolation: isolate;',
-    'isolate-auto': 'isolation: auto;',
-    
-    // Box Sizing
-    'box-border': 'box-sizing: border-box;',
-    'box-content': 'box-sizing: content-box;',
-    
-    // Float
-    'float-left': 'float: left;',
-    'float-right': 'float: right;',
-    'float-none': 'float: none;',
-    
-    // Clear
-    'clear-left': 'clear: left;',
-    'clear-right': 'clear: right;',
-    'clear-both': 'clear: both;',
-    'clear-none': 'clear: none;',
-    
-    // Table - Border Collapse
-    'border-collapse': 'border-collapse: collapse;',
-    'border-separate': 'border-collapse: separate;',
-    
-    // Table - Table Layout
-    'table-auto': 'table-layout: auto;',
-    'table-fixed': 'table-layout: fixed;',
-    
-    // Table - Caption Side
-    'caption-top': 'caption-side: top;',
-    'caption-bottom': 'caption-side: bottom;',
-    
-    // Container
-    'container': 'width: 100%; margin-left: auto; margin-right: auto;'
-  };
-  
   // Check for simple layout keywords first (property === value means it's a keyword like 'flex', 'grid', etc.)
+  // layoutMap is now imported from definitions
   if (property === value && layoutMap[property]) {
     return layoutMap[property];
   }
@@ -598,7 +505,7 @@ function generateSpaceRule(token, config) {
     let baseValue;
     if (cleanValue.startsWith('tw-')) {
       const twValue = cleanValue.slice(3); // Remove 'tw-' prefix
-      baseValue = `var(--tw-${twValue})`;
+      baseValue = `var(--tw-${twValue.replace(/\./g, '\\\\.')})`;
     } else {
       baseValue = `var(--s-${cleanValue})`;
     }
@@ -667,100 +574,7 @@ function generateVisualRule(token, config) {
   const { property, value, isArbitrary } = token;
   
   // Static typography keywords
-  const typographyKeywords = {
-    // Font Style
-    'italic': 'font-style: italic;',
-    'not-italic': 'font-style: normal;',
-    
-    // Font Stretch
-    'font-stretch-condensed': 'font-stretch: condensed;',
-    'font-stretch-expanded': 'font-stretch: expanded;',
-    'font-stretch-normal': 'font-stretch: normal;',
-    
-    // Font Smoothing
-    'antialiased': '-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;',
-    'subpixel-antialiased': '-webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto;',
-    
-    // Font Variant Numeric
-    'normal-nums': 'font-variant-numeric: normal;',
-    'ordinal': 'font-variant-numeric: ordinal;',
-    'slashed-zero': 'font-variant-numeric: slashed-zero;',
-    'lining-nums': 'font-variant-numeric: lining-nums;',
-    'oldstyle-nums': 'font-variant-numeric: oldstyle-nums;',
-    'proportional-nums': 'font-variant-numeric: proportional-nums;',
-    'tabular-nums': 'font-variant-numeric: tabular-nums;',
-    
-    // Text Transform
-    'uppercase': 'text-transform: uppercase;',
-    'lowercase': 'text-transform: lowercase;',
-    'capitalize': 'text-transform: capitalize;',
-    'normal-case': 'text-transform: none;',
-    
-    // Text Decoration Line
-    'underline': 'text-decoration-line: underline;',
-    'overline': 'text-decoration-line: overline;',
-    'line-through': 'text-decoration-line: line-through;',
-    'no-underline': 'text-decoration-line: none;',
-    
-    // Text Decoration Style
-    'decoration-solid': 'text-decoration-style: solid;',
-    'decoration-double': 'text-decoration-style: double;',
-    'decoration-dotted': 'text-decoration-style: dotted;',
-    'decoration-dashed': 'text-decoration-style: dashed;',
-    'decoration-wavy': 'text-decoration-style: wavy;',
-    
-    // Text Overflow
-    'truncate': 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;',
-    'text-ellipsis': 'text-overflow: ellipsis;',
-    'text-clip': 'text-overflow: clip;',
-    
-    // Text Wrap
-    'text-wrap': 'text-wrap: wrap;',
-    'text-nowrap': 'text-wrap: nowrap;',
-    'text-balance': 'text-wrap: balance;',
-    'text-pretty': 'text-wrap: pretty;',
-    
-    // Whitespace
-    'whitespace-normal': 'white-space: normal;',
-    'whitespace-nowrap': 'white-space: nowrap;',
-    'whitespace-pre': 'white-space: pre;',
-    'whitespace-pre-line': 'white-space: pre-line;',
-    'whitespace-pre-wrap': 'white-space: pre-wrap;',
-    'whitespace-break-spaces': 'white-space: break-spaces;',
-    
-    // Word Break
-    'break-normal': 'overflow-wrap: normal; word-break: normal;',
-    'break-words': 'overflow-wrap: break-word;',
-    'break-all': 'word-break: break-all;',
-    'break-keep': 'word-break: keep-all;',
-    
-    // Hyphens
-    'hyphens-none': 'hyphens: none;',
-    'hyphens-manual': 'hyphens: manual;',
-    'hyphens-auto': 'hyphens: auto;',
-    
-    // Vertical Align
-    'align-baseline': 'vertical-align: baseline;',
-    'align-top': 'vertical-align: top;',
-    'align-middle': 'vertical-align: middle;',
-    'align-bottom': 'vertical-align: bottom;',
-    'align-text-top': 'vertical-align: text-top;',
-    'align-text-bottom': 'vertical-align: text-bottom;',
-    'align-sub': 'vertical-align: sub;',
-    'align-super': 'vertical-align: super;',
-    
-    // List Style Type
-    'list-none': 'list-style-type: none;',
-    'list-disc': 'list-style-type: disc;',
-    'list-decimal': 'list-style-type: decimal;',
-    'list-square': 'list-style-type: square;',
-    
-    // List Style Position
-    'list-inside': 'list-style-position: inside;',
-    'list-outside': 'list-style-position: outside;'
-  };
-  
-  // Check static keywords first
+  // Check static keywords first (imported from definitions)
   if (typographyKeywords[property]) {
     return typographyKeywords[property];
   }

@@ -181,6 +181,10 @@ export function buildLayoutMap() {
   for (const def of Object.values(layoutDefinitions)) {
     if (def.dynamic) continue; // Skip dynamic properties that need special handling
     
+    // Only include definitions that act as global keywords (no prefix in syntax)
+    // format: layout="[value]"
+    if (!def.syntax || !def.syntax.includes('layout="[')) continue;
+    
     for (const v of def.values) {
       // Skip range values like '1-12' that need special handling
       if (v.value.match(/^\d+-\d+$/)) continue;

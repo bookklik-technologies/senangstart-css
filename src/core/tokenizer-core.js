@@ -4,20 +4,14 @@
  */
 
 import { BREAKPOINTS, STATES, LAYOUT_KEYWORDS } from './constants.js';
+import { sanitizeValue } from '../utils/common.js';
 
 /**
  * Sanitize token value to prevent CSS injection
  * @param {string} value - Value to sanitize
  * @returns {string} - Sanitized value
  */
-export function sanitizeValue(value) {
-  if (typeof value !== 'string') {
-    return '';
-  }
-  // Only remove semicolons which can terminate CSS rules
-  // Allow braces for legitimate use cases like content:["{icon}"]
-  return value.replace(/;/g, '_');
-}
+export { sanitizeValue };
 
 /**
  * Validate token structure
@@ -46,56 +40,7 @@ export function isValidToken(token) {
   return true;
 }
 
-/**
- * Lightweight token parser (no validation, used for internal processing)
- * @param {string} raw - Raw token string
- * @returns {Object} - Parsed token object
- */
-export function parseToken(raw) {
-  const token = {
-    raw,
-    breakpoint: null,
-    state: null,
-    property: null,
-    value: null,
-    isArbitrary: false
-  };
 
-  const parts = raw.split(':');
-  let idx = 0;
-
-  // Check for breakpoint
-  if (BREAKPOINTS.includes(parts[0])) {
-    token.breakpoint = parts[0];
-    idx++;
-  }
-
-  // Check for state
-  if (STATES.includes(parts[idx])) {
-    token.state = parts[idx];
-    idx++;
-  }
-
-  // Property
-  if (idx < parts.length) {
-    token.property = parts[idx];
-    idx++;
-  }
-
-  // Value
-  if (idx < parts.length) {
-    let value = parts.slice(idx).join(':');
-    const arbitraryMatch = value.match(/^\[(.+)\]$/);
-    if (arbitraryMatch) {
-      token.value = arbitraryMatch[1].replace(/_/g, ' ');
-      token.isArbitrary = true;
-    } else {
-      token.value = value;
-    }
-  }
-
-  return token;
-}
 
 /**
  * Tokenize a single attribute value string
@@ -230,4 +175,4 @@ export function tokenizeAll(parsed) {
   return tokens;
 }
 
-export default { tokenize, tokenizeAll, parseToken, sanitizeValue, isValidToken };
+export default { tokenize, tokenizeAll, sanitizeValue, isValidToken };
