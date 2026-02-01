@@ -91,7 +91,7 @@ export function generateCSSVariables(config) {
     'lg': '0.5rem', 'xl': '0.75rem', '2xl': '1rem', '3xl': '1.5rem', 'full': '9999px'
   };
   for (const [key, value] of Object.entries(twRadius)) {
-    css += `  --tw-rounded-${key}: ${value};\n`;
+    css += `  --r-tw-${key}: ${value};\n`;
   }
   
   // Tailwind Shadow Scale
@@ -106,7 +106,7 @@ export function generateCSSVariables(config) {
     'none': '0 0 #0000'
   };
   for (const [key, value] of Object.entries(twShadow)) {
-    css += `  --tw-shadow-${key}: ${value};\n`;
+    css += `  --shadow-tw-${key}: ${value};\n`;
   }
   
   // Tailwind Font Size Scale
@@ -588,6 +588,28 @@ function generateVisualRule(token, config) {
     
     // Background Image
     'bg-image': () => {
+      if (value === 'none') return 'background-image: none;';
+      
+      // Handle gradient definitions
+      if (value.startsWith('gradient-to-')) {
+        const directionMap = {
+          't': 'to top',
+          'tr': 'to top right',
+          'r': 'to right',
+          'br': 'to bottom right',
+          'b': 'to bottom',
+          'bl': 'to bottom left',
+          'l': 'to left',
+          'tl': 'to top left'
+        };
+        const directionCode = value.replace('gradient-to-', '');
+        const direction = directionMap[directionCode];
+        
+        if (direction) {
+          return `background-image: linear-gradient(${direction}, var(--ss-gradient-stops, transparent));`;
+        }
+      }
+      
       const cssValue = isArbitrary ? sanitizeArbitraryValue(`url(${value})`) : `url(${value})`;
       return `background-image: ${cssValue};`;
     },
@@ -665,6 +687,22 @@ function generateVisualRule(token, config) {
     // Background Blend Mode
     'bg-blend': () => {
       return `background-blend-mode: ${value};`;
+    },
+
+    // Gradient Color Stops
+    'from': () => {
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `--ss-gradient-from: ${cssValue}; --ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to);`;
+    },
+    
+    'via': () => {
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `--ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), ${cssValue}, var(--ss-gradient-to);`;
+    },
+    
+    'to': () => {
+      const cssValue = isArbitrary ? value : `var(--c-${value})`;
+      return `--ss-gradient-to: ${cssValue};`;
     },
     
     // Text color
