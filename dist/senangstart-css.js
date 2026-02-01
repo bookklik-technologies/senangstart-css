@@ -7634,6 +7634,41 @@ video {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
         return `outline-offset: ${cssValue};`;
       },
+      // Ring Width
+      "ring-w": () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `--ss-ring-width: ${cssValue};`;
+      },
+      // Ring Color
+      "ring-color": () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `--ss-ring-color: ${cssValue};`;
+      },
+      // Ring Offset Width
+      "ring-offset": () => {
+        const cssValue = isArbitrary ? value : `var(--s-${value})`;
+        return `--ss-ring-offset-width: ${cssValue};`;
+      },
+      // Ring Offset Color
+      "ring-offset-color": () => {
+        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        return `--ss-ring-offset-color: ${cssValue};`;
+      },
+      // Ring (Main utility)
+      "ring": () => {
+        if (value === "none") {
+          return "box-shadow: 0 0 #0000;";
+        }
+        const ringPresets = {
+          "thin": "1px",
+          "regular": "2px",
+          "small": "4px",
+          "medium": "6px",
+          "big": "8px"
+        };
+        const width2 = isArbitrary ? value : ringPresets[value] || (parseInt(value) ? `${value}px` : `var(--s-${value})`);
+        return `--ss-ring-width: ${width2}; box-shadow: var(--ss-ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color, currentColor);`;
+      },
       // Box shadow
       "shadow": () => {
         return `box-shadow: var(--shadow-${value});`;

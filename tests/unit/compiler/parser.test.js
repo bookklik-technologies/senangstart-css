@@ -188,6 +188,32 @@ describe('Parser', () => {
       assert.ok(result.visual.has('hover:text:secondary'));
     });
 
+    it('extracts interact and listens attributes', () => {
+      const html = '<div interact="click:toggle" listens="auth:update">Test</div>';
+      const result = parseSource(html);
+      
+      assert.ok(result.interact.has('click:toggle'));
+      assert.ok(result.listens.has('auth:update'));
+    });
+
+    it('handles extremely long attribute values by skipping them', () => {
+      const longValue = 'a'.repeat(10001);
+      const html = `<div layout="${longValue}">Test</div>`;
+      const result = parseSource(html);
+      
+      assert.strictEqual(result.layout.size, 0);
+    });
+
+    it('handles long tokens by skipping them', () => {
+      const longToken = 'a'.repeat(501);
+      const html = `<div layout="${longToken} valid-token">Test</div>`;
+      const result = parseSource(html);
+      
+      assert.strictEqual(result.layout.size, 1);
+      assert.ok(result.layout.has('valid-token'));
+      assert.ok(!result.layout.has(longToken));
+    });
+
   });
 
   describe('parseMultipleSources', () => {
