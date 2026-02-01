@@ -173,6 +173,34 @@ Example: \`space="p:small tab:p:medium lap:p:big"\`
 - \`active:\`, \`disabled:\`, \`group-hover:\`
 - \`dark:\`: \`visual="bg:white dark:bg:slate-900"\`
 
+## State Capabilities & Interaction
+
+React to parent ("Group") or sibling ("Peer") states across all attributes.
+
+### 1. Group Capabilities
+Add these to the \`layout\` attribute of a parent element:
+- \`hoverable\`: Adds \`:hover\` support.
+- \`focusable\`: Adds \`:focus-within\` support.
+- \`pressable\`: Adds \`:active\` support.
+- \`expandable\`: Reacts to \`[aria-expanded="true"]\`.
+- \`selectable\`: Reacts to \`[aria-selected="true"]\`.
+
+**Example:**
+\`\`\`html
+<div layout="flex hoverable" visual="bg:white">
+  <p visual="text:grey hover:text:primary">Hover parent to change me</p>
+</div>
+\`\`\`
+
+### 2. Peer Interactions
+Use \`interact="[id]"\` on the trigger and \`listens="[id]"\` on the receiver.
+
+**Example:**
+\`\`\`html
+<button layout="hoverable" interact="my-menu">Trigger</button>
+<div layout="hidden hover:block" listens="my-menu">Target</div>
+\`\`\`
+
 ## Configuration
 Use \`senangstart.config.js\` to override defaults.
 \`\`\`js
