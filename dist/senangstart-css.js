@@ -2203,9 +2203,9 @@ video {
     tableLayout,
     captionSide
   };
-  function buildLayoutMap() {
+  function buildLayoutMap(definitions = layoutDefinitions) {
     const map = {};
-    for (const def of Object.values(layoutDefinitions)) {
+    for (const def of Object.values(definitions)) {
       if (def.dynamic) continue;
       if (!def.syntax || !def.syntax.includes('layout="[')) continue;
       for (const v of def.values) {

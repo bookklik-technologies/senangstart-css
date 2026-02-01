@@ -108,12 +108,13 @@ export function getDefinition(name) {
 /**
  * Validate that all definitions have required fields
  * Used by tests to ensure definitions are complete
+ * @param {Array} definitions - Optional array of definitions to validate (defaults to all)
  */
-export function validateDefinitions() {
+export function validateDefinitions(definitions = getAllDefinitions()) {
   const requiredFields = ['name', 'property', 'description', 'descriptionMs', 'category'];
   const errors = [];
   
-  for (const def of getAllDefinitions()) {
+  for (const def of definitions) {
     for (const field of requiredFields) {
       if (!def[field]) {
         errors.push(`Missing '${field}' in definition '${def.name || 'unknown'}'`);

@@ -174,11 +174,11 @@ export const layoutDefinitions = {
 };
 
 // Build flat value map for CSS generator
-export function buildLayoutMap() {
+export function buildLayoutMap(definitions = layoutDefinitions) {
   const map = {};
   
   // Add all simple keyword values from definitions
-  for (const def of Object.values(layoutDefinitions)) {
+  for (const def of Object.values(definitions)) {
     if (def.dynamic) continue; // Skip dynamic properties that need special handling
     
     // Only include definitions that act as global keywords (no prefix in syntax)

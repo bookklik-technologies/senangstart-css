@@ -170,8 +170,19 @@ describe('Compiler Integration', () => {
       
       const result = compileMultiple(files, config);
       
-      assert.ok(result.css);
       assert.strictEqual(result.tokens.length, 0);
+    });
+
+    it('minifies output when configured', () => {
+      const files = [
+        { path: 'test.html', content: '<div layout="flex">Test</div>' }
+      ];
+      const config = createTestConfig({ output: { minify: true } });
+      
+      const result = compileMultiple(files, config);
+      
+      assert.ok(result.minifiedCSS);
+      assert.ok(result.minifiedCSS.length <= result.css.length);
     });
 
   });

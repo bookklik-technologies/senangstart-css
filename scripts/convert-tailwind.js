@@ -655,18 +655,18 @@ function convertClass(twClass, options = {}) {
   // 3D TRANSFORMS
   // ======================
   
-  // Perspective
-  const perspectiveMatch = baseClass.match(/^perspective(?:-(.+))?$/);
-  if (perspectiveMatch) {
-    const val = perspectiveMatch[1] || 'normal';
-    return { category: 'visual', value: prefix + "perspective:" + val };
-  }
-  
   // Perspective origin
   const perspectiveOriginMatch = baseClass.match(/^perspective-origin(?:-(.+))?$/);
   if (perspectiveOriginMatch) {
     const val = perspectiveOriginMatch[1] || 'center';
     return { category: 'visual', value: prefix + "perspective-origin:" + val };
+  }
+
+  // Perspective
+  const perspectiveMatch = baseClass.match(/^perspective(?:-(.+))?$/);
+  if (perspectiveMatch) {
+    const val = perspectiveMatch[1] || 'normal';
+    return { category: 'visual', value: prefix + "perspective:" + val };
   }
   
   // Rotate X/Y/Z (3D rotation)
@@ -737,11 +737,7 @@ function convertClass(twClass, options = {}) {
   }
   
   // Mask
-  const maskMatch = baseClass.match(/^mask(?:-(.+))?$/);
-  if (maskMatch) {
-    const val = maskMatch[1] || 'none';
-    return { category: 'visual', value: prefix + "mask:" + val };
-  }
+
   
   // Mask image
   const maskImageMatch = baseClass.match(/^mask-image(?:-(.+))?$/);
@@ -790,6 +786,13 @@ function convertClass(twClass, options = {}) {
   if (maskTypeMatch) {
     const val = maskTypeMatch[1] || 'luminance';
     return { category: 'visual', value: prefix + "mask-type:" + val };
+  }
+  
+  // Mask (generic) - Check this LAST
+  const maskMatch = baseClass.match(/^mask(?:-(.+))?$/);
+  if (maskMatch) {
+    const val = maskMatch[1] || 'none';
+    return { category: 'visual', value: prefix + "mask:" + val };
   }
   
   // Divide utilities - check these BEFORE other visual checks to avoid conflicts
