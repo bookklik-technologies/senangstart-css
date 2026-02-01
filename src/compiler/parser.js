@@ -7,7 +7,9 @@
 const ATTRIBUTE_PATTERNS = {
   layout: /layout\s*=\s*["']([^"']*)["']/g,
   space:  /space\s*=\s*["']([^"']*)["']/g,
-  visual: /visual\s*=\s*["']([^"']*)["']/g
+  visual: /visual\s*=\s*["']([^"']*)["']/g,
+  interact: /interact\s*=\s*["']([^"']*)["']/g,
+  listens: /listens\s*=\s*["']([^"']*)["']/g
 };
 
 /**
@@ -18,7 +20,9 @@ function createAttributePatterns() {
   return {
     layout: /layout\s*=\s*["']([^"']*)["']/g,
     space:  /space\s*=\s*["']([^"']*)["']/g,
-    visual: /visual\s*=\s*["']([^"']*)["']/g
+    visual: /visual\s*=\s*["']([^"']*)["']/g,
+    interact: /interact\s*=\s*["']([^"']*)["']/g,
+    listens: /listens\s*=\s*["']([^"']*)["']/g
   };
 }
 
@@ -31,7 +35,9 @@ export function parseSource(content) {
   const results = {
     layout: new Set(),
     space: new Set(),
-    visual: new Set()
+    visual: new Set(),
+    interact: new Set(),
+    listens: new Set()
   };
 
   const patterns = createAttributePatterns();
@@ -63,7 +69,9 @@ export function parseMultipleSources(files) {
   const combined = {
     layout: new Set(),
     space: new Set(),
-    visual: new Set()
+    visual: new Set(),
+    interact: new Set(),
+    listens: new Set()
   };
 
   for (const file of files) {
@@ -72,6 +80,8 @@ export function parseMultipleSources(files) {
     parsed.layout.forEach(token => combined.layout.add(token));
     parsed.space.forEach(token => combined.space.add(token));
     parsed.visual.forEach(token => combined.visual.add(token));
+    parsed.interact.forEach(token => combined.interact.add(token));
+    parsed.listens.forEach(token => combined.listens.add(token));
   }
 
   return combined;

@@ -160,3 +160,64 @@ Always ensure sufficient color contrast for hover and focus states. The `:focus`
   Accessible focus ring
 </button>
 ```
+
+## State Capabilities & Interaction
+
+SenangStart allows elements to react to parent ("Group") or sibling ("Peer") states. This works across **all three attributes**.
+
+### Supported Triggers
+
+Add these to the `layout` attribute of the parent/trigger element:
+
+| Capability | Trigger State |
+|------------|---------------|
+| `layout="hoverable"` | `:hover` |
+| `layout="focusable"` | `:focus-within` |
+| `layout="pressable"` | `:active` |
+| `layout="expandable"` | `[aria-expanded="true"]` |
+| `layout="selectable"` | `[aria-selected="true"]` |
+| `layout="disabled"` | Disables all triggers |
+
+### Cross-Attribute Example
+
+State variants like `hover:`, `focus:`, etc., apply to **any attribute** (`layout`, `space`, `visual`) when nested inside a capable group.
+
+```html
+<!-- Parent has "hoverable" capability -->
+<div layout="flex hoverable" space="p:medium" visual="bg:white shadow:medium">
+  
+  <!-- Layout Reaction: Hidden by default, becomes flex on parent hover -->
+  <div layout="hidden hover:flex items:center">
+    <span>Revealed!</span>
+  </div>
+
+  <!-- Space Reaction: Padding increases on parent hover -->
+  <button space="p:small hover:p:medium">
+    Expand Me
+  </button>
+  
+  <!-- Visual Reaction: Color changes on parent hover -->
+  <p visual="text:grey hover:text:primary">
+    Highlight Me
+  </p>
+  
+</div>
+```
+
+### Peer Interactions
+
+Use `interact="[id]"` on the trigger and `listens="[id]"` on the receiver.
+
+```html
+<button layout="hoverable" interact="menu-trigger">
+  Hover me
+</button>
+
+<div 
+  layout="absolute mt:small" 
+  visual="hidden hover:visible" 
+  listens="menu-trigger"
+>
+  Dropdown Menu
+</div>
+```

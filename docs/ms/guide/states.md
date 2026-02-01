@@ -160,3 +160,64 @@ Sentiasa pastikan kontras warna yang mencukupi untuk keadaan hover dan focus. Ke
   Cincin fokus yang boleh diakses
 </button>
 ```
+
+## Keupayaan & Interaksi Keadaan
+
+SenangStart membolehkan elemen bertindak balas terhadap keadaan induk ("Kumpulan") atau rakan ("Rakan"). Ini berfungsi merentasi **ketiga-tiga atribusi**.
+
+### Pencetus yang Disokong
+
+Tambah ini pada atribusi `layout` elemen induk/pencetus:
+
+| Keupayaan | Keadaan Pencetus |
+|------------|---------------|
+| `layout="hoverable"` | `:hover` |
+| `layout="focusable"` | `:focus-within` |
+| `layout="pressable"` | `:active` |
+| `layout="expandable"` | `[aria-expanded="true"]` |
+| `layout="selectable"` | `[aria-selected="true"]` |
+| `layout="disabled"` | Mematikan semua pencetus |
+
+### Contoh Rentas-Atribusi
+
+Varian keadaan seperti `hover:`, `focus:`, dsb., terpakai pada **mana-mana atribusi** (`layout`, `space`, `visual`) apabila bersarang di dalam kumpulan yang berkebolehan.
+
+```html
+<!-- Induk mempunyai keupayaan "hoverable" -->
+<div layout="flex hoverable" space="p:medium" visual="bg:white shadow:medium">
+  
+  <!-- Reaksi Layout: Tersembunyi secara lalai, menjadi flex apabila induk hover -->
+  <div layout="hidden hover:flex items:center">
+    <span>Terdedah!</span>
+  </div>
+
+  <!-- Reaksi Space: Padding meningkat apabila induk hover -->
+  <button space="p:small hover:p:medium">
+    Kembangkan Saya
+  </button>
+  
+  <!-- Reaksi Visual: Warna berubah apabila induk hover -->
+  <p visual="text:grey hover:text:primary">
+    Serlahkan Saya
+  </p>
+  
+</div>
+```
+
+### Interaksi Rakan
+
+Gunakan `interact="[id]"` pada pencetus dan `listens="[id]"` pada penerima.
+
+```html
+<button layout="hoverable" interact="menu-trigger">
+  Hover saya
+</button>
+
+<div 
+  layout="absolute mt:small" 
+  visual="hidden hover:visible" 
+  listens="menu-trigger"
+>
+  Menu Dropdown
+</div>
+```

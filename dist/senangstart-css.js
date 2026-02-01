@@ -2,7 +2,7 @@
 (() => {
   // src/core/constants.js
   var BREAKPOINTS = ["mob", "tab", "lap", "desk", "tw-sm", "tw-md", "tw-lg", "tw-xl", "tw-2xl"];
-  var STATES = ["hover", "focus", "focus-visible", "active", "disabled", "dark"];
+  var STATES = ["hover", "focus", "focus-visible", "active", "disabled", "dark", "expanded", "selected"];
   var LAYOUT_KEYWORDS = [
     "flex",
     "grid",
@@ -24,7 +24,14 @@
     "absolute",
     "relative",
     "fixed",
-    "sticky"
+    "sticky",
+    // State Capabilities
+    "hoverable",
+    "focusable",
+    "pressable",
+    "expandable",
+    "selectable",
+    "disabled"
   ];
 
   // src/utils/common.js
@@ -8622,7 +8629,7 @@ video {
       const gen = rules[property];
       return gen ? gen() : "";
     }
-    function generateRule(raw, attrType) {
+    function generateRule(raw, attrType, interactIDs = []) {
       if (attrType === "layout" && layoutKeywords[raw]) {
         return `[layout~="${raw}"] { ${layoutKeywords[raw]} }
 `;
@@ -8649,10 +8656,28 @@ video {
         selector = `[${attrType}~="${raw}"]`;
       }
       if (token.state && token.state !== "dark") {
+        const state = token.state;
         if (isDivide) {
-          selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden]):${token.state}`;
+          selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
         } else {
-          selector += `:${token.state}`;
+          selector += `:${state}`;
+          const capabilityMap = {
+            "hover": "hoverable",
+            "focus": "focusable",
+            "focus-within": "focusable",
+            "active": "pressable",
+            "expanded": "expandable",
+            "selected": "selectable"
+          };
+          const cap = capabilityMap[state];
+          if (cap) {
+            selector += `, [layout~="${cap}"]:${state} [${attrType}~="${raw}"]`;
+            if (interactIDs && interactIDs.length > 0) {
+              for (const id of interactIDs) {
+                selector += `, [interact~="${id}"]:${state} ~ [listens~="${id}"][${attrType}~="${raw}"]`;
+              }
+            }
+          }
         }
       }
       return `${selector} { ${cssDeclaration} }
@@ -8662,15 +8687,27 @@ video {
       const tokens = {
         layout: /* @__PURE__ */ new Set(),
         space: /* @__PURE__ */ new Set(),
-        visual: /* @__PURE__ */ new Set()
+        visual: /* @__PURE__ */ new Set(),
+        interact: /* @__PURE__ */ new Set(),
+        // Collected interact IDs
+        listens: /* @__PURE__ */ new Set()
+        // Collected listens IDs
       };
-      const elements = document.querySelectorAll("[layout], [space], [visual]");
+      const elements = document.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
       elements.forEach((el) => {
         ["layout", "space", "visual"].forEach((attr) => {
           const value = el.getAttribute(attr);
           if (value) {
             value.split(/\s+/).forEach((token) => {
               if (token) tokens[attr].add(token);
+            });
+          }
+        });
+        ["interact", "listens"].forEach((attr) => {
+          const value = el.getAttribute(attr);
+          if (value) {
+            value.split(/\s+/).forEach((id) => {
+              if (id) tokens[attr].add(id);
             });
           }
         });
@@ -8684,10 +8721,12 @@ video {
       }
       const tokenArray = [];
       for (const [attrType, values] of Object.entries(tokens)) {
+        if (["interact", "listens"].includes(attrType)) continue;
         for (const raw of values) {
           tokenArray.push({ raw, attrType });
         }
       }
+      const interactIDs = Array.from(tokens.interact || []);
       const baseTokens = [];
       const darkTokens = [];
       const breakpointTokens = {};
@@ -8719,7 +8758,7 @@ video {
         }
       }
       for (const token of baseTokens) {
-        css += generateRule(token.raw, token.attrType);
+        css += generateRule(token.raw, token.attrType, interactIDs);
       }
       for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
         if (bpTokens.length > 0) {
@@ -8741,7 +8780,7 @@ video {
             }
           }
           for (const token of bpTokens) {
-            css += "  " + generateRule(token.raw, token.attrType);
+            css += "  " + generateRule(token.raw, token.attrType, interactIDs);
           }
           css += "}\n";
         }
@@ -8753,7 +8792,7 @@ video {
 @media (prefers-color-scheme: dark) {
 `;
           for (const token of darkTokens) {
-            css += "  " + generateRule(token.raw, token.attrType);
+            css += "  " + generateRule(token.raw, token.attrType, interactIDs);
           }
           css += "}\n";
         } else {
@@ -8762,7 +8801,7 @@ video {
 /* Dark Mode */
 `;
           for (const token of darkTokens) {
-            const rule = generateRule(token.raw, token.attrType);
+            const rule = generateRule(token.raw, token.attrType, interactIDs);
             css += rule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
           }
         }
@@ -8793,7 +8832,7 @@ video {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ["layout", "space", "visual"]
+        attributeFilter: ["layout", "space", "visual", "interact", "listens"]
       });
       console.log(
         "%c[SenangStart CSS]%c Just-in-Time runtime initialized \u2713",

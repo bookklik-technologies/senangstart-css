@@ -1798,7 +1798,7 @@ function generateVisualRule(token, config) {
  * @param {Object} config - Configuration object
  * @param {boolean} skipDarkWrapper - If true, don't add dark mode wrapper (used when generating inside dark block)
  */
-export function generateRule(token, config, skipDarkWrapper = false) {
+export function generateRule(token, config, skipDarkWrapper = false, interactIds = new Set()) {
   const { raw, attrType, breakpoint, state } = token;
   
   let cssDeclaration = '';
@@ -1834,9 +1834,59 @@ export function generateRule(token, config, skipDarkWrapper = false) {
   if (state && state !== 'dark') {
     if (isDivide) {
       // For divide utilities, add state to the element after tilde
+      // Divide utilities don't support group/peer states yet to avoid complexity
       selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
     } else {
-      selector += `:${state}`;
+      // Helper to map state to CSS selector
+      const getStateSelector = (s) => {
+        const map = {
+          'expanded': '[aria-expanded="true"]',
+          'selected': '[aria-selected="true"]',
+          'disabled': ':disabled'
+        };
+        return map[s] || `:${s}`;
+      };
+
+      const selectors = [];
+      
+      // 1. Standard State Selector
+      selectors.push(`${selector}${getStateSelector(state)}`);
+      
+      // 2. Group & Peer State Selectors
+      // Only for supported triggers
+      const groupTriggers = {
+        'hover': 'hoverable',
+        'focus': 'focusable',
+        'focus-visible': 'focusable',
+        'active': 'pressable',
+        'expanded': 'expandable',
+        'selected': 'selectable'
+      };
+      
+      if (groupTriggers[state]) {
+        const parentAttr = groupTriggers[state];
+        // For focus, we trigger on focus-within of the container
+        let triggerState = state;
+        if (state === 'focus' || state === 'focus-visible') triggerState = 'focus-within';
+        
+        const triggerSelector = getStateSelector(triggerState);
+        
+        // Group Selector
+        // [layout~="hoverable"]:not([layout~="disabled"]):hover [visual~="..."]
+        const groupSelector = `[layout~="${parentAttr}"]:not([layout~="disabled"])${triggerSelector} ${selector}`;
+        selectors.push(groupSelector);
+        
+        // Peer Selectors
+        // [interact~="id"]:not([layout~="disabled"]):hover ~ [listens~="id"][visual~="..."]
+        if (interactIds && interactIds.size > 0) {
+          for (const id of interactIds) {
+            const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
+            selectors.push(peerSelector);
+          }
+        }
+      }
+      
+      selector = selectors.join(',\n');
     }
   }
   
@@ -1924,6 +1974,14 @@ export function generateCSS(tokens, config) {
     }
   }
 
+  // Collect interact IDs for Peer selector generation
+  const interactIds = new Set();
+  for (const token of tokens) {
+    if (token.attrType === 'interact') {
+      interactIds.add(token.raw);
+    }
+  }
+
   // Track display properties to handle conflicts like Tailwind
   // When responsive display property conflicts with base display property on the same element,
   // we need to add reset rules in the responsive media query
@@ -1945,7 +2003,7 @@ export function generateCSS(tokens, config) {
 
   // Generate base rules
   for (const token of baseTokens) {
-    css += generateRule(token, config);
+    css += generateRule(token, config, false, interactIds);
   }
 
   // Generate responsive rules
@@ -1983,7 +2041,7 @@ export function generateCSS(tokens, config) {
 
       // Generate responsive token rules
       for (const token of bpTokens) {
-        css += '  ' + generateRule(token, config);
+        css += '  ' + generateRule(token, config, false, interactIds);
       }
       css += '}\n';
     }
@@ -1999,14 +2057,14 @@ export function generateCSS(tokens, config) {
       css += `\n/* Dark Mode (prefers-color-scheme) */\n`;
       css += `@media (prefers-color-scheme: dark) {\n`;
       for (const token of darkTokens) {
-        css += '  ' + generateRule(token, config, true);
+        css += '  ' + generateRule(token, config, true, interactIds);
       }
       css += '}\n';
     } else {
       // Selector strategy (.dark class or custom selector)
       css += `\n/* Dark Mode (${darkSelector}) */\n`;
       for (const token of darkTokens) {
-        const baseRule = generateRule(token, config, true);
+        const baseRule = generateRule(token, config, true, interactIds);
         // Wrap selector with dark parent
         const wrappedRule = baseRule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
         css += wrappedRule;

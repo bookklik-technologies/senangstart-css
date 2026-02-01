@@ -1792,7 +1792,7 @@ import { buildAllMaps } from '../definitions/index.js';
     return gen ? gen() : '';
   }
 
-   function generateRule(raw, attrType) {
+   function generateRule(raw, attrType, interactIDs = []) {
     // Handle simple layout keywords
     if (attrType === 'layout' && layoutKeywords[raw]) {
       return `[layout~="${raw}"] { ${layoutKeywords[raw]} }\n`;
@@ -1827,13 +1827,40 @@ import { buildAllMaps } from '../definitions/index.js';
       selector = `[${attrType}~="${raw}"]`;
     }
     
-    // Add pseudo-class for states (but not for 'dark' - it's handled separately)
+    // Add pseudo-class for states
     if (token.state && token.state !== 'dark') {
+      const state = token.state;
+      
       if (isDivide) {
         // For divide utilities, add state after the tilde
-        selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden]):${token.state}`;
+        selector = `[visual~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
       } else {
-        selector += `:${token.state}`;
+        // Self-state (e.g. :hover)
+        selector += `:${state}`;
+        
+        // Group & Peer Logic
+        const capabilityMap = {
+            'hover': 'hoverable',
+            'focus': 'focusable',
+            'focus-within': 'focusable',
+            'active': 'pressable',
+            'expanded': 'expandable',
+            'selected': 'selectable'
+        };
+        const cap = capabilityMap[state];
+        
+        if (cap) {
+            // Group Selector: [layout~="hoverable"]:hover [visual~="hover:..."]
+            // Note: Use space descendant combinator
+            selector += `, [layout~="${cap}"]:${state} [${attrType}~="${raw}"]`;
+            
+            // Peer Selectors: [interact~="id"]:hover ~ [listens~="id"][visual~="hover:..."]
+            if (interactIDs && interactIDs.length > 0) {
+               for (const id of interactIDs) {
+                   selector += `, [interact~="${id}"]:${state} ~ [listens~="${id}"][${attrType}~="${raw}"]`;
+               }
+            }
+        }
       }
     }
     
@@ -1843,10 +1870,12 @@ import { buildAllMaps } from '../definitions/index.js';
     const tokens = {
       layout: new Set(),
       space: new Set(),
-      visual: new Set()
+      visual: new Set(),
+      interact: new Set(), // Collected interact IDs
+      listens: new Set()   // Collected listens IDs
     };
 
-    const elements = document.querySelectorAll('[layout], [space], [visual]');
+    const elements = document.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
     
     elements.forEach(el => {
       ['layout', 'space', 'visual'].forEach(attr => {
@@ -1854,6 +1883,16 @@ import { buildAllMaps } from '../definitions/index.js';
         if (value) {
           value.split(/\s+/).forEach(token => {
             if (token) tokens[attr].add(token);
+          });
+        }
+      });
+      
+      // Collect interact and listens IDs directly
+      ['interact', 'listens'].forEach(attr => {
+        const value = el.getAttribute(attr);
+        if (value) {
+          value.split(/\s+/).forEach(id => {
+            if (id) tokens[attr].add(id);
           });
         }
       });
@@ -1876,11 +1915,24 @@ import { buildAllMaps } from '../definitions/index.js';
     
     // Convert tokens to array for processing
     const tokenArray = [];
+    // Only process standard attributes for rule generation
     for (const [attrType, values] of Object.entries(tokens)) {
+      if (['interact', 'listens'].includes(attrType)) continue;
+      
       for (const raw of values) {
         tokenArray.push({ raw, attrType });
       }
     }
+    
+    // ... (grouping logic matches standard flow)
+
+    // Pass collected interact/listens IDs to generateRule context if needed
+    // OR we can just use the sets from the tokens object directly in the loop
+    // But generateRule is currently stateless. We need to pass the interact IDs to it.
+    
+    const interactIDs = Array.from(tokens.interact || []);
+
+
     
     // Group tokens by breakpoint and dark mode
     const baseTokens = [];
@@ -1926,7 +1978,7 @@ import { buildAllMaps } from '../definitions/index.js';
     
     // Generate base rules
     for (const token of baseTokens) {
-      css += generateRule(token.raw, token.attrType);
+      css += generateRule(token.raw, token.attrType, interactIDs);
     }
     
     // Generate responsive rules
@@ -1959,7 +2011,7 @@ import { buildAllMaps } from '../definitions/index.js';
         
         // Generate responsive token rules
         for (const token of bpTokens) {
-          css += '  ' + generateRule(token.raw, token.attrType);
+          css += '  ' + generateRule(token.raw, token.attrType, interactIDs);
         }
         css += '}\n';
       }
@@ -1972,7 +2024,7 @@ import { buildAllMaps } from '../definitions/index.js';
       if (darkMode === 'media') {
         css += `\n@media (prefers-color-scheme: dark) {\n`;
         for (const token of darkTokens) {
-          css += '  ' + generateRule(token.raw, token.attrType);
+          css += '  ' + generateRule(token.raw, token.attrType, interactIDs);
         }
         css += '}\n';
       } else {
@@ -1980,7 +2032,7 @@ import { buildAllMaps } from '../definitions/index.js';
         const darkSelector = Array.isArray(darkMode) ? darkMode[1] : '.dark';
         css += `\n/* Dark Mode */\n`;
         for (const token of darkTokens) {
-          const rule = generateRule(token.raw, token.attrType);
+          const rule = generateRule(token.raw, token.attrType, interactIDs);
           css += rule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
         }
       }
@@ -2026,7 +2078,7 @@ import { buildAllMaps } from '../definitions/index.js';
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['layout', 'space', 'visual']
+      attributeFilter: ['layout', 'space', 'visual', 'interact', 'listens']
     });
 
     console.log('%c[SenangStart CSS]%c Just-in-Time runtime initialized ✓', 

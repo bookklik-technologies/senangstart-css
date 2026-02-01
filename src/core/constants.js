@@ -7,7 +7,7 @@
 export const BREAKPOINTS = ['mob', 'tab', 'lap', 'desk', 'tw-sm', 'tw-md', 'tw-lg', 'tw-xl', 'tw-2xl'];
 
 // State prefixes
-export const STATES = ['hover', 'focus', 'focus-visible', 'active', 'disabled', 'dark'];
+export const STATES = ['hover', 'focus', 'focus-visible', 'active', 'disabled', 'dark', 'expanded', 'selected'];
 
 // Layout keywords (no colon syntax)
 export const LAYOUT_KEYWORDS = [
@@ -15,7 +15,9 @@ export const LAYOUT_KEYWORDS = [
   'row', 'col', 'row-reverse', 'col-reverse',
   'center', 'start', 'end', 'between', 'around', 'evenly',
   'wrap', 'nowrap',
-  'absolute', 'relative', 'fixed', 'sticky'
+  'absolute', 'relative', 'fixed', 'sticky',
+  // State Capabilities
+  'hoverable', 'focusable', 'pressable', 'expandable', 'selectable', 'disabled'
 ];
 
 // Layout CSS mappings

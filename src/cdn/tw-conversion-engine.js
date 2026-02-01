@@ -229,35 +229,85 @@ function getBorderWidth(value, exact) {
 
 function convertClass(twClass, exact) {
   // Handle prefixes (hover:, sm:, md:, etc.)
+  // Added group-* and peer-* variant support
   const prefixMatch = twClass.match(
-    /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|focus-visible:|active:|disabled:|dark:)(.+)$/
+    /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|focus-visible:|active:|disabled:|dark:|group-hover:|peer-hover:|group-focus:|peer-focus:|group-active:|peer-active:|peer-check:|group-open:|peer-open:)(.+)$/
   );
   let prefix = "",
-    baseClass = twClass;
+    baseClass = twClass,
+    extraAttr = null;
+
   if (prefixMatch) {
     const rawPrefix = prefixMatch[1].slice(0, -1); // remove colon
+    
+    // Responsive prefixes
     if (['sm', 'md', 'lg', 'xl', '2xl'].includes(rawPrefix)) {
       prefix = `tw-${rawPrefix}:`;
-    } else {
+    } 
+    // Group/Peer prefixes (map to standard state prefixes)
+    else if (rawPrefix.startsWith('group-') || rawPrefix.startsWith('peer-')) {
+      const stateMap = {
+        'hover': 'hover',
+        'focus': 'focus', // or focus-within if we strictly follow group logic, but SenangStart group logic handles mapped state triggers
+        'active': 'active',
+        'open': 'expanded', // map open -> expanded
+        'check': 'checked'  // map check -> checked
+      };
+      
+      const variant = rawPrefix.split('-')[1]; // get 'hover' from 'group-hover'
+      const mappedState = stateMap[variant] || variant;
+      
+      prefix = `${mappedState}:`;
+      
+      // For peer variants, we must ensure the element listens to "peer"
+      if (rawPrefix.startsWith('peer-')) {
+        extraAttr = { cat: 'listens', val: 'peer' };
+      }
+    } 
+    // Standard prefixes
+    else {
       prefix = prefixMatch[1];
     }
+    
     baseClass = prefixMatch[2];
   }
 
+  // Handle 'group' class mapping
+  if (baseClass === 'group') {
+    return { cat: 'layout', val: 'hoverable focusable pressable expandable' };
+  }
+
+  // Handle 'peer' class mapping
+  if (baseClass === 'peer') {
+    return [
+      { cat: 'layout', val: 'hoverable focusable pressable expandable' },
+      { cat: 'interact', val: 'peer' }
+    ];
+  }
+
+  // Helper to attach extra attributes (like listens="peer")
+  const attachExtra = (result) => {
+    if (!result) return null;
+    if (extraAttr) {
+      return Array.isArray(result) ? [...result, extraAttr] : [result, extraAttr];
+    }
+    return result;
+  };
+
   // Layout mappings
   if (layoutMappings[baseClass])
-    return { cat: "layout", val: prefix + layoutMappings[baseClass] };
+    return attachExtra({ cat: "layout", val: prefix + layoutMappings[baseClass] });
 
   // Visual keywords
   if (visualKeywords[baseClass])
-    return { cat: "visual", val: prefix + visualKeywords[baseClass] };
+    return attachExtra({ cat: "visual", val: prefix + visualKeywords[baseClass] });
 
   // Text color
   const textColorMatch = baseClass.match(
     /^text-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
   );
   if (textColorMatch)
-    return { cat: "visual", val: prefix + "text:" + textColorMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "text:" + textColorMatch[1] });
 
   // Text alignment
   if (
@@ -265,10 +315,10 @@ function convertClass(twClass, exact) {
       baseClass
     )
   )
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "text:" + baseClass.replace("text-", ""),
-    };
+    });
 
   // Text size
   const textSizeMatch = baseClass.match(
@@ -278,7 +328,7 @@ function convertClass(twClass, exact) {
     const size = exact
       ? `tw-${textSizeMatch[1]}`
       : fontSizeScale[textSizeMatch[1]] || textSizeMatch[1];
-    return { cat: "visual", val: prefix + "text-size:" + size };
+    return attachExtra({ cat: "visual", val: prefix + "text-size:" + size });
   }
 
   // Background color
@@ -289,15 +339,15 @@ function convertClass(twClass, exact) {
     const colorVal = bgMatch[1];
     // Handle special values
     if (colorVal === 'transparent') {
-      return { cat: "visual", val: prefix + "bg:[transparent]" };
+      return attachExtra({ cat: "visual", val: prefix + "bg:[transparent]" });
     }
     if (colorVal === 'current') {
-      return { cat: "visual", val: prefix + "bg:[currentColor]" };
+      return attachExtra({ cat: "visual", val: prefix + "bg:[currentColor]" });
     }
     if (colorVal === 'inherit') {
-      return { cat: "visual", val: prefix + "bg:[inherit]" };
+      return attachExtra({ cat: "visual", val: prefix + "bg:[inherit]" });
     }
-    return { cat: "visual", val: prefix + "bg:" + colorVal };
+    return attachExtra({ cat: "visual", val: prefix + "bg:" + colorVal });
   }
 
   // Border color
@@ -305,19 +355,19 @@ function convertClass(twClass, exact) {
     /^border-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
   );
   if (borderColorMatch)
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "border:" + borderColorMatch[1],
-    };
+    });
 
   // Padding
   const paddingMatch = baseClass.match(/^p([trblxy])?-(.+)$/);
   if (paddingMatch) {
     const side = paddingMatch[1] ? "-" + paddingMatch[1] : "";
-    return {
+    return attachExtra({
       cat: "space",
       val: prefix + "p" + side + ":" + getSpacing(paddingMatch[2], exact),
-    };
+    });
   }
 
   // Margin
@@ -339,17 +389,17 @@ function convertClass(twClass, exact) {
         val = `-${val}`;
       }
     }
-    return { cat: "space", val: prefix + "m" + side + ":" + val };
+    return attachExtra({ cat: "space", val: prefix + "m" + side + ":" + val });
   }
 
   // Gap
   const gapMatch = baseClass.match(/^gap-([xy])?-?(.+)$/);
   if (gapMatch) {
     const axis = gapMatch[1] ? "-" + gapMatch[1] : "";
-    return {
+    return attachExtra({
       cat: "space",
       val: prefix + "g" + axis + ":" + getSpacing(gapMatch[2], exact),
-    };
+    });
   }
 
   // Width/Height with special values
@@ -360,7 +410,7 @@ function convertClass(twClass, exact) {
     // Special width values
     const specialWidthVals = { 'max': '[max-content]', 'min': '[min-content]', 'fit': '[fit-content]', 'prose': '[65ch]' };
     const val = specialWidthVals[rawVal] || getSpacing(rawVal, exact);
-    return { cat: "space", val: prefix + prop + ":" + val };
+    return attachExtra({ cat: "space", val: prefix + prop + ":" + val });
   }
   const heightMatch = baseClass.match(/^(min-h|max-h|h)-(.+)$/);
   if (heightMatch) {
@@ -368,7 +418,7 @@ function convertClass(twClass, exact) {
     const rawVal = heightMatch[2];
     const specialHeightVals = { 'screen': '[100vh]', 'svh': '[100svh]', 'lvh': '[100lvh]', 'dvh': '[100dvh]', 'max': '[max-content]', 'min': '[min-content]', 'fit': '[fit-content]' };
     const val = specialHeightVals[rawVal] || getSpacing(rawVal, exact);
-    return { cat: "space", val: prefix + prop + ":" + val };
+    return attachExtra({ cat: "space", val: prefix + prop + ":" + val });
   }
 
   // Border radius
@@ -380,7 +430,7 @@ function convertClass(twClass, exact) {
         ? "tw-DEFAULT"
         : `tw-${size}`
       : radiusScale[size] || "medium";
-    return { cat: "visual", val: prefix + "rounded:" + scale };
+    return attachExtra({ cat: "visual", val: prefix + "rounded:" + scale });
   }
 
   // Shadow
@@ -392,7 +442,7 @@ function convertClass(twClass, exact) {
         ? "tw-DEFAULT"
         : `tw-${size}`
       : shadowScale[size] || "medium";
-    return { cat: "visual", val: prefix + "shadow:" + scale };
+    return attachExtra({ cat: "visual", val: prefix + "shadow:" + scale });
   }
 
   // Font weight
@@ -400,7 +450,7 @@ function convertClass(twClass, exact) {
     /^font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/
   );
   if (fontWeightMatch)
-    return { cat: "visual", val: prefix + "font:tw-" + fontWeightMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "font:tw-" + fontWeightMatch[1] });
 
   // Border width
   const borderWidthMatch = baseClass.match(
@@ -415,10 +465,10 @@ function convertClass(twClass, exact) {
       ? "-" + borderWidthMatch[1] + "-w"
       : "-w";
     const width = borderWidthMatch[2] || "1";
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "border" + side + ":" + getBorderWidth(width, exact),
-    };
+    });
   }
 
   // Positional properties (top-0, right-0, bottom-0, left-0, inset-0, etc.)
@@ -434,79 +484,79 @@ function convertClass(twClass, exact) {
     } else {
       val = getSpacing(val, exact);
     }
-    return { cat: "layout", val: prefix + prop + ":" + val };
+    return attachExtra({ cat: "layout", val: prefix + prop + ":" + val });
   }
 
   // Outline none
   if (baseClass === 'outline-none') {
-    return { cat: "visual", val: prefix + "outline:none" };
+    return attachExtra({ cat: "visual", val: prefix + "outline:none" });
   }
 
   // Order
   const orderMatch = baseClass.match(/^order-(\d+|first|last|none)$/);
   if (orderMatch) {
-    return { cat: "layout", val: prefix + "order:" + orderMatch[1] };
+    return attachExtra({ cat: "layout", val: prefix + "order:" + orderMatch[1] });
   }
 
   // Grid columns
   const gridColsMatch = baseClass.match(/^grid-cols-(\d+|none)$/);
   if (gridColsMatch) {
-    return { cat: "layout", val: prefix + "grid-cols:" + gridColsMatch[1] };
+    return attachExtra({ cat: "layout", val: prefix + "grid-cols:" + gridColsMatch[1] });
   }
 
   // Column span
   const colSpanMatch = baseClass.match(/^col-span-(\d+|full)$/);
   if (colSpanMatch) {
-    return { cat: "layout", val: prefix + "col-span:" + colSpanMatch[1] };
+    return attachExtra({ cat: "layout", val: prefix + "col-span:" + colSpanMatch[1] });
   }
 
   // Grid rows
   const gridRowsMatch = baseClass.match(/^grid-rows-(\d+|none)$/);
   if (gridRowsMatch) {
-    return { cat: "layout", val: prefix + "grid-rows:" + gridRowsMatch[1] };
+    return attachExtra({ cat: "layout", val: prefix + "grid-rows:" + gridRowsMatch[1] });
   }
 
   // Row span
   const rowSpanMatch = baseClass.match(/^row-span-(\d+|full)$/);
   if (rowSpanMatch) {
-    return { cat: "layout", val: prefix + "row-span:" + rowSpanMatch[1] };
+    return attachExtra({ cat: "layout", val: prefix + "row-span:" + rowSpanMatch[1] });
   }
 
   // Opacity
   const opacityMatch = baseClass.match(/^opacity-(\d+)$/);
   if (opacityMatch) {
-    return { cat: "visual", val: prefix + "opacity:" + opacityMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "opacity:" + opacityMatch[1] });
   }
 
   // Gradient direction (bg-gradient-to-*)
   const bgGradientMatch = baseClass.match(/^bg-gradient-to-(t|tr|r|br|b|bl|l|tl)$/);
   if (bgGradientMatch) {
-    return { cat: "visual", val: prefix + "bg-image:gradient-to-" + bgGradientMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "bg-image:gradient-to-" + bgGradientMatch[1] });
   }
 
   // Gradient from-* (starting color)
   const fromMatch = baseClass.match(/^from-(.+)$/);
   if (fromMatch) {
-    return { cat: "visual", val: prefix + "from:" + fromMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "from:" + fromMatch[1] });
   }
 
   // Gradient via-* (middle color)
   const viaMatch = baseClass.match(/^via-(.+)$/);
   if (viaMatch) {
-    return { cat: "visual", val: prefix + "via:" + viaMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "via:" + viaMatch[1] });
   }
 
   // Gradient to-* (ending color) - Note: must come after bg-gradient-to-*
   const toMatch = baseClass.match(/^to-(.+)$/);
   if (toMatch) {
-    return { cat: "visual", val: prefix + "to:" + toMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "to:" + toMatch[1] });
   }
 
   // Transition utilities
   const transitionMatch = baseClass.match(/^transition(?:-(all|colors|opacity|shadow|transform|none))?$/);
   if (transitionMatch) {
     const type = transitionMatch[1] || 'all';
-    return { cat: "visual", val: prefix + "transition:" + type };
+    return attachExtra({ cat: "visual", val: prefix + "transition:" + type });
   }
 
   // Duration utilities
@@ -522,13 +572,13 @@ function convertClass(twClass, exact) {
     else if (ms <= 300) durationVal = 'slow';
     else if (ms <= 500) durationVal = 'slower';
     else durationVal = 'lazy';
-    return { cat: "visual", val: prefix + "duration:" + durationVal };
+    return attachExtra({ cat: "visual", val: prefix + "duration:" + durationVal });
   }
 
   // Ease utilities
   const easeMatch = baseClass.match(/^ease-(linear|in|out|in-out)$/);
   if (easeMatch) {
-    return { cat: "visual", val: prefix + "ease:" + easeMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "ease:" + easeMatch[1] });
   }
 
   // Ring utilities - Convert to native ring utilities
@@ -537,105 +587,105 @@ function convertClass(twClass, exact) {
   if (ringMatch) {
     const width = ringMatch[1] || '3';
     if (width === '0') {
-      return { cat: "visual", val: prefix + "ring:none" };
+      return attachExtra({ cat: "visual", val: prefix + "ring:none" });
     }
     // Map Tailwind ring widths to SenangStart semantic values
     const ringScale = {
       '1': 'thin', '2': 'regular', '3': 'small', '4': 'medium', '8': 'big'
     };
     const scale = ringScale[width] || `[${width}px]`;
-    return { cat: "visual", val: prefix + "ring:" + scale };
+    return attachExtra({ cat: "visual", val: prefix + "ring:" + scale });
   }
 
   // Ring offset - converts to native ring-offset utility
   const ringOffsetMatch = baseClass.match(/^ring-offset-(\d+)$/);
   if (ringOffsetMatch) {
-    return { cat: "visual", val: prefix + "ring-offset:" + ringOffsetMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "ring-offset:" + ringOffsetMatch[1] });
   }
 
   // Ring color - converts to native ring-color utility
   const ringColorMatch = baseClass.match(/^ring-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
   if (ringColorMatch) {
-    return { cat: "visual", val: prefix + "ring-color:" + ringColorMatch[1] };
+    return attachExtra({ cat: "visual", val: prefix + "ring-color:" + ringColorMatch[1] });
   }
   
   // Divide color - directional (check divide-x and divide-y BEFORE generic divide)
   const divideXMatch = baseClass.match(/^divide-x-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
   if (divideXMatch) {
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "divide-x:" + divideXMatch[1],
-    };
+    });
   }
   
   const divideYMatch = baseClass.match(/^divide-y-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
   if (divideYMatch) {
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "divide-y:" + divideYMatch[1],
-    };
+    });
   }
   
   // Divide color - all directions (check divide-x and divide-y AFTER generic divide)
   const divideColorMatch = baseClass.match(/^divide-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
   if (divideColorMatch) {
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "divide:" + divideColorMatch[1],
-    };
+    });
   }
   
   // Divide width - all directions
   const divideWidthMatch = baseClass.match(/^divide-(\d+)$/);
   if (divideWidthMatch) {
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "divide-w:" + getBorderWidth(divideWidthMatch[1], exact),
-    };
+    });
   }
   
   // Divide reverse (check these FIRST as they are specific)
   if (baseClass === 'divide-x-reverse') {
-    return { cat: "visual", val: prefix + "divide-x:reverse" };
+    return attachExtra({ cat: "visual", val: prefix + "divide-x:reverse" });
   }
   if (baseClass === 'divide-y-reverse') {
-    return { cat: "visual", val: prefix + "divide-y:reverse" };
+    return attachExtra({ cat: "visual", val: prefix + "divide-y:reverse" });
   }
   
   // Divide width - directional
   const divideXWidthMatch = baseClass.match(/^divide-x-(\d+)$/);
   if (divideXWidthMatch) {
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "divide-x-w:" + getBorderWidth(divideXWidthMatch[1], exact),
-    };
+    });
   }
   
   // Divide width (implicit x/y from Tailwind divide-x/y without number is usually 1px)
   // Tailwind: divide-x = border-right-width: 1px (or left if reverse).
   // SenangStart: divide-x-w:thin
   if (baseClass === 'divide-x') {
-    return { cat: "visual", val: prefix + "divide-x-w:thin" };
+    return attachExtra({ cat: "visual", val: prefix + "divide-x-w:thin" });
   }
   if (baseClass === 'divide-y') {
-    return { cat: "visual", val: prefix + "divide-y-w:thin" };
+    return attachExtra({ cat: "visual", val: prefix + "divide-y-w:thin" });
   }
   
   const divideYWidthMatch = baseClass.match(/^divide-y-(\d+)$/);
   if (divideYWidthMatch) {
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "divide-y-w:" + getBorderWidth(divideYWidthMatch[1], exact),
-    };
+    });
   }
   
   // Divide style
   const divideStyleMatch = baseClass.match(/^divide-(solid|dashed|dotted|double|none)$/);
   if (divideStyleMatch) {
-    return {
+    return attachExtra({
       cat: "visual",
       val: prefix + "divide-style:" + divideStyleMatch[1], // Fixed category from 'color' to 'visual'
-    };
+    });
   }
   
   return null;
@@ -649,27 +699,42 @@ function convertClasses(classString, exact) {
   const layout = [],
     space = [],
     visual = [],
+    interact = [],
+    listens = [],
     unknown = [];
+
+  // Helper to push unique
+  const pushUnique = (arr, val) => {
+    if (!arr.includes(val)) arr.push(val);
+  };
 
   for (const cls of classes) {
     const result = convertClass(cls, exact);
+    
     if (result) {
-      if (result.cat === "layout") layout.push(result.val);
-      else if (result.cat === "space") space.push(result.val);
-      else if (result.cat === "visual") visual.push(result.val);
+      // Normalize to array to support 1-to-many mapping
+      const results = Array.isArray(result) ? result : [result];
+      
+      for (const res of results) {
+        if (res.cat === "layout") pushUnique(layout, res.val);
+        else if (res.cat === "space") pushUnique(space, res.val);
+        else if (res.cat === "visual") pushUnique(visual, res.val);
+        else if (res.cat === "interact") pushUnique(interact, res.val);
+        else if (res.cat === "listens") pushUnique(listens, res.val);
+      }
     } else {
       unknown.push(cls);
     }
   }
 
-  return { layout, space, visual, unknown };
+  return { layout, space, visual, interact, listens, unknown };
 }
 
 function convertHTML(html, exact) {
   return html.replace(
     /class=(['"])([^"']+)\1/g,
     (match, quote, classValue) => {
-      const { layout, space, visual, unknown } = convertClasses(
+      const { layout, space, visual, interact, listens, unknown } = convertClasses(
         classValue,
         exact
       );
@@ -677,6 +742,8 @@ function convertHTML(html, exact) {
       if (layout.length) attrs.push(`layout="${layout.join(" ")}"`);
       if (space.length) attrs.push(`space="${space.join(" ")}"`);
       if (visual.length) attrs.push(`visual="${visual.join(" ")}"`);
+      if (interact.length) attrs.push(`interact="${interact.join(" ")}"`);
+      if (listens.length) attrs.push(`listens="${listens.join(" ")}"`);
       if (unknown.length) attrs.push(`class="${unknown.join(" ")}"`);
       return attrs.join(" ") || 'class=""';
     }
