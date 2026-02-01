@@ -28,7 +28,7 @@ export default {
 
     // Add custom colors
     // colors: {
-    //   'brand': '#8B5CF6',
+    //   'brand': '#38BDF8',
     //   'accent': '#EC4899'
     // }
   }

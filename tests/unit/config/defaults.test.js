@@ -67,7 +67,7 @@ describe('Config', () => {
       const userConfig = {
         theme: {
           colors: {
-            'brand': '#8B5CF6'
+            'brand': '#38BDF8'
           }
         }
       };
@@ -75,7 +75,7 @@ describe('Config', () => {
       const result = mergeConfig(userConfig);
       
       // Custom color should be added
-      assert.strictEqual(result.theme.colors.brand, '#8B5CF6');
+      assert.strictEqual(result.theme.colors.brand, '#38BDF8');
       // Default colors should still exist
       assert.strictEqual(result.theme.colors.primary, defaultConfig.theme.colors.primary);
     });

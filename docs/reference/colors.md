@@ -104,7 +104,7 @@ Add custom colors in `senangstart.config.js`:
 export default {
   theme: {
     colors: {
-      'brand': '#8B5CF6',
+      'brand': '#38BDF8',
       'accent': '#EC4899',
       'muted': '#9CA3AF',
       'surface': '#F9FAFB'
