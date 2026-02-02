@@ -214,8 +214,7 @@ Use `interact="[id]"` on the trigger and `listens="[id]"` on the receiver.
 </button>
 
 <div 
-  layout="absolute mt:small" 
-  visual="hidden hover:visible" 
+  layout="absolute hidden hover:block" 
   listens="menu-trigger"
 >
   Dropdown Menu

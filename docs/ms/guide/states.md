@@ -210,14 +210,13 @@ Gunakan `interact="[id]"` pada pencetus dan `listens="[id]"` pada penerima.
 
 ```html
 <button layout="hoverable" interact="menu-trigger">
-  Hover saya
+  Hover me
 </button>
 
 <div 
-  layout="absolute mt:small" 
-  visual="hidden hover:visible" 
+  layout="absolute hidden hover:block" 
   listens="menu-trigger"
 >
-  Menu Dropdown
+  Dropdown Menu
 </div>
 ```
