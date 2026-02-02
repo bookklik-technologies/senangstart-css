@@ -244,16 +244,29 @@ export const width = {
     'big', 'big-2x', 'big-3x', 'big-4x',
     'giant', 'giant-2x', 'giant-3x', 'giant-4x',
     'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
-    'min', 'max', 'fit'
+    'min', 'max', 'fit',
+    // Percentage adjectives
+    'full', 'half', 'third', 'third-2x', 'quarter', 'quarter-2x', 'quarter-3x',
+    // Fractional values (backwards compatibility)
+    '1/1', '1/2', '1/3', '2/3', '1/4', '2/4', '3/4'
+  ],
+  percentageAdjectives: [
+    { name: 'full', value: '100%', description: 'Full width (100%)', descriptionMs: 'Lebar penuh (100%)' },
+    { name: 'half', value: '50%', description: 'Half width (50%)', descriptionMs: 'Separuh lebar (50%)' },
+    { name: 'third', value: '33.333333%', description: 'One third width (33%)', descriptionMs: 'Satu pertiga lebar (33%)' },
+    { name: 'third-2x', value: '66.666667%', description: 'Two thirds width (66%)', descriptionMs: 'Dua pertiga lebar (66%)' },
+    { name: 'quarter', value: '25%', description: 'One quarter width (25%)', descriptionMs: 'Satu perempat lebar (25%)' },
+    { name: 'quarter-2x', value: '50%', description: 'Two quarters width (50%)', descriptionMs: 'Dua perempat lebar (50%)' },
+    { name: 'quarter-3x', value: '75%', description: 'Three quarters width (75%)', descriptionMs: 'Tiga perempat lebar (75%)' }
   ],
   supportsArbitrary: true,
   examples: [
-    { code: '<div space="w:[100%]">Full width</div>', description: 'Full width' },
+    { code: '<div space="w:full">Full width</div>', description: 'Full width' },
+    { code: '<div space="w:half">Half width</div>', description: 'Half width (50%)' },
+    { code: '<div space="w:third">Third width</div>', description: 'One third width (33%)' },
+    { code: '<div space="w:quarter-3x">Three quarters</div>', description: 'Three quarters width (75%)' },
     { code: '<div space="max-w:[1200px]">Max width container</div>', description: 'Max width' },
-    { code: '<div space="min-w:[300px]">Min width</div>', description: 'Minimum width' },
-    { code: '<div space="w:max">Content width</div>', description: 'Width based on content (max-content)' },
-    { code: '<div space="max-w:max">Max content width</div>', description: 'Maximum content width' },
-    { code: '<div space="min-w:min">Min content width</div>', description: 'Minimum content width' }
+    { code: '<div space="w:max">Content width</div>', description: 'Width based on content (max-content)' }
   ],
   preview: [
     {
@@ -262,11 +275,11 @@ export const width = {
       description: 'Set fixed or percentage widths',
       descriptionMs: 'Tetapkan lebar tetap atau peratusan',
       html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="w:[100%] p:small" visual="bg:primary text:white rounded:small">w:[100%]</div>
-  <div space="w:[75%] p:small" visual="bg:primary text:white rounded:small">w:[75%]</div>
-  <div space="w:[50%] p:small" visual="bg:primary text:white rounded:small">w:[50%]</div>
+  <div space="w:full p:small" visual="bg:primary text:white rounded:small">w:full</div>
+  <div space="w:quarter-3x p:small" visual="bg:primary text:white rounded:small">w:quarter-3x</div>
+  <div space="w:half p:small" visual="bg:primary text:white rounded:small">w:half</div>
 </div>`,
-      highlightValue: 'w:[100%]'
+      highlightValue: 'w:full'
     },
     {
       title: 'Content-Based Sizing',
@@ -329,15 +342,28 @@ export const height = {
     'big', 'big-2x', 'big-3x', 'big-4x',
     'giant', 'giant-2x', 'giant-3x', 'giant-4x',
     'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
-    'min', 'max', 'fit'
+    'min', 'max', 'fit',
+    // Percentage adjectives
+    'full', 'half', 'third', 'third-2x', 'quarter', 'quarter-2x', 'quarter-3x',
+    // Fractional values (backwards compatibility)
+    '1/1', '1/2', '1/3', '2/3', '1/4', '2/4', '3/4'
+  ],
+  percentageAdjectives: [
+    { name: 'full', value: '100%', description: 'Full height (100%)', descriptionMs: 'Tinggi penuh (100%)' },
+    { name: 'half', value: '50%', description: 'Half height (50%)', descriptionMs: 'Separuh tinggi (50%)' },
+    { name: 'third', value: '33.333333%', description: 'One third height (33%)', descriptionMs: 'Satu pertiga tinggi (33%)' },
+    { name: 'third-2x', value: '66.666667%', description: 'Two thirds height (66%)', descriptionMs: 'Dua pertiga tinggi (66%)' },
+    { name: 'quarter', value: '25%', description: 'One quarter height (25%)', descriptionMs: 'Satu perempat tinggi (25%)' },
+    { name: 'quarter-2x', value: '50%', description: 'Two quarters height (50%)', descriptionMs: 'Dua perempat tinggi (50%)' },
+    { name: 'quarter-3x', value: '75%', description: 'Three quarters height (75%)', descriptionMs: 'Tiga perempat tinggi (75%)' }
   ],
   supportsArbitrary: true,
   examples: [
-    { code: '<div space="h:[100vh]">Full viewport height</div>', description: 'Full height' },
+    { code: '<div space="h:full">Full height</div>', description: 'Full height' },
+    { code: '<div space="h:half">Half height</div>', description: 'Half height (50%)' },
+    { code: '<div space="h:[100vh]">Full viewport height</div>', description: 'Full viewport height' },
     { code: '<div space="min-h:[400px]">Min height</div>', description: 'Minimum height' },
-    { code: '<div space="h:max">Content height</div>', description: 'Height based on content (max-content)' },
-    { code: '<div space="max-h:max">Max content height</div>', description: 'Maximum content height' },
-    { code: '<div space="min-h:min">Min content height</div>', description: 'Minimum content height' }
+    { code: '<div space="h:max">Content height</div>', description: 'Height based on content (max-content)' }
   ],
   preview: [
     {
@@ -346,11 +372,11 @@ export const height = {
       description: 'Set fixed heights',
       descriptionMs: 'Tetapkan tinggi tetap',
       html: `<div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 120px;">
-  <div space="h:[100%] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[100%]</div>
-  <div space="h:[80px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[80px]</div>
-  <div space="h:[60px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[60px]</div>
+  <div space="h:full p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:full</div>
+  <div space="h:third-2x p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:third-2x</div>
+  <div space="h:half p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:half</div>
 </div>`,
-      highlightValue: 'h:[100%]'
+      highlightValue: 'h:full'
     },
     {
       title: 'Content-Based Height',

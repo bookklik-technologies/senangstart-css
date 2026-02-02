@@ -12,7 +12,7 @@ Rujukan lengkap untuk palet warna.
 | `dark` | #3E4A5D | **Gelap jenama** |
 | `light` | #DBEAFE | **Cerah jenama** |
 | `primary` | #2563EB | **Utama jenama** |
-| `secondary` | #DBEAFE | **Sekunder jenama** |
+| `secondary` | #1E40AF | **Sekunder jenama** |
 | `success` | #10B981 | Maklum balas positif |
 | `warning` | #F59E0B | Amaran |
 | `danger` | #EF4444 | Ralat |

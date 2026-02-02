@@ -71,12 +71,36 @@ const spacingScale = {
   '72': 'vast',
   '80': 'vast',
   '96': 'vast',
-  'full': '[100%]',
+  'full': 'full',
   'screen': '[100vw]',
-  'min': '[min-content]',
-  'max': '[max-content]',
-  'fit': '[fit-content]',
+  'min': 'min',
+  'max': 'max',
+  'fit': 'fit',
   'auto': 'auto'
+};
+
+// ======================
+// PERCENTAGE ADJECTIVES
+// ======================
+// Maps Tailwind fractional values to SenangStart percentage adjectives
+const percentageAdjectives = {
+  '1/2': 'half',
+  '1/3': 'third',
+  '2/3': 'third-2x',
+  '1/4': 'quarter',
+  '2/4': 'quarter-2x',
+  '3/4': 'quarter-3x',
+  // Less common fractions - keep as arbitrary for precision
+  '1/5': '[20%]',
+  '2/5': '[40%]',
+  '3/5': '[60%]',
+  '4/5': '[80%]',
+  '1/6': '[16.666667%]',
+  '5/6': '[83.333333%]',
+  '1/12': '[8.333333%]',
+  '5/12': '[41.666667%]',
+  '7/12': '[58.333333%]',
+  '11/12': '[91.666667%]'
 };
 
 // ======================
@@ -370,24 +394,32 @@ function getSpacingScale(value, options = {}) {
     if (value.startsWith('[') && value.endsWith(']')) {
       return value;
     }
-    // Special keywords that don't map to tw- scale
+    // Special keywords that use semantic values
     const specialKeywords = ['full', 'screen', 'min', 'max', 'fit', 'auto'];
     if (specialKeywords.includes(value)) {
       const specialMap = {
-        'full': '[100%]',
+        'full': 'full',
         'screen': '[100vw]',
-        'min': '[min-content]',
-        'max': '[max-content]',
-        'fit': '[fit-content]',
+        'min': 'min',
+        'max': 'max',
+        'fit': 'fit',
         'auto': 'auto'
       };
       return specialMap[value];
+    }
+    // Check for percentage adjectives
+    if (percentageAdjectives[value]) {
+      return percentageAdjectives[value];
     }
     // Output tw- prefix for numeric scale
     return `tw-${value}`;
   }
   
   // Semantic mode (default)
+  // Check for percentage adjectives first
+  if (percentageAdjectives[value]) {
+    return percentageAdjectives[value];
+  }
   if (spacingScale[value]) {
     return spacingScale[value];
   }
@@ -546,7 +578,11 @@ function convertClass(twClass, options = {}) {
     const prop = widthMatch[1];
     const rawVal = widthMatch[2];
     // Special width values
-    const specialWidthVals = { 'max': '[max-content]', 'min': '[min-content]', 'fit': '[fit-content]', 'prose': '[65ch]' };
+    const specialWidthVals = { 'max': 'max', 'min': 'min', 'fit': 'fit', 'prose': '[65ch]' };
+    // Check for percentage adjective first (e.g., 1/2 → half)
+    if (percentageAdjectives[rawVal]) {
+      return { category: 'space', value: prefix + prop + ":" + percentageAdjectives[rawVal] };
+    }
     const val = specialWidthVals[rawVal] || getSpacingScale(rawVal, options);
     return { category: 'space', value: prefix + prop + ":" + val };
   }
@@ -554,7 +590,11 @@ function convertClass(twClass, options = {}) {
   if (heightMatch) {
     const prop = heightMatch[1];
     const rawVal = heightMatch[2];
-    const specialHeightVals = { 'screen': '[100vh]', 'svh': '[100svh]', 'lvh': '[100lvh]', 'dvh': '[100dvh]', 'max': '[max-content]', 'min': '[min-content]', 'fit': '[fit-content]' };
+    const specialHeightVals = { 'screen': '[100vh]', 'svh': '[100svh]', 'lvh': '[100lvh]', 'dvh': '[100dvh]', 'max': 'max', 'min': 'min', 'fit': 'fit' };
+    // Check for percentage adjective first (e.g., 1/2 → half)
+    if (percentageAdjectives[rawVal]) {
+      return { category: 'space', value: prefix + prop + ":" + percentageAdjectives[rawVal] };
+    }
     const val = specialHeightVals[rawVal] || getSpacingScale(rawVal, options);
     return { category: 'space', value: prefix + prop + ":" + val };
   }
@@ -1066,4 +1106,4 @@ if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}` ||
 }
 
 // Export for testing
-export { convertClass, spacingScale, layoutMappings, visualKeywordMappings, main, convertHTML };
+export { convertClass, spacingScale, percentageAdjectives, layoutMappings, visualKeywordMappings, main, convertHTML };

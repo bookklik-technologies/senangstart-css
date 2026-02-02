@@ -67,7 +67,12 @@ describe('convertClass', () => {
     });
 
     it('should convert width/height classes', () => {
-      assert.deepStrictEqual(convertClass('w-full'), { category: 'space', value: 'w:[100%]' });
+      assert.deepStrictEqual(convertClass('w-full'), { category: 'space', value: 'w:full' });
+      assert.deepStrictEqual(convertClass('w-1/2'), { category: 'space', value: 'w:half' });
+      assert.deepStrictEqual(convertClass('w-1/3'), { category: 'space', value: 'w:third' });
+      assert.deepStrictEqual(convertClass('w-2/3'), { category: 'space', value: 'w:third-2x' });
+      assert.deepStrictEqual(convertClass('w-1/4'), { category: 'space', value: 'w:quarter' });
+      assert.deepStrictEqual(convertClass('w-3/4'), { category: 'space', value: 'w:quarter-3x' });
       assert.deepStrictEqual(convertClass('h-screen'), { category: 'space', value: 'h:[100vh]' });
       assert.deepStrictEqual(convertClass('max-w-4'), { category: 'space', value: 'max-w:small' });
     });

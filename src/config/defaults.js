@@ -158,7 +158,7 @@ export const defaultConfig = {
       'dark':      '#3E4A5D',     // Brand dark
       'light':     '#DBEAFE',     // Brand light/secondary
       'primary':   '#2563EB',     // Brand primary
-      'secondary': '#DBEAFE',     // Brand secondary
+      'secondary': '#1E40AF',     // Brand secondary
       'success':   '#10B981',
       'warning':   '#F59E0B',
       'danger':    '#EF4444',

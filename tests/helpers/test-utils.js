@@ -62,7 +62,7 @@ export function createTestConfig(overrides = {}) {
         'white': '#FFFFFF',
         'black': '#000000',
         'primary': '#2563EB',
-        'secondary': '#DBEAFE',
+        'secondary': '#1E40AF',
         'success': '#10B981',
         'warning': '#F59E0B',
         'danger': '#EF4444',

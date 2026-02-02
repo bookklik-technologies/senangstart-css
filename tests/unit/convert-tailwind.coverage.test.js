@@ -35,8 +35,14 @@ test('convert-tailwind coverage', async (t) => {
     assert.deepStrictEqual(convertClass('-m-[10px]'), { category: 'space', value: 'm:[-10px]' });
     assert.deepStrictEqual(convertClass('p-[10px]'), { category: 'space', value: 'p:[10px]' });
     
-    assert.deepStrictEqual(convertClass('w-min'), { category: 'space', value: 'w:[min-content]' });
+    assert.deepStrictEqual(convertClass('w-min'), { category: 'space', value: 'w:min' });
+    assert.deepStrictEqual(convertClass('w-max'), { category: 'space', value: 'w:max' });
+    assert.deepStrictEqual(convertClass('w-fit'), { category: 'space', value: 'w:fit' });
     assert.deepStrictEqual(convertClass('h-screen'), { category: 'space', value: 'h:[100vh]' });
+    
+    // Percentage adjectives
+    assert.deepStrictEqual(convertClass('w-1/2'), { category: 'space', value: 'w:half' });
+    assert.deepStrictEqual(convertClass('h-1/3'), { category: 'space', value: 'h:third' });
   });
 
 
@@ -78,7 +84,7 @@ test('convert-tailwind coverage', async (t) => {
     // Spacing scale exact mode
     assert.deepStrictEqual(convertClass('p-4', { exact: true }), { category: 'space', value: 'p:tw-4' });
     assert.deepStrictEqual(convertClass('m-auto', { exact: true }), { category: 'space', value: 'm:auto' });
-    assert.deepStrictEqual(convertClass('w-full', { exact: true }), { category: 'space', value: 'w:[100%]' });
+    assert.deepStrictEqual(convertClass('w-full', { exact: true }), { category: 'space', value: 'w:full' });
     assert.deepStrictEqual(convertClass('p-[20px]', { exact: true }), { category: 'space', value: 'p:[20px]' });
     
     // Unknown spacing scale

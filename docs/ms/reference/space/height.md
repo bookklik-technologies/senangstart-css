@@ -17,16 +17,16 @@ space="h:[value]"
 
 ## Nilai Skala
 
-`none`, `thin`, `regular`, `thick`, `tiny`, `tiny-2x`, `small`, `small-2x`, `small-3x`, `small-4x`, `medium`, `medium-2x`, `medium-3x`, `medium-4x`, `large`, `large-2x`, `large-3x`, `large-4x`, `big`, `big-2x`, `big-3x`, `big-4x`, `giant`, `giant-2x`, `giant-3x`, `giant-4x`, `vast`, `vast-2x`, `vast-3x`, `vast-4x`, `vast-5x`, `vast-6x`, `vast-7x`, `vast-8x`, `vast-9x`, `vast-10x`, `min`, `max`, `fit`
+`none`, `thin`, `regular`, `thick`, `tiny`, `tiny-2x`, `small`, `small-2x`, `small-3x`, `small-4x`, `medium`, `medium-2x`, `medium-3x`, `medium-4x`, `large`, `large-2x`, `large-3x`, `large-4x`, `big`, `big-2x`, `big-3x`, `big-4x`, `giant`, `giant-2x`, `giant-3x`, `giant-4x`, `vast`, `vast-2x`, `vast-3x`, `vast-4x`, `vast-5x`, `vast-6x`, `vast-7x`, `vast-8x`, `vast-9x`, `vast-10x`, `min`, `max`, `fit`, `full`, `half`, `third`, `third-2x`, `quarter`, `quarter-2x`, `quarter-3x`, `1/1`, `1/2`, `1/3`, `2/3`, `1/4`, `2/4`, `3/4`
 
 ## Contoh
 
 ```html
+<div space="h:full">Full height</div>
+<div space="h:half">Half height</div>
 <div space="h:[100vh]">Full viewport height</div>
 <div space="min-h:[400px]">Min height</div>
 <div space="h:max">Content height</div>
-<div space="max-h:max">Max content height</div>
-<div space="min-h:min">Min content height</div>
 ```
 
 ## Pratonton
@@ -36,11 +36,11 @@ space="h:[value]"
 ### Kawal Tinggi
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="h:[100%]"</code> - Tetapkan tinggi tetap</p>
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>space="h:full"</code> - Tetapkan tinggi tetap</p>
 <div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 120px;">
-  <div space="h:[100%] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[100%]</div>
-  <div space="h:[80px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[80px]</div>
-  <div space="h:[60px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[60px]</div>
+  <div space="h:full p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:full</div>
+  <div space="h:third-2x p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:third-2x</div>
+  <div space="h:half p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:half</div>
 </div>
 </div>
 
@@ -49,9 +49,9 @@ space="h:[value]"
 
 ```html
 <div layout="flex" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium" style="height: 120px;">
-  <div space="h:[100%] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[100%]</div>
-  <div space="h:[80px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[80px]</div>
-  <div space="h:[60px] p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:[60px]</div>
+  <div space="h:full p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:full</div>
+  <div space="h:third-2x p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:third-2x</div>
+  <div space="h:half p:small" visual="bg:primary text:white rounded:small" layout="flex center">h:half</div>
 </div>
 ```
 

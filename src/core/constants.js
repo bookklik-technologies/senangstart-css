@@ -292,7 +292,7 @@ export const DEFAULT_THEME = {
     'dark':      '#3E4A5D',
     'light':     '#DBEAFE',
     'primary':   '#2563EB',
-    'secondary': '#DBEAFE',
+    'secondary': '#1E40AF',
     'success':   '#10B981',
     'warning':   '#F59E0B',
     'danger':    '#EF4444',

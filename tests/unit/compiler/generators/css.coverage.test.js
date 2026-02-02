@@ -316,6 +316,56 @@ test('CSS Generator Coverage', async (t) => {
     assert.ok(css.includes('calc(var(--tw-2) * -1)'));
   });
 
+  await t.test('Space - Percentage Adjectives', () => {
+    // Width with percentage adjectives
+    const w_full = { property: 'w', value: 'full', attrType: 'space', raw: 'w:full' };
+    const w_half = { property: 'w', value: 'half', attrType: 'space', raw: 'w:half' };
+    const w_third = { property: 'w', value: 'third', attrType: 'space', raw: 'w:third' };
+    const w_third_2x = { property: 'w', value: 'third-2x', attrType: 'space', raw: 'w:third-2x' };
+    const w_quarter = { property: 'w', value: 'quarter', attrType: 'space', raw: 'w:quarter' };
+    const w_quarter_3x = { property: 'w', value: 'quarter-3x', attrType: 'space', raw: 'w:quarter-3x' };
+    
+    // Height with percentage adjectives
+    const h_half = { property: 'h', value: 'half', attrType: 'space', raw: 'h:half' };
+    
+    // Fractional values (backwards compatibility)
+    const w_1_2 = { property: 'w', value: '1/2', attrType: 'space', raw: 'w:1/2' };
+    const h_2_3 = { property: 'h', value: '2/3', attrType: 'space', raw: 'h:2/3' };
+    
+    const css = generateCSS([w_full, w_half, w_third, w_third_2x, w_quarter, w_quarter_3x, h_half, w_1_2, h_2_3], config);
+    assert.ok(css.includes('width: 100%'));
+    assert.ok(css.includes('width: 50%'));
+    assert.ok(css.includes('width: 33.333333%'));
+    assert.ok(css.includes('width: 66.666667%'));
+    assert.ok(css.includes('width: 25%'));
+    assert.ok(css.includes('width: 75%'));
+    assert.ok(css.includes('height: 50%'));
+  });
+
+  await t.test('Layout - Positioning Percentage Adjectives', () => {
+    // Positioning with percentage adjectives (for centering patterns)
+    const top_half = { property: 'top', value: 'half', attrType: 'layout', raw: 'top:half' };
+    const left_half = { property: 'left', value: 'half', attrType: 'layout', raw: 'left:half' };
+    const right_quarter = { property: 'right', value: 'quarter', attrType: 'layout', raw: 'right:quarter' };
+    
+    // Negative percentage adjectives
+    const top_neg_half = { property: 'top', value: '-half', attrType: 'layout', raw: 'top:-half' };
+    
+    // Fractional values 
+    const left_1_3 = { property: 'left', value: '1/3', attrType: 'layout', raw: 'left:1/3' };
+    
+    // Inset with percentage
+    const inset_full = { property: 'inset', value: 'full', attrType: 'layout', raw: 'inset:full' };
+    
+    const css = generateCSS([top_half, left_half, right_quarter, top_neg_half, left_1_3, inset_full], config);
+    assert.ok(css.includes('top: 50%'));
+    assert.ok(css.includes('left: 50%'));
+    assert.ok(css.includes('right: 25%'));
+    assert.ok(css.includes('top: -50%'));
+    assert.ok(css.includes('left: 33.333333%'));
+    assert.ok(css.includes('inset: 100%'));
+  });
+
   await t.test('Visual - Background Image URL and Gradients', () => {
     const url = { property: 'bg-image', value: 'hero.jpg', attrType: 'visual', raw: 'bg-image:hero.jpg' };
     const arb = { property: 'bg-image', value: 'custom.png', isArbitrary: true, attrType: 'visual', raw: 'bg-image:[custom.png]' };

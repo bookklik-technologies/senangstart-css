@@ -288,27 +288,64 @@ function generateLayoutRule(token, config) {
     return `object-position: ${cssValue};`;
   }
   
+  // Percentage adjectives for positioning utilities
+  const positioningPercentages = {
+    'full': '100%',
+    'half': '50%',
+    'third': '33.333333%',
+    'third-2x': '66.666667%',
+    'quarter': '25%',
+    'quarter-2x': '50%',
+    'quarter-3x': '75%',
+    // Keep fractional values for backwards compatibility
+    '1/1': '100%',
+    '1/2': '50%',
+    '1/3': '33.333333%',
+    '2/3': '66.666667%',
+    '1/4': '25%',
+    '2/4': '50%',
+    '3/4': '75%'
+  };
+  
+  // Helper function to resolve positioning value
+  const resolvePositioningValue = (val, arb) => {
+    if (arb) return val;
+    if (val === '0') return '0';
+    // Check for negative percentage adjective
+    if (val.startsWith('-')) {
+      const positiveVal = val.substring(1);
+      if (positioningPercentages[positiveVal]) {
+        return `-${positioningPercentages[positiveVal]}`;
+      }
+    }
+    // Check for percentage adjective
+    if (positioningPercentages[val]) {
+      return positioningPercentages[val];
+    }
+    return `var(--s-${val})`;
+  };
+  
   // Inset (all sides)
   if (property === 'inset') {
-    const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+    const cssValue = resolvePositioningValue(value, isArbitrary);
     return `inset: ${cssValue};`;
   }
   
   // Individual positioning: top, right, bottom, left
   if (['top', 'right', 'bottom', 'left'].includes(property)) {
-    const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+    const cssValue = resolvePositioningValue(value, isArbitrary);
     return `${property}: ${cssValue};`;
   }
   
   // Inset X (left + right)
   if (property === 'inset-x') {
-    const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+    const cssValue = resolvePositioningValue(value, isArbitrary);
     return `left: ${cssValue}; right: ${cssValue};`;
   }
   
   // Inset Y (top + bottom)
   if (property === 'inset-y') {
-    const cssValue = isArbitrary ? value : (value === '0' ? '0' : `var(--s-${value})`);
+    const cssValue = resolvePositioningValue(value, isArbitrary);
     return `top: ${cssValue}; bottom: ${cssValue};`;
   }
   
@@ -482,6 +519,39 @@ function generateSpaceRule(token, config) {
   const sizingProps = ['w', 'h', 'min-w', 'max-w', 'min-h', 'max-h'];
   if (sizingProps.includes(property) && sizingSpecialValues[value]) {
     const cssVal = sizingSpecialValues[value];
+    const propMap = {
+      'w': `width: ${cssVal};`,
+      'h': `height: ${cssVal};`,
+      'min-w': `min-width: ${cssVal};`,
+      'max-w': `max-width: ${cssVal};`,
+      'min-h': `min-height: ${cssVal};`,
+      'max-h': `max-height: ${cssVal};`
+    };
+    return propMap[property] || '';
+  }
+  
+  // Percentage adjectives for sizing utilities (human-readable alternatives to fractions)
+  const percentageAdjectives = {
+    'full': '100%',
+    'half': '50%',
+    'third': '33.333333%',
+    'third-2x': '66.666667%',
+    'quarter': '25%',
+    'quarter-2x': '50%',
+    'quarter-3x': '75%',
+    // Keep fractional values for backwards compatibility
+    '1/1': '100%',
+    '1/2': '50%',
+    '1/3': '33.333333%',
+    '2/3': '66.666667%',
+    '1/4': '25%',
+    '2/4': '50%',
+    '3/4': '75%'
+  };
+  
+  // Check if this is a sizing utility with a percentage adjective
+  if (sizingProps.includes(property) && percentageAdjectives[value]) {
+    const cssVal = percentageAdjectives[value];
     const propMap = {
       'w': `width: ${cssVal};`,
       'h': `height: ${cssVal};`,

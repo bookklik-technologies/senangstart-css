@@ -12,7 +12,7 @@ Complete reference for the color palette.
 | `dark` | #3E4A5D | **Brand dark** |
 | `light` | #DBEAFE | **Brand light** |
 | `primary` | #2563EB | **Brand primary** |
-| `secondary` | #DBEAFE | **Brand secondary** |
+| `secondary` | #1E40AF | **Brand secondary** |
 | `success` | #10B981 | Positive feedback |
 | `warning` | #F59E0B | Cautions |
 | `danger` | #EF4444 | Errors |
