@@ -3,8 +3,9 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
-import { convertClass, main, convertHTML } from '../../scripts/convert-tailwind.js';
+import { convertClass, main, convertHTML, convertClasses, isValidFilePath } from '../../scripts/convert-tailwind.js';
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 test('convert-tailwind coverage', async (t) => {
   
@@ -28,6 +29,9 @@ test('convert-tailwind coverage', async (t) => {
     assert.deepStrictEqual(convertClass('divide-y-4'), { category: 'visual', value: 'divide-y-w:medium' });
     
     assert.deepStrictEqual(convertClass('divide-dotted'), { category: 'visual', value: 'divide-style:dotted' });
+
+    assert.deepStrictEqual(convertClass('divide-4'), { category: 'visual', value: 'divide-w:medium' });
+    assert.deepStrictEqual(convertClass('divide-red-500'), { category: 'visual', value: 'divide:red-500' });
   });
 
   await t.test('space utilities', () => {
@@ -43,6 +47,11 @@ test('convert-tailwind coverage', async (t) => {
     // Percentage adjectives
     assert.deepStrictEqual(convertClass('w-1/2'), { category: 'space', value: 'w:half' });
     assert.deepStrictEqual(convertClass('h-1/3'), { category: 'space', value: 'h:third' });
+
+    // Fractional values in getSpacingScale (for padding/gap)
+    assert.deepStrictEqual(convertClass('p-1/2'), { category: 'space', value: 'p:half' });
+    assert.deepStrictEqual(convertClass('p-1/2', { exact: true }), { category: 'space', value: 'p:half' });
+    assert.deepStrictEqual(convertClass('gap-x-1/2'), { category: 'space', value: 'g-x:half' });
   });
 
 
@@ -76,6 +85,10 @@ test('convert-tailwind coverage', async (t) => {
     
     // Origin
     assert.deepStrictEqual(convertClass('origin-top'), { category: 'visual', value: 'origin:top' });
+
+    // Translate edge cases
+    assert.deepStrictEqual(convertClass('translate-x-0'), { category: 'visual', value: 'translate-x:0' });
+    assert.deepStrictEqual(convertClass('-translate-x-[10px]'), { category: 'visual', value: 'translate-x:[-10px]' });
   });
 
   // Mask utilities already covered in first block
@@ -105,9 +118,16 @@ test('convert-tailwind coverage', async (t) => {
     
     // Font weight
     assert.deepStrictEqual(convertClass('font-bold'), { category: 'visual', value: 'font:tw-bold' });
+
+    // Positional arbitrary values
+    assert.deepStrictEqual(convertClass('left-[10px]'), { category: 'layout', value: 'left:[10px]' });
+
+    // Unrecognized classes
+    const result = convertClasses('flex unknown-class');
+    assert.deepStrictEqual(result.unrecognized, ['unknown-class']);
   });
 
-  await t.test('internal tests', () => {
+  await t.test('internal tests', async (t) => {
     // Mock process.exit and console.error
     const originalExit = process.exit;
     const originalConsoleError = console.error;
@@ -149,20 +169,51 @@ test('convert-tailwind coverage', async (t) => {
 
         // main with multiple args to test skip logic
         main(['--string', '<div class="flex"></div>', '-o', 'out.html']);
+
+        // Test isValidFilePath non-Windows branch if on Windows
+        if (process.platform === 'win32') {
+          const originalPlatform = process.platform;
+          // Node's process.platform is read-only in some versions, try to overwrite
+          try {
+            Object.defineProperty(process, 'platform', { value: 'linux', configurable: true });
+            main([dummyFile]);
+          } catch (e) {
+            // If platform is not configurable, we might not be able to hit this line on Windows
+          } finally {
+            Object.defineProperty(process, 'platform', { value: originalPlatform, configurable: true });
+          }
+        }
+
+        // Successful file output (line 1146-1147)
+        const dummyOutput = 'dummy_out.html';
+        main([dummyFile, '-o', dummyOutput]);
+        assert.ok(fs.existsSync(dummyOutput));
+        if (fs.existsSync(dummyOutput)) fs.unlinkSync(dummyOutput);
       } finally {
         if (fs.existsSync(dummyFile)) fs.unlinkSync(dummyFile);
       }
 
       // convertHTML direct call
-      const res = convertHTML('<div class="p-4"></div>');
+      const res = convertHTML('<div class="p-4 text-red-500 unknown-class"></div>');
       assert.match(res, /space="p:medium"/);
+      assert.match(res, /visual="text:red-500"/);
+      assert.match(res, /class="unknown-class"/);
       
       // main with missing input file should exit 1
       assert.throws(() => main(['-o', 'out.html']), /ProcessExit:1/);
 
       // Trigger catch block in main (though it's hard to trigger without real FS errors)
-      // We can try a path that might fail resolve or readFileSync
-      assert.throws(() => main(['\0invalid']), /ProcessExit:1/);
+      // We pass a number to trigger TypeError: The "path" argument must be of type string.
+      assert.throws(() => main(['dummy.html', '-o', 123]), /ProcessExit:1/);
+
+      // Directly test isValidFilePath catch block
+      assert.strictEqual(isValidFilePath(null), false);
+      assert.strictEqual(isValidFilePath(undefined), false);
+      assert.strictEqual(isValidFilePath(123), false);
+
+      // CLI entry point coverage (line 1160-1161)
+      const scriptPath = path.resolve('scripts/convert-tailwind.js');
+      spawnSync('node', [scriptPath, '--help'], { encoding: 'utf8' });
 
     } finally {
       process.exit = originalExit;

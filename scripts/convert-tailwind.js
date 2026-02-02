@@ -1161,4 +1161,4 @@ if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}` ||
 }
 
 // Export for testing
-export { convertClass, spacingScale, percentageAdjectives, layoutMappings, visualKeywordMappings, main, convertHTML };
+export { convertClass, spacingScale, percentageAdjectives, layoutMappings, visualKeywordMappings, main, convertHTML, isValidFilePath };
