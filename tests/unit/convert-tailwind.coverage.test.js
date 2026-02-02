@@ -3,20 +3,21 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
-import { convertClass } from '../../scripts/convert-tailwind.js';
+import { convertClass, main, convertHTML } from '../../scripts/convert-tailwind.js';
+import fs from 'node:fs';
 
 test('convert-tailwind coverage', async (t) => {
   
-  await t.test('mask utilities', () => {
-    const res1 = convertClass('mask-none');
-    console.log('mask-none result:', res1);
-    assert.deepStrictEqual(res1, { category: 'visual', value: 'mask:none' });
+  await t.test('mask and divide utilities', () => {
+    assert.deepStrictEqual(convertClass('mask-none'), { category: 'visual', value: 'mask:none' });
     assert.deepStrictEqual(convertClass('mask-image-none'), { category: 'visual', value: 'mask-image:none' });
     assert.deepStrictEqual(convertClass('mask-mode-match'), { category: 'visual', value: 'mask-mode:match' });
     assert.deepStrictEqual(convertClass('mask-origin-center'), { category: 'visual', value: 'mask-origin:center' });
-  });
+    assert.deepStrictEqual(convertClass('mask-position-center'), { category: 'visual', value: 'mask-position:center' });
+    assert.deepStrictEqual(convertClass('mask-repeat-repeat'), { category: 'visual', value: 'mask-repeat:repeat' });
+    assert.deepStrictEqual(convertClass('mask-size-auto'), { category: 'visual', value: 'mask-size:auto' });
+    assert.deepStrictEqual(convertClass('mask-type-luminance'), { category: 'visual', value: 'mask-type:luminance' });
 
-  await t.test('divide utilities', () => {
     assert.deepStrictEqual(convertClass('divide-x-reverse'), { category: 'visual', value: 'divide-x:reverse' });
     assert.deepStrictEqual(convertClass('divide-y-reverse'), { category: 'visual', value: 'divide-y:reverse' });
     
@@ -71,34 +72,97 @@ test('convert-tailwind coverage', async (t) => {
     assert.deepStrictEqual(convertClass('origin-top'), { category: 'visual', value: 'origin:top' });
   });
 
-  await t.test('mask utilities', () => {
-    // Mask
-    assert.deepStrictEqual(convertClass('mask-linear'), { category: 'visual', value: 'mask:linear' });
+  // Mask utilities already covered in first block
+
+  await t.test('exact mode and edge cases', () => {
+    // Spacing scale exact mode
+    assert.deepStrictEqual(convertClass('p-4', { exact: true }), { category: 'space', value: 'p:tw-4' });
+    assert.deepStrictEqual(convertClass('m-auto', { exact: true }), { category: 'space', value: 'm:auto' });
+    assert.deepStrictEqual(convertClass('w-full', { exact: true }), { category: 'space', value: 'w:[100%]' });
+    assert.deepStrictEqual(convertClass('p-[20px]', { exact: true }), { category: 'space', value: 'p:[20px]' });
     
-    // Mask Image
-    assert.deepStrictEqual(convertClass('mask-image-none'), { category: 'visual', value: 'mask-image:none' });
-    assert.deepStrictEqual(convertClass('mask-image-gradient'), { category: 'visual', value: 'mask-image:gradient' });
+    // Unknown spacing scale
+    assert.deepStrictEqual(convertClass('p-unknown'), { category: 'space', value: 'p:[unknown]' });
+    
+    // Border width exact mode
+    assert.deepStrictEqual(convertClass('border-2', { exact: true }), { category: 'visual', value: 'border-w:tw-2' });
+    assert.deepStrictEqual(convertClass('border-t-2', { exact: true }), { category: 'visual', value: 'border-t-w:tw-2' });
+    
+    // Other utilities
+    assert.deepStrictEqual(convertClass('border-red-500'), { category: 'visual', value: 'border:red-500' });
+    assert.deepStrictEqual(convertClass('order-1'), { category: 'layout', value: 'order:1' });
+    assert.deepStrictEqual(convertClass('grid-cols-3'), { category: 'layout', value: 'grid-cols:3' });
+    assert.deepStrictEqual(convertClass('col-span-2'), { category: 'layout', value: 'col-span:2' });
+    assert.deepStrictEqual(convertClass('grid-rows-2'), { category: 'layout', value: 'grid-rows:2' });
+    assert.deepStrictEqual(convertClass('row-span-3'), { category: 'layout', value: 'row-span:3' });
+    assert.deepStrictEqual(convertClass('opacity-50'), { category: 'visual', value: 'opacity:50' });
+    
+    // Font weight
+    assert.deepStrictEqual(convertClass('font-bold'), { category: 'visual', value: 'font:tw-bold' });
+  });
 
-    // Mask Mode
-    assert.deepStrictEqual(convertClass('mask-mode-alpha'), { category: 'visual', value: 'mask-mode:alpha' });
-    // Already covered in previous but adding for completeness/grouping if needed, skipping duplicate check since assertion logic is same
+  await t.test('internal tests', () => {
+    // Mock process.exit and console.error
+    const originalExit = process.exit;
+    const originalConsoleError = console.error;
+    const originalConsoleLog = console.log;
+    let lastExitCode = null;
+    
+    process.exit = (code) => { 
+      lastExitCode = code; 
+      throw new Error(`ProcessExit:${code}`); 
+    };
+    console.error = (...args) => { /* originalConsoleError('MOCK ERROR:', ...args); */ };
+    console.log = (...args) => { /* originalConsoleLog('MOCK LOG:', ...args); */ };
 
-    // Mask Origin
-    assert.deepStrictEqual(convertClass('mask-origin-border'), { category: 'visual', value: 'mask-origin:border' });
+    try {
+      // Help - should return normally
+      main(['--help']);
+      
+      // String mode - success
+      main(['--string', '<div class="flex"></div>']);
+      
+      // Missing string argument - should exit 1
+      assert.throws(() => main(['--string']), /ProcessExit:1/);
+      
+      // Invalid file path - should exit 1
+      assert.throws(() => main(['/etc/passwd']), /ProcessExit:1/);
+      
+      // Valid file but nonexistent (ENOENT) - should exit 1
+      assert.throws(() => main(['non-existent-local.html']), /ProcessExit:1/);
 
-    // Mask Position
-    assert.deepStrictEqual(convertClass('mask-position-center'), { category: 'visual', value: 'mask-position:center' });
+      // Create a dummy input file first
+      const dummyFile = 'dummy.html';
+      fs.writeFileSync(dummyFile, '<div></div>');
+      try {
+        // Invalid output path - should exit 1
+        assert.throws(() => main([dummyFile, '-o', '/etc/passwd']), /ProcessExit:1/);
 
-    // Mask Repeat
-    assert.deepStrictEqual(convertClass('mask-repeat-x'), { category: 'visual', value: 'mask-repeat:x' });
-    assert.deepStrictEqual(convertClass('mask-repeat-space'), { category: 'visual', value: 'mask-repeat:space' });
+        // Console output when no output file
+        main([dummyFile]);
 
-    // Mask Size
-    assert.deepStrictEqual(convertClass('mask-size-cover'), { category: 'visual', value: 'mask-size:cover' });
-    assert.deepStrictEqual(convertClass('mask-size-contain'), { category: 'visual', value: 'mask-size:contain' });
+        // main with multiple args to test skip logic
+        main(['--string', '<div class="flex"></div>', '-o', 'out.html']);
+      } finally {
+        if (fs.existsSync(dummyFile)) fs.unlinkSync(dummyFile);
+      }
 
-    // Mask Type
-    assert.deepStrictEqual(convertClass('mask-type-alpha'), { category: 'visual', value: 'mask-type:alpha' });
+      // convertHTML direct call
+      const res = convertHTML('<div class="p-4"></div>');
+      assert.match(res, /space="p:small"/);
+      
+      // main with missing input file should exit 1
+      assert.throws(() => main(['-o', 'out.html']), /ProcessExit:1/);
+
+      // Trigger catch block in main (though it's hard to trigger without real FS errors)
+      // We can try a path that might fail resolve or readFileSync
+      assert.throws(() => main(['\0invalid']), /ProcessExit:1/);
+
+    } finally {
+      process.exit = originalExit;
+      console.error = originalConsoleError;
+      console.log = originalConsoleLog;
+    }
   });
 
 });

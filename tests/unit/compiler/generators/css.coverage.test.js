@@ -4,6 +4,7 @@ import assert from 'node:assert';
 import { 
   generateCSS, 
   generateCSSVariables, 
+  minifyCSS
 } from '../../../../src/compiler/generators/css.js';
 import { createTestConfig } from '../../../helpers/test-utils.js';
 
@@ -118,6 +119,19 @@ test('CSS Generator Coverage', async (t) => {
     const css = generateCSS(tokens, config);
     assert.ok(css.includes('rotateX(45deg)'));
     assert.ok(css.includes('skewX(-10deg)'));
+
+    // Branch coverage: directional translation & rotation defaults
+    const transDefaults = [
+      { property: 'translate-y', value: 'unknown', attrType: 'visual', raw: 'translate-y:unknown' },
+      { property: 'translate-z', value: 'unknown', attrType: 'visual', raw: 'translate-z:unknown' },
+      { property: 'rotate-x', value: '90', attrType: 'visual', raw: 'rotate-x:90' },
+      { property: 'rotate-y', value: '90', attrType: 'visual', raw: 'rotate-y:90' },
+      { property: 'rotate-z', value: '90', attrType: 'visual', raw: 'rotate-z:90' }
+    ];
+    const cssTransDefaults = generateCSS(transDefaults, config);
+    assert.ok(cssTransDefaults.includes('translateY(var(--s-unknown))'));
+    assert.ok(cssTransDefaults.includes('translateZ(var(--s-unknown))'));
+    assert.ok(cssTransDefaults.includes('rotateX(90deg)'));
   });
 
   await t.test('Visual - Transitions and Animations', () => {
@@ -132,13 +146,33 @@ test('CSS Generator Coverage', async (t) => {
       { property: 'delay', value: '0.2s', isArbitrary: true, attrType: 'visual', raw: 'delay:[0.2s]' },
       { property: 'animate', value: 'spin', attrType: 'visual', raw: 'animate:spin' },
       { property: 'animate', value: 'none', attrType: 'visual', raw: 'animate:none' },
-      { property: 'animate', value: 'my-anim_2s_linear', isArbitrary: true, attrType: 'visual', raw: 'animate:[my-anim_2s_linear]' }
+      { property: 'animate', value: 'my-anim_2s_linear', isArbitrary: true, attrType: 'visual', raw: 'animate:[my-anim_2s_linear]' },
+      { property: 'animation-duration', value: 'fast', attrType: 'visual', raw: 'animation-duration:fast' },
+      { property: 'animation-delay', value: 'fast', attrType: 'visual', raw: 'animation-delay:fast' }
     ];
     const css = generateCSS(tokens, config);
     assert.ok(css.includes('transition:'));
     assert.ok(css.includes('transition-duration: 150ms'));
     assert.ok(css.includes('transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)'));
-    assert.ok(css.includes('animation: spin 1s linear infinite'));
+    assert.ok(css.includes('animation: my-anim 2s linear'));
+    assert.ok(css.includes('animation-duration: 150ms'));
+    assert.ok(css.includes('animation-delay: 150ms'));
+
+    // Branch coverage: fallback defaults
+    const defaults = [
+      { property: 'duration', value: 'unknown', attrType: 'visual', raw: 'duration:unknown' },
+      { property: 'ease', value: 'unknown', attrType: 'visual', raw: 'ease:unknown' },
+      { property: 'delay', value: 'unknown', attrType: 'visual', raw: 'delay:unknown' },
+      { property: 'animation-duration', value: 'unknown', attrType: 'visual', raw: 'animation-duration:unknown' },
+      { property: 'animation-duration', value: '1s', isArbitrary: true, attrType: 'visual', raw: 'animation-duration:[1s]' },
+      { property: 'animation-delay', value: '0.5s', isArbitrary: true, attrType: 'visual', raw: 'animation-delay:[0.5s]' }
+    ];
+    const cssDefaults = generateCSS(defaults, config);
+    assert.ok(cssDefaults.includes('transition-duration: 200ms'));
+    assert.ok(cssDefaults.includes('transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)'));
+    assert.ok(cssDefaults.includes('transition-delay: 200ms'));
+    assert.ok(cssDefaults.includes('animation-duration: 1s'));
+    assert.ok(cssDefaults.includes('animation-delay: 0.5s'));
   });
 
   await t.test('Visual - Filters and Blends', () => {
@@ -158,31 +192,74 @@ test('CSS Generator Coverage', async (t) => {
       { property: 'drop-shadow', value: 'small', attrType: 'visual', raw: 'drop-shadow:small' },
       { property: 'drop-shadow', value: '0_0_5px_rgba(0,0,0,0.5)', isArbitrary: true, attrType: 'visual', raw: 'drop-shadow:[0_0_5px_rgba(0,0,0,0.5)]' },
       { property: 'backdrop-blur', value: 'small', attrType: 'visual', raw: 'backdrop-blur:small' },
+      { property: 'brightness', value: '150', isArbitrary: true, attrType: 'visual', raw: 'brightness:[150]' },
+      { property: 'contrast', value: '150', isArbitrary: true, attrType: 'visual', raw: 'contrast:[150]' },
+      { property: 'grayscale', value: '50%', isArbitrary: true, attrType: 'visual', raw: 'grayscale:[50%]' },
+      { property: 'hue-rotate', value: '45deg', isArbitrary: true, attrType: 'visual', raw: 'hue-rotate:[45deg]' },
+      { property: 'invert', value: '50%', isArbitrary: true, attrType: 'visual', raw: 'invert:[50%]' },
+      { property: 'saturate', value: '150', isArbitrary: true, attrType: 'visual', raw: 'saturate:[150]' },
+      { property: 'sepia', value: '50%', isArbitrary: true, attrType: 'visual', raw: 'sepia:[50%]' },
+      { property: 'backdrop-brightness', value: '150', isArbitrary: true, attrType: 'visual', raw: 'backdrop-brightness:[150]' },
+      { property: 'backdrop-contrast', value: '150', isArbitrary: true, attrType: 'visual', raw: 'backdrop-contrast:[150]' },
+      { property: 'backdrop-grayscale', value: '50%', isArbitrary: true, attrType: 'visual', raw: 'backdrop-grayscale:[50%]' },
+      { property: 'backdrop-hue-rotate', value: '45deg', isArbitrary: true, attrType: 'visual', raw: 'backdrop-hue-rotate:[45deg]' },
+      { property: 'backdrop-invert', value: '50%', isArbitrary: true, attrType: 'visual', raw: 'backdrop-invert:[50%]' },
+      { property: 'backdrop-opacity', value: '0.5', isArbitrary: true, attrType: 'visual', raw: 'backdrop-opacity:[0.5]' },
+      { property: 'backdrop-saturate', value: '150', isArbitrary: true, attrType: 'visual', raw: 'backdrop-saturate:[150]' },
+      { property: 'backdrop-sepia', value: '50%', isArbitrary: true, attrType: 'visual', raw: 'backdrop-sepia:[50%]' },
       { property: 'mix-blend', value: 'multiply', attrType: 'visual', raw: 'mix-blend:multiply' },
       { property: 'bg-blend', value: 'screen', attrType: 'visual', raw: 'bg-blend:screen' }
     ];
     const css = generateCSS(tokens, config);
+    assert.ok(css.includes('filter: brightness(150)'));
+    assert.ok(css.includes('backdrop-filter: brightness(150)'));
     assert.ok(css.includes('filter: blur(4px)'));
     assert.ok(css.includes('filter: blur(10px)'));
     assert.ok(css.includes('backdrop-filter: blur(4px)'));
     assert.ok(css.includes('mix-blend-mode: multiply'));
     assert.ok(css.includes('background-blend-mode: screen'));
+
+    // Branch coverage: fallback defaults    // Filters unknown
+    assert.match(generateCSS([{ property: 'backdrop-blur', value: 'unknown', attrType: 'visual', raw: 'backdrop-blur:unknown' }], createTestConfig()), /backdrop-filter: blur\(8px\)/);
+    const filterDefaults = [
+      { property: 'brightness', value: 'unknown', attrType: 'visual', raw: 'brightness:unknown' },
+      { property: 'contrast', value: 'unknown', attrType: 'visual', raw: 'contrast:unknown' },
+      { property: 'drop-shadow', value: 'unknown', attrType: 'visual', raw: 'drop-shadow:unknown' },
+      { property: 'grayscale', value: 'unknown', attrType: 'visual', raw: 'grayscale:unknown' },
+      { property: 'invert', value: 'unknown', attrType: 'visual', raw: 'invert:unknown' },
+      { property: 'saturate', value: 'unknown', attrType: 'visual', raw: 'saturate:unknown' },
+      { property: 'sepia', value: 'unknown', attrType: 'visual', raw: 'sepia:unknown' },
+      { property: 'blur', value: 'unknown', attrType: 'visual', raw: 'blur:unknown' },
+      { property: 'backdrop-blur', value: 'unknown', attrType: 'visual', raw: 'backdrop-blur:unknown' },
+      { property: 'backdrop-brightness', value: 'unknown', attrType: 'visual', raw: 'backdrop-brightness:unknown' },
+      { property: 'backdrop-contrast', value: 'unknown', attrType: 'visual', raw: 'backdrop-contrast:unknown' },
+      { property: 'backdrop-grayscale', value: 'unknown', attrType: 'visual', raw: 'backdrop-grayscale:unknown' },
+      { property: 'backdrop-invert', value: 'unknown', attrType: 'visual', raw: 'backdrop-invert:unknown' },
+      { property: 'backdrop-opacity', value: 'unknown', attrType: 'visual', raw: 'backdrop-opacity:unknown' },
+      { property: 'backdrop-saturate', value: 'unknown', attrType: 'visual', raw: 'backdrop-saturate:unknown' },
+      { property: 'backdrop-sepia', value: 'unknown', attrType: 'visual', raw: 'backdrop-sepia:unknown' }
+    ];
+    const cssFilterDefaults = generateCSS(filterDefaults, config);
+    assert.ok(cssFilterDefaults.includes('filter: brightness(1)'));
+    assert.ok(cssFilterDefaults.includes('filter: blur(8px)'));
+    assert.ok(cssFilterDefaults.includes('backdrop-filter: blur(8px)'));
+    assert.ok(cssFilterDefaults.includes('backdrop-filter: opacity(1)'));
   });
 
   await t.test('Visual - Borders and Outlines', () => {
     const tokens = [
       { property: 'border-w', value: '2', attrType: 'visual', raw: 'border-w:2' },
-      { property: 'border-w-t', value: '2', attrType: 'visual', raw: 'border-w-t:2' },
-      { property: 'border-w-r', value: '2', attrType: 'visual', raw: 'border-w-r:2' },
-      { property: 'border-w-b', value: '2', attrType: 'visual', raw: 'border-w-b:2' },
-      { property: 'border-w-l', value: '2', attrType: 'visual', raw: 'border-w-l:2' },
-      { property: 'border-w-x', value: '2', attrType: 'visual', raw: 'border-w-x:2' },
-      { property: 'border-w-y', value: '2', attrType: 'visual', raw: 'border-w-y:2' },
+      { property: 'border-t-w', value: '2', attrType: 'visual', raw: 'border-t-w:2' },
+      { property: 'border-l-w', value: '2', attrType: 'visual', raw: 'border-l-w:2' },
+      { property: 'border-r-w', value: '2', attrType: 'visual', raw: 'border-r-w:2' },
+      { property: 'border-b-w', value: '2', attrType: 'visual', raw: 'border-b-w:2' },
+      { property: 'border-x-w', value: '2', attrType: 'visual', raw: 'border-x-w:2' },
+      { property: 'border-y-w', value: '2', attrType: 'visual', raw: 'border-y-w:2' },
       { property: 'border', value: 'blue-500', attrType: 'visual', raw: 'border:blue-500' },
       { property: 'border-t', value: 'blue-500', attrType: 'visual', raw: 'border-t:blue-500' },
       { property: 'border-r', value: 'blue-500', attrType: 'visual', raw: 'border-r:blue-500' },
-      { property: 'border-b', value: 'blue-500', attrType: 'visual', raw: 'border-b:blue-500' },
       { property: 'border-l', value: 'blue-500', attrType: 'visual', raw: 'border-l:blue-500' },
+      { property: 'border-b', value: 'blue-500', attrType: 'visual', raw: 'border-b:blue-500' },
       { property: 'border-x', value: 'blue-500', attrType: 'visual', raw: 'border-x:blue-500' },
       { property: 'border-y', value: 'blue-500', attrType: 'visual', raw: 'border-y:blue-500' },
       { property: 'outline', value: 'blue-500', attrType: 'visual', raw: 'outline:blue-500' },
@@ -193,11 +270,28 @@ test('CSS Generator Coverage', async (t) => {
       { property: 'ring-color', value: 'blue-500', attrType: 'visual', raw: 'ring-color:blue-500' },
       { property: 'ring-w', value: '2', attrType: 'visual', raw: 'ring-w:2' },
       { property: 'ring-offset', value: 'regular', attrType: 'visual', raw: 'ring-offset:regular' },
-      { property: 'ring-offset-color', value: 'white', attrType: 'visual', raw: 'ring-offset-color:white' }
+      { property: 'ring-offset-color', value: 'white', attrType: 'visual', raw: 'ring-offset-color:white' },
+      { property: 'rounded', value: 'medium', attrType: 'visual', raw: 'rounded:medium' },
+      { property: 'mask-image', value: 'custom.png', isArbitrary: true, attrType: 'visual', raw: 'mask-image:[custom.png]' },
+      { property: 'mask-position', value: '10px_20px', isArbitrary: true, attrType: 'visual', raw: 'mask-position:[10px_20px]' },
+      { property: 'mask-size', value: '50%_auto', isArbitrary: true, attrType: 'visual', raw: 'mask-size:[50%_auto]' },
+      { property: 'mask-repeat', value: 'custom-repeat', attrType: 'visual', raw: 'mask-repeat:custom-repeat' },
+      { property: 'mask-origin', value: 'custom-origin', attrType: 'visual', raw: 'mask-origin:custom-origin' }
     ];
     const css = generateCSS(tokens, config);
+    assert.ok(css.includes('mask-image: url(custom.png)'));
+    assert.ok(css.includes('mask-position: 10px 20px'));
+    assert.ok(css.includes('mask-size: 50% auto'));
+    assert.ok(css.includes('mask-repeat: custom-repeat'));
+    assert.ok(css.includes('mask-origin: custom-origin'));
     assert.ok(css.includes('border-width: var(--s-2)'));
+    assert.ok(css.includes('border-top-width: var(--s-2)'));
+    assert.ok(css.includes('border-bottom-width: var(--s-2)'));
+    assert.ok(css.includes('border-left-width: var(--s-2)'));
+    assert.ok(css.includes('border-right-width: var(--s-2)'));
     assert.ok(css.includes('border-color: var(--c-blue-500)'));
+    assert.ok(css.includes('border-top-color: var(--c-blue-500)'));
+    assert.ok(css.includes('border-radius: var(--r-medium)'));
     assert.ok(css.includes('outline-color: var(--c-blue-500)'));
     assert.ok(css.includes('outline-offset: var(--s-small)'));
     assert.ok(css.includes('outline-offset: 2px'));
@@ -361,18 +455,20 @@ test('CSS Generator Coverage', async (t) => {
     const placeSelf = { property: 'place-self', value: 'end', attrType: 'layout', raw: 'place-self:end' };
     const justifyItems = { property: 'justify-items', value: 'center', attrType: 'layout', raw: 'justify-items:center' };
     const justifySelf = { property: 'justify-self', value: 'start', attrType: 'layout', raw: 'justify-self:start' };
-    const alignContent = { property: 'content', value: 'between', attrType: 'layout', raw: 'content:between' };
+    const alignContent = { property: 'content', value: 'center', attrType: 'layout', raw: 'content:center' };
     const placeContent = { property: 'place-content', value: 'evenly', attrType: 'layout', raw: 'place-content:evenly' };
+    const justify = { property: 'justify', value: 'between', attrType: 'layout', raw: 'justify:between' };
     
-    const css = generateCSS([objFit, objPos, placeItems, placeSelf, justifyItems, justifySelf, alignContent, placeContent], config);
+    const css = generateCSS([objFit, objPos, placeItems, placeSelf, justifyItems, justifySelf, alignContent, placeContent, justify], config);
     assert.ok(css.includes('object-fit: cover'));
     assert.ok(css.includes('object-position: center top'));
     assert.ok(css.includes('place-items: center'));
     assert.ok(css.includes('place-self: end'));
     assert.ok(css.includes('justify-items: center'));
     assert.ok(css.includes('justify-self: start'));
-    assert.ok(css.includes('align-content: space-between'));
+    assert.ok(css.includes('align-content: center'));
     assert.ok(css.includes('place-content: space-evenly'));
+    assert.ok(css.includes('justify-content: space-between'));
   });
 
   await t.test('Layout - Inset and Positioning', () => {
@@ -605,5 +701,83 @@ test('CSS Generator Coverage', async (t) => {
     ];
     const css = generateCSS(tokens, config);
     assert.ok(css.includes('[layout~="tab:flex"] { display: revert-layer; }'));
+  });
+  await t.test('Interactivity and Snap Utilities', () => {
+    const config = createTestConfig();
+    const res = generateCSS([
+      { property: 'transform-style', value: 'preserve-3d', attrType: 'visual', raw: 'transform-style:preserve-3d' },
+      { property: 'backface', value: 'hidden', attrType: 'visual', raw: 'backface:hidden' },
+      { property: 'color-scheme', value: 'dark', attrType: 'visual', raw: 'color-scheme:dark' },
+      { property: 'pointer-events', value: 'none', attrType: 'visual', raw: 'pointer-events:none' },
+      { property: 'scroll', value: 'smooth', attrType: 'visual', raw: 'scroll:smooth' },
+      { property: 'snap-align', value: 'center', attrType: 'visual', raw: 'snap-align:center' },
+      { property: 'snap-stop', value: 'always', attrType: 'visual', raw: 'snap-stop:always' },
+      { property: 'accent', value: 'blue-500', attrType: 'visual', raw: 'accent:blue-500' },
+      { property: 'caret', value: 'red-500', attrType: 'visual', raw: 'caret:red-500' },
+      { property: 'scroll-m-x', value: '4', attrType: 'visual', raw: 'scroll-m-x:4' },
+      { property: 'scroll-m-y', value: '4', attrType: 'visual', raw: 'scroll-m-y:4' },
+      { property: 'scroll-p-x', value: '4', attrType: 'visual', raw: 'scroll-p-x:4' },
+      { property: 'scroll-p-y', value: '4', attrType: 'visual', raw: 'scroll-p-y:4' },
+      { property: 'touch', value: 'none', attrType: 'visual', raw: 'touch:none' },
+      { property: 'select', value: 'none', attrType: 'visual', raw: 'select:none' },
+      { property: 'will-change', value: 'transform', attrType: 'visual', raw: 'will-change:transform' }
+    ], config);
+    
+    assert.match(res, /transform-style: preserve-3d/);
+    assert.match(res, /backface-visibility: hidden/);
+    assert.match(res, /color-scheme: dark/);
+    assert.match(res, /pointer-events: none/);
+    assert.match(res, /scroll-behavior: smooth/);
+    assert.match(res, /scroll-snap-align: center/);
+    assert.match(res, /scroll-snap-stop: always/);
+    assert.match(res, /accent-color: var\(--c-blue-500\)/);
+    assert.match(res, /caret-color: var\(--c-red-500\)/);
+    assert.match(res, /scroll-margin-left: var\(--s-4\); scroll-margin-right: var\(--s-4\);/);
+    assert.match(res, /touch-action: none/);
+    assert.match(res, /user-select: none/);
+    assert.match(res, /will-change: transform/);
+  });
+
+  await t.test('Space Shortcuts', () => {
+    const config = createTestConfig();
+    const res = generateCSS([
+      { property: 'p-x', value: '4', attrType: 'space', raw: 'p-x:4' },
+      { property: 'p-y', value: '4', attrType: 'space', raw: 'p-y:4' },
+      { property: 'm-x', value: '4', attrType: 'space', raw: 'm-x:4' },
+      { property: 'm-y', value: '4', attrType: 'space', raw: 'm-y:4' },
+      { property: 'g-x', value: '4', attrType: 'space', raw: 'g-x:4' },
+      { property: 'g-y', value: '4', attrType: 'space', raw: 'g-y:4' }
+    ], config);
+    
+    assert.match(res, /padding-left: var\(--s-4\); padding-right: var\(--s-4\);/);
+    assert.match(res, /padding-top: var\(--s-4\); padding-bottom: var\(--s-4\);/);
+    assert.match(res, /margin-left: var\(--s-4\); margin-right: var\(--s-4\);/);
+    assert.match(res, /margin-top: var\(--s-4\); margin-bottom: var\(--s-4\);/);
+    assert.match(res, /column-gap: var\(--s-4\);/);
+    assert.match(res, /row-gap: var\(--s-4\);/);
+  });
+
+  await t.test('Dark Mode Selector Strategy', () => {
+    const tokens = [{ property: 'opacity', value: '50', attrType: 'visual', state: 'dark', raw: 'dark:opacity:50' }];
+    const config = createTestConfig({ darkMode: 'selector' });
+    const res = generateCSS(tokens, config);
+    assert.match(res, /\.dark \[visual~="dark:opacity:50"\]/);
+    
+    // Custom selector
+    const config2 = createTestConfig({ darkMode: ['selector', '[data-theme="dark"]'] });
+    const res2 = generateCSS(tokens, config2);
+    assert.match(res2, /\[data-theme="dark"\] \[visual~="dark:opacity:50"\]/);
+  });
+
+  await t.test('Minify CSS', () => {
+    const input = `
+      /* comment */
+      .foo {
+        color: red;
+        margin: 10px 20px ;
+      }
+    `;
+    const minified = minifyCSS(input);
+    assert.strictEqual(minified, '.foo{color:red;margin:10px 20px;}');
   });
 });

@@ -13,6 +13,24 @@ import { readFileSync, writeFileSync } from 'fs';
 import { argv } from 'process';
 import { resolve, join, sep } from 'path';
 
+/**
+ * Basic path validation to ensure we're within the allowed directory
+ * @param {string} filePath - Path to validate
+ */
+function isValidFilePath(filePath) {
+  try {
+    const resolvedPath = resolve(filePath);
+    const rootPath = process.cwd();
+    // Case-insensitive comparison for Windows
+    if (process.platform === 'win32') {
+      return resolvedPath.toLowerCase().startsWith(rootPath.toLowerCase());
+    }
+    return resolvedPath.startsWith(rootPath);
+  } catch (e) {
+    return false;
+  }
+}
+
 // ======================
 // SPACING SCALE MAPPING
 // ======================
@@ -587,7 +605,7 @@ function convertClass(twClass, options = {}) {
     const width = borderWidthMatch[2] || "1";
     return {
       category: 'visual',
-      value: prefix + "border" + side + ":[" + width + "px]",
+      value: prefix + "border" + side + ":" + getBorderWidth(width, options),
     };
   }
 
@@ -874,7 +892,7 @@ function convertClass(twClass, options = {}) {
 /**
  * Convert HTML string with Tailwind classes to SenangStart syntax
  */
-export function convertHTML(html, options = {}) {
+function convertHTML(html, options = {}) {
   // Match elements with class attribute
   const classRegex = /class\s*=\s*["']([^"']+)["']/gi;
   
@@ -951,9 +969,9 @@ export function convertClasses(classString, options = {}) {
 
 /**
  * CLI entry point
+ * @param {string[]} args - Command line arguments (defaults to process.argv.slice(2))
  */
-function main() {
-  const args = argv.slice(2);
+function main(args = argv.slice(2)) {
   
   // Parse --exact flag
   const exactMode = args.includes('--exact') || args.includes('-e');
@@ -997,7 +1015,14 @@ Examples:
   }
   
   // File mode
-  const inputFile = args.find(arg => !arg.startsWith('-') && args.indexOf(arg) !== args.indexOf('-o') + 1 && args.indexOf(arg) !== args.indexOf('--output') + 1);
+  const inputFile = args.find((arg, index) => {
+    if (arg.startsWith('-')) return false;
+    if (index > 0) {
+      const prevArg = args[index - 1];
+      if (prevArg === '-o' || prevArg === '--output' || prevArg === '--string') return false;
+    }
+    return true;
+  });
   
   if (!inputFile) {
     console.error('Error: Input file required');
@@ -1041,4 +1066,4 @@ if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}` ||
 }
 
 // Export for testing
-export { convertClass, spacingScale, layoutMappings, visualKeywordMappings };
+export { convertClass, spacingScale, layoutMappings, visualKeywordMappings, main, convertHTML };
