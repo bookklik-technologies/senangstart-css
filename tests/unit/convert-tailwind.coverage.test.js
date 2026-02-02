@@ -25,7 +25,7 @@ test('convert-tailwind coverage', async (t) => {
     assert.deepStrictEqual(convertClass('divide-y'), { category: 'visual', value: 'divide-y-w:thin' });
     
     assert.deepStrictEqual(convertClass('divide-x-2'), { category: 'visual', value: 'divide-x-w:regular' });
-    assert.deepStrictEqual(convertClass('divide-y-4'), { category: 'visual', value: 'divide-y-w:tiny' });
+    assert.deepStrictEqual(convertClass('divide-y-4'), { category: 'visual', value: 'divide-y-w:medium' });
     
     assert.deepStrictEqual(convertClass('divide-dotted'), { category: 'visual', value: 'divide-style:dotted' });
   });
@@ -70,9 +70,9 @@ test('convert-tailwind coverage', async (t) => {
     assert.deepStrictEqual(convertClass('skew-y-12'), { category: 'visual', value: 'skew-y:12' });
     
     // Translate
-    assert.deepStrictEqual(convertClass('translate-x-4'), { category: 'visual', value: 'translate-x:4' });
-    assert.deepStrictEqual(convertClass('translate-y-4'), { category: 'visual', value: 'translate-y:4' });
-    assert.deepStrictEqual(convertClass('translate-z-4'), { category: 'visual', value: 'translate-z:4' });
+    assert.deepStrictEqual(convertClass('translate-x-4'), { category: 'visual', value: 'translate-x:medium' });
+    assert.deepStrictEqual(convertClass('translate-y-4'), { category: 'visual', value: 'translate-y:medium' });
+    assert.deepStrictEqual(convertClass('translate-z-4'), { category: 'visual', value: 'translate-z:medium' });
     
     // Origin
     assert.deepStrictEqual(convertClass('origin-top'), { category: 'visual', value: 'origin:top' });
@@ -155,7 +155,7 @@ test('convert-tailwind coverage', async (t) => {
 
       // convertHTML direct call
       const res = convertHTML('<div class="p-4"></div>');
-      assert.match(res, /space="p:small"/);
+      assert.match(res, /space="p:medium"/);
       
       // main with missing input file should exit 1
       assert.throws(() => main(['-o', 'out.html']), /ProcessExit:1/);

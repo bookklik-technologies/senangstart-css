@@ -37,40 +37,40 @@ function isValidFilePath(filePath) {
 // Maps Tailwind spacing numbers to SenangStart semantic scale
 const spacingScale = {
   '0': 'none',
-  'px': '[1px]',
-  '0.5': 'tiny',
+  'px': 'thin',
+  '0.5': 'regular',
   '1': 'tiny',
-  '1.5': 'tiny',
-  '2': 'tiny',
-  '2.5': 'small',
-  '3': 'small',
-  '3.5': 'small',
-  '4': 'small',
-  '5': 'medium',
-  '6': 'medium',
-  '7': 'medium',
-  '8': 'big',
-  '9': 'big',
-  '10': 'big',
-  '11': 'big',
-  '12': 'giant',
-  '14': 'giant',
-  '16': 'giant',
-  '20': 'vast',
-  '24': 'vast',
-  '28': 'vast',
-  '32': 'vast',
-  '36': 'vast',
+  '1.5': 'tiny-2x',
+  '2': 'small',
+  '2.5': 'small-2x',
+  '3': 'small-3x',
+  '3.5': 'small-4x',
+  '4': 'medium',
+  '5': 'medium-2x',
+  '6': 'medium-3x',
+  '7': 'medium-4x',
+  '8': 'large',
+  '9': 'large-2x',
+  '10': 'large-3x',
+  '11': 'large-4x',
+  '12': 'big',
+  '14': 'big-2x',
+  '16': 'big-3x',
+  '20': 'big-4x',
+  '24': 'giant',
+  '28': 'giant-2x',
+  '32': 'giant-3x',
+  '36': 'giant-4x',
   '40': 'vast',
-  '44': 'vast',
-  '48': 'vast',
-  '52': 'vast',
-  '56': 'vast',
-  '60': 'vast',
-  '64': 'vast',
-  '72': 'vast',
-  '80': 'vast',
-  '96': 'vast',
+  '44': 'vast-2x',
+  '48': 'vast-3x',
+  '52': 'vast-4x',
+  '56': 'vast-5x',
+  '60': 'vast-6x',
+  '64': 'vast-7x',
+  '72': 'vast-8x',
+  '80': 'vast-9x',
+  '96': 'vast-10x',
   'full': 'full',
   'screen': '[100vw]',
   'min': 'min',
@@ -436,11 +436,12 @@ function getSpacingScale(value, options = {}) {
 // ======================
 const borderWidthScale = {
   '0': 'none',
-  '1': 'thin',
+  'px': 'thin',
+  '1': 'tiny',
   '2': 'regular',
   '3': 'thick',
-  '4': 'tiny',
-  '8': 'small'
+  '4': 'medium',
+  '8': 'large'
 };
 
 function getBorderWidth(value, options = {}) {
@@ -529,6 +530,19 @@ function convertClass(twClass, options = {}) {
       category: 'visual',
       value: prefix + "border:" + borderColorMatch[1],
     };
+
+  // Directional border colors (border-t-*, border-r-*, border-b-*, border-l-*)
+  const borderSideColorMatch = baseClass.match(
+    /^border-([trbl])-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/
+  );
+  if (borderSideColorMatch) {
+    const side = borderSideColorMatch[1]; // t, r, b, or l
+    const colorVal = borderSideColorMatch[2];
+    return {
+      category: 'visual',
+      value: prefix + `border-${side}:${colorVal}`,
+    };
+  }
 
   // Padding
   const paddingMatch = baseClass.match(/^p([trblxy])?-(.+)$/);
@@ -679,6 +693,26 @@ function convertClass(twClass, options = {}) {
     return { category: 'layout', value: prefix + "row-span:" + rowSpanMatch[1] };
   }
 
+  // Positional properties (top-0, right-0, bottom-0, left-0, inset-0, etc.)
+  // Includes fraction support: left-1/2, top-1/3, etc.
+  const positionMatch = baseClass.match(/^(top|right|bottom|left|inset|inset-x|inset-y)-(\d+|px|auto|full|1\/2|1\/3|2\/3|1\/4|2\/4|3\/4|\[.+\])$/);
+  if (positionMatch) {
+    const prop = positionMatch[1];
+    let val = positionMatch[2];
+    // Handle 0 specially
+    if (val === '0') {
+      val = 'none';
+    } else if (val.startsWith('[') && val.endsWith(']')) {
+      // Keep arbitrary values as-is
+    } else if (percentageAdjectives[val]) {
+      // Map fractions to semantic names (1/2 → half, etc.)
+      val = percentageAdjectives[val];
+    } else {
+      val = getSpacingScale(val, options);
+    }
+    return { category: "layout", value: prefix + prop + ":" + val };
+  }
+
   // Opacity
   const opacityMatch = baseClass.match(/^opacity-(\d+)$/);
   if (opacityMatch) {
@@ -765,11 +799,32 @@ function convertClass(twClass, options = {}) {
     return { category: 'visual', value: prefix + `skew-${axis}:${val}` };
   }
   
-  // Translate X/Y/Z
-  const translateAxisMatch = baseClass.match(/^translate-([xyz])(?:-(.+))?$/);
+  // Translate X/Y/Z - includes negative values and fractions
+  // Positive: translate-x-1/2 → translate-x:half
+  // Negative: -translate-x-1/2 → translate-x:-half
+  const translateAxisMatch = baseClass.match(/^(-?)translate-([xyz])(?:-(.+))?$/);
   if (translateAxisMatch) {
-    const axis = translateAxisMatch[1].toLowerCase();
-    const val = translateAxisMatch[2] || '0';
+    const isNeg = translateAxisMatch[1] === '-';
+    const axis = translateAxisMatch[2].toLowerCase();
+    let val = translateAxisMatch[3] || '0';
+    
+    // Map fractions and values
+    if (val.startsWith('[') && val.endsWith(']')) {
+      // Keep arbitrary values as-is, but handle negative
+      if (isNeg) {
+        const inner = val.slice(1, -1);
+        val = `[-${inner}]`;
+      }
+    } else if (percentageAdjectives[val]) {
+      val = percentageAdjectives[val];
+      if (isNeg) val = `-${val}`;
+    } else if (val === '0') {
+      val = '0';
+    } else {
+      val = getSpacingScale(val, options);
+      if (isNeg) val = `-${val}`;
+    }
+    
     return { category: 'visual', value: prefix + `translate-${axis}:${val}` };
   }
   

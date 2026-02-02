@@ -433,6 +433,82 @@ describe('CSS Generator', () => {
 
     });
 
+    describe('CSS Color Keywords', () => {
+
+      it('generates bg:transparent without var() wrapping', () => {
+        const token = { property: 'bg', value: 'transparent', attrType: 'visual', raw: 'bg:transparent' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('background-color: transparent'));
+        assert.ok(!css.includes('var(--c-transparent)'));
+      });
+
+      it('generates text:currentColor without var() wrapping', () => {
+        const token = { property: 'text', value: 'currentColor', attrType: 'visual', raw: 'text:currentColor' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('color: currentColor'));
+        assert.ok(!css.includes('var(--c-currentColor)'));
+      });
+
+      it('generates border:transparent without var() wrapping', () => {
+        const token = { property: 'border', value: 'transparent', attrType: 'visual', raw: 'border:transparent' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-color: transparent'));
+        assert.ok(!css.includes('var(--c-transparent)'));
+      });
+
+      it('generates border:inherit without var() wrapping', () => {
+        const token = { property: 'border', value: 'inherit', attrType: 'visual', raw: 'border:inherit' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-color: inherit'));
+        assert.ok(!css.includes('var(--c-inherit)'));
+      });
+
+      it('generates outline:currentColor without var() wrapping', () => {
+        const token = { property: 'outline', value: 'currentColor', attrType: 'visual', raw: 'outline:currentColor' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('outline-color: currentColor'));
+        assert.ok(!css.includes('var(--c-currentColor)'));
+      });
+
+      it('generates divide:transparent without var() wrapping', () => {
+        const token = { property: 'divide', value: 'transparent', attrType: 'visual', raw: 'divide:transparent' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-color: transparent'));
+        assert.ok(!css.includes('var(--c-transparent)'));
+      });
+
+      it('generates from:transparent for gradients without var() wrapping', () => {
+        const token = { property: 'from', value: 'transparent', attrType: 'visual', raw: 'from:transparent' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('--ss-gradient-from: transparent'));
+        assert.ok(!css.includes('var(--c-transparent)'));
+      });
+
+      it('generates ring-color:currentColor without var() wrapping', () => {
+        const token = { property: 'ring-color', value: 'currentColor', attrType: 'visual', raw: 'ring-color:currentColor' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('--ss-ring-color: currentColor'));
+        assert.ok(!css.includes('var(--c-currentColor)'));
+      });
+
+    });
+
     describe('Text', () => {
 
       it('generates text color', () => {
@@ -979,32 +1055,32 @@ describe('CSS Generator', () => {
         assert.ok(css.includes('transform: translateY(100%)'));
       });
 
-      it('generates -translate-x with scale value', () => {
-        const token = { property: '-translate-x', value: 'small', attrType: 'visual', raw: '-translate-x:small' };
+      it('generates translate-x with negative half', () => {
+        const token = { property: 'translate-x', value: '-half', attrType: 'visual', raw: 'translate-x:-half' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateX(calc(var(--s-small) * -1))'));
+        assert.ok(css.includes('transform: translateX(-50%)'));
       });
 
-      it('generates -translate-x with preset (full)', () => {
-        const token = { property: '-translate-x', value: 'full', attrType: 'visual', raw: '-translate-x:full' };
+      it('generates translate-x with negative full', () => {
+        const token = { property: 'translate-x', value: '-full', attrType: 'visual', raw: 'translate-x:-full' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
         assert.ok(css.includes('transform: translateX(-100%)'));
       });
 
-      it('generates -translate-y with scale value', () => {
-        const token = { property: '-translate-y', value: 'medium', attrType: 'visual', raw: '-translate-y:medium' };
+      it('generates translate-y with negative third', () => {
+        const token = { property: 'translate-y', value: '-third', attrType: 'visual', raw: 'translate-y:-third' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateY(calc(var(--s-medium) * -1))'));
+        assert.ok(css.includes('transform: translateY(-33.333333%)'));
       });
 
-      it('generates -translate-y with preset (1/2)', () => {
-        const token = { property: '-translate-y', value: '1/2', attrType: 'visual', raw: '-translate-y:1/2' };
+      it('generates translate-y with negative quarter-3x', () => {
+        const token = { property: 'translate-y', value: '-quarter-3x', attrType: 'visual', raw: 'translate-y:-quarter-3x' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateY(-50%)'));
+        assert.ok(css.includes('transform: translateY(-75%)'));
       });
     });
 

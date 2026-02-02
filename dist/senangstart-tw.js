@@ -142,6 +142,22 @@
     "9xl": "hero"
     // 8rem → hero
   };
+  var fractionScale = {
+    "1/2": "half",
+    // 50%
+    "1/3": "third",
+    // 33.33%
+    "2/3": "third-2x",
+    // 66.67%
+    "1/4": "quarter",
+    // 25%
+    "2/4": "half",
+    // 50% (alias)
+    "3/4": "quarter-3x",
+    // 75%
+    "full": "full"
+    // 100%
+  };
   var layoutMappings = {
     container: "container",
     flex: "flex",
@@ -326,24 +342,39 @@
     if (bgMatch) {
       const colorVal = bgMatch[1];
       if (colorVal === "transparent") {
-        return attachExtra({ cat: "visual", val: prefix + "bg:[transparent]" });
+        return attachExtra({ cat: "visual", val: prefix + "bg:transparent" });
       }
       if (colorVal === "current") {
-        return attachExtra({ cat: "visual", val: prefix + "bg:[currentColor]" });
+        return attachExtra({ cat: "visual", val: prefix + "bg:currentColor" });
       }
       if (colorVal === "inherit") {
-        return attachExtra({ cat: "visual", val: prefix + "bg:[inherit]" });
+        return attachExtra({ cat: "visual", val: prefix + "bg:inherit" });
       }
       return attachExtra({ cat: "visual", val: prefix + "bg:" + colorVal });
     }
     const borderColorMatch = baseClass.match(
-      /^border-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
+      /^border-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/
     );
-    if (borderColorMatch)
+    if (borderColorMatch) {
+      let colorVal = borderColorMatch[1];
+      if (colorVal === "current") colorVal = "currentColor";
       return attachExtra({
         cat: "visual",
-        val: prefix + "border:" + borderColorMatch[1]
+        val: prefix + "border:" + colorVal
       });
+    }
+    const borderSideColorMatch = baseClass.match(
+      /^border-([trbl])-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/
+    );
+    if (borderSideColorMatch) {
+      const side = borderSideColorMatch[1];
+      let colorVal = borderSideColorMatch[2];
+      if (colorVal === "current") colorVal = "currentColor";
+      return attachExtra({
+        cat: "visual",
+        val: prefix + `border-${side}:${colorVal}`
+      });
+    }
     const paddingMatch = baseClass.match(/^p([trblxy])?-(.+)$/);
     if (paddingMatch) {
       const side = paddingMatch[1] ? "-" + paddingMatch[1] : "";
@@ -421,17 +452,40 @@
         val: prefix + "border" + side + ":" + getBorderWidth(width, exact)
       });
     }
-    const positionMatch = baseClass.match(/^(top|right|bottom|left|inset|inset-x|inset-y)-(\d+|px|auto|full|\[.+\])$/);
+    const positionMatch = baseClass.match(/^(top|right|bottom|left|inset|inset-x|inset-y)-(\d+|px|auto|full|1\/2|1\/3|2\/3|1\/4|2\/4|3\/4|\[.+\])$/);
     if (positionMatch) {
       const prop = positionMatch[1];
       let val = positionMatch[2];
       if (val === "0") {
         val = "none";
       } else if (val.startsWith("[") && val.endsWith("]")) {
+      } else if (fractionScale[val]) {
+        val = fractionScale[val];
       } else {
         val = getSpacing(val, exact);
       }
       return attachExtra({ cat: "layout", val: prefix + prop + ":" + val });
+    }
+    const translateMatch = baseClass.match(/^(-?)translate-([xy])-(\d+|px|full|1\/2|1\/3|2\/3|1\/4|2\/4|3\/4|\[.+\])$/);
+    if (translateMatch) {
+      const isNeg = translateMatch[1] === "-";
+      const axis = translateMatch[2];
+      let val = translateMatch[3];
+      if (val.startsWith("[") && val.endsWith("]")) {
+        if (isNeg) {
+          const inner = val.slice(1, -1);
+          val = `[-${inner}]`;
+        }
+      } else if (fractionScale[val]) {
+        val = fractionScale[val];
+        if (isNeg) val = `-${val}`;
+      } else if (val === "0") {
+        val = "0";
+      } else {
+        val = getSpacing(val, exact);
+        if (isNeg) val = `-${val}`;
+      }
+      return attachExtra({ cat: "visual", val: prefix + `translate-${axis}:${val}` });
     }
     if (baseClass === "outline-none") {
       return attachExtra({ cat: "visual", val: prefix + "outline:none" });

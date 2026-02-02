@@ -6855,6 +6855,16 @@ video {
   function sanitizeArbitraryValue(value) {
     return sanitizeValue(value);
   }
+  var CSS_COLOR_KEYWORDS = ["transparent", "currentColor", "inherit", "initial", "unset"];
+  function resolveColorValue(value, isArbitrary) {
+    if (isArbitrary) {
+      return value;
+    }
+    if (CSS_COLOR_KEYWORDS.includes(value)) {
+      return value;
+    }
+    return `var(--c-${value})`;
+  }
   function generateCSSVariables(config) {
     const { theme } = config;
     let css = ":root {\n";
@@ -7402,7 +7412,7 @@ video {
     const rules = {
       // Background Color
       "bg": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `background-color: ${cssValue};`;
       },
       // Background Image
@@ -7498,15 +7508,15 @@ video {
       },
       // Gradient Color Stops
       "from": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `--ss-gradient-from: ${cssValue}; --ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to);`;
       },
       "via": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `--ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), ${cssValue}, var(--ss-gradient-to);`;
       },
       "to": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `--ss-gradient-to: ${cssValue};`;
       },
       // Text color
@@ -7514,7 +7524,7 @@ video {
         if (["left", "center", "right", "justify"].includes(value)) {
           return `text-align: ${value};`;
         }
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `color: ${cssValue};`;
       },
       // Text Shadow
@@ -7598,7 +7608,7 @@ video {
       },
       // Text decoration color
       "decoration": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `text-decoration-color: ${cssValue};`;
       },
       // Text decoration thickness
@@ -7618,32 +7628,32 @@ video {
       },
       // Border color
       "border": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-color: ${cssValue}; border-style: solid;`;
       },
       // Border color - directional
       "border-t": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-top-color: ${cssValue}; border-top-style: solid;`;
       },
       "border-b": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-bottom-color: ${cssValue}; border-bottom-style: solid;`;
       },
       "border-l": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-left-color: ${cssValue}; border-left-style: solid;`;
       },
       "border-r": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-right-color: ${cssValue}; border-right-style: solid;`;
       },
       "border-x": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
       },
       "border-y": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
       },
       // Border width
@@ -7689,7 +7699,7 @@ video {
       // =====================
       // Divide color - all sides
       "divide": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-color: ${cssValue}; border-style: solid;`;
       },
       // Divide color - directional
@@ -7697,14 +7707,14 @@ video {
         if (value === "reverse") {
           return "--ss-divide-x-reverse: 1;";
         }
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
       },
       "divide-y": () => {
         if (value === "reverse") {
           return "--ss-divide-y-reverse: 1;";
         }
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
       },
       // Divide width - all sides
@@ -7732,7 +7742,7 @@ video {
       },
       // Outline Color
       "outline": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `outline-color: ${cssValue};`;
       },
       // Outline Style
@@ -7751,7 +7761,7 @@ video {
       },
       // Ring Color
       "ring-color": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `--ss-ring-color: ${cssValue};`;
       },
       // Ring Offset Width
@@ -7761,7 +7771,7 @@ video {
       },
       // Ring Offset Color
       "ring-offset-color": () => {
-        const cssValue = isArbitrary ? value : `var(--c-${value})`;
+        const cssValue = resolveColorValue(value, isArbitrary);
         return `--ss-ring-offset-color: ${cssValue};`;
       },
       // Ring (Main utility)
@@ -8203,11 +8213,31 @@ video {
       "translate-x": () => {
         const translatePresets = {
           "full": "100%",
+          "half": "50%",
+          "third": "33.333333%",
+          "third-2x": "66.666667%",
+          "quarter": "25%",
+          "quarter-2x": "50%",
+          "quarter-3x": "75%",
+          // Legacy fraction format (for backward compatibility)
           "1/2": "50%",
           "1/3": "33.333333%",
           "2/3": "66.666667%",
           "1/4": "25%",
-          "3/4": "75%"
+          "3/4": "75%",
+          // Negatives (prefixed with -)
+          "-full": "-100%",
+          "-half": "-50%",
+          "-third": "-33.333333%",
+          "-third-2x": "-66.666667%",
+          "-quarter": "-25%",
+          "-quarter-2x": "-50%",
+          "-quarter-3x": "-75%",
+          "-1/2": "-50%",
+          "-1/3": "-33.333333%",
+          "-2/3": "-66.666667%",
+          "-1/4": "-25%",
+          "-3/4": "-75%"
         };
         const cssValue = isArbitrary ? value : translatePresets[value] || `var(--s-${value})`;
         return `transform: translateX(${cssValue});`;
@@ -8215,37 +8245,33 @@ video {
       "translate-y": () => {
         const translatePresets = {
           "full": "100%",
+          "half": "50%",
+          "third": "33.333333%",
+          "third-2x": "66.666667%",
+          "quarter": "25%",
+          "quarter-2x": "50%",
+          "quarter-3x": "75%",
+          // Legacy fraction format (for backward compatibility)
           "1/2": "50%",
           "1/3": "33.333333%",
           "2/3": "66.666667%",
           "1/4": "25%",
-          "3/4": "75%"
+          "3/4": "75%",
+          // Negatives (prefixed with -)
+          "-full": "-100%",
+          "-half": "-50%",
+          "-third": "-33.333333%",
+          "-third-2x": "-66.666667%",
+          "-quarter": "-25%",
+          "-quarter-2x": "-50%",
+          "-quarter-3x": "-75%",
+          "-1/2": "-50%",
+          "-1/3": "-33.333333%",
+          "-2/3": "-66.666667%",
+          "-1/4": "-25%",
+          "-3/4": "-75%"
         };
         const cssValue = isArbitrary ? value : translatePresets[value] || `var(--s-${value})`;
-        return `transform: translateY(${cssValue});`;
-      },
-      "-translate-x": () => {
-        const translatePresets = {
-          "full": "-100%",
-          "1/2": "-50%",
-          "1/3": "-33.333333%",
-          "2/3": "-66.666667%",
-          "1/4": "-25%",
-          "3/4": "-75%"
-        };
-        const cssValue = isArbitrary ? `-${value}` : translatePresets[value] || `calc(var(--s-${value}) * -1)`;
-        return `transform: translateX(${cssValue});`;
-      },
-      "-translate-y": () => {
-        const translatePresets = {
-          "full": "-100%",
-          "1/2": "-50%",
-          "1/3": "-33.333333%",
-          "2/3": "-66.666667%",
-          "1/4": "-25%",
-          "3/4": "-75%"
-        };
-        const cssValue = isArbitrary ? `-${value}` : translatePresets[value] || `calc(var(--s-${value}) * -1)`;
         return `transform: translateY(${cssValue});`;
       },
       // Skew

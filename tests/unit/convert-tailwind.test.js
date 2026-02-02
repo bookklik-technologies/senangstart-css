@@ -41,6 +41,15 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('fixed'), { category: 'layout', value: 'fixed' });
     });
     
+    it('should convert positional offsets (top, left, right, bottom)', () => {
+      assert.deepStrictEqual(convertClass('top-0'), { category: 'layout', value: 'top:none' });
+      assert.deepStrictEqual(convertClass('left-0'), { category: 'layout', value: 'left:none' });
+      assert.deepStrictEqual(convertClass('bottom-full'), { category: 'layout', value: 'bottom:full' });
+      assert.deepStrictEqual(convertClass('left-1/2'), { category: 'layout', value: 'left:half' });
+      assert.deepStrictEqual(convertClass('top-1/3'), { category: 'layout', value: 'top:third' });
+      assert.deepStrictEqual(convertClass('inset-0'), { category: 'layout', value: 'inset:none' });
+    });
+    
     it('should convert grid classes', () => {
       assert.deepStrictEqual(convertClass('grid-cols-3'), { category: 'layout', value: 'grid-cols:3' });
       assert.deepStrictEqual(convertClass('col-span-2'), { category: 'layout', value: 'col-span:2' });
@@ -49,21 +58,21 @@ describe('convertClass', () => {
 
   describe('Spacing classes', () => {
     it('should convert padding classes', () => {
-      assert.deepStrictEqual(convertClass('p-4'), { category: 'space', value: 'p:small' });
-      assert.deepStrictEqual(convertClass('p-8'), { category: 'space', value: 'p:big' });
-      assert.deepStrictEqual(convertClass('px-4'), { category: 'space', value: 'p-x:small' });
-      assert.deepStrictEqual(convertClass('py-2'), { category: 'space', value: 'p-y:tiny' });
+      assert.deepStrictEqual(convertClass('p-4'), { category: 'space', value: 'p:medium' });
+      assert.deepStrictEqual(convertClass('p-8'), { category: 'space', value: 'p:large' });
+      assert.deepStrictEqual(convertClass('px-4'), { category: 'space', value: 'p-x:medium' });
+      assert.deepStrictEqual(convertClass('py-2'), { category: 'space', value: 'p-y:small' });
     });
 
     it('should convert margin classes', () => {
-      assert.deepStrictEqual(convertClass('m-4'), { category: 'space', value: 'm:small' });
-      assert.deepStrictEqual(convertClass('mt-8'), { category: 'space', value: 'm-t:big' });
+      assert.deepStrictEqual(convertClass('m-4'), { category: 'space', value: 'm:medium' });
+      assert.deepStrictEqual(convertClass('mt-8'), { category: 'space', value: 'm-t:large' });
       assert.deepStrictEqual(convertClass('mx-auto'), { category: 'space', value: 'm-x:auto' });
     });
 
     it('should convert gap classes', () => {
-      assert.deepStrictEqual(convertClass('gap-4'), { category: 'space', value: 'g:small' });
-      assert.deepStrictEqual(convertClass('gap-x-2'), { category: 'space', value: 'g-x:tiny' });
+      assert.deepStrictEqual(convertClass('gap-4'), { category: 'space', value: 'g:medium' });
+      assert.deepStrictEqual(convertClass('gap-x-2'), { category: 'space', value: 'g-x:small' });
     });
 
     it('should convert width/height classes', () => {
@@ -74,13 +83,13 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('w-1/4'), { category: 'space', value: 'w:quarter' });
       assert.deepStrictEqual(convertClass('w-3/4'), { category: 'space', value: 'w:quarter-3x' });
       assert.deepStrictEqual(convertClass('h-screen'), { category: 'space', value: 'h:[100vh]' });
-      assert.deepStrictEqual(convertClass('max-w-4'), { category: 'space', value: 'max-w:small' });
+      assert.deepStrictEqual(convertClass('max-w-4'), { category: 'space', value: 'max-w:medium' });
     });
 
     it('should convert negative margin classes', () => {
       // Standard exact=false
-      assert.deepStrictEqual(convertClass('-m-4'), { category: 'space', value: 'm:-small' });
-      assert.deepStrictEqual(convertClass('-mt-8'), { category: 'space', value: 'm-t:-big' });
+      assert.deepStrictEqual(convertClass('-m-4'), { category: 'space', value: 'm:-medium' });
+      assert.deepStrictEqual(convertClass('-mt-8'), { category: 'space', value: 'm-t:-large' });
       
       // Exact=true
       assert.deepStrictEqual(convertClass('-m-4', { exact: true }), { category: 'space', value: 'm:-tw-4' });
@@ -95,6 +104,14 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('bg-blue-500'), { category: 'visual', value: 'bg:blue-500' });
       assert.deepStrictEqual(convertClass('bg-white'), { category: 'visual', value: 'bg:white' });
       assert.deepStrictEqual(convertClass('bg-transparent'), { category: 'visual', value: 'bg:transparent' });
+    });
+
+    it('should convert border color classes', () => {
+      assert.deepStrictEqual(convertClass('border-gray-900'), { category: 'visual', value: 'border:gray-900' });
+      assert.deepStrictEqual(convertClass('border-t-gray-900'), { category: 'visual', value: 'border-t:gray-900' });
+      assert.deepStrictEqual(convertClass('border-b-blue-500'), { category: 'visual', value: 'border-b:blue-500' });
+      assert.deepStrictEqual(convertClass('border-l-red-300'), { category: 'visual', value: 'border-l:red-300' });
+      assert.deepStrictEqual(convertClass('border-r-transparent'), { category: 'visual', value: 'border-r:transparent' });
     });
 
     it('should convert text color classes', () => {
@@ -154,12 +171,19 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('via-purple-500'), { category: 'visual', value: 'via:purple-500' });
       assert.deepStrictEqual(convertClass('to-pink-500'), { category: 'visual', value: 'to:pink-500' });
     });
+
+    it('should convert translate utilities with fractions', () => {
+      assert.deepStrictEqual(convertClass('translate-x-1/2'), { category: 'visual', value: 'translate-x:half' });
+      assert.deepStrictEqual(convertClass('translate-y-full'), { category: 'visual', value: 'translate-y:full' });
+      assert.deepStrictEqual(convertClass('-translate-x-1/2'), { category: 'visual', value: 'translate-x:-half' });
+      assert.deepStrictEqual(convertClass('-translate-y-full'), { category: 'visual', value: 'translate-y:-full' });
+    });
   });
 
   describe('Prefixed classes', () => {
     it('should handle responsive prefixes', () => {
       assert.deepStrictEqual(convertClass('md:flex'), { category: 'layout', value: 'tw-md:flex' });
-      assert.deepStrictEqual(convertClass('lg:p-8'), { category: 'space', value: 'tw-lg:p:big' });
+      assert.deepStrictEqual(convertClass('lg:p-8'), { category: 'space', value: 'tw-lg:p:large' });
     });
 
     it('should handle dark mode prefix', () => {
@@ -194,7 +218,7 @@ describe('convertClasses', () => {
     const result = convertClasses('flex items-center p-4 bg-blue-500 text-white');
     
     assert.deepStrictEqual(result.layout, ['flex', 'items:center']);
-    assert.deepStrictEqual(result.space, ['p:small']);
+    assert.deepStrictEqual(result.space, ['p:medium']);
     assert.deepStrictEqual(result.visual, ['bg:blue-500', 'text:white']);
     assert.deepStrictEqual(result.unrecognized, []);
   });
@@ -212,7 +236,7 @@ describe('convertHTML', () => {
     const result = convertHTML(input);
     
     assert.ok(result.includes('layout="flex items:center"'));
-    assert.ok(result.includes('space="p:small"'));
+    assert.ok(result.includes('space="p:medium"'));
     assert.ok(result.includes('visual="bg:blue-500"'));
     assert.ok(!result.includes('class='));
   });
@@ -242,17 +266,17 @@ describe('convertHTML', () => {
     const result = convertHTML(input);
     
     assert.ok(result.includes('layout="flex"'));
-    assert.ok(result.includes('space="p:small"'));
+    assert.ok(result.includes('space="p:medium"'));
   });
 });
 
 describe('spacingScale', () => {
   it('should have expected scale mappings', () => {
     assert.strictEqual(spacingScale['0'], 'none');
-    assert.strictEqual(spacingScale['4'], 'small');
-    assert.strictEqual(spacingScale['8'], 'big');
-    assert.strictEqual(spacingScale['12'], 'giant');
-    assert.strictEqual(spacingScale['24'], 'vast');
+    assert.strictEqual(spacingScale['4'], 'medium');
+    assert.strictEqual(spacingScale['8'], 'large');
+    assert.strictEqual(spacingScale['12'], 'big');
+    assert.strictEqual(spacingScale['24'], 'giant');
     assert.strictEqual(spacingScale['auto'], 'auto');
   });
 });

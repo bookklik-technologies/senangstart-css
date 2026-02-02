@@ -108,6 +108,18 @@ const fontSizeScale = {
   "9xl": "hero",       // 8rem → hero
 };
 
+// Fraction scale mapping Tailwind fractions to SenangStart semantic values
+// Used for positioning (left-1/2) and transforms (translate-x-1/2)
+const fractionScale = {
+  '1/2': 'half',         // 50%
+  '1/3': 'third',        // 33.33%
+  '2/3': 'third-2x',     // 66.67%
+  '1/4': 'quarter',      // 25%
+  '2/4': 'half',         // 50% (alias)
+  '3/4': 'quarter-3x',   // 75%
+  'full': 'full',        // 100%
+};
+
 const layoutMappings = {
   container: "container",
   flex: "flex",
@@ -337,28 +349,47 @@ function convertClass(twClass, exact) {
   );
   if (bgMatch) {
     const colorVal = bgMatch[1];
-    // Handle special values
+    // Handle special CSS keyword values - these are now natively supported
     if (colorVal === 'transparent') {
-      return attachExtra({ cat: "visual", val: prefix + "bg:[transparent]" });
+      return attachExtra({ cat: "visual", val: prefix + "bg:transparent" });
     }
     if (colorVal === 'current') {
-      return attachExtra({ cat: "visual", val: prefix + "bg:[currentColor]" });
+      return attachExtra({ cat: "visual", val: prefix + "bg:currentColor" });
     }
     if (colorVal === 'inherit') {
-      return attachExtra({ cat: "visual", val: prefix + "bg:[inherit]" });
+      return attachExtra({ cat: "visual", val: prefix + "bg:inherit" });
     }
     return attachExtra({ cat: "visual", val: prefix + "bg:" + colorVal });
   }
 
   // Border color
   const borderColorMatch = baseClass.match(
-    /^border-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
+    /^border-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/
   );
-  if (borderColorMatch)
+  if (borderColorMatch) {
+    let colorVal = borderColorMatch[1];
+    // Map 'current' to 'currentColor' for CSS compatibility
+    if (colorVal === 'current') colorVal = 'currentColor';
     return attachExtra({
       cat: "visual",
-      val: prefix + "border:" + borderColorMatch[1],
+      val: prefix + "border:" + colorVal,
     });
+  }
+
+  // Directional border colors (border-t-*, border-r-*, border-b-*, border-l-*)
+  const borderSideColorMatch = baseClass.match(
+    /^border-([trbl])-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black|transparent|current|inherit)(?:-\d+)?)$/
+  );
+  if (borderSideColorMatch) {
+    const side = borderSideColorMatch[1]; // t, r, b, or l
+    let colorVal = borderSideColorMatch[2];
+    // Map 'current' to 'currentColor' for CSS compatibility
+    if (colorVal === 'current') colorVal = 'currentColor';
+    return attachExtra({
+      cat: "visual",
+      val: prefix + `border-${side}:${colorVal}`,
+    });
+  }
 
   // Padding
   const paddingMatch = baseClass.match(/^p([trblxy])?-(.+)$/);
@@ -472,7 +503,8 @@ function convertClass(twClass, exact) {
   }
 
   // Positional properties (top-0, right-0, bottom-0, left-0, inset-0, etc.)
-  const positionMatch = baseClass.match(/^(top|right|bottom|left|inset|inset-x|inset-y)-(\d+|px|auto|full|\[.+\])$/);
+  // Includes fraction support: left-1/2, top-1/3, etc.
+  const positionMatch = baseClass.match(/^(top|right|bottom|left|inset|inset-x|inset-y)-(\d+|px|auto|full|1\/2|1\/3|2\/3|1\/4|2\/4|3\/4|\[.+\])$/);
   if (positionMatch) {
     const prop = positionMatch[1];
     let val = positionMatch[2];
@@ -481,10 +513,40 @@ function convertClass(twClass, exact) {
       val = 'none';
     } else if (val.startsWith('[') && val.endsWith(']')) {
       // Keep arbitrary values as-is
+    } else if (fractionScale[val]) {
+      // Map fractions to semantic names (1/2 → half, etc.)
+      val = fractionScale[val];
     } else {
       val = getSpacing(val, exact);
     }
     return attachExtra({ cat: "layout", val: prefix + prop + ":" + val });
+  }
+
+  // Translate transform utilities: translate-x-*, translate-y-*, -translate-x-*, -translate-y-*
+  const translateMatch = baseClass.match(/^(-?)translate-([xy])-(\d+|px|full|1\/2|1\/3|2\/3|1\/4|2\/4|3\/4|\[.+\])$/);
+  if (translateMatch) {
+    const isNeg = translateMatch[1] === '-';
+    const axis = translateMatch[2];
+    let val = translateMatch[3];
+    
+    // Map fractions and values
+    if (val.startsWith('[') && val.endsWith(']')) {
+      // Keep arbitrary values as-is, but handle negative
+      if (isNeg) {
+        const inner = val.slice(1, -1);
+        val = `[-${inner}]`;
+      }
+    } else if (fractionScale[val]) {
+      val = fractionScale[val];
+      if (isNeg) val = `-${val}`;
+    } else if (val === '0') {
+      val = '0';
+    } else {
+      val = getSpacing(val, exact);
+      if (isNeg) val = `-${val}`;
+    }
+    
+    return attachExtra({ cat: "visual", val: prefix + `translate-${axis}:${val}` });
   }
 
   // Outline none

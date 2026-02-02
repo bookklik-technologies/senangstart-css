@@ -21,7 +21,7 @@ describe('convert-tailwind CLI', () => {
     const input = '"<div class=\'p-4\'></div>"';
     const output = execSync(`node "${SCRIPT_PATH}" --string ${input}`).toString();
     // Check output contains expected attributes (ignoring order/formatting)
-    assert.match(output, /space="p:small"/);
+    assert.match(output, /space="p:medium"/);
     assert.doesNotMatch(output, /class=/);
   });
 
@@ -68,7 +68,7 @@ describe('convert-tailwind CLI', () => {
     // Check output file
     const result = fs.readFileSync(outputFile, 'utf-8');
     assert.match(result, /layout="flex"/);
-    assert.match(result, /space="p:small"/);
+    assert.match(result, /space="p:medium"/);
     
     // Cleanup
     fs.unlinkSync(inputFile);
@@ -89,7 +89,7 @@ describe('convert-tailwind CLI', () => {
   it('should handle unrecognized classes', () => {
     const input = '"<div class=\'p-4 custom-class\'></div>"';
     const output = execSync(`node "${SCRIPT_PATH}" --string ${input}`).toString();
-    assert.match(output, /space="p:small"/);
+    assert.match(output, /space="p:medium"/);
     assert.match(output, /class="custom-class"/);
   });
 });
