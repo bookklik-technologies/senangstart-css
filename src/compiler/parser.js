@@ -18,11 +18,11 @@ const ATTRIBUTE_PATTERNS = {
  */
 function createAttributePatterns() {
   return {
-    layout: /layout\s*=\s*["']([^"']*)["']/g,
-    space:  /space\s*=\s*["']([^"']*)["']/g,
-    visual: /visual\s*=\s*["']([^"']*)["']/g,
-    interact: /interact\s*=\s*["']([^"']*)["']/g,
-    listens: /listens\s*=\s*["']([^"']*)["']/g
+    layout: /layout\s*=\s*("[^"]*"|'[^']*')/g,
+    space:  /space\s*=\s*("[^"]*"|'[^']*')/g,
+    visual: /visual\s*=\s*("[^"]*"|'[^']*')/g,
+    interact: /interact\s*=\s*("[^"]*"|'[^']*')/g,
+    listens: /listens\s*=\s*("[^"]*"|'[^']*')/g
   };
 }
 
@@ -45,7 +45,14 @@ export function parseSource(content) {
   for (const [attr, pattern] of Object.entries(patterns)) {
     let match;
     while ((match = pattern.exec(content)) !== null) {
-      const value = match[1].trim();
+      let value = match[1].trim();
+      if (value.length >= 2) {
+        const firstChar = value[0];
+        const lastChar = value[value.length - 1];
+        if ((firstChar === '"' && lastChar === '"') || (firstChar === "'" && lastChar === "'")) {
+          value = value.slice(1, -1);
+        }
+      }
       if (value.length > 10000) {
         continue;
       }

@@ -39,11 +39,16 @@
     if (typeof value !== "string") {
       return "";
     }
+    let sanitized = value;
     const dangerousChars = /[;]/g;
-    if (dangerousChars.test(value)) {
-      return value.replace(dangerousChars, "_");
-    }
-    return value;
+    sanitized = sanitized.replace(dangerousChars, "_");
+    const atRules = /@import|@charset|@namespace|@supports|@keyframes/gi;
+    sanitized = sanitized.replace(atRules, "");
+    const expression = /expression\s*\(/gi;
+    sanitized = sanitized.replace(expression, "");
+    const dangerousUrls = /(url\s*\(\s*['"]?)(javascript:|data:)([^)]*\))/gi;
+    sanitized = sanitized.replace(dangerousUrls, "$1about:blank$3");
+    return sanitized;
   }
 
   // src/core/tokenizer-core.js
@@ -7025,6 +7030,8 @@ video {
       css += `  --tw-font-${key}: ${value};
 `;
     }
+    css += "  --ss-divide-x-reverse: 0;\n";
+    css += "  --ss-divide-y-reverse: 0;\n";
     css += "}\n\n";
     return css;
   }
@@ -7659,32 +7666,32 @@ video {
       // Border width
       "border-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-width: ${cssValue}; border-style: solid;`;
+        return `border-width: ${cssValue};`;
       },
       // Border width - directional  
       "border-t-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-top-width: ${cssValue}; border-top-style: solid;`;
+        return `border-top-width: ${cssValue};`;
       },
       "border-b-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-bottom-width: ${cssValue}; border-bottom-style: solid;`;
+        return `border-bottom-width: ${cssValue};`;
       },
       "border-l-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-left-width: ${cssValue}; border-left-style: solid;`;
+        return `border-left-width: ${cssValue};`;
       },
       "border-r-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-right-width: ${cssValue}; border-right-style: solid;`;
+        return `border-right-width: ${cssValue};`;
       },
       "border-x-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-left-width: ${cssValue}; border-right-width: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+        return `border-left-width: ${cssValue}; border-right-width: ${cssValue};`;
       },
       "border-y-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+        return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue};`;
       },
       // Border style
       "border-style": () => {
@@ -7708,28 +7715,28 @@ video {
           return "--ss-divide-x-reverse: 1;";
         }
         const cssValue = resolveColorValue(value, isArbitrary);
-        return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+        return `border-left-color: ${cssValue}; border-right-color: ${cssValue};`;
       },
       "divide-y": () => {
         if (value === "reverse") {
           return "--ss-divide-y-reverse: 1;";
         }
         const cssValue = resolveColorValue(value, isArbitrary);
-        return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+        return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue};`;
       },
       // Divide width - all sides
       "divide-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-width: ${cssValue}; border-style: solid;`;
+        return `border-width: ${cssValue};`;
       },
       // Divide width - directional
       "divide-x-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-left-width: ${cssValue}; border-right-width: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+        return `border-left-width: ${cssValue}; border-right-width: ${cssValue};`;
       },
       "divide-y-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+        return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue};`;
       },
       // Divide style
       "divide-style": () => {

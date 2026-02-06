@@ -166,6 +166,10 @@ export function generateCSSVariables(config) {
     css += `  --tw-font-${key}: ${value};\n`;
   }
   
+  // Divide reverse variables (used by divide-x:reverse and divide-y:reverse)
+  css += '  --ss-divide-x-reverse: 0;\n';
+  css += '  --ss-divide-y-reverse: 0;\n';
+  
   css += '}\n\n';
   return css;
 }
@@ -951,33 +955,33 @@ function generateVisualRule(token, config) {
     // Border width
     'border-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-width: ${cssValue}; border-style: solid;`;
+      return `border-width: ${cssValue};`;
     },
     
     // Border width - directional  
     'border-t-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-top-width: ${cssValue}; border-top-style: solid;`;
+      return `border-top-width: ${cssValue};`;
     },
     'border-b-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-bottom-width: ${cssValue}; border-bottom-style: solid;`;
+      return `border-bottom-width: ${cssValue};`;
     },
     'border-l-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-left-width: ${cssValue}; border-left-style: solid;`;
+      return `border-left-width: ${cssValue};`;
     },
     'border-r-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-right-width: ${cssValue}; border-right-style: solid;`;
+      return `border-right-width: ${cssValue};`;
     },
     'border-x-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-left-width: ${cssValue}; border-right-width: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+      return `border-left-width: ${cssValue}; border-right-width: ${cssValue};`;
     },
     'border-y-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+      return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue};`;
     },
     
     // Border style
@@ -1007,7 +1011,7 @@ function generateVisualRule(token, config) {
         return '--ss-divide-x-reverse: 1;';
       }
       const cssValue = resolveColorValue(value, isArbitrary);
-      return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+      return `border-left-color: ${cssValue}; border-right-color: ${cssValue};`;
     },
     'divide-y': () => {
       // Handle divide-y:reverse specially
@@ -1015,23 +1019,23 @@ function generateVisualRule(token, config) {
         return '--ss-divide-y-reverse: 1;';
       }
       const cssValue = resolveColorValue(value, isArbitrary);
-      return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+      return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue};`;
     },
     
     // Divide width - all sides
     'divide-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-width: ${cssValue}; border-style: solid;`;
+      return `border-width: ${cssValue};`;
     },
     
     // Divide width - directional
     'divide-x-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-left-width: ${cssValue}; border-right-width: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
+      return `border-left-width: ${cssValue}; border-right-width: ${cssValue};`;
     },
     'divide-y-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
+      return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue};`;
     },
     
     // Divide style
