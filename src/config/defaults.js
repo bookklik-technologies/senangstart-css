@@ -138,6 +138,7 @@ export const defaultConfig = {
       'tab':  '768px',      // Tablet
       'lap':  '1024px',     // Laptop
       'desk': '1280px',     // Desktop
+      'print': 'print',       // Print media query
       
       // Tailwind Compatibility
       'tw-sm': '640px',
@@ -148,6 +149,8 @@ export const defaultConfig = {
     },
 
     // 7. COLORS: Palette Scales
+    // Placeholder color for form inputs
+    placeholder: '#9ca3af',
     colors: {
       // Base colors
       'white':     '#FFFFFF',

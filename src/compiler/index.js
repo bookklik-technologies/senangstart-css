@@ -18,11 +18,24 @@ import { generateTypeScript } from './generators/typescript.js';
 export function compileSource(content, config) {
   const parsed = parseSource(content);
   const tokens = tokenizeAll(parsed);
+  
+  // Check for invalid tokens and log warnings
+  const invalidTokens = tokens.filter(token => token.error);
+  if (invalidTokens.length > 0) {
+    if (typeof console !== 'undefined') {
+      console.warn(`\n${invalidTokens.length} error(s) found in source:`);
+      for (const token of invalidTokens) {
+        console.warn(`  • ${token.raw} (${token.attrType}): ${token.error}`);
+      }
+    }
+  }
+  
   const css = generateCSS(tokens, config);
   
   return {
     tokens,
     css,
+    errors: invalidTokens.length > 0 ? invalidTokens : null,
     minifiedCSS: config.output?.minify ? minifyCSS(css) : null
   };
 }
@@ -36,14 +49,25 @@ export function compileSource(content, config) {
 export function compileMultiple(files, config) {
   const parsed = parseMultipleSources(files);
   const tokens = tokenizeAll(parsed);
+  
+  // Check for invalid tokens and log warnings
+  const invalidTokens = tokens.filter(token => token.error);
+  if (invalidTokens.length > 0) {
+    if (typeof console !== 'undefined') {
+      console.warn(`\n${invalidTokens.length} error(s) found in source:`);
+      for (const token of invalidTokens) {
+        console.warn(`  • ${token.raw} (${token.attrType}): ${token.error}`);
+      }
+    }
+  }
+  
   const css = generateCSS(tokens, config);
   
   return {
     tokens,
     css,
-    minifiedCSS: config.output?.minify ? minifyCSS(css) : null,
-    aiContext: generateAIContext(config),
-    typescript: generateTypeScript(config)
+    errors: invalidTokens.length > 0 ? invalidTokens : null,
+    minifiedCSS: config.output?.minify ? minifyCSS(css) : null
   };
 }
 

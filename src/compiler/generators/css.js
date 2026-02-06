@@ -82,6 +82,19 @@ export function generateCSSVariables(config) {
     css += `  --c-${key}: ${value};\n`;
   }
   
+  // Placeholder color variable
+  if (theme.placeholder) {
+    css += `  --placeholder-color: ${theme.placeholder};\n`;
+  } else {
+    css += '  --placeholder-color: #9ca3af;\n';
+  }
+  
+  // Gradient direction variables for better gradient support
+  css += '  --gradient-from: transparent;\n';
+  css += '  --gradient-via: transparent;\n';
+  css += '  --gradient-to: transparent;\n';
+  css += '  --gradient-stops: var(--gradient-from), var(--gradient-via), var(--gradient-to);\n';
+  
   // Z-index variables
   for (const [key, value] of Object.entries(theme.zIndex)) {
     css += `  --z-${key}: ${value};\n`;
@@ -169,6 +182,9 @@ export function generateCSSVariables(config) {
   // Divide reverse variables (used by divide-x:reverse and divide-y:reverse)
   css += '  --ss-divide-x-reverse: 0;\n';
   css += '  --ss-divide-y-reverse: 0;\n';
+  
+  // Ring utility variables
+  css += '  --ring-inset: 0 0 0 0;\n';
   
   css += '}\n\n';
   return css;
@@ -311,6 +327,37 @@ function generateLayoutRule(token, config) {
   if (property === 'object-pos') {
     const cssValue = isArbitrary ? value.replace(/_/g, ' ') : value;
     return `object-position: ${cssValue};`;
+  }
+  
+  // Content Visibility
+  if (property === 'content-visibility') {
+    return `content-visibility: ${value};`;
+  }
+  
+  // Contain
+  if (property === 'contain') {
+    const containMap = {
+      'none': 'none',
+      'strict': 'strict',
+      'content': 'content',
+      'size': 'size',
+      'layout': 'layout',
+      'style': 'style',
+      'paint': 'paint'
+    };
+    const cssValue = isArbitrary ? value : (containMap[value] || value);
+    return `contain: ${cssValue};`;
+  }
+  
+  // Writing Mode (for RTL support)
+  if (property === 'writing') {
+    const writingMap = {
+      'horizontal-tb': 'horizontal-tb',
+      'vertical-rl': 'vertical-rl',
+      'vertical-lr': 'vertical-lr'
+    };
+    const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (writingMap[value] || value);
+    return `writing-mode: ${cssValue};`;
   }
   
   // Percentage adjectives for positioning utilities
@@ -1106,9 +1153,9 @@ function generateVisualRule(token, config) {
       
       const width = isArbitrary ? value : (ringPresets[value] || (parseInt(value) ? `${value}px` : `var(--s-${value})`));
       
-      // We set both the variable and the box-shadow that uses it
+      // Set both the variable and the box-shadow that uses it
       // This allows ring:[size] to work on its own or with ring-color:[color]
-      return `--ss-ring-width: ${width}; box-shadow: var(--ss-ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color, currentColor);`;
+      return `--ss-ring-width: ${width}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--c-primary);`;
     },
     
     // Box shadow
@@ -2107,10 +2154,10 @@ function getDarkModeSelector(config) {
 }
 
 /**
- * Generate complete CSS from tokens
+ * Generate CSS from tokens
  * @param {Array} tokens - Array of token objects
  * @param {Object} config - Configuration object
- * @returns {string} - Complete CSS string
+ * @returns {string} - Generated CSS
  */
 export function generateCSS(tokens, config) {
   let css = '';
@@ -2263,7 +2310,7 @@ export function generateCSS(tokens, config) {
       }
     }
   }
-
+  
   return css;
 }
 

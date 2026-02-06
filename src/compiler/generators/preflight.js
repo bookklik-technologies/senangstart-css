@@ -71,10 +71,13 @@ hr {
 }
 
 /*
- * Add the correct text decoration in Chrome, Edge, and Safari
+ * Set default placeholder color to a semi-transparent gray
+ * Uses theme variable for customization with fallback
  */
-abbr:where([title]) {
-  text-decoration: underline dotted;
+input::placeholder,
+textarea::placeholder {
+  opacity: 1; /* 1 */
+  color: var(--placeholder-color, #9ca3af); /* 2 */
 }
 
 /*
@@ -217,10 +220,17 @@ input:where([type='submit']) {
 }
 
 /*
- * Add the correct vertical alignment in Chrome and Firefox
+ * Add the correct text decoration in Chrome, Edge, and Safari
  */
-progress {
-  vertical-align: baseline;
+abbr:where([title]) {
+  text-decoration: underline dotted;
+}
+
+/*
+ * Make sure links don't get underlined in headings
+ */
+h1, h2, h3, h4, h5, h6 {
+  text-decoration: none;
 }
 
 /*
@@ -292,14 +302,17 @@ legend {
 }
 
 /*
- * Remove default list styles
+ * 1. Use a more sensible default box-sizing strategy
  */
-ol,
-ul,
-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  /* Support safe-area-inset for modern devices with notches */
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
 }
 
 /*

@@ -12,6 +12,7 @@ import { generateCSS, minifyCSS } from '../../compiler/generators/css.js';
 import { generateAIContext } from '../../compiler/generators/ai-context.js';
 import { generateTypeScript } from '../../compiler/generators/typescript.js';
 import logger from '../../utils/logger.js';
+import { validateThemeValue } from '../../utils/common.js';
 
 /**
  * Find files matching content patterns
@@ -143,6 +144,15 @@ export async function build(options = {}) {
   const tokens = tokenizeAll(allTokens);
   
   logger.info(`Extracted ${tokens.length} unique tokens`);
+  
+  // Check for invalid tokens
+  const invalidTokens = tokens.filter(token => token.error);
+  if (invalidTokens.length > 0) {
+    logger.warn(`${invalidTokens.length} error(s) found in source:`);
+    for (const token of invalidTokens) {
+      logger.warn(`  • ${token.raw} (${token.attrType}): ${token.error}`);
+    }
+  }
   
   // Generate CSS
   let css = generateCSS(tokens, config);

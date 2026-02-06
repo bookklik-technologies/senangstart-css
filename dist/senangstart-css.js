@@ -7032,6 +7032,7 @@ video {
     }
     css += "  --ss-divide-x-reverse: 0;\n";
     css += "  --ss-divide-y-reverse: 0;\n";
+    css += "  --ring-inset: 0 0 0 0;\n";
     css += "}\n\n";
     return css;
   }
@@ -7136,6 +7137,31 @@ video {
     if (property === "object-pos") {
       const cssValue = isArbitrary ? value.replace(/_/g, " ") : value;
       return `object-position: ${cssValue};`;
+    }
+    if (property === "content-visibility") {
+      return `content-visibility: ${value};`;
+    }
+    if (property === "contain") {
+      const containMap = {
+        "none": "none",
+        "strict": "strict",
+        "content": "content",
+        "size": "size",
+        "layout": "layout",
+        "style": "style",
+        "paint": "paint"
+      };
+      const cssValue = isArbitrary ? value : containMap[value] || value;
+      return `contain: ${cssValue};`;
+    }
+    if (property === "writing") {
+      const writingMap = {
+        "horizontal-tb": "horizontal-tb",
+        "vertical-rl": "vertical-rl",
+        "vertical-lr": "vertical-lr"
+      };
+      const cssValue = isArbitrary ? value.replace(/_/g, " ") : writingMap[value] || value;
+      return `writing-mode: ${cssValue};`;
     }
     const positioningPercentages = {
       "full": "100%",
@@ -7794,7 +7820,7 @@ video {
           "big": "8px"
         };
         const width2 = isArbitrary ? value : ringPresets[value] || (parseInt(value) ? `${value}px` : `var(--s-${value})`);
-        return `--ss-ring-width: ${width2}; box-shadow: var(--ss-ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color, currentColor);`;
+        return `--ss-ring-width: ${width2}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--c-primary);`;
       },
       // Box shadow
       "shadow": () => {
@@ -8960,6 +8986,8 @@ video {
         // Laptop
         "desk": "1280px",
         // Desktop
+        "print": "print",
+        // Print media query
         // Tailwind Compatibility
         "tw-sm": "640px",
         "tw-md": "768px",
