@@ -80,6 +80,32 @@ const spacingScale = {
 };
 
 // ======================
+// LINE HEIGHT MAPPING
+// ======================
+const lineHeightScale = {
+  'none': 'none',       // line-height: 1
+  'tight': 'tight',     // line-height: 1.25
+  'snug': 'snug',      // line-height: 1.375
+  'normal': 'normal',   // line-height: 1.5
+  'relaxed': 'relaxed', // line-height: 1.625
+  'loose': 'loose'      // line-height: 2
+};
+
+// ======================
+// LETTER SPACING MAPPING
+// ======================
+const letterSpacingScale = {
+  'tighter': 'tighter',   // letter-spacing: -0.05em
+  'tight': 'tight',        // letter-spacing: -0.025em
+  'normal': 'normal',      // letter-spacing: 0
+  'wide': 'wide',         // letter-spacing: 0.025em
+  'wider': 'wider',       // letter-spacing: 0.05em
+  'widest': 'widest'      // letter-spacing: 0.1em
+};
+
+// ======================
+// LAYOUT CLASS MAPPINGS
+// ======================
 // PERCENTAGE ADJECTIVES
 // ======================
 // Maps Tailwind fractional values to SenangStart percentage adjectives
@@ -88,7 +114,7 @@ const percentageAdjectives = {
   '1/3': 'third',
   '2/3': 'third-2x',
   '1/4': 'quarter',
-  '2/4': 'quarter-2x',
+  '2/4': 'half',       // 50%, same as 1/2
   '3/4': 'quarter-3x',
   // Less common fractions - keep as arbitrary for precision
   '1/5': '[20%]',
@@ -135,19 +161,37 @@ const shadowScale = {
 // FONT SIZE MAPPING
 // ======================
 const fontSizeScale = {
-  'xs': 'tiny',
-  'sm': 'small',
-  'base': 'medium',
-  'lg': 'big',
-  'xl': 'big',
-  '2xl': 'giant',
-  '3xl': 'giant',
-  '4xl': 'vast',
-  '5xl': 'vast',
-  '6xl': 'vast',
-  '7xl': 'vast',
-  '8xl': 'vast',
-  '9xl': 'vast'
+  'xs': 'mini',       // 0.75rem → mini
+  'sm': 'small',      // 0.875rem → small
+  'base': 'base',      // 1rem → base
+  'lg': 'large',      // 1.125rem → large
+  'xl': 'big',        // 1.25rem → big
+  '2xl': 'huge',      // 1.5rem → huge
+  '3xl': 'grand',     // 1.875rem → grand
+  '4xl': 'giant',     // 2.25rem → giant
+  '5xl': 'mount',     // 3rem → mount
+  '6xl': 'mega',      // 3.75rem → mega
+  '7xl': 'giga',      // 4.5rem → giga
+  '8xl': 'tera',      // 6rem → tera
+  '9xl': 'hero'       // 8rem → hero
+};
+
+// ======================
+// Z-INDEX MAPPING
+// ======================
+const zIndexScale = {
+  '0': 'base',      // z-index: 0
+  '10': 'low',      // z-index: 10
+  '20': 'low',      // z-index: 20
+  '30': 'low',      // z-index: 30
+  '40': 'low',      // z-index: 40
+  '50': 'mid',      // z-index: 50
+  '60': 'high',     // z-index: 60
+  '70': 'high',     // z-index: 70
+  '80': 'high',     // z-index: 80
+  '90': 'high',     // z-index: 90
+  '100': 'high',    // z-index: 100
+  'auto': 'auto'     // z-index: auto
 };
 
 // ======================
@@ -452,17 +496,17 @@ function getBorderWidth(value, options = {}) {
 }
 
 
-/**
- * Convert a single Tailwind class to SenangStart
- * Returns { category: 'layout'|'space'|'visual'|null, value: string }
- * @param {string} twClass - The Tailwind class to convert
- * @param {Object} options - Conversion options
- * @param {boolean} options.exact - If true, output tw-{value} prefix instead of semantic scale
- */
+  /**
+   * Convert a single Tailwind class to SenangStart
+   * Returns { category: 'layout'|'space'|'visual'|null, value: string }
+   * @param {string} twClass - The Tailwind class to convert
+   * @param {Object} options - Conversion options
+   * @param {boolean} options.exact - If true, output tw-{value} prefix instead of semantic scale
+   */
 function convertClass(twClass, options = {}) {
   // Handle prefixes (hover:, sm:, md:, etc.)
   const prefixMatch = twClass.match(
-    /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|active:|disabled:|dark:)(.+)$/
+    /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|focus-visible:|active:|disabled:|dark:|group-hover:|peer-hover:|group-focus:|peer-focus:|group-active:|peer-active:|group-open:|peer-open:)(.+)$/
   );
   let prefix = "",
     baseClass = twClass;
@@ -513,6 +557,20 @@ function convertClass(twClass, options = {}) {
       ? `tw-${textSizeMatch[1]}`
       : fontSizeScale[textSizeMatch[1]] || textSizeMatch[1];
     return { category: 'visual', value: prefix + "text-size:" + size };
+  }
+
+  // Line height
+  const leadingMatch = baseClass.match(/^leading-(\[.+\]|none|tight|snug|normal|relaxed|loose)$/);
+  if (leadingMatch) {
+    const val = leadingMatch[1];
+    return { category: 'visual', value: prefix + "leading:" + (lineHeightScale[val] || val) };
+  }
+
+  // Letter spacing
+  const trackingMatch = baseClass.match(/^tracking-(\[.+\]|tighter|tight|normal|wide|wider|widest)$/);
+  if (trackingMatch) {
+    const val = trackingMatch[1];
+    return { category: 'visual', value: prefix + "tracking:" + (letterSpacingScale[val] || val) };
   }
 
   // Background color
@@ -669,6 +727,33 @@ function convertClass(twClass, options = {}) {
     return { category: 'layout', value: prefix + "order:" + orderMatch[1] };
   }
 
+  // Z-index
+  const zIndexMatch = baseClass.match(/^-?z-(\d+|auto)$/);
+  if (zIndexMatch) {
+    const isNeg = baseClass.startsWith("-");
+    const val = zIndexMatch[1];
+    let zIndexVal = zIndexScale[val] || val;
+    if (isNeg) {
+      zIndexVal = `-${zIndexVal}`;
+    }
+    return { category: 'layout', value: prefix + "z:" + zIndexVal };
+  }
+
+  // Flex basis
+  const basisMatch = baseClass.match(/^basis-(\[.+\]|\d+\.?\d*|auto|full|1\/2|1\/3|2\/3|1\/4|2\/4|3\/4)$/);
+  if (basisMatch) {
+    let val = basisMatch[1];
+    if (val.startsWith('[') && val.endsWith(']')) {
+      // Keep arbitrary values as-is
+    } else if (percentageAdjectives[val]) {
+      // Map fractions to semantic names (1/2 → half, etc.)
+      val = percentageAdjectives[val];
+    } else if (val === '0') {
+      val = '0';
+    }
+    return { category: 'layout', value: prefix + "basis:" + val };
+  }
+
   // Grid columns
   const gridColsMatch = baseClass.match(/^grid-cols-(\d+|none)$/);
   if (gridColsMatch) {
@@ -699,14 +784,14 @@ function convertClass(twClass, options = {}) {
   if (positionMatch) {
     const prop = positionMatch[1];
     let val = positionMatch[2];
-    // Handle 0 specially
-    if (val === '0') {
-      val = 'none';
-    } else if (val.startsWith('[') && val.endsWith(']')) {
+    if (val.startsWith('[') && val.endsWith(']')) {
       // Keep arbitrary values as-is
     } else if (percentageAdjectives[val]) {
       // Map fractions to semantic names (1/2 → half, etc.)
       val = percentageAdjectives[val];
+    } else if (val === '0') {
+      // Keep 0 as-is for positioning (CSS: top: 0, not top: none)
+      val = '0';
     } else {
       val = getSpacingScale(val, options);
     }
@@ -978,6 +1063,183 @@ function convertClass(twClass, options = {}) {
     return {
       category: "visual",
       value: prefix + "divide-style:" + divideStyleMatch[1],
+    };
+  }
+  
+  // Border style
+  const borderStyleMatch = baseClass.match(/^border-(solid|dashed|dotted|double|none)$/);
+  if (borderStyleMatch) {
+    return {
+      category: "visual",
+      value: prefix + "border-style:" + borderStyleMatch[1],
+    };
+  }
+  
+  // Filter utilities
+  // Blur
+  const blurMatch = baseClass.match(/^blur-(0|sm|md|lg|xl|2xl|3xl)$/);
+  if (blurMatch) {
+    const blurScale = {
+      '0': 'none',
+      'sm': 'tiny',
+      'md': 'small',
+      'lg': 'medium',
+      'xl': 'big',
+      '2xl': 'giant',
+      '3xl': 'vast'
+    };
+    return {
+      category: "visual",
+      value: prefix + "blur:" + blurScale[blurMatch[1]],
+    };
+  }
+  
+  // Brightness
+  const brightnessMatch = baseClass.match(/^brightness-(0|50|75|90|95|100|105|110|125|150|200)$/);
+  if (brightnessMatch) {
+    const brightnessScale = {
+      '0': 'dim',
+      '50': 'dim',
+      '75': 'dark',
+      '90': 'dark',
+      '95': 'dark',
+      '100': 'normal',
+      '105': 'bright',
+      '110': 'bright',
+      '125': 'vivid',
+      '150': 'vivid',
+      '200': 'vivid'
+    };
+    return {
+      category: "visual",
+      value: prefix + "brightness:" + brightnessScale[brightnessMatch[1]],
+    };
+  }
+  
+  // Contrast
+  const contrastMatch = baseClass.match(/^contrast-(0|50|75|100|125|150|200)$/);
+  if (contrastMatch) {
+    const contrastScale = {
+      '0': 'low',
+      '50': 'low',
+      '75': 'reduced',
+      '100': 'normal',
+      '125': 'high',
+      '150': 'high',
+      '200': 'max'
+    };
+    return {
+      category: "visual",
+      value: prefix + "contrast:" + contrastScale[contrastMatch[1]],
+    };
+  }
+  
+  // Grayscale
+  const grayscaleMatch = baseClass.match(/^grayscale(0)?$/);
+  if (grayscaleMatch) {
+    const val = grayscaleMatch[1] === '0' ? 'none' : 'full';
+    return {
+      category: "visual",
+      value: prefix + "grayscale:" + val,
+    };
+  }
+  
+  // Hue rotate
+  const hueRotateMatch = baseClass.match(/^hue-rotate-(0|15|30|60|90|180)$/);
+  if (hueRotateMatch) {
+    return {
+      category: "visual",
+      value: prefix + "hue-rotate:" + hueRotateMatch[1],
+    };
+  }
+  
+  // Invert
+  const invertMatch = baseClass.match(/^invert(0)?$/);
+  if (invertMatch) {
+    const val = invertMatch[1] === '0' ? 'none' : 'full';
+    return {
+      category: "visual",
+      value: prefix + "invert:" + val,
+    };
+  }
+  
+  // Saturate
+  const saturateMatch = baseClass.match(/^saturate-(0|50|100|150|200)$/);
+  if (saturateMatch) {
+    const saturateScale = {
+      '0': 'none',
+      '50': 'low',
+      '100': 'normal',
+      '150': 'high',
+      '200': 'vivid'
+    };
+    return {
+      category: "visual",
+      value: prefix + "saturate:" + saturateScale[saturateMatch[1]],
+    };
+  }
+  
+  // Sepia
+  const sepiaMatch = baseClass.match(/^sepia(0)?$/);
+  if (sepiaMatch) {
+    const val = sepiaMatch[1] === '0' ? 'none' : 'full';
+    return {
+      category: "visual",
+      value: prefix + "sepia:" + val,
+    };
+  }
+  
+  // Animation utilities
+  const animateMatch = baseClass.match(/^animate-(none|spin|ping|pulse|bounce)$/);
+  if (animateMatch) {
+    return {
+      category: "visual",
+      value: prefix + "animate:" + animateMatch[1],
+    };
+  }
+  
+  // Transition utilities
+  const transitionMatch = baseClass.match(/^transition(?:-(all|colors|opacity|shadow|transform|none))?$/);
+  if (transitionMatch) {
+    const type = transitionMatch[1] || 'all';
+    return {
+      category: "visual",
+      value: prefix + "transition:" + type,
+    };
+  }
+  
+  // Duration utilities
+  const durationMatch = baseClass.match(/^duration-(\d+)$/);
+  if (durationMatch) {
+    const ms = parseInt(durationMatch[1]);
+    let durationVal;
+    if (ms <= 75) durationVal = 'instant';
+    else if (ms <= 100) durationVal = 'quick';
+    else if (ms <= 150) durationVal = 'fast';
+    else if (ms <= 200) durationVal = 'normal';
+    else if (ms <= 300) durationVal = 'slow';
+    else if (ms <= 500) durationVal = 'slower';
+    else durationVal = 'lazy';
+    return {
+      category: "visual",
+      value: prefix + "duration:" + durationVal,
+    };
+  }
+  
+  // Ease utilities
+  const easeMatch = baseClass.match(/^ease-(linear|in|out|in-out)$/);
+  if (easeMatch) {
+    return {
+      category: "visual",
+      value: prefix + "ease:" + easeMatch[1],
+    };
+  }
+  
+  // Outline
+  if (baseClass === 'outline-none') {
+    return {
+      category: "visual",
+      value: prefix + "outline:none",
     };
   }
   

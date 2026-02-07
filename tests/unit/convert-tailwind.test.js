@@ -42,12 +42,12 @@ describe('convertClass', () => {
     });
     
     it('should convert positional offsets (top, left, right, bottom)', () => {
-      assert.deepStrictEqual(convertClass('top-0'), { category: 'layout', value: 'top:none' });
-      assert.deepStrictEqual(convertClass('left-0'), { category: 'layout', value: 'left:none' });
+      assert.deepStrictEqual(convertClass('top-0'), { category: 'layout', value: 'top:0' });
+      assert.deepStrictEqual(convertClass('left-0'), { category: 'layout', value: 'left:0' });
       assert.deepStrictEqual(convertClass('bottom-full'), { category: 'layout', value: 'bottom:full' });
       assert.deepStrictEqual(convertClass('left-1/2'), { category: 'layout', value: 'left:half' });
       assert.deepStrictEqual(convertClass('top-1/3'), { category: 'layout', value: 'top:third' });
-      assert.deepStrictEqual(convertClass('inset-0'), { category: 'layout', value: 'inset:none' });
+      assert.deepStrictEqual(convertClass('inset-0'), { category: 'layout', value: 'inset:0' });
     });
     
     it('should convert grid classes', () => {
@@ -127,7 +127,7 @@ describe('convertClass', () => {
     it('should convert text size classes', () => {
       assert.deepStrictEqual(convertClass('text-sm'), { category: 'visual', value: 'text-size:small' });
       assert.deepStrictEqual(convertClass('text-xl'), { category: 'visual', value: 'text-size:big' });
-      assert.deepStrictEqual(convertClass('text-2xl'), { category: 'visual', value: 'text-size:giant' });
+      assert.deepStrictEqual(convertClass('text-2xl'), { category: 'visual', value: 'text-size:huge' });
     });
 
     it('should convert border radius classes', () => {

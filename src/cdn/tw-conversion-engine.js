@@ -108,6 +108,45 @@ const fontSizeScale = {
   "9xl": "hero",       // 8rem → hero
 };
 
+// Line height scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: none(1), tight(1.25), snug(1.375), normal(1.5), relaxed(1.625), loose(2)
+const lineHeightScale = {
+  none: "none",       // line-height: 1
+  tight: "tight",     // line-height: 1.25
+  snug: "snug",      // line-height: 1.375
+  normal: "normal",   // line-height: 1.5
+  relaxed: "relaxed", // line-height: 1.625
+  loose: "loose"      // line-height: 2
+};
+
+// Letter spacing scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: tighter(-0.05em), tight(-0.025em), normal(0), wide(0.025em), wider(0.05em), widest(0.1em)
+const letterSpacingScale = {
+  tighter: "tighter",   // letter-spacing: -0.05em
+  tight: "tight",        // letter-spacing: -0.025em
+  normal: "normal",      // letter-spacing: 0
+  wide: "wide",         // letter-spacing: 0.025em
+  wider: "wider",       // letter-spacing: 0.05em
+  widest: "widest"      // letter-spacing: 0.1em
+};
+
+// Z-index scale mapping Tailwind values to SenangStart semantic values
+// Engine native values: base(0), low(10), mid(50), high(100), top(9999)
+const zIndexScale = {
+  0: "base",      // z-index: 0
+  10: "low",      // z-index: 10
+  20: "low",      // z-index: 20
+  30: "low",      // z-index: 30
+  40: "low",      // z-index: 40
+  50: "mid",      // z-index: 50
+  60: "high",     // z-index: 60
+  70: "high",     // z-index: 70
+  80: "high",     // z-index: 80
+  90: "high",     // z-index: 90
+  100: "high",    // z-index: 100
+  auto: "auto"     // z-index: auto
+};
+
 // Fraction scale mapping Tailwind fractions to SenangStart semantic values
 // Used for positioning (left-1/2) and transforms (translate-x-1/2)
 const fractionScale = {
@@ -181,23 +220,108 @@ const layoutMappings = {
 };
 
 const visualKeywords = {
+  // Font style
   italic: "italic",
   "not-italic": "not-italic",
+  
+  // Font smoothing
   antialiased: "antialiased",
+  "subpixel-antialiased": "subpixel-antialiased",
+  
+  // Text transform
   uppercase: "uppercase",
   lowercase: "lowercase",
   capitalize: "capitalize",
   "normal-case": "normal-case",
+  
+  // Text decoration
   underline: "underline",
+  overline: "overline",
   "line-through": "line-through",
   "no-underline": "no-underline",
+  
+  // Text decoration style
+  "decoration-solid": "decoration-solid",
+  "decoration-double": "decoration-double",
+  "decoration-dotted": "decoration-dotted",
+  "decoration-dashed": "decoration-dashed",
+  "decoration-wavy": "decoration-wavy",
+  
+  // Text overflow
   truncate: "truncate",
-  "cursor-pointer": "cursor:pointer",
+  "text-ellipsis": "text-ellipsis",
+  "text-clip": "text-clip",
+  
+  // Text wrap
+  "text-wrap": "text-wrap",
+  "text-nowrap": "text-nowrap",
+  "text-balance": "text-balance",
+  "text-pretty": "text-pretty",
+  
+  // Whitespace
+  "whitespace-normal": "whitespace-normal",
+  "whitespace-nowrap": "whitespace-nowrap",
+  "whitespace-pre": "whitespace-pre",
+  "whitespace-pre-line": "whitespace-pre-line",
+  "whitespace-pre-wrap": "whitespace-pre-wrap",
+  "whitespace-break-spaces": "whitespace-break-spaces",
+  
+  // Word break
+  "break-normal": "break-normal",
+  "break-words": "break-words",
+  "break-all": "break-all",
+  "break-keep": "break-keep",
+  
+  // Hyphens
+  "hyphens-none": "hyphens-none",
+  "hyphens-manual": "hyphens-manual",
+  "hyphens-auto": "hyphens-auto",
+  
+  // List style
+  "list-none": "list-none",
+  "list-disc": "list-disc",
+  "list-decimal": "list-decimal",
+  "list-inside": "list-inside",
+  "list-outside": "list-outside",
+  
+  // Cursor
+  "cursor-auto": "cursor:auto",
   "cursor-default": "cursor:default",
+  "cursor-pointer": "cursor:pointer",
+  "cursor-wait": "cursor:wait",
+  "cursor-text": "cursor:text",
+  "cursor-move": "cursor:move",
   "cursor-not-allowed": "cursor:not-allowed",
+  "cursor-grab": "cursor:grab",
+  "cursor-grabbing": "cursor:grabbing",
+  
+  // User select
   "select-none": "select:none",
   "select-text": "select:text",
   "select-all": "select:all",
+  "select-auto": "select:auto",
+  
+  // Pointer events
+  "pointer-events-none": "pointer-events:none",
+  "pointer-events-auto": "pointer-events:auto",
+  
+  // Appearance
+  "appearance-none": "appearance:none",
+  "appearance-auto": "appearance:auto",
+  
+  // 3D Transforms
+  perspective: "perspective",
+  "perspective-origin": "perspective-origin",
+  "transform-style": "transform-style",
+  "backface-visibility": "backface",
+  mask: "mask",
+  "mask-image": "mask-image",
+  "mask-mode": "mask-mode",
+  "mask-origin": "mask-origin",
+  "mask-position": "mask-position",
+  "mask-repeat": "mask-repeat",
+  "mask-size": "mask-size",
+  "mask-type": "mask-type"
 };
 
 // ============================
@@ -341,6 +465,20 @@ function convertClass(twClass, exact) {
       ? `tw-${textSizeMatch[1]}`
       : fontSizeScale[textSizeMatch[1]] || textSizeMatch[1];
     return attachExtra({ cat: "visual", val: prefix + "text-size:" + size });
+  }
+
+  // Line height
+  const leadingMatch = baseClass.match(/^leading-(\[.+\]|none|tight|snug|normal|relaxed|loose)$/);
+  if (leadingMatch) {
+    const val = leadingMatch[1];
+    return attachExtra({ cat: "visual", val: prefix + "leading:" + (lineHeightScale[val] || val) });
+  }
+
+  // Letter spacing
+  const trackingMatch = baseClass.match(/^tracking-(\[.+\]|tighter|tight|normal|wide|wider|widest)$/);
+  if (trackingMatch) {
+    const val = trackingMatch[1];
+    return attachExtra({ cat: "visual", val: prefix + "tracking:" + (letterSpacingScale[val] || val) });
   }
 
   // Background color
@@ -508,14 +646,14 @@ function convertClass(twClass, exact) {
   if (positionMatch) {
     const prop = positionMatch[1];
     let val = positionMatch[2];
-    // Handle 0 specially
-    if (val === '0') {
-      val = 'none';
-    } else if (val.startsWith('[') && val.endsWith(']')) {
+    if (val.startsWith('[') && val.endsWith(']')) {
       // Keep arbitrary values as-is
     } else if (fractionScale[val]) {
       // Map fractions to semantic names (1/2 → half, etc.)
       val = fractionScale[val];
+    } else if (val === '0') {
+      // Keep 0 as-is for positioning (CSS: top: 0, not top: none)
+      val = '0';
     } else {
       val = getSpacing(val, exact);
     }
@@ -558,6 +696,33 @@ function convertClass(twClass, exact) {
   const orderMatch = baseClass.match(/^order-(\d+|first|last|none)$/);
   if (orderMatch) {
     return attachExtra({ cat: "layout", val: prefix + "order:" + orderMatch[1] });
+  }
+
+  // Z-index
+  const zIndexMatch = baseClass.match(/^-?z-(\d+|auto)$/);
+  if (zIndexMatch) {
+    const isNeg = baseClass.startsWith("-");
+    const val = zIndexMatch[1];
+    let zIndexVal = zIndexScale[val] || val;
+    if (isNeg) {
+      zIndexVal = `-${zIndexVal}`;
+    }
+    return attachExtra({ cat: "layout", val: prefix + "z:" + zIndexVal });
+  }
+
+  // Flex basis
+  const basisMatch = baseClass.match(/^basis-(\[.+\]|\d+\.?\d*|auto|full|1\/2|1\/3|2\/3|1\/4|2\/4|3\/4)$/);
+  if (basisMatch) {
+    let val = basisMatch[1];
+    if (val.startsWith('[') && val.endsWith(']')) {
+      // Keep arbitrary values as-is
+    } else if (fractionScale[val]) {
+      // Map fractions to semantic names (1/2 → half, etc.)
+      val = fractionScale[val];
+    } else if (val === '0') {
+      val = '0';
+    }
+    return attachExtra({ cat: "layout", val: prefix + "basis:" + val });
   }
 
   // Grid columns
@@ -747,6 +912,138 @@ function convertClass(twClass, exact) {
     return attachExtra({
       cat: "visual",
       val: prefix + "divide-style:" + divideStyleMatch[1], // Fixed category from 'color' to 'visual'
+    });
+  }
+  
+  // Border style
+  const borderStyleMatch = baseClass.match(/^border-(solid|dashed|dotted|double|none)$/);
+  if (borderStyleMatch) {
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "border-style:" + borderStyleMatch[1],
+    });
+  }
+  
+  // Filter utilities
+  // Blur
+  const blurMatch = baseClass.match(/^blur-(0|sm|md|lg|xl|2xl|3xl)$/);
+  if (blurMatch) {
+    const blurScale = {
+      '0': 'none',
+      'sm': 'tiny',
+      'md': 'small',
+      'lg': 'medium',
+      'xl': 'big',
+      '2xl': 'giant',
+      '3xl': 'vast'
+    };
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "blur:" + blurScale[blurMatch[1]],
+    });
+  }
+  
+  // Brightness
+  const brightnessMatch = baseClass.match(/^brightness-(0|50|75|90|95|100|105|110|125|150|200)$/);
+  if (brightnessMatch) {
+    const brightnessScale = {
+      '0': 'dim',
+      '50': 'dim',
+      '75': 'dark',
+      '90': 'dark',
+      '95': 'dark',
+      '100': 'normal',
+      '105': 'bright',
+      '110': 'bright',
+      '125': 'vivid',
+      '150': 'vivid',
+      '200': 'vivid'
+    };
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "brightness:" + brightnessScale[brightnessMatch[1]],
+    });
+  }
+  
+  // Contrast
+  const contrastMatch = baseClass.match(/^contrast-(0|50|75|100|125|150|200)$/);
+  if (contrastMatch) {
+    const contrastScale = {
+      '0': 'low',
+      '50': 'low',
+      '75': 'reduced',
+      '100': 'normal',
+      '125': 'high',
+      '150': 'high',
+      '200': 'max'
+    };
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "contrast:" + contrastScale[contrastMatch[1]],
+    });
+  }
+  
+  // Grayscale
+  const grayscaleMatch = baseClass.match(/^grayscale(0)?$/);
+  if (grayscaleMatch) {
+    const val = grayscaleMatch[1] === '0' ? 'none' : 'full';
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "grayscale:" + val,
+    });
+  }
+  
+  // Hue rotate
+  const hueRotateMatch = baseClass.match(/^hue-rotate-(0|15|30|60|90|180)$/);
+  if (hueRotateMatch) {
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "hue-rotate:" + hueRotateMatch[1],
+    });
+  }
+  
+  // Invert
+  const invertMatch = baseClass.match(/^invert(0)?$/);
+  if (invertMatch) {
+    const val = invertMatch[1] === '0' ? 'none' : 'full';
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "invert:" + val,
+    });
+  }
+  
+  // Saturate
+  const saturateMatch = baseClass.match(/^saturate-(0|50|100|150|200)$/);
+  if (saturateMatch) {
+    const saturateScale = {
+      '0': 'none',
+      '50': 'low',
+      '100': 'normal',
+      '150': 'high',
+      '200': 'vivid'
+    };
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "saturate:" + saturateScale[saturateMatch[1]],
+    });
+  }
+  
+  // Sepia
+  const sepiaMatch = baseClass.match(/^sepia(0)?$/);
+  if (sepiaMatch) {
+    const val = sepiaMatch[1] === '0' ? 'none' : 'full';
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "sepia:" + val,
+    });
+  }
+  
+  // Animation utilities
+  const animateMatch = baseClass.match(/^animate-(none|spin|ping|pulse|bounce)$/);
+  if (animateMatch) {
+    return attachExtra({
+      cat: "visual",
+      val: prefix + "animate:" + animateMatch[1],
     });
   }
   
