@@ -4,7 +4,7 @@
  */
 
 import { BREAKPOINTS, STATES, LAYOUT_KEYWORDS } from './constants.js';
-import { sanitizeValue } from '../utils/common.js';
+import { sanitizeValue, batchProcessTokens } from '../utils/common.js';
 
 /**
  * Sanitize token value to prevent CSS injection
@@ -165,14 +165,41 @@ export function tokenize(raw, attrType) {
  */
 export function tokenizeAll(parsed) {
   const tokens = [];
-  
+
   for (const [attrType, values] of Object.entries(parsed)) {
     for (const raw of values) {
       tokens.push(tokenize(raw, attrType));
     }
   }
-  
+
   return tokens;
 }
 
-export default { tokenize, tokenizeAll, sanitizeValue, isValidToken };
+/**
+ * Tokenize all values with memory-protected batch processing
+ * @param {Object} parsed - Parsed tokens from parser { layout: Set, space: Set, visual: Set }
+ * @param {number} batchSize - Number of tokens per batch (default: 1000)
+ * @returns {Promise<Array>} - Array of token objects
+ */
+export async function tokenizeAllWithBatching(parsed, batchSize = 1000) {
+  const rawTokens = [];
+
+  // Collect all raw tokens first
+  for (const [attrType, values] of Object.entries(parsed)) {
+    for (const raw of values) {
+      rawTokens.push({ raw, attrType });
+    }
+  }
+
+  // Process tokens in batches with memory protection
+  const tokens = await batchProcessTokens(
+    rawTokens,
+    ({ raw, attrType }) => tokenize(raw, attrType),
+    batchSize
+  );
+
+  return tokens;
+}
+
+export default { tokenize, tokenizeAll, tokenizeAllWithBatching, sanitizeValue, isValidToken };
+

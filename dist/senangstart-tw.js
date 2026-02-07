@@ -361,7 +361,7 @@
     "mask-type": "mask-type"
   };
   function getSpacing(value, exact) {
-    if (value.startsWith("[") && value.endsWith("]")) {
+    if (value && value.startsWith("[") && value.endsWith("]")) {
       return value;
     }
     if (exact) {
@@ -524,7 +524,7 @@
       const isNeg = baseClass.startsWith("-");
       const side = marginMatch[1] ? "-" + marginMatch[1] : "";
       let val = getSpacing(marginMatch[2], exact);
-      if (isNeg) {
+      if (isNeg && val) {
         if (val.startsWith("[") && val.endsWith("]")) {
           const inner = val.slice(1, -1);
           val = `[-${inner}]`;
@@ -590,7 +590,7 @@
     if (positionMatch) {
       const prop = positionMatch[1];
       let val = positionMatch[2];
-      if (val.startsWith("[") && val.endsWith("]")) {
+      if (val && val.startsWith("[") && val.endsWith("]")) {
       } else if (fractionScale[val]) {
         val = fractionScale[val];
       } else if (val === "0") {
@@ -605,7 +605,7 @@
       const isNeg = translateMatch[1] === "-";
       const axis = translateMatch[2];
       let val = translateMatch[3];
-      if (val.startsWith("[") && val.endsWith("]")) {
+      if (val && val.startsWith("[") && val.endsWith("]")) {
         if (isNeg) {
           const inner = val.slice(1, -1);
           val = `[-${inner}]`;

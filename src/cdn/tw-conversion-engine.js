@@ -330,7 +330,7 @@ const visualKeywords = {
 
 function getSpacing(value, exact) {
   // Check if it's already an arbitrary value with brackets
-  if (value.startsWith('[') && value.endsWith(']')) {
+  if (value && value.startsWith('[') && value.endsWith(']')) {
     return value; // Return as-is, don't double-wrap
   }
   if (exact) {
@@ -548,7 +548,7 @@ function convertClass(twClass, exact) {
     const side = marginMatch[1] ? "-" + marginMatch[1] : "";
     let val = getSpacing(marginMatch[2], exact);
     
-    if (isNeg) {
+    if (isNeg && val) {
       if (val.startsWith('[') && val.endsWith(']')) {
         // Handle arbitrary value: [10px] -> [-10px]
         const inner = val.slice(1, -1);
@@ -646,7 +646,7 @@ function convertClass(twClass, exact) {
   if (positionMatch) {
     const prop = positionMatch[1];
     let val = positionMatch[2];
-    if (val.startsWith('[') && val.endsWith(']')) {
+    if (val && val.startsWith('[') && val.endsWith(']')) {
       // Keep arbitrary values as-is
     } else if (fractionScale[val]) {
       // Map fractions to semantic names (1/2 → half, etc.)
@@ -668,7 +668,7 @@ function convertClass(twClass, exact) {
     let val = translateMatch[3];
     
     // Map fractions and values
-    if (val.startsWith('[') && val.endsWith(']')) {
+    if (val && val.startsWith('[') && val.endsWith(']')) {
       // Keep arbitrary values as-is, but handle negative
       if (isNeg) {
         const inner = val.slice(1, -1);

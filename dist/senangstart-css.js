@@ -39,15 +39,60 @@
     if (typeof value !== "string") {
       return "";
     }
+    if (value.length > 1e3) {
+      return "";
+    }
     let sanitized = value;
-    const dangerousChars = /[;]/g;
-    sanitized = sanitized.replace(dangerousChars, "_");
-    const atRules = /@import|@charset|@namespace|@supports|@keyframes/gi;
+    sanitized = sanitized.replace(/[\\`$]/g, "");
+    const dangerousUrlProtocols = [
+      "javascript:",
+      "vbscript:",
+      "data:",
+      "about:",
+      "file:",
+      "ftp:",
+      "mailto:"
+    ].join("|");
+    const urlRegex = /url\s*\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/gi;
+    sanitized = sanitized.replace(urlRegex, (match) => {
+      if (dangerousUrlProtocols.split("|").some((protocol) => match.toLowerCase().includes(protocol))) {
+        return "url(about:blank)";
+      }
+      return match;
+    });
+    const scriptVectors = [
+      /expression\s*\(/gi,
+      // IE expression()
+      /\beval\s*\(/gi,
+      // eval()
+      /\balert\s*\(/gi,
+      // alert()
+      /\bdocument\./gi,
+      // document access
+      /\bwindow\./gi,
+      // window access
+      /on\w+\s*=/gi,
+      // event handlers (onclick=, etc.)
+      /<script[^>]*>/gi,
+      // <script> tags
+      /<\/script>/gi
+      // <\/script> tags
+    ];
+    for (const pattern of scriptVectors) {
+      sanitized = sanitized.replace(pattern, "");
+    }
+    const atRules = /@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi;
     sanitized = sanitized.replace(atRules, "");
-    const expression = /expression\s*\(/gi;
-    sanitized = sanitized.replace(expression, "");
-    const dangerousUrls = /(url\s*\(\s*['"]?)(javascript:|data:)([^)]*\))/gi;
-    sanitized = sanitized.replace(dangerousUrls, "$1about:blank$3");
+    sanitized = sanitized.replace(/[;]/g, "_");
+    const openBrackets = (sanitized.match(/\[/g) || []).length;
+    const closeBrackets = (sanitized.match(/\]/g) || []).length;
+    if (Math.abs(openBrackets - closeBrackets) > 3 || Math.max(openBrackets, closeBrackets) > 10) {
+      return "";
+    }
+    sanitized = sanitized.replace(/@/g, "");
+    if (sanitized.length > 500) {
+      sanitized = sanitized.substring(0, 500);
+    }
     return sanitized;
   }
 
@@ -7328,7 +7373,7 @@ video {
     };
     const resolvePositioningValue = (val, arb) => {
       if (arb) return val;
-      if (val === "0") return "0";
+      if (!val || val === "0") return "0";
       if (val.startsWith("-")) {
         const positiveVal = val.substring(1);
         if (positioningPercentages[positiveVal]) {
@@ -7528,8 +7573,8 @@ video {
     if (isArbitrary) {
       cssValue = value;
     } else {
-      const isNegative = value.startsWith("-");
-      const cleanValue = isNegative ? value.substring(1) : value;
+      const isNegative = value && value.startsWith("-");
+      const cleanValue = isNegative ? value.substring(1) : value || "";
       let baseValue;
       if (cleanValue.startsWith("tw-")) {
         const twValue = cleanValue.slice(3);
@@ -7596,7 +7641,7 @@ video {
       },
       // Background Image
       "bg-image": () => {
-        if (value === "none") return "background-image: none;";
+        if (!value || value === "none") return "background-image: none;";
         if (value.startsWith("gradient-to-")) {
           const directionMap = {
             "t": "to top",
@@ -8781,69 +8826,122 @@ video {
     const generator = rules[property];
     return generator ? generator() : "";
   }
+  function isValidCSSRule(declaration) {
+    if (!declaration || typeof declaration !== "string") {
+      return false;
+    }
+    declaration = declaration.trim();
+    if (!declaration) return false;
+    if (!declaration.endsWith(";")) return false;
+    const parts = declaration.substring(0, declaration.length - 1).split(":");
+    if (parts.length < 2) return false;
+    const property = parts[0].trim();
+    const value = parts.slice(1).join(":").trim();
+    if (!property || !value) return false;
+    return true;
+  }
   function generateRule(token, config, skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
-    const { raw, attrType, breakpoint, state } = token;
-    let cssDeclaration = "";
-    switch (attrType) {
-      case "layout":
-        cssDeclaration = generateLayoutRule(token, config);
-        break;
-      case "space":
-        cssDeclaration = generateSpaceRule(token, config);
-        break;
-      case "visual":
-        cssDeclaration = generateVisualRule(token, config);
-        break;
-    }
-    if (!cssDeclaration) return "";
-    const isDivide = raw.startsWith("divide");
-    let selector = "";
-    if (isDivide) {
-      selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
-    } else {
-      selector = `[${attrType}~="${raw}"]`;
-    }
-    if (state && state !== "dark") {
+    try {
+      if (!token || typeof token !== "object") {
+        console.warn("[SenangStart] Invalid token object:", token);
+        return "";
+      }
+      const { raw, attrType, breakpoint, state } = token;
+      if (!attrType || typeof attrType !== "string") {
+        console.warn("[SenangStart] Invalid token attrType:", attrType);
+        return "";
+      }
+      if (!raw || typeof raw !== "string") {
+        console.warn("[SenangStart] Invalid token raw:", raw);
+        return "";
+      }
+      let cssDeclaration = "";
+      switch (attrType) {
+        case "layout":
+          try {
+            cssDeclaration = generateLayoutRule(token, config);
+          } catch (e) {
+            console.warn(`[SenangStart] Error generating layout rule for "${raw}": ${e.message}`);
+            return "";
+          }
+          break;
+        case "space":
+          try {
+            cssDeclaration = generateSpaceRule(token, config);
+          } catch (e) {
+            console.warn(`[SenangStart] Error generating space rule for "${raw}": ${e.message}`);
+            return "";
+          }
+          break;
+        case "visual":
+          try {
+            cssDeclaration = generateVisualRule(token, config);
+          } catch (e) {
+            console.warn(`[SenangStart] Error generating visual rule for "${raw}": ${e.message}`);
+            return "";
+          }
+          break;
+        default:
+          console.warn(`[SenangStart] Unknown attrType: ${attrType}`);
+          return "";
+      }
+      if (!cssDeclaration) return "";
+      if (!isValidCSSRule(cssDeclaration)) {
+        console.warn(`[SenangStart] Invalid CSS rule generated for "${raw}": ${cssDeclaration}`);
+        return "";
+      }
+      const isDivide = raw && raw.startsWith("divide");
+      let selector = "";
       if (isDivide) {
-        selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+        selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
       } else {
-        const getStateSelector = (s) => {
-          const map = {
-            "expanded": '[aria-expanded="true"]',
-            "selected": '[aria-selected="true"]',
-            "disabled": ":disabled"
+        selector = `[${attrType}~="${raw}"]`;
+      }
+      if (state && state !== "dark") {
+        if (isDivide) {
+          selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+        } else {
+          const getStateSelector = (s) => {
+            const map = {
+              "expanded": '[aria-expanded="true"]',
+              "selected": '[aria-selected="true"]',
+              "disabled": ":disabled"
+            };
+            return map[s] || `:${s}`;
           };
-          return map[s] || `:${s}`;
-        };
-        const selectors = [];
-        selectors.push(`${selector}${getStateSelector(state)}`);
-        const groupTriggers = {
-          "hover": "hoverable",
-          "focus": "focusable",
-          "focus-visible": "focusable",
-          "active": "pressable",
-          "expanded": "expandable",
-          "selected": "selectable"
-        };
-        if (groupTriggers[state]) {
-          const parentAttr = groupTriggers[state];
-          let triggerState = state;
-          if (state === "focus" || state === "focus-visible") triggerState = "focus-within";
-          const triggerSelector = getStateSelector(triggerState);
-          const groupSelector = `[layout~="${parentAttr}"]:not([layout~="disabled"])${triggerSelector} ${selector}`;
-          selectors.push(groupSelector);
-          if (interactIds && interactIds.size > 0) {
-            for (const id of interactIds) {
-              const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
-              selectors.push(peerSelector);
+          const selectors = [];
+          selectors.push(`${selector}${getStateSelector(state)}`);
+          const groupTriggers = {
+            "hover": "hoverable",
+            "focus": "focusable",
+            "focus-visible": "focusable",
+            "active": "pressable",
+            "expanded": "expandable",
+            "selected": "selectable"
+          };
+          if (groupTriggers[state]) {
+            const parentAttr = groupTriggers[state];
+            let triggerState = state;
+            if (state === "focus" || state === "focus-visible") triggerState = "focus-within";
+            const triggerSelector = getStateSelector(triggerState);
+            const groupSelector = `[layout~="${parentAttr}"]:not([layout~="disabled"])${triggerSelector} ${selector}`;
+            selectors.push(groupSelector);
+            if (interactIds && interactIds.size > 0) {
+              for (const id of interactIds) {
+                const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
+                selectors.push(peerSelector);
+              }
             }
           }
+          selector = selectors.join(",\n");
         }
-        selector = selectors.join(",\n");
       }
-    }
-    return `${selector} { ${cssDeclaration} }
+      return `${selector} { ${cssDeclaration} }
 `;
+    } catch (e) {
+      console.warn(`[SenangStart] Error in generateRule: ${e.message}`);
+      return "";
+    }
   }
   function getDarkModeSelector(config) {
     const darkMode = config.darkMode || "media";
@@ -8855,13 +8953,33 @@ video {
     }
     return null;
   }
-  function generateCSS(tokens, config) {
-    let css = "";
-    css += generateCSSVariables(config);
-    if (config.preflight !== false) {
-      css += generatePreflight(config);
-    }
-    css += `/* SenangStart CSS - Animation Keyframes */
+  function generateCSSWithErrors(tokens, config) {
+    const errors = [];
+    try {
+      let css = "";
+      if (!config || typeof config !== "object") {
+        errors.push({ type: "config", message: "Invalid config provided" });
+        return { css: "", errors };
+      }
+      if (!Array.isArray(tokens)) {
+        errors.push({ type: "tokens", message: "Invalid tokens provided" });
+        return { css: "", errors };
+      }
+      try {
+        css += generateCSSVariables(config);
+      } catch (e) {
+        errors.push({ type: "variables", message: e.message });
+        console.warn(`[SenangStart] Error generating CSS variables: ${e.message}`);
+      }
+      if (config.preflight !== false) {
+        try {
+          css += generatePreflight(config);
+        } catch (e) {
+          errors.push({ type: "preflight", message: e.message });
+          console.warn(`[SenangStart] Error generating preflight: ${e.message}`);
+        }
+      }
+      css += `/* SenangStart CSS - Animation Keyframes */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -8878,93 +8996,178 @@ video {
 
 /* SenangStart CSS - Utility Classes */
 `;
-    const baseTokens = [];
-    const darkTokens = [];
-    const breakpointTokens = {};
-    const { screens } = config.theme;
-    for (const bp of Object.keys(screens)) {
-      breakpointTokens[bp] = [];
-    }
-    for (const token of tokens) {
-      if (token.state === "dark") {
-        darkTokens.push(token);
-      } else if (token.breakpoint) {
-        if (!breakpointTokens[token.breakpoint]) {
-          breakpointTokens[token.breakpoint] = [];
+      const baseTokens = [];
+      const darkTokens = [];
+      const breakpointTokens = {};
+      const { screens } = config.theme || {};
+      if (screens && typeof screens === "object") {
+        for (const bp of Object.keys(screens)) {
+          breakpointTokens[bp] = [];
         }
-        breakpointTokens[token.breakpoint].push(token);
-      } else {
-        baseTokens.push(token);
       }
-    }
-    const interactIds = /* @__PURE__ */ new Set();
-    for (const token of tokens) {
-      if (token.attrType === "interact") {
-        interactIds.add(token.raw);
-      }
-    }
-    const displayProps = ["flex", "grid", "inline-flex", "inline-grid", "block", "inline", "hidden", "contents"];
-    const baseDisplayTokens = /* @__PURE__ */ new Map();
-    for (const token of baseTokens) {
-      if (token.attrType && displayProps.includes(token.property)) {
-        if (!baseDisplayTokens.has(token.attrType)) {
-          baseDisplayTokens.set(token.attrType, /* @__PURE__ */ new Set());
+      for (const token of tokens) {
+        try {
+          if (token && typeof token === "object") {
+            if (token.state === "dark") {
+              darkTokens.push(token);
+            } else if (token.breakpoint) {
+              if (!breakpointTokens[token.breakpoint]) {
+                breakpointTokens[token.breakpoint] = [];
+              }
+              breakpointTokens[token.breakpoint].push(token);
+            } else {
+              baseTokens.push(token);
+            }
+          } else {
+            errors.push({ type: "token_format", token, message: "Token is not an object" });
+          }
+        } catch (e) {
+          errors.push({ type: "token_processing", token: token?.raw, message: e.message });
+          console.warn(`[SenangStart] Error processing token: ${e.message}`);
         }
-        baseDisplayTokens.get(token.attrType).add(token.raw);
       }
-    }
-    for (const token of baseTokens) {
-      css += generateRule(token, config, false, interactIds);
-    }
-    for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
-      if (bpTokens.length > 0) {
-        css += `
-@media (min-width: ${screens[bp]}) {
+      const interactIds = /* @__PURE__ */ new Set();
+      for (const token of tokens) {
+        try {
+          if (token && token.attrType === "interact" && token.raw) {
+            interactIds.add(token.raw);
+          }
+        } catch (e) {
+          errors.push({ type: "interact_collection", token: token?.raw, message: e.message });
+          console.warn(`[SenangStart] Error collecting interact IDs: ${e.message}`);
+        }
+      }
+      const displayProps = ["flex", "grid", "inline-flex", "inline-grid", "block", "inline", "hidden", "contents"];
+      const baseDisplayTokens = /* @__PURE__ */ new Map();
+      for (const token of baseTokens) {
+        try {
+          if (token.attrType && displayProps.includes(token.property)) {
+            if (!baseDisplayTokens.has(token.attrType)) {
+              baseDisplayTokens.set(token.attrType, /* @__PURE__ */ new Set());
+            }
+            baseDisplayTokens.get(token.attrType).add(token.raw);
+          }
+        } catch (e) {
+          errors.push({ type: "display_track", token: token?.raw, message: e.message });
+          console.warn(`[SenangStart] Error tracking display properties: ${e.message}`);
+        }
+      }
+      for (const token of baseTokens) {
+        try {
+          const rule = generateRule(token, config, false, interactIds);
+          if (rule) {
+            css += rule;
+          } else {
+            errors.push({ type: "rule_generation", token: token.raw, message: "No rule generated" });
+          }
+        } catch (e) {
+          errors.push({ type: "rule_generation", token: token.raw, message: e.message });
+          console.warn(`[SenangStart] Error generating base rule: ${e.message}`);
+        }
+      }
+      for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
+        try {
+          if (bpTokens.length > 0) {
+            const screenWidth = screens && screens[bp] ? screens[bp] : bp;
+            css += `
+@media (min-width: ${screenWidth}) {
 `;
-        const processedResetSelectors = /* @__PURE__ */ new Set();
-        for (const bpToken of bpTokens) {
-          if (bpToken.attrType && displayProps.includes(bpToken.property)) {
-            if (baseDisplayTokens.has(bpToken.attrType)) {
-              const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
-              if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
-                const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
-                css += `  ${selector} { display: revert-layer; }
+            const processedResetSelectors = /* @__PURE__ */ new Set();
+            for (const bpToken of bpTokens) {
+              try {
+                if (bpToken.attrType && displayProps.includes(bpToken.property)) {
+                  if (baseDisplayTokens.has(bpToken.attrType)) {
+                    const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
+                    if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
+                      const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
+                      css += `  ${selector} { display: revert-layer; }
 `;
-                processedResetSelectors.add(bpToken.raw);
+                      processedResetSelectors.add(bpToken.raw);
+                    }
+                  }
+                }
+              } catch (e) {
+                errors.push({ type: "display_reset", token: bpToken.raw, message: e.message });
+                console.warn(`[SenangStart] Error generating display reset: ${e.message}`);
+              }
+            }
+            for (const token of bpTokens) {
+              try {
+                const rule = generateRule(token, config, false, interactIds);
+                if (rule) {
+                  css += "  " + rule;
+                } else {
+                  errors.push({ type: "responsive_rule", token: token.raw, message: "No rule generated" });
+                }
+              } catch (e) {
+                errors.push({ type: "responsive_rule", token: token.raw, message: e.message });
+                console.warn(`[SenangStart] Error generating responsive rule: ${e.message}`);
+              }
+            }
+            css += "}\n";
+          }
+        } catch (e) {
+          errors.push({ type: "breakpoint_generation", message: `Error generating breakpoint ${bp}: ${e.message}` });
+          console.warn(`[SenangStart] Error generating breakpoint ${bp}: ${e.message}`);
+        }
+      }
+      if (darkTokens.length > 0) {
+        try {
+          const darkMode = config.darkMode || "media";
+          const darkSelector = getDarkModeSelector(config);
+          if (darkMode === "media") {
+            css += `
+/* Dark Mode (prefers-color-scheme) */
+`;
+            css += `@media (prefers-color-scheme: dark) {
+`;
+            for (const token of darkTokens) {
+              try {
+                const rule = generateRule(token, config, true, interactIds);
+                if (rule) {
+                  css += "  " + rule;
+                } else {
+                  errors.push({ type: "dark_rule", token: token.raw, message: "No rule generated" });
+                }
+              } catch (e) {
+                errors.push({ type: "dark_rule", token: token.raw, message: e.message });
+                console.warn(`[SenangStart] Error generating dark rule (media): ${e.message}`);
+              }
+            }
+            css += "}\n";
+          } else {
+            css += `
+/* Dark Mode (${darkSelector}) */
+`;
+            for (const token of darkTokens) {
+              try {
+                const baseRule = generateRule(token, config, true, interactIds);
+                if (baseRule) {
+                  const wrappedRule = baseRule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
+                  css += wrappedRule;
+                } else {
+                  errors.push({ type: "dark_rule", token: token.raw, message: "No rule generated" });
+                }
+              } catch (e) {
+                errors.push({ type: "dark_rule", token: token.raw, message: e.message });
+                console.warn(`[SenangStart] Error generating dark rule (selector): ${e.message}`);
               }
             }
           }
-        }
-        for (const token of bpTokens) {
-          css += "  " + generateRule(token, config, false, interactIds);
-        }
-        css += "}\n";
-      }
-    }
-    if (darkTokens.length > 0) {
-      const darkMode = config.darkMode || "media";
-      const darkSelector = getDarkModeSelector(config);
-      if (darkMode === "media") {
-        css += `
-/* Dark Mode (prefers-color-scheme) */
-`;
-        css += `@media (prefers-color-scheme: dark) {
-`;
-        for (const token of darkTokens) {
-          css += "  " + generateRule(token, config, true, interactIds);
-        }
-        css += "}\n";
-      } else {
-        css += `
-/* Dark Mode (${darkSelector}) */
-`;
-        for (const token of darkTokens) {
-          const baseRule = generateRule(token, config, true, interactIds);
-          const wrappedRule = baseRule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
-          css += wrappedRule;
+        } catch (e) {
+          errors.push({ type: "dark_mode_generation", message: e.message });
+          console.warn(`[SenangStart] Error generating dark mode rules: ${e.message}`);
         }
       }
+      return { css, errors };
+    } catch (e) {
+      errors.push({ type: "fatal", message: e.message });
+      console.error(`[SenangStart] Fatal error in generateCSSWithErrors: ${e.message}`);
+      return { css: "", errors };
     }
+  }
+  function generateCSS(tokens, config) {
+    const { css } = generateCSSWithErrors(tokens, config);
     return css;
   }
 

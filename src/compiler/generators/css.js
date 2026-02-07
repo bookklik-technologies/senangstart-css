@@ -382,7 +382,7 @@ function generateLayoutRule(token, config) {
   // Helper function to resolve positioning value
   const resolvePositioningValue = (val, arb) => {
     if (arb) return val;
-    if (val === '0') return '0';
+    if (!val || val === '0') return '0';
     // Check for negative percentage adjective
     if (val.startsWith('-')) {
       const positiveVal = val.substring(1);
@@ -641,8 +641,8 @@ function generateSpaceRule(token, config) {
     cssValue = value;
   } else {
     // Check for negative value
-    const isNegative = value.startsWith('-');
-    const cleanValue = isNegative ? value.substring(1) : value;
+    const isNegative = value && value.startsWith('-');
+    const cleanValue = isNegative ? value.substring(1) : (value || '');
     
     let baseValue;
     if (cleanValue.startsWith('tw-')) {
@@ -730,7 +730,7 @@ function generateVisualRule(token, config) {
     
     // Background Image
     'bg-image': () => {
-      if (value === 'none') return 'background-image: none;';
+      if (!value || value === 'none') return 'background-image: none;';
       
       // Handle gradient definitions
       if (value.startsWith('gradient-to-')) {
@@ -2068,104 +2068,173 @@ function generateVisualRule(token, config) {
 }
 
 /**
+ * Validate a CSS rule declaration
+ * @param {string} declaration - CSS declaration (e.g., "property: value;")
+ * @returns {boolean} - True if valid
+ */
+function isValidCSSRule(declaration) {
+  if (!declaration || typeof declaration !== 'string') {
+    return false;
+  }
+
+  declaration = declaration.trim();
+  if (!declaration) return false;
+
+  if (!declaration.endsWith(';')) return false;
+
+  const parts = declaration.substring(0, declaration.length - 1).split(':');
+  if (parts.length < 2) return false;
+
+  const property = parts[0].trim();
+  const value = parts.slice(1).join(':').trim();
+
+  if (!property || !value) return false;
+
+  return true;
+}
+
+/**
  * Generate a single CSS rule from a token
  * @param {Object} token - Token object
  * @param {Object} config - Configuration object
  * @param {boolean} skipDarkWrapper - If true, don't add dark mode wrapper (used when generating inside dark block)
  */
 export function generateRule(token, config, skipDarkWrapper = false, interactIds = new Set()) {
-  const { raw, attrType, breakpoint, state } = token;
-  
-  let cssDeclaration = '';
-  
-  switch (attrType) {
-    case 'layout':
-      cssDeclaration = generateLayoutRule(token, config);
-      break;
-    case 'space':
-      cssDeclaration = generateSpaceRule(token, config);
-      break;
-    case 'visual':
-      cssDeclaration = generateVisualRule(token, config);
-      break;
-  }
-  
-  if (!cssDeclaration) return '';
-  
-  // Check if this is a divide utility (needs special selector)
-  const isDivide = raw.startsWith('divide');
-  
-  // Build selector
-  let selector = '';
-  
-  if (isDivide) {
-    // Divide utilities use special child selector pattern
-    selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
-  } else {
-    selector = `[${attrType}~="${raw}"]`;
-  }
-  
-  // Add state pseudo-class (but not for 'dark' - it's handled separately)
-  if (state && state !== 'dark') {
-    if (isDivide) {
-      // For divide utilities, add state to the element after tilde
-      // Divide utilities don't support group/peer states yet to avoid complexity
-      selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
-    } else {
-      // Helper to map state to CSS selector
-      const getStateSelector = (s) => {
-        const map = {
-          'expanded': '[aria-expanded="true"]',
-          'selected': '[aria-selected="true"]',
-          'disabled': ':disabled'
-        };
-        return map[s] || `:${s}`;
-      };
+  try {
+    if (!token || typeof token !== 'object') {
+      console.warn('[SenangStart] Invalid token object:', token);
+      return '';
+    }
 
-      const selectors = [];
-      
-      // 1. Standard State Selector
-      selectors.push(`${selector}${getStateSelector(state)}`);
-      
-      // 2. Group & Peer State Selectors
-      // Only for supported triggers
-      const groupTriggers = {
-        'hover': 'hoverable',
-        'focus': 'focusable',
-        'focus-visible': 'focusable',
-        'active': 'pressable',
-        'expanded': 'expandable',
-        'selected': 'selectable'
-      };
-      
-      if (groupTriggers[state]) {
-        const parentAttr = groupTriggers[state];
-        // For focus, we trigger on focus-within of the container
-        let triggerState = state;
-        if (state === 'focus' || state === 'focus-visible') triggerState = 'focus-within';
-        
-        const triggerSelector = getStateSelector(triggerState);
-        
-        // Group Selector
-        // [layout~="hoverable"]:not([layout~="disabled"]):hover [visual~="..."]
-        const groupSelector = `[layout~="${parentAttr}"]:not([layout~="disabled"])${triggerSelector} ${selector}`;
-        selectors.push(groupSelector);
-        
-        // Peer Selectors
-        // [interact~="id"]:not([layout~="disabled"]):hover ~ [listens~="id"][visual~="..."]
-        if (interactIds && interactIds.size > 0) {
-          for (const id of interactIds) {
-            const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
-            selectors.push(peerSelector);
+    const { raw, attrType, breakpoint, state } = token;
+
+    if (!attrType || typeof attrType !== 'string') {
+      console.warn('[SenangStart] Invalid token attrType:', attrType);
+      return '';
+    }
+
+    if (!raw || typeof raw !== 'string') {
+      console.warn('[SenangStart] Invalid token raw:', raw);
+      return '';
+    }
+
+    let cssDeclaration = '';
+
+    switch (attrType) {
+      case 'layout':
+        try {
+          cssDeclaration = generateLayoutRule(token, config);
+        } catch (e) {
+          console.warn(`[SenangStart] Error generating layout rule for "${raw}": ${e.message}`);
+          return '';
+        }
+        break;
+      case 'space':
+        try {
+          cssDeclaration = generateSpaceRule(token, config);
+        } catch (e) {
+          console.warn(`[SenangStart] Error generating space rule for "${raw}": ${e.message}`);
+          return '';
+        }
+        break;
+      case 'visual':
+        try {
+          cssDeclaration = generateVisualRule(token, config);
+        } catch (e) {
+          console.warn(`[SenangStart] Error generating visual rule for "${raw}": ${e.message}`);
+          return '';
+        }
+        break;
+      default:
+        console.warn(`[SenangStart] Unknown attrType: ${attrType}`);
+        return '';
+    }
+
+    if (!cssDeclaration) return '';
+
+    if (!isValidCSSRule(cssDeclaration)) {
+      console.warn(`[SenangStart] Invalid CSS rule generated for "${raw}": ${cssDeclaration}`);
+      return '';
+    }
+
+    // Check if this is a divide utility (needs special selector)
+    const isDivide = raw && raw.startsWith('divide');
+
+    // Build selector
+    let selector = '';
+
+    if (isDivide) {
+      // Divide utilities use special child selector pattern
+      selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
+    } else {
+      selector = `[${attrType}~="${raw}"]`;
+    }
+
+    // Add state pseudo-class (but not for 'dark' - it's handled separately)
+    if (state && state !== 'dark') {
+      if (isDivide) {
+        // For divide utilities, add state to the element after tilde
+        // Divide utilities don't support group/peer states yet to avoid complexity
+        selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+      } else {
+        // Helper to map state to CSS selector
+        const getStateSelector = (s) => {
+          const map = {
+            'expanded': '[aria-expanded="true"]',
+            'selected': '[aria-selected="true"]',
+            'disabled': ':disabled'
+          };
+          return map[s] || `:${s}`;
+        };
+
+        const selectors = [];
+
+        // 1. Standard State Selector
+        selectors.push(`${selector}${getStateSelector(state)}`);
+
+        // 2. Group & Peer State Selectors
+        // Only for supported triggers
+        const groupTriggers = {
+          'hover': 'hoverable',
+          'focus': 'focusable',
+          'focus-visible': 'focusable',
+          'active': 'pressable',
+          'expanded': 'expandable',
+          'selected': 'selectable'
+        };
+
+        if (groupTriggers[state]) {
+          const parentAttr = groupTriggers[state];
+          // For focus, we trigger on focus-within of the container
+          let triggerState = state;
+          if (state === 'focus' || state === 'focus-visible') triggerState = 'focus-within';
+
+          const triggerSelector = getStateSelector(triggerState);
+
+          // Group Selector
+          // [layout~="hoverable"]:not([layout~="disabled"]):hover [visual~="..."]
+          const groupSelector = `[layout~="${parentAttr}"]:not([layout~="disabled"])${triggerSelector} ${selector}`;
+          selectors.push(groupSelector);
+
+          // Peer Selectors
+          // [interact~="id"]:not([layout~="disabled"]):hover ~ [listens~="id"][visual~="..."]
+          if (interactIds && interactIds.size > 0) {
+            for (const id of interactIds) {
+              const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
+              selectors.push(peerSelector);
+            }
           }
         }
+
+        selector = selectors.join(',\n');
       }
-      
-      selector = selectors.join(',\n');
     }
+
+    return `${selector} { ${cssDeclaration} }\n`;
+  } catch (e) {
+    console.warn(`[SenangStart] Error in generateRule: ${e.message}`);
+    return '';
   }
-  
-  return `${selector} { ${cssDeclaration} }\n`;
 }
 
 /**
@@ -2190,24 +2259,48 @@ function getDarkModeSelector(config) {
 }
 
 /**
- * Generate CSS from tokens
+ * Generate CSS from tokens with detailed error reporting
+ * Each token is processed in isolation - one failure doesn't crash the build
  * @param {Array} tokens - Array of token objects
  * @param {Object} config - Configuration object
- * @returns {string} - Generated CSS
+ * @returns {Object} - { css: string, errors: Array<{type, token, message}> }
  */
-export function generateCSS(tokens, config) {
-  let css = '';
+export function generateCSSWithErrors(tokens, config) {
+  const errors = [];
+  try {
+    let css = '';
 
-  // Add CSS variables
-  css += generateCSSVariables(config);
+    // Validate inputs
+    if (!config || typeof config !== 'object') {
+      errors.push({ type: 'config', message: 'Invalid config provided' });
+      return { css: '', errors };
+    }
 
-  // Add Preflight base styles if enabled (default: true)
-  if (config.preflight !== false) {
-    css += generatePreflight(config);
-  }
+    if (!Array.isArray(tokens)) {
+      errors.push({ type: 'tokens', message: 'Invalid tokens provided' });
+      return { css: '', errors };
+    }
 
-  // Add animation keyframes
-  css += `/* SenangStart CSS - Animation Keyframes */
+    // Add CSS variables
+    try {
+      css += generateCSSVariables(config);
+    } catch (e) {
+      errors.push({ type: 'variables', message: e.message });
+      console.warn(`[SenangStart] Error generating CSS variables: ${e.message}`);
+    }
+
+    // Add Preflight base styles if enabled (default: true)
+    if (config.preflight !== false) {
+      try {
+        css += generatePreflight(config);
+      } catch (e) {
+        errors.push({ type: 'preflight', message: e.message });
+        console.warn(`[SenangStart] Error generating preflight: ${e.message}`);
+      }
+    }
+
+    // Add animation keyframes
+    css += `/* SenangStart CSS - Animation Keyframes */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -2225,128 +2318,198 @@ export function generateCSS(tokens, config) {
 /* SenangStart CSS - Utility Classes */
 `;
 
-  // Group tokens by breakpoint and dark mode
-  const baseTokens = [];
-  const darkTokens = [];
-  const breakpointTokens = {};
+    // Group tokens by breakpoint and dark mode
+    const baseTokens = [];
+    const darkTokens = [];
+    const breakpointTokens = {};
 
-  // Initialize breakpoint collections from config
-  const { screens } = config.theme;
-  for (const bp of Object.keys(screens)) {
-    breakpointTokens[bp] = [];
-  }
-
-  for (const token of tokens) {
-    if (token.state === 'dark') {
-      darkTokens.push(token);
-    } else if (token.breakpoint) {
-      if (!breakpointTokens[token.breakpoint]) {
-        breakpointTokens[token.breakpoint] = [];
+    // Initialize breakpoint collections from config
+    const { screens } = config.theme || {};
+    if (screens && typeof screens === 'object') {
+      for (const bp of Object.keys(screens)) {
+        breakpointTokens[bp] = [];
       }
-      breakpointTokens[token.breakpoint].push(token);
-    } else {
-      baseTokens.push(token);
     }
-  }
 
-  // Collect interact IDs for Peer selector generation
-  const interactIds = new Set();
-  for (const token of tokens) {
-    if (token.attrType === 'interact') {
-      interactIds.add(token.raw);
-    }
-  }
-
-  // Track display properties to handle conflicts like Tailwind
-  // When responsive display property conflicts with base display property on the same element,
-  // we need to add reset rules in the responsive media query
-  const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'hidden', 'contents'];
-
-  // Map: attrType -> Set of raw values that have display properties in base
-  // e.g., { 'layout' => new Set(['hidden', 'block']) }
-  const baseDisplayTokens = new Map();
-
-  // Find display properties in base tokens
-  for (const token of baseTokens) {
-    if (token.attrType && displayProps.includes(token.property)) {
-      if (!baseDisplayTokens.has(token.attrType)) {
-        baseDisplayTokens.set(token.attrType, new Set());
+    for (const token of tokens) {
+      try {
+        if (token && typeof token === 'object') {
+          if (token.state === 'dark') {
+            darkTokens.push(token);
+          } else if (token.breakpoint) {
+            if (!breakpointTokens[token.breakpoint]) {
+              breakpointTokens[token.breakpoint] = [];
+            }
+            breakpointTokens[token.breakpoint].push(token);
+          } else {
+            baseTokens.push(token);
+          }
+        } else {
+          errors.push({ type: 'token_format', token: token, message: 'Token is not an object' });
+        }
+      } catch (e) {
+        errors.push({ type: 'token_processing', token: token?.raw, message: e.message });
+        console.warn(`[SenangStart] Error processing token: ${e.message}`);
       }
-      baseDisplayTokens.get(token.attrType).add(token.raw);
     }
-  }
 
-  // Generate base rules
-  for (const token of baseTokens) {
-    css += generateRule(token, config, false, interactIds);
-  }
+    // Collect interact IDs for Peer selector generation
+    const interactIds = new Set();
+    for (const token of tokens) {
+      try {
+        if (token && token.attrType === 'interact' && token.raw) {
+          interactIds.add(token.raw);
+        }
+      } catch (e) {
+        errors.push({ type: 'interact_collection', token: token?.raw, message: e.message });
+        console.warn(`[SenangStart] Error collecting interact IDs: ${e.message}`);
+      }
+    }
 
-  // Generate responsive rules
+    // Track display properties to handle conflicts like Tailwind
+    const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'hidden', 'contents'];
+    const baseDisplayTokens = new Map();
 
-  for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
-    if (bpTokens.length > 0) {
-      css += `\n@media (min-width: ${screens[bp]}) {\n`;
+    // Find display properties in base tokens
+    for (const token of baseTokens) {
+      try {
+        if (token.attrType && displayProps.includes(token.property)) {
+          if (!baseDisplayTokens.has(token.attrType)) {
+            baseDisplayTokens.set(token.attrType, new Set());
+          }
+          baseDisplayTokens.get(token.attrType).add(token.raw);
+        }
+      } catch (e) {
+        errors.push({ type: 'display_track', token: token?.raw, message: e.message });
+        console.warn(`[SenangStart] Error tracking display properties: ${e.message}`);
+      }
+    }
 
-      // Add display reset rules for responsive tokens that have display properties
-      // when the same attribute has ANY base display properties (for that attrType)
-      // This handles the case where the same element has multiple display tokens
-      // e.g., layout="hidden tw-lg:flex" - hidden is base, flex is responsive
-      const processedResetSelectors = new Set();
+    // Generate base rules
+    for (const token of baseTokens) {
+      try {
+        const rule = generateRule(token, config, false, interactIds);
+        if (rule) {
+          css += rule;
+        } else {
+          errors.push({ type: 'rule_generation', token: token.raw, message: 'No rule generated' });
+        }
+      } catch (e) {
+        errors.push({ type: 'rule_generation', token: token.raw, message: e.message });
+        console.warn(`[SenangStart] Error generating base rule: ${e.message}`);
+      }
+    }
 
-      for (const bpToken of bpTokens) {
-        if (bpToken.attrType && displayProps.includes(bpToken.property)) {
-          // Check if there are any base tokens with display properties for this attrType
-          // AND the responsive token is different from base tokens
-          if (baseDisplayTokens.has(bpToken.attrType)) {
-            const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
+    // Generate responsive rules
+    for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
+      try {
+        if (bpTokens.length > 0) {
+          // Use screen value if defined, otherwise use breakpoint name itself
+          const screenWidth = screens && screens[bp] ? screens[bp] : bp;
+          css += `\n@media (min-width: ${screenWidth}) {\n`;
 
-            // Only add reset if:
-            // 1. There are base display tokens for this attrType
-            // 2. This responsive token's raw value is different from base display tokens
-            //    (meaning it's a different display property on the same element)
-            if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
-              // Add reset rule for this responsive token
-              const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
-              css += `  ${selector} { display: revert-layer; }\n`;
-              processedResetSelectors.add(bpToken.raw);
+          const processedResetSelectors = new Set();
+          for (const bpToken of bpTokens) {
+            try {
+              if (bpToken.attrType && displayProps.includes(bpToken.property)) {
+                if (baseDisplayTokens.has(bpToken.attrType)) {
+                  const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
+                  if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
+                    const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
+                    css += `  ${selector} { display: revert-layer; }\n`;
+                    processedResetSelectors.add(bpToken.raw);
+                  }
+                }
+              }
+            } catch (e) {
+              errors.push({ type: 'display_reset', token: bpToken.raw, message: e.message });
+              console.warn(`[SenangStart] Error generating display reset: ${e.message}`);
+            }
+          }
+
+          for (const token of bpTokens) {
+            try {
+              const rule = generateRule(token, config, false, interactIds);
+              if (rule) {
+                css += '  ' + rule;
+              } else {
+                errors.push({ type: 'responsive_rule', token: token.raw, message: 'No rule generated' });
+              }
+            } catch (e) {
+              errors.push({ type: 'responsive_rule', token: token.raw, message: e.message });
+              console.warn(`[SenangStart] Error generating responsive rule: ${e.message}`);
+            }
+          }
+          css += '}\n';
+        }
+      } catch (e) {
+        errors.push({ type: 'breakpoint_generation', message: `Error generating breakpoint ${bp}: ${e.message}` });
+        console.warn(`[SenangStart] Error generating breakpoint ${bp}: ${e.message}`);
+      }
+    }
+
+    // Generate dark mode rules
+    if (darkTokens.length > 0) {
+      try {
+        const darkMode = config.darkMode || 'media';
+        const darkSelector = getDarkModeSelector(config);
+
+        if (darkMode === 'media') {
+          css += `\n/* Dark Mode (prefers-color-scheme) */\n`;
+          css += `@media (prefers-color-scheme: dark) {\n`;
+          for (const token of darkTokens) {
+            try {
+              const rule = generateRule(token, config, true, interactIds);
+              if (rule) {
+                css += '  ' + rule;
+              } else {
+                errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
+              }
+            } catch (e) {
+              errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
+              console.warn(`[SenangStart] Error generating dark rule (media): ${e.message}`);
+            }
+          }
+          css += '}\n';
+        } else {
+          css += `\n/* Dark Mode (${darkSelector}) */\n`;
+          for (const token of darkTokens) {
+            try {
+              const baseRule = generateRule(token, config, true, interactIds);
+              if (baseRule) {
+                const wrappedRule = baseRule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
+                css += wrappedRule;
+              } else {
+                errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
+              }
+            } catch (e) {
+              errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
+              console.warn(`[SenangStart] Error generating dark rule (selector): ${e.message}`);
             }
           }
         }
-      }
-
-      // Generate responsive token rules
-      for (const token of bpTokens) {
-        css += '  ' + generateRule(token, config, false, interactIds);
-      }
-      css += '}\n';
-    }
-  }
-
-  // Generate dark mode rules
-  if (darkTokens.length > 0) {
-    const darkMode = config.darkMode || 'media';
-    const darkSelector = getDarkModeSelector(config);
-
-    if (darkMode === 'media') {
-      // Media query strategy
-      css += `\n/* Dark Mode (prefers-color-scheme) */\n`;
-      css += `@media (prefers-color-scheme: dark) {\n`;
-      for (const token of darkTokens) {
-        css += '  ' + generateRule(token, config, true, interactIds);
-      }
-      css += '}\n';
-    } else {
-      // Selector strategy (.dark class or custom selector)
-      css += `\n/* Dark Mode (${darkSelector}) */\n`;
-      for (const token of darkTokens) {
-        const baseRule = generateRule(token, config, true, interactIds);
-        // Wrap selector with dark parent
-        const wrappedRule = baseRule.replace(/^(\[[^\]]+\])/, `${darkSelector} $1`);
-        css += wrappedRule;
+      } catch (e) {
+        errors.push({ type: 'dark_mode_generation', message: e.message });
+        console.warn(`[SenangStart] Error generating dark mode rules: ${e.message}`);
       }
     }
+
+    return { css, errors };
+  } catch (e) {
+    errors.push({ type: 'fatal', message: e.message });
+    console.error(`[SenangStart] Fatal error in generateCSSWithErrors: ${e.message}`);
+    return { css: '', errors };
   }
-  
+}
+
+/**
+ * Generate CSS from tokens (Backward compatible wrapper)
+ * @param {Array} tokens - Array of token objects
+ * @param {Object} config - Configuration object
+ * @returns {string} - Generated CSS
+ */
+export function generateCSS(tokens, config) {
+  const { css } = generateCSSWithErrors(tokens, config);
   return css;
 }
 

@@ -3,16 +3,17 @@
  * One-time compilation of CSS from source files
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { defaultConfig, mergeConfig } from '../../config/defaults.js';
 import { parseSource } from '../../compiler/parser.js';
-import { tokenizeAll } from '../../compiler/tokenizer.js';
+import { tokenizeAll, tokenizeAllWithBatching } from '../../compiler/tokenizer.js';
 import { generateCSS, minifyCSS } from '../../compiler/generators/css.js';
 import { generateAIContext } from '../../compiler/generators/ai-context.js';
 import { generateTypeScript } from '../../compiler/generators/typescript.js';
 import logger from '../../utils/logger.js';
-import { validateThemeValue } from '../../utils/common.js';
+import { validateThemeValue, getMemoryUsage } from '../../utils/common.js';
+import { readMultipleFilesWithTimeout } from '../../utils/node-io.js';
 
 /**
  * Find files matching content patterns
@@ -119,31 +120,58 @@ export async function build(options = {}) {
   }
   
   logger.info(`Found ${files.length} source files`);
-  
-  // Parse all files
+
+  // Parse all files with timeout protection
   const allTokens = {
     layout: new Set(),
     space: new Set(),
     visual: new Set()
   };
-  
-  for (const filePath of files) {
+
+  let failedFiles = 0;
+  const fileReadResults = await readMultipleFilesWithTimeout(files, 5000);
+
+  for (const { path: filePath, content, error } of fileReadResults) {
+    if (error) {
+      logger.warn(`Skipping ${filePath}: ${error.message}`);
+      failedFiles++;
+      continue;
+    }
+
     try {
-      const content = readFileSync(filePath, 'utf-8');
       const parsed = parseSource(content);
-      
+
       parsed.layout.forEach(t => allTokens.layout.add(t));
       parsed.space.forEach(t => allTokens.space.add(t));
       parsed.visual.forEach(t => allTokens.visual.add(t));
     } catch (e) {
-      logger.warn(`Could not parse ${filePath}`);
+      logger.warn(`Could not parse ${filePath}: ${e.message}`);
+      failedFiles++;
     }
   }
-  
+
+  if (failedFiles > 0) {
+    logger.warn(`${failedFiles} file(s) failed to process`);
+  }
+
+  // Calculate total token count
+  const totalTokens = allTokens.layout.size + allTokens.space.size + allTokens.visual.size;
+  logger.info(`Found ${totalTokens} unique token values`);
+
+  // Check memory usage and decide whether to use batch processing
+  const currentMemory = getMemoryUsage();
+  const useBatching = totalTokens > 10000 || currentMemory > 200;
+
   // Tokenize
-  const tokens = tokenizeAll(allTokens);
-  
-  logger.info(`Extracted ${tokens.length} unique tokens`);
+  let tokens;
+  if (useBatching) {
+    logger.info('Using batch processing for memory protection');
+    tokens = await tokenizeAllWithBatching(allTokens, 1000);
+  } else {
+    tokens = tokenizeAll(allTokens);
+  }
+
+  logger.info(`Generated ${tokens.length} tokens`);
   
   // Check for invalid tokens
   const invalidTokens = tokens.filter(token => token.error);
