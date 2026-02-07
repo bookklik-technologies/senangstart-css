@@ -672,6 +672,18 @@ function convertClass(twClass, options = {}) {
   }
 
   // Border radius
+  // Handle directional variants: rounded-t-lg, rounded-tl-3xl, etc.
+  const directionalRoundedMatch = baseClass.match(/^rounded-([tblr]{1,2})-(.+)$/);
+  if (directionalRoundedMatch) {
+    const direction = directionalRoundedMatch[1];
+    const size = directionalRoundedMatch[2];
+    const scale = options.exact
+      ? `tw-${size}`
+      : radiusScale[size] || "medium";
+    return { category: 'visual', value: prefix + `rounded-${direction}:` + scale };
+  }
+  
+  // Handle standard rounded: rounded, rounded-lg, rounded-full, etc.
   const roundedMatch = baseClass.match(/^rounded(?:-(.+))?$/);
   if (roundedMatch) {
     const size = roundedMatch[1] || "";

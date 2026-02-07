@@ -458,9 +458,9 @@ export default {
 * `separate`: Separate borders (`border-collapse: separate;`)
 
 ## border-radius
-> Set border radius
+> Set border radius for all corners or specific corners
 
-**Syntax:** `visual="rounded:[value]"`
+**Syntax:** `visual="rounded:[value]" | visual="rounded-{t|b|l|r|tl|tr|bl|br}:[value]"`
 
 * `none`: No rounding (`border-radius: var(--r-none);`)
 * `small`: Small radius (`border-radius: var(--r-small);`)

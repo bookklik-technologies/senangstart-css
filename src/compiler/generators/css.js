@@ -1041,6 +1041,40 @@ function generateVisualRule(token, config) {
       return `border-radius: var(--r-${value});`;
     },
     
+    // Directional border radius
+    'rounded-t': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-top-left-radius: ${cssValue}; border-top-right-radius: ${cssValue};`;
+    },
+    'rounded-b': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-bottom-left-radius: ${cssValue}; border-bottom-right-radius: ${cssValue};`;
+    },
+    'rounded-l': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-top-left-radius: ${cssValue}; border-bottom-left-radius: ${cssValue};`;
+    },
+    'rounded-r': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-top-right-radius: ${cssValue}; border-bottom-right-radius: ${cssValue};`;
+    },
+    'rounded-tl': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-top-left-radius: ${cssValue};`;
+    },
+    'rounded-tr': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-top-right-radius: ${cssValue};`;
+    },
+    'rounded-bl': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-bottom-left-radius: ${cssValue};`;
+    },
+    'rounded-br': () => {
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-bottom-right-radius: ${cssValue};`;
+    },
+    
     // =====================
     // DIVIDE UTILITIES
     // =====================
@@ -1058,7 +1092,8 @@ function generateVisualRule(token, config) {
         return '--ss-divide-x-reverse: 1;';
       }
       const cssValue = resolveColorValue(value, isArbitrary);
-      return `border-left-color: ${cssValue}; border-right-color: ${cssValue};`;
+      // Apply to both to ensure color is inherited, width will control visibility
+      return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
     },
     'divide-y': () => {
       // Handle divide-y:reverse specially
@@ -1066,23 +1101,24 @@ function generateVisualRule(token, config) {
         return '--ss-divide-y-reverse: 1;';
       }
       const cssValue = resolveColorValue(value, isArbitrary);
-      return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue};`;
+      // Apply to both to ensure color is inherited, width will control visibility
+      return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
     },
     
     // Divide width - all sides
     'divide-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-width: ${cssValue};`;
+      return `border-top-width: calc(${cssValue} * (1 - var(--ss-divide-y-reverse))); border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse)); border-left-width: calc(${cssValue} * (1 - var(--ss-divide-x-reverse))); border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse));`;
     },
     
     // Divide width - directional
     'divide-x-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-left-width: ${cssValue}; border-right-width: ${cssValue};`;
+      return `border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse)); border-left-width: calc(${cssValue} * (1 - var(--ss-divide-x-reverse)));`;
     },
     'divide-y-w': () => {
       const cssValue = isArbitrary ? value : `var(--s-${value})`;
-      return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue};`;
+      return `border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse)); border-top-width: calc(${cssValue} * (1 - var(--ss-divide-y-reverse)));`;
     },
     
     // Divide style

@@ -19,7 +19,9 @@ export function generateTypeScript(config) {
   
   // Generate radius unions
   const radiusKeys = Object.keys(theme.radius);
-  const roundedUnions = radiusKeys.map(k => `'rounded:${k}'`).join(' | ');
+  const directions = ['t', 'b', 'l', 'r', 'tl', 'tr', 'bl', 'br'];
+  const roundedUnions = radiusKeys.map(k => `'rounded:${k}'`).join(' | ') +
+    ' | ' + directions.flatMap(d => radiusKeys.map(k => `'rounded-${d}:${k}'`)).join(' | ');
   
   // Generate shadow unions
   const shadowKeys = Object.keys(theme.shadow);

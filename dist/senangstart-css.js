@@ -3169,11 +3169,12 @@ video {
   var borderRadius = {
     name: "border-radius",
     property: "visual",
-    syntax: 'visual="rounded:[value]"',
-    description: "Set border radius",
-    descriptionMs: "Tetapkan jejari sempadan",
+    syntax: 'visual="rounded:[value]" | visual="rounded-{t|b|l|r|tl|tr|bl|br}:[value]"',
+    description: "Set border radius for all corners or specific corners",
+    descriptionMs: "Tetapkan jejari sempadan untuk semua bucu atau bucu tertentu",
     category: "visual",
     usesScale: "radius",
+    supportsArbitrary: true,
     values: [
       { value: "none", css: "border-radius: var(--r-none);", description: "No rounding", descriptionMs: "Tiada pembulatan" },
       { value: "small", css: "border-radius: var(--r-small);", description: "Small radius", descriptionMs: "Jejari kecil" },
@@ -3182,8 +3183,10 @@ video {
       { value: "round", css: "border-radius: var(--r-round);", description: "Fully round", descriptionMs: "Sepenuhnya bulat" }
     ],
     examples: [
-      { code: '<div visual="rounded:medium">Rounded corners</div>', description: "Medium radius" },
-      { code: '<div visual="rounded:round">Pill shape</div>', description: "Pill" }
+      { code: '<div visual="rounded:medium">Rounded corners</div>', description: "All corners rounded" },
+      { code: '<div visual="rounded:round">Pill shape</div>', description: "Fully round" },
+      { code: '<div visual="rounded-t:medium">Top rounded</div>', description: "Top corners only" },
+      { code: '<div visual="rounded-tl:big rounded-br:big">Opposite corners</div>', description: "Specific corners" }
     ],
     footnotes: [
       {
@@ -3201,12 +3204,25 @@ video {
         description: "Round element corners from subtle to pill-shaped",
         descriptionMs: "Bulatkan sudut elemen dari halus hingga berbentuk pil",
         html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <div space="p:small" visual="bg:primary text:white rounded:none">none</div>
-  <div space="p:small" visual="bg:primary text:white rounded:small">small</div>
-  <div space="p:small" visual="bg:primary text:white rounded:medium">medium</div>
-  <div space="p:small" visual="bg:primary text:white rounded:round">round</div>
+   <div space="p:small" visual="bg:primary text:white rounded:none">none</div>
+   <div space="p:small" visual="bg:primary text:white rounded:small">small</div>
+   <div space="p:small" visual="bg:primary text:white rounded:medium">medium</div>
+   <div space="p:small" visual="bg:primary text:white rounded:round">round</div>
 </div>`,
         highlightValue: "rounded:medium"
+      },
+      {
+        title: "Directional Border Radius",
+        titleMs: "Jejari Sempadan Arah",
+        description: "Round specific corners for unique shapes",
+        descriptionMs: "Bulatkan bucu tertentu untuk bentuk unik",
+        html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+   <div space="p:small" visual="bg:primary text:white rounded-t:medium">top</div>
+   <div space="p:small" visual="bg:primary text:white rounded-b:medium">bottom</div>
+   <div space="p:small" visual="bg:primary text:white rounded-l:medium">left</div>
+   <div space="p:small" visual="bg:primary text:white rounded-r:medium">right</div>
+</div>`,
+        highlightValue: "rounded-t:medium"
       }
     ]
   };
@@ -7857,6 +7873,39 @@ video {
       "rounded": () => {
         return `border-radius: var(--r-${value});`;
       },
+      // Directional border radius
+      "rounded-t": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-top-left-radius: ${cssValue}; border-top-right-radius: ${cssValue};`;
+      },
+      "rounded-b": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-bottom-left-radius: ${cssValue}; border-bottom-right-radius: ${cssValue};`;
+      },
+      "rounded-l": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-top-left-radius: ${cssValue}; border-bottom-left-radius: ${cssValue};`;
+      },
+      "rounded-r": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-top-right-radius: ${cssValue}; border-bottom-right-radius: ${cssValue};`;
+      },
+      "rounded-tl": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-top-left-radius: ${cssValue};`;
+      },
+      "rounded-tr": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-top-right-radius: ${cssValue};`;
+      },
+      "rounded-bl": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-bottom-left-radius: ${cssValue};`;
+      },
+      "rounded-br": () => {
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-bottom-right-radius: ${cssValue};`;
+      },
       // =====================
       // DIVIDE UTILITIES
       // =====================
@@ -7871,28 +7920,28 @@ video {
           return "--ss-divide-x-reverse: 1;";
         }
         const cssValue = resolveColorValue(value, isArbitrary);
-        return `border-left-color: ${cssValue}; border-right-color: ${cssValue};`;
+        return `border-left-color: ${cssValue}; border-right-color: ${cssValue}; border-left-style: solid; border-right-style: solid;`;
       },
       "divide-y": () => {
         if (value === "reverse") {
           return "--ss-divide-y-reverse: 1;";
         }
         const cssValue = resolveColorValue(value, isArbitrary);
-        return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue};`;
+        return `border-top-color: ${cssValue}; border-bottom-color: ${cssValue}; border-top-style: solid; border-bottom-style: solid;`;
       },
       // Divide width - all sides
       "divide-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-width: ${cssValue};`;
+        return `border-top-width: calc(${cssValue} * (1 - var(--ss-divide-y-reverse))); border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse)); border-left-width: calc(${cssValue} * (1 - var(--ss-divide-x-reverse))); border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse));`;
       },
       // Divide width - directional
       "divide-x-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-left-width: ${cssValue}; border-right-width: ${cssValue};`;
+        return `border-right-width: calc(${cssValue} * var(--ss-divide-x-reverse)); border-left-width: calc(${cssValue} * (1 - var(--ss-divide-x-reverse)));`;
       },
       "divide-y-w": () => {
         const cssValue = isArbitrary ? value : `var(--s-${value})`;
-        return `border-top-width: ${cssValue}; border-bottom-width: ${cssValue};`;
+        return `border-bottom-width: calc(${cssValue} * var(--ss-divide-y-reverse)); border-top-width: calc(${cssValue} * (1 - var(--ss-divide-y-reverse)));`;
       },
       // Divide style
       "divide-style": () => {

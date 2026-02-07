@@ -136,6 +136,17 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('rounded-full'), { category: 'visual', value: 'rounded:round' });
     });
 
+    it('should convert directional border radius classes', () => {
+      assert.deepStrictEqual(convertClass('rounded-t-lg'), { category: 'visual', value: 'rounded-t:medium' });
+      assert.deepStrictEqual(convertClass('rounded-b-lg'), { category: 'visual', value: 'rounded-b:medium' });
+      assert.deepStrictEqual(convertClass('rounded-l-lg'), { category: 'visual', value: 'rounded-l:medium' });
+      assert.deepStrictEqual(convertClass('rounded-r-lg'), { category: 'visual', value: 'rounded-r:medium' });
+      assert.deepStrictEqual(convertClass('rounded-tl-3xl'), { category: 'visual', value: 'rounded-tl:big' });
+      assert.deepStrictEqual(convertClass('rounded-tr-3xl'), { category: 'visual', value: 'rounded-tr:big' });
+      assert.deepStrictEqual(convertClass('rounded-bl-full'), { category: 'visual', value: 'rounded-bl:round' });
+      assert.deepStrictEqual(convertClass('rounded-br-full'), { category: 'visual', value: 'rounded-br:round' });
+    });
+
     it('should convert shadow classes', () => {
       assert.deepStrictEqual(convertClass('shadow'), { category: 'visual', value: 'shadow:small' });
       assert.deepStrictEqual(convertClass('shadow-md'), { category: 'visual', value: 'shadow:medium' });

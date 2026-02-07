@@ -547,6 +547,96 @@ describe('CSS Generator', () => {
         assert.ok(css.includes('border-radius: var(--r-full)'));
       });
 
+      it('generates rounded-t', () => {
+        const token = { property: 'rounded-t', value: 'medium', attrType: 'visual', raw: 'rounded-t:medium' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-top-left-radius: var(--r-medium)'));
+        assert.ok(css.includes('border-top-right-radius: var(--r-medium)'));
+      });
+
+      it('generates rounded-b', () => {
+        const token = { property: 'rounded-b', value: 'big', attrType: 'visual', raw: 'rounded-b:big' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-bottom-left-radius: var(--r-big)'));
+        assert.ok(css.includes('border-bottom-right-radius: var(--r-big)'));
+      });
+
+      it('generates rounded-l', () => {
+        const token = { property: 'rounded-l', value: 'small', attrType: 'visual', raw: 'rounded-l:small' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-top-left-radius: var(--r-small)'));
+        assert.ok(css.includes('border-bottom-left-radius: var(--r-small)'));
+      });
+
+      it('generates rounded-r', () => {
+        const token = { property: 'rounded-r', value: 'round', attrType: 'visual', raw: 'rounded-r:round' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-top-right-radius: var(--r-round)'));
+        assert.ok(css.includes('border-bottom-right-radius: var(--r-round)'));
+      });
+
+      it('generates rounded-tl', () => {
+        const token = { property: 'rounded-tl', value: 'medium', attrType: 'visual', raw: 'rounded-tl:medium' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-top-left-radius: var(--r-medium)'));
+        assert.ok(!css.includes('border-top-right-radius'));
+      });
+
+      it('generates rounded-tr', () => {
+        const token = { property: 'rounded-tr', value: 'big', attrType: 'visual', raw: 'rounded-tr:big' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-top-right-radius: var(--r-big)'));
+        assert.ok(!css.includes('border-top-left-radius'));
+      });
+
+      it('generates rounded-bl', () => {
+        const token = { property: 'rounded-bl', value: 'small', attrType: 'visual', raw: 'rounded-bl:small' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-bottom-left-radius: var(--r-small)'));
+        assert.ok(!css.includes('border-bottom-right-radius'));
+      });
+
+      it('generates rounded-br', () => {
+        const token = { property: 'rounded-br', value: 'round', attrType: 'visual', raw: 'rounded-br:round' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-bottom-right-radius: var(--r-round)'));
+        assert.ok(!css.includes('border-bottom-left-radius'));
+      });
+
+      it('generates rounded-t with arbitrary value', () => {
+        const token = { property: 'rounded-t', value: '12px', attrType: 'visual', raw: 'rounded-t:[12px]', isArbitrary: true };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-top-left-radius: 12px'));
+        assert.ok(css.includes('border-top-right-radius: 12px'));
+      });
+
+      it('generates rounded-tl with arbitrary value', () => {
+        const token = { property: 'rounded-tl', value: '8px', attrType: 'visual', raw: 'rounded-tl:[8px]', isArbitrary: true };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        
+        assert.ok(css.includes('border-top-left-radius: 8px'));
+        assert.ok(!css.includes('border-top-right-radius'));
+      });
+
     });
 
     describe('Shadow', () => {
@@ -581,6 +671,8 @@ describe('CSS Generator', () => {
         assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
         assert.ok(css.includes('border-left-color: var(--c-gray-300)'));
         assert.ok(css.includes('border-right-color: var(--c-gray-300)'));
+        assert.ok(css.includes('border-left-style: solid'));
+        assert.ok(css.includes('border-right-style: solid'));
       });
       
       it('generates divide-y', () => {
@@ -591,6 +683,8 @@ describe('CSS Generator', () => {
         assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
         assert.ok(css.includes('border-top-color: var(--c-danger)'));
         assert.ok(css.includes('border-bottom-color: var(--c-danger)'));
+        assert.ok(css.includes('border-top-style: solid'));
+        assert.ok(css.includes('border-bottom-style: solid'));
       });
       
       it('generates divide width', () => {
@@ -599,7 +693,10 @@ describe('CSS Generator', () => {
         const css = generateCSS([token], config);
         
         assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
-        assert.ok(css.includes('border-width: var(--s-thin)'));
+        assert.ok(css.includes('border-top-width: calc(var(--s-thin) * (1 - var(--ss-divide-y-reverse)))'));
+        assert.ok(css.includes('border-bottom-width: calc(var(--s-thin) * var(--ss-divide-y-reverse))'));
+        assert.ok(css.includes('border-left-width: calc(var(--s-thin) * (1 - var(--ss-divide-x-reverse)))'));
+        assert.ok(css.includes('border-right-width: calc(var(--s-thin) * var(--ss-divide-x-reverse))'));
       });
       
       it('generates divide-x-w', () => {
@@ -608,8 +705,8 @@ describe('CSS Generator', () => {
         const css = generateCSS([token], config);
         
         assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
-        assert.ok(css.includes('border-left-width: var(--s-regular)'));
-        assert.ok(css.includes('border-right-width: var(--s-regular)'));
+        assert.ok(css.includes('border-right-width: calc(var(--s-regular) * var(--ss-divide-x-reverse))'));
+        assert.ok(css.includes('border-left-width: calc(var(--s-regular) * (1 - var(--ss-divide-x-reverse)))'));
       });
       
       it('generates divide-y-w', () => {
@@ -618,8 +715,8 @@ describe('CSS Generator', () => {
         const css = generateCSS([token], config);
         
         assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])'));
-        assert.ok(css.includes('border-top-width: var(--s-thick)'));
-        assert.ok(css.includes('border-bottom-width: var(--s-thick)'));
+        assert.ok(css.includes('border-bottom-width: calc(var(--s-thick) * var(--ss-divide-y-reverse))'));
+        assert.ok(css.includes('border-top-width: calc(var(--s-thick) * (1 - var(--ss-divide-y-reverse)))'));
       });
       
       it('generates divide style', () => {
