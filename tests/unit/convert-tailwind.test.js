@@ -1,11 +1,17 @@
 /**
  * Tests for convert-tailwind.js
  * Tailwind CSS to SenangStart CSS converter
+ * Merged from convert-tailwind.test.js and convert-tailwind.cli.test.js
  */
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { convertClass, convertClasses, convertHTML, spacingScale } from '../../scripts/convert-tailwind.js';
+import { execSync } from 'node:child_process';
+import path from 'node:path';
+import fs from 'node:fs';
+
+const SCRIPT_PATH = path.join(process.cwd(), 'scripts', 'convert-tailwind.js');
 
 describe('convertClass', () => {
   describe('Layout classes', () => {
@@ -40,7 +46,7 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('absolute'), { category: 'layout', value: 'absolute' });
       assert.deepStrictEqual(convertClass('fixed'), { category: 'layout', value: 'fixed' });
     });
-    
+
     it('should convert positional offsets (top, left, right, bottom)', () => {
       assert.deepStrictEqual(convertClass('top-0'), { category: 'layout', value: 'top:0' });
       assert.deepStrictEqual(convertClass('left-0'), { category: 'layout', value: 'left:0' });
@@ -49,7 +55,7 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('top-1/3'), { category: 'layout', value: 'top:third' });
       assert.deepStrictEqual(convertClass('inset-0'), { category: 'layout', value: 'inset:0' });
     });
-    
+
     it('should convert grid classes', () => {
       assert.deepStrictEqual(convertClass('grid-cols-3'), { category: 'layout', value: 'grid-cols:3' });
       assert.deepStrictEqual(convertClass('col-span-2'), { category: 'layout', value: 'col-span:2' });
@@ -87,14 +93,9 @@ describe('convertClass', () => {
     });
 
     it('should convert negative margin classes', () => {
-      // Standard exact=false
       assert.deepStrictEqual(convertClass('-m-4'), { category: 'space', value: 'm:-medium' });
       assert.deepStrictEqual(convertClass('-mt-8'), { category: 'space', value: 'm-t:-large' });
-      
-      // Exact=true
       assert.deepStrictEqual(convertClass('-m-4', { exact: true }), { category: 'space', value: 'm:-tw-4' });
-
-      // Arbitrary
       assert.deepStrictEqual(convertClass('-m-[10px]'), { category: 'space', value: 'm:[-10px]' });
     });
   });
@@ -169,7 +170,7 @@ describe('convertClass', () => {
       assert.deepStrictEqual(convertClass('opacity-50'), { category: 'visual', value: 'opacity:50' });
       assert.deepStrictEqual(convertClass('opacity-100'), { category: 'visual', value: 'opacity:100' });
     });
-    
+
     it('should convert cursor classes', () => {
       assert.deepStrictEqual(convertClass('cursor-pointer'), { category: 'visual', value: 'cursor:pointer' });
       assert.deepStrictEqual(convertClass('cursor-not-allowed'), { category: 'visual', value: 'cursor:not-allowed' });
@@ -204,7 +205,6 @@ describe('convertClass', () => {
 
     it('should handle hover/focus prefixes', () => {
       assert.deepStrictEqual(convertClass('hover:bg-blue-600'), { category: 'visual', value: 'hover:bg:blue-600' });
-      // focus:ring returns null because 'ring' is not a recognized base class
       assert.strictEqual(convertClass('focus:ring'), null);
     });
   });
@@ -222,12 +222,161 @@ describe('convertClass', () => {
       assert.strictEqual(convertClass('custom-utility'), null);
     });
   });
+
+  describe('Exact mode (tw- prefix)', () => {
+    describe('Spacing with exact mode', () => {
+      it('should output tw- prefix for padding', () => {
+        assert.deepStrictEqual(
+          convertClass('p-4', { exact: true }),
+          { category: 'space', value: 'p:tw-4' }
+        );
+        assert.deepStrictEqual(
+          convertClass('p-8', { exact: true }),
+          { category: 'space', value: 'p:tw-8' }
+        );
+      });
+
+      it('should output tw- prefix for margin', () => {
+        assert.deepStrictEqual(
+          convertClass('mt-4', { exact: true }),
+          { category: 'space', value: 'm-t:tw-4' }
+        );
+      });
+
+      it('should output tw- prefix for gap', () => {
+        assert.deepStrictEqual(
+          convertClass('gap-4', { exact: true }),
+          { category: 'space', value: 'g:tw-4' }
+        );
+      });
+
+      it('should output tw- prefix for width/height', () => {
+        assert.deepStrictEqual(
+          convertClass('w-8', { exact: true }),
+          { category: 'space', value: 'w:tw-8' }
+        );
+      });
+    });
+
+    describe('Border radius with exact mode', () => {
+      it('should output tw- prefix for rounded', () => {
+        assert.deepStrictEqual(
+          convertClass('rounded', { exact: true }),
+          { category: 'visual', value: 'rounded:tw-DEFAULT' }
+        );
+        assert.deepStrictEqual(
+          convertClass('rounded-lg', { exact: true }),
+          { category: 'visual', value: 'rounded:tw-lg' }
+        );
+      });
+    });
+
+    describe('Shadow with exact mode', () => {
+      it('should output tw- prefix for shadow', () => {
+        assert.deepStrictEqual(
+          convertClass('shadow', { exact: true }),
+          { category: 'visual', value: 'shadow:tw-DEFAULT' }
+        );
+        assert.deepStrictEqual(
+          convertClass('shadow-lg', { exact: true }),
+          { category: 'visual', value: 'shadow:tw-lg' }
+        );
+      });
+    });
+
+    describe('Font size with exact mode', () => {
+      it('should output tw- prefix for text size', () => {
+        assert.deepStrictEqual(
+          convertClass('text-2xl', { exact: true }),
+          { category: 'visual', value: 'text-size:tw-2xl' }
+        );
+      });
+    });
+
+    describe('Divide utilities', () => {
+      it('should convert divide color', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-gray-200'),
+          { category: 'visual', value: 'divide:gray-200' }
+        );
+      });
+
+      it('should convert divide-x', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-x-gray-200'),
+          { category: 'visual', value: 'divide-x:gray-200' }
+        );
+      });
+
+      it('should convert divide-y', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-y-gray-200'),
+          { category: 'visual', value: 'divide-y:gray-200' }
+        );
+      });
+
+      it('should convert divide width', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-2'),
+          { category: 'visual', value: 'divide-w:regular' }
+        );
+      });
+
+      it('should convert divide-x width', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-x-2'),
+          { category: 'visual', value: 'divide-x-w:regular' }
+        );
+      });
+
+      it('should convert divide-y width', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-y-2'),
+          { category: 'visual', value: 'divide-y-w:regular' }
+        );
+      });
+
+      it('should convert divide style', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-dashed'),
+          { category: 'visual', value: 'divide-style:dashed' }
+        );
+      });
+
+      it('should convert divide style with exact mode', () => {
+        assert.deepStrictEqual(
+          convertClass('divide-dashed', { exact: true }),
+          { category: 'visual', value: 'divide-style:dashed' }
+        );
+      });
+    });
+
+    describe('convertClasses with exact mode', () => {
+      it('should group classes with tw- prefix', () => {
+        const result = convertClasses('flex p-4 rounded-lg', { exact: true });
+
+        assert.deepStrictEqual(result.layout, ['flex']);
+        assert.deepStrictEqual(result.space, ['p:tw-4']);
+        assert.deepStrictEqual(result.visual, ['rounded:tw-lg']);
+      });
+    });
+
+    describe('convertHTML with exact mode', () => {
+      it('should convert HTML with tw- prefix', () => {
+        const input = '<div class="p-4 rounded-lg"></div>';
+        const result = convertHTML(input, { exact: true });
+
+        assert.ok(result.includes('space="p:tw-4"'));
+        assert.ok(result.includes('visual="rounded:tw-lg"'));
+      });
+    });
+  });
 });
 
 describe('convertClasses', () => {
   it('should group classes by category', () => {
     const result = convertClasses('flex items-center p-4 bg-blue-500 text-white');
-    
+
     assert.deepStrictEqual(result.layout, ['flex', 'items:center']);
     assert.deepStrictEqual(result.space, ['p:medium']);
     assert.deepStrictEqual(result.visual, ['bg:blue-500', 'text:white']);
@@ -236,7 +385,7 @@ describe('convertClasses', () => {
 
   it('should collect unrecognized classes', () => {
     const result = convertClasses('flex my-custom-class p-4');
-    
+
     assert.deepStrictEqual(result.unrecognized, ['my-custom-class']);
   });
 });
@@ -245,7 +394,7 @@ describe('convertHTML', () => {
   it('should convert simple HTML element', () => {
     const input = '<div class="flex items-center p-4 bg-blue-500"></div>';
     const result = convertHTML(input);
-    
+
     assert.ok(result.includes('layout="flex items:center"'));
     assert.ok(result.includes('space="p:medium"'));
     assert.ok(result.includes('visual="bg:blue-500"'));
@@ -255,7 +404,7 @@ describe('convertHTML', () => {
   it('should preserve unrecognized classes in class attribute', () => {
     const input = '<div class="flex my-custom-class"></div>';
     const result = convertHTML(input);
-    
+
     assert.ok(result.includes('layout="flex"'));
     assert.ok(result.includes('class="my-custom-class"'));
   });
@@ -267,7 +416,7 @@ describe('convertHTML', () => {
       </div>
     `;
     const result = convertHTML(input);
-    
+
     assert.ok(result.includes('layout="flex"'));
     assert.ok(result.includes('visual="text:white"'));
   });
@@ -275,7 +424,7 @@ describe('convertHTML', () => {
   it('should handle single quotes', () => {
     const input = "<div class='flex p-4'></div>";
     const result = convertHTML(input);
-    
+
     assert.ok(result.includes('layout="flex"'));
     assert.ok(result.includes('space="p:medium"'));
   });
@@ -292,151 +441,78 @@ describe('spacingScale', () => {
   });
 });
 
-describe('Exact mode (tw- prefix)', () => {
-  describe('Spacing with exact mode', () => {
-    it('should output tw- prefix for padding', () => {
-      assert.deepStrictEqual(
-        convertClass('p-4', { exact: true }),
-        { category: 'space', value: 'p:tw-4' }
-      );
-      assert.deepStrictEqual(
-        convertClass('p-8', { exact: true }),
-        { category: 'space', value: 'p:tw-8' }
-      );
-    });
-
-    it('should output tw- prefix for margin', () => {
-      assert.deepStrictEqual(
-        convertClass('mt-4', { exact: true }),
-        { category: 'space', value: 'm-t:tw-4' }
-      );
-    });
-
-    it('should output tw- prefix for gap', () => {
-      assert.deepStrictEqual(
-        convertClass('gap-4', { exact: true }),
-        { category: 'space', value: 'g:tw-4' }
-      );
-    });
-
-    it('should output tw- prefix for width/height', () => {
-      assert.deepStrictEqual(
-        convertClass('w-8', { exact: true }),
-        { category: 'space', value: 'w:tw-8' }
-      );
-    });
+describe('convert-tailwind CLI', () => {
+  it('should show help message', () => {
+    const output = execSync(`node "${SCRIPT_PATH}" --help`).toString();
+    assert.match(output, /Usage:/);
+    assert.match(output, /Options:/);
   });
 
-  describe('Border radius with exact mode', () => {
-    it('should output tw- prefix for rounded', () => {
-      assert.deepStrictEqual(
-        convertClass('rounded', { exact: true }),
-        { category: 'visual', value: 'rounded:tw-DEFAULT' }
-      );
-      assert.deepStrictEqual(
-        convertClass('rounded-lg', { exact: true }),
-        { category: 'visual', value: 'rounded:tw-lg' }
-      );
-    });
+  it('should convert string input', () => {
+    const input = '"<div class=\'p-4\'></div>"';
+    const output = execSync(`node "${SCRIPT_PATH}" --string ${input}`).toString();
+    assert.match(output, /space="p:medium"/);
+    assert.doesNotMatch(output, /class=/);
   });
 
-  describe('Shadow with exact mode', () => {
-    it('should output tw- prefix for shadow', () => {
-      assert.deepStrictEqual(
-        convertClass('shadow', { exact: true }),
-        { category: 'visual', value: 'shadow:tw-DEFAULT' }
-      );
-      assert.deepStrictEqual(
-        convertClass('shadow-lg', { exact: true }),
-        { category: 'visual', value: 'shadow:tw-lg' }
-      );
-    });
+  it('should support exact mode', () => {
+    const input = '"<div class=\'p-4\'></div>"';
+    const output = execSync(`node "${SCRIPT_PATH}" --string ${input} --exact`).toString();
+    assert.match(output, /space="p:tw-4"/);
   });
 
-  describe('Font size with exact mode', () => {
-    it('should output tw- prefix for text size', () => {
-      assert.deepStrictEqual(
-        convertClass('text-2xl', { exact: true }),
-        { category: 'visual', value: 'text-size:tw-2xl' }
-      );
-    });
-  });
-  
-  describe('Divide utilities', () => {
-    it('should convert divide color', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-gray-200'),
-        { category: 'visual', value: 'divide:gray-200' }
-      );
-    });
-    
-    it('should convert divide-x', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-x-gray-200'),
-        { category: 'visual', value: 'divide-x:gray-200' }
-      );
-    });
-    
-    it('should convert divide-y', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-y-gray-200'),
-        { category: 'visual', value: 'divide-y:gray-200' }
-      );
-    });
-    
-    it('should convert divide width', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-2'),
-        { category: 'visual', value: 'divide-w:regular' }
-      );
-    });
-    
-    it('should convert divide-x width', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-x-2'),
-        { category: 'visual', value: 'divide-x-w:regular' }
-      );
-    });
-    
-    it('should convert divide-y width', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-y-2'),
-        { category: 'visual', value: 'divide-y-w:regular' }
-      );
-    });
-    
-    it('should convert divide style', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-dashed'),
-        { category: 'visual', value: 'divide-style:dashed' }
-      );
-    });
-    
-    it('should convert divide style with exact mode', () => {
-      assert.deepStrictEqual(
-        convertClass('divide-dashed', { exact: true }),
-        { category: 'visual', value: 'divide-style:dashed' }
-      );
-    });
-  });
-  
-  describe('convertClasses with exact mode', () => {
-    it('should group classes with tw- prefix', () => {
-      const result = convertClasses('flex p-4 rounded-lg', { exact: true });
-      
-      assert.deepStrictEqual(result.layout, ['flex']);
-      assert.deepStrictEqual(result.space, ['p:tw-4']);
-      assert.deepStrictEqual(result.visual, ['rounded:tw-lg']);
-    });
+  it('should fail without input file', () => {
+    try {
+      execSync(`node "${SCRIPT_PATH}" --exact`);
+      assert.fail('Should have failed');
+    } catch (error) {
+      assert.strictEqual(error.status, 1);
+      assert.match(error.stderr.toString(), /Error: Input file required/);
+    }
   });
 
-  describe('convertHTML with exact mode', () => {
-    it('should convert HTML with tw- prefix', () => {
-      const input = '<div class="p-4 rounded-lg"></div>';
-      const result = convertHTML(input, { exact: true });
-      
-      assert.ok(result.includes('space="p:tw-4"'));
-      assert.ok(result.includes('visual="rounded:tw-lg"'));
-    });
+  it('should fail with missing string argument', () => {
+    try {
+      execSync(`node "${SCRIPT_PATH}" --string`);
+      assert.fail('Should have failed');
+    } catch (error) {
+      assert.strictEqual(error.status, 1);
+      assert.match(error.stderr.toString(), /Error: --string requires an HTML string argument/);
+    }
+  });
+
+  it('should handle file input/output', () => {
+    const inputFile = path.join(process.cwd(), 'tests', 'fixtures', 'test-input.html');
+    const outputFile = path.join(process.cwd(), 'tests', 'fixtures', 'test-output.html');
+
+    fs.mkdirSync(path.dirname(inputFile), { recursive: true });
+
+    const content = '<div class="p-4 flex"></div>';
+    fs.writeFileSync(inputFile, content);
+
+    execSync(`node "${SCRIPT_PATH}" "${inputFile}" -o "${outputFile}"`);
+
+    const result = fs.readFileSync(outputFile, 'utf-8');
+    assert.match(result, /layout="flex"/);
+    assert.match(result, /space="p:medium"/);
+
+    fs.unlinkSync(inputFile);
+    fs.unlinkSync(outputFile);
+  });
+
+  it('should fail on invalid file paths', () => {
+    try {
+      execSync(`node "${SCRIPT_PATH}" non-existent.html`);
+      assert.fail('Should have failed');
+    } catch (error) {
+      assert.strictEqual(error.status, 1);
+    }
+  });
+
+  it('should handle unrecognized classes', () => {
+    const input = '"<div class=\'p-4 custom-class\'></div>"';
+    const output = execSync(`node "${SCRIPT_PATH}" --string ${input}`).toString();
+    assert.match(output, /space="p:medium"/);
+    assert.match(output, /class="custom-class"/);
   });
 });
