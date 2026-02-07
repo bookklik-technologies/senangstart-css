@@ -16,6 +16,7 @@ import transformDefinitions from './visual-transforms.js';
 import borderDefinitions from './visual-borders.js';
 import divideDefinitions from './visual-divide.js';
 import svgDefinitions from './visual-svg.js';
+import performanceDefinitions from './visual-performance.js';
 
 // Import split layout definitions
 import flexDefinitions from './layout-flex.js';
@@ -37,7 +38,8 @@ const allVisualDefinitions = {
   ...transformDefinitions,
   ...borderDefinitions,
   ...divideDefinitions,
-  ...svgDefinitions
+  ...svgDefinitions,
+  ...performanceDefinitions
 };
 
 // Re-export all definitions
@@ -54,6 +56,7 @@ export { transformDefinitions } from './visual-transforms.js';
 export { borderDefinitions } from './visual-borders.js';
 export { divideDefinitions } from './visual-divide.js';
 export { svgDefinitions } from './visual-svg.js';
+export { performanceDefinitions } from './visual-performance.js';
 
 // Re-export split layout definitions
 export { flexDefinitions } from './layout-flex.js';

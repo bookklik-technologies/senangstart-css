@@ -548,12 +548,34 @@ export default {
 * `1-12`: N columns (`columns: {n};`)
 * `auto`: Auto columns (`columns: auto;`)
 
+## contain
+> Isolate element rendering for performance
+
+**Syntax:** `visual="contain:[value]"`
+
+* `none`: No containment (`contain: none;`)
+* `strict`: Full containment (`contain: strict;`)
+* `content`: Content containment (`contain: content;`)
+* `size`: Size containment (`contain: size;`)
+* `layout`: Layout containment (`contain: layout;`)
+* `style`: Style containment (`contain: style;`)
+* `paint`: Paint containment (`contain: paint;`)
+
 ## container
 > Create a centered container with max-width
 
 **Syntax:** `layout="container"`
 
 * `container`: Centered container
+
+## content-visibility
+> Optimize rendering by skipping off-screen content
+
+**Syntax:** `visual="content-visibility:[value]"`
+
+* `visible`: Render all content (`content-visibility: visible;`)
+* `auto`: Skip when off-screen (`content-visibility: auto;`)
+* `hidden`: Never render off-screen (`content-visibility: hidden;`)
 
 ## cursor
 > Set cursor style
@@ -1771,6 +1793,17 @@ export default {
 * `break-words`: Break words (`overflow-wrap: break-word;`)
 * `break-all`: Break all (`word-break: break-all;`)
 * `break-keep`: Keep all (`word-break: keep-all;`)
+
+## writing-mode
+> Set writing direction for RTL/vertical text
+
+**Syntax:** `visual="writing-mode:[value]"`
+
+* `horizontal-tb`: Left to right (`writing-mode: horizontal-tb;`)
+* `vertical-rl`: Top to bottom RTL (`writing-mode: vertical-rl;`)
+* `vertical-lr`: Top to bottom LTR (`writing-mode: vertical-lr;`)
+* `sideways-rl`: Sideways RTL (`writing-mode: sideways-rl;`)
+* `sideways-lr`: Sideways LTR (`writing-mode: sideways-lr;`)
 
 ## z-index
 > Control stacking order

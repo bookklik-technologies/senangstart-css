@@ -148,6 +148,12 @@ Atribut `visual` mengawal warna, tekstur, tipografi, dan penampilan.
 
 - [Penyesuaian Warna Paksa](./visual/forced-color-adjust) - `forced-color-adjust:none`, `forced-color-adjust:auto`
 
+## Prestasi
+
+- [Ketampakan Kandungan](./visual/content-visibility) - `content-visibility:auto`, `content-visibility:hidden`
+- [Mengandung](./visual/contain) - `contain:strict`, `contain:content`, `contain:size`
+- [Mod Penulisan](./visual/writing-mode) - `writing-mode:horizontal-tb`, `writing-mode:vertical-rl`
+
 ## Contoh Pantas
 
 ```html

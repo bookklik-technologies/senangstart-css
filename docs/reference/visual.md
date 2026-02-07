@@ -131,6 +131,7 @@ The `visual` attribute controls colors, textures, typography, and appearance.
 - [Color Scheme](./visual/color-scheme) - `color-scheme:light`, `color-scheme:dark`
 - [Cursor](./visual/cursor) - `cursor:pointer`, `cursor:wait`, `cursor:grab`
 - [Field Sizing](./visual/field-sizing) - `field-sizing:content`
+- [Placeholder Color](./visual/placeholder-color) - Theme-configured placeholder text color
 - [Pointer Events](./visual/pointer-events) - `pointer-events:none`, `pointer-events:auto`
 - [Resize](./visual/resize) - `resize`, `resize:none`, `resize-x`, `resize-y`
 - [Scroll Behavior](./visual/scroll-behavior) - `scroll:smooth`, `scroll:auto`
@@ -153,6 +154,12 @@ The `visual` attribute controls colors, textures, typography, and appearance.
 ## Accessibility
 
 - [Forced Color Adjust](./visual/forced-color-adjust) - `forced-color-adjust:none`, `forced-color-adjust:auto`
+
+## Performance
+
+- [Content Visibility](./visual/content-visibility) - `content-visibility:auto`, `content-visibility:hidden`
+- [Contain](./visual/contain) - `contain:strict`, `contain:content`, `contain:size`
+- [Writing Mode](./visual/writing-mode) - `writing-mode:horizontal-tb`, `writing-mode:vertical-rl`
 
 ## Quick Example
 

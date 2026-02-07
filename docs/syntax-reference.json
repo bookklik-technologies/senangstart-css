@@ -628,7 +628,21 @@
     "property": "visual",
     "syntax": "visual=\"text-size:[value]\"",
     "category": "visual",
-    "values": [],
+    "values": [
+      "mini",
+      "small",
+      "base",
+      "large",
+      "big",
+      "huge",
+      "grand",
+      "giant",
+      "mount",
+      "mega",
+      "giga",
+      "tera",
+      "hero"
+    ],
     "supportsArbitrary": true
   },
   {
@@ -997,6 +1011,38 @@
       "lighten"
     ],
     "supportsArbitrary": false
+  },
+  {
+    "name": "gradient-from",
+    "property": "visual",
+    "syntax": "visual=\"from:[color]\"",
+    "category": "visual",
+    "values": [
+      "primary",
+      "blue-500"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "gradient-via",
+    "property": "visual",
+    "syntax": "visual=\"via:[color]\"",
+    "category": "visual",
+    "values": [
+      "purple-500"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "gradient-to",
+    "property": "visual",
+    "syntax": "visual=\"to:[color]\"",
+    "category": "visual",
+    "values": [
+      "purple-500",
+      "pink-500"
+    ],
+    "supportsArbitrary": true
   },
   {
     "name": "backdrop-blur",
@@ -1974,6 +2020,94 @@
     "supportsArbitrary": true
   },
   {
+    "name": "ring",
+    "property": "visual",
+    "syntax": "visual=\"ring:[size]\"",
+    "category": "visual",
+    "values": [
+      "none",
+      "thin",
+      "regular",
+      "small",
+      "medium",
+      "big"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "ring-color",
+    "property": "visual",
+    "syntax": "visual=\"ring-color:[color]\"",
+    "category": "visual",
+    "values": [
+      "primary",
+      "blue-500"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "ring-offset",
+    "property": "visual",
+    "syntax": "visual=\"ring-offset:[size]\"",
+    "category": "visual",
+    "values": [
+      "0",
+      "2",
+      "4"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "divide",
+    "property": "visual",
+    "syntax": "visual=\"divide:[color]\" | visual=\"divide-{x|y}:[color]\" | visual=\"divide-{x|y}:reverse\"",
+    "category": "visual",
+    "values": [
+      "primary",
+      "gray-300",
+      "danger"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "divide-width",
+    "property": "visual",
+    "syntax": "visual=\"divide-w:[value]\" | visual=\"divide-{x|y}-w:[value]\"",
+    "category": "visual",
+    "values": [
+      "none",
+      "thin",
+      "regular",
+      "thick"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "divide-style",
+    "property": "visual",
+    "syntax": "visual=\"divide-style:[value]\"",
+    "category": "visual",
+    "values": [
+      "solid",
+      "dashed",
+      "dotted",
+      "double",
+      "none"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "divide-reverse",
+    "property": "visual",
+    "syntax": "visual=\"divide-{x|y}:reverse\"",
+    "category": "visual",
+    "values": [
+      "divide-x:reverse",
+      "divide-y:reverse"
+    ],
+    "supportsArbitrary": false
+  },
+  {
     "name": "fill",
     "property": "visual",
     "syntax": "visual=\"fill:[color]\"",
@@ -2006,5 +2140,47 @@
       "2"
     ],
     "supportsArbitrary": true
+  },
+  {
+    "name": "content-visibility",
+    "property": "visual",
+    "syntax": "visual=\"content-visibility:[value]\"",
+    "category": "visual",
+    "values": [
+      "visible",
+      "auto",
+      "hidden"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "contain",
+    "property": "visual",
+    "syntax": "visual=\"contain:[value]\"",
+    "category": "visual",
+    "values": [
+      "none",
+      "strict",
+      "content",
+      "size",
+      "layout",
+      "style",
+      "paint"
+    ],
+    "supportsArbitrary": false
+  },
+  {
+    "name": "writing-mode",
+    "property": "visual",
+    "syntax": "visual=\"writing-mode:[value]\"",
+    "category": "visual",
+    "values": [
+      "horizontal-tb",
+      "vertical-rl",
+      "vertical-lr",
+      "sideways-rl",
+      "sideways-lr"
+    ],
+    "supportsArbitrary": false
   }
 ]

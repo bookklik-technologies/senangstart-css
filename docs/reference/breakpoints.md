@@ -11,6 +11,7 @@ Complete reference for responsive breakpoints.
 | `tab:` | 768px | Tablet |
 | `lap:` | 1024px | Laptop |
 | `desk:` | 1280px | Desktop |
+| `print:` | print | Print media |
 
 ## Tailwind Compatibility
 
@@ -44,6 +45,7 @@ SenangStart supports Tailwind CSS default breakpoints using the `tw-` prefix.
 @media (min-width: 768px) { /* tab: */ }
 @media (min-width: 1024px) { /* lap: */ }
 @media (min-width: 1280px) { /* desk: */ }
+@media print { /* print: */ }
 ```
 
 ## Usage
@@ -74,6 +76,18 @@ SenangStart supports Tailwind CSS default breakpoints using the `tw-` prefix.
 <h1 visual="text-size:big tab:text-size:giant lap:text-size:vast">
   Responsive heading
 </h1>
+```
+
+### Print Styles
+
+```html
+<div space="hidden print:block p:medium bg:white">
+  Printed only content
+</div>
+
+<button visual="hidden print:inline border:w-thin border:dark">
+  Print this page
+</button>
 ```
 
 ## Mobile-First Approach

@@ -11,6 +11,7 @@ Rujukan lengkap untuk breakpoint responsif.
 | `tab:` | 768px | Tablet |
 | `lap:` | 1024px | Komputer riba |
 | `desk:` | 1280px | Desktop |
+| `print:` | print | Media cetak |
 
 ## Keserasian Tailwind
 
@@ -44,6 +45,7 @@ SenangStart menyokong titik henti (breakpoint) lalai Tailwind CSS menggunakan pr
 @media (min-width: 768px) { /* tab: */ }
 @media (min-width: 1024px) { /* lap: */ }
 @media (min-width: 1280px) { /* desk: */ }
+@media print { /* print: */ }
 ```
 
 ## Penggunaan
@@ -74,6 +76,18 @@ SenangStart menyokong titik henti (breakpoint) lalai Tailwind CSS menggunakan pr
 <h1 visual="text-size:big tab:text-size:giant lap:text-size:vast">
   Tajuk responsif
 </h1>
+```
+
+### Gaya Cetakan
+
+```html
+<div space="hidden print:block p:medium bg:white">
+  Kandungan yang dicetak sahaja
+</div>
+
+<button visual="hidden print:inline border:w-thin border:dark">
+  Cetak halaman ini
+</button>
 ```
 
 ## Pendekatan Mobile-First

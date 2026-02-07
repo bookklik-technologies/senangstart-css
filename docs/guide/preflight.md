@@ -134,6 +134,25 @@ Consider disabling Preflight if:
 - You're using another CSS framework that already provides base styles
 - You need to preserve browser default styling for specific use cases
 
+### Safe Area Inset
+
+Support for modern devices with notches and rounded corners:
+
+\`\`\`css
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+\`\`\`
+
+This automatically adds padding to account for device features like:
+- iPhone notches and dynamic islands
+- Rounded screen corners
+- Home indicators on iPad
+- Cutouts on Android devices
+
 ## Full Preflight Styles
 
-For the complete list of Preflight styles, view the [preflight.js source](https://github.com/bookklik-technologies/senangstart-css/blob/main/src/compiler/generators/preflight.js).
+For complete list of Preflight styles, view [preflight.js source](https://github.com/bookklik-technologies/senangstart-css/blob/main/src/compiler/generators/preflight.js).

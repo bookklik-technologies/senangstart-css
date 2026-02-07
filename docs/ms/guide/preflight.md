@@ -134,6 +134,25 @@ Pertimbangkan untuk menyahaktifkan Preflight jika:
 - Anda menggunakan rangka kerja CSS lain yang sudah menyediakan gaya asas
 - Anda perlu mengekalkan gaya lalai pelayar untuk kes penggunaan tertentu
 
+### Inset Kawasan Selamat
+
+Sokongan untuk peranti moden dengan takuk dan sudut bulat:
+
+```css
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+```
+
+Ini secara automatik menambah padding untuk mengambil kira ciri peranti seperti:
+- Takuk iPhone dan pulau dinamik
+- Sudut skrin bulat
+- Penunjuk rumah pada iPad
+- Potong pada peranti Android
+
 ## Gaya Preflight Penuh
 
 Untuk senarai lengkap gaya Preflight, lihat [sumber preflight.js](https://github.com/bookklik-technologies/senangstart-css/blob/main/src/compiler/generators/preflight.js).

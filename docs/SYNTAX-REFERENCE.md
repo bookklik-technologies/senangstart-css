@@ -1,7 +1,7 @@
 # SenangStart CSS - Syntax Reference
 
-> Auto-generated on 2026-01-15
-> Total definitions: 149
+> Auto-generated on 2026-02-06
+> Total definitions: 162
 
 This document provides a complete reference of all utility syntax patterns in SenangStart CSS.
 
@@ -13,8 +13,8 @@ This document provides a complete reference of all utility syntax patterns in Se
 |----------|-------|
 | Layout | 41 |
 | Space | 5 |
-| Visual | 103 |
-| **Total** | **149** |
+| Visual | 116 |
+| **Total** | **162** |
 
 ---
 
@@ -117,7 +117,13 @@ This document provides a complete reference of all utility syntax patterns in Se
 | box-shadow | `shadow:[value]` | Add box shadow |
 | caret-color | `caret:[color]` | Set text input caret color |
 | color-scheme | `color-scheme:[value]` | Set preferred color scheme |
+| contain | `contain:[value]` | Isolate element rendering for performance |
+| content-visibility | `content-visibility:[value]` | Optimize rendering by skipping off-screen content |
 | cursor | `cursor:[value]` | Set cursor style |
+| divide | `divide:[color]` | `divide-{x|y}:[color]` | `divide-{x|y}:reverse` | Add borders between child elements |
+| divide-reverse | `divide-{x|y}:reverse` | Reverse border side for flex-reverse |
+| divide-style | `divide-style:[value]` | Set divider style |
+| divide-width | `divide-w:[value]` | `divide-{x|y}-w:[value]` | Set divider width |
 | field-sizing | `field-sizing:[value]` | Control form field sizing |
 | fill | `fill:[color]` | Set SVG fill color |
 | filter-blur | `blur:[value]` | Apply blur filter |
@@ -135,6 +141,9 @@ This document provides a complete reference of all utility syntax patterns in Se
 | font-variant-numeric | `[variant-value]` | Control numeric font variants |
 | font-weight | `font:[weight]` | Set font weight |
 | forced-color-adjust | `forced-color:[value]` | Control forced colors mode behavior |
+| gradient-from | `from:[color]` | Set gradient start color |
+| gradient-to | `to:[color]` | Set gradient end color |
+| gradient-via | `via:[color]` | Set gradient middle color |
 | hyphens | `hyphens:[value]` | Control hyphenation |
 | letter-spacing | `tracking:[value]` | Set letter spacing |
 | line-clamp | `line-clamp:[value]` | Limit text to specific lines |
@@ -145,6 +154,9 @@ This document provides a complete reference of all utility syntax patterns in Se
 | outline | `outline:[color]` | Set outline color |
 | pointer-events | `pointer-events:[value]` | Control pointer events |
 | resize | `resize:[value]` | Control element resizing |
+| ring | `ring:[size]` | Add focus ring around element using box-shadow |
+| ring-color | `ring-color:[color]` | Set ring color |
+| ring-offset | `ring-offset:[size]` | Add gap between ring and element |
 | scroll-behavior | `scroll-behavior:[value]` | Set scroll behavior |
 | scroll-margin | `scroll-m:[value]` | Set scroll margin for snap |
 | scroll-padding | `scroll-p:[value]` | Set scroll padding for snap |
@@ -185,6 +197,7 @@ This document provides a complete reference of all utility syntax patterns in Se
 | whitespace | `whitespace:[value]` | Control whitespace handling |
 | will-change | `will-change:[value]` | Hint browser about upcoming changes |
 | word-break | `[break-value]` | Control word breaking |
+| writing-mode | `writing-mode:[value]` | Set writing direction for RTL/vertical text |
 
 ---
 
@@ -913,6 +926,26 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `dark` | `color-scheme: dark;` |
 | `normal` | `color-scheme: normal;` |
 
+#### contain
+
+| Value | CSS Output |
+|-------|------------|
+| `none` | `contain: none;` |
+| `strict` | `contain: strict;` |
+| `content` | `contain: content;` |
+| `size` | `contain: size;` |
+| `layout` | `contain: layout;` |
+| `style` | `contain: style;` |
+| `paint` | `contain: paint;` |
+
+#### content-visibility
+
+| Value | CSS Output |
+|-------|------------|
+| `visible` | `content-visibility: visible;` |
+| `auto` | `content-visibility: auto;` |
+| `hidden` | `content-visibility: hidden;` |
+
 #### cursor
 
 | Value | CSS Output |
@@ -926,6 +959,40 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `not-allowed` | `cursor: not-allowed;` |
 | `grab` | `cursor: grab;` |
 | `grabbing` | `cursor: grabbing;` |
+
+#### divide
+
+| Value | CSS Output |
+|-------|------------|
+| `primary` | `border-color: var(--c-primary); border-style: solid;` |
+| `gray-300` | `border-color: var(--c-gray-300); border-style: solid;` |
+| `danger` | `border-color: var(--c-danger); border-style: solid;` |
+
+#### divide-reverse
+
+| Value | CSS Output |
+|-------|------------|
+| `divide-x:reverse` | `--ss-divide-x-reverse: 1;` |
+| `divide-y:reverse` | `--ss-divide-y-reverse: 1;` |
+
+#### divide-style
+
+| Value | CSS Output |
+|-------|------------|
+| `solid` | `border-style: solid;` |
+| `dashed` | `border-style: dashed;` |
+| `dotted` | `border-style: dotted;` |
+| `double` | `border-style: double;` |
+| `none` | `border-style: none;` |
+
+#### divide-width
+
+| Value | CSS Output |
+|-------|------------|
+| `none` | `border-width: var(--s-none);` |
+| `thin` | `border-width: var(--s-thin);` |
+| `regular` | `border-width: var(--s-regular);` |
+| `thick` | `border-width: var(--s-thick);` |
 
 #### field-sizing
 
@@ -1075,6 +1142,26 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `auto` | `forced-color-adjust: auto;` |
 | `none` | `forced-color-adjust: none;` |
 
+#### gradient-from
+
+| Value | CSS Output |
+|-------|------------|
+| `primary` | `--tw-gradient-from: var(--c-primary); --tw-gradient-to: transparent; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);` |
+| `blue-500` | `--tw-gradient-from: var(--c-blue-500); --tw-gradient-to: transparent; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);` |
+
+#### gradient-to
+
+| Value | CSS Output |
+|-------|------------|
+| `purple-500` | `--tw-gradient-to: var(--c-purple-500);` |
+| `pink-500` | `--tw-gradient-to: var(--c-pink-500);` |
+
+#### gradient-via
+
+| Value | CSS Output |
+|-------|------------|
+| `purple-500` | `--tw-gradient-via: var(--c-purple-500); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to);` |
+
 #### hyphens
 
 | Value | CSS Output |
@@ -1158,6 +1245,32 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `both` | `resize: both;` |
 | `x` | `resize: horizontal;` |
 | `y` | `resize: vertical;` |
+
+#### ring
+
+| Value | CSS Output |
+|-------|------------|
+| `none` | `box-shadow: 0 0 0 0 transparent;` |
+| `thin` | `box-shadow: 0 0 0 1px var(--ring-color);` |
+| `regular` | `box-shadow: 0 0 0 2px var(--ring-color);` |
+| `small` | `box-shadow: 0 0 0 4px var(--ring-color);` |
+| `medium` | `box-shadow: 0 0 0 6px var(--ring-color);` |
+| `big` | `box-shadow: 0 0 0 8px var(--ring-color);` |
+
+#### ring-color
+
+| Value | CSS Output |
+|-------|------------|
+| `primary` | `--ring-color: var(--c-primary);` |
+| `blue-500` | `--ring-color: var(--c-blue-500);` |
+
+#### ring-offset
+
+| Value | CSS Output |
+|-------|------------|
+| `0` | `--ring-offset: 0px;` |
+| `2` | `--ring-offset: 2px;` |
+| `4` | `--ring-offset: 4px;` |
 
 #### scroll-behavior
 
@@ -1291,6 +1404,24 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `small` | `text-shadow: 0 1px 2px rgba(0,0,0,0.1);` |
 | `medium` | `text-shadow: 0 2px 4px rgba(0,0,0,0.1);` |
 | `big` | `text-shadow: 0 4px 8px rgba(0,0,0,0.1);` |
+
+#### text-size
+
+| Value | CSS Output |
+|-------|------------|
+| `mini` | `font-size: var(--font-mini); line-height: var(--font-lh-mini);` |
+| `small` | `font-size: var(--font-small); line-height: var(--font-lh-small);` |
+| `base` | `font-size: var(--font-base); line-height: var(--font-lh-base);` |
+| `large` | `font-size: var(--font-large); line-height: var(--font-lh-large);` |
+| `big` | `font-size: var(--font-big); line-height: var(--font-lh-big);` |
+| `huge` | `font-size: var(--font-huge); line-height: var(--font-lh-huge);` |
+| `grand` | `font-size: var(--font-grand); line-height: var(--font-lh-grand);` |
+| `giant` | `font-size: var(--font-giant); line-height: var(--font-lh-giant);` |
+| `mount` | `font-size: var(--font-mount); line-height: var(--font-lh-mount);` |
+| `mega` | `font-size: var(--font-mega); line-height: var(--font-lh-mega);` |
+| `giga` | `font-size: var(--font-giga); line-height: var(--font-lh-giga);` |
+| `tera` | `font-size: var(--font-tera); line-height: var(--font-lh-tera);` |
+| `hero` | `font-size: var(--font-hero); line-height: var(--font-lh-hero);` |
 
 #### text-transform
 
@@ -1587,4 +1718,14 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `break-words` | `overflow-wrap: break-word;` |
 | `break-all` | `word-break: break-all;` |
 | `break-keep` | `word-break: keep-all;` |
+
+#### writing-mode
+
+| Value | CSS Output |
+|-------|------------|
+| `horizontal-tb` | `writing-mode: horizontal-tb;` |
+| `vertical-rl` | `writing-mode: vertical-rl;` |
+| `vertical-lr` | `writing-mode: vertical-lr;` |
+| `sideways-rl` | `writing-mode: sideways-rl;` |
+| `sideways-lr` | `writing-mode: sideways-lr;` |
 
