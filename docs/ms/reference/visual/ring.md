@@ -12,11 +12,11 @@ visual="ring:[size]"
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
 | `none` | `box-shadow: 0 0 0 0 transparent` | Tiada cincin |
-| `thin` | `box-shadow: 0 0 0 1px var(--ring-color)` | Cincin nipis (1px) |
-| `regular` | `box-shadow: 0 0 0 2px var(--ring-color)` | Cincin biasa (2px) |
-| `small` | `box-shadow: 0 0 0 4px var(--ring-color)` | Cincin kecil (4px) |
-| `medium` | `box-shadow: 0 0 0 6px var(--ring-color)` | Cincin sederhana (6px) |
-| `big` | `box-shadow: 0 0 0 8px var(--ring-color)` | Cincin besar (8px) |
+| `thin` | `box-shadow: var(--ring-inset) 0 0 0 1px var(--ss-ring-color)` | Cincin nipis (1px) |
+| `regular` | `box-shadow: var(--ring-inset) 0 0 0 2px var(--ss-ring-color)` | Cincin biasa (2px) |
+| `small` | `box-shadow: var(--ring-inset) 0 0 0 4px var(--ss-ring-color)` | Cincin kecil (4px) |
+| `medium` | `box-shadow: var(--ring-inset) 0 0 0 6px var(--ss-ring-color)` | Cincin sederhana (6px) |
+| `big` | `box-shadow: var(--ring-inset) 0 0 0 8px var(--ss-ring-color)` | Cincin besar (8px) |
 
 ## Contoh
 

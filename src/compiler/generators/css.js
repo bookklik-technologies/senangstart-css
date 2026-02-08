@@ -184,7 +184,8 @@ export function generateCSSVariables(config) {
   css += '  --ss-divide-y-reverse: 0;\n';
   
   // Ring utility variables
-  css += '  --ring-inset: 0 0 0 0;\n';
+  css += '  --ring-inset: ;\n';
+  css += '  --ss-ring-color: var(--c-primary);\n';
   
   css += '}\n\n';
   return css;
@@ -1134,6 +1135,9 @@ function generateVisualRule(token, config) {
     
     // Outline Color
     'outline': () => {
+      if (value === 'none') {
+        return 'outline: none;';
+      }
       const cssValue = resolveColorValue(value, isArbitrary);
       return `outline-color: ${cssValue};`;
     },
@@ -1191,7 +1195,12 @@ function generateVisualRule(token, config) {
       
       // Set both the variable and the box-shadow that uses it
       // This allows ring:[size] to work on its own or with ring-color:[color]
-      return `--ss-ring-width: ${width}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--c-primary);`;
+      return `--ss-ring-width: ${width}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color);`;
+    },
+    
+    // Ring Inset
+    'ring-inset': () => {
+      return '--ring-inset: inset;';
     },
     
     // Box shadow

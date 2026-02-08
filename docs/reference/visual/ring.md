@@ -12,11 +12,11 @@ visual="ring:[size]"
 | Value | CSS Output | Description |
 |-------|------------|-------------|
 | `none` | `box-shadow: 0 0 0 0 transparent` | No ring |
-| `thin` | `box-shadow: 0 0 0 1px var(--ring-color)` | Thin ring (1px) |
-| `regular` | `box-shadow: 0 0 0 2px var(--ring-color)` | Regular ring (2px) |
-| `small` | `box-shadow: 0 0 0 4px var(--ring-color)` | Small ring (4px) |
-| `medium` | `box-shadow: 0 0 0 6px var(--ring-color)` | Medium ring (6px) |
-| `big` | `box-shadow: 0 0 0 8px var(--ring-color)` | Big ring (8px) |
+| `thin` | `box-shadow: var(--ring-inset) 0 0 0 1px var(--ss-ring-color)` | Thin ring (1px) |
+| `regular` | `box-shadow: var(--ring-inset) 0 0 0 2px var(--ss-ring-color)` | Regular ring (2px) |
+| `small` | `box-shadow: var(--ring-inset) 0 0 0 4px var(--ss-ring-color)` | Small ring (4px) |
+| `medium` | `box-shadow: var(--ring-inset) 0 0 0 6px var(--ss-ring-color)` | Medium ring (6px) |
+| `big` | `box-shadow: var(--ring-inset) 0 0 0 8px var(--ss-ring-color)` | Big ring (8px) |
 
 ## Examples
 

@@ -11,8 +11,8 @@ visual="ring-color:[color]"
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `primary` | `--ring-color: var(--c-primary)` | Warna cincin utama |
-| `blue-500` | `--ring-color: var(--c-blue-500)` | Warna cincin biru |
+| `primary` | `--ss-ring-color: var(--c-primary)` | Warna cincin utama |
+| `blue-500` | `--ss-ring-color: var(--c-blue-500)` | Warna cincin biru |
 
 ## Contoh
 

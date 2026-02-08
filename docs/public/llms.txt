@@ -1247,28 +1247,28 @@ export default {
 **Syntax:** `visual="ring:[size]"`
 
 * `none`: No ring (`box-shadow: 0 0 0 0 transparent;`)
-* `thin`: Thin ring (1px) (`box-shadow: 0 0 0 1px var(--ring-color);`)
-* `regular`: Regular ring (2px) (`box-shadow: 0 0 0 2px var(--ring-color);`)
-* `small`: Small ring (4px) (`box-shadow: 0 0 0 4px var(--ring-color);`)
-* `medium`: Medium ring (6px) (`box-shadow: 0 0 0 6px var(--ring-color);`)
-* `big`: Big ring (8px) (`box-shadow: 0 0 0 8px var(--ring-color);`)
+* `thin`: Thin ring (1px)
+* `regular`: Regular ring (2px)
+* `small`: Small ring (4px)
+* `medium`: Medium ring (6px)
+* `big`: Big ring (8px)
 
 ## ring-color
 > Set ring color
 
 **Syntax:** `visual="ring-color:[color]"`
 
-* `primary`: Primary ring color (`--ring-color: var(--c-primary);`)
-* `blue-500`: Blue ring color (`--ring-color: var(--c-blue-500);`)
+* `primary`: Primary ring color (`--ss-ring-color: var(--c-primary);`)
+* `blue-500`: Blue ring color (`--ss-ring-color: var(--c-blue-500);`)
 
 ## ring-offset
 > Add gap between ring and element
 
 **Syntax:** `visual="ring-offset:[size]"`
 
-* `0`: No offset (`--ring-offset: 0px;`)
-* `2`: 2px offset (`--ring-offset: 2px;`)
-* `4`: 4px offset (`--ring-offset: 4px;`)
+* `0`: No offset (`--ss-ring-offset-width: 0px;`)
+* `2`: 2px offset (`--ss-ring-offset-width: 2px;`)
+* `4`: 4px offset (`--ss-ring-offset-width: 4px;`)
 
 ## scroll-behavior
 > Set scroll behavior

@@ -11,8 +11,8 @@ visual="ring-color:[color]"
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `primary` | `--ring-color: var(--c-primary)` | Primary ring color |
-| `blue-500` | `--ring-color: var(--c-blue-500)` | Blue ring color |
+| `primary` | `--ss-ring-color: var(--c-primary)` | Primary ring color |
+| `blue-500` | `--ss-ring-color: var(--c-blue-500)` | Blue ring color |
 
 ## Examples
 

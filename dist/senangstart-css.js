@@ -6537,11 +6537,11 @@ video {
     supportsArbitrary: true,
     values: [
       { value: "none", css: "box-shadow: 0 0 0 0 transparent;", description: "No ring", descriptionMs: "Tiada cincin" },
-      { value: "thin", css: "box-shadow: 0 0 0 1px var(--ring-color);", description: "Thin ring (1px)", descriptionMs: "Cincin nipis (1px)" },
-      { value: "regular", css: "box-shadow: 0 0 0 2px var(--ring-color);", description: "Regular ring (2px)", descriptionMs: "Cincin biasa (2px)" },
-      { value: "small", css: "box-shadow: 0 0 0 4px var(--ring-color);", description: "Small ring (4px)", descriptionMs: "Cincin kecil (4px)" },
-      { value: "medium", css: "box-shadow: 0 0 0 6px var(--ring-color);", description: "Medium ring (6px)", descriptionMs: "Cincin sederhana (6px)" },
-      { value: "big", css: "box-shadow: 0 0 0 8px var(--ring-color);", description: "Big ring (8px)", descriptionMs: "Cincin besar (8px)" }
+      { value: "thin", css: "box-shadow: var(--ring-inset) 0 0 0 1px var(--ss-ring-color);", description: "Thin ring (1px)", descriptionMs: "Cincin nipis (1px)" },
+      { value: "regular", css: "box-shadow: var(--ring-inset) 0 0 0 2px var(--ss-ring-color);", description: "Regular ring (2px)", descriptionMs: "Cincin biasa (2px)" },
+      { value: "small", css: "box-shadow: var(--ring-inset) 0 0 0 4px var(--ss-ring-color);", description: "Small ring (4px)", descriptionMs: "Cincin kecil (4px)" },
+      { value: "medium", css: "box-shadow: var(--ring-inset) 0 0 0 6px var(--ss-ring-color);", description: "Medium ring (6px)", descriptionMs: "Cincin sederhana (6px)" },
+      { value: "big", css: "box-shadow: var(--ring-inset) 0 0 0 8px var(--ss-ring-color);", description: "Big ring (8px)", descriptionMs: "Cincin besar (8px)" }
     ],
     examples: [
       { code: '<button visual="focus-visible:ring:small ring-color:primary">Focus me</button>', description: "Focus ring on keyboard focus" },
@@ -6571,8 +6571,8 @@ video {
     usesScale: "colors",
     supportsArbitrary: true,
     values: [
-      { value: "primary", css: "--ring-color: var(--c-primary);", description: "Primary ring color", descriptionMs: "Warna cincin utama" },
-      { value: "blue-500", css: "--ring-color: var(--c-blue-500);", description: "Blue ring color", descriptionMs: "Warna cincin biru" }
+      { value: "primary", css: "--ss-ring-color: var(--c-primary);", description: "Primary ring color", descriptionMs: "Warna cincin utama" },
+      { value: "blue-500", css: "--ss-ring-color: var(--c-blue-500);", description: "Blue ring color", descriptionMs: "Warna cincin biru" }
     ],
     examples: [
       { code: '<button visual="ring:small ring-color:primary">Colored ring</button>', description: "Ring with custom color" }
@@ -6587,9 +6587,9 @@ video {
     category: "visual",
     supportsArbitrary: true,
     values: [
-      { value: "0", css: "--ring-offset: 0px;", description: "No offset", descriptionMs: "Tiada ruang" },
-      { value: "2", css: "--ring-offset: 2px;", description: "2px offset", descriptionMs: "Ruang 2px" },
-      { value: "4", css: "--ring-offset: 4px;", description: "4px offset", descriptionMs: "Ruang 4px" }
+      { value: "0", css: "--ss-ring-offset-width: 0px;", description: "No offset", descriptionMs: "Tiada ruang" },
+      { value: "2", css: "--ss-ring-offset-width: 2px;", description: "2px offset", descriptionMs: "Ruang 2px" },
+      { value: "4", css: "--ss-ring-offset-width: 4px;", description: "4px offset", descriptionMs: "Ruang 4px" }
     ],
     examples: [
       { code: '<button visual="ring:small ring-offset:2 ring-color:primary">With offset</button>', description: "Ring with offset" }
@@ -7223,7 +7223,8 @@ video {
     }
     css += "  --ss-divide-x-reverse: 0;\n";
     css += "  --ss-divide-y-reverse: 0;\n";
-    css += "  --ring-inset: 0 0 0 0;\n";
+    css += "  --ring-inset: ;\n";
+    css += "  --ss-ring-color: var(--c-primary);\n";
     css += "}\n\n";
     return css;
   }
@@ -7999,6 +8000,9 @@ video {
       },
       // Outline Color
       "outline": () => {
+        if (value === "none") {
+          return "outline: none;";
+        }
         const cssValue = resolveColorValue(value, isArbitrary);
         return `outline-color: ${cssValue};`;
       },
@@ -8044,7 +8048,11 @@ video {
           "big": "8px"
         };
         const width2 = isArbitrary ? value : ringPresets[value] || (parseInt(value) ? `${value}px` : `var(--s-${value})`);
-        return `--ss-ring-width: ${width2}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--c-primary);`;
+        return `--ss-ring-width: ${width2}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color);`;
+      },
+      // Ring Inset
+      "ring-inset": () => {
+        return "--ring-inset: inset;";
       },
       // Box shadow
       "shadow": () => {

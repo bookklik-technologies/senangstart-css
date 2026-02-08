@@ -11,9 +11,9 @@ visual="ring-offset:[size]"
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `0` | `--ring-offset: 0px` | No offset |
-| `2` | `--ring-offset: 2px` | 2px offset |
-| `4` | `--ring-offset: 4px` | 4px offset |
+| `0` | `--ss-ring-offset-width: 0px` | No offset |
+| `2` | `--ss-ring-offset-width: 2px` | 2px offset |
+| `4` | `--ss-ring-offset-width: 4px` | 4px offset |
 
 ## Examples
 

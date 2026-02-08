@@ -11,9 +11,9 @@ visual="ring-offset:[size]"
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `0` | `--ring-offset: 0px` | Tiada ruang |
-| `2` | `--ring-offset: 2px` | Ruang 2px |
-| `4` | `--ring-offset: 4px` | Ruang 4px |
+| `0` | `--ss-ring-offset-width: 0px` | Tiada ruang |
+| `2` | `--ss-ring-offset-width: 2px` | Ruang 2px |
+| `4` | `--ss-ring-offset-width: 4px` | Ruang 4px |
 
 ## Contoh
 
