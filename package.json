@@ -1,6 +1,6 @@
 {
   "name": "@bookklik/senangstart-css",
-  "version": "0.2.12",
+  "version": "0.3.0",
   "description": "Fluent Style Utilities for Humans and AI",
   "type": "module",
   "main": "src/index.js",
@@ -23,7 +23,11 @@
     "test:integration": "node --test tests/integration/",
     "test:sync": "node --test tests/sync/",
     "test:watch": "node --test --watch tests/",
-    "test:coverage": "npx c8 --reporter=text --reporter=html node --test tests/"
+    "test:coverage": "npx c8 --reporter=text --reporter=html node --test tests/",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "lint:css": "stylelint \"public/**/*.css\" \"dist/**/*.css\"",
+    "lint:css:fix": "stylelint \"public/**/*.css\" \"dist/**/*.css\" --fix"
   },
   "keywords": [
     "css",
@@ -40,7 +44,11 @@
     "commander": "^11.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "esbuild": "^0.27.2",
+    "http-server": "^14.1.1",
+    "stylelint": "^17.11.1",
+    "stylelint-config-standard": "^40.0.0",
     "vitepress": "^1.6.4"
   }
 }

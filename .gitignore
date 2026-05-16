@@ -31,6 +31,8 @@ npm-debug.log*
 
 # Testing
 coverage/
+test-results/
+playwright-report/
 
 # Package manager locks (optional - uncomment if preferred)
 # package-lock.json

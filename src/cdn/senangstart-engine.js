@@ -56,8 +56,8 @@ import { defaultConfig, mergeConfig } from '../config/defaults.js';
       layout: new Set(),
       space: new Set(),
       visual: new Set(),
-      interact: new Set(), // Collected interact IDs
-      listens: new Set()   // Collected listens IDs
+      interact: new Set(),
+      listens: new Set()
     };
 
     const elements = document.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
@@ -72,7 +72,6 @@ import { defaultConfig, mergeConfig } from '../config/defaults.js';
         }
       });
       
-      // Collect interact and listens IDs directly
       ['interact', 'listens'].forEach(attr => {
         const value = el.getAttribute(attr);
         if (value) {
@@ -87,16 +86,28 @@ import { defaultConfig, mergeConfig } from '../config/defaults.js';
   }
 
   // ============================================
+  // TOKEN CACHE
+  // ============================================
+  
+  function tokensEqual(a, b) {
+    const keys = ['layout', 'space', 'visual', 'interact', 'listens'];
+    for (const key of keys) {
+      const setA = a[key] || new Set();
+      const setB = b[key] || new Set();
+      if (setA.size !== setB.size) return false;
+      for (const item of setA) {
+        if (!setB.has(item)) return false;
+      }
+    }
+    return true;
+  }
+
+  // ============================================
   // CSS COMPILER
   // ============================================
   
   function compileCSS(domTokens, config) {
-    // 1. Convert raw DOM tokens (Sets) to parsed token array
-    // tokenizeAll expects { layout: Set, ... } which matches domTokens structure
     const tokens = tokenizeAll(domTokens);
-    
-    // 2. Generate CSS using the core generator
-    // generateCSS expects array of tokens and config
     return generateCSS(tokens, config);
   }
 
@@ -121,18 +132,50 @@ import { defaultConfig, mergeConfig } from '../config/defaults.js';
   function init() {
     const config = getFinalConfig();
     
-    const tokens = scanDOM();
-    const css = compileCSS(tokens, config);
+    let cachedTokens = scanDOM();
+    let css = compileCSS(cachedTokens, config);
     injectStyles(css);
 
-    // Watch for DOM changes
-    const observer = new MutationObserver(() => {
-      const newTokens = scanDOM();
-      const newCSS = compileCSS(newTokens, config);
-      injectStyles(newCSS);
+    var debounceTimer = null;
+    var DEBOUNCE_MS = 200;
+
+    function recompile() {
+      unboundedObserver.disconnect();
+
+      var newTokens = scanDOM();
+
+      // Skip recompilation if tokens haven't changed
+      if (tokensEqual(cachedTokens, newTokens)) {
+        // Reconnect observer and return
+        unboundedObserver.observe(document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['layout', 'space', 'visual', 'interact', 'listens']
+        });
+        return;
+      }
+
+      cachedTokens = newTokens;
+      css = compileCSS(newTokens, config);
+      injectStyles(css);
+
+      // Reconnect observer
+      unboundedObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['layout', 'space', 'visual', 'interact', 'listens']
+      });
+    }
+
+    // Use a throttled observer that debounces rapid mutations
+    var unboundedObserver = new MutationObserver(function() {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(recompile, DEBOUNCE_MS);
     });
 
-    observer.observe(document.body, {
+    unboundedObserver.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
@@ -146,6 +189,7 @@ import { defaultConfig, mergeConfig } from '../config/defaults.js';
   }
 
   // Run on DOMContentLoaded or immediately if already loaded
+  // Handles 'loading', 'interactive', and 'complete' states
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

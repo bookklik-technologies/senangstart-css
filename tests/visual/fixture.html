@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenangStart Visual Test Fixture</title>
+  <link rel="stylesheet" href="senangstart.css">
+</head>
+<body style="font-family: system-ui, sans-serif; padding: 32px; background: var(--c-slate-50);">
+
+  <!-- Card Component -->
+  <div layout="block" space="max-w:[400px] m-x:auto m-b:big">
+    <div visual="bg:white rounded:medium shadow:medium">
+      <div visual="bg:indigo-500 rounded-t:medium" space="h:[120px]"></div>
+      <div space="p:medium">
+        <h3 visual="text-size:large font:bold text:slate-900" space="m-b:tiny">Card Title</h3>
+        <p visual="text:slate-500 text-size:small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+        <div layout="flex between" space="m-t:medium">
+          <button visual="bg:indigo-500 text:white rounded:small font:medium text-size:small" space="p-x:medium p-y:tiny" style="border:none;cursor:pointer;">Primary</button>
+          <button visual="border:slate-200 border-w:[1px] text:slate-700 rounded:small text-size:small" space="p-x:medium p-y:tiny" style="background:transparent;cursor:pointer;">Secondary</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid Component -->
+  <div layout="grid grid-cols:3" space="g:medium m-b:big max-w:[800px] m-x:auto">
+    <div visual="bg:white rounded:small shadow:small" space="p:small">
+      <p visual="text-size:small font:bold text:slate-800" space="m-b:tiny">Grid Item 1</p>
+      <p visual="text-size:mini text:slate-500">Description text here</p>
+    </div>
+    <div visual="bg:white rounded:small shadow:small" space="p:small">
+      <p visual="text-size:small font:bold text:slate-800" space="m-b:tiny">Grid Item 2</p>
+      <p visual="text-size:mini text:slate-500">Description text here</p>
+    </div>
+    <div visual="bg:white rounded:small shadow:small" space="p:small">
+      <p visual="text-size:small font:bold text:slate-800" space="m-b:tiny">Grid Item 3</p>
+      <p visual="text-size:mini text:slate-500">Description text here</p>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav layout="flex between" space="max-w:[800px] m-x:auto p-y:small m-b:big" visual="border-b:slate-200 border-b-w:[1px]">
+    <span visual="text-size:large font:bold text:indigo-600">SenangStart</span>
+    <div layout="flex" space="g:medium">
+      <a href="#" visual="text:slate-600 text-size:small" style="text-decoration:none;">Home</a>
+      <a href="#" visual="text:slate-600 text-size:small" style="text-decoration:none;">About</a>
+      <a href="#" visual="text:slate-600 text-size:small" style="text-decoration:none;">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Form Component -->
+  <div space="max-w:[400px] m-x:auto">
+    <form>
+      <div space="m-b:medium">
+        <label visual="text-size:small font:medium text:slate-700" space="m-b:tiny" style="display:block;">Email</label>
+        <input type="email" visual="border:slate-200 border-w:[1px] rounded:small text-size:small" space="p:small w:[100%]" style="outline:none;" placeholder="you@example.com">
+      </div>
+      <div space="m-b:medium">
+        <label visual="text-size:small font:medium text:slate-700" space="m-b:tiny" style="display:block;">Password</label>
+        <input type="password" visual="border:slate-200 border-w:[1px] rounded:small text-size:small" space="p:small w:[100%]" style="outline:none;" placeholder="••••••••">
+      </div>
+      <button visual="bg:indigo-500 text:white rounded:small font:medium text-size:small" space="p-x:medium p-y:small w:[100%]" style="border:none;cursor:pointer;">Sign In</button>
+    </form>
+  </div>
+
+  <!-- Alert / Colors Component -->
+  <div space="max-w:[800px] m-x:auto m-t:big">
+    <div layout="flex" space="g:small m-b:small">
+      <div visual="bg:success text:white rounded:small" space="p:small" layout="flex center" style="flex:1;">
+        <span visual="text-size:small font:medium">Success</span>
+      </div>
+      <div visual="bg:warning text:white rounded:small" space="p:small" layout="flex center" style="flex:1;">
+        <span visual="text-size:small font:medium">Warning</span>
+      </div>
+      <div visual="bg:danger text:white rounded:small" space="p:small" layout="flex center" style="flex:1;">
+        <span visual="text-size:small font:medium">Danger</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

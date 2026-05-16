@@ -1,0 +1,27 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": true,
+    "color-no-invalid-hex": true,
+    "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["tailwind", "apply", "layer", "config"]
+    }],
+    "color-function-alias-notation": null,
+    "color-function-notation": null,
+    "alpha-value-notation": null,
+    "color-hex-length": null,
+    "custom-property-pattern": null,
+    "property-no-vendor-prefix": null,
+    "value-keyword-case": null,
+    "declaration-block-single-line-max-declarations": null,
+    "function-url-quotes": null,
+    "media-feature-range-notation": null,
+    "at-rule-empty-line-before": null,
+    "declaration-property-value-no-unknown": [true, {
+      "ignoreProperties": {
+        "background-color": ["/.*/"]
+      }
+    }]
+  }
+}
