@@ -1283,22 +1283,22 @@ export default {
 
 **Syntax:** `visual="scroll-m:[value]"`
 
-* `scroll-m`: All sides (`scroll-margin: {value};`)
-* `scroll-m-t`: Top margin (`scroll-margin-top: {value};`)
-* `scroll-m-r`: Right margin (`scroll-margin-right: {value};`)
-* `scroll-m-b`: Bottom margin (`scroll-margin-bottom: {value};`)
-* `scroll-m-l`: Left margin (`scroll-margin-left: {value};`)
+* `scroll-m`: All sides (`scroll-margin: var(--s-medium);`)
+* `scroll-m-t`: Top margin (`scroll-margin-top: var(--s-medium);`)
+* `scroll-m-r`: Right margin (`scroll-margin-right: var(--s-medium);`)
+* `scroll-m-b`: Bottom margin (`scroll-margin-bottom: var(--s-medium);`)
+* `scroll-m-l`: Left margin (`scroll-margin-left: var(--s-medium);`)
 
 ## scroll-padding
 > Set scroll padding for snap
 
 **Syntax:** `visual="scroll-p:[value]"`
 
-* `scroll-p`: All sides (`scroll-padding: {value};`)
-* `scroll-p-t`: Top padding (`scroll-padding-top: {value};`)
-* `scroll-p-r`: Right padding (`scroll-padding-right: {value};`)
-* `scroll-p-b`: Bottom padding (`scroll-padding-bottom: {value};`)
-* `scroll-p-l`: Left padding (`scroll-padding-left: {value};`)
+* `scroll-p`: All sides (`scroll-padding: var(--s-big);`)
+* `scroll-p-t`: Top padding (`scroll-padding-top: var(--s-big);`)
+* `scroll-p-r`: Right padding (`scroll-padding-right: var(--s-big);`)
+* `scroll-p-b`: Bottom padding (`scroll-padding-bottom: var(--s-big);`)
+* `scroll-p-l`: Left padding (`scroll-padding-left: var(--s-big);`)
 
 ## scroll-snap-align
 > Set scroll snap alignment
@@ -1599,10 +1599,10 @@ export default {
 **Syntax:** `visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translate-z:[value]"`
 
 * `0`: No translation (`transform: translateX(0);`)
-* `tiny`: Tiny offset (`transform: translateX(var(--sp-tiny));`)
-* `small`: Small offset (`transform: translateX(var(--sp-small));`)
-* `medium`: Medium offset (`transform: translateX(var(--sp-medium));`)
-* `big`: Big offset (`transform: translateX(var(--sp-big));`)
+* `tiny`: Tiny offset (`transform: translateX(var(--s-tiny));`)
+* `small`: Small offset (`transform: translateX(var(--s-small));`)
+* `medium`: Medium offset (`transform: translateX(var(--s-medium));`)
+* `big`: Big offset (`transform: translateX(var(--s-big));`)
 * `full`: Full width/height (`transform: translateX(100%);`)
 * `1/2`: Half width/height (`transform: translateX(50%);`)
 * `-full`: Negative full (`transform: translateX(-100%);`)

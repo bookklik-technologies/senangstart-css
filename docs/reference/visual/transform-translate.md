@@ -12,10 +12,10 @@ visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translat
 | Value | CSS Output | Description |
 |-------|------------|-------------|
 | `0` | `transform: translateX(0)` | No translation |
-| `tiny` | `transform: translateX(var(--sp-tiny))` | Tiny offset |
-| `small` | `transform: translateX(var(--sp-small))` | Small offset |
-| `medium` | `transform: translateX(var(--sp-medium))` | Medium offset |
-| `big` | `transform: translateX(var(--sp-big))` | Big offset |
+| `tiny` | `transform: translateX(var(--s-tiny))` | Tiny offset |
+| `small` | `transform: translateX(var(--s-small))` | Small offset |
+| `medium` | `transform: translateX(var(--s-medium))` | Medium offset |
+| `big` | `transform: translateX(var(--s-big))` | Big offset |
 | `full` | `transform: translateX(100%)` | Full width/height |
 | `1/2` | `transform: translateX(50%)` | Half width/height |
 | `-full` | `transform: translateX(-100%)` | Negative full |

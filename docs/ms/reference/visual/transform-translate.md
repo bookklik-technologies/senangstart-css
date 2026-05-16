@@ -12,10 +12,10 @@ visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translat
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
 | `0` | `transform: translateX(0)` | Tiada alihan |
-| `tiny` | `transform: translateX(var(--sp-tiny))` | Alihan kecil |
-| `small` | `transform: translateX(var(--sp-small))` | Alihan kecil |
-| `medium` | `transform: translateX(var(--sp-medium))` | Alihan sederhana |
-| `big` | `transform: translateX(var(--sp-big))` | Alihan besar |
+| `tiny` | `transform: translateX(var(--s-tiny))` | Alihan kecil |
+| `small` | `transform: translateX(var(--s-small))` | Alihan kecil |
+| `medium` | `transform: translateX(var(--s-medium))` | Alihan sederhana |
+| `big` | `transform: translateX(var(--s-big))` | Alihan besar |
 | `full` | `transform: translateX(100%)` | Lebar/ketinggian penuh |
 | `1/2` | `transform: translateX(50%)` | Separuh lebar/ketinggian |
 | `-full` | `transform: translateX(-100%)` | Negatif penuh |

@@ -16,7 +16,7 @@ visual="bg-repeat:[value]"
 | `repeat-x` | `background-repeat: repeat-x` | Ulang mendatar |
 | `repeat-y` | `background-repeat: repeat-y` | Ulang menegak |
 | `round` | `background-repeat: round` | Ulang bulat |
-| `space` | `background-repeat: space` | Ulang berjarakd |
+| `space` | `background-repeat: space` | Ulang berjarak |
 
 ## Contoh
 

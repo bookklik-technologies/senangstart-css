@@ -11,11 +11,11 @@ visual="scroll-p:[value]"
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `scroll-p` | `scroll-padding: {value}` | Semua sisi |
-| `scroll-p-t` | `scroll-padding-top: {value}` | Padding atas |
-| `scroll-p-r` | `scroll-padding-right: {value}` | Padding kanan |
-| `scroll-p-b` | `scroll-padding-bottom: {value}` | Padding bawah |
-| `scroll-p-l` | `scroll-padding-left: {value}` | Padding kiri |
+| `scroll-p` | `scroll-padding: var(--s-big)` | Semua sisi |
+| `scroll-p-t` | `scroll-padding-top: var(--s-big)` | Padding atas |
+| `scroll-p-r` | `scroll-padding-right: var(--s-big)` | Padding kanan |
+| `scroll-p-b` | `scroll-padding-bottom: var(--s-big)` | Padding bawah |
+| `scroll-p-l` | `scroll-padding-left: var(--s-big)` | Padding kiri |
 
 ## Contoh
 

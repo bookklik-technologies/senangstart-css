@@ -1,4 +1,4 @@
-/* SenangStart CSS - JIT Runtime v0.2.0 | MIT License */
+/* SenangStart CSS - JIT Runtime v0.3.0 | MIT License */
 (() => {
   // src/core/constants.js
   var BREAKPOINTS = ["mob", "tab", "lap", "desk", "tw-sm", "tw-md", "tw-lg", "tw-xl", "tw-2xl"];
@@ -33,6 +33,121 @@
     "selectable",
     "disabled"
   ];
+  var TW_SPACING = {
+    "0": "0px",
+    "px": "1px",
+    "0.5": "0.125rem",
+    "1": "0.25rem",
+    "1.5": "0.375rem",
+    "2": "0.5rem",
+    "2.5": "0.625rem",
+    "3": "0.75rem",
+    "3.5": "0.875rem",
+    "4": "1rem",
+    "5": "1.25rem",
+    "6": "1.5rem",
+    "7": "1.75rem",
+    "8": "2rem",
+    "9": "2.25rem",
+    "10": "2.5rem",
+    "11": "2.75rem",
+    "12": "3rem",
+    "14": "3.5rem",
+    "16": "4rem",
+    "20": "5rem",
+    "24": "6rem",
+    "28": "7rem",
+    "32": "8rem",
+    "36": "9rem",
+    "40": "10rem",
+    "44": "11rem",
+    "48": "12rem",
+    "52": "13rem",
+    "56": "14rem",
+    "60": "15rem",
+    "64": "16rem",
+    "72": "18rem",
+    "80": "20rem",
+    "96": "24rem"
+  };
+  var TW_RADIUS = {
+    "none": "0px",
+    "sm": "0.125rem",
+    "DEFAULT": "0.25rem",
+    "md": "0.375rem",
+    "lg": "0.5rem",
+    "xl": "0.75rem",
+    "2xl": "1rem",
+    "3xl": "1.5rem",
+    "full": "9999px"
+  };
+  var TW_SHADOW = {
+    "sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+    "DEFAULT": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+    "md": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+    "lg": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+    "xl": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+    "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+    "inner": "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
+    "none": "0 0 #0000"
+  };
+  var TW_FONT_SIZE = {
+    "xs": "0.75rem",
+    "sm": "0.875rem",
+    "base": "1rem",
+    "lg": "1.125rem",
+    "xl": "1.25rem",
+    "2xl": "1.5rem",
+    "3xl": "1.875rem",
+    "4xl": "2.25rem",
+    "5xl": "3rem",
+    "6xl": "3.75rem",
+    "7xl": "4.5rem",
+    "8xl": "6rem",
+    "9xl": "8rem"
+  };
+  var TW_LEADING = {
+    "xs": "1rem",
+    "sm": "1.25rem",
+    "base": "1.5rem",
+    "lg": "1.75rem",
+    "xl": "1.75rem",
+    "2xl": "2rem",
+    "3xl": "2.25rem",
+    "4xl": "2.5rem",
+    "5xl": "1",
+    "6xl": "1",
+    "7xl": "1",
+    "8xl": "1",
+    "9xl": "1"
+  };
+  var TW_FONT_WEIGHT = {
+    "thin": "100",
+    "extralight": "200",
+    "light": "300",
+    "normal": "400",
+    "medium": "500",
+    "semibold": "600",
+    "bold": "700",
+    "extrabold": "800",
+    "black": "900"
+  };
+
+  // src/utils/logger.js
+  var colors = {
+    reset: "\x1B[0m",
+    bright: "\x1B[1m",
+    dim: "\x1B[2m",
+    // Foreground colors
+    red: "\x1B[31m",
+    green: "\x1B[32m",
+    yellow: "\x1B[33m",
+    blue: "\x1B[34m",
+    magenta: "\x1B[35m",
+    cyan: "\x1B[36m",
+    white: "\x1B[37m"
+  };
+  var prefix = `${colors.magenta}${colors.bright}[senang]${colors.reset}`;
 
   // src/utils/common.js
   function sanitizeValue(value) {
@@ -83,7 +198,9 @@
     }
     const atRules = /@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi;
     sanitized = sanitized.replace(atRules, "");
-    sanitized = sanitized.replace(/[;]/g, "_");
+    if (/[;]/.test(sanitized)) {
+      sanitized = sanitized.replace(/[;]/g, "_");
+    }
     const openBrackets = (sanitized.match(/\[/g) || []).length;
     const closeBrackets = (sanitized.match(/\]/g) || []).length;
     if (Math.abs(openBrackets - closeBrackets) > 3 || Math.max(openBrackets, closeBrackets) > 10) {
@@ -503,12 +620,12 @@ legend {
 
 /*
  * 1. Use a more sensible default box-sizing strategy
+ * 2. Support safe-area-inset for modern devices with notches
  */
 *,
 ::before,
 ::after {
-  box-sizing: border-box;
-  /* Support safe-area-inset for modern devices with notches */
+  /* Safe-area-inset support for modern devices */
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
@@ -527,16 +644,6 @@ dialog {
  */
 textarea {
   resize: vertical;
-}
-
-/*
- * 1. Reset the default placeholder opacity in Firefox
- * 2. Set the default placeholder color to a semi-transparent gray
- */
-input::placeholder,
-textarea::placeholder {
-  opacity: 1; /* 1 */
-  color: #9ca3af; /* 2 */
 }
 
 /*
@@ -3791,7 +3898,7 @@ video {
       { value: "repeat-x", css: "background-repeat: repeat-x;", description: "Repeat horizontally", descriptionMs: "Ulang mendatar" },
       { value: "repeat-y", css: "background-repeat: repeat-y;", description: "Repeat vertically", descriptionMs: "Ulang menegak" },
       { value: "round", css: "background-repeat: round;", description: "Round repeat", descriptionMs: "Ulang bulat" },
-      { value: "space", css: "background-repeat: space;", description: "Spaced repeat", descriptionMs: "Ulang berjarakd" }
+      { value: "space", css: "background-repeat: space;", description: "Spaced repeat", descriptionMs: "Ulang berjarak" }
     ],
     examples: [
       { code: '<div visual="bg-repeat:no-repeat">Single background</div>', description: "No repeat" }
@@ -4315,11 +4422,11 @@ video {
     supportsArbitrary: true,
     dynamic: true,
     values: [
-      { value: "scroll-m", css: "scroll-margin: {value};", description: "All sides", descriptionMs: "Semua sisi" },
-      { value: "scroll-m-t", css: "scroll-margin-top: {value};", description: "Top margin", descriptionMs: "Margin atas" },
-      { value: "scroll-m-r", css: "scroll-margin-right: {value};", description: "Right margin", descriptionMs: "Margin kanan" },
-      { value: "scroll-m-b", css: "scroll-margin-bottom: {value};", description: "Bottom margin", descriptionMs: "Margin bawah" },
-      { value: "scroll-m-l", css: "scroll-margin-left: {value};", description: "Left margin", descriptionMs: "Margin kiri" }
+      { value: "scroll-m", css: "scroll-margin: var(--s-medium);", description: "All sides", descriptionMs: "Semua sisi" },
+      { value: "scroll-m-t", css: "scroll-margin-top: var(--s-medium);", description: "Top margin", descriptionMs: "Margin atas" },
+      { value: "scroll-m-r", css: "scroll-margin-right: var(--s-medium);", description: "Right margin", descriptionMs: "Margin kanan" },
+      { value: "scroll-m-b", css: "scroll-margin-bottom: var(--s-medium);", description: "Bottom margin", descriptionMs: "Margin bawah" },
+      { value: "scroll-m-l", css: "scroll-margin-left: var(--s-medium);", description: "Left margin", descriptionMs: "Margin kiri" }
     ],
     examples: [
       { code: '<div visual="scroll-m:medium">Scroll margin</div>', description: "Scroll margin" }
@@ -4348,11 +4455,11 @@ video {
     supportsArbitrary: true,
     dynamic: true,
     values: [
-      { value: "scroll-p", css: "scroll-padding: {value};", description: "All sides", descriptionMs: "Semua sisi" },
-      { value: "scroll-p-t", css: "scroll-padding-top: {value};", description: "Top padding", descriptionMs: "Padding atas" },
-      { value: "scroll-p-r", css: "scroll-padding-right: {value};", description: "Right padding", descriptionMs: "Padding kanan" },
-      { value: "scroll-p-b", css: "scroll-padding-bottom: {value};", description: "Bottom padding", descriptionMs: "Padding bawah" },
-      { value: "scroll-p-l", css: "scroll-padding-left: {value};", description: "Left padding", descriptionMs: "Padding kiri" }
+      { value: "scroll-p", css: "scroll-padding: var(--s-big);", description: "All sides", descriptionMs: "Semua sisi" },
+      { value: "scroll-p-t", css: "scroll-padding-top: var(--s-big);", description: "Top padding", descriptionMs: "Padding atas" },
+      { value: "scroll-p-r", css: "scroll-padding-right: var(--s-big);", description: "Right padding", descriptionMs: "Padding kanan" },
+      { value: "scroll-p-b", css: "scroll-padding-bottom: var(--s-big);", description: "Bottom padding", descriptionMs: "Padding bawah" },
+      { value: "scroll-p-l", css: "scroll-padding-left: var(--s-big);", description: "Left padding", descriptionMs: "Padding kiri" }
     ],
     examples: [
       { code: '<div visual="scroll-p:big">Scroll padding</div>', description: "Scroll padding" }
@@ -6266,10 +6373,10 @@ video {
     dynamic: true,
     values: [
       { value: "0", css: "transform: translateX(0);", description: "No translation", descriptionMs: "Tiada alihan" },
-      { value: "tiny", css: "transform: translateX(var(--sp-tiny));", description: "Tiny offset", descriptionMs: "Alihan kecil" },
-      { value: "small", css: "transform: translateX(var(--sp-small));", description: "Small offset", descriptionMs: "Alihan kecil" },
-      { value: "medium", css: "transform: translateX(var(--sp-medium));", description: "Medium offset", descriptionMs: "Alihan sederhana" },
-      { value: "big", css: "transform: translateX(var(--sp-big));", description: "Big offset", descriptionMs: "Alihan besar" },
+      { value: "tiny", css: "transform: translateX(var(--s-tiny));", description: "Tiny offset", descriptionMs: "Alihan kecil" },
+      { value: "small", css: "transform: translateX(var(--s-small));", description: "Small offset", descriptionMs: "Alihan kecil" },
+      { value: "medium", css: "transform: translateX(var(--s-medium));", description: "Medium offset", descriptionMs: "Alihan sederhana" },
+      { value: "big", css: "transform: translateX(var(--s-big));", description: "Big offset", descriptionMs: "Alihan besar" },
       { value: "full", css: "transform: translateX(100%);", description: "Full width/height", descriptionMs: "Lebar/ketinggian penuh" },
       { value: "1/2", css: "transform: translateX(50%);", description: "Half width/height", descriptionMs: "Separuh lebar/ketinggian" },
       { value: "-full", css: "transform: translateX(-100%);", description: "Negative full", descriptionMs: "Negatif penuh" },
@@ -7055,7 +7162,9 @@ video {
     const { theme } = config;
     let css = ":root {\n";
     for (const [key, value] of Object.entries(theme.spacing)) {
-      css += `  --s-${key}: ${value};
+      const fallbacks = { "none": "0px", "small": "8px", "medium": "16px", "big": "48px" };
+      const fallback = fallbacks[key] ? `, ${fallbacks[key]}` : "";
+      css += `  --s-${key}: ${value}${fallback};
 `;
     }
     for (const [key, value] of Object.entries(theme.radius)) {
@@ -7098,126 +7207,27 @@ video {
       css += `  --z-${key}: ${value};
 `;
     }
-    const twSpacing = {
-      "0": "0px",
-      "px": "1px",
-      "0.5": "0.125rem",
-      "1": "0.25rem",
-      "1.5": "0.375rem",
-      "2": "0.5rem",
-      "2.5": "0.625rem",
-      "3": "0.75rem",
-      "3.5": "0.875rem",
-      "4": "1rem",
-      "5": "1.25rem",
-      "6": "1.5rem",
-      "7": "1.75rem",
-      "8": "2rem",
-      "9": "2.25rem",
-      "10": "2.5rem",
-      "11": "2.75rem",
-      "12": "3rem",
-      "14": "3.5rem",
-      "16": "4rem",
-      "20": "5rem",
-      "24": "6rem",
-      "28": "7rem",
-      "32": "8rem",
-      "36": "9rem",
-      "40": "10rem",
-      "44": "11rem",
-      "48": "12rem",
-      "52": "13rem",
-      "56": "14rem",
-      "60": "15rem",
-      "64": "16rem",
-      "72": "18rem",
-      "80": "20rem",
-      "96": "24rem"
-    };
-    for (const [key, value] of Object.entries(twSpacing)) {
+    for (const [key, value] of Object.entries(TW_SPACING)) {
       css += `  --tw-${key.replace(/\./g, "\\\\.")}: ${value};
 `;
     }
-    const twRadius = {
-      "none": "0px",
-      "sm": "0.125rem",
-      "DEFAULT": "0.25rem",
-      "md": "0.375rem",
-      "lg": "0.5rem",
-      "xl": "0.75rem",
-      "2xl": "1rem",
-      "3xl": "1.5rem",
-      "full": "9999px"
-    };
-    for (const [key, value] of Object.entries(twRadius)) {
+    for (const [key, value] of Object.entries(TW_RADIUS)) {
       css += `  --r-tw-${key}: ${value};
 `;
     }
-    const twShadow = {
-      "sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-      "DEFAULT": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-      "md": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-      "lg": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-      "xl": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-      "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-      "inner": "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
-      "none": "0 0 #0000"
-    };
-    for (const [key, value] of Object.entries(twShadow)) {
+    for (const [key, value] of Object.entries(TW_SHADOW)) {
       css += `  --shadow-tw-${key}: ${value};
 `;
     }
-    const twFontSize = {
-      "xs": "0.75rem",
-      "sm": "0.875rem",
-      "base": "1rem",
-      "lg": "1.125rem",
-      "xl": "1.25rem",
-      "2xl": "1.5rem",
-      "3xl": "1.875rem",
-      "4xl": "2.25rem",
-      "5xl": "3rem",
-      "6xl": "3.75rem",
-      "7xl": "4.5rem",
-      "8xl": "6rem",
-      "9xl": "8rem"
-    };
-    for (const [key, value] of Object.entries(twFontSize)) {
+    for (const [key, value] of Object.entries(TW_FONT_SIZE)) {
       css += `  --tw-text-${key}: ${value};
 `;
     }
-    const twLeading = {
-      "xs": "1rem",
-      "sm": "1.25rem",
-      "base": "1.5rem",
-      "lg": "1.75rem",
-      "xl": "1.75rem",
-      "2xl": "2rem",
-      "3xl": "2.25rem",
-      "4xl": "2.5rem",
-      "5xl": "1",
-      "6xl": "1",
-      "7xl": "1",
-      "8xl": "1",
-      "9xl": "1"
-    };
-    for (const [key, value] of Object.entries(twLeading)) {
+    for (const [key, value] of Object.entries(TW_LEADING)) {
       css += `  --tw-leading-${key}: ${value};
 `;
     }
-    const twFontWeight = {
-      "thin": "100",
-      "extralight": "200",
-      "light": "300",
-      "normal": "400",
-      "medium": "500",
-      "semibold": "600",
-      "bold": "700",
-      "extrabold": "800",
-      "black": "900"
-    };
-    for (const [key, value] of Object.entries(twFontWeight)) {
+    for (const [key, value] of Object.entries(TW_FONT_WEIGHT)) {
       css += `  --tw-font-${key}: ${value};
 `;
     }
@@ -8607,13 +8617,14 @@ video {
       "perspective": () => {
         const perspectivePresets = {
           "none": "none",
-          "small": "250px",
-          "medium": "500px",
-          "big": "750px",
-          "giant": "1000px",
-          "vast": "1500px"
+          "dramatic": "100px",
+          "near": "300px",
+          "normal": "500px",
+          "midrange": "800px",
+          "far": "1000px",
+          "distant": "1200px"
         };
-        const cssValue = isArbitrary ? value : perspectivePresets[value] || perspectivePresets["medium"];
+        const cssValue = isArbitrary ? value : perspectivePresets[value] || perspectivePresets["normal"];
         return `perspective: ${cssValue};`;
       },
       // Perspective Origin
@@ -9045,7 +9056,7 @@ video {
           console.warn(`[SenangStart] Error collecting interact IDs: ${e.message}`);
         }
       }
-      const displayProps = ["flex", "grid", "inline-flex", "inline-grid", "block", "inline", "hidden", "contents"];
+      const displayProps = ["flex", "grid", "inline-flex", "inline-grid", "block", "inline", "hidden"];
       const baseDisplayTokens = /* @__PURE__ */ new Map();
       for (const token of baseTokens) {
         try {
@@ -9719,102 +9730,147 @@ video {
   }
 
   // src/cdn/senangstart-engine.js
-  (function() {
-    "use strict";
-    function validateConfig(config) {
-      if (!config || typeof config !== "object" || Array.isArray(config)) return false;
-      if (config.theme && (typeof config.theme !== "object" || Array.isArray(config.theme))) return false;
-      return true;
-    }
-    function loadInlineConfig() {
-      const configEl = document.querySelector('script[type="senangstart/config"]');
-      if (!configEl) return {};
-      try {
-        const parsed = JSON.parse(configEl.textContent);
-        if (!validateConfig(parsed)) {
-          console.error("[SenangStart] Invalid config structure");
+  try {
+    (function() {
+      "use strict";
+      function validateConfig(config) {
+        if (!config || typeof config !== "object" || Array.isArray(config)) return false;
+        if (config.theme && (typeof config.theme !== "object" || Array.isArray(config.theme))) return false;
+        return true;
+      }
+      function loadInlineConfig() {
+        const configEl = document.querySelector('script[type="senangstart/config"]');
+        if (!configEl) return {};
+        try {
+          const parsed = JSON.parse(configEl.textContent);
+          if (!validateConfig(parsed)) {
+            console.error("[SenangStart] Invalid config structure");
+            return {};
+          }
+          return parsed;
+        } catch (e) {
+          console.error("[SenangStart] Invalid config JSON:", e);
           return {};
         }
-        return parsed;
-      } catch (e) {
-        console.error("[SenangStart] Invalid config JSON:", e);
-        return {};
       }
-    }
-    function getFinalConfig() {
-      const user = loadInlineConfig();
-      return mergeConfig(user);
-    }
-    function scanDOM() {
-      const tokens = {
-        layout: /* @__PURE__ */ new Set(),
-        space: /* @__PURE__ */ new Set(),
-        visual: /* @__PURE__ */ new Set(),
-        interact: /* @__PURE__ */ new Set(),
-        // Collected interact IDs
-        listens: /* @__PURE__ */ new Set()
-        // Collected listens IDs
-      };
-      const elements = document.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
-      elements.forEach((el) => {
-        ["layout", "space", "visual"].forEach((attr) => {
-          const value = el.getAttribute(attr);
-          if (value) {
-            value.split(/\s+/).forEach((token) => {
-              if (token) tokens[attr].add(token);
-            });
-          }
-        });
-        ["interact", "listens"].forEach((attr) => {
-          const value = el.getAttribute(attr);
-          if (value) {
-            value.split(/\s+/).forEach((id) => {
-              if (id) tokens[attr].add(id);
-            });
-          }
-        });
-      });
-      return tokens;
-    }
-    function compileCSS(domTokens, config) {
-      const tokens = tokenizeAll(domTokens);
-      return generateCSS(tokens, config);
-    }
-    function injectStyles(css) {
-      let styleEl = document.getElementById("senangstart-jit");
-      if (!styleEl) {
-        styleEl = document.createElement("style");
-        styleEl.id = "senangstart-jit";
-        document.head.appendChild(styleEl);
+      function getFinalConfig() {
+        const user = loadInlineConfig();
+        return mergeConfig(user);
       }
-      styleEl.textContent = css;
+      function scanDOM() {
+        const tokens = {
+          layout: /* @__PURE__ */ new Set(),
+          space: /* @__PURE__ */ new Set(),
+          visual: /* @__PURE__ */ new Set(),
+          interact: /* @__PURE__ */ new Set(),
+          listens: /* @__PURE__ */ new Set()
+        };
+        const elements = document.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
+        elements.forEach((el) => {
+          ["layout", "space", "visual"].forEach((attr) => {
+            const value = el.getAttribute(attr);
+            if (value) {
+              value.split(/\s+/).forEach((token) => {
+                if (token) tokens[attr].add(token);
+              });
+            }
+          });
+          ["interact", "listens"].forEach((attr) => {
+            const value = el.getAttribute(attr);
+            if (value) {
+              value.split(/\s+/).forEach((id) => {
+                if (id) tokens[attr].add(id);
+              });
+            }
+          });
+        });
+        return tokens;
+      }
+      function tokensEqual(a, b) {
+        const keys = ["layout", "space", "visual", "interact", "listens"];
+        for (const key of keys) {
+          const setA = a[key] || /* @__PURE__ */ new Set();
+          const setB = b[key] || /* @__PURE__ */ new Set();
+          if (setA.size !== setB.size) return false;
+          for (const item of setA) {
+            if (!setB.has(item)) return false;
+          }
+        }
+        return true;
+      }
+      function compileCSS(domTokens, config) {
+        const tokens = tokenizeAll(domTokens);
+        return generateCSS(tokens, config);
+      }
+      function injectStyles(css) {
+        let styleEl = document.getElementById("senangstart-jit");
+        if (!styleEl) {
+          styleEl = document.createElement("style");
+          styleEl.id = "senangstart-jit";
+          document.head.appendChild(styleEl);
+        }
+        styleEl.textContent = css;
+      }
+      function init() {
+        const config = getFinalConfig();
+        let cachedTokens = scanDOM();
+        let css = compileCSS(cachedTokens, config);
+        injectStyles(css);
+        var debounceTimer = null;
+        var DEBOUNCE_MS = 200;
+        function recompile() {
+          unboundedObserver.disconnect();
+          var newTokens = scanDOM();
+          if (tokensEqual(cachedTokens, newTokens)) {
+            unboundedObserver.observe(document.body, {
+              childList: true,
+              subtree: true,
+              attributes: true,
+              attributeFilter: ["layout", "space", "visual", "interact", "listens"]
+            });
+            return;
+          }
+          cachedTokens = newTokens;
+          css = compileCSS(newTokens, config);
+          injectStyles(css);
+          unboundedObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["layout", "space", "visual", "interact", "listens"]
+          });
+        }
+        var unboundedObserver = new MutationObserver(function() {
+          if (debounceTimer) clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(recompile, DEBOUNCE_MS);
+        });
+        unboundedObserver.observe(document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["layout", "space", "visual", "interact", "listens"]
+        });
+        console.log(
+          "%c[SenangStart CSS]%c Just-in-Time runtime initialized \u2713",
+          "color: #2563EB; font-weight: bold;",
+          "color: #10B981;"
+        );
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+  } catch (e) {
+    console.error("[SenangStart] Failed to initialize JIT runtime:", e.message);
+    if (typeof document !== "undefined") {
+      el = document.createElement("div");
+      el.style.cssText = "background:#fef2f2;color:#991b1b;padding:8px 16px;font-family:monospace;font-size:14px;";
+      el.textContent = "SenangStart CSS failed to load. See console for details.";
+      document.body && document.body.prepend(el);
     }
-    function init() {
-      const config = getFinalConfig();
-      const tokens = scanDOM();
-      const css = compileCSS(tokens, config);
-      injectStyles(css);
-      const observer = new MutationObserver(() => {
-        const newTokens = scanDOM();
-        const newCSS = compileCSS(newTokens, config);
-        injectStyles(newCSS);
-      });
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["layout", "space", "visual", "interact", "listens"]
-      });
-      console.log(
-        "%c[SenangStart CSS]%c Just-in-Time runtime initialized \u2713",
-        "color: #2563EB; font-weight: bold;",
-        "color: #10B981;"
-      );
-    }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", init);
-    } else {
-      init();
-    }
-  })();
+  }
+  var el;
 })();
+//# sourceMappingURL=senangstart-css.js.map

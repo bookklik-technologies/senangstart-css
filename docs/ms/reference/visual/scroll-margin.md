@@ -11,11 +11,11 @@ visual="scroll-m:[value]"
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `scroll-m` | `scroll-margin: {value}` | Semua sisi |
-| `scroll-m-t` | `scroll-margin-top: {value}` | Margin atas |
-| `scroll-m-r` | `scroll-margin-right: {value}` | Margin kanan |
-| `scroll-m-b` | `scroll-margin-bottom: {value}` | Margin bawah |
-| `scroll-m-l` | `scroll-margin-left: {value}` | Margin kiri |
+| `scroll-m` | `scroll-margin: var(--s-medium)` | Semua sisi |
+| `scroll-m-t` | `scroll-margin-top: var(--s-medium)` | Margin atas |
+| `scroll-m-r` | `scroll-margin-right: var(--s-medium)` | Margin kanan |
+| `scroll-m-b` | `scroll-margin-bottom: var(--s-medium)` | Margin bawah |
+| `scroll-m-l` | `scroll-margin-left: var(--s-medium)` | Margin kiri |
 
 ## Contoh
 

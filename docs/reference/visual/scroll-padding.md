@@ -11,11 +11,11 @@ visual="scroll-p:[value]"
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `scroll-p` | `scroll-padding: {value}` | All sides |
-| `scroll-p-t` | `scroll-padding-top: {value}` | Top padding |
-| `scroll-p-r` | `scroll-padding-right: {value}` | Right padding |
-| `scroll-p-b` | `scroll-padding-bottom: {value}` | Bottom padding |
-| `scroll-p-l` | `scroll-padding-left: {value}` | Left padding |
+| `scroll-p` | `scroll-padding: var(--s-big)` | All sides |
+| `scroll-p-t` | `scroll-padding-top: var(--s-big)` | Top padding |
+| `scroll-p-r` | `scroll-padding-right: var(--s-big)` | Right padding |
+| `scroll-p-b` | `scroll-padding-bottom: var(--s-big)` | Bottom padding |
+| `scroll-p-l` | `scroll-padding-left: var(--s-big)` | Left padding |
 
 ## Examples
 

@@ -762,7 +762,7 @@
   {
     "name": "border-radius",
     "property": "visual",
-    "syntax": "visual=\"rounded:[value]\"",
+    "syntax": "visual=\"rounded:[value]\" | visual=\"rounded-{t|b|l|r|tl|tr|bl|br}:[value]\"",
     "category": "visual",
     "values": [
       "none",
@@ -771,7 +771,7 @@
       "big",
       "round"
     ],
-    "supportsArbitrary": false
+    "supportsArbitrary": true
   },
   {
     "name": "box-shadow",

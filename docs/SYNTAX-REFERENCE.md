@@ -1,6 +1,6 @@
 # SenangStart CSS - Syntax Reference
 
-> Auto-generated on 2026-02-06
+> Auto-generated on 2026-05-16
 > Total definitions: 162
 
 This document provides a complete reference of all utility syntax patterns in SenangStart CSS.
@@ -111,7 +111,7 @@ This document provides a complete reference of all utility syntax patterns in Se
 | background-size | `bg-size:[value]` | Set background size |
 | blend-modes | `mix-blend:[value]` | Set mix blend mode |
 | border | `border:[color]` | `border-{t|b|l|r|x|y}:[color]` | Set border color for all sides or specific sides |
-| border-radius | `rounded:[value]` | Set border radius |
+| border-radius | `rounded:[value]` | `rounded-{t|b|l|r|tl|tr|bl|br}:[value]` | Set border radius for all corners or specific corners |
 | border-style | `border-style:[value]` | Set border style |
 | border-width | `border-w:[value]` | `border-{t|b|l|r|x|y}-w:[value]` | Set border width for all sides or specific sides |
 | box-shadow | `shadow:[value]` | Add box shadow |
@@ -1251,26 +1251,26 @@ This document provides a complete reference of all utility syntax patterns in Se
 | Value | CSS Output |
 |-------|------------|
 | `none` | `box-shadow: 0 0 0 0 transparent;` |
-| `thin` | `box-shadow: 0 0 0 1px var(--ring-color);` |
-| `regular` | `box-shadow: 0 0 0 2px var(--ring-color);` |
-| `small` | `box-shadow: 0 0 0 4px var(--ring-color);` |
-| `medium` | `box-shadow: 0 0 0 6px var(--ring-color);` |
-| `big` | `box-shadow: 0 0 0 8px var(--ring-color);` |
+| `thin` | `box-shadow: var(--ring-inset) 0 0 0 1px var(--ss-ring-color);` |
+| `regular` | `box-shadow: var(--ring-inset) 0 0 0 2px var(--ss-ring-color);` |
+| `small` | `box-shadow: var(--ring-inset) 0 0 0 4px var(--ss-ring-color);` |
+| `medium` | `box-shadow: var(--ring-inset) 0 0 0 6px var(--ss-ring-color);` |
+| `big` | `box-shadow: var(--ring-inset) 0 0 0 8px var(--ss-ring-color);` |
 
 #### ring-color
 
 | Value | CSS Output |
 |-------|------------|
-| `primary` | `--ring-color: var(--c-primary);` |
-| `blue-500` | `--ring-color: var(--c-blue-500);` |
+| `primary` | `--ss-ring-color: var(--c-primary);` |
+| `blue-500` | `--ss-ring-color: var(--c-blue-500);` |
 
 #### ring-offset
 
 | Value | CSS Output |
 |-------|------------|
-| `0` | `--ring-offset: 0px;` |
-| `2` | `--ring-offset: 2px;` |
-| `4` | `--ring-offset: 4px;` |
+| `0` | `--ss-ring-offset-width: 0px;` |
+| `2` | `--ss-ring-offset-width: 2px;` |
+| `4` | `--ss-ring-offset-width: 4px;` |
 
 #### scroll-behavior
 
@@ -1283,21 +1283,21 @@ This document provides a complete reference of all utility syntax patterns in Se
 
 | Value | CSS Output |
 |-------|------------|
-| `scroll-m` | `scroll-margin: {value};` |
-| `scroll-m-t` | `scroll-margin-top: {value};` |
-| `scroll-m-r` | `scroll-margin-right: {value};` |
-| `scroll-m-b` | `scroll-margin-bottom: {value};` |
-| `scroll-m-l` | `scroll-margin-left: {value};` |
+| `scroll-m` | `scroll-margin: var(--s-medium);` |
+| `scroll-m-t` | `scroll-margin-top: var(--s-medium);` |
+| `scroll-m-r` | `scroll-margin-right: var(--s-medium);` |
+| `scroll-m-b` | `scroll-margin-bottom: var(--s-medium);` |
+| `scroll-m-l` | `scroll-margin-left: var(--s-medium);` |
 
 #### scroll-padding
 
 | Value | CSS Output |
 |-------|------------|
-| `scroll-p` | `scroll-padding: {value};` |
-| `scroll-p-t` | `scroll-padding-top: {value};` |
-| `scroll-p-r` | `scroll-padding-right: {value};` |
-| `scroll-p-b` | `scroll-padding-bottom: {value};` |
-| `scroll-p-l` | `scroll-padding-left: {value};` |
+| `scroll-p` | `scroll-padding: var(--s-big);` |
+| `scroll-p-t` | `scroll-padding-top: var(--s-big);` |
+| `scroll-p-r` | `scroll-padding-right: var(--s-big);` |
+| `scroll-p-b` | `scroll-padding-bottom: var(--s-big);` |
+| `scroll-p-l` | `scroll-padding-left: var(--s-big);` |
 
 #### scroll-snap-align
 
@@ -1552,10 +1552,10 @@ This document provides a complete reference of all utility syntax patterns in Se
 | Value | CSS Output |
 |-------|------------|
 | `0` | `transform: translateX(0);` |
-| `tiny` | `transform: translateX(var(--sp-tiny));` |
-| `small` | `transform: translateX(var(--sp-small));` |
-| `medium` | `transform: translateX(var(--sp-medium));` |
-| `big` | `transform: translateX(var(--sp-big));` |
+| `tiny` | `transform: translateX(var(--s-tiny));` |
+| `small` | `transform: translateX(var(--s-small));` |
+| `medium` | `transform: translateX(var(--s-medium));` |
+| `big` | `transform: translateX(var(--s-big));` |
 | `full` | `transform: translateX(100%);` |
 | `1/2` | `transform: translateX(50%);` |
 | `-full` | `transform: translateX(-100%);` |
