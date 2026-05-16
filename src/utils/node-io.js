@@ -11,12 +11,12 @@
  * @throws {Error} - On timeout or read failure
  */
 export async function readFileWithTimeout(filePath, timeoutMs = 5000) {
-  const { promises: fsPromises, statSync } = await import('fs');
+  const { promises: fsPromises } = await import('fs');
 
-  // Check file size first
+  // Check file size first (async)
   let fileSize;
   try {
-    const stats = statSync(filePath);
+    const stats = await fsPromises.stat(filePath);
     fileSize = stats.size;
 
     // Reject files larger than 10MB
@@ -47,15 +47,17 @@ export async function readFileWithTimeout(filePath, timeoutMs = 5000) {
 
 /**
  * Batch read multiple files with timeout protection
+ * Errors are caught per-file and returned in the result's `error` property,
+ * allowing callers to handle partial failures gracefully.
  * @param {Array<string>} filePaths - Paths to files
  * @param {number} timeoutMs - Timeout per file
- * @returns {Promise<Array<{path: string, content: string, error: Error|null}>>} - File contents
+ * @returns {Promise<Array<{path: string, content: string|null, error: Error|null}>>} - File contents with per-file error info
  */
 export async function readMultipleFilesWithTimeout(filePaths, timeoutMs = 5000) {
   const results = [];
 
-  // Read files in batches to avoid overwhelming the system
-  const BATCH_SIZE = 10;
+  // Read files in batches for concurrency without overwhelming the system
+  const BATCH_SIZE = 50;
 
   for (let i = 0; i < filePaths.length; i += BATCH_SIZE) {
     const batch = filePaths.slice(i, i + BATCH_SIZE);

@@ -171,20 +171,19 @@ export const defaultConfig = {
 
 /**
  * Deep merge utility - safely merges nested objects
+ * Uses WeakMap to track source objects and avoid false positives from shared references
  * @param {Object} target - Target object
  * @param {Object} source - Source object to merge
- * @param {WeakSet} [visited] - Track visited objects to prevent infinite recursion
+ * @param {WeakMap} [visited] - Track visited source objects to prevent infinite recursion
  * @returns {Object} - Merged object
  */
-export function deepMerge(target, source, visited = new WeakSet()) {
-  if (visited.has(target) || visited.has(source)) {
-    return source;
+export function deepMerge(target, source, visited = new WeakMap()) {
+  if (visited.has(source)) {
+    return visited.get(source);
   }
 
-  visited.add(target);
-  visited.add(source);
-
   const result = { ...target };
+  visited.set(source, result);
 
   for (const key of Object.keys(source)) {
     if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {

@@ -3,7 +3,7 @@
  * Pure tokenizer functions shared by JIT runtime and build-time compiler
  */
 
-import { BREAKPOINTS, STATES, LAYOUT_KEYWORDS } from './constants.js';
+import { BREAKPOINTS, STATES, LAYOUT_KEYWORDS, LIMITS } from './constants.js';
 import { sanitizeValue, batchProcessTokens } from '../utils/common.js';
 
 /**
@@ -22,13 +22,16 @@ export function isValidToken(token) {
   if (!token.property || typeof token.property !== 'string') {
     return false;
   }
-  if (token.property.length > 100) {
+  if (token.property.length > LIMITS.MAX_PROPERTY_LENGTH) {
     return false;
   }
-  if (token.value !== null && typeof token.value !== 'string') {
+  if (token.value === null || token.value === undefined) {
     return false;
   }
-  if (token.value && token.value.length > 500) {
+  if (typeof token.value !== 'string') {
+    return false;
+  }
+  if (token.value.length > LIMITS.MAX_VALUE_LENGTH) {
     return false;
   }
   if (token.breakpoint && !BREAKPOINTS.includes(token.breakpoint)) {
@@ -49,8 +52,7 @@ export function isValidToken(token) {
  * @returns {Object} - Parsed token object
  */
 export function tokenize(raw, attrType) {
-  // Validate input
-  if (typeof raw !== 'string' || raw.length === 0 || raw.length > 200) {
+  if (typeof raw !== 'string' || raw.length === 0 || raw.length > LIMITS.MAX_TOKEN_RAW_LENGTH) {
     return {
       raw,
       breakpoint: null,
@@ -95,22 +97,14 @@ export function tokenize(raw, attrType) {
       token.value = raw;
       return token;
     }
-    
-    // Check for responsive layout (e.g., tab:row)
-    const parts = raw.split(':');
-    if (parts.length === 2 && BREAKPOINTS.includes(parts[0])) {
-      token.breakpoint = parts[0];
-      token.property = parts[1];
-      token.value = parts[1];
-      return token;
-    }
   }
 
   // Handle space and visual attributes with colon syntax
+  // Also handles layout tokens with breakpoint and/or state prefixes
   const parts = raw.split(':');
   
-if (parts.length === 1) {
-    // Single value for space/visual attributes
+  if (parts.length === 1) {
+    // Single value for space/visual attributes or simple layout keywords
     token.property = raw;
     token.value = raw;
     return token;
@@ -146,8 +140,12 @@ if (parts.length === 1) {
       token.value = sanitizeValue(arbitraryMatch[1].replace(/_/g, ' '));
       token.isArbitrary = true;
     } else {
-      token.value = sanitizeValue(value);
+      token.value = value;
     }
+  } else if (token.property && !token.value) {
+    // For tokens like breakpoint:keyword where no explicit value segment exists,
+    // use the property as the value (common for layout tokens like tab:row)
+    token.value = token.property;
   }
 
   // Validate the token structure

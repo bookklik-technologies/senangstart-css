@@ -3,17 +3,20 @@
  * Extracts layout, space, and visual attributes from source files
  */
 
+import { LIMITS } from '../core/constants.js';
+
 /**
  * Create fresh regex patterns for each parse operation
  * Prevents regex state accumulation and potential memory leaks
+ * Supports double-quoted, single-quoted, and unquoted attribute values
  */
 function createAttributePatterns() {
   return {
-    layout: /layout\s*=\s*("[^"]*"|'[^']*')/g,
-    space:  /space\s*=\s*("[^"]*"|'[^']*')/g,
-    visual: /visual\s*=\s*("[^"]*"|'[^']*')/g,
-    interact: /interact\s*=\s*("[^"]*"|'[^']*')/g,
-    listens: /listens\s*=\s*("[^"]*"|'[^']*')/g
+    layout:  /layout\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
+    space:   /space\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
+    visual:  /visual\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
+    interact:/interact\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
+    listens: /listens\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g
   };
 }
 
@@ -37,6 +40,7 @@ export function parseSource(content) {
     let match;
     while ((match = pattern.exec(content)) !== null) {
       let value = match[1].trim();
+      // Strip surrounding quotes (double or single) if present
       if (value.length >= 2) {
         const firstChar = value[0];
         const lastChar = value[value.length - 1];
@@ -44,11 +48,11 @@ export function parseSource(content) {
           value = value.slice(1, -1);
         }
       }
-      if (value.length > 10000) {
+      if (value.length > LIMITS.MAX_ATTRIBUTE_VALUE_LENGTH) {
         continue;
       }
       value.split(/\s+/).forEach(token => {
-        if (token && token.length <= 500) {
+        if (token && token.length <= LIMITS.MAX_VALUE_LENGTH) {
           results[attr].add(token);
         }
       });

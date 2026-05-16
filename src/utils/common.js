@@ -62,6 +62,16 @@ export function sanitizeValue(value) {
   const atRules = /@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi;
   sanitized = sanitized.replace(atRules, '');
   
+  // 4b. Strip parentheses content if it contains dangerous patterns after url() filtering
+  // Prevents bypass via parenthesized expressions like "progid:DXImageTransform"
+  sanitized = sanitized.replace(/\([^)]*\)/g, (match) => {
+    const lower = match.toLowerCase();
+    if (lower.includes('javascript') || lower.includes('vbscript') || lower.includes('expression') || lower.includes('progid')) {
+      return '(safe)';
+    }
+    return match;
+  });
+  
   // 5. Remove semicolons (statement terminators)
   // Note: semicolons are rare in legitimate CSS property values,
   // but if they appear, they are silently replaced with underscores.
@@ -73,8 +83,8 @@ export function sanitizeValue(value) {
   // 6. Validate bracket nesting
   const openBrackets = (sanitized.match(/\[/g) || []).length;
   const closeBrackets = (sanitized.match(/\]/g) || []).length;
-  // Reject if unbalanced (>3 difference) OR too deep (>10 total of any type)
-  if (Math.abs(openBrackets - closeBrackets) > 3 || Math.max(openBrackets, closeBrackets) > 10) {
+  // Reject if unbalanced (>1 difference) OR too deep (>10 total of any type)
+  if (Math.abs(openBrackets - closeBrackets) > 1 || Math.max(openBrackets, closeBrackets) > 10) {
     return '';
   }
   
@@ -136,14 +146,15 @@ export function isValidColor(value) {
   
   // Hex color: #RGB, #RGBA, #RRGGBB, #RRGGBBAA
   if (/^#([0-9A-Fa-f]{3}){1,2}$/.test(value)) return true;
-  
-  // Hex with 4 or 8 digits: #RGBA, #RRGGBBAA
   if (/^#([0-9A-Fa-f]{4}|[0-9A-Fa-f]{8})$/.test(value)) return true;
   
-  // rgb/rgba: rgb(0-255, 0-255, 0-255, 0-1)
+  // Modern CSS functional notation: rgb/rgba/hsl/hsla with comma or space separators
+  // rgb(r g b / a), hsl(h s l / a), etc.
+  if (/^(rgba?|hsla?)\(\s*\d+\.?\d*(%?)\s+/.test(value)) return true;
+  
+  // Legacy comma-separated rgb/rgba
   const rgbPattern = /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\)$/;
   if (rgbPattern.test(value)) {
-    // Validate RGB values are 0-255
     const matches = value.match(/\d+/g);
     if (matches) {
       const valid = matches.slice(0, 3).every(n => n >= 0 && n <= 255);
@@ -151,12 +162,12 @@ export function isValidColor(value) {
     }
   }
   
-  // hsl/hsla: hsl(0-360, 0-100%, 0-100%)
+  // Legacy comma-separated hsl/hsla
   const hslPattern = /^hsla?\(\s*\d+\s*,\s*[\d.]+%\s*,\s*[\d.]+%\s*(,\s*[\d.]+\s*)?\)$/;
-  if (hslPattern.test(value)) {
-    // Basic format validation (hue could be 0-360, saturation 0-100, lightness 0-100)
-    return true;
-  }
+  if (hslPattern.test(value)) return true;
+  
+  // Modern CSS: oklch(), lab(), lch(), oklab(), color()
+  if (/^(oklch|oklab|lab|lch|color)\(/.test(value)) return true;
   
   return false;
 }
@@ -318,60 +329,6 @@ export function validateThemeSection(section, values) {
     errors
   };
 }
-
-/**
- * Safe parseInt with bounds checking
- * @param {string|number} value - Value to parse
- * @param {number} min - Minimum allowed value (default: -1000000)
- * @param {number} max - Maximum allowed value (default: 1000000)
- * @returns {number} - Parsed integer or 0 if invalid/out of bounds
- */
-export function safeParseInt(value, min = -1000000, max = 1000000) {
-  const num = parseInt(value, 10);
-  
-  // Check for NaN
-  if (isNaN(num)) {
-    return 0;
-  }
-  
-  // Check for infinity
-  if (!isFinite(num)) {
-    return 0;
-  }
-  
-  // Check bounds
-  if (num < min || num > max) {
-    return 0;
-  }
-  
-  return num;
-}
-
-/**
- * Safe parseFloat with bounds checking
- * @param {string|number} value - Value to parse
- * @param {number} min - Minimum allowed value
- * @param {number} max - Maximum allowed value
- * @returns {number} - Parsed float or 0 if invalid/out of bounds
- */
-export function safeParseFloat(value, min = -1000000, max = 1000000) {
-  const num = parseFloat(value);
-  
-  if (isNaN(num)) {
-    return 0;
-  }
-  
-  if (!isFinite(num)) {
-    return 0;
-  }
-  
-  if (num < min || num > max) {
-    return 0;
-  }
-  
-  return num;
-}
-
 
 /**
  * Get current memory usage in MB

@@ -14,6 +14,14 @@
 
 import { COLOR_PALETTE } from '../config/colors.js';
 
+// Configurable safety limits
+export const LIMITS = {
+  MAX_PROPERTY_LENGTH: 100,
+  MAX_VALUE_LENGTH: 500,
+  MAX_TOKEN_RAW_LENGTH: 200,
+  MAX_ATTRIBUTE_VALUE_LENGTH: 10000
+};
+
 // Breakpoint prefixes
 export const BREAKPOINTS = ['mob', 'tab', 'lap', 'desk', 'tw-sm', 'tw-md', 'tw-lg', 'tw-xl', 'tw-2xl'];
 
@@ -280,7 +288,15 @@ export const DEFAULT_THEME = {
   fontWeight: {
     'normal': '400',
     'medium': '500',
-    'bold':   '700'
+    'bold': '700'
+  },
+  fontSizeLineHeight: {
+    'tiny': '1rem',
+    'small': '1.25rem',
+    'medium': '1.5rem',
+    'big': '1.75rem',
+    'giant': '1',
+    'vast': '1'
   },
   screens: {
     'mob':  '480px',
@@ -305,10 +321,12 @@ export const DEFAULT_THEME = {
 };
 
 // Tailwind spacing scale
+// Note: Dotted keys like '0.5' are stored with hyphen equivalents ('0-5')
+// to avoid CSS variable escape issues (--tw-0\.5 → --tw-0-5)
 export const TW_SPACING = {
   '0': '0px', 'px': '1px',
-  '0.5': '0.125rem', '1': '0.25rem', '1.5': '0.375rem', '2': '0.5rem', '2.5': '0.625rem',
-  '3': '0.75rem', '3.5': '0.875rem', '4': '1rem', '5': '1.25rem', '6': '1.5rem',
+  '0-5': '0.125rem', '1': '0.25rem', '1-5': '0.375rem', '2': '0.5rem', '2-5': '0.625rem',
+  '3': '0.75rem', '3-5': '0.875rem', '4': '1rem', '5': '1.25rem', '6': '1.5rem',
   '7': '1.75rem', '8': '2rem', '9': '2.25rem', '10': '2.5rem', '11': '2.75rem', '12': '3rem',
   '14': '3.5rem', '16': '4rem', '20': '5rem', '24': '6rem', '28': '7rem', '32': '8rem',
   '36': '9rem', '40': '10rem', '44': '11rem', '48': '12rem', '52': '13rem', '56': '14rem',
@@ -360,6 +378,9 @@ export const TW_FONT_WEIGHT = {
   'black': '900'
 };
 
+// CSS color keywords that should be passed through directly without var() wrapping
+export const CSS_COLOR_KEYWORDS = ['transparent', 'currentColor', 'inherit', 'initial', 'unset'];
+
 export default {
   BREAKPOINTS,
   STATES,
@@ -372,5 +393,7 @@ export default {
   TW_SHADOW,
   TW_FONT_SIZE,
   TW_LEADING,
-  TW_FONT_WEIGHT
+  TW_FONT_WEIGHT,
+  LIMITS,
+  CSS_COLOR_KEYWORDS
 };

@@ -36,12 +36,13 @@ export function compileSource(content, config) {
   const invalidTokens = logInvalidTokens(tokens);
   
   const css = generateCSS(tokens, config);
+  const hasErrors = invalidTokens.length > 0;
   
   return {
     tokens,
     css,
-    errors: invalidTokens.length > 0 ? invalidTokens : null,
-    minifiedCSS: config.output?.minify ? minifyCSS(css) : null
+    errors: hasErrors ? invalidTokens : null,
+    minifiedCSS: !hasErrors && config.output?.minify ? minifyCSS(css) : null
   };
 }
 
@@ -52,17 +53,28 @@ export function compileSource(content, config) {
  * @returns {Object} - Compilation results
  */
 export function compileMultiple(files, config) {
+  if (!Array.isArray(files)) {
+    throw new TypeError('compileMultiple expects an array of {path, content} objects');
+  }
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (!file || typeof file.content !== 'string') {
+      throw new TypeError(`files[${i}] must have a 'content' string property, got: ${typeof file?.content}`);
+    }
+  }
+
   const parsed = parseMultipleSources(files);
   const tokens = tokenizeAll(parsed);
   const invalidTokens = logInvalidTokens(tokens);
   
   const css = generateCSS(tokens, config);
+  const hasErrors = invalidTokens.length > 0;
   
   return {
     tokens,
     css,
-    errors: invalidTokens.length > 0 ? invalidTokens : null,
-    minifiedCSS: config.output?.minify ? minifyCSS(css) : null
+    errors: hasErrors ? invalidTokens : null,
+    minifiedCSS: !hasErrors && config.output?.minify ? minifyCSS(css) : null
   };
 }
 

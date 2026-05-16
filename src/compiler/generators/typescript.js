@@ -62,19 +62,18 @@ type LayoutValue =
   | LayoutZIndex
   | \`\${LayoutDisplay} \${LayoutDirection}\`
   | \`\${LayoutDisplay} \${LayoutAlignment}\`
-  | \`\${LayoutDisplay} \${LayoutDirection} \${LayoutAlignment}\`
-  | string;
+  | \`\${LayoutDisplay} \${LayoutDirection} \${LayoutAlignment}\`;
 
 // Space attribute values
 type SpacingScale = ${spacingKeys.map(k => `'${k}'`).join(' | ')};
-type Breakpoint = 'mob' | 'tab' | 'lap' | 'desk';
+type Breakpoint = 'mob' | 'tab' | 'lap' | 'desk' | 'print' | 'tw-sm' | 'tw-md' | 'tw-lg' | 'tw-xl' | 'tw-2xl';
 
 type PaddingValue = ${paddingUnions} | \`p-t:\${SpacingScale}\` | \`p-r:\${SpacingScale}\` | \`p-b:\${SpacingScale}\` | \`p-l:\${SpacingScale}\` | \`p-x:\${SpacingScale}\` | \`p-y:\${SpacingScale}\`;
 type MarginValue = ${marginUnions} | \`m-t:\${SpacingScale}\` | \`m-r:\${SpacingScale}\` | \`m-b:\${SpacingScale}\` | \`m-l:\${SpacingScale}\` | \`m-x:\${SpacingScale}\` | \`m-y:\${SpacingScale}\` | 'm-x:auto';
 type GapValue = ${gapUnions} | \`g-x:\${SpacingScale}\` | \`g-y:\${SpacingScale}\`;
 type SizeValue = \`w:[\${string}]\` | \`h:[\${string}]\` | \`min-w:[\${string}]\` | \`max-w:[\${string}]\` | \`min-h:[\${string}]\` | \`max-h:[\${string}]\`;
 
-type SpaceValue = PaddingValue | MarginValue | GapValue | SizeValue | \`\${Breakpoint}:\${PaddingValue}\` | string;
+type SpaceValue = PaddingValue | MarginValue | GapValue | SizeValue | \`\${Breakpoint}:\${PaddingValue}\`;
 
 // Visual attribute values
 type ColorKey = ${colorKeys.map(k => `'${k}'`).join(' | ')};
@@ -91,7 +90,7 @@ type RoundedValue = ${roundedUnions};
 type ShadowValue = ${shadowUnions};
 type TextAlignValue = 'text:left' | 'text:center' | 'text:right';
 
-type VisualValue = BgValue | TextColorValue | TextSizeValue | FontValue | RoundedValue | ShadowValue | TextAlignValue | string;
+type VisualValue = BgValue | TextColorValue | TextSizeValue | FontValue | RoundedValue | ShadowValue | TextAlignValue;
 
 // React JSX attribute extensions
 declare module 'react' {

@@ -9,7 +9,7 @@
  * @param {Object} config - Configuration object
  * @returns {string} - Preflight CSS string
  */
-export function generatePreflight(config) {
+export function generatePreflight(_config) {
   return `/* 
  * SenangStart Preflight v1.0
  * An opinionated set of base styles for SenangStart CSS projects

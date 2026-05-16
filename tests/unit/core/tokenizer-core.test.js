@@ -51,8 +51,8 @@ describe('Tokenizer Core', () => {
       }), true);
     });
 
-    it('returns true for null value', () => {
-      assert.strictEqual(isValidToken({ property: 'prop', value: null }), true);
+    it('rejects null value', () => {
+      assert.strictEqual(isValidToken({ property: 'prop', value: null }), false);
     });
   });
 

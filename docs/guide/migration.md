@@ -74,7 +74,7 @@ export default {
 
 ## Upgrading Between SenangStart Versions
 
-SenangStart is pre-1.0, meaning breaking changes may occur between minor versions. Check the [CHANGELOG](/CHANGELOG) before upgrading.
+SenangStart is pre-1.0, meaning breaking changes may occur between minor versions. Check the [CHANGELOG](https://github.com/bookklik/senangstart-css/blob/main/CHANGELOG.md) before upgrading.
 
 ### v0.2.x → v0.3.0
 
