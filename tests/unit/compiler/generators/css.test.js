@@ -16,14 +16,15 @@ describe('CSS Generator', () => {
 
   describe('generateCSSVariables', () => {
     
-    it('generates spacing CSS variables', () => {
+    it('generates spacing CSS variables without invalid fallbacks', () => {
       const config = createTestConfig();
       const css = generateCSSVariables(config);
       
       assert.ok(css.includes(':root {'));
-      assert.ok(css.includes('--s-tiny: 4px'));
-      assert.ok(css.includes('--s-medium: 16px'));
-      assert.ok(css.includes('--s-big: 32px'));
+      // Use exact line match to ensure no trailing commas or extra fallbacks
+      assert.ok(css.includes('  --s-tiny: 4px;\n'));
+      assert.ok(css.includes('  --s-medium: 16px;\n'));
+      assert.ok(css.includes('  --s-big: 32px;\n'));
     });
 
     it('generates color CSS variables', () => {

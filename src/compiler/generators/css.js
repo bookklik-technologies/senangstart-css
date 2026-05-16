@@ -6,7 +6,7 @@
 import { generatePreflight } from './preflight.js';
 import { sanitizeValue } from '../../utils/common.js';
 import { buildAllMaps } from '../../definitions/index.js';
-import { TW_SPACING, TW_RADIUS, TW_SHADOW, TW_FONT_SIZE, TW_LEADING, TW_FONT_WEIGHT } from '../../core/constants.js';
+import { TW_SPACING, TW_RADIUS, TW_SHADOW, TW_FONT_SIZE, TW_LEADING, TW_FONT_WEIGHT, CSS_COLOR_KEYWORDS } from '../../core/constants.js';
 import { getVisualRule } from './visual-rules.js';
 
 // Initialize maps from definitions - Single Source of Truth
@@ -79,12 +79,9 @@ export function generateCSSVariables(config) {
   const { theme } = config;
   let css = ':root {\n';
   
-  // Spacing variables (with fallbacks for critical sizes)
+  // Spacing variables
   for (const [key, value] of Object.entries(theme.spacing)) {
-    // Provide fallback values for commonly-used spacing keys
-    const fallbacks = { 'none':'0px', 'small':'8px', 'medium':'16px', 'big':'48px' };
-    const fallback = fallbacks[key] ? `, ${fallbacks[key]}` : '';
-    css += `  --s-${key}: ${value}${fallback};\n`;
+    css += `  --s-${key}: ${value};\n`;
   }
   
   // Radius variables

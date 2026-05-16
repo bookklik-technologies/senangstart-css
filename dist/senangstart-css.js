@@ -419,7 +419,7 @@
     "extrabold": "800",
     "black": "900"
   };
-  var CSS_COLOR_KEYWORDS2 = ["transparent", "currentColor", "inherit", "initial", "unset"];
+  var CSS_COLOR_KEYWORDS = ["transparent", "currentColor", "inherit", "initial", "unset"];
 
   // src/utils/logger.js
   var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
@@ -7504,7 +7504,7 @@ video {
   // src/compiler/generators/visual-rules.js
   function resolveColorValue(value, isArbitrary) {
     if (isArbitrary) return value;
-    if (CSS_COLOR_KEYWORDS2.includes(value)) return value;
+    if (CSS_COLOR_KEYWORDS.includes(value)) return value;
     return `var(--c-${value})`;
   }
   function sanitizeArbitraryValue(value) {
@@ -7815,9 +7815,7 @@ video {
     const { theme } = config;
     let css = ":root {\n";
     for (const [key, value] of Object.entries(theme.spacing)) {
-      const fallbacks = { "none": "0px", "small": "8px", "medium": "16px", "big": "48px" };
-      const fallback = fallbacks[key] ? `, ${fallbacks[key]}` : "";
-      css += `  --s-${key}: ${value}${fallback};
+      css += `  --s-${key}: ${value};
 `;
     }
     for (const [key, value] of Object.entries(theme.radius)) {
