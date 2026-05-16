@@ -83,9 +83,9 @@ export const padding = {
 export const margin = {
   name: 'margin',
   property: 'space',
-  syntax: 'space="m:[value]" or space="m-{side}:[value]"',
-  description: 'Add margin to elements',
-  descriptionMs: 'Tambah margin pada elemen',
+  syntax: 'space="m:[value]" or space="m-{side}:[value]" or space="m-{side}:-[value]"',
+  description: 'Add margin to elements (prefix value with - for negative)',
+  descriptionMs: 'Tambah margin pada elemen (awali nilai dengan - untuk negatif)',
   category: 'space',
   usesScale: 'spacing',
   values: [
@@ -108,10 +108,13 @@ export const margin = {
     'auto'
   ],
   supportsArbitrary: true,
+  supportsNegative: true,
   examples: [
     { code: '<div space="m:medium">Margin all sides</div>', description: 'Medium margin' },
     { code: '<div space="m-x:auto">Centered horizontally</div>', description: 'Auto centering' },
-    { code: '<div space="m-t:big">Top margin</div>', description: 'Top margin only' }
+    { code: '<div space="m-t:big">Top margin</div>', description: 'Top margin only' },
+    { code: '<div space="m-t:-small">Negative top margin</div>', description: 'Negative top margin' },
+    { code: '<div space="m-x:-medium">Negative horizontal margin</div>', description: 'Negative horizontal margins' }
   ],
   preview: [
     {

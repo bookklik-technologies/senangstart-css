@@ -602,7 +602,8 @@ export default {
 * `grid`: Grid container (`display: grid;`)
 * `inline-grid`: Inline grid container (`display: inline-grid;`)
 * `block`: Block element (`display: block;`)
-* `inline`: Inline block element (`display: inline-block;`)
+* `inline`: Inline element (`display: inline;`)
+* `inline-block`: Inline block element (`display: inline-block;`)
 * `hidden`: Hidden element (`display: none;`)
 
 ## divide
@@ -664,7 +665,7 @@ export default {
 
 **Syntax:** `visual="blur:[value]"`
 
-* `none`: No blur (`filter: blur(0);`)
+* `none`: No blur (`filter: none;`)
 * `tiny`: Tiny blur (`filter: blur(2px);`)
 * `small`: Small blur (`filter: blur(4px);`)
 * `medium`: Medium blur (`filter: blur(8px);`)
@@ -808,6 +809,10 @@ export default {
 * `left`: Float left (`float: left;`)
 * `right`: Float right (`float: right;`)
 * `none`: No float (`float: none;`)
+* `clear-left`: Clear left floats (`clear: left;`)
+* `clear-right`: Clear right floats (`clear: right;`)
+* `clear-both`: Clear all floats (`clear: both;`)
+* `clear-none`: No clear (`clear: none;`)
 
 ## font-family
 > Set font family
@@ -1071,9 +1076,9 @@ export default {
 * `outside`: Outside position (`list-style-position: outside;`)
 
 ## margin
-> Add margin to elements
+> Add margin to elements (prefix value with - for negative)
 
-**Syntax:** `space="m:[value]" or space="m-{side}:[value]"`
+**Syntax:** `space="m:[value]" or space="m-{side}:[value]" or space="m-{side}:-[value]"`
 
 * `undefined`: All sides (`margin: var(--s-{value});`)
 * `undefined`: Top (`margin-top: var(--s-{value});`)
@@ -1144,6 +1149,37 @@ export default {
 
 **Syntax:** `visual="outline:[color]"`
 
+
+## outline-offset
+> Set outline offset (gap between outline and element)
+
+**Syntax:** `visual="outline-offset:[value]"`
+
+* `none`: No offset (0px) (`outline-offset: var(--s-none);`)
+* `thin`: Thin offset (1px) (`outline-offset: var(--s-thin);`)
+* `small`: Small offset (4px) (`outline-offset: var(--s-small);`)
+* `medium`: Medium offset (16px) (`outline-offset: var(--s-medium);`)
+
+## outline-style
+> Set outline style
+
+**Syntax:** `visual="outline-style:[value]"`
+
+* `solid`: Solid outline (`outline-style: solid;`)
+* `dashed`: Dashed outline (`outline-style: dashed;`)
+* `dotted`: Dotted outline (`outline-style: dotted;`)
+* `double`: Double outline (`outline-style: double;`)
+* `none`: No outline (`outline-style: none;`)
+
+## outline-w
+> Set outline width
+
+**Syntax:** `visual="outline-w:[value]"`
+
+* `none`: No outline width (0px) (`outline-width: var(--s-none);`)
+* `thin`: Thin outline (1px) (`outline-width: var(--s-thin);`)
+* `regular`: Regular outline (2px) (`outline-width: var(--s-regular);`)
+* `thick`: Thick outline (3px) (`outline-width: var(--s-thick);`)
 
 ## overflow
 > Control content overflow behavior
@@ -1397,10 +1433,6 @@ export default {
 
 **Syntax:** `visual="text:[color]"`
 
-* `left`: Align left (`text-align: left;`)
-* `center`: Align center (`text-align: center;`)
-* `right`: Align right (`text-align: right;`)
-* `justify`: Justify text (`text-align: justify;`)
 
 ## text-decoration
 > Set text decoration
@@ -1664,61 +1696,15 @@ export default {
 * `in-out`: Ease in-out
 
 ## typography-keywords
-> Typography utility keywords
+> Typography utility keywords (text-decoration-style only; other typography keywords are in their own definitions)
 
 **Syntax:** `visual="[keyword]"`
 
-* `italic`: Italic text (`font-style: italic;`)
-* `not-italic`: Normal style (`font-style: normal;`)
-* `antialiased`: Antialiased text
-* `subpixel-antialiased`: Subpixel antialiasing
-* `uppercase`: Uppercase text (`text-transform: uppercase;`)
-* `lowercase`: Lowercase text (`text-transform: lowercase;`)
-* `capitalize`: Capitalize words (`text-transform: capitalize;`)
-* `normal-case`: Normal case (`text-transform: none;`)
-* `underline`: Underline text (`text-decoration-line: underline;`)
-* `overline`: Overline text (`text-decoration-line: overline;`)
-* `line-through`: Strikethrough (`text-decoration-line: line-through;`)
-* `no-underline`: No decoration (`text-decoration-line: none;`)
 * `decoration-solid`: Solid line (`text-decoration-style: solid;`)
 * `decoration-double`: Double line (`text-decoration-style: double;`)
 * `decoration-dotted`: Dotted line (`text-decoration-style: dotted;`)
 * `decoration-dashed`: Dashed line (`text-decoration-style: dashed;`)
 * `decoration-wavy`: Wavy line (`text-decoration-style: wavy;`)
-* `truncate`: Truncate with ellipsis
-* `text-ellipsis`: Ellipsis overflow (`text-overflow: ellipsis;`)
-* `text-clip`: Clip overflow (`text-overflow: clip;`)
-* `text-wrap`: Wrap text (`text-wrap: wrap;`)
-* `text-nowrap`: No wrap (`text-wrap: nowrap;`)
-* `text-balance`: Balanced wrapping (`text-wrap: balance;`)
-* `text-pretty`: Pretty wrapping (`text-wrap: pretty;`)
-* `whitespace-normal`: Normal whitespace (`white-space: normal;`)
-* `whitespace-nowrap`: No wrap whitespace (`white-space: nowrap;`)
-* `whitespace-pre`: Preserve whitespace (`white-space: pre;`)
-* `whitespace-pre-line`: Pre-line whitespace (`white-space: pre-line;`)
-* `whitespace-pre-wrap`: Pre-wrap whitespace (`white-space: pre-wrap;`)
-* `whitespace-break-spaces`: Break spaces (`white-space: break-spaces;`)
-* `break-normal`: Normal word break (`overflow-wrap: normal; word-break: normal;`)
-* `break-words`: Break words (`overflow-wrap: break-word;`)
-* `break-all`: Break all (`word-break: break-all;`)
-* `break-keep`: Keep all (`word-break: keep-all;`)
-* `hyphens-none`: No hyphens (`hyphens: none;`)
-* `hyphens-manual`: Manual hyphens (`hyphens: manual;`)
-* `hyphens-auto`: Auto hyphens (`hyphens: auto;`)
-* `align-baseline`: Baseline align (`vertical-align: baseline;`)
-* `align-top`: Top align (`vertical-align: top;`)
-* `align-middle`: Middle align (`vertical-align: middle;`)
-* `align-bottom`: Bottom align (`vertical-align: bottom;`)
-* `align-text-top`: Text top align (`vertical-align: text-top;`)
-* `align-text-bottom`: Text bottom align (`vertical-align: text-bottom;`)
-* `align-sub`: Subscript align (`vertical-align: sub;`)
-* `align-super`: Superscript align (`vertical-align: super;`)
-* `list-none`: No list style (`list-style-type: none;`)
-* `list-disc`: Disc bullets (`list-style-type: disc;`)
-* `list-decimal`: Decimal numbers (`list-style-type: decimal;`)
-* `list-square`: Square bullets (`list-style-type: square;`)
-* `list-inside`: Inside position (`list-style-position: inside;`)
-* `list-outside`: Outside position (`list-style-position: outside;`)
 
 ## user-select
 > Control text selection

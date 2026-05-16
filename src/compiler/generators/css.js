@@ -999,7 +999,8 @@ function generateVisualRule(token, config) {
     
     // Border radius
     'rounded': () => {
-      return `border-radius: var(--r-${value});`;
+      const cssValue = isArbitrary ? value : `var(--r-${value})`;
+      return `border-radius: ${cssValue};`;
     },
     
     // Directional border radius
@@ -1170,12 +1171,15 @@ function generateVisualRule(token, config) {
     
     // Opacity
     'opacity': () => {
+      if (isArbitrary) {
+        return `opacity: ${value};`;
+      }
       // Convert percentage (0-100) to decimal (0-1)
       const numValue = parseInt(value, 10);
       if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
         return `opacity: ${numValue / 100};`;
       }
-      // For arbitrary values or already decimal, pass through
+      // For other values, pass through
       return `opacity: ${value};`;
     },
     
@@ -1289,6 +1293,7 @@ function generateVisualRule(token, config) {
         'vast': '48px'
       };
       const cssValue = isArbitrary ? value : (blurScale[value] || blurScale['medium']);
+      if (cssValue === '0') return 'filter: none;';
       return `filter: blur(${cssValue});`;
     },
     
@@ -1616,17 +1621,26 @@ function generateVisualRule(token, config) {
     
     // Scale
     'scale': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      if (isArbitrary) {
+        return `transform: scale(${value});`;
+      }
+      const cssValue = parseInt(value) / 100;
       return `transform: scale(${cssValue});`;
     },
     
     'scale-x': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      if (isArbitrary) {
+        return `transform: scaleX(${value});`;
+      }
+      const cssValue = parseInt(value) / 100;
       return `transform: scaleX(${cssValue});`;
     },
     
     'scale-y': () => {
-      const cssValue = isArbitrary ? value : (parseInt(value) / 100);
+      if (isArbitrary) {
+        return `transform: scaleY(${value});`;
+      }
+      const cssValue = parseInt(value) / 100;
       return `transform: scaleY(${cssValue});`;
     },
     
@@ -2152,7 +2166,8 @@ export function generateRule(token, config, skipDarkWrapper = false, interactIds
           const map = {
             'expanded': '[aria-expanded="true"]',
             'selected': '[aria-selected="true"]',
-            'disabled': ':disabled'
+            'disabled': ':disabled',
+            'placeholder': '::placeholder'
           };
           return map[s] || `:${s}`;
         };
@@ -2337,7 +2352,7 @@ export function generateCSSWithErrors(tokens, config) {
     }
 
     // Track display properties to handle conflicts like Tailwind
-    const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'hidden'];
+    const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'inline-block', 'hidden'];
     const baseDisplayTokens = new Map();
 
     // Find display properties in base tokens
@@ -2485,15 +2500,17 @@ export function generateCSS(tokens, config) {
 
 /**
  * Minify CSS by removing whitespace and comments
+ * Preserves spaces inside CSS values (font shorthand, media queries, etc.)
  */
 export function minifyCSS(css) {
   return css
-    .replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
-    .replace(/\s+/g, ' ')             // Collapse whitespace
-    .replace(/\s*{\s*/g, '{')         // Remove space around {
-    .replace(/\s*}\s*/g, '}')         // Remove space around }
-    .replace(/\s*;\s*/g, ';')         // Remove space around ;
-    .replace(/\s*:\s*/g, ':')         // Remove space around :
+    .replace(/\/\*[\s\S]*?\*\//g, '')       // Remove comments
+    .replace(/\s+/g, ' ')                    // Collapse whitespace to single space
+    .replace(/ ?\{ ?/g, '{')                 // Remove space around {
+    .replace(/ ?\} ?/g, '}')                 // Remove space around }
+    .replace(/; ?/g, ';')                    // Remove space after ;
+    .replace(/([a-z-]) ?: ?/g, '$1:')      // Remove space around : only after property names
+    .replace(/, ?/g, ',')                    // Remove space after ,
     .trim();
 }
 

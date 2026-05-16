@@ -109,8 +109,8 @@ export function tokenize(raw, attrType) {
   // Handle space and visual attributes with colon syntax
   const parts = raw.split(':');
   
-  if (parts.length === 1) {
-    // Single value (shouldn't happen for space/visual, but handle it)
+if (parts.length === 1) {
+    // Single value for space/visual attributes
     token.property = raw;
     token.value = raw;
     return token;

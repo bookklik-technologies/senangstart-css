@@ -52,6 +52,31 @@ try {
   // ============================================
   // DOM SCANNER
   // ============================================
+  function scanElement(el, tokens) {
+    ['layout', 'space', 'visual'].forEach(attr => {
+      const value = el.getAttribute(attr);
+      if (value) {
+        value.split(/\s+/).forEach(token => {
+          if (token) tokens[attr].add(token);
+        });
+      }
+    });
+
+    ['interact', 'listens'].forEach(attr => {
+      const value = el.getAttribute(attr);
+      if (value) {
+        value.split(/\s+/).forEach(id => {
+          if (id) tokens[attr].add(id);
+        });
+      }
+    });
+  }
+
+  function scanRoot(root, tokens) {
+    const elements = root.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
+    elements.forEach(el => scanElement(el, tokens));
+  }
+
   function scanDOM() {
     const tokens = {
       layout: new Set(),
@@ -61,26 +86,12 @@ try {
       listens: new Set()
     };
 
-    const elements = document.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
-    
-    elements.forEach(el => {
-      ['layout', 'space', 'visual'].forEach(attr => {
-        const value = el.getAttribute(attr);
-        if (value) {
-          value.split(/\s+/).forEach(token => {
-            if (token) tokens[attr].add(token);
-          });
-        }
-      });
-      
-      ['interact', 'listens'].forEach(attr => {
-        const value = el.getAttribute(attr);
-        if (value) {
-          value.split(/\s+/).forEach(id => {
-            if (id) tokens[attr].add(id);
-          });
-        }
-      });
+    scanRoot(document, tokens);
+
+    document.querySelectorAll('*').forEach(el => {
+      if (el.shadowRoot) {
+        scanRoot(el.shadowRoot, tokens);
+      }
     });
 
     return tokens;
@@ -145,9 +156,7 @@ try {
 
       var newTokens = scanDOM();
 
-      // Skip recompilation if tokens haven't changed
       if (tokensEqual(cachedTokens, newTokens)) {
-        // Reconnect observer and return
         unboundedObserver.observe(document.body, {
           childList: true,
           subtree: true,
@@ -161,7 +170,6 @@ try {
       css = compileCSS(newTokens, config);
       injectStyles(css);
 
-      // Reconnect observer
       unboundedObserver.observe(document.body, {
         childList: true,
         subtree: true,

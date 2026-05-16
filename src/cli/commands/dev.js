@@ -23,6 +23,9 @@ export async function dev(options = {}) {
   let buildInProgress = false;
   let pendingBuild = false;
 
+  // Debounce timer
+  let debounceTimer = null;
+
   async function runBuild() {
     // Check if we're in cooldown
     if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
@@ -53,76 +56,6 @@ export async function dev(options = {}) {
     }
   }
 
-  // Initial build
-  await runBuild();
-
-  function createWatcher() {
-    // Watch patterns
-    const watchPatterns = [
-      './**/*.html',
-      './**/*.htm',
-      './src/**/*.{html,jsx,tsx,vue,svelte}',
-      './pages/**/*.{html,jsx,tsx}',
-      './components/**/*.{html,jsx,tsx,vue,svelte}'
-    ];
-
-    // Ignore patterns
-    const ignorePatterns = [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/.git/**',
-      '**/public/**'
-    ];
-
-    // Create watcher
-    const watcher = chokidar.watch(watchPatterns, {
-      ignored: ignorePatterns,
-      persistent: true,
-      ignoreInitial: true
-    });
-
-    // Handle watcher errors
-    watcher.on('error', (error) => {
-      logger.error(`Watcher error: ${error.message}`);
-      consecutiveErrors++;
-      lastErrorTime = Date.now();
-
-      // Try to restart watcher after error
-      logger.info('Attempting to restart watcher...');
-      try {
-        watcher.close();
-        setTimeout(() => {
-          // Replace the global watcher reference by re-attaching events
-          const newWatcher = createWatcher();
-          newWatcher
-            .on('change', (path) => {
-              logger.info(`Changed: ${path}`);
-              debouncedBuild();
-            })
-            .on('add', (path) => {
-              logger.info(`Added: ${path}`);
-              debouncedBuild();
-            })
-            .on('unlink', (path) => {
-              logger.info(`Removed: ${path}`);
-              debouncedBuild();
-            });
-          logger.success('Watcher restarted successfully');
-        }, 1000);
-      } catch (restartError) {
-        logger.error(`Failed to restart watcher: ${restartError.message}`);
-      }
-    });
-
-    return watcher;
-  }
-
-  // Initialize watcher
-  const watcher = createWatcher();
-
-  // Debounce timer
-  let debounceTimer = null;
-
   async function debouncedBuild() {
     if (buildInProgress) {
       pendingBuild = true;
@@ -148,10 +81,49 @@ export async function dev(options = {}) {
     }, 100);
   }
 
-  // Watch events
+  // Config file patterns to watch for changes
+  const configPatterns = [
+    'senangstart.config.js',
+    'senangstart.config.mjs',
+    'senangstart.config.cjs'
+  ];
+
+  // Watch source patterns
+  const watchPatterns = [
+    './**/*.html',
+    './**/*.htm',
+    './src/**/*.{html,jsx,tsx,vue,svelte}',
+    './pages/**/*.{html,jsx,tsx}',
+    './components/**/*.{html,jsx,tsx,vue,svelte}',
+    ...configPatterns
+  ];
+
+  // Ignore patterns
+  const ignorePatterns = [
+    '**/node_modules/**',
+    '**/dist/**',
+    '**/.git/**',
+    '**/public/**'
+  ];
+
+  // Create watcher
+  let watcher = chokidar.watch(watchPatterns, {
+    ignored: ignorePatterns,
+    persistent: true,
+    ignoreInitial: true
+  });
+
+  // Set up event handlers
   watcher
     .on('change', (path) => {
-      logger.info(`Changed: ${path}`);
+      const isConfig = configPatterns.some(p => path.endsWith(p));
+      if (isConfig) {
+        logger.watch(`Config changed: ${path} — full rebuild required`);
+        // Clear require cache for config changes
+        delete require.cache[require.resolve(path)];
+      } else {
+        logger.info(`Changed: ${path}`);
+      }
       debouncedBuild();
     })
     .on('add', (path) => {
@@ -161,7 +133,47 @@ export async function dev(options = {}) {
     .on('unlink', (path) => {
       logger.info(`Removed: ${path}`);
       debouncedBuild();
+    })
+    .on('error', (error) => {
+      logger.error(`Watcher error: ${error.message}`);
+      consecutiveErrors++;
+      lastErrorTime = Date.now();
+
+      // Try to restart watcher after error
+      logger.info('Attempting to restart watcher...');
+      try {
+        watcher.close();
+        setTimeout(() => {
+          watcher = chokidar.watch(watchPatterns, {
+            ignored: ignorePatterns,
+            persistent: true,
+            ignoreInitial: true
+          });
+          watcher
+            .on('change', (path) => {
+              logger.info(`Changed: ${path}`);
+              debouncedBuild();
+            })
+            .on('add', (path) => {
+              logger.info(`Added: ${path}`);
+              debouncedBuild();
+            })
+            .on('unlink', (path) => {
+              logger.info(`Removed: ${path}`);
+              debouncedBuild();
+            })
+            .on('error', (err) => {
+              logger.error(`Restarted watcher error: ${err.message}`);
+            });
+          logger.success('Watcher restarted successfully');
+        }, 1000);
+      } catch (restartError) {
+        logger.error(`Failed to restart watcher: ${restartError.message}`);
+      }
     });
+
+  // Initial build
+  await runBuild();
 
   logger.watch('Watching for changes... (Ctrl+C to stop)');
 }

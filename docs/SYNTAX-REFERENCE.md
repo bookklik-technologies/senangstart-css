@@ -1,7 +1,7 @@
 # SenangStart CSS - Syntax Reference
 
 > Auto-generated on 2026-05-16
-> Total definitions: 162
+> Total definitions: 165
 
 This document provides a complete reference of all utility syntax patterns in SenangStart CSS.
 
@@ -13,8 +13,8 @@ This document provides a complete reference of all utility syntax patterns in Se
 |----------|-------|
 | Layout | 41 |
 | Space | 5 |
-| Visual | 116 |
-| **Total** | **162** |
+| Visual | 119 |
+| **Total** | **165** |
 
 ---
 
@@ -72,7 +72,7 @@ This document provides a complete reference of all utility syntax patterns in Se
 |------|--------|-------------|
 | gap | `g:[value]` or `g-{axis}:[value]` | Add gap between flex/grid items |
 | height | `h:[value]` | Set element height |
-| margin | `m:[value]` or `m-{side}:[value]` | Add margin to elements |
+| margin | `m:[value]` or `m-{side}:[value]` or `m-{side}:-[value]` | Add margin to elements (prefix value with - for negative) |
 | padding | `p:[value]` or `p-{side}:[value]` | Add padding to elements |
 | width | `w:[value]` | Set element width |
 
@@ -152,6 +152,9 @@ This document provides a complete reference of all utility syntax patterns in Se
 | mask | `mask:[value]` | Apply mask to element |
 | opacity | `opacity:[value]` | Set element opacity (0-100) |
 | outline | `outline:[color]` | Set outline color |
+| outline-offset | `outline-offset:[value]` | Set outline offset (gap between outline and element) |
+| outline-style | `outline-style:[value]` | Set outline style |
+| outline-w | `outline-w:[value]` | Set outline width |
 | pointer-events | `pointer-events:[value]` | Control pointer events |
 | resize | `resize:[value]` | Control element resizing |
 | ring | `ring:[size]` | Add focus ring around element using box-shadow |
@@ -191,7 +194,7 @@ This document provides a complete reference of all utility syntax patterns in Se
 | transition-duration | `duration:[value]` | Set transition duration |
 | transition-property | `transition:[value]` | Set transition properties |
 | transition-timing | `ease:[value]` | Set transition timing function |
-| typography-keywords | `[keyword]` | Typography utility keywords |
+| typography-keywords | `[keyword]` | Typography utility keywords (text-decoration-style only; other typography keywords are in their own definitions) |
 | user-select | `select:[value]` | Control text selection |
 | vertical-align | `align:[value]` | Set vertical alignment |
 | whitespace | `whitespace:[value]` | Control whitespace handling |
@@ -297,7 +300,8 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `grid` | `display: grid;` |
 | `inline-grid` | `display: inline-grid;` |
 | `block` | `display: block;` |
-| `inline` | `display: inline-block;` |
+| `inline` | `display: inline;` |
+| `inline-block` | `display: inline-block;` |
 | `hidden` | `display: none;` |
 
 #### flex
@@ -349,6 +353,10 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `left` | `float: left;` |
 | `right` | `float: right;` |
 | `none` | `float: none;` |
+| `clear-left` | `clear: left;` |
+| `clear-right` | `clear: right;` |
+| `clear-both` | `clear: both;` |
+| `clear-none` | `clear: none;` |
 
 #### grid-auto-flow
 
@@ -1012,7 +1020,7 @@ This document provides a complete reference of all utility syntax patterns in Se
 
 | Value | CSS Output |
 |-------|------------|
-| `none` | `filter: blur(0);` |
+| `none` | `filter: none;` |
 | `tiny` | `filter: blur(2px);` |
 | `small` | `filter: blur(4px);` |
 | `medium` | `filter: blur(8px);` |
@@ -1230,6 +1238,34 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `75` | `opacity: 0.75;` |
 | `100` | `opacity: 1;` |
 
+#### outline-offset
+
+| Value | CSS Output |
+|-------|------------|
+| `none` | `outline-offset: var(--s-none);` |
+| `thin` | `outline-offset: var(--s-thin);` |
+| `small` | `outline-offset: var(--s-small);` |
+| `medium` | `outline-offset: var(--s-medium);` |
+
+#### outline-style
+
+| Value | CSS Output |
+|-------|------------|
+| `solid` | `outline-style: solid;` |
+| `dashed` | `outline-style: dashed;` |
+| `dotted` | `outline-style: dotted;` |
+| `double` | `outline-style: double;` |
+| `none` | `outline-style: none;` |
+
+#### outline-w
+
+| Value | CSS Output |
+|-------|------------|
+| `none` | `outline-width: var(--s-none);` |
+| `thin` | `outline-width: var(--s-thin);` |
+| `regular` | `outline-width: var(--s-regular);` |
+| `thick` | `outline-width: var(--s-thick);` |
+
 #### pointer-events
 
 | Value | CSS Output |
@@ -1356,15 +1392,6 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `2` | `stroke-width: 2px;` |
 
 #### text-alignment
-
-| Value | CSS Output |
-|-------|------------|
-| `left` | `text-align: left;` |
-| `center` | `text-align: center;` |
-| `right` | `text-align: right;` |
-| `justify` | `text-align: justify;` |
-
-#### text-color
 
 | Value | CSS Output |
 |-------|------------|
@@ -1615,57 +1642,11 @@ This document provides a complete reference of all utility syntax patterns in Se
 
 | Value | CSS Output |
 |-------|------------|
-| `italic` | `font-style: italic;` |
-| `not-italic` | `font-style: normal;` |
-| `antialiased` | `-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;` |
-| `subpixel-antialiased` | `-webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto;` |
-| `uppercase` | `text-transform: uppercase;` |
-| `lowercase` | `text-transform: lowercase;` |
-| `capitalize` | `text-transform: capitalize;` |
-| `normal-case` | `text-transform: none;` |
-| `underline` | `text-decoration-line: underline;` |
-| `overline` | `text-decoration-line: overline;` |
-| `line-through` | `text-decoration-line: line-through;` |
-| `no-underline` | `text-decoration-line: none;` |
 | `decoration-solid` | `text-decoration-style: solid;` |
 | `decoration-double` | `text-decoration-style: double;` |
 | `decoration-dotted` | `text-decoration-style: dotted;` |
 | `decoration-dashed` | `text-decoration-style: dashed;` |
 | `decoration-wavy` | `text-decoration-style: wavy;` |
-| `truncate` | `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;` |
-| `text-ellipsis` | `text-overflow: ellipsis;` |
-| `text-clip` | `text-overflow: clip;` |
-| `text-wrap` | `text-wrap: wrap;` |
-| `text-nowrap` | `text-wrap: nowrap;` |
-| `text-balance` | `text-wrap: balance;` |
-| `text-pretty` | `text-wrap: pretty;` |
-| `whitespace-normal` | `white-space: normal;` |
-| `whitespace-nowrap` | `white-space: nowrap;` |
-| `whitespace-pre` | `white-space: pre;` |
-| `whitespace-pre-line` | `white-space: pre-line;` |
-| `whitespace-pre-wrap` | `white-space: pre-wrap;` |
-| `whitespace-break-spaces` | `white-space: break-spaces;` |
-| `break-normal` | `overflow-wrap: normal; word-break: normal;` |
-| `break-words` | `overflow-wrap: break-word;` |
-| `break-all` | `word-break: break-all;` |
-| `break-keep` | `word-break: keep-all;` |
-| `hyphens-none` | `hyphens: none;` |
-| `hyphens-manual` | `hyphens: manual;` |
-| `hyphens-auto` | `hyphens: auto;` |
-| `align-baseline` | `vertical-align: baseline;` |
-| `align-top` | `vertical-align: top;` |
-| `align-middle` | `vertical-align: middle;` |
-| `align-bottom` | `vertical-align: bottom;` |
-| `align-text-top` | `vertical-align: text-top;` |
-| `align-text-bottom` | `vertical-align: text-bottom;` |
-| `align-sub` | `vertical-align: sub;` |
-| `align-super` | `vertical-align: super;` |
-| `list-none` | `list-style-type: none;` |
-| `list-disc` | `list-style-type: disc;` |
-| `list-decimal` | `list-style-type: decimal;` |
-| `list-square` | `list-style-type: square;` |
-| `list-inside` | `list-style-position: inside;` |
-| `list-outside` | `list-style-position: outside;` |
 
 #### user-select
 

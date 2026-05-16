@@ -7,20 +7,12 @@ Tetapkan warna teks
 visual="text:[color]"
 ```
 
-## Nilai
-
-| Nilai | CSS Output | Huraian |
-|-------|------------|-------------|
-| `left` | `text-align: left` | Jajar kiri |
-| `center` | `text-align: center` | Jajar tengah |
-| `right` | `text-align: right` | Jajar kanan |
-| `justify` | `text-align: justify` | Jajar sepenuh |
-
 ## Contoh
 
 ```html
 <div visual="text:white">White text</div>
-<div visual="text:center">Centered text</div>
+<div visual="text:blue-500">Blue text</div>
+<div visual="text:[#FF5733]">Custom color</div>
 ```
 
 ## Pratonton

@@ -1,13 +1,294 @@
 /* SenangStart CSS - JIT Runtime v0.3.0 | MIT License */
 (() => {
+  // src/config/colors.js
+  var COLOR_PALETTE = {
+    // Base colors
+    "white": "#FFFFFF",
+    "black": "#000000",
+    // Brand/Semantic colors
+    "grey": "#6B7280",
+    "dark": "#3E4A5D",
+    "light": "#DBEAFE",
+    "primary": "#2563EB",
+    "secondary": "#1E40AF",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "danger": "#EF4444",
+    // Red
+    "red-50": "#FEF2F2",
+    "red-100": "#FEE2E2",
+    "red-200": "#FECACA",
+    "red-300": "#FCA5A5",
+    "red-400": "#F87171",
+    "red-500": "#EF4444",
+    "red-600": "#DC2626",
+    "red-700": "#B91C1C",
+    "red-800": "#991B1B",
+    "red-900": "#7F1D1D",
+    "red-950": "#450A0A",
+    // Orange
+    "orange-50": "#FFF7ED",
+    "orange-100": "#FFEDD5",
+    "orange-200": "#FED7AA",
+    "orange-300": "#FDBA74",
+    "orange-400": "#FB923C",
+    "orange-500": "#F97316",
+    "orange-600": "#EA580C",
+    "orange-700": "#C2410C",
+    "orange-800": "#9A3412",
+    "orange-900": "#7C2D12",
+    "orange-950": "#431407",
+    // Amber
+    "amber-50": "#FFFBEB",
+    "amber-100": "#FEF3C7",
+    "amber-200": "#FDE68A",
+    "amber-300": "#FCD34D",
+    "amber-400": "#FBBF24",
+    "amber-500": "#F59E0B",
+    "amber-600": "#D97706",
+    "amber-700": "#B45309",
+    "amber-800": "#92400E",
+    "amber-900": "#78350F",
+    "amber-950": "#451A03",
+    // Yellow
+    "yellow-50": "#FEFCE8",
+    "yellow-100": "#FEF9C3",
+    "yellow-200": "#FEF08A",
+    "yellow-300": "#FDE047",
+    "yellow-400": "#FACC15",
+    "yellow-500": "#EAB308",
+    "yellow-600": "#CA8A04",
+    "yellow-700": "#A16207",
+    "yellow-800": "#854D0E",
+    "yellow-900": "#713F12",
+    "yellow-950": "#422006",
+    // Lime
+    "lime-50": "#F7FEE7",
+    "lime-100": "#ECFCCB",
+    "lime-200": "#D9F99D",
+    "lime-300": "#BEF264",
+    "lime-400": "#A3E635",
+    "lime-500": "#84CC16",
+    "lime-600": "#65A30D",
+    "lime-700": "#4D7C0F",
+    "lime-800": "#3F6212",
+    "lime-900": "#365314",
+    "lime-950": "#1A2E05",
+    // Green
+    "green-50": "#F0FDF4",
+    "green-100": "#DCFCE7",
+    "green-200": "#BBF7D0",
+    "green-300": "#86EFAC",
+    "green-400": "#4ADE80",
+    "green-500": "#22C55E",
+    "green-600": "#16A34A",
+    "green-700": "#15803D",
+    "green-800": "#166534",
+    "green-900": "#14532D",
+    "green-950": "#052E16",
+    // Emerald
+    "emerald-50": "#ECFDF5",
+    "emerald-100": "#D1FAE5",
+    "emerald-200": "#A7F3D0",
+    "emerald-300": "#6EE7B7",
+    "emerald-400": "#34D399",
+    "emerald-500": "#10B981",
+    "emerald-600": "#059669",
+    "emerald-700": "#047857",
+    "emerald-800": "#065F46",
+    "emerald-900": "#064E3B",
+    "emerald-950": "#022C22",
+    // Teal
+    "teal-50": "#F0FDFA",
+    "teal-100": "#CCFBF1",
+    "teal-200": "#99F6E4",
+    "teal-300": "#5EEAD4",
+    "teal-400": "#2DD4BF",
+    "teal-500": "#14B8A6",
+    "teal-600": "#0D9488",
+    "teal-700": "#0F766E",
+    "teal-800": "#115E59",
+    "teal-900": "#134E4A",
+    "teal-950": "#042F2E",
+    // Cyan
+    "cyan-50": "#ECFEFF",
+    "cyan-100": "#CFFAFE",
+    "cyan-200": "#A5F3FC",
+    "cyan-300": "#67E8F9",
+    "cyan-400": "#22D3EE",
+    "cyan-500": "#06B6D4",
+    "cyan-600": "#0891B2",
+    "cyan-700": "#0E7490",
+    "cyan-800": "#155E75",
+    "cyan-900": "#164E63",
+    "cyan-950": "#083344",
+    // Sky
+    "sky-50": "#F0F9FF",
+    "sky-100": "#E0F2FE",
+    "sky-200": "#BAE6FD",
+    "sky-300": "#7DD3FC",
+    "sky-400": "#38BDF8",
+    "sky-500": "#0EA5E9",
+    "sky-600": "#0284C7",
+    "sky-700": "#0369A1",
+    "sky-800": "#075985",
+    "sky-900": "#0C4A6E",
+    "sky-950": "#082F49",
+    // Blue
+    "blue-50": "#EFF6FF",
+    "blue-100": "#DBEAFE",
+    "blue-200": "#BFDBFE",
+    "blue-300": "#93C5FD",
+    "blue-400": "#60A5FA",
+    "blue-500": "#3B82F6",
+    "blue-600": "#2563EB",
+    "blue-700": "#1D4ED8",
+    "blue-800": "#1E40AF",
+    "blue-900": "#1E3A8A",
+    "blue-950": "#172554",
+    // Indigo
+    "indigo-50": "#EEF2FF",
+    "indigo-100": "#E0E7FF",
+    "indigo-200": "#C7D2FE",
+    "indigo-300": "#A5B4FC",
+    "indigo-400": "#818CF8",
+    "indigo-500": "#6366F1",
+    "indigo-600": "#4F46E5",
+    "indigo-700": "#4338CA",
+    "indigo-800": "#3730A3",
+    "indigo-900": "#312E81",
+    "indigo-950": "#1E1B4B",
+    // Violet
+    "violet-50": "#F5F3FF",
+    "violet-100": "#EDE9FE",
+    "violet-200": "#DDD6FE",
+    "violet-300": "#C4B5FD",
+    "violet-400": "#A78BFA",
+    "violet-500": "#8B5CF6",
+    "violet-600": "#7C3AED",
+    "violet-700": "#6D28D9",
+    "violet-800": "#5B21B6",
+    "violet-900": "#4C1D95",
+    "violet-950": "#2E1065",
+    // Purple
+    "purple-50": "#FAF5FF",
+    "purple-100": "#F3E8FF",
+    "purple-200": "#E9D5FF",
+    "purple-300": "#D8B4FE",
+    "purple-400": "#C084FC",
+    "purple-500": "#A855F7",
+    "purple-600": "#9333EA",
+    "purple-700": "#7E22CE",
+    "purple-800": "#6B21A8",
+    "purple-900": "#581C87",
+    "purple-950": "#3B0764",
+    // Fuchsia
+    "fuchsia-50": "#FDF4FF",
+    "fuchsia-100": "#FAE8FF",
+    "fuchsia-200": "#F5D0FE",
+    "fuchsia-300": "#F0ABFC",
+    "fuchsia-400": "#E879F9",
+    "fuchsia-500": "#D946EF",
+    "fuchsia-600": "#C026D3",
+    "fuchsia-700": "#A21CAF",
+    "fuchsia-800": "#86198F",
+    "fuchsia-900": "#701A75",
+    "fuchsia-950": "#4A044E",
+    // Pink
+    "pink-50": "#FDF2F8",
+    "pink-100": "#FCE7F3",
+    "pink-200": "#FBCFE8",
+    "pink-300": "#F9A8D4",
+    "pink-400": "#F472B6",
+    "pink-500": "#EC4899",
+    "pink-600": "#DB2777",
+    "pink-700": "#BE185D",
+    "pink-800": "#9D174D",
+    "pink-900": "#831843",
+    "pink-950": "#500724",
+    // Rose
+    "rose-50": "#FFF1F2",
+    "rose-100": "#FFE4E6",
+    "rose-200": "#FECDD3",
+    "rose-300": "#FDA4AF",
+    "rose-400": "#FB7185",
+    "rose-500": "#F43F5E",
+    "rose-600": "#E11D48",
+    "rose-700": "#BE123C",
+    "rose-800": "#9F1239",
+    "rose-900": "#881337",
+    "rose-950": "#4C0519",
+    // Slate
+    "slate-50": "#F8FAFC",
+    "slate-100": "#F1F5F9",
+    "slate-200": "#E2E8F0",
+    "slate-300": "#CBD5E1",
+    "slate-400": "#94A3B8",
+    "slate-500": "#64748B",
+    "slate-600": "#475569",
+    "slate-700": "#334155",
+    "slate-800": "#1E293B",
+    "slate-900": "#0F172A",
+    "slate-950": "#020617",
+    // Gray
+    "gray-50": "#F9FAFB",
+    "gray-100": "#F3F4F6",
+    "gray-200": "#E5E7EB",
+    "gray-300": "#D1D5DB",
+    "gray-400": "#9CA3AF",
+    "gray-500": "#6B7280",
+    "gray-600": "#4B5563",
+    "gray-700": "#374151",
+    "gray-800": "#1F2937",
+    "gray-900": "#111827",
+    "gray-950": "#030712",
+    // Zinc
+    "zinc-50": "#FAFAFA",
+    "zinc-100": "#F4F4F5",
+    "zinc-200": "#E4E4E7",
+    "zinc-300": "#D4D4D8",
+    "zinc-400": "#A1A1AA",
+    "zinc-500": "#71717A",
+    "zinc-600": "#52525B",
+    "zinc-700": "#3F3F46",
+    "zinc-800": "#27272A",
+    "zinc-900": "#18181B",
+    "zinc-950": "#09090B",
+    // Neutral
+    "neutral-50": "#FAFAFA",
+    "neutral-100": "#F5F5F5",
+    "neutral-200": "#E5E5E5",
+    "neutral-300": "#D4D4D4",
+    "neutral-400": "#A3A3A3",
+    "neutral-500": "#737373",
+    "neutral-600": "#525252",
+    "neutral-700": "#404040",
+    "neutral-800": "#262626",
+    "neutral-900": "#171717",
+    "neutral-950": "#0A0A0A",
+    // Stone
+    "stone-50": "#FAFAF9",
+    "stone-100": "#F5F5F4",
+    "stone-200": "#E7E5E4",
+    "stone-300": "#D6D3D1",
+    "stone-400": "#A8A29E",
+    "stone-500": "#78716C",
+    "stone-600": "#57534E",
+    "stone-700": "#44403C",
+    "stone-800": "#292524",
+    "stone-900": "#1C1917",
+    "stone-950": "#0C0A09"
+  };
+
   // src/core/constants.js
   var BREAKPOINTS = ["mob", "tab", "lap", "desk", "tw-sm", "tw-md", "tw-lg", "tw-xl", "tw-2xl"];
-  var STATES = ["hover", "focus", "focus-visible", "active", "disabled", "dark", "expanded", "selected"];
+  var STATES = ["hover", "focus", "focus-visible", "focus-within", "active", "checked", "disabled", "dark", "expanded", "selected", "required", "optional", "valid", "invalid", "placeholder"];
   var LAYOUT_KEYWORDS = [
     "flex",
     "grid",
     "block",
     "inline",
+    "inline-block",
     "hidden",
     "row",
     "col",
@@ -89,7 +370,7 @@
     "xl": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
     "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
     "inner": "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
-    "none": "0 0 #0000"
+    "none": "none"
   };
   var TW_FONT_SIZE = {
     "xs": "0.75rem",
@@ -134,20 +415,20 @@
   };
 
   // src/utils/logger.js
+  var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
   var colors = {
-    reset: "\x1B[0m",
-    bright: "\x1B[1m",
-    dim: "\x1B[2m",
-    // Foreground colors
-    red: "\x1B[31m",
-    green: "\x1B[32m",
-    yellow: "\x1B[33m",
-    blue: "\x1B[34m",
-    magenta: "\x1B[35m",
-    cyan: "\x1B[36m",
-    white: "\x1B[37m"
+    reset: isBrowser ? "" : "\x1B[0m",
+    bright: isBrowser ? "" : "\x1B[1m",
+    dim: isBrowser ? "" : "\x1B[2m",
+    red: isBrowser ? "" : "\x1B[31m",
+    green: isBrowser ? "" : "\x1B[32m",
+    yellow: isBrowser ? "" : "\x1B[33m",
+    blue: isBrowser ? "" : "\x1B[34m",
+    magenta: isBrowser ? "" : "\x1B[35m",
+    cyan: isBrowser ? "" : "\x1B[36m",
+    white: isBrowser ? "" : "\x1B[37m"
   };
-  var prefix = `${colors.magenta}${colors.bright}[senang]${colors.reset}`;
+  var prefix = isBrowser ? "[senang]" : `${colors.magenta}${colors.bright}[senang]${colors.reset}`;
 
   // src/utils/common.js
   function sanitizeValue(value) {
@@ -619,13 +900,10 @@ legend {
 }
 
 /*
- * 1. Use a more sensible default box-sizing strategy
- * 2. Support safe-area-inset for modern devices with notches
+ * Support safe-area-inset for modern devices with notches
+ * Only applied to body to avoid adding unwanted padding to all elements
  */
-*,
-::before,
-::after {
-  /* Safe-area-inset support for modern devices */
+body {
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
@@ -710,7 +988,8 @@ video {
       { value: "grid", css: "display: grid;", description: "Grid container", descriptionMs: "Bekas grid" },
       { value: "inline-grid", css: "display: inline-grid;", description: "Inline grid container", descriptionMs: "Bekas grid sebaris" },
       { value: "block", css: "display: block;", description: "Block element", descriptionMs: "Elemen blok" },
-      { value: "inline", css: "display: inline-block;", description: "Inline block element", descriptionMs: "Elemen blok sebaris" },
+      { value: "inline", css: "display: inline;", description: "Inline element", descriptionMs: "Elemen sebaris" },
+      { value: "inline-block", css: "display: inline-block;", description: "Inline block element", descriptionMs: "Elemen blok sebaris" },
       { value: "hidden", css: "display: none;", description: "Hidden element", descriptionMs: "Elemen tersembunyi" }
     ],
     examples: [
@@ -1884,7 +2163,11 @@ video {
     values: [
       { value: "left", css: "float: left;", description: "Float left", descriptionMs: "Apung kiri" },
       { value: "right", css: "float: right;", description: "Float right", descriptionMs: "Apung kanan" },
-      { value: "none", css: "float: none;", description: "No float", descriptionMs: "Tiada pengapungan" }
+      { value: "none", css: "float: none;", description: "No float", descriptionMs: "Tiada pengapungan" },
+      { value: "clear-left", css: "clear: left;", description: "Clear left floats", descriptionMs: "Kosongkan apung kiri" },
+      { value: "clear-right", css: "clear: right;", description: "Clear right floats", descriptionMs: "Kosongkan apung kanan" },
+      { value: "clear-both", css: "clear: both;", description: "Clear all floats", descriptionMs: "Kosongkan semua apung" },
+      { value: "clear-none", css: "clear: none;", description: "No clear", descriptionMs: "Tiada pembersihan" }
     ],
     examples: [
       { code: '<img layout="float:left">Float left</img>', description: "Float image left" },
@@ -2487,9 +2770,9 @@ video {
   var margin = {
     name: "margin",
     property: "space",
-    syntax: 'space="m:[value]" or space="m-{side}:[value]"',
-    description: "Add margin to elements",
-    descriptionMs: "Tambah margin pada elemen",
+    syntax: 'space="m:[value]" or space="m-{side}:[value]" or space="m-{side}:-[value]"',
+    description: "Add margin to elements (prefix value with - for negative)",
+    descriptionMs: "Tambah margin pada elemen (awali nilai dengan - untuk negatif)",
     category: "space",
     usesScale: "spacing",
     values: [
@@ -2541,10 +2824,13 @@ video {
       "auto"
     ],
     supportsArbitrary: true,
+    supportsNegative: true,
     examples: [
       { code: '<div space="m:medium">Margin all sides</div>', description: "Medium margin" },
       { code: '<div space="m-x:auto">Centered horizontally</div>', description: "Auto centering" },
-      { code: '<div space="m-t:big">Top margin</div>', description: "Top margin only" }
+      { code: '<div space="m-t:big">Top margin</div>', description: "Top margin only" },
+      { code: '<div space="m-t:-small">Negative top margin</div>', description: "Negative top margin" },
+      { code: '<div space="m-x:-medium">Negative horizontal margin</div>', description: "Negative horizontal margins" }
     ],
     preview: [
       {
@@ -3006,15 +3292,11 @@ video {
     category: "visual",
     usesScale: "colors",
     supportsArbitrary: true,
-    values: [
-      { value: "left", css: "text-align: left;", description: "Align left", descriptionMs: "Jajar kiri" },
-      { value: "center", css: "text-align: center;", description: "Align center", descriptionMs: "Jajar tengah" },
-      { value: "right", css: "text-align: right;", description: "Align right", descriptionMs: "Jajar kanan" },
-      { value: "justify", css: "text-align: justify;", description: "Justify text", descriptionMs: "Jajar sepenuh" }
-    ],
+    values: [],
     examples: [
       { code: '<div visual="text:white">White text</div>', description: "Theme color" },
-      { code: '<div visual="text:center">Centered text</div>', description: "Text alignment" }
+      { code: '<div visual="text:blue-500">Blue text</div>', description: "Palette color" },
+      { code: '<div visual="text:[#FF5733]">Custom color</div>', description: "Arbitrary color" }
     ],
     preview: [
       {
@@ -3161,92 +3443,33 @@ video {
     name: "typography-keywords",
     property: "visual",
     syntax: 'visual="[keyword]"',
-    description: "Typography utility keywords",
-    descriptionMs: "Kata kunci utiliti tipografi",
+    description: "Typography utility keywords (text-decoration-style only; other typography keywords are in their own definitions)",
+    descriptionMs: "Kata kunci utiliti tipografi (hanya gaya hiasan teks; kata kunci tipografi lain ada dalam definisi masing-masing)",
     category: "visual",
     values: [
-      // Font Style
-      { value: "italic", css: "font-style: italic;", description: "Italic text", descriptionMs: "Teks italic" },
-      { value: "not-italic", css: "font-style: normal;", description: "Normal style", descriptionMs: "Gaya normal" },
-      // Font Smoothing
-      { value: "antialiased", css: "-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;", description: "Antialiased text", descriptionMs: "Teks antialias" },
-      { value: "subpixel-antialiased", css: "-webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto;", description: "Subpixel antialiasing", descriptionMs: "Antialias subpiksel" },
-      // Text Transform
-      { value: "uppercase", css: "text-transform: uppercase;", description: "Uppercase text", descriptionMs: "Teks huruf besar" },
-      { value: "lowercase", css: "text-transform: lowercase;", description: "Lowercase text", descriptionMs: "Teks huruf kecil" },
-      { value: "capitalize", css: "text-transform: capitalize;", description: "Capitalize words", descriptionMs: "Huruf besar awal perkataan" },
-      { value: "normal-case", css: "text-transform: none;", description: "Normal case", descriptionMs: "Kes normal" },
-      // Text Decoration
-      { value: "underline", css: "text-decoration-line: underline;", description: "Underline text", descriptionMs: "Garis bawah teks" },
-      { value: "overline", css: "text-decoration-line: overline;", description: "Overline text", descriptionMs: "Garis atas teks" },
-      { value: "line-through", css: "text-decoration-line: line-through;", description: "Strikethrough", descriptionMs: "Garis potong" },
-      { value: "no-underline", css: "text-decoration-line: none;", description: "No decoration", descriptionMs: "Tiada hiasan" },
-      // Text Decoration Style
+      // Text Decoration Style (not covered by textDecoration definition)
       { value: "decoration-solid", css: "text-decoration-style: solid;", description: "Solid line", descriptionMs: "Garisan pepejal" },
       { value: "decoration-double", css: "text-decoration-style: double;", description: "Double line", descriptionMs: "Garisan berganda" },
       { value: "decoration-dotted", css: "text-decoration-style: dotted;", description: "Dotted line", descriptionMs: "Garisan bertitik" },
       { value: "decoration-dashed", css: "text-decoration-style: dashed;", description: "Dashed line", descriptionMs: "Garisan putus-putus" },
-      { value: "decoration-wavy", css: "text-decoration-style: wavy;", description: "Wavy line", descriptionMs: "Garisan bergelombang" },
-      // Text Overflow
-      { value: "truncate", css: "overflow: hidden; text-overflow: ellipsis; white-space: nowrap;", description: "Truncate with ellipsis", descriptionMs: "Potong dengan elipsis" },
-      { value: "text-ellipsis", css: "text-overflow: ellipsis;", description: "Ellipsis overflow", descriptionMs: "Limpahan elipsis" },
-      { value: "text-clip", css: "text-overflow: clip;", description: "Clip overflow", descriptionMs: "Limpahan potong" },
-      // Text Wrap
-      { value: "text-wrap", css: "text-wrap: wrap;", description: "Wrap text", descriptionMs: "Bungkus teks" },
-      { value: "text-nowrap", css: "text-wrap: nowrap;", description: "No wrap", descriptionMs: "Tiada bungkusan" },
-      { value: "text-balance", css: "text-wrap: balance;", description: "Balanced wrapping", descriptionMs: "Bungkusan seimbang" },
-      { value: "text-pretty", css: "text-wrap: pretty;", description: "Pretty wrapping", descriptionMs: "Bungkusan cantik" },
-      // Whitespace
-      { value: "whitespace-normal", css: "white-space: normal;", description: "Normal whitespace", descriptionMs: "Ruang putih normal" },
-      { value: "whitespace-nowrap", css: "white-space: nowrap;", description: "No wrap whitespace", descriptionMs: "Tiada bungkusan ruang putih" },
-      { value: "whitespace-pre", css: "white-space: pre;", description: "Preserve whitespace", descriptionMs: "Kekalkan ruang putih" },
-      { value: "whitespace-pre-line", css: "white-space: pre-line;", description: "Pre-line whitespace", descriptionMs: "Ruang putih pra-baris" },
-      { value: "whitespace-pre-wrap", css: "white-space: pre-wrap;", description: "Pre-wrap whitespace", descriptionMs: "Ruang putih pra-bungkus" },
-      { value: "whitespace-break-spaces", css: "white-space: break-spaces;", description: "Break spaces", descriptionMs: "Ruang putih pecah" },
-      // Word Break
-      { value: "break-normal", css: "overflow-wrap: normal; word-break: normal;", description: "Normal word break", descriptionMs: "Pemecahan perkataan normal" },
-      { value: "break-words", css: "overflow-wrap: break-word;", description: "Break words", descriptionMs: "Pecahkan perkataan" },
-      { value: "break-all", css: "word-break: break-all;", description: "Break all", descriptionMs: "Pecahkan semua" },
-      { value: "break-keep", css: "word-break: keep-all;", description: "Keep all", descriptionMs: "Kekalkan semua" },
-      // Hyphens
-      { value: "hyphens-none", css: "hyphens: none;", description: "No hyphens", descriptionMs: "Tiada tanda sempang" },
-      { value: "hyphens-manual", css: "hyphens: manual;", description: "Manual hyphens", descriptionMs: "Tanda sempang manual" },
-      { value: "hyphens-auto", css: "hyphens: auto;", description: "Auto hyphens", descriptionMs: "Tanda sempang automatik" },
-      // Vertical Align
-      { value: "align-baseline", css: "vertical-align: baseline;", description: "Baseline align", descriptionMs: "Jajar garis asas" },
-      { value: "align-top", css: "vertical-align: top;", description: "Top align", descriptionMs: "Jajar atas" },
-      { value: "align-middle", css: "vertical-align: middle;", description: "Middle align", descriptionMs: "Jajar tengah" },
-      { value: "align-bottom", css: "vertical-align: bottom;", description: "Bottom align", descriptionMs: "Jajar bawah" },
-      { value: "align-text-top", css: "vertical-align: text-top;", description: "Text top align", descriptionMs: "Jajar atas teks" },
-      { value: "align-text-bottom", css: "vertical-align: text-bottom;", description: "Text bottom align", descriptionMs: "Jajar bawah teks" },
-      { value: "align-sub", css: "vertical-align: sub;", description: "Subscript align", descriptionMs: "Jajar subskrip" },
-      { value: "align-super", css: "vertical-align: super;", description: "Superscript align", descriptionMs: "Jajar superskrip" },
-      // List Style
-      { value: "list-none", css: "list-style-type: none;", description: "No list style", descriptionMs: "Tiada gaya senarai" },
-      { value: "list-disc", css: "list-style-type: disc;", description: "Disc bullets", descriptionMs: "Bullet bulat" },
-      { value: "list-decimal", css: "list-style-type: decimal;", description: "Decimal numbers", descriptionMs: "Nombor perpuluhan" },
-      { value: "list-square", css: "list-style-type: square;", description: "Square bullets", descriptionMs: "Bullet segi empat" },
-      { value: "list-inside", css: "list-style-position: inside;", description: "Inside position", descriptionMs: "Kedudukan dalam" },
-      { value: "list-outside", css: "list-style-position: outside;", description: "Outside position", descriptionMs: "Kedudukan luar" }
+      { value: "decoration-wavy", css: "text-decoration-style: wavy;", description: "Wavy line", descriptionMs: "Garisan bergelombang" }
     ],
     examples: [
-      { code: '<span visual="italic">Italic text</span>', description: "Italic" },
-      { code: '<span visual="uppercase">Uppercase</span>', description: "Uppercase" },
-      { code: '<span visual="truncate">Truncated text...</span>', description: "Truncate" }
+      { code: '<span visual="underline decoration-dashed">Dashed underline</span>', description: "Decoration style" }
     ],
     preview: [
       {
-        title: "Typography Keywords",
-        titleMs: "Kata Kunci Tipografi",
-        description: "Quick typography utilities without value syntax",
-        descriptionMs: "Utiliti tipografi pantas tanpa sintaks nilai",
-        html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span visual="italic">italic</span>
-  <span visual="uppercase">upper</span>
-  <span visual="underline">underline</span>
-  <span visual="line-through">strike</span>
+        title: "Text Decoration Style",
+        titleMs: "Gaya Hiasan Teks",
+        description: "Set the style of text decoration lines",
+        descriptionMs: "Tetapkan gaya garis hiasan teks",
+        html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="underline decoration-solid">solid</span>
+  <span visual="underline decoration-dashed">dashed</span>
+  <span visual="underline decoration-dotted">dotted</span>
+  <span visual="underline decoration-wavy">wavy</span>
 </div>`,
-        highlightValue: "italic"
+        highlightValue: "decoration-dashed"
       }
     ]
   };
@@ -3463,7 +3686,7 @@ video {
     category: "visual",
     supportsArbitrary: true,
     values: [
-      { value: "none", css: "filter: blur(0);", description: "No blur", descriptionMs: "Tiada kabur" },
+      { value: "none", css: "filter: none;", description: "No blur", descriptionMs: "Tiada kabur" },
       { value: "tiny", css: "filter: blur(2px);", description: "Tiny blur", descriptionMs: "Kabur kecil" },
       { value: "small", css: "filter: blur(4px);", description: "Small blur", descriptionMs: "Kabur kecil" },
       { value: "medium", css: "filter: blur(8px);", description: "Medium blur", descriptionMs: "Kabur sederhana" },
@@ -3718,10 +3941,19 @@ video {
     caretColor,
     appearance
   };
-  function buildTypographyKeywordsMap() {
+  function buildTypographyKeywordsMap(additionalDefinitions = []) {
     const map = {};
     for (const v of typographyKeywords.values) {
       map[v.value] = v.css;
+    }
+    for (const def of additionalDefinitions) {
+      if (def && def.values && Array.isArray(def.values)) {
+        for (const v of def.values) {
+          if (v.value && v.css) {
+            map[v.value] = v.css;
+          }
+        }
+      }
     }
     return map;
   }
@@ -6607,6 +6839,39 @@ video {
       }
     ]
   };
+  var outlineWidth = {
+    name: "outline-w",
+    property: "visual",
+    syntax: 'visual="outline-w:[value]"',
+    description: "Set outline width",
+    descriptionMs: "Tetapkan lebar garis luar",
+    category: "visual",
+    usesScale: "spacing",
+    supportsArbitrary: true,
+    values: [
+      { value: "none", css: "outline-width: var(--s-none);", description: "No outline width (0px)", descriptionMs: "Tiada lebar garis luar (0px)" },
+      { value: "thin", css: "outline-width: var(--s-thin);", description: "Thin outline (1px)", descriptionMs: "Garis luar nipis (1px)" },
+      { value: "regular", css: "outline-width: var(--s-regular);", description: "Regular outline (2px)", descriptionMs: "Garis luar biasa (2px)" },
+      { value: "thick", css: "outline-width: var(--s-thick);", description: "Thick outline (3px)", descriptionMs: "Garis luar tebal (3px)" }
+    ],
+    examples: [
+      { code: '<button visual="outline-w:regular outline:primary">Outlined button</button>', description: "Regular width outline" }
+    ],
+    preview: [
+      {
+        title: "Outline Widths",
+        titleMs: "Lebar Garis Luar",
+        description: "Different outline width options",
+        descriptionMs: "Pilihan lebar garis luar berbeza",
+        html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="outline:primary outline-w:thin rounded:small">thin</div>
+  <div space="p:medium" visual="outline:primary outline-w:regular rounded:small">regular</div>
+  <div space="p:medium" visual="outline:primary outline-w:thick rounded:small">thick</div>
+</div>`,
+        highlightValue: "outline-w:regular"
+      }
+    ]
+  };
   var outlineColor = {
     name: "outline",
     property: "visual",
@@ -6630,6 +6895,71 @@ video {
   <button space="p:small" visual="outline:primary bg:white dark:bg:neutral-800 rounded:small">outline:primary</button>
 </div>`,
         highlightValue: "outline:primary"
+      }
+    ]
+  };
+  var outlineOffset = {
+    name: "outline-offset",
+    property: "visual",
+    syntax: 'visual="outline-offset:[value]"',
+    description: "Set outline offset (gap between outline and element)",
+    descriptionMs: "Tetapkan offset garis luar (jarak antara garis luar dan elemen)",
+    category: "visual",
+    usesScale: "spacing",
+    supportsArbitrary: true,
+    values: [
+      { value: "none", css: "outline-offset: var(--s-none);", description: "No offset (0px)", descriptionMs: "Tiada offset (0px)" },
+      { value: "thin", css: "outline-offset: var(--s-thin);", description: "Thin offset (1px)", descriptionMs: "Offset nipis (1px)" },
+      { value: "small", css: "outline-offset: var(--s-small);", description: "Small offset (4px)", descriptionMs: "Offset kecil (4px)" },
+      { value: "medium", css: "outline-offset: var(--s-medium);", description: "Medium offset (16px)", descriptionMs: "Offset sederhana (16px)" }
+    ],
+    examples: [
+      { code: '<button visual="outline:primary outline-offset:small">Offset outline</button>', description: "Outline with offset" }
+    ],
+    preview: [
+      {
+        title: "Outline Offset",
+        titleMs: "Offset Garis Luar",
+        description: "Offset creates space between outline and element",
+        descriptionMs: "Offset mewujudkan ruang antara garis luar dan elemen",
+        html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="outline:primary outline-offset:none rounded:small">none</div>
+  <div space="p:medium" visual="outline:primary outline-offset:small rounded:small">small</div>
+  <div space="p:medium" visual="outline:primary outline-offset:medium rounded:small">medium</div>
+</div>`,
+        highlightValue: "outline-offset:small"
+      }
+    ]
+  };
+  var outlineStyle = {
+    name: "outline-style",
+    property: "visual",
+    syntax: 'visual="outline-style:[value]"',
+    description: "Set outline style",
+    descriptionMs: "Tetapkan gaya garis luar",
+    category: "visual",
+    values: [
+      { value: "solid", css: "outline-style: solid;", description: "Solid outline", descriptionMs: "Garis luar pepejal" },
+      { value: "dashed", css: "outline-style: dashed;", description: "Dashed outline", descriptionMs: "Garis luar putus-putus" },
+      { value: "dotted", css: "outline-style: dotted;", description: "Dotted outline", descriptionMs: "Garis luar bertitik" },
+      { value: "double", css: "outline-style: double;", description: "Double outline", descriptionMs: "Garis luar berganda" },
+      { value: "none", css: "outline-style: none;", description: "No outline", descriptionMs: "Tiada garis luar" }
+    ],
+    examples: [
+      { code: '<button visual="outline:primary outline-style:dashed">Dashed outline</button>', description: "Dashed outline style" }
+    ],
+    preview: [
+      {
+        title: "Outline Styles",
+        titleMs: "Gaya Garis Luar",
+        description: "Different outline style options",
+        descriptionMs: "Pilihan gaya garis luar berbeza",
+        html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="outline:primary outline-w:regular outline-style:solid rounded:small">solid</div>
+  <div space="p:medium" visual="outline:primary outline-w:regular outline-style:dashed rounded:small">dashed</div>
+  <div space="p:medium" visual="outline:primary outline-w:regular outline-style:dotted rounded:small">dotted</div>
+</div>`,
+        highlightValue: "outline-style:dashed"
       }
     ]
   };
@@ -6706,7 +7036,10 @@ video {
     borderColor,
     borderWidth,
     borderStyle,
+    outlineWidth,
     outlineColor,
+    outlineOffset,
+    outlineStyle,
     ring,
     ringColor,
     ringOffset
@@ -7136,10 +7469,23 @@ video {
     ...visual_performance_default
   };
   function buildAllMaps() {
+    const typographyKeywordDefs = [
+      visual_typography_default.fontStyle,
+      visual_typography_default.fontSmoothing,
+      visual_typography_default.textTransform,
+      visual_typography_default.textDecoration,
+      visual_typography_default.textOverflow,
+      visual_typography_default.textWrap,
+      visual_typography_default.whitespace,
+      visual_typography_default.wordBreak,
+      visual_typography_default.hyphens,
+      visual_typography_default.verticalAlign,
+      visual_typography_default.listStyle
+    ].filter(Boolean);
     return {
       layoutMap: buildLayoutMap(),
       spacePropertyMap: buildSpacePropertyMap(),
-      typographyKeywords: buildTypographyKeywordsMap()
+      typographyKeywords: buildTypographyKeywordsMap(typographyKeywordDefs)
     };
   }
 
@@ -7927,7 +8273,8 @@ video {
       },
       // Border radius
       "rounded": () => {
-        return `border-radius: var(--r-${value});`;
+        const cssValue = isArbitrary ? value : `var(--r-${value})`;
+        return `border-radius: ${cssValue};`;
       },
       // Directional border radius
       "rounded-t": () => {
@@ -8070,6 +8417,9 @@ video {
       },
       // Opacity
       "opacity": () => {
+        if (isArbitrary) {
+          return `opacity: ${value};`;
+        }
         const numValue = parseInt(value, 10);
         if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
           return `opacity: ${numValue / 100};`;
@@ -8175,6 +8525,7 @@ video {
           "vast": "48px"
         };
         const cssValue = isArbitrary ? value : blurScale[value] || blurScale["medium"];
+        if (cssValue === "0") return "filter: none;";
         return `filter: blur(${cssValue});`;
       },
       "brightness": () => {
@@ -8468,15 +8819,24 @@ video {
       // =====================
       // Scale
       "scale": () => {
-        const cssValue = isArbitrary ? value : parseInt(value) / 100;
+        if (isArbitrary) {
+          return `transform: scale(${value});`;
+        }
+        const cssValue = parseInt(value) / 100;
         return `transform: scale(${cssValue});`;
       },
       "scale-x": () => {
-        const cssValue = isArbitrary ? value : parseInt(value) / 100;
+        if (isArbitrary) {
+          return `transform: scaleX(${value});`;
+        }
+        const cssValue = parseInt(value) / 100;
         return `transform: scaleX(${cssValue});`;
       },
       "scale-y": () => {
-        const cssValue = isArbitrary ? value : parseInt(value) / 100;
+        if (isArbitrary) {
+          return `transform: scaleY(${value});`;
+        }
+        const cssValue = parseInt(value) / 100;
         return `transform: scaleY(${cssValue});`;
       },
       // Rotate
@@ -8924,7 +9284,8 @@ video {
             const map = {
               "expanded": '[aria-expanded="true"]',
               "selected": '[aria-selected="true"]',
-              "disabled": ":disabled"
+              "disabled": ":disabled",
+              "placeholder": "::placeholder"
             };
             return map[s] || `:${s}`;
           };
@@ -9056,7 +9417,7 @@ video {
           console.warn(`[SenangStart] Error collecting interact IDs: ${e.message}`);
         }
       }
-      const displayProps = ["flex", "grid", "inline-flex", "inline-grid", "block", "inline", "hidden"];
+      const displayProps = ["flex", "grid", "inline-flex", "inline-grid", "block", "inline", "inline-block", "hidden"];
       const baseDisplayTokens = /* @__PURE__ */ new Map();
       for (const token of baseTokens) {
         try {
@@ -9399,288 +9760,7 @@ video {
       // 7. COLORS: Palette Scales
       // Placeholder color for form inputs
       placeholder: "#9ca3af",
-      colors: {
-        // Base colors
-        "white": "#FFFFFF",
-        "black": "#000000",
-        // Brand/Semantic colors
-        "grey": "#6B7280",
-        "dark": "#3E4A5D",
-        // Brand dark
-        "light": "#DBEAFE",
-        // Brand light/secondary
-        "primary": "#2563EB",
-        // Brand primary
-        "secondary": "#1E40AF",
-        // Brand secondary
-        "success": "#10B981",
-        "warning": "#F59E0B",
-        "danger": "#EF4444",
-        // Red
-        "red-50": "#FEF2F2",
-        "red-100": "#FEE2E2",
-        "red-200": "#FECACA",
-        "red-300": "#FCA5A5",
-        "red-400": "#F87171",
-        "red-500": "#EF4444",
-        "red-600": "#DC2626",
-        "red-700": "#B91C1C",
-        "red-800": "#991B1B",
-        "red-900": "#7F1D1D",
-        "red-950": "#450A0A",
-        // Orange
-        "orange-50": "#FFF7ED",
-        "orange-100": "#FFEDD5",
-        "orange-200": "#FED7AA",
-        "orange-300": "#FDBA74",
-        "orange-400": "#FB923C",
-        "orange-500": "#F97316",
-        "orange-600": "#EA580C",
-        "orange-700": "#C2410C",
-        "orange-800": "#9A3412",
-        "orange-900": "#7C2D12",
-        "orange-950": "#431407",
-        // Amber
-        "amber-50": "#FFFBEB",
-        "amber-100": "#FEF3C7",
-        "amber-200": "#FDE68A",
-        "amber-300": "#FCD34D",
-        "amber-400": "#FBBF24",
-        "amber-500": "#F59E0B",
-        "amber-600": "#D97706",
-        "amber-700": "#B45309",
-        "amber-800": "#92400E",
-        "amber-900": "#78350F",
-        "amber-950": "#451A03",
-        // Yellow
-        "yellow-50": "#FEFCE8",
-        "yellow-100": "#FEF9C3",
-        "yellow-200": "#FEF08A",
-        "yellow-300": "#FDE047",
-        "yellow-400": "#FACC15",
-        "yellow-500": "#EAB308",
-        "yellow-600": "#CA8A04",
-        "yellow-700": "#A16207",
-        "yellow-800": "#854D0E",
-        "yellow-900": "#713F12",
-        "yellow-950": "#422006",
-        // Lime
-        "lime-50": "#F7FEE7",
-        "lime-100": "#ECFCCB",
-        "lime-200": "#D9F99D",
-        "lime-300": "#BEF264",
-        "lime-400": "#A3E635",
-        "lime-500": "#84CC16",
-        "lime-600": "#65A30D",
-        "lime-700": "#4D7C0F",
-        "lime-800": "#3F6212",
-        "lime-900": "#365314",
-        "lime-950": "#1A2E05",
-        // Green
-        "green-50": "#F0FDF4",
-        "green-100": "#DCFCE7",
-        "green-200": "#BBF7D0",
-        "green-300": "#86EFAC",
-        "green-400": "#4ADE80",
-        "green-500": "#22C55E",
-        "green-600": "#16A34A",
-        "green-700": "#15803D",
-        "green-800": "#166534",
-        "green-900": "#14532D",
-        "green-950": "#052E16",
-        // Emerald
-        "emerald-50": "#ECFDF5",
-        "emerald-100": "#D1FAE5",
-        "emerald-200": "#A7F3D0",
-        "emerald-300": "#6EE7B7",
-        "emerald-400": "#34D399",
-        "emerald-500": "#10B981",
-        "emerald-600": "#059669",
-        "emerald-700": "#047857",
-        "emerald-800": "#065F46",
-        "emerald-900": "#064E3B",
-        "emerald-950": "#022C22",
-        // Teal
-        "teal-50": "#F0FDFA",
-        "teal-100": "#CCFBF1",
-        "teal-200": "#99F6E4",
-        "teal-300": "#5EEAD4",
-        "teal-400": "#2DD4BF",
-        "teal-500": "#14B8A6",
-        "teal-600": "#0D9488",
-        "teal-700": "#0F766E",
-        "teal-800": "#115E59",
-        "teal-900": "#134E4A",
-        "teal-950": "#042F2E",
-        // Cyan
-        "cyan-50": "#ECFEFF",
-        "cyan-100": "#CFFAFE",
-        "cyan-200": "#A5F3FC",
-        "cyan-300": "#67E8F9",
-        "cyan-400": "#22D3EE",
-        "cyan-500": "#06B6D4",
-        "cyan-600": "#0891B2",
-        "cyan-700": "#0E7490",
-        "cyan-800": "#155E75",
-        "cyan-900": "#164E63",
-        "cyan-950": "#083344",
-        // Sky
-        "sky-50": "#F0F9FF",
-        "sky-100": "#E0F2FE",
-        "sky-200": "#BAE6FD",
-        "sky-300": "#7DD3FC",
-        "sky-400": "#38BDF8",
-        "sky-500": "#0EA5E9",
-        "sky-600": "#0284C7",
-        "sky-700": "#0369A1",
-        "sky-800": "#075985",
-        "sky-900": "#0C4A6E",
-        "sky-950": "#082F49",
-        // Blue
-        "blue-50": "#EFF6FF",
-        "blue-100": "#DBEAFE",
-        "blue-200": "#BFDBFE",
-        "blue-300": "#93C5FD",
-        "blue-400": "#60A5FA",
-        "blue-500": "#3B82F6",
-        "blue-600": "#2563EB",
-        "blue-700": "#1D4ED8",
-        "blue-800": "#1E40AF",
-        "blue-900": "#1E3A8A",
-        "blue-950": "#172554",
-        // Indigo
-        "indigo-50": "#EEF2FF",
-        "indigo-100": "#E0E7FF",
-        "indigo-200": "#C7D2FE",
-        "indigo-300": "#A5B4FC",
-        "indigo-400": "#818CF8",
-        "indigo-500": "#6366F1",
-        "indigo-600": "#4F46E5",
-        "indigo-700": "#4338CA",
-        "indigo-800": "#3730A3",
-        "indigo-900": "#312E81",
-        "indigo-950": "#1E1B4B",
-        // Violet
-        "violet-50": "#F5F3FF",
-        "violet-100": "#EDE9FE",
-        "violet-200": "#DDD6FE",
-        "violet-300": "#C4B5FD",
-        "violet-400": "#A78BFA",
-        "violet-500": "#8B5CF6",
-        "violet-600": "#7C3AED",
-        "violet-700": "#6D28D9",
-        "violet-800": "#5B21B6",
-        "violet-900": "#4C1D95",
-        "violet-950": "#2E1065",
-        // Purple
-        "purple-50": "#FAF5FF",
-        "purple-100": "#F3E8FF",
-        "purple-200": "#E9D5FF",
-        "purple-300": "#D8B4FE",
-        "purple-400": "#C084FC",
-        "purple-500": "#A855F7",
-        "purple-600": "#9333EA",
-        "purple-700": "#7E22CE",
-        "purple-800": "#6B21A8",
-        "purple-900": "#581C87",
-        "purple-950": "#3B0764",
-        // Fuchsia
-        "fuchsia-50": "#FDF4FF",
-        "fuchsia-100": "#FAE8FF",
-        "fuchsia-200": "#F5D0FE",
-        "fuchsia-300": "#F0ABFC",
-        "fuchsia-400": "#E879F9",
-        "fuchsia-500": "#D946EF",
-        "fuchsia-600": "#C026D3",
-        "fuchsia-700": "#A21CAF",
-        "fuchsia-800": "#86198F",
-        "fuchsia-900": "#701A75",
-        "fuchsia-950": "#4A044E",
-        // Pink
-        "pink-50": "#FDF2F8",
-        "pink-100": "#FCE7F3",
-        "pink-200": "#FBCFE8",
-        "pink-300": "#F9A8D4",
-        "pink-400": "#F472B6",
-        "pink-500": "#EC4899",
-        "pink-600": "#DB2777",
-        "pink-700": "#BE185D",
-        "pink-800": "#9D174D",
-        "pink-900": "#831843",
-        "pink-950": "#500724",
-        // Rose
-        "rose-50": "#FFF1F2",
-        "rose-100": "#FFE4E6",
-        "rose-200": "#FECDD3",
-        "rose-300": "#FDA4AF",
-        "rose-400": "#FB7185",
-        "rose-500": "#F43F5E",
-        "rose-600": "#E11D48",
-        "rose-700": "#BE123C",
-        "rose-800": "#9F1239",
-        "rose-900": "#881337",
-        "rose-950": "#4C0519",
-        // Slate
-        "slate-50": "#F8FAFC",
-        "slate-100": "#F1F5F9",
-        "slate-200": "#E2E8F0",
-        "slate-300": "#CBD5E1",
-        "slate-400": "#94A3B8",
-        "slate-500": "#64748B",
-        "slate-600": "#475569",
-        "slate-700": "#334155",
-        "slate-800": "#1E293B",
-        "slate-900": "#0F172A",
-        "slate-950": "#020617",
-        // Gray
-        "gray-50": "#F9FAFB",
-        "gray-100": "#F3F4F6",
-        "gray-200": "#E5E7EB",
-        "gray-300": "#D1D5DB",
-        "gray-400": "#9CA3AF",
-        "gray-500": "#6B7280",
-        "gray-600": "#4B5563",
-        "gray-700": "#374151",
-        "gray-800": "#1F2937",
-        "gray-900": "#111827",
-        "gray-950": "#030712",
-        // Zinc
-        "zinc-50": "#FAFAFA",
-        "zinc-100": "#F4F4F5",
-        "zinc-200": "#E4E4E7",
-        "zinc-300": "#D4D4D8",
-        "zinc-400": "#A1A1AA",
-        "zinc-500": "#71717A",
-        "zinc-600": "#52525B",
-        "zinc-700": "#3F3F46",
-        "zinc-800": "#27272A",
-        "zinc-900": "#18181B",
-        "zinc-950": "#09090B",
-        // Neutral
-        "neutral-50": "#FAFAFA",
-        "neutral-100": "#F5F5F5",
-        "neutral-200": "#E5E5E5",
-        "neutral-300": "#D4D4D4",
-        "neutral-400": "#A3A3A3",
-        "neutral-500": "#737373",
-        "neutral-600": "#525252",
-        "neutral-700": "#404040",
-        "neutral-800": "#262626",
-        "neutral-900": "#171717",
-        "neutral-950": "#0A0A0A",
-        // Stone
-        "stone-50": "#FAFAF9",
-        "stone-100": "#F5F5F4",
-        "stone-200": "#E7E5E4",
-        "stone-300": "#D6D3D1",
-        "stone-400": "#A8A29E",
-        "stone-500": "#78716C",
-        "stone-600": "#57534E",
-        "stone-700": "#44403C",
-        "stone-800": "#292524",
-        "stone-900": "#1C1917",
-        "stone-950": "#0C0A09"
-      },
+      colors: COLOR_PALETTE,
       // 8. Z-INDEX: Stacking Order
       zIndex: {
         "base": "0",
@@ -9709,6 +9789,40 @@ video {
     }
     return result;
   }
+  function validateTheme(theme) {
+    const warnings = [];
+    if (!theme || typeof theme !== "object") return warnings;
+    const VALID_UNITS = /^(\d+(\.\d+)?)(px|rem|em|%|vh|vw|vmin|vmax|cm|mm|in|pt|pc|ch|ex|fr|s|ms|deg|rad|grad|turn|Hz|kHz|dpi|dpcm|dppx)?$/;
+    const VALID_COLOR = /^(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8}))$|^(rgb|hsl|lab|lch|oklch|oklab)a?\(|^(var\(--|calc\()/;
+    if (theme.spacing) {
+      for (const [key, val] of Object.entries(theme.spacing)) {
+        if (typeof val !== "string") {
+          warnings.push(`theme.spacing["${key}"]: expected string, got ${typeof val}`);
+        } else if (!VALID_UNITS.test(val) && !val.startsWith("var(")) {
+          warnings.push(`theme.spacing["${key}"]: invalid value "${val}" \u2014 expected CSS length`);
+        }
+      }
+    }
+    if (theme.colors) {
+      for (const [key, val] of Object.entries(theme.colors)) {
+        if (typeof val !== "string") {
+          warnings.push(`theme.colors["${key}"]: expected string, got ${typeof val}`);
+        } else if (!VALID_COLOR.test(val) && !/^[a-zA-Z]/.test(val)) {
+          warnings.push(`theme.colors["${key}"]: suspicious value "${val}"`);
+        }
+      }
+    }
+    if (theme.screens) {
+      for (const [key, val] of Object.entries(theme.screens)) {
+        if (typeof val !== "string") {
+          warnings.push(`theme.screens["${key}"]: expected string, got ${typeof val}`);
+        } else if (val !== "print" && !VALID_UNITS.test(val)) {
+          warnings.push(`theme.screens["${key}"]: invalid breakpoint "${val}" \u2014 expected CSS length or "print"`);
+        }
+      }
+    }
+    return warnings;
+  }
   function mergeConfig(userConfig = {}) {
     const merged = { ...defaultConfig };
     if (userConfig.content) {
@@ -9725,6 +9839,12 @@ video {
     }
     if (userConfig.theme) {
       merged.theme = deepMerge(merged.theme, userConfig.theme);
+    }
+    const warnings = validateTheme(merged.theme);
+    if (warnings.length > 0) {
+      for (const w of warnings) {
+        console.warn(`[senang] Theme validation: ${w}`);
+      }
     }
     return merged;
   }
@@ -9757,6 +9877,28 @@ video {
         const user = loadInlineConfig();
         return mergeConfig(user);
       }
+      function scanElement(el, tokens) {
+        ["layout", "space", "visual"].forEach((attr) => {
+          const value = el.getAttribute(attr);
+          if (value) {
+            value.split(/\s+/).forEach((token) => {
+              if (token) tokens[attr].add(token);
+            });
+          }
+        });
+        ["interact", "listens"].forEach((attr) => {
+          const value = el.getAttribute(attr);
+          if (value) {
+            value.split(/\s+/).forEach((id) => {
+              if (id) tokens[attr].add(id);
+            });
+          }
+        });
+      }
+      function scanRoot(root, tokens) {
+        const elements = root.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
+        elements.forEach((el) => scanElement(el, tokens));
+      }
       function scanDOM() {
         const tokens = {
           layout: /* @__PURE__ */ new Set(),
@@ -9765,24 +9907,11 @@ video {
           interact: /* @__PURE__ */ new Set(),
           listens: /* @__PURE__ */ new Set()
         };
-        const elements = document.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
-        elements.forEach((el) => {
-          ["layout", "space", "visual"].forEach((attr) => {
-            const value = el.getAttribute(attr);
-            if (value) {
-              value.split(/\s+/).forEach((token) => {
-                if (token) tokens[attr].add(token);
-              });
-            }
-          });
-          ["interact", "listens"].forEach((attr) => {
-            const value = el.getAttribute(attr);
-            if (value) {
-              value.split(/\s+/).forEach((id) => {
-                if (id) tokens[attr].add(id);
-              });
-            }
-          });
+        scanRoot(document, tokens);
+        document.querySelectorAll("*").forEach((el) => {
+          if (el.shadowRoot) {
+            scanRoot(el.shadowRoot, tokens);
+          }
         });
         return tokens;
       }

@@ -53,15 +53,11 @@ export const textColor = {
   category: 'visual',
   usesScale: 'colors',
   supportsArbitrary: true,
-  values: [
-    { value: 'left', css: 'text-align: left;', description: 'Align left', descriptionMs: 'Jajar kiri' },
-    { value: 'center', css: 'text-align: center;', description: 'Align center', descriptionMs: 'Jajar tengah' },
-    { value: 'right', css: 'text-align: right;', description: 'Align right', descriptionMs: 'Jajar kanan' },
-    { value: 'justify', css: 'text-align: justify;', description: 'Justify text', descriptionMs: 'Jajar sepenuh' }
-  ],
+  values: [],
   examples: [
     { code: '<div visual="text:white">White text</div>', description: 'Theme color' },
-    { code: '<div visual="text:center">Centered text</div>', description: 'Text alignment' }
+    { code: '<div visual="text:blue-500">Blue text</div>', description: 'Palette color' },
+    { code: '<div visual="text:[#FF5733]">Custom color</div>', description: 'Arbitrary color' }
   ],
   preview: [
     {
@@ -228,103 +224,33 @@ export const typographyKeywords = {
   name: 'typography-keywords',
   property: 'visual',
   syntax: 'visual="[keyword]"',
-  description: 'Typography utility keywords',
-  descriptionMs: 'Kata kunci utiliti tipografi',
+  description: 'Typography utility keywords (text-decoration-style only; other typography keywords are in their own definitions)',
+  descriptionMs: 'Kata kunci utiliti tipografi (hanya gaya hiasan teks; kata kunci tipografi lain ada dalam definisi masing-masing)',
   category: 'visual',
   values: [
-    // Font Style
-    { value: 'italic', css: 'font-style: italic;', description: 'Italic text', descriptionMs: 'Teks italic' },
-    { value: 'not-italic', css: 'font-style: normal;', description: 'Normal style', descriptionMs: 'Gaya normal' },
-    
-    // Font Smoothing
-    { value: 'antialiased', css: '-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;', description: 'Antialiased text', descriptionMs: 'Teks antialias' },
-    { value: 'subpixel-antialiased', css: '-webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto;', description: 'Subpixel antialiasing', descriptionMs: 'Antialias subpiksel' },
-    
-    // Text Transform
-    { value: 'uppercase', css: 'text-transform: uppercase;', description: 'Uppercase text', descriptionMs: 'Teks huruf besar' },
-    { value: 'lowercase', css: 'text-transform: lowercase;', description: 'Lowercase text', descriptionMs: 'Teks huruf kecil' },
-    { value: 'capitalize', css: 'text-transform: capitalize;', description: 'Capitalize words', descriptionMs: 'Huruf besar awal perkataan' },
-    { value: 'normal-case', css: 'text-transform: none;', description: 'Normal case', descriptionMs: 'Kes normal' },
-    
-    // Text Decoration
-    { value: 'underline', css: 'text-decoration-line: underline;', description: 'Underline text', descriptionMs: 'Garis bawah teks' },
-    { value: 'overline', css: 'text-decoration-line: overline;', description: 'Overline text', descriptionMs: 'Garis atas teks' },
-    { value: 'line-through', css: 'text-decoration-line: line-through;', description: 'Strikethrough', descriptionMs: 'Garis potong' },
-    { value: 'no-underline', css: 'text-decoration-line: none;', description: 'No decoration', descriptionMs: 'Tiada hiasan' },
-    
-    // Text Decoration Style
+    // Text Decoration Style (not covered by textDecoration definition)
     { value: 'decoration-solid', css: 'text-decoration-style: solid;', description: 'Solid line', descriptionMs: 'Garisan pepejal' },
     { value: 'decoration-double', css: 'text-decoration-style: double;', description: 'Double line', descriptionMs: 'Garisan berganda' },
     { value: 'decoration-dotted', css: 'text-decoration-style: dotted;', description: 'Dotted line', descriptionMs: 'Garisan bertitik' },
     { value: 'decoration-dashed', css: 'text-decoration-style: dashed;', description: 'Dashed line', descriptionMs: 'Garisan putus-putus' },
-    { value: 'decoration-wavy', css: 'text-decoration-style: wavy;', description: 'Wavy line', descriptionMs: 'Garisan bergelombang' },
-    
-    // Text Overflow
-    { value: 'truncate', css: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;', description: 'Truncate with ellipsis', descriptionMs: 'Potong dengan elipsis' },
-    { value: 'text-ellipsis', css: 'text-overflow: ellipsis;', description: 'Ellipsis overflow', descriptionMs: 'Limpahan elipsis' },
-    { value: 'text-clip', css: 'text-overflow: clip;', description: 'Clip overflow', descriptionMs: 'Limpahan potong' },
-    
-    // Text Wrap
-    { value: 'text-wrap', css: 'text-wrap: wrap;', description: 'Wrap text', descriptionMs: 'Bungkus teks' },
-    { value: 'text-nowrap', css: 'text-wrap: nowrap;', description: 'No wrap', descriptionMs: 'Tiada bungkusan' },
-    { value: 'text-balance', css: 'text-wrap: balance;', description: 'Balanced wrapping', descriptionMs: 'Bungkusan seimbang' },
-    { value: 'text-pretty', css: 'text-wrap: pretty;', description: 'Pretty wrapping', descriptionMs: 'Bungkusan cantik' },
-    
-    // Whitespace
-    { value: 'whitespace-normal', css: 'white-space: normal;', description: 'Normal whitespace', descriptionMs: 'Ruang putih normal' },
-    { value: 'whitespace-nowrap', css: 'white-space: nowrap;', description: 'No wrap whitespace', descriptionMs: 'Tiada bungkusan ruang putih' },
-    { value: 'whitespace-pre', css: 'white-space: pre;', description: 'Preserve whitespace', descriptionMs: 'Kekalkan ruang putih' },
-    { value: 'whitespace-pre-line', css: 'white-space: pre-line;', description: 'Pre-line whitespace', descriptionMs: 'Ruang putih pra-baris' },
-    { value: 'whitespace-pre-wrap', css: 'white-space: pre-wrap;', description: 'Pre-wrap whitespace', descriptionMs: 'Ruang putih pra-bungkus' },
-    { value: 'whitespace-break-spaces', css: 'white-space: break-spaces;', description: 'Break spaces', descriptionMs: 'Ruang putih pecah' },
-    
-    // Word Break
-    { value: 'break-normal', css: 'overflow-wrap: normal; word-break: normal;', description: 'Normal word break', descriptionMs: 'Pemecahan perkataan normal' },
-    { value: 'break-words', css: 'overflow-wrap: break-word;', description: 'Break words', descriptionMs: 'Pecahkan perkataan' },
-    { value: 'break-all', css: 'word-break: break-all;', description: 'Break all', descriptionMs: 'Pecahkan semua' },
-    { value: 'break-keep', css: 'word-break: keep-all;', description: 'Keep all', descriptionMs: 'Kekalkan semua' },
-    
-    // Hyphens
-    { value: 'hyphens-none', css: 'hyphens: none;', description: 'No hyphens', descriptionMs: 'Tiada tanda sempang' },
-    { value: 'hyphens-manual', css: 'hyphens: manual;', description: 'Manual hyphens', descriptionMs: 'Tanda sempang manual' },
-    { value: 'hyphens-auto', css: 'hyphens: auto;', description: 'Auto hyphens', descriptionMs: 'Tanda sempang automatik' },
-    
-    // Vertical Align
-    { value: 'align-baseline', css: 'vertical-align: baseline;', description: 'Baseline align', descriptionMs: 'Jajar garis asas' },
-    { value: 'align-top', css: 'vertical-align: top;', description: 'Top align', descriptionMs: 'Jajar atas' },
-    { value: 'align-middle', css: 'vertical-align: middle;', description: 'Middle align', descriptionMs: 'Jajar tengah' },
-    { value: 'align-bottom', css: 'vertical-align: bottom;', description: 'Bottom align', descriptionMs: 'Jajar bawah' },
-    { value: 'align-text-top', css: 'vertical-align: text-top;', description: 'Text top align', descriptionMs: 'Jajar atas teks' },
-    { value: 'align-text-bottom', css: 'vertical-align: text-bottom;', description: 'Text bottom align', descriptionMs: 'Jajar bawah teks' },
-    { value: 'align-sub', css: 'vertical-align: sub;', description: 'Subscript align', descriptionMs: 'Jajar subskrip' },
-    { value: 'align-super', css: 'vertical-align: super;', description: 'Superscript align', descriptionMs: 'Jajar superskrip' },
-    
-    // List Style
-    { value: 'list-none', css: 'list-style-type: none;', description: 'No list style', descriptionMs: 'Tiada gaya senarai' },
-    { value: 'list-disc', css: 'list-style-type: disc;', description: 'Disc bullets', descriptionMs: 'Bullet bulat' },
-    { value: 'list-decimal', css: 'list-style-type: decimal;', description: 'Decimal numbers', descriptionMs: 'Nombor perpuluhan' },
-    { value: 'list-square', css: 'list-style-type: square;', description: 'Square bullets', descriptionMs: 'Bullet segi empat' },
-    { value: 'list-inside', css: 'list-style-position: inside;', description: 'Inside position', descriptionMs: 'Kedudukan dalam' },
-    { value: 'list-outside', css: 'list-style-position: outside;', description: 'Outside position', descriptionMs: 'Kedudukan luar' }
+    { value: 'decoration-wavy', css: 'text-decoration-style: wavy;', description: 'Wavy line', descriptionMs: 'Garisan bergelombang' }
   ],
   examples: [
-    { code: '<span visual="italic">Italic text</span>', description: 'Italic' },
-    { code: '<span visual="uppercase">Uppercase</span>', description: 'Uppercase' },
-    { code: '<span visual="truncate">Truncated text...</span>', description: 'Truncate' }
+    { code: '<span visual="underline decoration-dashed">Dashed underline</span>', description: 'Decoration style' }
   ],
   preview: [
     {
-      title: 'Typography Keywords',
-      titleMs: 'Kata Kunci Tipografi',
-      description: 'Quick typography utilities without value syntax',
-      descriptionMs: 'Utiliti tipografi pantas tanpa sintaks nilai',
-      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
-  <span visual="italic">italic</span>
-  <span visual="uppercase">upper</span>
-  <span visual="underline">underline</span>
-  <span visual="line-through">strike</span>
+      title: 'Text Decoration Style',
+      titleMs: 'Gaya Hiasan Teks',
+      description: 'Set the style of text decoration lines',
+      descriptionMs: 'Tetapkan gaya garis hiasan teks',
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="underline decoration-solid">solid</span>
+  <span visual="underline decoration-dashed">dashed</span>
+  <span visual="underline decoration-dotted">dotted</span>
+  <span visual="underline decoration-wavy">wavy</span>
 </div>`,
-      highlightValue: 'italic'
+      highlightValue: 'decoration-dashed'
     }
   ]
 };
@@ -571,7 +497,7 @@ export const blur = {
   category: 'visual',
   supportsArbitrary: true,
   values: [
-    { value: 'none', css: 'filter: blur(0);', description: 'No blur', descriptionMs: 'Tiada kabur' },
+    { value: 'none', css: 'filter: none;', description: 'No blur', descriptionMs: 'Tiada kabur' },
     { value: 'tiny', css: 'filter: blur(2px);', description: 'Tiny blur', descriptionMs: 'Kabur kecil' },
     { value: 'small', css: 'filter: blur(4px);', description: 'Small blur', descriptionMs: 'Kabur kecil' },
     { value: 'medium', css: 'filter: blur(8px);', description: 'Medium blur', descriptionMs: 'Kabur sederhana' },
@@ -865,11 +791,22 @@ export const visualDefinitions = {
 };
 
 // Build typography keywords map for CSS generator
-export function buildTypographyKeywordsMap() {
+// Includes values from typographyKeywords definition AND individual typography definitions
+export function buildTypographyKeywordsMap(additionalDefinitions = []) {
   const map = {};
   
   for (const v of typographyKeywords.values) {
     map[v.value] = v.css;
+  }
+  
+  for (const def of additionalDefinitions) {
+    if (def && def.values && Array.isArray(def.values)) {
+      for (const v of def.values) {
+        if (v.value && v.css) {
+          map[v.value] = v.css;
+        }
+      }
+    }
   }
   
   return map;

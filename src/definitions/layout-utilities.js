@@ -129,7 +129,11 @@ export const floatClear = {
   values: [
     { value: 'left', css: 'float: left;', description: 'Float left', descriptionMs: 'Apung kiri' },
     { value: 'right', css: 'float: right;', description: 'Float right', descriptionMs: 'Apung kanan' },
-    { value: 'none', css: 'float: none;', description: 'No float', descriptionMs: 'Tiada pengapungan' }
+    { value: 'none', css: 'float: none;', description: 'No float', descriptionMs: 'Tiada pengapungan' },
+    { value: 'clear-left', css: 'clear: left;', description: 'Clear left floats', descriptionMs: 'Kosongkan apung kiri' },
+    { value: 'clear-right', css: 'clear: right;', description: 'Clear right floats', descriptionMs: 'Kosongkan apung kanan' },
+    { value: 'clear-both', css: 'clear: both;', description: 'Clear all floats', descriptionMs: 'Kosongkan semua apung' },
+    { value: 'clear-none', css: 'clear: none;', description: 'No clear', descriptionMs: 'Tiada pembersihan' }
   ],
   examples: [
     { code: '<img layout="float:left">Float left</img>', description: 'Float image left' },

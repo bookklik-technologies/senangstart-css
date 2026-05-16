@@ -108,6 +108,15 @@ describe('CSS Generator', () => {
         const tokens = [token];
         const css = generateCSS(tokens, config);
         
+        assert.ok(css.includes('display: inline'));
+      });
+
+      it('generates inline-block display', () => {
+        const token = { property: 'inline-block', value: 'inline-block', attrType: 'layout', raw: 'inline-block' };
+        const config = createTestConfig();
+        const tokens = [token];
+        const css = generateCSS(tokens, config);
+        
         assert.ok(css.includes('display: inline-block'));
       });
 

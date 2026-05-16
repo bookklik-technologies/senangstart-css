@@ -1,23 +1,24 @@
 /**
  * SenangStart CSS - Console Logger with Colors
+ * Detects environment and strips ANSI codes in browsers
  */
 
+const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
 const colors = {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  dim: '\x1b[2m',
-  
-  // Foreground colors
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  magenta: '\x1b[35m',
-  cyan: '\x1b[36m',
-  white: '\x1b[37m'
+  reset: isBrowser ? '' : '\x1b[0m',
+  bright: isBrowser ? '' : '\x1b[1m',
+  dim: isBrowser ? '' : '\x1b[2m',
+  red: isBrowser ? '' : '\x1b[31m',
+  green: isBrowser ? '' : '\x1b[32m',
+  yellow: isBrowser ? '' : '\x1b[33m',
+  blue: isBrowser ? '' : '\x1b[34m',
+  magenta: isBrowser ? '' : '\x1b[35m',
+  cyan: isBrowser ? '' : '\x1b[36m',
+  white: isBrowser ? '' : '\x1b[37m'
 };
 
-const prefix = `${colors.magenta}${colors.bright}[senang]${colors.reset}`;
+const prefix = isBrowser ? '[senang]' : `${colors.magenta}${colors.bright}[senang]${colors.reset}`;
 
 export const logger = {
   info: (msg) => {

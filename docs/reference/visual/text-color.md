@@ -7,20 +7,12 @@ Set text color
 visual="text:[color]"
 ```
 
-## Values
-
-| Value | CSS Output | Description |
-|-------|------------|-------------|
-| `left` | `text-align: left` | Align left |
-| `center` | `text-align: center` | Align center |
-| `right` | `text-align: right` | Align right |
-| `justify` | `text-align: justify` | Justify text |
-
 ## Examples
 
 ```html
 <div visual="text:white">White text</div>
-<div visual="text:center">Centered text</div>
+<div visual="text:blue-500">Blue text</div>
+<div visual="text:[#FF5733]">Custom color</div>
 ```
 
 ## Preview

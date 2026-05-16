@@ -20,7 +20,8 @@ export const display = {
     { value: 'grid', css: 'display: grid;', description: 'Grid container', descriptionMs: 'Bekas grid' },
     { value: 'inline-grid', css: 'display: inline-grid;', description: 'Inline grid container', descriptionMs: 'Bekas grid sebaris' },
     { value: 'block', css: 'display: block;', description: 'Block element', descriptionMs: 'Elemen blok' },
-    { value: 'inline', css: 'display: inline-block;', description: 'Inline block element', descriptionMs: 'Elemen blok sebaris' },
+    { value: 'inline', css: 'display: inline;', description: 'Inline element', descriptionMs: 'Elemen sebaris' },
+    { value: 'inline-block', css: 'display: inline-block;', description: 'Inline block element', descriptionMs: 'Elemen blok sebaris' },
     { value: 'hidden', css: 'display: none;', description: 'Hidden element', descriptionMs: 'Elemen tersembunyi' }
   ],
   examples: [

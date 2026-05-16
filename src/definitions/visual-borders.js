@@ -139,6 +139,40 @@ export const borderStyle = {
 // OUTLINE
 // ======================
 
+export const outlineWidth = {
+  name: 'outline-w',
+  property: 'visual',
+  syntax: 'visual="outline-w:[value]"',
+  description: 'Set outline width',
+  descriptionMs: 'Tetapkan lebar garis luar',
+  category: 'visual',
+  usesScale: 'spacing',
+  supportsArbitrary: true,
+  values: [
+    { value: 'none', css: 'outline-width: var(--s-none);', description: 'No outline width (0px)', descriptionMs: 'Tiada lebar garis luar (0px)' },
+    { value: 'thin', css: 'outline-width: var(--s-thin);', description: 'Thin outline (1px)', descriptionMs: 'Garis luar nipis (1px)' },
+    { value: 'regular', css: 'outline-width: var(--s-regular);', description: 'Regular outline (2px)', descriptionMs: 'Garis luar biasa (2px)' },
+    { value: 'thick', css: 'outline-width: var(--s-thick);', description: 'Thick outline (3px)', descriptionMs: 'Garis luar tebal (3px)' }
+  ],
+  examples: [
+    { code: '<button visual="outline-w:regular outline:primary">Outlined button</button>', description: 'Regular width outline' }
+  ],
+  preview: [
+    {
+      title: 'Outline Widths',
+      titleMs: 'Lebar Garis Luar',
+      description: 'Different outline width options',
+      descriptionMs: 'Pilihan lebar garis luar berbeza',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="outline:primary outline-w:thin rounded:small">thin</div>
+  <div space="p:medium" visual="outline:primary outline-w:regular rounded:small">regular</div>
+  <div space="p:medium" visual="outline:primary outline-w:thick rounded:small">thick</div>
+</div>`,
+      highlightValue: 'outline-w:regular'
+    }
+  ]
+};
+
 export const outlineColor = {
   name: 'outline',
   property: 'visual',
@@ -162,6 +196,81 @@ export const outlineColor = {
   <button space="p:small" visual="outline:primary bg:white dark:bg:neutral-800 rounded:small">outline:primary</button>
 </div>`,
       highlightValue: 'outline:primary'
+    }
+  ]
+};
+
+// ======================
+// OUTLINE OFFSET
+// ======================
+
+export const outlineOffset = {
+  name: 'outline-offset',
+  property: 'visual',
+  syntax: 'visual="outline-offset:[value]"',
+  description: 'Set outline offset (gap between outline and element)',
+  descriptionMs: 'Tetapkan offset garis luar (jarak antara garis luar dan elemen)',
+  category: 'visual',
+  usesScale: 'spacing',
+  supportsArbitrary: true,
+  values: [
+    { value: 'none', css: 'outline-offset: var(--s-none);', description: 'No offset (0px)', descriptionMs: 'Tiada offset (0px)' },
+    { value: 'thin', css: 'outline-offset: var(--s-thin);', description: 'Thin offset (1px)', descriptionMs: 'Offset nipis (1px)' },
+    { value: 'small', css: 'outline-offset: var(--s-small);', description: 'Small offset (4px)', descriptionMs: 'Offset kecil (4px)' },
+    { value: 'medium', css: 'outline-offset: var(--s-medium);', description: 'Medium offset (16px)', descriptionMs: 'Offset sederhana (16px)' }
+  ],
+  examples: [
+    { code: '<button visual="outline:primary outline-offset:small">Offset outline</button>', description: 'Outline with offset' }
+  ],
+  preview: [
+    {
+      title: 'Outline Offset',
+      titleMs: 'Offset Garis Luar',
+      description: 'Offset creates space between outline and element',
+      descriptionMs: 'Offset mewujudkan ruang antara garis luar dan elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="outline:primary outline-offset:none rounded:small">none</div>
+  <div space="p:medium" visual="outline:primary outline-offset:small rounded:small">small</div>
+  <div space="p:medium" visual="outline:primary outline-offset:medium rounded:small">medium</div>
+</div>`,
+      highlightValue: 'outline-offset:small'
+    }
+  ]
+};
+
+// ======================
+// OUTLINE STYLE
+// ======================
+
+export const outlineStyle = {
+  name: 'outline-style',
+  property: 'visual',
+  syntax: 'visual="outline-style:[value]"',
+  description: 'Set outline style',
+  descriptionMs: 'Tetapkan gaya garis luar',
+  category: 'visual',
+  values: [
+    { value: 'solid', css: 'outline-style: solid;', description: 'Solid outline', descriptionMs: 'Garis luar pepejal' },
+    { value: 'dashed', css: 'outline-style: dashed;', description: 'Dashed outline', descriptionMs: 'Garis luar putus-putus' },
+    { value: 'dotted', css: 'outline-style: dotted;', description: 'Dotted outline', descriptionMs: 'Garis luar bertitik' },
+    { value: 'double', css: 'outline-style: double;', description: 'Double outline', descriptionMs: 'Garis luar berganda' },
+    { value: 'none', css: 'outline-style: none;', description: 'No outline', descriptionMs: 'Tiada garis luar' }
+  ],
+  examples: [
+    { code: '<button visual="outline:primary outline-style:dashed">Dashed outline</button>', description: 'Dashed outline style' }
+  ],
+  preview: [
+    {
+      title: 'Outline Styles',
+      titleMs: 'Gaya Garis Luar',
+      description: 'Different outline style options',
+      descriptionMs: 'Pilihan gaya garis luar berbeza',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="p:medium" visual="outline:primary outline-w:regular outline-style:solid rounded:small">solid</div>
+  <div space="p:medium" visual="outline:primary outline-w:regular outline-style:dashed rounded:small">dashed</div>
+  <div space="p:medium" visual="outline:primary outline-w:regular outline-style:dotted rounded:small">dotted</div>
+</div>`,
+      highlightValue: 'outline-style:dashed'
     }
   ]
 };
@@ -247,7 +356,10 @@ export const borderDefinitions = {
   borderColor,
   borderWidth,
   borderStyle,
+  outlineWidth,
   outlineColor,
+  outlineOffset,
+  outlineStyle,
   ring,
   ringColor,
   ringOffset

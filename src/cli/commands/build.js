@@ -136,9 +136,9 @@ async function loadConfig(configPath) {
   }
 
   // Validate path is within allowed directory
-  const resolvedPath = dirname(fullPath);
+  const resolvedFilePath = resolve(fullPath);
   const cwdResolved = resolve(process.cwd());
-  if (!resolvedPath.startsWith(cwdResolved)) {
+  if (!resolvedFilePath.startsWith(cwdResolved)) {
     logger.error(`Invalid config path: ${configPath}`);
     return defaultConfig;
   }
@@ -188,9 +188,7 @@ export async function build(options = {}) {
   const files = await findFiles(config.content);
   
   if (files.length === 0) {
-    logger.error('No source files found matching content patterns. Aborting build.');
-    process.exit(1);
-    return;
+    throw new Error('No source files found matching content patterns. Aborting build.');
   }
   
   logger.info(`Found ${files.length} source files`);
@@ -226,9 +224,7 @@ export async function build(options = {}) {
 
   // If every single file failed, that's a hard error
   if (failedFiles > 0 && failedFiles === files.length) {
-    logger.error('All source files failed to process. Aborting build.');
-    process.exit(1);
-    return;
+    throw new Error('All source files failed to process. Aborting build.');
   }
   
   if (failedFiles > 0) {
@@ -253,9 +249,7 @@ export async function build(options = {}) {
       tokens = tokenizeAll(allTokens);
     }
   } catch (e) {
-    logger.error(`Tokenization failed: ${e.message}`);
-    process.exit(1);
-    return;
+    throw new Error(`Tokenization failed: ${e.message}`);
   }
 
   logger.info(`Generated ${tokens.length} tokens`);
@@ -274,18 +268,14 @@ export async function build(options = {}) {
   try {
     css = generateCSS(tokens, config);
   } catch (e) {
-    logger.error(`CSS generation failed: ${e.message}`);
-    process.exit(1);
-    return;
+    throw new Error(`CSS generation failed: ${e.message}`);
   }
   
   if (config.output.minify) {
     try {
       css = minifyCSS(css);
     } catch (e) {
-      logger.error(`CSS minification failed: ${e.message}`);
-      process.exit(1);
-      return;
+      throw new Error(`CSS minification failed: ${e.message}`);
     }
   }
   
@@ -333,7 +323,6 @@ export async function build(options = {}) {
   
   if (hasErrors) {
     logger.warn('Build completed with warnings');
-    process.exit(1);
   }
 }
 

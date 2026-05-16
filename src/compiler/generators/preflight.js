@@ -302,13 +302,10 @@ legend {
 }
 
 /*
- * 1. Use a more sensible default box-sizing strategy
- * 2. Support safe-area-inset for modern devices with notches
+ * Support safe-area-inset for modern devices with notches
+ * Only applied to body to avoid adding unwanted padding to all elements
  */
-*,
-::before,
-::after {
-  /* Safe-area-inset support for modern devices */
+body {
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);

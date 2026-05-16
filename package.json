@@ -4,15 +4,31 @@
   "description": "Fluent Style Utilities for Humans and AI",
   "type": "module",
   "main": "src/index.js",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "types": "./types/index.d.ts"
+    },
+    "./cli": "./src/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "types",
+    "templates",
+    "LICENSE.md",
+    "README.md"
+  ],
   "bin": {
     "senangstart": "./src/cli/index.js",
-    "senang": "./src/cli/index.js"
+    "sen": "./src/cli/index.js"
   },
   "scripts": {
     "dev": "node src/cli/index.js dev",
     "build": "npm run build:dist && npm run docs:generate && vitepress build docs && npm run docs:llms",
     "build:dist": "node scripts/build-dist.js",
-    "prepublishOnly": "npm run build:dist",
+    "prepublishOnly": "npm test && npm run build:dist",
     "docs:dev": "vitepress dev docs",
     "docs:generate": "node scripts/generate-docs.js",
     "docs:sync-check": "node scripts/generate-docs.js --compare",
@@ -26,6 +42,7 @@
     "test:coverage": "npx c8 --reporter=text --reporter=html node --test tests/",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
+    "lint": "eslint src/",
     "lint:css": "stylelint \"public/**/*.css\" \"dist/**/*.css\"",
     "lint:css:fix": "stylelint \"public/**/*.css\" \"dist/**/*.css\" --fix"
   },
@@ -37,6 +54,13 @@
     "intent-first"
   ],
   "homepage": "https://bookklik-technologies.github.io/senangstart-css",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bookklik-technologies/senangstart-css.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bookklik-technologies/senangstart-css/issues"
+  },
   "author": "a-hakim",
   "license": "MIT",
   "dependencies": {
@@ -44,11 +68,13 @@
     "commander": "^11.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@playwright/test": "^1.60.0",
     "esbuild": "^0.27.2",
+    "eslint": "^9.0.0",
     "http-server": "^14.1.1",
     "stylelint": "^17.11.1",
     "stylelint-config-standard": "^40.0.0",
     "vitepress": "^1.6.4"
-  }
+}
 }

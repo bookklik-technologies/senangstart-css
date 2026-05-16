@@ -11,6 +11,7 @@
       "inline-grid",
       "block",
       "inline",
+      "inline-block",
       "hidden"
     ],
     "supportsArbitrary": false
@@ -397,7 +398,11 @@
     "values": [
       "left",
       "right",
-      "none"
+      "none",
+      "clear-left",
+      "clear-right",
+      "clear-both",
+      "clear-none"
     ],
     "supportsArbitrary": false
   },
@@ -553,7 +558,7 @@
   {
     "name": "margin",
     "property": "space",
-    "syntax": "space=\"m:[value]\" or space=\"m-{side}:[value]\"",
+    "syntax": "space=\"m:[value]\" or space=\"m-{side}:[value]\" or space=\"m-{side}:-[value]\"",
     "category": "space",
     "values": [
       null,
@@ -615,12 +620,7 @@
     "property": "visual",
     "syntax": "visual=\"text:[color]\"",
     "category": "visual",
-    "values": [
-      "left",
-      "center",
-      "right",
-      "justify"
-    ],
+    "values": [],
     "supportsArbitrary": true
   },
   {
@@ -675,57 +675,11 @@
     "syntax": "visual=\"[keyword]\"",
     "category": "visual",
     "values": [
-      "italic",
-      "not-italic",
-      "antialiased",
-      "subpixel-antialiased",
-      "uppercase",
-      "lowercase",
-      "capitalize",
-      "normal-case",
-      "underline",
-      "overline",
-      "line-through",
-      "no-underline",
       "decoration-solid",
       "decoration-double",
       "decoration-dotted",
       "decoration-dashed",
-      "decoration-wavy",
-      "truncate",
-      "text-ellipsis",
-      "text-clip",
-      "text-wrap",
-      "text-nowrap",
-      "text-balance",
-      "text-pretty",
-      "whitespace-normal",
-      "whitespace-nowrap",
-      "whitespace-pre",
-      "whitespace-pre-line",
-      "whitespace-pre-wrap",
-      "whitespace-break-spaces",
-      "break-normal",
-      "break-words",
-      "break-all",
-      "break-keep",
-      "hyphens-none",
-      "hyphens-manual",
-      "hyphens-auto",
-      "align-baseline",
-      "align-top",
-      "align-middle",
-      "align-bottom",
-      "align-text-top",
-      "align-text-bottom",
-      "align-sub",
-      "align-super",
-      "list-none",
-      "list-disc",
-      "list-decimal",
-      "list-square",
-      "list-inside",
-      "list-outside"
+      "decoration-wavy"
     ],
     "supportsArbitrary": false
   },
@@ -2012,12 +1966,52 @@
     "supportsArbitrary": false
   },
   {
+    "name": "outline-w",
+    "property": "visual",
+    "syntax": "visual=\"outline-w:[value]\"",
+    "category": "visual",
+    "values": [
+      "none",
+      "thin",
+      "regular",
+      "thick"
+    ],
+    "supportsArbitrary": true
+  },
+  {
     "name": "outline",
     "property": "visual",
     "syntax": "visual=\"outline:[color]\"",
     "category": "visual",
     "values": [],
     "supportsArbitrary": true
+  },
+  {
+    "name": "outline-offset",
+    "property": "visual",
+    "syntax": "visual=\"outline-offset:[value]\"",
+    "category": "visual",
+    "values": [
+      "none",
+      "thin",
+      "small",
+      "medium"
+    ],
+    "supportsArbitrary": true
+  },
+  {
+    "name": "outline-style",
+    "property": "visual",
+    "syntax": "visual=\"outline-style:[value]\"",
+    "category": "visual",
+    "values": [
+      "solid",
+      "dashed",
+      "dotted",
+      "double",
+      "none"
+    ],
+    "supportsArbitrary": false
   },
   {
     "name": "ring",

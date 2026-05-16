@@ -36,7 +36,6 @@ jobs:
       - name: Test coverage
         run: |
           npx c8 --reporter=text --reporter=lcov --check-coverage --lines 70 --branches 60 --functions 70 --statements 70 node --test tests/
-        continue-on-error: true
 
   build:
     name: Build

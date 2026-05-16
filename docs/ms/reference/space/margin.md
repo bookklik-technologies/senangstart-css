@@ -1,10 +1,10 @@
 # Margin
 
-Tambah margin pada elemen
+Tambah margin pada elemen (awali nilai dengan - untuk negatif)
 
 ## Sintaks
 ```
-space="m:[value]" or space="m-{side}:[value]"
+space="m:[value]" or space="m-{side}:[value]" or space="m-{side}:-[value]"
 ```
 
 ## Nilai
@@ -29,6 +29,8 @@ space="m:[value]" or space="m-{side}:[value]"
 <div space="m:medium">Margin all sides</div>
 <div space="m-x:auto">Centered horizontally</div>
 <div space="m-t:big">Top margin</div>
+<div space="m-t:-small">Negative top margin</div>
+<div space="m-x:-medium">Negative horizontal margin</div>
 ```
 
 ## Pratonton

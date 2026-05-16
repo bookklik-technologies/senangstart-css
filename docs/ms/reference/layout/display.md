@@ -16,7 +16,8 @@ layout="[display-value]"
 | `grid` | `display: grid` | Bekas grid |
 | `inline-grid` | `display: inline-grid` | Bekas grid sebaris |
 | `block` | `display: block` | Elemen blok |
-| `inline` | `display: inline-block` | Elemen blok sebaris |
+| `inline` | `display: inline` | Elemen sebaris |
+| `inline-block` | `display: inline-block` | Elemen blok sebaris |
 | `hidden` | `display: none` | Elemen tersembunyi |
 
 ## Contoh

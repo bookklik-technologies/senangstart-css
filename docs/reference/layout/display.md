@@ -16,7 +16,8 @@ layout="[display-value]"
 | `grid` | `display: grid` | Grid container |
 | `inline-grid` | `display: inline-grid` | Inline grid container |
 | `block` | `display: block` | Block element |
-| `inline` | `display: inline-block` | Inline block element |
+| `inline` | `display: inline` | Inline element |
+| `inline-block` | `display: inline-block` | Inline block element |
 | `hidden` | `display: none` | Hidden element |
 
 ## Examples

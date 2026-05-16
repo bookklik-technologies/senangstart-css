@@ -12,7 +12,8 @@ import {
   buildAllMaps,
   layoutDefinitions,
   spaceDefinitions,
-  visualDefinitions
+  visualDefinitions,
+  typographyDefinitions as typographyDefs
 } from '../../src/definitions/index.js';
 import { generateCSS } from '../../src/compiler/generators/css.js';
 import { createTestConfig } from '../helpers/test-utils.js';
@@ -181,14 +182,19 @@ describe('Visual Definition CSS Generation', () => {
 
   it('typography keywords produce correct CSS', () => {
     const config = createTestConfig();
-    const typoDef = visualDefinitions.typographyKeywords;
     
-    // Test a sample of typography keywords
-    const sampleKeywords = ['italic', 'uppercase', 'underline', 'truncate'];
+    // Test typography keywords from individual definitions
+    const testCases = [
+      { keyword: 'italic', defName: 'fontStyle' },
+      { keyword: 'uppercase', defName: 'textTransform' },
+      { keyword: 'underline', defName: 'textDecoration' },
+      { keyword: 'truncate', defName: 'textOverflow' }
+    ];
     
-    for (const keyword of sampleKeywords) {
-      const valueDef = typoDef.values.find(v => v.value === keyword);
-      assert.ok(valueDef, `Typography keyword '${keyword}' should be defined`);
+    for (const { keyword, defName } of testCases) {
+      const def = typographyDefs[defName] || visualDefinitions[defName];
+      const valueDef = def?.values?.find(v => v.value === keyword);
+      assert.ok(valueDef, `Typography keyword '${keyword}' should be defined in ${defName}`);
       
       const token = { 
         property: keyword, 
@@ -198,7 +204,6 @@ describe('Visual Definition CSS Generation', () => {
       };
       const css = generateCSS([token], config);
       
-      // Check that CSS contains expected property
       const expectedCSSPart = valueDef.css.split(':')[0].trim();
       assert.ok(
         css.toLowerCase().includes(expectedCSSPart.toLowerCase().replace('-webkit-', '')),

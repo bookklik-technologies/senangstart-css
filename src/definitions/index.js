@@ -141,10 +141,24 @@ export function validateDefinitions(definitions = getAllDefinitions()) {
  * Returns maps that can be used by css.js
  */
 export function buildAllMaps() {
+  const typographyKeywordDefs = [
+    typographyDefinitions.fontStyle,
+    typographyDefinitions.fontSmoothing,
+    typographyDefinitions.textTransform,
+    typographyDefinitions.textDecoration,
+    typographyDefinitions.textOverflow,
+    typographyDefinitions.textWrap,
+    typographyDefinitions.whitespace,
+    typographyDefinitions.wordBreak,
+    typographyDefinitions.hyphens,
+    typographyDefinitions.verticalAlign,
+    typographyDefinitions.listStyle
+  ].filter(Boolean);
+
   return {
     layoutMap: buildLayoutMap(),
     spacePropertyMap: buildSpacePropertyMap(),
-    typographyKeywords: buildTypographyKeywordsMap()
+    typographyKeywords: buildTypographyKeywordsMap(typographyKeywordDefs)
   };
 }
 

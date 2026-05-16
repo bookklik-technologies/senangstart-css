@@ -11,7 +11,7 @@ visual="blur:[value]"
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `none` | `filter: blur(0)` | Tiada kabur |
+| `none` | `filter: none` | Tiada kabur |
 | `tiny` | `filter: blur(2px)` | Kabur kecil |
 | `small` | `filter: blur(4px)` | Kabur kecil |
 | `medium` | `filter: blur(8px)` | Kabur sederhana |

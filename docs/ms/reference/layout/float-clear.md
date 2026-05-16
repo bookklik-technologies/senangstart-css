@@ -14,6 +14,10 @@ layout="float:[value]" or layout="clear:[value]"
 | `left` | `float: left` | Apung kiri |
 | `right` | `float: right` | Apung kanan |
 | `none` | `float: none` | Tiada pengapungan |
+| `clear-left` | `clear: left` | Kosongkan apung kiri |
+| `clear-right` | `clear: right` | Kosongkan apung kanan |
+| `clear-both` | `clear: both` | Kosongkan semua apung |
+| `clear-none` | `clear: none` | Tiada pembersihan |
 
 ## Contoh
 

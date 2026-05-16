@@ -11,7 +11,7 @@ visual="blur:[value]"
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `none` | `filter: blur(0)` | No blur |
+| `none` | `filter: none` | No blur |
 | `tiny` | `filter: blur(2px)` | Tiny blur |
 | `small` | `filter: blur(4px)` | Small blur |
 | `medium` | `filter: blur(8px)` | Medium blur |
