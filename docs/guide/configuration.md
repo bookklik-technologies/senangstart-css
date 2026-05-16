@@ -52,12 +52,32 @@ content: [
 
 ## Output Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `css` | Output CSS path | `./public/senangstart.css` |
-| `minify` | Minify output | `false` |
-| `aiContext` | AI context file path | `./.cursorrules` |
-| `typescript` | TypeScript definitions path | `./types/senang.d.ts` |
+| Option | Default | Description |
+|--------|---------|-------------|
+| `css` | `./public/senangstart.css` | Output CSS file path |
+| `minify` | `false` | Minify the generated CSS |
+| `aiContext` | `./.cursorrules` | Output path for AI assistant context file |
+| `typescript` | `./types/senang.d.ts` | Output path for generated TypeScript definitions |
+
+## Dark Mode
+
+SenangStart supports two dark mode strategies:
+
+| Option | Config | How It Works |
+|--------|--------|-------------|
+| **Media** (default) | `darkMode: 'media'` | Follows OS preference via `@media (prefers-color-scheme: dark)`. No JS required, but users cannot manually toggle. |
+| **Selector** | `darkMode: 'selector'` | Uses a `.dark` class on `<html>` or `<body>`. You control the toggle with JavaScript — ideal for sites with a dark mode switch. |
+| **Custom** | `darkMode: ['selector', '.my-theme']` | Uses any CSS selector of your choice for maximum flexibility. |
+
+```js
+export default {
+  darkMode: 'selector',  // Enable manual dark mode toggle
+  // darkMode: 'media',  // Follow OS preference (default)
+  // darkMode: ['selector', '.theme-dark'],  // Custom selector
+}
+```
+
+> **Tip:** The `'media'` strategy requires no code but cannot be toggled by the user on the page. Use `'selector'` if you want to offer a manual dark mode button.
 
 ## Theme Customization
 

@@ -185,3 +185,22 @@ Here's a complete example:
 - The container is a vertical flex column, 320px wide, with medium padding, small gap, white background, big rounded corners, and medium shadow
 - The title is bold, big text, dark color
 - The button has big horizontal padding, small vertical padding, primary background, white text, medium rounded corners
+
+## Advanced: `interact` and `listens` Attributes
+
+SenangStart also supports `interact` and `listens` attributes for **peer interaction patterns** (similar to Tailwind's `group` and `peer` modifiers).
+
+These attributes don't generate visual CSS directly. Instead, they label elements as interaction triggers and listeners, enabling compound selectors like:
+
+```html
+<!-- Parent triggers hover -->
+<div layout="flex hoverable" interact="card">
+  <!-- Child listens for parent hover -->
+  <div visual="bg:primary text:white" listens="card">
+    <!-- This element changes when .hoverable parent is hovered -->
+    <span visual="hover:text:warning">Hover the card</span>
+  </div>
+</div>
+```
+
+The `interact` and `listens` values are arbitrary IDs — they must match between the trigger and listener elements. The CSS generator uses these IDs to build peer selectors (`[interact~="id"]:hover ~ [listens~="id"]`).

@@ -345,7 +345,10 @@ export const mask = {
 };
 
 // ======================
-// STATE PREFIXES
+// STATE PREFIXES (documentation-only definition)
+// State prefixes (hover:, focus:, active:, etc.) are handled by the tokenizer
+// and CSS generator directly — this definition exists solely to populate the
+// documentation reference. It is never consumed by any code generator.
 // ======================
 
 export const statePrefixes = {

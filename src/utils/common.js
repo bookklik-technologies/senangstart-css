@@ -63,7 +63,12 @@ export function sanitizeValue(value) {
   sanitized = sanitized.replace(atRules, '');
   
   // 5. Remove semicolons (statement terminators)
-  sanitized = sanitized.replace(/[;]/g, '_');
+  // Note: semicolons are rare in legitimate CSS property values,
+  // but if they appear, they are silently replaced with underscores.
+  // This prevents CSS injection via statement-breaking attacks.
+  if (/[;]/.test(sanitized)) {
+    sanitized = sanitized.replace(/[;]/g, '_');
+  }
   
   // 6. Validate bracket nesting
   const openBrackets = (sanitized.match(/\[/g) || []).length;

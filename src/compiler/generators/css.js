@@ -46,9 +46,12 @@ export function generateCSSVariables(config) {
   const { theme } = config;
   let css = ':root {\n';
   
-  // Spacing variables
+  // Spacing variables (with fallbacks for critical sizes)
   for (const [key, value] of Object.entries(theme.spacing)) {
-    css += `  --s-${key}: ${value};\n`;
+    // Provide fallback values for commonly-used spacing keys
+    const fallbacks = { 'none':'0px', 'small':'8px', 'medium':'16px', 'big':'48px' };
+    const fallback = fallbacks[key] ? `, ${fallbacks[key]}` : '';
+    css += `  --s-${key}: ${value}${fallback};\n`;
   }
   
   // Radius variables
