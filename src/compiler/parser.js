@@ -3,15 +3,6 @@
  * Extracts layout, space, and visual attributes from source files
  */
 
-// Regex patterns for attribute extraction (using non-greedy quantifiers to prevent ReDoS)
-const ATTRIBUTE_PATTERNS = {
-  layout: /layout\s*=\s*["']([^"']*)["']/g,
-  space:  /space\s*=\s*["']([^"']*)["']/g,
-  visual: /visual\s*=\s*["']([^"']*)["']/g,
-  interact: /interact\s*=\s*["']([^"']*)["']/g,
-  listens: /listens\s*=\s*["']([^"']*)["']/g
-};
-
 /**
  * Create fresh regex patterns for each parse operation
  * Prevents regex state accumulation and potential memory leaks

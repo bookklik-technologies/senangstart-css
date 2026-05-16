@@ -92,8 +92,21 @@ export async function dev(options = {}) {
       try {
         watcher.close();
         setTimeout(() => {
+          // Replace the global watcher reference by re-attaching events
           const newWatcher = createWatcher();
-          Object.assign(watcher, newWatcher);
+          newWatcher
+            .on('change', (path) => {
+              logger.info(`Changed: ${path}`);
+              debouncedBuild();
+            })
+            .on('add', (path) => {
+              logger.info(`Added: ${path}`);
+              debouncedBuild();
+            })
+            .on('unlink', (path) => {
+              logger.info(`Removed: ${path}`);
+              debouncedBuild();
+            });
           logger.success('Watcher restarted successfully');
         }, 1000);
       } catch (restartError) {

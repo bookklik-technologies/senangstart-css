@@ -2,6 +2,16 @@
 
 Get up and running with SenangStart CSS in minutes.
 
+## Requirements
+
+| Environment | Minimum Version |
+|-------------|-----------------|
+| Node.js | 18+ |
+| npm | 9+ |
+| Modern browsers | Chrome 90+, Firefox 90+, Safari 15+, Edge 90+ |
+
+> **Note:** The JIT runtime requires a browser with ES6+ support (`MutationObserver`, `Set`, arrow functions). For legacy browsers (IE11), use the CLI to pre-compile a static CSS file.
+
 ## CDN (Zero Build) <Badge type="tip" text="Recommended for prototyping" />
 
 The fastest way to try SenangStart — no build step required:

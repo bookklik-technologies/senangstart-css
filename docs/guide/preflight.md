@@ -134,6 +134,10 @@ Consider disabling Preflight if:
 - You're using another CSS framework that already provides base styles
 - You need to preserve browser default styling for specific use cases
 
+::: warning Using with Other CSS Frameworks
+Preflight applies an aggressive global reset (`border-width: 0`, `border-color: currentColor`, margin/padding stripped). This **will conflict** with third-party component libraries that rely on default `border-width` or margin for internal layout. If you're combining SenangStart CSS with Bootstrap, Material UI, or similar frameworks, disable Preflight (`preflight: false`) and use the other framework's reset instead.
+:::
+
 ### Safe Area Inset
 
 Support for modern devices with notches and rounded corners:

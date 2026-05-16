@@ -202,7 +202,7 @@ export const backgroundRepeat = {
     { value: 'repeat-x', css: 'background-repeat: repeat-x;', description: 'Repeat horizontally', descriptionMs: 'Ulang mendatar' },
     { value: 'repeat-y', css: 'background-repeat: repeat-y;', description: 'Repeat vertically', descriptionMs: 'Ulang menegak' },
     { value: 'round', css: 'background-repeat: round;', description: 'Round repeat', descriptionMs: 'Ulang bulat' },
-    { value: 'space', css: 'background-repeat: space;', description: 'Spaced repeat', descriptionMs: 'Ulang berjarakd' }
+    { value: 'space', css: 'background-repeat: space;', description: 'Spaced repeat', descriptionMs: 'Ulang berjarak' }
   ],
   examples: [
     { code: '<div visual="bg-repeat:no-repeat">Single background</div>', description: 'No repeat' }

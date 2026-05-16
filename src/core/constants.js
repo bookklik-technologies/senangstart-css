@@ -1,6 +1,13 @@
 /**
  * SenangStart CSS - Core Constants
  * Shared constants used by both JIT runtime and build-time compiler
+ *
+ * NOTE: DEFAULT_THEME is a lightweight theme used by the CDN/JIT runtime.
+ * The canonical, full-featured theme is in src/config/defaults.js (defaultConfig.theme).
+ * These differ intentionally: DEFAULT_THEME uses px-based compact font sizes
+ * for smaller bundle size, while defaultConfig.theme uses rem-based full-scale
+ * font sizes. The Tailwind compatibility scales (TW_SPACING, etc.) are the
+ * single source of truth for tw-* prefixed values used by both.
  */
 
 // Breakpoint prefixes

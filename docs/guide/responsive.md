@@ -11,6 +11,15 @@ SenangStart uses mobile-first responsive prefixes.
 | `tab:` | 768px | Tablet |
 | `lap:` | 1024px | Laptop |
 | `desk:` | 1280px | Desktop |
+| `print:` | — | Print stylesheet |
+
+### Print Stylesheet
+
+Use the `print:` prefix to apply styles only when printing:
+
+```html
+<div visual="print:bg:white print:text:black">Black text on white when printed</div>
+```
 
 ## Usage
 

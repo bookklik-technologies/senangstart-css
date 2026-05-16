@@ -1779,13 +1779,14 @@ function generateVisualRule(token, config) {
     'perspective': () => {
       const perspectivePresets = {
         'none': 'none',
-        'small': '250px',
-        'medium': '500px',
-        'big': '750px',
-        'giant': '1000px',
-        'vast': '1500px'
+        'dramatic': '100px',
+        'near': '300px',
+        'normal': '500px',
+        'midrange': '800px',
+        'far': '1000px',
+        'distant': '1200px'
       };
-      const cssValue = isArbitrary ? value : (perspectivePresets[value] || perspectivePresets['medium']);
+      const cssValue = isArbitrary ? value : (perspectivePresets[value] || perspectivePresets['normal']);
       return `perspective: ${cssValue};`;
     },
     
@@ -2333,7 +2334,7 @@ export function generateCSSWithErrors(tokens, config) {
     }
 
     // Track display properties to handle conflicts like Tailwind
-    const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'hidden', 'contents'];
+    const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'hidden'];
     const baseDisplayTokens = new Map();
 
     // Find display properties in base tokens

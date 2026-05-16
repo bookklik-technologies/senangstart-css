@@ -972,39 +972,46 @@ describe('CSS Generator', () => {
         assert.ok(css.includes('perspective: none'));
       });
 
-      it('generates perspective: small', () => {
-        const token = { property: 'perspective', value: 'small', attrType: 'visual', raw: 'perspective:small' };
+      it('generates perspective: dramatic', () => {
+        const token = { property: 'perspective', value: 'dramatic', attrType: 'visual', raw: 'perspective:dramatic' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('perspective: 250px'));
+        assert.ok(css.includes('perspective: 100px'));
       });
 
-      it('generates perspective: medium', () => {
-        const token = { property: 'perspective', value: 'medium', attrType: 'visual', raw: 'perspective:medium' };
+      it('generates perspective: near', () => {
+        const token = { property: 'perspective', value: 'near', attrType: 'visual', raw: 'perspective:near' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('perspective: 300px'));
+      });
+
+      it('generates perspective: normal', () => {
+        const token = { property: 'perspective', value: 'normal', attrType: 'visual', raw: 'perspective:normal' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
         assert.ok(css.includes('perspective: 500px'));
       });
 
-      it('generates perspective: big', () => {
-        const token = { property: 'perspective', value: 'big', attrType: 'visual', raw: 'perspective:big' };
+      it('generates perspective: midrange', () => {
+        const token = { property: 'perspective', value: 'midrange', attrType: 'visual', raw: 'perspective:midrange' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('perspective: 750px'));
+        assert.ok(css.includes('perspective: 800px'));
       });
 
-      it('generates perspective: giant', () => {
-        const token = { property: 'perspective', value: 'giant', attrType: 'visual', raw: 'perspective:giant' };
+      it('generates perspective: far', () => {
+        const token = { property: 'perspective', value: 'far', attrType: 'visual', raw: 'perspective:far' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
         assert.ok(css.includes('perspective: 1000px'));
       });
 
-      it('generates perspective: vast', () => {
-        const token = { property: 'perspective', value: 'vast', attrType: 'visual', raw: 'perspective:vast' };
+      it('generates perspective: distant', () => {
+        const token = { property: 'perspective', value: 'distant', attrType: 'visual', raw: 'perspective:distant' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('perspective: 1500px'));
+        assert.ok(css.includes('perspective: 1200px'));
       });
 
       it('generates perspective with arbitrary value', () => {

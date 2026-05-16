@@ -303,12 +303,12 @@ legend {
 
 /*
  * 1. Use a more sensible default box-sizing strategy
+ * 2. Support safe-area-inset for modern devices with notches
  */
 *,
 ::before,
 ::after {
   box-sizing: border-box;
-  /* Support safe-area-inset for modern devices with notches */
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
@@ -327,16 +327,6 @@ dialog {
  */
 textarea {
   resize: vertical;
-}
-
-/*
- * 1. Reset the default placeholder opacity in Firefox
- * 2. Set the default placeholder color to a semi-transparent gray
- */
-input::placeholder,
-textarea::placeholder {
-  opacity: 1; /* 1 */
-  color: #9ca3af; /* 2 */
 }
 
 /*
