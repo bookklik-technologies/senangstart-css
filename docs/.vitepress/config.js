@@ -44,7 +44,8 @@ const enSidebar = {
         { text: 'CDN (Zero Build)', link: '/guide/cdn' },
         { text: 'CLI Build', link: '/guide/cli' },
         { text: 'Configuration', link: '/guide/configuration' },
-        { text: 'TypeScript', link: '/guide/typescript' }
+        { text: 'TypeScript', link: '/guide/typescript' },
+        { text: 'Migration', link: '/guide/migration' }
       ]
     }
   ],

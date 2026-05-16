@@ -300,6 +300,50 @@ describe('Tokenizer', () => {
       assert.strictEqual(hoverBgToken.state, 'hover');
     });
 
-  });
+    });
 
-});
+    describe('tokenize - Compound Tokens', () => {
+
+      it('parses breakpoint+state+arbitrary combination', () => {
+        const token = tokenize('tab:hover:w:[500px]', 'space');
+        assert.strictEqual(token.breakpoint, 'tab');
+        assert.strictEqual(token.state, 'hover');
+        assert.strictEqual(token.property, 'w');
+        assert.strictEqual(token.value, '500px');
+        assert.strictEqual(token.isArbitrary, true);
+      });
+
+      it('parses dark:bg:slate-900', () => {
+        const token = tokenize('dark:bg:slate-900', 'visual');
+        assert.strictEqual(token.state, 'dark');
+        assert.strictEqual(token.property, 'bg');
+        assert.strictEqual(token.value, 'slate-900');
+        assert.strictEqual(token.isArbitrary, false);
+      });
+
+      it('parses lap:dark:text:white', () => {
+        const token = tokenize('lap:dark:text:white', 'visual');
+        assert.strictEqual(token.breakpoint, 'lap');
+        assert.strictEqual(token.state, 'dark');
+        assert.strictEqual(token.property, 'text');
+        assert.strictEqual(token.value, 'white');
+      });
+
+      it('parses focus:border:blue-500', () => {
+        const token = tokenize('focus:border:blue-500', 'visual');
+        assert.strictEqual(token.state, 'focus');
+        assert.strictEqual(token.property, 'border');
+        assert.strictEqual(token.value, 'blue-500');
+      });
+
+      it('parses mob:active:scale:110', () => {
+        const token = tokenize('mob:active:scale:110', 'visual');
+        assert.strictEqual(token.breakpoint, 'mob');
+        assert.strictEqual(token.state, 'active');
+        assert.strictEqual(token.property, 'scale');
+        assert.strictEqual(token.value, '110');
+      });
+
+    });
+
+  });

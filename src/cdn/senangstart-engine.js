@@ -13,6 +13,7 @@ import { tokenizeAll } from '../core/tokenizer-core.js';
 import { generateCSS } from '../compiler/generators/css.js';
 import { defaultConfig, mergeConfig } from '../config/defaults.js';
 
+try {
 (function() {
   'use strict';
 
@@ -197,3 +198,13 @@ import { defaultConfig, mergeConfig } from '../config/defaults.js';
   }
 
 })();
+} catch (e) {
+  console.error('[SenangStart] Failed to initialize JIT runtime:', e.message);
+  // Write a visible warning for debugging but don't crash the page
+  if (typeof document !== 'undefined') {
+    var el = document.createElement('div');
+    el.style.cssText = 'background:#fef2f2;color:#991b1b;padding:8px 16px;font-family:monospace;font-size:14px;';
+    el.textContent = 'SenangStart CSS failed to load. See console for details.';
+    document.body && document.body.prepend(el);
+  }
+}

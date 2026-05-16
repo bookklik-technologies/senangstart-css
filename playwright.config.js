@@ -16,6 +16,16 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    // Cross-browser projects — requires `npx playwright install firefox webkit`
+    // Enable these in CI or after installing the browsers locally
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
   ],
   webServer: {
     command: 'npx http-server public -p 5173 -c-1 --silent',

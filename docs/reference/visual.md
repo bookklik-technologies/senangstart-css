@@ -155,6 +155,17 @@ The `visual` attribute controls colors, textures, typography, and appearance.
 
 - [Forced Color Adjust](./visual/forced-color-adjust) - `forced-color-adjust:none`, `forced-color-adjust:auto`
 
+### Accessibility Best Practices
+
+SenangStart is designed to work with standard accessibility patterns:
+
+- **Focus indicators:** Use `visual="focus:outline:primary focus:shadow:medium"` on interactive elements
+- **Focus-visible:** Combine with `layout="focusable"` for keyboard-only focus styling
+- **Screen reader friendly:** No `!important` abuse; all utilities play well with screen reader CSS
+- **Color contrast:** Use the full Tailwind-compatible color palette to ensure WCAG AA/AAA contrast ratios
+- **Prefer `prefers-reduced-motion`:** Combine `duration:instant` with animation utilities for motion-sensitive users
+- **Disable forced colors:** `visual="forced-colors:none"` when you need to preserve custom color schemes in Windows High Contrast Mode
+
 ## Performance
 
 - [Content Visibility](./visual/content-visibility) - `content-visibility:auto`, `content-visibility:hidden`

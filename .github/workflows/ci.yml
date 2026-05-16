@@ -34,7 +34,8 @@ jobs:
       - name: Run tests
         run: npm test
       - name: Test coverage
-        run: npm run test:coverage
+        run: |
+          npx c8 --reporter=text --reporter=lcov --check-coverage --lines 70 --branches 60 --functions 70 --statements 70 node --test tests/
         continue-on-error: true
 
   build:
