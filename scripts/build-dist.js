@@ -6,28 +6,33 @@
  */
 
 import * as esbuild from 'esbuild';
-import { mkdirSync, statSync, copyFileSync } from 'fs';
+import { mkdirSync, statSync, copyFileSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
+// Read version from package.json
+const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf-8'));
+const version = pkg.version;
+
 // Ensure dist folder exists
 const distDir = join(root, 'dist');
 mkdirSync(distDir, { recursive: true });
 
-console.log('📦 Building SenangStart CSS...\n');
+console.log(`📦 Building SenangStart CSS v${version}...\n`);
 
 // Build unminified version
 await esbuild.build({
   entryPoints: [join(root, 'src', 'cdn', 'senangstart-engine.js')],
   bundle: true,
   format: 'iife',
+  sourcemap: true,
   outfile: join(distDir, 'senangstart-css.js'),
   minify: false,
   banner: {
-    js: '/* SenangStart CSS - JIT Runtime v0.2.0 | MIT License */'
+    js: `/* SenangStart CSS - JIT Runtime v${version} | MIT License */`
   }
 });
 
@@ -39,10 +44,11 @@ await esbuild.build({
   entryPoints: [join(root, 'src', 'cdn', 'senangstart-engine.js')],
   bundle: true,
   format: 'iife',
+  sourcemap: true,
   outfile: join(distDir, 'senangstart-css.min.js'),
   minify: true,
   banner: {
-    js: '/* SenangStart CSS v0.2.0 | MIT */'
+    js: `/* SenangStart CSS v${version} | MIT */`
   }
 });
 
@@ -54,10 +60,11 @@ await esbuild.build({
   entryPoints: [join(root, 'src', 'cdn', 'tw-conversion-engine.js')],
   bundle: true,
   format: 'iife',
+  sourcemap: true,
   outfile: join(distDir, 'senangstart-tw.js'),
   minify: false,
   banner: {
-    js: '/* SenangStart CSS - Tailwind Converter v0.2.0 | MIT License */'
+    js: `/* SenangStart CSS - Tailwind Converter v${version} | MIT License */`
   }
 });
 
@@ -69,10 +76,11 @@ await esbuild.build({
   entryPoints: [join(root, 'src', 'cdn', 'tw-conversion-engine.js')],
   bundle: true,
   format: 'iife',
+  sourcemap: true,
   outfile: join(distDir, 'senangstart-tw.min.js'),
   minify: true,
   banner: {
-    js: '/* SenangStart TW v0.2.0 | MIT */'
+    js: `/* SenangStart TW v${version} | MIT */`
   }
 });
 

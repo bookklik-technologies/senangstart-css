@@ -16,13 +16,68 @@ import { validateThemeValue, getMemoryUsage } from '../../utils/common.js';
 import { readMultipleFilesWithTimeout } from '../../utils/node-io.js';
 
 /**
+ * Parse glob patterns to extract scan directories and file extensions
+ */
+function parseContentPatterns(patterns) {
+  if (!patterns || !Array.isArray(patterns) || patterns.length === 0) {
+    // Fallback to defaults
+    patterns = [
+      './**/*.html',
+      './src/**/*.{html,jsx,tsx,vue,svelte}',
+      './pages/**/*.{html,jsx,tsx}',
+      './components/**/*.{html,jsx,tsx}'
+    ];
+  }
+
+  const dirExtensions = {}; // dir -> Set of extensions
+  const walkAll = new Set(); // extensions to match in any directory
+
+  for (const pattern of patterns) {
+    // Extract extensions: match *.ext or *.{ext1,ext2,...}
+    const extMatches = pattern.match(/\*\.(\w+)|\*\.\{([^}]+)\}/g);
+    if (!extMatches) continue;
+
+    const extensions = [];
+    for (const m of extMatches) {
+      const inner = m.replace(/^\*\.\{?/, '').replace(/\}$/, '');
+      for (const ext of inner.split(',')) {
+        extensions.push(ext.trim().toLowerCase());
+      }
+    }
+
+    if (extensions.length === 0) continue;
+
+    // Determine if this is a root-walk pattern (./**/*.ext) or scoped pattern (./dir/**/*.ext)
+    const dirPart = pattern.split('/**/')[0];
+    if (dirPart === '.' || dirPart === './' || dirPart === '') {
+      // Walk from cwd
+      for (const ext of extensions) {
+        walkAll.add(ext);
+      }
+    } else {
+      // Scoped to a directory
+      const dir = dirPart.replace(/^\.\//, '');
+      if (!dirExtensions[dir]) {
+        dirExtensions[dir] = new Set();
+      }
+      for (const ext of extensions) {
+        dirExtensions[dir].add(ext);
+      }
+    }
+  }
+
+  return { dirExtensions, walkAll };
+}
+
+/**
  * Find files matching content patterns
  */
 function findFiles(patterns) {
+  const { dirExtensions, walkAll } = parseContentPatterns(patterns);
   const allFiles = [];
-  const extensions = ['html', 'htm', 'jsx', 'tsx', 'vue', 'svelte'];
-  
-  function walk(dir) {
+  const seen = new Set();
+
+  function walk(dir, allowedExts) {
     try {
       const entries = readdirSync(dir);
       for (const entry of entries) {
@@ -31,24 +86,41 @@ function findFiles(patterns) {
           const stat = statSync(fullPath);
           if (stat.isDirectory()) {
             if (!entry.startsWith('.') && entry !== 'node_modules' && entry !== 'dist') {
-              walk(fullPath);
+              walk(fullPath, allowedExts);
             }
           } else if (stat.isFile()) {
             const ext = entry.split('.').pop().toLowerCase();
-            if (extensions.includes(ext)) {
+            if (allowedExts.has(ext) && !seen.has(fullPath)) {
+              seen.add(fullPath);
               allFiles.push(fullPath);
             }
           }
         } catch (e) {
-          logger.debug(`Skipping file: ${entry} - ${e.message}`);
+          // skip inaccessible files
         }
       }
     } catch (e) {
-      logger.debug(`Skipping directory: ${dir} - ${e.message}`);
+      // skip inaccessible directories
     }
   }
-  
-  walk(process.cwd());
+
+  // Walk configured subdirectories with their specific extensions
+  for (const [subDir, extensions] of Object.entries(dirExtensions)) {
+    const dirPath = join(process.cwd(), subDir);
+    try {
+      if (statSync(dirPath).isDirectory()) {
+        walk(dirPath, extensions);
+      }
+    } catch (e) {
+      // directory doesn't exist, skip
+    }
+  }
+
+  // Walk from CWD for root-level patterns
+  if (walkAll.size > 0) {
+    walk(process.cwd(), walkAll);
+  }
+
   return allFiles;
 }
 
@@ -95,6 +167,7 @@ function ensureDir(filePath) {
  */
 export async function build(options = {}) {
   const startTime = Date.now();
+  let hasErrors = false;
   
   logger.build('Starting build...');
   
@@ -115,7 +188,8 @@ export async function build(options = {}) {
   const files = await findFiles(config.content);
   
   if (files.length === 0) {
-    logger.warn('No source files found');
+    logger.error('No source files found matching content patterns. Aborting build.');
+    process.exit(1);
     return;
   }
   
@@ -150,6 +224,13 @@ export async function build(options = {}) {
     }
   }
 
+  // If every single file failed, that's a hard error
+  if (failedFiles > 0 && failedFiles === files.length) {
+    logger.error('All source files failed to process. Aborting build.');
+    process.exit(1);
+    return;
+  }
+  
   if (failedFiles > 0) {
     logger.warn(`${failedFiles} file(s) failed to process`);
   }
@@ -164,11 +245,17 @@ export async function build(options = {}) {
 
   // Tokenize
   let tokens;
-  if (useBatching) {
-    logger.info('Using batch processing for memory protection');
-    tokens = await tokenizeAllWithBatching(allTokens, 1000);
-  } else {
-    tokens = tokenizeAll(allTokens);
+  try {
+    if (useBatching) {
+      logger.info('Using batch processing for memory protection');
+      tokens = await tokenizeAllWithBatching(allTokens, 1000);
+    } else {
+      tokens = tokenizeAll(allTokens);
+    }
+  } catch (e) {
+    logger.error(`Tokenization failed: ${e.message}`);
+    process.exit(1);
+    return;
   }
 
   logger.info(`Generated ${tokens.length} tokens`);
@@ -183,38 +270,71 @@ export async function build(options = {}) {
   }
   
   // Generate CSS
-  let css = generateCSS(tokens, config);
+  let css;
+  try {
+    css = generateCSS(tokens, config);
+  } catch (e) {
+    logger.error(`CSS generation failed: ${e.message}`);
+    process.exit(1);
+    return;
+  }
   
   if (config.output.minify) {
-    css = minifyCSS(css);
+    try {
+      css = minifyCSS(css);
+    } catch (e) {
+      logger.error(`CSS minification failed: ${e.message}`);
+      process.exit(1);
+      return;
+    }
   }
   
   // Write CSS
   const cssPath = join(process.cwd(), config.output.css);
-  ensureDir(cssPath);
-  writeFileSync(cssPath, css);
-  logger.success(`Generated ${config.output.css}`);
+  try {
+    ensureDir(cssPath);
+    writeFileSync(cssPath, css);
+    logger.success(`Generated ${config.output.css}`);
+  } catch (e) {
+    logger.error(`Failed to write CSS: ${e.message}`);
+    hasErrors = true;
+  }
   
   // Generate AI context
   if (config.output.aiContext) {
-    const aiContext = generateAIContext(config);
-    const aiPath = join(process.cwd(), config.output.aiContext);
-    ensureDir(aiPath);
-    writeFileSync(aiPath, aiContext);
-    logger.success(`Generated ${config.output.aiContext}`);
+    try {
+      const aiContext = generateAIContext(config);
+      const aiPath = join(process.cwd(), config.output.aiContext);
+      ensureDir(aiPath);
+      writeFileSync(aiPath, aiContext);
+      logger.success(`Generated ${config.output.aiContext}`);
+    } catch (e) {
+      logger.error(`Failed to write AI context: ${e.message}`);
+      hasErrors = true;
+    }
   }
   
   // Generate TypeScript definitions
   if (config.output.typescript) {
-    const tsTypes = generateTypeScript(config);
-    const tsPath = join(process.cwd(), config.output.typescript);
-    ensureDir(tsPath);
-    writeFileSync(tsPath, tsTypes);
-    logger.success(`Generated ${config.output.typescript}`);
+    try {
+      const tsTypes = generateTypeScript(config);
+      const tsPath = join(process.cwd(), config.output.typescript);
+      ensureDir(tsPath);
+      writeFileSync(tsPath, tsTypes);
+      logger.success(`Generated ${config.output.typescript}`);
+    } catch (e) {
+      logger.error(`Failed to write TypeScript definitions: ${e.message}`);
+      hasErrors = true;
+    }
   }
   
   const elapsed = Date.now() - startTime;
   logger.build(`Build completed in ${elapsed}ms`);
+  
+  if (hasErrors) {
+    logger.warn('Build completed with warnings');
+    process.exit(1);
+  }
 }
 
 export default build;

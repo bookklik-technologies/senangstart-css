@@ -5,15 +5,21 @@
  * The Intent-First CSS Engine
  */
 
+import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 import { program } from 'commander';
 import { init } from './commands/init.js';
 import { build } from './commands/build.js';
 import { dev } from './commands/dev.js';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(readFileSync(join(__dirname, '..', '..', 'package.json'), 'utf-8'));
+
 program
   .name('senangstart')
   .description('SenangStart CSS - The Intent-First CSS Engine\n\n  "Speak Human. Compile to Logic."')
-  .version('1.0.0');
+  .version(pkg.version);
 
 program
   .command('init')

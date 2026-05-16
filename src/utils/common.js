@@ -3,6 +3,8 @@
  * Shared helper functions for compiler and runtime
  */
 
+import logger from './logger.js';
+
 /**
  * Sanitize token value to prevent CSS injection
  * Enhanced with comprehensive security checks
