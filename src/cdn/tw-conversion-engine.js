@@ -589,6 +589,14 @@ function convertClass(twClass, exact) {
     const val = specialHeightVals[rawVal] || getSpacing(rawVal, exact);
     return attachExtra({ cat: "space", val: prefix + prop + ":" + val });
   }
+  // Size shorthand (sets both width and height)
+  const sizeMatch = baseClass.match(/^size-(.+)$/);
+  if (sizeMatch) {
+    const rawVal = sizeMatch[1];
+    const specialSizeVals = { 'max': '[max-content]', 'min': '[min-content]', 'fit': '[fit-content]' };
+    const val = specialSizeVals[rawVal] || getSpacing(rawVal, exact);
+    return attachExtra({ cat: "space", val: prefix + "size:" + val });
+  }
 
   // Border radius
   const roundedMatch = baseClass.match(/^rounded(?:-(.+))?$/);

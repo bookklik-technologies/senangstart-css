@@ -100,7 +100,9 @@ describe('CSS Generator Error Handling', () => {
       const result = generateCSS([], defaultConfig);
       assert.ok(typeof result === 'string');
       assert.ok(result.includes(':root'));
-      assert.ok(!result.includes('[layout~="'));
+      // Container preflight may inject [layout~="container"] — verify no token-based selectors
+      const nonContainerMatches = (result.match(/\[layout~="(?!container")/g) || []);
+      assert.strictEqual(nonContainerMatches.length, 0, 'Should have no utility selectors from tokens');
     });
 
     it('handles malformed tokens without crashing', () => {

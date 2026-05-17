@@ -278,6 +278,80 @@ describe('CSS Generator', () => {
         assert.ok(css.includes('grid-column: span 2 / span 2'));
       });
 
+      describe('Grid Auto Sizing', () => {
+
+        it('generates auto-cols:auto', () => {
+          const token = { property: 'auto-cols', value: 'auto', attrType: 'layout', raw: 'auto-cols:auto' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-columns: auto'));
+        });
+
+        it('generates auto-cols:min', () => {
+          const token = { property: 'auto-cols', value: 'min', attrType: 'layout', raw: 'auto-cols:min' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-columns: min-content'));
+        });
+
+        it('generates auto-cols:max', () => {
+          const token = { property: 'auto-cols', value: 'max', attrType: 'layout', raw: 'auto-cols:max' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-columns: max-content'));
+        });
+
+        it('generates auto-cols:fr', () => {
+          const token = { property: 'auto-cols', value: 'fr', attrType: 'layout', raw: 'auto-cols:fr' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-columns: minmax(0, 1fr)'));
+        });
+
+        it('generates auto-rows:auto', () => {
+          const token = { property: 'auto-rows', value: 'auto', attrType: 'layout', raw: 'auto-rows:auto' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-rows: auto'));
+        });
+
+        it('generates auto-rows:min', () => {
+          const token = { property: 'auto-rows', value: 'min', attrType: 'layout', raw: 'auto-rows:min' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-rows: min-content'));
+        });
+
+        it('generates auto-rows:max', () => {
+          const token = { property: 'auto-rows', value: 'max', attrType: 'layout', raw: 'auto-rows:max' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-rows: max-content'));
+        });
+
+        it('generates auto-rows:fr', () => {
+          const token = { property: 'auto-rows', value: 'fr', attrType: 'layout', raw: 'auto-rows:fr' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-rows: minmax(0, 1fr)'));
+        });
+
+        it('generates auto-cols with arbitrary value', () => {
+          const token = { property: 'auto-cols', value: '200px', isArbitrary: true, attrType: 'layout', raw: 'auto-cols:[200px]' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-columns: 200px'));
+        });
+
+        it('generates auto-rows with arbitrary value', () => {
+          const token = { property: 'auto-rows', value: '300px', isArbitrary: true, attrType: 'layout', raw: 'auto-rows:[300px]' };
+          const config = createTestConfig();
+          const css = generateCSS([token], config);
+          assert.ok(css.includes('grid-auto-rows: 300px'));
+        });
+
+      });
+
     });
 
     describe('Z-Index', () => {
@@ -415,6 +489,38 @@ describe('CSS Generator', () => {
         const css = generateCSS([token], config);
         
         assert.ok(css.includes('max-width: 1200px'));
+      });
+
+      it('generates size shorthand with scale value', () => {
+        const token = { property: 'size', value: 'medium', attrType: 'space', raw: 'size:medium' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('width: var(--s-medium)'));
+        assert.ok(css.includes('height: var(--s-medium)'));
+      });
+
+      it('generates size shorthand with percentage', () => {
+        const token = { property: 'size', value: 'full', attrType: 'space', raw: 'size:full' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('width: 100%'));
+        assert.ok(css.includes('height: 100%'));
+      });
+
+      it('generates size shorthand with arbitrary value', () => {
+        const token = { property: 'size', value: '200px', isArbitrary: true, attrType: 'space', raw: 'size:[200px]' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('width: 200px'));
+        assert.ok(css.includes('height: 200px'));
+      });
+
+      it('generates size shorthand with Tailwind scale', () => {
+        const token = { property: 'size', value: 'tw-64', attrType: 'space', raw: 'size:tw-64' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('width: var(--tw-64)'));
+        assert.ok(css.includes('height: var(--tw-64)'));
       });
 
     });

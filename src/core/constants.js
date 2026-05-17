@@ -316,13 +316,32 @@ export const DEFAULT_THEME = {
     'tw-2xl': '1536px'
   },
   colors: COLOR_PALETTE,
+  container: {
+    'mob': '480px',
+    'tab': '768px',
+    'lap': '1024px',
+    'desk': '1280px'
+  },
   zIndex: {
     'base':   '0',
     'low':    '10',
     'mid':    '50',
     'high':   '100',
     'top':    '9999'
-  }
+  },
+  blur: { none: '0', tiny: '2px', small: '4px', medium: '8px', big: '12px', giant: '24px', vast: '48px' },
+  brightness: { dim: '0.5', dark: '0.75', normal: '1', bright: '1.25', vivid: '1.5' },
+  contrast: { low: '0.5', reduced: '0.75', normal: '1', high: '1.25', max: '1.5' },
+  grayscale: { none: '0%', partial: '50%', full: '100%' },
+  invert: { none: '0%', partial: '50%', full: '100%' },
+  saturate: { none: '0', low: '0.5', normal: '1', high: '1.5', vivid: '2' },
+  sepia: { none: '0%', partial: '50%', full: '100%' },
+  dropShadow: { none: 'none', tiny: '0 1px 1px rgba(0,0,0,0.05)', small: '0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)', medium: '0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)', big: '0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)', giant: '0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)' },
+  backdropOpacity: { invisible: '0', faint: '0.25', half: '0.5', visible: '0.75', solid: '1' },
+  transitionProperty: { none: 'none', all: 'all', DEFAULT: 'color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter', colors: 'color, background-color, border-color, text-decoration-color, fill, stroke', opacity: 'opacity', shadow: 'box-shadow', transform: 'transform' },
+  animationDuration: { instant: '75ms', quick: '100ms', fast: '150ms', normal: '200ms', slow: '300ms', slower: '500ms', lazy: '700ms' },
+  animationDelay: { instant: '75ms', quick: '100ms', fast: '150ms', normal: '200ms', slow: '300ms', slower: '500ms', lazy: '700ms' },
+  perspective: { none: 'none', dramatic: '100px', near: '300px', normal: '500px', midrange: '800px', far: '1000px', distant: '1200px' }
 };
 
 // Tailwind spacing scale

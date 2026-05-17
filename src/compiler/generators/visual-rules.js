@@ -1,11 +1,32 @@
 /**
  * SenangStart CSS - Visual Rule Definitions
  * Individual rule functions extracted from generateVisualRule.
- * Each function takes (value, isArbitrary) and returns a CSS declaration string.
+ * Each function takes (value, isArbitrary, config) and returns a CSS declaration string.
+ * Config is used to look up theme-scale values with sensible defaults as fallback.
  */
 
 import { sanitizeValue } from '../../utils/common.js';
 import { CSS_COLOR_KEYWORDS } from '../../core/constants.js';
+
+// Built-in default scales used when config.theme does not provide overrides
+const DEFAULT_BLUR = { none: '0', tiny: '2px', small: '4px', medium: '8px', big: '12px', giant: '24px', vast: '48px' };
+const DEFAULT_BRIGHTNESS = { dim: 0.5, dark: 0.75, normal: 1, bright: 1.25, vivid: 1.5 };
+const DEFAULT_CONTRAST = { low: 0.5, reduced: 0.75, normal: 1, high: 1.25, max: 1.5 };
+const DEFAULT_GRAYSCALE = { none: '0%', partial: '50%', full: '100%' };
+const DEFAULT_INVERT = { none: '0%', partial: '50%', full: '100%' };
+const DEFAULT_SATURATE = { none: 0, low: 0.5, normal: 1, high: 1.5, vivid: 2 };
+const DEFAULT_SEPIA = { none: '0%', partial: '50%', full: '100%' };
+const DEFAULT_DROP_SHADOW = { none: 'none', tiny: '0 1px 1px rgba(0,0,0,0.05)', small: '0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)', medium: '0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)', big: '0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)', giant: '0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)' };
+const DEFAULT_BACKDROP_OPACITY = { invisible: 0, faint: 0.25, half: 0.5, visible: 0.75, solid: 1 };
+const DEFAULT_TRANSITION_PROPERTY = { none: 'none', all: 'all', DEFAULT: 'color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter', colors: 'color, background-color, border-color, text-decoration-color, fill, stroke', opacity: 'opacity', shadow: 'box-shadow', transform: 'transform' };
+const DEFAULT_ANIMATION_DURATION = { instant: '75ms', quick: '100ms', fast: '150ms', normal: '200ms', slow: '300ms', slower: '500ms', lazy: '700ms' };
+const DEFAULT_ANIMATION_DELAY = { instant: '75ms', quick: '100ms', fast: '150ms', normal: '200ms', slow: '300ms', slower: '500ms', lazy: '700ms' };
+const DEFAULT_PERSPECTIVE = { none: 'none', dramatic: '100px', near: '300px', normal: '500px', midrange: '800px', far: '1000px', distant: '1200px' };
+const DEFAULT_ANIMATION = { none: 'none', spin: 'spin 1s linear infinite', ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite', pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite', bounce: 'bounce 1s infinite' };
+
+function getScale(config, key, defaults) {
+  return (config?.theme?.[key]) || defaults;
+}
 
 function parseOpacityModifier(value) {
   const slashIndex = value.lastIndexOf('/');
@@ -194,37 +215,79 @@ const rules = {
 
   content: (v) => `content: "${sanitizeArbitraryValue(v).replace(/"/g, '\\"')}";`,
 
-  blur: (v, a) => {
+  blur: (v, a, cfg) => {
     if (a) return `filter: blur(${v});`;
-    const scale = { none:'0', tiny:'2px', small:'4px', medium:'8px', big:'12px', giant:'24px', vast:'48px' };
+    const scale = getScale(cfg, 'blur', DEFAULT_BLUR);
     const cv = scale[v] || scale.medium;
     return cv === '0' ? 'filter: none;' : `filter: blur(${cv});`;
   },
-  brightness: (v, a) => `filter: brightness(${a ? v : ({ dim:0.5, dark:0.75, normal:1, bright:1.25, vivid:1.5 })[v] || 1});`,
-  contrast: (v, a) => `filter: contrast(${a ? v : ({ low:0.5, reduced:0.75, normal:1, high:1.25, max:1.5 })[v] || 1});`,
-  'drop-shadow': (v, a) => `filter: drop-shadow(${a ? v.replace(/_/g, ' ') : ({ none:'none', tiny:'0 1px 1px rgba(0,0,0,0.05)', small:'0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)', medium:'0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)', big:'0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)', giant:'0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)' })[v] || v});`,
-  grayscale: (v, a) => `filter: grayscale(${a ? v : ({ none:'0%', partial:'50%', full:'100%' })[v] || '100%'});`,
+  brightness: (v, a, cfg) => {
+    const scale = getScale(cfg, 'brightness', DEFAULT_BRIGHTNESS);
+    return `filter: brightness(${a ? v : (scale[v] || 1)});`;
+  },
+  contrast: (v, a, cfg) => {
+    const scale = getScale(cfg, 'contrast', DEFAULT_CONTRAST);
+    return `filter: contrast(${a ? v : (scale[v] || 1)});`;
+  },
+  'drop-shadow': (v, a, cfg) => {
+    const scale = getScale(cfg, 'dropShadow', DEFAULT_DROP_SHADOW);
+    return `filter: drop-shadow(${a ? v.replace(/_/g, ' ') : (scale[v] || v)});`;
+  },
+  grayscale: (v, a, cfg) => {
+    const scale = getScale(cfg, 'grayscale', DEFAULT_GRAYSCALE);
+    return `filter: grayscale(${a ? v : (scale[v] || '100%')});`;
+  },
   'hue-rotate': (v, a) => `filter: hue-rotate(${a ? v : `${v}deg`});`,
-  invert: (v, a) => `filter: invert(${a ? v : ({ none:'0%', partial:'50%', full:'100%' })[v] || '100%'});`,
-  saturate: (v, a) => `filter: saturate(${a ? v : ({ none:0, low:0.5, normal:1, high:1.5, vivid:2 })[v] || 1});`,
-  sepia: (v, a) => `filter: sepia(${a ? v : ({ none:'0%', partial:'50%', full:'100%' })[v] || '100%'});`,
+  invert: (v, a, cfg) => {
+    const scale = getScale(cfg, 'invert', DEFAULT_INVERT);
+    return `filter: invert(${a ? v : (scale[v] || '100%')});`;
+  },
+  saturate: (v, a, cfg) => {
+    const scale = getScale(cfg, 'saturate', DEFAULT_SATURATE);
+    return `filter: saturate(${a ? v : (scale[v] || 1)});`;
+  },
+  sepia: (v, a, cfg) => {
+    const scale = getScale(cfg, 'sepia', DEFAULT_SEPIA);
+    return `filter: sepia(${a ? v : (scale[v] || '100%')});`;
+  },
 
-  'backdrop-blur': (v, a) => {
-    const scale = { none:'0', tiny:'2px', small:'4px', medium:'8px', big:'12px', giant:'24px', vast:'48px' };
+  'backdrop-blur': (v, a, cfg) => {
+    const scale = getScale(cfg, 'blur', DEFAULT_BLUR);
     return `backdrop-filter: blur(${a ? v : (scale[v] || scale.medium)});`;
   },
-  'backdrop-brightness': (v, a) => `backdrop-filter: brightness(${a ? v : ({ dim:0.5, dark:0.75, normal:1, bright:1.25, vivid:1.5 })[v] || 1});`,
-  'backdrop-contrast': (v, a) => `backdrop-filter: contrast(${a ? v : ({ low:0.5, reduced:0.75, normal:1, high:1.25, max:1.5 })[v] || 1});`,
-  'backdrop-grayscale': (v, a) => `backdrop-filter: grayscale(${a ? v : ({ none:'0%', partial:'50%', full:'100%' })[v] || '100%'});`,
+  'backdrop-brightness': (v, a, cfg) => {
+    const scale = getScale(cfg, 'brightness', DEFAULT_BRIGHTNESS);
+    return `backdrop-filter: brightness(${a ? v : (scale[v] || 1)});`;
+  },
+  'backdrop-contrast': (v, a, cfg) => {
+    const scale = getScale(cfg, 'contrast', DEFAULT_CONTRAST);
+    return `backdrop-filter: contrast(${a ? v : (scale[v] || 1)});`;
+  },
+  'backdrop-grayscale': (v, a, cfg) => {
+    const scale = getScale(cfg, 'grayscale', DEFAULT_GRAYSCALE);
+    return `backdrop-filter: grayscale(${a ? v : (scale[v] || '100%')});`;
+  },
   'backdrop-hue-rotate': (v, a) => `backdrop-filter: hue-rotate(${a ? v : `${v}deg`});`,
-  'backdrop-invert': (v, a) => `backdrop-filter: invert(${a ? v : ({ none:'0%', partial:'50%', full:'100%' })[v] || '100%'});`,
-  'backdrop-opacity': (v, a) => `backdrop-filter: opacity(${a ? v : ({ invisible:0, faint:0.25, half:0.5, visible:0.75, solid:1 })[v] || 1});`,
-  'backdrop-saturate': (v, a) => `backdrop-filter: saturate(${a ? v : ({ none:0, low:0.5, normal:1, high:1.5, vivid:2 })[v] || 1});`,
-  'backdrop-sepia': (v, a) => `backdrop-filter: sepia(${a ? v : ({ none:'0%', partial:'50%', full:'100%' })[v] || '100%'});`,
+  'backdrop-invert': (v, a, cfg) => {
+    const scale = getScale(cfg, 'invert', DEFAULT_INVERT);
+    return `backdrop-filter: invert(${a ? v : (scale[v] || '100%')});`;
+  },
+  'backdrop-opacity': (v, a, cfg) => {
+    const scale = getScale(cfg, 'backdropOpacity', DEFAULT_BACKDROP_OPACITY);
+    return `backdrop-filter: opacity(${a ? v : (scale[v] || 1)});`;
+  },
+  'backdrop-saturate': (v, a, cfg) => {
+    const scale = getScale(cfg, 'saturate', DEFAULT_SATURATE);
+    return `backdrop-filter: saturate(${a ? v : (scale[v] || 1)});`;
+  },
+  'backdrop-sepia': (v, a, cfg) => {
+    const scale = getScale(cfg, 'sepia', DEFAULT_SEPIA);
+    return `backdrop-filter: sepia(${a ? v : (scale[v] || '100%')});`;
+  },
 
-  transition: (v) => {
-    const presets = { none:'none', all:'all', DEFAULT:'color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter', colors:'color, background-color, border-color, text-decoration-color, fill, stroke', opacity:'opacity', shadow:'box-shadow', transform:'transform' };
-    return `transition-property: ${presets[v] || presets.DEFAULT}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;`;
+  transition: (v, cfg) => {
+    const scale = getScale(cfg, 'transitionProperty', DEFAULT_TRANSITION_PROPERTY);
+    return `transition-property: ${scale[v] || scale.DEFAULT}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;`;
   },
   'transition-none': () => 'transition-property: none;',
   duration: (v, a) => {
@@ -238,16 +301,16 @@ const rules = {
   },
   'transition-behavior': (v) => `transition-behavior: ${v};`,
 
-  animate: (v, a) => {
-    const presets = { none:'none', spin:'spin 1s linear infinite', ping:'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite', pulse:'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite', bounce:'bounce 1s infinite' };
-    return `animation: ${a ? v.replace(/_/g, ' ') : (presets[v] || v)};`;
+  animate: (v, a, cfg) => {
+    const scale = getScale(cfg, 'animation', DEFAULT_ANIMATION);
+    return `animation: ${a ? v.replace(/_/g, ' ') : (scale[v] || v)};`;
   },
-  'animation-duration': (v, a) => {
-    const scale = { instant:'75ms', quick:'100ms', fast:'150ms', normal:'200ms', slow:'300ms', slower:'500ms', lazy:'700ms' };
+  'animation-duration': (v, a, cfg) => {
+    const scale = getScale(cfg, 'animationDuration', DEFAULT_ANIMATION_DURATION);
     return `animation-duration: ${a ? v : (scale[v] || scale.normal)};`;
   },
-  'animation-delay': (v, a) => {
-    const scale = { instant:'75ms', quick:'100ms', fast:'150ms', normal:'200ms', slow:'300ms', slower:'500ms', lazy:'700ms' };
+  'animation-delay': (v, a, cfg) => {
+    const scale = getScale(cfg, 'animationDelay', DEFAULT_ANIMATION_DELAY);
     return `animation-delay: ${a ? v : (scale[v] || scale.normal)};`;
   },
   'animation-iteration': (v) => `animation-iteration-count: ${v};`,
@@ -282,9 +345,9 @@ const rules = {
   },
   'transform-style': (v) => `transform-style: ${v};`,
   backface: (v) => `backface-visibility: ${v};`,
-  perspective: (v, a) => {
-    const presets = { none:'none', dramatic:'100px', near:'300px', normal:'500px', midrange:'800px', far:'1000px', distant:'1200px' };
-    return `perspective: ${a ? v : (presets[v] || presets.normal)};`;
+  perspective: (v, a, cfg) => {
+    const scale = getScale(cfg, 'perspective', DEFAULT_PERSPECTIVE);
+    return `perspective: ${a ? v : (scale[v] || scale.normal)};`;
   },
   'perspective-origin': (v, a) => {
     const map = { center:'center', top:'top', 'top-right':'top right', right:'right', 'bottom-right':'bottom right', bottom:'bottom', 'bottom-left':'bottom left', left:'left', 'top-left':'top left' };

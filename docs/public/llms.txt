@@ -1383,6 +1383,13 @@ export default {
 * `around`: Space around (`justify-content: space-around;`)
 * `evenly`: Even spacing (`justify-content: space-evenly;`)
 
+## size
+> Set width and height simultaneously
+
+**Syntax:** `space="size:[value]"`
+
+* `undefined`: Size (width + height)
+
 ## state-prefixes
 > Apply styles on specific states
 

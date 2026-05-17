@@ -415,13 +415,78 @@ export const height = {
   ]
 };
 
+// ======================
+// SIZE SHORTHAND
+// ======================
+
+export const size = {
+  name: 'size',
+  property: 'space',
+  syntax: 'space="size:[value]"',
+  description: 'Set width and height simultaneously',
+  descriptionMs: 'Tetapkan lebar dan tinggi serentak',
+  category: 'space',
+  usesScale: 'spacing',
+  values: [
+    { property: 'size', css: 'width: var(--s-{value}); height: var(--s-{value});', description: 'Size (width + height)', descriptionMs: 'Saiz (lebar + tinggi)' }
+  ],
+  scaleValues: [
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x',
+    'small', 'small-2x', 'small-3x', 'small-4x',
+    'medium', 'medium-2x', 'medium-3x', 'medium-4x',
+    'large', 'large-2x', 'large-3x', 'large-4x',
+    'big', 'big-2x', 'big-3x', 'big-4x',
+    'giant', 'giant-2x', 'giant-3x', 'giant-4x',
+    'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
+    'min', 'max', 'fit',
+    'full', 'half', 'third', 'third-2x', 'quarter', 'quarter-3x',
+    '1/1', '1/2', '1/3', '2/3', '1/4', '2/4', '3/4'
+  ],
+  percentageAdjectives: [
+    { name: 'full', value: '100%', description: 'Full size (100%)', descriptionMs: 'Saiz penuh (100%)' },
+    { name: 'half', value: '50%', description: 'Half size (50%)', descriptionMs: 'Separuh saiz (50%)' },
+    { name: 'third', value: '33.333333%', description: 'One third size (33%)', descriptionMs: 'Satu pertiga saiz (33%)' },
+    { name: 'third-2x', value: '66.666667%', description: 'Two thirds size (66%)', descriptionMs: 'Dua pertiga saiz (66%)' },
+    { name: 'quarter', value: '25%', description: 'One quarter size (25%)', descriptionMs: 'Satu perempat saiz (25%)' },
+    { name: 'quarter-3x', value: '75%', description: 'Three quarters size (75%)', descriptionMs: 'Tiga perempat saiz (75%)' }
+  ],
+  supportsArbitrary: true,
+  examples: [
+    { code: '<div space="size:medium">Square element</div>', description: 'Square element with medium size (16px)' },
+    { code: '<div space="size:full">Full width and height</div>', description: 'Full width and height (100%)' },
+    { code: '<div space="size:[200px]">Custom square size</div>', description: 'Custom square size (200px)' }
+  ],
+  preview: [
+    {
+      title: 'Size Shorthand',
+      titleMs: 'Singkatan Saiz',
+      description: 'Set both width and height with a single property',
+      descriptionMs: 'Tetapkan lebar dan tinggi dengan satu properti',
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="size:medium p:small" visual="bg:primary text:white rounded:small" layout="flex items:center justify:center">size:medium</div>
+  <div space="size:big p:small" visual="bg:pink-600 text:white rounded:small" layout="flex items:center justify:center">size:big</div>
+</div>`,
+      highlightValue: 'size:medium'
+    }
+  ],
+  footnotes: [
+    {
+      title: 'Size vs Width/Height',
+      titleMs: 'Saiz vs Lebar/Tinggi',
+      content: 'Use `size` when you need identical width and height. For separate values, use `w` and `h` individually.',
+      contentMs: 'Guna `size` apabila anda perlukan lebar dan tinggi yang sama. Untuk nilai berasingan, guna `w` dan `h` secara individu.'
+    }
+  ]
+};
+
 // Export all space definitions
 export const spaceDefinitions = {
   padding,
   margin,
   gap,
   width,
-  height
+  height,
+  size
 };
 
 // Build property map for CSS generator

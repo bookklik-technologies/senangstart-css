@@ -75,4 +75,63 @@ test('generatePreflight', async (t) => {
     assert.ok(css1.length > 100);
     assert.ok(css2.length > 100);
   });
+
+  await t.test('should generate container max-width media queries when screens are provided', () => {
+    const config = {
+      theme: {
+        screens: {
+          'mob': '480px',
+          'tab': '768px'
+        }
+      }
+    };
+    const css = generatePreflight(config);
+    assert.ok(css.includes('[layout~="container"]'), 'Should include container selector');
+    assert.ok(css.includes('max-width: 480px'), 'Should include mob max-width');
+    assert.ok(css.includes('max-width: 768px'), 'Should include tab max-width');
+    assert.ok(css.includes('@media (min-width: 480px)'), 'Should include mob media query');
+    assert.ok(css.includes('@media (min-width: 768px)'), 'Should include tab media query');
+  });
+
+  await t.test('should skip print and tw-* breakpoints for container', () => {
+    const config = {
+      theme: {
+        screens: {
+          'mob': '480px',
+          'print': 'print',
+          'tw-sm': '640px',
+          'tab': '768px'
+        }
+      }
+    };
+    const css = generatePreflight(config);
+    assert.ok(css.includes('max-width: 480px'), 'Should include mob');
+    assert.ok(css.includes('max-width: 768px'), 'Should include tab');
+    // print and tw-* should be skipped for container
+    const containerBlock = css.substring(css.indexOf('[layout~="container"]') + 10);
+    assert.ok(!containerBlock.includes('@media (min-width: print)'), 'Should skip print');
+  });
+
+  await t.test('should use container overrides from theme when provided', () => {
+    const config = {
+      theme: {
+        screens: {
+          'mob': '480px',
+          'tab': '768px'
+        },
+        container: {
+          'mob': '540px',
+          'tab': '960px'
+        }
+      }
+    };
+    const css = generatePreflight(config);
+    assert.ok(css.includes('max-width: 540px'), 'Should use custom mob max-width');
+    assert.ok(css.includes('max-width: 960px'), 'Should use custom tab max-width');
+  });
+
+  await t.test('should not generate container CSS when no screens are provided', () => {
+    const css = generatePreflight({});
+    assert.ok(!css.includes('[layout~="container"]'), 'Should not include container without screens');
+  });
 });

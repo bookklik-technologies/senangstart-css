@@ -558,6 +558,13 @@
       const val = specialHeightVals[rawVal] || getSpacing(rawVal, exact);
       return attachExtra({ cat: "space", val: prefix + prop + ":" + val });
     }
+    const sizeMatch = baseClass.match(/^size-(.+)$/);
+    if (sizeMatch) {
+      const rawVal = sizeMatch[1];
+      const specialSizeVals = { "max": "[max-content]", "min": "[min-content]", "fit": "[fit-content]" };
+      const val = specialSizeVals[rawVal] || getSpacing(rawVal, exact);
+      return attachExtra({ cat: "space", val: prefix + "size:" + val });
+    }
     const roundedMatch = baseClass.match(/^rounded(?:-(.+))?$/);
     if (roundedMatch) {
       const size = roundedMatch[1] || "";

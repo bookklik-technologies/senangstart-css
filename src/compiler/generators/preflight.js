@@ -5,12 +5,43 @@
  */
 
 /**
+ * Generate responsive container max-width media queries
+ * @param {Object} config - Configuration object
+ * @returns {string} - Container CSS string
+ */
+function generateContainerCSS(config) {
+  const cfg = config || {};
+  const screens = cfg.theme?.screens;
+  if (!screens || typeof screens !== 'object') return '';
+
+  const containerOverrides = cfg.theme?.container || {};
+  const skipBps = new Set(['print']);
+  let css = '';
+
+  for (const [bp, width] of Object.entries(screens)) {
+    if (skipBps.has(bp) || bp.startsWith('tw-')) continue;
+
+    const maxWidth = containerOverrides[bp] || width;
+
+    css += `
+@media (min-width: ${width}) {
+  [layout~="container"] {
+    max-width: ${maxWidth};
+  }
+}
+`;
+  }
+
+  return css;
+}
+
+/**
  * Generate Preflight CSS - opinionated base reset styles
  * @param {Object} config - Configuration object
  * @returns {string} - Preflight CSS string
  */
-export function generatePreflight(_config) {
-  return `/* 
+export function generatePreflight(config) {
+  const css = `/* 
  * SenangStart Preflight v1.0
  * An opinionated set of base styles for SenangStart CSS projects
  * Based on modern-normalize and Tailwind CSS Preflight
@@ -374,6 +405,8 @@ video {
 }
 
 `;
+
+  return css + generateContainerCSS(config);
 }
 
 export default { generatePreflight };

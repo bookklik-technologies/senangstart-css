@@ -619,8 +619,28 @@
   }
 
   // src/compiler/generators/preflight.js
-  function generatePreflight(_config) {
-    return `/* 
+  function generateContainerCSS(config) {
+    const cfg = config || {};
+    const screens = cfg.theme?.screens;
+    if (!screens || typeof screens !== "object") return "";
+    const containerOverrides = cfg.theme?.container || {};
+    const skipBps = /* @__PURE__ */ new Set(["print"]);
+    let css = "";
+    for (const [bp, width2] of Object.entries(screens)) {
+      if (skipBps.has(bp) || bp.startsWith("tw-")) continue;
+      const maxWidth = containerOverrides[bp] || width2;
+      css += `
+@media (min-width: ${width2}) {
+  [layout~="container"] {
+    max-width: ${maxWidth};
+  }
+}
+`;
+    }
+    return css;
+  }
+  function generatePreflight(config) {
+    const css = `/* 
  * SenangStart Preflight v1.0
  * An opinionated set of base styles for SenangStart CSS projects
  * Based on modern-normalize and Tailwind CSS Preflight
@@ -984,6 +1004,7 @@ video {
 }
 
 `;
+    return css + generateContainerCSS(config);
   }
 
   // src/definitions/layout-flex.js
@@ -3248,12 +3269,114 @@ video {
       }
     ]
   };
+  var size = {
+    name: "size",
+    property: "space",
+    syntax: 'space="size:[value]"',
+    description: "Set width and height simultaneously",
+    descriptionMs: "Tetapkan lebar dan tinggi serentak",
+    category: "space",
+    usesScale: "spacing",
+    values: [
+      { property: "size", css: "width: var(--s-{value}); height: var(--s-{value});", description: "Size (width + height)", descriptionMs: "Saiz (lebar + tinggi)" }
+    ],
+    scaleValues: [
+      "none",
+      "thin",
+      "regular",
+      "thick",
+      "tiny",
+      "tiny-2x",
+      "small",
+      "small-2x",
+      "small-3x",
+      "small-4x",
+      "medium",
+      "medium-2x",
+      "medium-3x",
+      "medium-4x",
+      "large",
+      "large-2x",
+      "large-3x",
+      "large-4x",
+      "big",
+      "big-2x",
+      "big-3x",
+      "big-4x",
+      "giant",
+      "giant-2x",
+      "giant-3x",
+      "giant-4x",
+      "vast",
+      "vast-2x",
+      "vast-3x",
+      "vast-4x",
+      "vast-5x",
+      "vast-6x",
+      "vast-7x",
+      "vast-8x",
+      "vast-9x",
+      "vast-10x",
+      "min",
+      "max",
+      "fit",
+      "full",
+      "half",
+      "third",
+      "third-2x",
+      "quarter",
+      "quarter-3x",
+      "1/1",
+      "1/2",
+      "1/3",
+      "2/3",
+      "1/4",
+      "2/4",
+      "3/4"
+    ],
+    percentageAdjectives: [
+      { name: "full", value: "100%", description: "Full size (100%)", descriptionMs: "Saiz penuh (100%)" },
+      { name: "half", value: "50%", description: "Half size (50%)", descriptionMs: "Separuh saiz (50%)" },
+      { name: "third", value: "33.333333%", description: "One third size (33%)", descriptionMs: "Satu pertiga saiz (33%)" },
+      { name: "third-2x", value: "66.666667%", description: "Two thirds size (66%)", descriptionMs: "Dua pertiga saiz (66%)" },
+      { name: "quarter", value: "25%", description: "One quarter size (25%)", descriptionMs: "Satu perempat saiz (25%)" },
+      { name: "quarter-3x", value: "75%", description: "Three quarters size (75%)", descriptionMs: "Tiga perempat saiz (75%)" }
+    ],
+    supportsArbitrary: true,
+    examples: [
+      { code: '<div space="size:medium">Square element</div>', description: "Square element with medium size (16px)" },
+      { code: '<div space="size:full">Full width and height</div>', description: "Full width and height (100%)" },
+      { code: '<div space="size:[200px]">Custom square size</div>', description: "Custom square size (200px)" }
+    ],
+    preview: [
+      {
+        title: "Size Shorthand",
+        titleMs: "Singkatan Saiz",
+        description: "Set both width and height with a single property",
+        descriptionMs: "Tetapkan lebar dan tinggi dengan satu properti",
+        html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <div space="size:medium p:small" visual="bg:primary text:white rounded:small" layout="flex items:center justify:center">size:medium</div>
+  <div space="size:big p:small" visual="bg:pink-600 text:white rounded:small" layout="flex items:center justify:center">size:big</div>
+</div>`,
+        highlightValue: "size:medium"
+      }
+    ],
+    footnotes: [
+      {
+        title: "Size vs Width/Height",
+        titleMs: "Saiz vs Lebar/Tinggi",
+        content: "Use `size` when you need identical width and height. For separate values, use `w` and `h` individually.",
+        contentMs: "Guna `size` apabila anda perlukan lebar dan tinggi yang sama. Untuk nilai berasingan, guna `w` dan `h` secara individu."
+      }
+    ]
+  };
   var spaceDefinitions = {
     padding,
     margin,
     gap,
     width,
-    height
+    height,
+    size
   };
   function buildSpacePropertyMap() {
     const map = {};
@@ -7607,6 +7730,23 @@ video {
   }
 
   // src/compiler/generators/visual-rules.js
+  var DEFAULT_BLUR = { none: "0", tiny: "2px", small: "4px", medium: "8px", big: "12px", giant: "24px", vast: "48px" };
+  var DEFAULT_BRIGHTNESS = { dim: 0.5, dark: 0.75, normal: 1, bright: 1.25, vivid: 1.5 };
+  var DEFAULT_CONTRAST = { low: 0.5, reduced: 0.75, normal: 1, high: 1.25, max: 1.5 };
+  var DEFAULT_GRAYSCALE = { none: "0%", partial: "50%", full: "100%" };
+  var DEFAULT_INVERT = { none: "0%", partial: "50%", full: "100%" };
+  var DEFAULT_SATURATE = { none: 0, low: 0.5, normal: 1, high: 1.5, vivid: 2 };
+  var DEFAULT_SEPIA = { none: "0%", partial: "50%", full: "100%" };
+  var DEFAULT_DROP_SHADOW = { none: "none", tiny: "0 1px 1px rgba(0,0,0,0.05)", small: "0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)", medium: "0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)", big: "0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)", giant: "0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)" };
+  var DEFAULT_BACKDROP_OPACITY = { invisible: 0, faint: 0.25, half: 0.5, visible: 0.75, solid: 1 };
+  var DEFAULT_TRANSITION_PROPERTY = { none: "none", all: "all", DEFAULT: "color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter", colors: "color, background-color, border-color, text-decoration-color, fill, stroke", opacity: "opacity", shadow: "box-shadow", transform: "transform" };
+  var DEFAULT_ANIMATION_DURATION = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
+  var DEFAULT_ANIMATION_DELAY = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
+  var DEFAULT_PERSPECTIVE = { none: "none", dramatic: "100px", near: "300px", normal: "500px", midrange: "800px", far: "1000px", distant: "1200px" };
+  var DEFAULT_ANIMATION = { none: "none", spin: "spin 1s linear infinite", ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite", pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite", bounce: "bounce 1s infinite" };
+  function getScale(config, key, defaults) {
+    return config?.theme?.[key] || defaults;
+  }
   function parseOpacityModifier(value) {
     const slashIndex = value.lastIndexOf("/");
     if (slashIndex < 1) return null;
@@ -7778,35 +7918,77 @@ video {
     "mask-size": (v, a) => `mask-size: ${a ? v.replace(/_/g, " ") : { auto: "auto", cover: "cover", contain: "contain" }[v] || v};`,
     "mask-type": (v) => `mask-type: ${v};`,
     content: (v) => `content: "${sanitizeArbitraryValue(v).replace(/"/g, '\\"')}";`,
-    blur: (v, a) => {
+    blur: (v, a, cfg) => {
       if (a) return `filter: blur(${v});`;
-      const scale = { none: "0", tiny: "2px", small: "4px", medium: "8px", big: "12px", giant: "24px", vast: "48px" };
+      const scale = getScale(cfg, "blur", DEFAULT_BLUR);
       const cv = scale[v] || scale.medium;
       return cv === "0" ? "filter: none;" : `filter: blur(${cv});`;
     },
-    brightness: (v, a) => `filter: brightness(${a ? v : { dim: 0.5, dark: 0.75, normal: 1, bright: 1.25, vivid: 1.5 }[v] || 1});`,
-    contrast: (v, a) => `filter: contrast(${a ? v : { low: 0.5, reduced: 0.75, normal: 1, high: 1.25, max: 1.5 }[v] || 1});`,
-    "drop-shadow": (v, a) => `filter: drop-shadow(${a ? v.replace(/_/g, " ") : { none: "none", tiny: "0 1px 1px rgba(0,0,0,0.05)", small: "0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)", medium: "0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)", big: "0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)", giant: "0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)" }[v] || v});`,
-    grayscale: (v, a) => `filter: grayscale(${a ? v : { none: "0%", partial: "50%", full: "100%" }[v] || "100%"});`,
+    brightness: (v, a, cfg) => {
+      const scale = getScale(cfg, "brightness", DEFAULT_BRIGHTNESS);
+      return `filter: brightness(${a ? v : scale[v] || 1});`;
+    },
+    contrast: (v, a, cfg) => {
+      const scale = getScale(cfg, "contrast", DEFAULT_CONTRAST);
+      return `filter: contrast(${a ? v : scale[v] || 1});`;
+    },
+    "drop-shadow": (v, a, cfg) => {
+      const scale = getScale(cfg, "dropShadow", DEFAULT_DROP_SHADOW);
+      return `filter: drop-shadow(${a ? v.replace(/_/g, " ") : scale[v] || v});`;
+    },
+    grayscale: (v, a, cfg) => {
+      const scale = getScale(cfg, "grayscale", DEFAULT_GRAYSCALE);
+      return `filter: grayscale(${a ? v : scale[v] || "100%"});`;
+    },
     "hue-rotate": (v, a) => `filter: hue-rotate(${a ? v : `${v}deg`});`,
-    invert: (v, a) => `filter: invert(${a ? v : { none: "0%", partial: "50%", full: "100%" }[v] || "100%"});`,
-    saturate: (v, a) => `filter: saturate(${a ? v : { none: 0, low: 0.5, normal: 1, high: 1.5, vivid: 2 }[v] || 1});`,
-    sepia: (v, a) => `filter: sepia(${a ? v : { none: "0%", partial: "50%", full: "100%" }[v] || "100%"});`,
-    "backdrop-blur": (v, a) => {
-      const scale = { none: "0", tiny: "2px", small: "4px", medium: "8px", big: "12px", giant: "24px", vast: "48px" };
+    invert: (v, a, cfg) => {
+      const scale = getScale(cfg, "invert", DEFAULT_INVERT);
+      return `filter: invert(${a ? v : scale[v] || "100%"});`;
+    },
+    saturate: (v, a, cfg) => {
+      const scale = getScale(cfg, "saturate", DEFAULT_SATURATE);
+      return `filter: saturate(${a ? v : scale[v] || 1});`;
+    },
+    sepia: (v, a, cfg) => {
+      const scale = getScale(cfg, "sepia", DEFAULT_SEPIA);
+      return `filter: sepia(${a ? v : scale[v] || "100%"});`;
+    },
+    "backdrop-blur": (v, a, cfg) => {
+      const scale = getScale(cfg, "blur", DEFAULT_BLUR);
       return `backdrop-filter: blur(${a ? v : scale[v] || scale.medium});`;
     },
-    "backdrop-brightness": (v, a) => `backdrop-filter: brightness(${a ? v : { dim: 0.5, dark: 0.75, normal: 1, bright: 1.25, vivid: 1.5 }[v] || 1});`,
-    "backdrop-contrast": (v, a) => `backdrop-filter: contrast(${a ? v : { low: 0.5, reduced: 0.75, normal: 1, high: 1.25, max: 1.5 }[v] || 1});`,
-    "backdrop-grayscale": (v, a) => `backdrop-filter: grayscale(${a ? v : { none: "0%", partial: "50%", full: "100%" }[v] || "100%"});`,
+    "backdrop-brightness": (v, a, cfg) => {
+      const scale = getScale(cfg, "brightness", DEFAULT_BRIGHTNESS);
+      return `backdrop-filter: brightness(${a ? v : scale[v] || 1});`;
+    },
+    "backdrop-contrast": (v, a, cfg) => {
+      const scale = getScale(cfg, "contrast", DEFAULT_CONTRAST);
+      return `backdrop-filter: contrast(${a ? v : scale[v] || 1});`;
+    },
+    "backdrop-grayscale": (v, a, cfg) => {
+      const scale = getScale(cfg, "grayscale", DEFAULT_GRAYSCALE);
+      return `backdrop-filter: grayscale(${a ? v : scale[v] || "100%"});`;
+    },
     "backdrop-hue-rotate": (v, a) => `backdrop-filter: hue-rotate(${a ? v : `${v}deg`});`,
-    "backdrop-invert": (v, a) => `backdrop-filter: invert(${a ? v : { none: "0%", partial: "50%", full: "100%" }[v] || "100%"});`,
-    "backdrop-opacity": (v, a) => `backdrop-filter: opacity(${a ? v : { invisible: 0, faint: 0.25, half: 0.5, visible: 0.75, solid: 1 }[v] || 1});`,
-    "backdrop-saturate": (v, a) => `backdrop-filter: saturate(${a ? v : { none: 0, low: 0.5, normal: 1, high: 1.5, vivid: 2 }[v] || 1});`,
-    "backdrop-sepia": (v, a) => `backdrop-filter: sepia(${a ? v : { none: "0%", partial: "50%", full: "100%" }[v] || "100%"});`,
-    transition: (v) => {
-      const presets = { none: "none", all: "all", DEFAULT: "color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter", colors: "color, background-color, border-color, text-decoration-color, fill, stroke", opacity: "opacity", shadow: "box-shadow", transform: "transform" };
-      return `transition-property: ${presets[v] || presets.DEFAULT}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;`;
+    "backdrop-invert": (v, a, cfg) => {
+      const scale = getScale(cfg, "invert", DEFAULT_INVERT);
+      return `backdrop-filter: invert(${a ? v : scale[v] || "100%"});`;
+    },
+    "backdrop-opacity": (v, a, cfg) => {
+      const scale = getScale(cfg, "backdropOpacity", DEFAULT_BACKDROP_OPACITY);
+      return `backdrop-filter: opacity(${a ? v : scale[v] || 1});`;
+    },
+    "backdrop-saturate": (v, a, cfg) => {
+      const scale = getScale(cfg, "saturate", DEFAULT_SATURATE);
+      return `backdrop-filter: saturate(${a ? v : scale[v] || 1});`;
+    },
+    "backdrop-sepia": (v, a, cfg) => {
+      const scale = getScale(cfg, "sepia", DEFAULT_SEPIA);
+      return `backdrop-filter: sepia(${a ? v : scale[v] || "100%"});`;
+    },
+    transition: (v, cfg) => {
+      const scale = getScale(cfg, "transitionProperty", DEFAULT_TRANSITION_PROPERTY);
+      return `transition-property: ${scale[v] || scale.DEFAULT}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;`;
     },
     "transition-none": () => "transition-property: none;",
     duration: (v, a) => {
@@ -7819,16 +8001,16 @@ video {
       return `transition-delay: ${a ? v : scale[v] || scale.normal};`;
     },
     "transition-behavior": (v) => `transition-behavior: ${v};`,
-    animate: (v, a) => {
-      const presets = { none: "none", spin: "spin 1s linear infinite", ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite", pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite", bounce: "bounce 1s infinite" };
-      return `animation: ${a ? v.replace(/_/g, " ") : presets[v] || v};`;
+    animate: (v, a, cfg) => {
+      const scale = getScale(cfg, "animation", DEFAULT_ANIMATION);
+      return `animation: ${a ? v.replace(/_/g, " ") : scale[v] || v};`;
     },
-    "animation-duration": (v, a) => {
-      const scale = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
+    "animation-duration": (v, a, cfg) => {
+      const scale = getScale(cfg, "animationDuration", DEFAULT_ANIMATION_DURATION);
       return `animation-duration: ${a ? v : scale[v] || scale.normal};`;
     },
-    "animation-delay": (v, a) => {
-      const scale = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
+    "animation-delay": (v, a, cfg) => {
+      const scale = getScale(cfg, "animationDelay", DEFAULT_ANIMATION_DELAY);
       return `animation-delay: ${a ? v : scale[v] || scale.normal};`;
     },
     "animation-iteration": (v) => `animation-iteration-count: ${v};`,
@@ -7861,9 +8043,9 @@ video {
     },
     "transform-style": (v) => `transform-style: ${v};`,
     backface: (v) => `backface-visibility: ${v};`,
-    perspective: (v, a) => {
-      const presets = { none: "none", dramatic: "100px", near: "300px", normal: "500px", midrange: "800px", far: "1000px", distant: "1200px" };
-      return `perspective: ${a ? v : presets[v] || presets.normal};`;
+    perspective: (v, a, cfg) => {
+      const scale = getScale(cfg, "perspective", DEFAULT_PERSPECTIVE);
+      return `perspective: ${a ? v : scale[v] || scale.normal};`;
     },
     "perspective-origin": (v, a) => {
       const map = { center: "center", top: "top", "top-right": "top right", right: "right", "bottom-right": "bottom right", bottom: "bottom", "bottom-left": "bottom left", left: "left", "top-left": "top left" };
@@ -8313,7 +8495,7 @@ video {
       "max": "max-content",
       "fit": "fit-content"
     };
-    const sizingProps = ["w", "h", "min-w", "max-w", "min-h", "max-h"];
+    const sizingProps = ["w", "h", "min-w", "max-w", "min-h", "max-h", "size"];
     if (sizingProps.includes(property) && sizingSpecialValues[value]) {
       const cssVal = sizingSpecialValues[value];
       const propMap = {
@@ -8322,7 +8504,8 @@ video {
         "min-w": `min-width: ${cssVal};`,
         "max-w": `max-width: ${cssVal};`,
         "min-h": `min-height: ${cssVal};`,
-        "max-h": `max-height: ${cssVal};`
+        "max-h": `max-height: ${cssVal};`,
+        "size": `width: ${cssVal}; height: ${cssVal};`
       };
       return propMap[property] || "";
     }
@@ -8334,7 +8517,8 @@ video {
         "min-w": `min-width: ${cssVal};`,
         "max-w": `max-width: ${cssVal};`,
         "min-h": `min-height: ${cssVal};`,
-        "max-h": `max-height: ${cssVal};`
+        "max-h": `max-height: ${cssVal};`,
+        "size": `width: ${cssVal}; height: ${cssVal};`
       };
       return propMap[property] || "";
     }
@@ -8393,7 +8577,8 @@ video {
       "min-w": `min-width: ${cssValue};`,
       "max-w": `max-width: ${cssValue};`,
       "min-h": `min-height: ${cssValue};`,
-      "max-h": `max-height: ${cssValue};`
+      "max-h": `max-height: ${cssValue};`,
+      "size": `width: ${cssValue}; height: ${cssValue};`
     };
     return propertyMap[property] || "";
   }
@@ -8403,7 +8588,7 @@ video {
       return typographyKeywords2[property];
     }
     const ruleFn = getVisualRule(property);
-    return ruleFn ? ruleFn(value, isArbitrary) : "";
+    return ruleFn ? ruleFn(value, isArbitrary, config) : "";
   }
   function isValidCSSRule(declaration) {
     if (!declaration || typeof declaration !== "string") {
@@ -8961,14 +9146,36 @@ video {
       // Placeholder color for form inputs
       placeholder: "#9ca3af",
       colors: COLOR_PALETTE,
-      // 8. Z-INDEX: Stacking Order
+      // 8. CONTAINER: Responsive max-widths per breakpoint
+      // Keys match screens. If not set, max-width defaults to the breakpoint width.
+      container: {
+        "mob": "480px",
+        "tab": "768px",
+        "lap": "1024px",
+        "desk": "1280px"
+      },
+      // 9. Z-INDEX: Stacking Order
       zIndex: {
         "base": "0",
         "low": "10",
         "mid": "50",
         "high": "100",
         "top": "9999"
-      }
+      },
+      // 10. FILTER SCALES: Visual effects with adjective-based values
+      blur: { none: "0", tiny: "2px", small: "4px", medium: "8px", big: "12px", giant: "24px", vast: "48px" },
+      brightness: { dim: "0.5", dark: "0.75", normal: "1", bright: "1.25", vivid: "1.5" },
+      contrast: { low: "0.5", reduced: "0.75", normal: "1", high: "1.25", max: "1.5" },
+      grayscale: { none: "0%", partial: "50%", full: "100%" },
+      invert: { none: "0%", partial: "50%", full: "100%" },
+      saturate: { none: "0", low: "0.5", normal: "1", high: "1.5", vivid: "2" },
+      sepia: { none: "0%", partial: "50%", full: "100%" },
+      dropShadow: { none: "none", tiny: "0 1px 1px rgba(0,0,0,0.05)", small: "0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)", medium: "0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)", big: "0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)", giant: "0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)" },
+      backdropOpacity: { invisible: "0", faint: "0.25", half: "0.5", visible: "0.75", solid: "1" },
+      transitionProperty: { none: "none", all: "all", DEFAULT: "color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter", colors: "color, background-color, border-color, text-decoration-color, fill, stroke", opacity: "opacity", shadow: "box-shadow", transform: "transform" },
+      animationDuration: { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" },
+      animationDelay: { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" },
+      perspective: { none: "none", dramatic: "100px", near: "300px", normal: "500px", midrange: "800px", far: "1000px", distant: "1200px" }
     },
     // Extend or override defaults
     extend: {}

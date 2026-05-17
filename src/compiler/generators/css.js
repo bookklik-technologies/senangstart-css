@@ -540,7 +540,7 @@ function generateSpaceRule(token, config) {
   };
   
   // Check if this is a sizing utility with a special value
-  const sizingProps = ['w', 'h', 'min-w', 'max-w', 'min-h', 'max-h'];
+  const sizingProps = ['w', 'h', 'min-w', 'max-w', 'min-h', 'max-h', 'size'];
   if (sizingProps.includes(property) && sizingSpecialValues[value]) {
     const cssVal = sizingSpecialValues[value];
     const propMap = {
@@ -549,7 +549,8 @@ function generateSpaceRule(token, config) {
       'min-w': `min-width: ${cssVal};`,
       'max-w': `max-width: ${cssVal};`,
       'min-h': `min-height: ${cssVal};`,
-      'max-h': `max-height: ${cssVal};`
+      'max-h': `max-height: ${cssVal};`,
+      'size': `width: ${cssVal}; height: ${cssVal};`
     };
     return propMap[property] || '';
   }
@@ -563,7 +564,8 @@ function generateSpaceRule(token, config) {
       'min-w': `min-width: ${cssVal};`,
       'max-w': `max-width: ${cssVal};`,
       'min-h': `min-height: ${cssVal};`,
-      'max-h': `max-height: ${cssVal};`
+      'max-h': `max-height: ${cssVal};`,
+      'size': `width: ${cssVal}; height: ${cssVal};`
     };
     return propMap[property] || '';
   }
@@ -636,7 +638,8 @@ function generateSpaceRule(token, config) {
     'min-w': `min-width: ${cssValue};`,
     'max-w': `max-width: ${cssValue};`,
     'min-h': `min-height: ${cssValue};`,
-    'max-h': `max-height: ${cssValue};`
+    'max-h': `max-height: ${cssValue};`,
+    'size': `width: ${cssValue}; height: ${cssValue};`
   };
   
   return propertyMap[property] || '';
@@ -654,7 +657,7 @@ function generateVisualRule(token, config) {
   }
 
   const ruleFn = getVisualRule(property);
-  return ruleFn ? ruleFn(value, isArbitrary) : '';
+  return ruleFn ? ruleFn(value, isArbitrary, config) : '';
 }
 
 /**
