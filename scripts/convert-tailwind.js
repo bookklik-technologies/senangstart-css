@@ -2,11 +2,21 @@
 /**
  * Tailwind CSS to SenangStart CSS Converter
  * Converts Tailwind class syntax to SenangStart attribute syntax
- * 
+ *
  * Usage:
  *   node scripts/convert-tailwind.js input.html -o output.html
  *   node scripts/convert-tailwind.js --string "<div class='flex'>"
  *   node scripts/convert-tailwind.js --clipboard
+ *
+ * TODO: REFACTOR — This file is a 1,438-line monolith and acknowledged tech debt.
+ * Suggested refactoring:
+ *   1. Extract SPACING SCALE MAPPING (~50 entries) → lib/tw-spacing.js
+ *   2. Extract LAYOUT MAPPINGS (~30 entries)          → lib/tw-layout-mappings.js
+ *   3. Extract VISUAL MAPPINGS (~100+ entries)         → lib/tw-visual-mappings.js
+ *   4. Extract convertClass() logic                   → lib/tw-converter.js
+ *   5. Extract CLI argument parsing (main())          → lib/tw-cli.js
+ *   6. Keep convert-tailwind.js as a thin entry point
+ * See also: src/cdn/tw-conversion-engine.js (browser JIT version)
  */
 
 import { readFileSync, writeFileSync } from 'fs';

@@ -24,9 +24,11 @@ A utility-first CSS framework that replaces abstract naming conventions with Nat
 
 ```bash
 npm i @bookklik/senangstart-css
-senangstart init
-senangstart dev
+senangstart init    # or: sen init
+senangstart dev     # or: sen dev
 ```
+
+Both `senangstart` and `sen` bin aliases are available.
 
 ## Tailwind CSS Converter
 
