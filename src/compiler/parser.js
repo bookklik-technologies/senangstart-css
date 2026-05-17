@@ -78,7 +78,7 @@ export function parseMultipleSources(files) {
 
   for (const file of files) {
     const parsed = parseSource(file.content);
-    
+
     parsed.layout.forEach(token => combined.layout.add(token));
     parsed.space.forEach(token => combined.space.add(token));
     parsed.visual.forEach(token => combined.visual.add(token));

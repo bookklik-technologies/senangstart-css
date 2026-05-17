@@ -18,13 +18,7 @@ import divideDefinitions from './visual-divide.js';
 import svgDefinitions from './visual-svg.js';
 import performanceDefinitions from './visual-performance.js';
 
-// Import split layout definitions
-import flexDefinitions from './layout-flex.js';
-import alignmentDefinitions from './layout-alignment.js';
-import gridDefinitions from './layout-grid.js';
-import positioningDefinitions from './layout-positioning.js';
-import utilitiesDefinitions from './layout-utilities.js';
-import tableDefinitions from './layout-table.js';
+// Split layout definitions are re-exported below
 
 // Merge visual definitions
 const allVisualDefinitions = {
@@ -114,7 +108,7 @@ function getMergedDefs() {
  */
 export function getDefinition(name) {
   const allDefs = getMergedDefs();
-  
+
   return allDefs[name] || null;
 }
 
@@ -126,20 +120,20 @@ export function getDefinition(name) {
 export function validateDefinitions(definitions = getAllDefinitions()) {
   const requiredFields = ['name', 'property', 'description', 'descriptionMs', 'category'];
   const errors = [];
-  
+
   for (const def of definitions) {
     for (const field of requiredFields) {
       if (!def[field]) {
         errors.push(`Missing '${field}' in definition '${def.name || 'unknown'}'`);
       }
     }
-    
+
     // Check that examples exist for documentation
     if (!def.examples || def.examples.length === 0) {
       errors.push(`Missing examples in definition '${def.name}'`);
     }
   }
-  
+
   return {
     valid: errors.length === 0,
     errors

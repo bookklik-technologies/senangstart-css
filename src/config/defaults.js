@@ -44,35 +44,35 @@ export const defaultConfig = {
       'tiny':      '4px',       // Small offsets
       'tiny-2x':   '6px',       // Tiny multiplied
       'small':     '8px',       // Grouping inside components
-      'small-2x':  '10px',      // 
-      'small-3x':  '12px',      // 
-      'small-4x':  '14px',      // 
+      'small-2x':  '10px',      //
+      'small-3x':  '12px',      //
+      'small-4x':  '14px',      //
       'medium':    '16px',      // Standard default
-      'medium-2x': '20px',      // 
-      'medium-3x': '24px',      // 
-      'medium-4x': '28px',      // 
+      'medium-2x': '20px',      //
+      'medium-3x': '24px',      //
+      'medium-4x': '28px',      //
       'large':     '32px',      // Separation between groups
-      'large-2x':  '36px',      // 
-      'large-3x':  '40px',      // 
-      'large-4x':  '44px',      // 
+      'large-2x':  '36px',      //
+      'large-3x':  '40px',      //
+      'large-4x':  '44px',      //
       'big':       '48px',      // Layout sections
-      'big-2x':    '56px',      // 
-      'big-3x':    '64px',      // 
-      'big-4x':    '80px',      // 
+      'big-2x':    '56px',      //
+      'big-3x':    '64px',      //
+      'big-4x':    '80px',      //
       'giant':     '96px',      // Hero sections
-      'giant-2x':  '112px',     // 
-      'giant-3x':  '128px',     // 
-      'giant-4x':  '144px',     // 
+      'giant-2x':  '112px',     //
+      'giant-3x':  '128px',     //
+      'giant-4x':  '144px',     //
       'vast':      '160px',     // Page-level spacing
-      'vast-2x':   '176px',     // 
-      'vast-3x':   '192px',     // 
-      'vast-4x':   '208px',     // 
-      'vast-5x':   '224px',     // 
-      'vast-6x':   '240px',     // 
-      'vast-7x':   '256px',     // 
-      'vast-8x':   '288px',     // 
-      'vast-9x':   '320px',     // 
-      'vast-10x':  '384px',     // 
+      'vast-2x':   '176px',     //
+      'vast-3x':   '192px',     //
+      'vast-4x':   '208px',     //
+      'vast-5x':   '224px',     //
+      'vast-6x':   '240px',     //
+      'vast-7x':   '256px',     //
+      'vast-8x':   '288px',     //
+      'vast-9x':   '320px',     //
+      'vast-10x':  '384px',     //
     },
 
     // 2. RADIUS: Tactile Feel
@@ -95,19 +95,19 @@ export const defaultConfig = {
 
     // 4. FONT SIZES: Reading Scale (with paired line-heights)
     fontSize: {
-      'mini':     '0.75rem',   // 12px          
-      'small':    '0.875rem',  // 14px          
-      'base':     '1rem',      // 16px          
-      'large':    '1.125rem',  // 18px          
-      'big':      '1.25rem',   // 20px (xl)     
-      'huge':     '1.5rem',    // 24px (2xl)    
-      'grand':    '1.875rem',  // 30px (3xl)    
-      'giant':    '2.25rem',   // 36px (4xl)    
-      'mount':    '3rem',      // 48px (5xl)    
-      'mega':     '3.75rem',   // 60px (6xl)    
-      'giga':     '4.5rem',    // 72px (7xl)    
-      'tera':     '6rem',      // 96px (8xl)    
-      'hero':     '8rem'       // 128px         
+      'mini':     '0.75rem',   // 12px
+      'small':    '0.875rem',  // 14px
+      'base':     '1rem',      // 16px
+      'large':    '1.125rem',  // 18px
+      'big':      '1.25rem',   // 20px (xl)
+      'huge':     '1.5rem',    // 24px (2xl)
+      'grand':    '1.875rem',  // 30px (3xl)
+      'giant':    '2.25rem',   // 36px (4xl)
+      'mount':    '3rem',      // 48px (5xl)
+      'mega':     '3.75rem',   // 60px (6xl)
+      'giga':     '4.5rem',    // 72px (7xl)
+      'tera':     '6rem',      // 96px (8xl)
+      'hero':     '8rem'       // 128px
     },
 
     // 4b. FONT SIZE LINE-HEIGHTS: Paired with font sizes
@@ -141,7 +141,7 @@ export const defaultConfig = {
       'lap':  '1024px',     // Laptop
       'desk': '1280px',     // Desktop
       'print': 'print',       // Print media query
-      
+
       // Tailwind Compatibility
       'tw-sm': '640px',
       'tw-md': '768px',
@@ -276,7 +276,7 @@ export function validateTheme(theme) {
       }
     }
   }
-  
+
   // Validate percentage theme sections (grayscale, invert, sepia)
   const percentageSections = ['grayscale', 'invert', 'sepia'];
   for (const section of percentageSections) {
@@ -288,7 +288,7 @@ export function validateTheme(theme) {
       }
     }
   }
-  
+
   // Validate blur, perspective, container as CSS lengths
   const lengthSections = ['blur', 'perspective', 'container'];
   for (const section of lengthSections) {
@@ -302,7 +302,7 @@ export function validateTheme(theme) {
       }
     }
   }
-  
+
   // Validate zIndex as integers
   if (theme.zIndex) {
     for (const [key, val] of Object.entries(theme.zIndex)) {
@@ -311,7 +311,7 @@ export function validateTheme(theme) {
       }
     }
   }
-  
+
   // Validate string-based theme sections (transitionProperty, animationDuration, animationDelay)
   const stringSections = ['transitionProperty', 'animationDuration', 'animationDelay', 'dropShadow'];
   for (const section of stringSections) {

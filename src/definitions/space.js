@@ -25,7 +25,7 @@ export const padding = {
     { property: 'p-y', css: 'padding-top: var(--s-{value}); padding-bottom: var(--s-{value});', description: 'Vertical', descriptionMs: 'Menegak' }
   ],
   scaleValues: [
-    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x',
     'small', 'small-2x', 'small-3x', 'small-4x',
     'medium', 'medium-2x', 'medium-3x', 'medium-4x',
     'large', 'large-2x', 'large-3x', 'large-4x',
@@ -98,7 +98,7 @@ export const margin = {
     { property: 'm-y', css: 'margin-top: var(--s-{value}); margin-bottom: var(--s-{value});', description: 'Vertical', descriptionMs: 'Menegak' }
   ],
   scaleValues: [
-    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x',
     'small', 'small-2x', 'small-3x', 'small-4x',
     'medium', 'medium-2x', 'medium-3x', 'medium-4x',
     'large', 'large-2x', 'large-3x', 'large-4x',
@@ -169,7 +169,7 @@ export const gap = {
     { property: 'g-y', css: 'row-gap: var(--s-{value});', description: 'Row gap', descriptionMs: 'Ruang baris' }
   ],
   scaleValues: [
-    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x',
     'small', 'small-2x', 'small-3x', 'small-4x',
     'medium', 'medium-2x', 'medium-3x', 'medium-4x',
     'large', 'large-2x', 'large-3x', 'large-4x',
@@ -240,7 +240,7 @@ export const width = {
     { property: 'max-w', css: 'max-width: var(--s-{value});', description: 'Maximum width', descriptionMs: 'Lebar maksimum' }
   ],
   scaleValues: [
-    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x',
     'small', 'small-2x', 'small-3x', 'small-4x',
     'medium', 'medium-2x', 'medium-3x', 'medium-4x',
     'large', 'large-2x', 'large-3x', 'large-4x',
@@ -337,7 +337,7 @@ export const height = {
     { property: 'max-h', css: 'max-height: var(--s-{value});', description: 'Maximum height', descriptionMs: 'Tinggi maksimum' }
   ],
   scaleValues: [
-    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x', 
+    'none', 'thin', 'regular', 'thick', 'tiny', 'tiny-2x',
     'small', 'small-2x', 'small-3x', 'small-4x',
     'medium', 'medium-2x', 'medium-3x', 'medium-4x',
     'large', 'large-2x', 'large-3x', 'large-4x',
@@ -492,13 +492,13 @@ export const spaceDefinitions = {
 // Build property map for CSS generator
 export function buildSpacePropertyMap() {
   const map = {};
-  
+
   for (const def of Object.values(spaceDefinitions)) {
     for (const v of def.values) {
       map[v.property] = v.css;
     }
   }
-  
+
   return map;
 }
 

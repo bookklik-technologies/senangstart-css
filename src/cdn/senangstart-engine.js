@@ -1,24 +1,24 @@
 /**
  * SenangStart CSS - Browser JIT Runtime
  * Zero-config, browser-based CSS compilation
- * 
+ *
  * This engine runs in the browser, scans the DOM for attributes,
  * and generates CSS on the fly using the core compiler.
- * 
+ *
  * Usage:
  * <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
  */
 
 import { tokenizeAll } from '../core/tokenizer-core.js';
 import { generateCSS } from '../compiler/generators/css.js';
-import { defaultConfig, mergeConfig } from '../config/defaults.js';
+import { mergeConfig } from '../config/defaults.js';
 
 try {
 (function() {
   'use strict';
 
-  var MAX_ATTR_LENGTH = 1000;
-  var MAX_TOKEN_LENGTH = 200;
+  const MAX_ATTR_LENGTH = 1000;
+  const MAX_TOKEN_LENGTH = 200;
 
   // ============================================
   // CONFIG LOADER
@@ -33,10 +33,10 @@ try {
   }
 
   function loadInlineConfig() {
-    var configEl = document.querySelector('script[type="senangstart/config"]');
+    const configEl = document.querySelector('script[type="senangstart/config"]');
     if (!configEl) return {};
 
-    var text = (configEl.textContent || '').trim();
+    const text = (configEl.textContent || '').trim();
     if (!text) return {};
 
     // Validate content length to prevent DoS
@@ -46,7 +46,7 @@ try {
     }
 
     try {
-      var parsed = JSON.parse(text);
+      const parsed = JSON.parse(text);
       if (!validateConfig(parsed)) {
         console.error('[SenangStart] Invalid config structure');
         return {};
@@ -59,7 +59,7 @@ try {
   }
 
   function getFinalConfig() {
-    var user = loadInlineConfig();
+    const user = loadInlineConfig();
     return mergeConfig(user);
   }
 
@@ -70,18 +70,18 @@ try {
   function sanitizeAttributeValue(value) {
     if (typeof value !== 'string') return '';
     if (value.length > MAX_ATTR_LENGTH) return '';
-    
-    var sanitized = value;
-    
+
+    let sanitized = value;
+
     // Strip escape characters
     sanitized = sanitized.replace(/[\\`$]/g, '');
-    
+
     // Block url() with dangerous protocols
-    var dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
+    const dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
     sanitized = sanitized.replace(dangerousProtocols, 'url(about:blank');
-    
+
     // Block script execution vectors
-    var scriptVectors = [
+    const scriptVectors = [
       /expression\s*\(/gi,
       /\beval\s*\(/gi,
       /\balert\s*\(/gi,
@@ -91,40 +91,40 @@ try {
       /<script[^>]*>/gi,
       /<\/script>/gi
     ];
-    for (var i = 0; i < scriptVectors.length; i++) {
+    for (let i = 0; i < scriptVectors.length; i++) {
       sanitized = sanitized.replace(scriptVectors[i], '');
     }
-    
+
     // Strip at-rules
     sanitized = sanitized.replace(/@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi, '');
-    
+
     // Strip angle brackets and quotes
     if (/[<>"']/.test(sanitized)) return '';
-    
+
     // Strip semicolons to prevent CSS injection via statement breaking
     sanitized = sanitized.replace(/;/g, '_');
-    
+
     // Validate bracket nesting (reject if deeply nested or unbalanced)
-    var openB = (sanitized.match(/\[/g) || []).length;
-    var closeB = (sanitized.match(/\]/g) || []).length;
+    const openB = (sanitized.match(/\[/g) || []).length;
+    const closeB = (sanitized.match(/\]/g) || []).length;
     if (Math.abs(openB - closeB) > 1 || Math.max(openB, closeB) > 10) return '';
-    
+
     // Final length check
     if (sanitized.length > 500) sanitized = sanitized.substring(0, 500);
-    
+
     return sanitized;
   }
 
   function scanElement(el, tokens) {
-    var attrs = ['layout', 'space', 'visual'];
-    for (var i = 0; i < attrs.length; i++) {
-      var value = el.getAttribute(attrs[i]);
+    const attrs = ['layout', 'space', 'visual'];
+    for (let i = 0; i < attrs.length; i++) {
+      let value = el.getAttribute(attrs[i]);
       if (value) {
         value = sanitizeAttributeValue(value);
         if (!value) continue;
-        var parts = value.split(/\s+/);
-        for (var j = 0; j < parts.length; j++) {
-          var token = parts[j];
+        const parts = value.split(/\s+/);
+        for (let j = 0; j < parts.length; j++) {
+          const token = parts[j];
           if (token && token.length <= MAX_TOKEN_LENGTH) {
             tokens[attrs[i]].add(token);
           }
@@ -132,15 +132,15 @@ try {
       }
     }
 
-    var stateAttrs = ['interact', 'listens'];
-    for (var i = 0; i < stateAttrs.length; i++) {
-      var value = el.getAttribute(stateAttrs[i]);
+    const stateAttrs = ['interact', 'listens'];
+    for (let i = 0; i < stateAttrs.length; i++) {
+      let value = el.getAttribute(stateAttrs[i]);
       if (value) {
         value = sanitizeAttributeValue(value);
         if (!value) continue;
-        var parts = value.split(/\s+/);
-        for (var j = 0; j < parts.length; j++) {
-          var id = parts[j];
+        const parts = value.split(/\s+/);
+        for (let j = 0; j < parts.length; j++) {
+          const id = parts[j];
           if (id && id.length <= MAX_TOKEN_LENGTH) {
             tokens[stateAttrs[i]].add(id);
           }
@@ -150,14 +150,14 @@ try {
   }
 
   function scanRoot(root, tokens) {
-    var elements = root.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
-    for (var i = 0; i < elements.length; i++) {
+    const elements = root.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
+    for (let i = 0; i < elements.length; i++) {
       scanElement(elements[i], tokens);
     }
   }
 
   function scanDOM() {
-    var tokens = {
+    const tokens = {
       layout: new Set(),
       space: new Set(),
       visual: new Set(),
@@ -169,8 +169,8 @@ try {
 
     scanRoot(document, tokens);
 
-    var allEls = document.querySelectorAll('*');
-    for (var i = 0; i < allEls.length; i++) {
+    const allEls = document.querySelectorAll('*');
+    for (let i = 0; i < allEls.length; i++) {
       if (allEls[i].shadowRoot) {
         scanRoot(allEls[i].shadowRoot, tokens);
       }
@@ -184,19 +184,16 @@ try {
   // ============================================
 
   function tokensEqual(a, b) {
-    var keys = ['layout', 'space', 'visual', 'interact', 'listens'];
-    for (var i = 0; i < keys.length; i++) {
-      var setA = a[keys[i]];
-      var setB = b[keys[i]];
+    const keys = ['layout', 'space', 'visual', 'interact', 'listens'];
+    for (let i = 0; i < keys.length; i++) {
+      const setA = a[keys[i]];
+      const setB = b[keys[i]];
       if (setA.size !== setB.size) return false;
-      // Only compare contents if sizes differ (size check already passed above)
-      // For equal-size sets, we need to check items only if they might differ
     }
-    // If all sizes match, do a full comparison (needed for correctness)
-    for (var i = 0; i < keys.length; i++) {
-      var setA = a[keys[i]];
-      var setB = b[keys[i]];
-      for (var item of setA) {
+    for (let i = 0; i < keys.length; i++) {
+      const setA = a[keys[i]];
+      const setB = b[keys[i]];
+      for (const item of setA) {
         if (!setB.has(item)) return false;
       }
     }
@@ -208,7 +205,7 @@ try {
   // ============================================
 
   function compileCSS(domTokens, config) {
-    var tokens = tokenizeAll(domTokens);
+    const tokens = tokenizeAll(domTokens);
     return generateCSS(tokens, config);
   }
 
@@ -225,12 +222,12 @@ try {
   }
 
   function injectStyles(css) {
-    var sanitized = sanitizeCSSOutput(css);
+    const sanitized = sanitizeCSSOutput(css);
 
-    var head = document.head || document.getElementsByTagName('head')[0];
+    const head = document.head || document.getElementsByTagName('head')[0];
     if (!head) return;
 
-    var styleEl = document.getElementById('senangstart-jit');
+    let styleEl = document.getElementById('senangstart-jit');
     if (!styleEl) {
       styleEl = document.createElement('style');
       styleEl.id = 'senangstart-jit';
@@ -244,7 +241,7 @@ try {
   // ============================================
 
   function init() {
-    var config = getFinalConfig();
+    const config = getFinalConfig();
 
     // Guard: ensure document.body is available
     if (!document.body) {
@@ -255,17 +252,17 @@ try {
       }
     }
 
-    var cachedTokens = scanDOM();
-    var css = compileCSS(cachedTokens, config);
+    let cachedTokens = scanDOM();
+    let css = compileCSS(cachedTokens, config);
     injectStyles(css);
 
-    var debounceTimer = null;
-    var DEBOUNCE_MS = 200;
+    let debounceTimer = null;
+    const DEBOUNCE_MS = 200;
 
     function recompile() {
       observer.disconnect();
 
-      var newTokens = scanDOM();
+      const newTokens = scanDOM();
 
       if (tokensEqual(cachedTokens, newTokens)) {
         observer.observe(document.body, {
@@ -289,7 +286,7 @@ try {
       });
     }
 
-    var observer = new MutationObserver(function() {
+    const observer = new MutationObserver(function() {
       if (debounceTimer) clearTimeout(debounceTimer);
       debounceTimer = setTimeout(recompile, DEBOUNCE_MS);
     });
@@ -317,7 +314,7 @@ try {
 } catch (e) {
   console.error('[SenangStart] Failed to initialize JIT runtime:', e.message);
   if (typeof document !== 'undefined' && document.body) {
-    var el = document.createElement('div');
+    const el = document.createElement('div');
     el.style.cssText = 'background:#fef2f2;color:#991b1b;padding:8px 16px;font-family:monospace;font-size:14px;';
     el.textContent = 'SenangStart CSS failed to load. See console for details.';
     document.body.prepend(el);

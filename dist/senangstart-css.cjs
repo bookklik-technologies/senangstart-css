@@ -917,7 +917,7 @@ function tokenize(raw, attrType) {
     idx++;
   }
   if (idx < parts.length) {
-    let value = parts.slice(idx).join(":");
+    const value = parts.slice(idx).join(":");
     const arbitraryMatch = value.match(/^\[(.+)\]$/);
     if (arbitraryMatch) {
       token.value = sanitizeValue(arbitraryMatch[1].replace(/_/g, " "));
@@ -8598,7 +8598,7 @@ function generateCSSVariables(config) {
   css += "}\n\n";
   return css;
 }
-function generateLayoutRule(token, config) {
+function generateLayoutRule(token, _config) {
   const { property, value, isArbitrary } = token;
   if (property === value && layoutMap[property]) {
     return layoutMap[property];
@@ -8874,7 +8874,7 @@ function generateLayoutRule(token, config) {
   }
   return layoutMap[property] || "";
 }
-function generateSpaceRule(token, config) {
+function generateSpaceRule(token, _config) {
   const { property, value, isArbitrary } = token;
   const sizingSpecialValues = {
     "min": "min-content",
@@ -8999,13 +8999,13 @@ function isValidCSSRule(declaration) {
   if (!property || !value) return false;
   return true;
 }
-function generateRule(token, config, skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
+function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
   try {
     if (!token || typeof token !== "object") {
       console.warn("[SenangStart] Invalid token object:", token);
       return "";
     }
-    const { raw, attrType, breakpoint, state } = token;
+    const { raw, attrType, state } = token;
     if (!attrType || typeof attrType !== "string") {
       console.warn("[SenangStart] Invalid token attrType:", attrType);
       return "";
@@ -9378,63 +9378,63 @@ var defaultConfig = {
       "small": "8px",
       // Grouping inside components
       "small-2x": "10px",
-      // 
+      //
       "small-3x": "12px",
-      // 
+      //
       "small-4x": "14px",
-      // 
+      //
       "medium": "16px",
       // Standard default
       "medium-2x": "20px",
-      // 
+      //
       "medium-3x": "24px",
-      // 
+      //
       "medium-4x": "28px",
-      // 
+      //
       "large": "32px",
       // Separation between groups
       "large-2x": "36px",
-      // 
+      //
       "large-3x": "40px",
-      // 
+      //
       "large-4x": "44px",
-      // 
+      //
       "big": "48px",
       // Layout sections
       "big-2x": "56px",
-      // 
+      //
       "big-3x": "64px",
-      // 
+      //
       "big-4x": "80px",
-      // 
+      //
       "giant": "96px",
       // Hero sections
       "giant-2x": "112px",
-      // 
+      //
       "giant-3x": "128px",
-      // 
+      //
       "giant-4x": "144px",
-      // 
+      //
       "vast": "160px",
       // Page-level spacing
       "vast-2x": "176px",
-      // 
+      //
       "vast-3x": "192px",
-      // 
+      //
       "vast-4x": "208px",
-      // 
+      //
       "vast-5x": "224px",
-      // 
+      //
       "vast-6x": "240px",
-      // 
+      //
       "vast-7x": "256px",
-      // 
+      //
       "vast-8x": "288px",
-      // 
+      //
       "vast-9x": "320px",
-      // 
+      //
       "vast-10x": "384px"
-      // 
+      //
     },
     // 2. RADIUS: Tactile Feel
     radius: {
@@ -9460,31 +9460,31 @@ var defaultConfig = {
     // 4. FONT SIZES: Reading Scale (with paired line-heights)
     fontSize: {
       "mini": "0.75rem",
-      // 12px          
+      // 12px
       "small": "0.875rem",
-      // 14px          
+      // 14px
       "base": "1rem",
-      // 16px          
+      // 16px
       "large": "1.125rem",
-      // 18px          
+      // 18px
       "big": "1.25rem",
-      // 20px (xl)     
+      // 20px (xl)
       "huge": "1.5rem",
-      // 24px (2xl)    
+      // 24px (2xl)
       "grand": "1.875rem",
-      // 30px (3xl)    
+      // 30px (3xl)
       "giant": "2.25rem",
-      // 36px (4xl)    
+      // 36px (4xl)
       "mount": "3rem",
-      // 48px (5xl)    
+      // 48px (5xl)
       "mega": "3.75rem",
-      // 60px (6xl)    
+      // 60px (6xl)
       "giga": "4.5rem",
-      // 72px (7xl)    
+      // 72px (7xl)
       "tera": "6rem",
-      // 96px (8xl)    
+      // 96px (8xl)
       "hero": "8rem"
-      // 128px         
+      // 128px
     },
     // 4b. FONT SIZE LINE-HEIGHTS: Paired with font sizes
     fontSizeLineHeight: {

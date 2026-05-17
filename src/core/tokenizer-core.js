@@ -44,7 +44,6 @@ export function isValidToken(token) {
 }
 
 
-
 /**
  * Tokenize a single attribute value string
  * @param {string} raw - Raw token string (e.g., "tab:p:big")
@@ -83,14 +82,14 @@ export function tokenize(raw, attrType) {
       token.value = raw.substring(2);
       return token;
     }
-    
+
     // Check for overflow syntax
     if (raw.startsWith('overflow:')) {
       token.property = 'overflow';
       token.value = raw.substring(9);
       return token;
     }
-    
+
     // Simple layout keyword
     if (LAYOUT_KEYWORDS.includes(raw)) {
       token.property = raw;
@@ -102,37 +101,37 @@ export function tokenize(raw, attrType) {
   // Handle space and visual attributes with colon syntax
   // Also handles layout tokens with breakpoint and/or state prefixes
   const parts = raw.split(':');
-  
+
   if (parts.length === 1) {
     // Single value for space/visual attributes or simple layout keywords
     token.property = raw;
     token.value = raw;
     return token;
   }
-  
+
   let idx = 0;
-  
+
   // Check for breakpoint prefix
   if (BREAKPOINTS.includes(parts[0])) {
     token.breakpoint = parts[0];
     idx++;
   }
-  
+
   // Check for state prefix
   if (STATES.includes(parts[idx])) {
     token.state = parts[idx];
     idx++;
   }
-  
+
   // Property
   if (idx < parts.length) {
     token.property = parts[idx];
     idx++;
   }
-  
+
   // Value
   if (idx < parts.length) {
-    let value = parts.slice(idx).join(':');
+    const value = parts.slice(idx).join(':');
 
     // Check for arbitrary value in brackets
     const arbitraryMatch = value.match(/^\[(.+)\]$/);

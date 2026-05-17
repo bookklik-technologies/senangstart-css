@@ -6,7 +6,7 @@
 import { generatePreflight } from './preflight.js';
 import { sanitizeValue } from '../../utils/common.js';
 import { buildAllMaps } from '../../definitions/index.js';
-import { TW_SPACING, TW_RADIUS, TW_SHADOW, TW_FONT_SIZE, TW_LEADING, TW_FONT_WEIGHT, CSS_COLOR_KEYWORDS } from '../../core/constants.js';
+import { TW_SPACING, TW_RADIUS, TW_SHADOW, TW_FONT_SIZE, TW_LEADING, TW_FONT_WEIGHT } from '../../core/constants.js';
 import { getVisualRule } from './visual-rules.js';
 
 // Initialize maps from definitions - Single Source of Truth
@@ -60,105 +60,105 @@ const percentageAdjectives = {
 export function generateCSSVariables(config) {
   const { theme } = config;
   let css = ':root {\n';
-  
+
   // Spacing variables
   for (const [key, value] of Object.entries(theme.spacing)) {
     css += `  --s-${key}: ${value};\n`;
   }
-  
+
   // Radius variables
   for (const [key, value] of Object.entries(theme.radius)) {
     css += `  --r-${key}: ${value};\n`;
   }
-  
+
   // Shadow variables
   for (const [key, value] of Object.entries(theme.shadow)) {
     css += `  --shadow-${key}: ${value};\n`;
   }
-  
+
   // Font size variables
   for (const [key, value] of Object.entries(theme.fontSize)) {
     css += `  --font-${key}: ${value};\n`;
   }
-  
+
   // Font size line-height variables (paired with font sizes)
   if (theme.fontSizeLineHeight) {
     for (const [key, value] of Object.entries(theme.fontSizeLineHeight)) {
       css += `  --font-lh-${key}: ${value};\n`;
     }
   }
-  
+
   // Font weight variables
   for (const [key, value] of Object.entries(theme.fontWeight)) {
     css += `  --fw-${key}: ${value};\n`;
   }
-  
+
   // Color variables
   for (const [key, value] of Object.entries(theme.colors)) {
     css += `  --c-${key}: ${value};\n`;
   }
-  
+
   // Placeholder color variable
   if (theme.placeholder) {
     css += `  --placeholder-color: ${theme.placeholder};\n`;
   } else {
     css += '  --placeholder-color: #9ca3af;\n';
   }
-  
+
   // Gradient direction variables for better gradient support
   css += '  --gradient-from: transparent;\n';
   css += '  --gradient-via: transparent;\n';
   css += '  --gradient-to: transparent;\n';
   css += '  --gradient-stops: var(--gradient-from), var(--gradient-via), var(--gradient-to);\n';
-  
+
   // Z-index variables
   for (const [key, value] of Object.entries(theme.zIndex)) {
     css += `  --z-${key}: ${value};\n`;
   }
-  
+
   // ============================================
   // TAILWIND SCALE COMPATIBILITY (tw-* prefix)
   // ============================================
-  
+
   // Tailwind Spacing Scale
   for (const [key, value] of Object.entries(TW_SPACING)) {
     css += `  --tw-${key}: ${value};\n`;
   }
 
-   
+
   // Tailwind Border Radius Scale
   for (const [key, value] of Object.entries(TW_RADIUS)) {
     css += `  --r-tw-${key}: ${value};\n`;
   }
-  
+
   // Tailwind Shadow Scale
   for (const [key, value] of Object.entries(TW_SHADOW)) {
     css += `  --shadow-tw-${key}: ${value};\n`;
   }
-  
+
   // Tailwind Font Size Scale
   for (const [key, value] of Object.entries(TW_FONT_SIZE)) {
     css += `  --tw-text-${key}: ${value};\n`;
   }
-  
+
   // Tailwind Line Height Scale (paired with font sizes)
   for (const [key, value] of Object.entries(TW_LEADING)) {
     css += `  --tw-leading-${key}: ${value};\n`;
   }
-  
+
   // Tailwind Font Weight Scale
   for (const [key, value] of Object.entries(TW_FONT_WEIGHT)) {
     css += `  --tw-font-${key}: ${value};\n`;
   }
-  
+
   // Divide reverse variables (used by divide-x:reverse and divide-y:reverse)
   css += '  --ss-divide-x-reverse: 0;\n';
   css += '  --ss-divide-y-reverse: 0;\n';
-  
+
   // Ring utility variables
   css += '  --ring-inset: ;\n';
   css += '  --ss-ring-color: var(--c-primary);\n';
-  
+
   css += '}\n\n';
   return css;
 }
@@ -166,15 +166,15 @@ export function generateCSSVariables(config) {
 /**
  * Generate CSS rule for a layout token
  */
-function generateLayoutRule(token, config) {
+function generateLayoutRule(token, _config) {
   const { property, value, isArbitrary } = token;
-  
+
   // Check for simple layout keywords first (property === value means it's a keyword like 'flex', 'grid', etc.)
   // layoutMap is now imported from definitions
   if (property === value && layoutMap[property]) {
     return layoutMap[property];
   }
-  
+
   // Justify Content (justify:[value])
   if (property === 'justify') {
     const justifyMap = {
@@ -188,17 +188,17 @@ function generateLayoutRule(token, config) {
     };
     return `justify-content: ${justifyMap[value] || value};`;
   }
-  
+
   // Justify Items (justify-items:[value])
   if (property === 'justify-items') {
     return `justify-items: ${value};`;
   }
-  
+
   // Justify Self (justify-self:[value])
   if (property === 'justify-self') {
     return `justify-self: ${value};`;
   }
-  
+
   // Align Content (content:[value])
   if (property === 'content') {
     const contentMap = {
@@ -212,7 +212,7 @@ function generateLayoutRule(token, config) {
     };
     return `align-content: ${contentMap[value] || value};`;
   }
-  
+
   // Align Items (items:[value])
   if (property === 'items') {
     const itemsMap = {
@@ -224,7 +224,7 @@ function generateLayoutRule(token, config) {
     };
     return `align-items: ${itemsMap[value] || value};`;
   }
-  
+
   // Align Self (self:[value])
   if (property === 'self') {
     const selfMap = {
@@ -237,7 +237,7 @@ function generateLayoutRule(token, config) {
     };
     return `align-self: ${selfMap[value] || value};`;
   }
-  
+
   // Place Content (place-content:[value])
   if (property === 'place-content') {
     const placeContentMap = {
@@ -251,27 +251,27 @@ function generateLayoutRule(token, config) {
     };
     return `place-content: ${placeContentMap[value] || value};`;
   }
-  
+
   // Place Items (place-items:[value])
   if (property === 'place-items') {
     return `place-items: ${value};`;
   }
-  
+
   // Place Self (place-self:[value])
   if (property === 'place-self') {
     return `place-self: ${value};`;
   }
-  
+
   // Z-index
   if (property === 'z') {
     return `z-index: var(--z-${value});`;
   }
-  
+
   // Overflow
   if (property === 'overflow') {
     return `overflow: ${value};`;
   }
-  
+
   // Overflow X/Y
   if (property === 'overflow-x') {
     return `overflow-x: ${value};`;
@@ -279,7 +279,7 @@ function generateLayoutRule(token, config) {
   if (property === 'overflow-y') {
     return `overflow-y: ${value};`;
   }
-  
+
   // Aspect Ratio
   if (property === 'aspect') {
     const aspectMap = {
@@ -290,23 +290,23 @@ function generateLayoutRule(token, config) {
     const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (aspectMap[value] || value);
     return `aspect-ratio: ${cssValue};`;
   }
-  
+
   // Object Fit
   if (property === 'object') {
     return `object-fit: ${value};`;
   }
-  
+
   // Object Position
   if (property === 'object-pos') {
     const cssValue = isArbitrary ? value.replace(/_/g, ' ') : value;
     return `object-position: ${cssValue};`;
   }
-  
+
   // Content Visibility
   if (property === 'content-visibility') {
     return `content-visibility: ${value};`;
   }
-  
+
   // Contain
   if (property === 'contain') {
     const containMap = {
@@ -321,7 +321,7 @@ function generateLayoutRule(token, config) {
     const cssValue = isArbitrary ? value : (containMap[value] || value);
     return `contain: ${cssValue};`;
   }
-  
+
   // Writing Mode (for RTL support)
   if (property === 'writing') {
     const writingMap = {
@@ -332,7 +332,7 @@ function generateLayoutRule(token, config) {
     const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (writingMap[value] || value);
     return `writing-mode: ${cssValue};`;
   }
-  
+
   // Percentage adjectives for positioning utilities
   const resolvePositioningValue = (val, arb) => {
     if (arb) return val;
@@ -348,36 +348,36 @@ function generateLayoutRule(token, config) {
     }
     return `var(--s-${val})`;
   };
-  
+
   // Inset (all sides)
   if (property === 'inset') {
     const cssValue = resolvePositioningValue(value, isArbitrary);
     return `inset: ${cssValue};`;
   }
-  
+
   // Individual positioning: top, right, bottom, left
   if (['top', 'right', 'bottom', 'left'].includes(property)) {
     const cssValue = resolvePositioningValue(value, isArbitrary);
     return `${property}: ${cssValue};`;
   }
-  
+
   // Inset X (left + right)
   if (property === 'inset-x') {
     const cssValue = resolvePositioningValue(value, isArbitrary);
     return `left: ${cssValue}; right: ${cssValue};`;
   }
-  
+
   // Inset Y (top + bottom)
   if (property === 'inset-y') {
     const cssValue = resolvePositioningValue(value, isArbitrary);
     return `top: ${cssValue}; bottom: ${cssValue};`;
   }
-  
+
   // Columns
   if (property === 'cols') {
     return `columns: ${value};`;
   }
-  
+
   // Overscroll Behavior
   if (property === 'overscroll') {
     return `overscroll-behavior: ${value};`;
@@ -388,13 +388,13 @@ function generateLayoutRule(token, config) {
   if (property === 'overscroll-y') {
     return `overscroll-behavior-y: ${value};`;
   }
-  
+
   // Flex Basis
   if (property === 'basis') {
     const cssValue = isArbitrary ? value : `var(--s-${value})`;
     return `flex-basis: ${cssValue};`;
   }
-  
+
   // Flex (shorthand)
   if (property === 'flex') {
     const flexPresets = {
@@ -406,7 +406,7 @@ function generateLayoutRule(token, config) {
     const cssValue = isArbitrary ? value.replace(/_/g, ' ') : (flexPresets[value] || value);
     return `flex: ${cssValue};`;
   }
-  
+
   // Order
   if (property === 'order') {
     const orderPresets = {
@@ -417,7 +417,7 @@ function generateLayoutRule(token, config) {
     const cssValue = orderPresets[value] || value;
     return `order: ${cssValue};`;
   }
-  
+
   // Grid Template Columns
   if (property === 'grid-cols') {
     if (value === 'none') {
@@ -456,7 +456,7 @@ function generateLayoutRule(token, config) {
     }
     return `grid-column: span ${value} / span ${value};`;
   }
-  
+
   // Grid Column Start/End
   if (property === 'col-start') {
     return `grid-column-start: ${value};`;
@@ -464,7 +464,7 @@ function generateLayoutRule(token, config) {
   if (property === 'col-end') {
     return `grid-column-end: ${value};`;
   }
-  
+
   // Grid Row Span
   if (property === 'row-span') {
     if (value === 'full') {
@@ -472,7 +472,7 @@ function generateLayoutRule(token, config) {
     }
     return `grid-row: span ${value} / span ${value};`;
   }
-  
+
   // Grid Row Start/End
   if (property === 'row-start') {
     return `grid-row-start: ${value};`;
@@ -480,7 +480,7 @@ function generateLayoutRule(token, config) {
   if (property === 'row-end') {
     return `grid-row-end: ${value};`;
   }
-  
+
   // Grid Auto Columns
   if (property === 'auto-cols') {
     const autoPresets = {
@@ -492,7 +492,7 @@ function generateLayoutRule(token, config) {
     const cssValue = isArbitrary ? value : (autoPresets[value] || value);
     return `grid-auto-columns: ${cssValue};`;
   }
-  
+
   // Grid Auto Rows
   if (property === 'auto-rows') {
     const autoPresets = {
@@ -504,41 +504,41 @@ function generateLayoutRule(token, config) {
     const cssValue = isArbitrary ? value : (autoPresets[value] || value);
     return `grid-auto-rows: ${cssValue};`;
   }
-  
+
   // Border Spacing (for tables)
   if (property === 'border-spacing') {
     const cssValue = isArbitrary ? value : `var(--s-${value})`;
     return `border-spacing: ${cssValue};`;
   }
-  
+
   // Border Spacing X (horizontal)
   if (property === 'border-spacing-x') {
     const cssValue = isArbitrary ? value : `var(--s-${value})`;
     return `border-spacing: ${cssValue} 0;`;
   }
-  
+
   // Border Spacing Y (vertical)
   if (property === 'border-spacing-y') {
     const cssValue = isArbitrary ? value : `var(--s-${value})`;
     return `border-spacing: 0 ${cssValue};`;
   }
-  
+
   return layoutMap[property] || '';
 }
 
 /**
  * Generate CSS rule for a space token
  */
-function generateSpaceRule(token, config) {
+function generateSpaceRule(token, _config) {
   const { property, value, isArbitrary } = token;
-  
+
   // Handle special sizing values for width/height utilities
   const sizingSpecialValues = {
     'min': 'min-content',
     'max': 'max-content',
     'fit': 'fit-content'
   };
-  
+
   // Check if this is a sizing utility with a special value
   const sizingProps = ['w', 'h', 'min-w', 'max-w', 'min-h', 'max-h', 'size'];
   if (sizingProps.includes(property) && sizingSpecialValues[value]) {
@@ -554,7 +554,7 @@ function generateSpaceRule(token, config) {
     };
     return propMap[property] || '';
   }
-  
+
   // Check if this is a sizing utility with a percentage adjective
   if (sizingProps.includes(property) && percentageAdjectives[value]) {
     const cssVal = percentageAdjectives[value];
@@ -569,19 +569,19 @@ function generateSpaceRule(token, config) {
     };
     return propMap[property] || '';
   }
-  
+
   // Determine the CSS value
   let cssValue;
   const NEGATABLE_PROPERTIES = new Set([
     'm', 'm-t', 'm-r', 'm-b', 'm-l', 'm-x', 'm-y'
   ]);
-  
+
   if (isArbitrary) {
     cssValue = value;
   } else {
     const isNegative = value && value.startsWith('-');
     const cleanValue = isNegative ? value.substring(1) : (value || '');
-    
+
     let baseValue;
     if (cleanValue.startsWith('tw-')) {
       const twValue = cleanValue.slice(3);
@@ -589,17 +589,17 @@ function generateSpaceRule(token, config) {
     } else {
       baseValue = `var(--s-${cleanValue})`;
     }
-    
+
     // Only apply negative calc for margin properties (padding, gap, sizing don't support negative values)
     cssValue = (isNegative && NEGATABLE_PROPERTIES.has(property))
       ? `calc(${baseValue} * -1)`
       : baseValue;
   }
-  
+
   // Handle special values
   if (value === 'auto') {
     const autoValue = 'auto';
-    
+
     const propertyMap = {
       'm': `margin: ${autoValue};`,
       'm-x': `margin-left: ${autoValue}; margin-right: ${autoValue};`,
@@ -609,10 +609,10 @@ function generateSpaceRule(token, config) {
       'm-b': `margin-bottom: ${autoValue};`,
       'm-l': `margin-left: ${autoValue};`
     };
-    
+
     return propertyMap[property] || '';
   }
-  
+
   const propertyMap = {
     // Padding
     'p': `padding: ${cssValue};`,
@@ -622,7 +622,7 @@ function generateSpaceRule(token, config) {
     'p-l': `padding-left: ${cssValue};`,
     'p-x': `padding-left: ${cssValue}; padding-right: ${cssValue};`,
     'p-y': `padding-top: ${cssValue}; padding-bottom: ${cssValue};`,
-    
+
     // Margin
     'm': `margin: ${cssValue};`,
     'm-t': `margin-top: ${cssValue};`,
@@ -631,12 +631,12 @@ function generateSpaceRule(token, config) {
     'm-l': `margin-left: ${cssValue};`,
     'm-x': `margin-left: ${cssValue}; margin-right: ${cssValue};`,
     'm-y': `margin-top: ${cssValue}; margin-bottom: ${cssValue};`,
-    
+
     // Gap
     'g': `gap: ${cssValue};`,
     'g-x': `column-gap: ${cssValue};`,
     'g-y': `row-gap: ${cssValue};`,
-    
+
     // Sizing
     'w': `width: ${cssValue};`,
     'h': `height: ${cssValue};`,
@@ -646,7 +646,7 @@ function generateSpaceRule(token, config) {
     'max-h': `max-height: ${cssValue};`,
     'size': `width: ${cssValue}; height: ${cssValue};`
   };
-  
+
   return propertyMap[property] || '';
 }
 
@@ -655,7 +655,7 @@ function generateSpaceRule(token, config) {
  */
 function generateVisualRule(token, config) {
   const { property, value, isArbitrary } = token;
-  
+
   // Static typography keywords
   if (typographyKeywords[property]) {
     return typographyKeywords[property];
@@ -697,14 +697,14 @@ function isValidCSSRule(declaration) {
  * @param {Object} config - Configuration object
  * @param {boolean} skipDarkWrapper - If true, don't add dark mode wrapper (used when generating inside dark block)
  */
-export function generateRule(token, config, skipDarkWrapper = false, interactIds = new Set()) {
+export function generateRule(token, config, _skipDarkWrapper = false, interactIds = new Set()) {
   try {
     if (!token || typeof token !== 'object') {
       console.warn('[SenangStart] Invalid token object:', token);
       return '';
     }
 
-    const { raw, attrType, breakpoint, state } = token;
+    const { raw, attrType, state } = token;
 
     if (!attrType || typeof attrType !== 'string') {
       console.warn('[SenangStart] Invalid token attrType:', attrType);
@@ -843,16 +843,16 @@ export function generateRule(token, config, skipDarkWrapper = false, interactIds
  */
 function getDarkModeSelector(config) {
   const darkMode = config.darkMode || 'media';
-  
+
   if (Array.isArray(darkMode)) {
     // Custom selector: ['selector', '.my-dark-class'] or ['selector', '[data-theme="dark"]']
     return darkMode[1] || '.dark';
   }
-  
+
   if (darkMode === 'selector') {
     return '.dark';
   }
-  
+
   // 'media' strategy - handled separately
   return null;
 }

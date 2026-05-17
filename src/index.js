@@ -28,20 +28,20 @@ export {
   tokenizeAll,
   parseSource,
   parseMultipleSources,
-  
+
   // Generators
   generateCSS,
   generateCSSVariables,
   generatePreflight,
-  
+
   // High-level
   compileSource,
   compileMultiple,
-  
+
   // Configuration
   defaultConfig,
   mergeConfig,
-  
+
   // Constants
   constants
 };

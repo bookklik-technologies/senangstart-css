@@ -10,32 +10,32 @@
  */
 export function generateTypeScript(config) {
   const { theme } = config;
-  
+
   // Generate spacing unions
   const spacingKeys = Object.keys(theme.spacing);
   const paddingUnions = spacingKeys.map(k => `'p:${k}'`).join(' | ');
   const marginUnions = spacingKeys.map(k => `'m:${k}'`).join(' | ');
   const gapUnions = spacingKeys.map(k => `'g:${k}'`).join(' | ');
-  
+
   // Generate radius unions
   const radiusKeys = Object.keys(theme.radius);
   const directions = ['t', 'b', 'l', 'r', 'tl', 'tr', 'bl', 'br'];
   const roundedUnions = radiusKeys.map(k => `'rounded:${k}'`).join(' | ') +
     ' | ' + directions.flatMap(d => radiusKeys.map(k => `'rounded-${d}:${k}'`)).join(' | ');
-  
+
   // Generate shadow unions
   const shadowKeys = Object.keys(theme.shadow);
   const shadowUnions = shadowKeys.map(k => `'shadow:${k}'`).join(' | ');
-  
+
   // Generate color unions
   const colorKeys = Object.keys(theme.colors);
   const bgUnions = colorKeys.map(k => `'bg:${k}'`).join(' | ');
   const textColorUnions = colorKeys.map(k => `'text:${k}'`).join(' | ');
-  
+
   // Generate font size unions
   const fontSizeKeys = Object.keys(theme.fontSize);
   const textSizeUnions = fontSizeKeys.map(k => `'text-size:${k}'`).join(' | ');
-  
+
   // Generate font weight unions
   const fontWeightKeys = Object.keys(theme.fontWeight);
   const fontUnions = fontWeightKeys.map(k => `'font:${k}'`).join(' | ');

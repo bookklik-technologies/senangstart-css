@@ -365,8 +365,9 @@
       return value;
     }
     if (exact) {
-      if (["full", "screen", "auto"].includes(value))
+      if (["full", "screen", "auto"].includes(value)) {
         return spacingScale[value] || `[${value}]`;
+      }
       return `tw-${value}`;
     }
     return spacingScale[value] || `[${value}]`;
@@ -437,22 +438,26 @@
       }
       return result;
     };
-    if (layoutMappings[baseClass])
+    if (layoutMappings[baseClass]) {
       return attachExtra({ cat: "layout", val: prefix + layoutMappings[baseClass] });
-    if (visualKeywords[baseClass])
+    }
+    if (visualKeywords[baseClass]) {
       return attachExtra({ cat: "visual", val: prefix + visualKeywords[baseClass] });
+    }
     const textColorMatch = baseClass.match(
       /^text-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
     );
-    if (textColorMatch)
+    if (textColorMatch) {
       return attachExtra({ cat: "visual", val: prefix + "text:" + textColorMatch[1] });
+    }
     if (["text-left", "text-center", "text-right", "text-justify"].includes(
       baseClass
-    ))
+    )) {
       return attachExtra({
         cat: "visual",
         val: prefix + "text:" + baseClass.replace("text-", "")
       });
+    }
     const textSizeMatch = baseClass.match(
       /^text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)$/
     );
@@ -580,8 +585,9 @@
     const fontWeightMatch = baseClass.match(
       /^font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/
     );
-    if (fontWeightMatch)
+    if (fontWeightMatch) {
       return attachExtra({ cat: "visual", val: prefix + "font:tw-" + fontWeightMatch[1] });
+    }
     const borderWidthMatch = baseClass.match(
       /^border(?:-([trblxy]))?(?:-(\d+))?$/
     );
@@ -940,8 +946,8 @@
     return html.replace(
       /\bclass(Name)?=(['"])([^"']+)\2/gi,
       function(match, nameAttr, quote, classValue) {
-        var result = convertClasses(classValue, exact);
-        var attrs = [];
+        const result = convertClasses(classValue, exact);
+        const attrs = [];
         if (result.layout.length) attrs.push('layout="' + result.layout.join(" ") + '"');
         if (result.space.length) attrs.push('space="' + result.space.join(" ") + '"');
         if (result.visual.length) attrs.push('visual="' + result.visual.join(" ") + '"');

@@ -4,7 +4,7 @@
  */
 
 // Import from split files
-import flexDefinitions, {
+import {
   display,
   flexDirection,
   flexWrap,
@@ -14,7 +14,7 @@ import flexDefinitions, {
   order
 } from './layout-flex.js';
 
-import alignmentDefinitions, {
+import {
   justifyContent,
   alignItems,
   alignSelf,
@@ -27,7 +27,7 @@ import alignmentDefinitions, {
   placeSelf
 } from './layout-alignment.js';
 
-import gridDefinitions, {
+import {
   gridColumns,
   gridRows,
   gridColSpan,
@@ -36,13 +36,13 @@ import gridDefinitions, {
   gridAutoSizing
 } from './layout-grid.js';
 
-import positioningDefinitions, {
+import {
   position,
   inset,
   zIndex
 } from './layout-positioning.js';
 
-import utilitiesDefinitions, {
+import {
   visibility,
   overflow,
   boxSizing,
@@ -56,7 +56,7 @@ import utilitiesDefinitions, {
   columns
 } from './layout-utilities.js';
 
-import tableDefinitions, {
+import {
   borderCollapse,
   borderSpacing,
   tableLayout,
@@ -176,23 +176,23 @@ export const layoutDefinitions = {
 // Build flat value map for CSS generator
 export function buildLayoutMap(definitions = layoutDefinitions) {
   const map = {};
-  
+
   // Add all simple keyword values from definitions
   for (const def of Object.values(definitions)) {
     if (def.dynamic) continue; // Skip dynamic properties that need special handling
-    
+
     // Only include definitions that act as global keywords (no prefix in syntax)
     // format: layout="[value]"
     if (!def.syntax || !def.syntax.includes('layout="[')) continue;
-    
+
     for (const v of def.values) {
       // Skip range values like '1-12' that need special handling
       if (v.value.match(/^\d+-\d+$/)) continue;
-      
+
       map[v.value] = v.css;
     }
   }
-  
+
   return map;
 }
 

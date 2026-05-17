@@ -798,11 +798,11 @@ export const visualDefinitions = {
 // Includes values from typographyKeywords definition AND individual typography definitions
 export function buildTypographyKeywordsMap(additionalDefinitions = []) {
   const map = {};
-  
+
   for (const v of typographyKeywords.values) {
     map[v.value] = v.css;
   }
-  
+
   for (const def of additionalDefinitions) {
     if (def && def.values && Array.isArray(def.values)) {
       for (const v of def.values) {
@@ -812,7 +812,7 @@ export function buildTypographyKeywordsMap(additionalDefinitions = []) {
       }
     }
   }
-  
+
   return map;
 }
 

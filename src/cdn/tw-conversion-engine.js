@@ -61,7 +61,7 @@ const spacingScale = {
 
 // Radius scale mapping Tailwind values to SenangStart semantic values
 // Engine native values: none(0px), small(4px), medium(8px), big(16px), round(9999px)
-// Tailwind: none(0), sm(0.125rem=2px), DEFAULT(0.25rem=4px), md(0.375rem=6px), 
+// Tailwind: none(0), sm(0.125rem=2px), DEFAULT(0.25rem=4px), md(0.375rem=6px),
 //           lg(0.5rem=8px), xl(0.75rem=12px), 2xl(1rem=16px), 3xl(1.5rem=24px), full(9999px)
 const radiusScale = {
   none: "none",        // 0px → none
@@ -223,41 +223,41 @@ const visualKeywords = {
   // Font style
   italic: "italic",
   "not-italic": "not-italic",
-  
+
   // Font smoothing
   antialiased: "antialiased",
   "subpixel-antialiased": "subpixel-antialiased",
-  
+
   // Text transform
   uppercase: "uppercase",
   lowercase: "lowercase",
   capitalize: "capitalize",
   "normal-case": "normal-case",
-  
+
   // Text decoration
   underline: "underline",
   overline: "overline",
   "line-through": "line-through",
   "no-underline": "no-underline",
-  
+
   // Text decoration style
   "decoration-solid": "decoration-solid",
   "decoration-double": "decoration-double",
   "decoration-dotted": "decoration-dotted",
   "decoration-dashed": "decoration-dashed",
   "decoration-wavy": "decoration-wavy",
-  
+
   // Text overflow
   truncate: "truncate",
   "text-ellipsis": "text-ellipsis",
   "text-clip": "text-clip",
-  
+
   // Text wrap
   "text-wrap": "text-wrap",
   "text-nowrap": "text-nowrap",
   "text-balance": "text-balance",
   "text-pretty": "text-pretty",
-  
+
   // Whitespace
   "whitespace-normal": "whitespace-normal",
   "whitespace-nowrap": "whitespace-nowrap",
@@ -265,25 +265,25 @@ const visualKeywords = {
   "whitespace-pre-line": "whitespace-pre-line",
   "whitespace-pre-wrap": "whitespace-pre-wrap",
   "whitespace-break-spaces": "whitespace-break-spaces",
-  
+
   // Word break
   "break-normal": "break-normal",
   "break-words": "break-words",
   "break-all": "break-all",
   "break-keep": "break-keep",
-  
+
   // Hyphens
   "hyphens-none": "hyphens-none",
   "hyphens-manual": "hyphens-manual",
   "hyphens-auto": "hyphens-auto",
-  
+
   // List style
   "list-none": "list-none",
   "list-disc": "list-disc",
   "list-decimal": "list-decimal",
   "list-inside": "list-inside",
   "list-outside": "list-outside",
-  
+
   // Cursor
   "cursor-auto": "cursor:auto",
   "cursor-default": "cursor:default",
@@ -294,21 +294,21 @@ const visualKeywords = {
   "cursor-not-allowed": "cursor:not-allowed",
   "cursor-grab": "cursor:grab",
   "cursor-grabbing": "cursor:grabbing",
-  
+
   // User select
   "select-none": "select:none",
   "select-text": "select:text",
   "select-all": "select:all",
   "select-auto": "select:auto",
-  
+
   // Pointer events
   "pointer-events-none": "pointer-events:none",
   "pointer-events-auto": "pointer-events:auto",
-  
+
   // Appearance
   "appearance-none": "appearance:none",
   "appearance-auto": "appearance:auto",
-  
+
   // 3D Transforms
   perspective: "perspective",
   "perspective-origin": "perspective-origin",
@@ -335,7 +335,7 @@ function getSpacing(value, exact) {
   }
   if (exact) {
     if (["full", "screen", "auto"].includes(value))
-      return spacingScale[value] || `[${value}]`;
+      {return spacingScale[value] || `[${value}]`;}
     return `tw-${value}`;
   }
   return spacingScale[value] || `[${value}]`;
@@ -375,11 +375,11 @@ function convertClass(twClass, exact) {
 
   if (prefixMatch) {
     const rawPrefix = prefixMatch[1].slice(0, -1); // remove colon
-    
+
     // Responsive prefixes
     if (['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'].includes(rawPrefix)) {
       prefix = `tw-${rawPrefix}:`;
-    } 
+    }
     // Group/Peer prefixes (map to standard state prefixes)
     else if (rawPrefix.startsWith('group-') || rawPrefix.startsWith('peer-')) {
       const stateMap = {
@@ -389,22 +389,22 @@ function convertClass(twClass, exact) {
         'open': 'expanded', // map open -> expanded
         'check': 'checked'  // map check -> checked
       };
-      
+
       const variant = rawPrefix.split('-')[1]; // get 'hover' from 'group-hover'
       const mappedState = stateMap[variant] || variant;
-      
+
       prefix = `${mappedState}:`;
-      
+
       // For peer variants, we must ensure the element listens to "peer"
       if (rawPrefix.startsWith('peer-')) {
         extraAttr = { cat: 'listens', val: 'peer' };
       }
-    } 
+    }
     // Standard prefixes
     else {
       prefix = prefixMatch[1];
     }
-    
+
     baseClass = prefixMatch[2];
   }
 
@@ -432,18 +432,18 @@ function convertClass(twClass, exact) {
 
   // Layout mappings
   if (layoutMappings[baseClass])
-    return attachExtra({ cat: "layout", val: prefix + layoutMappings[baseClass] });
+    {return attachExtra({ cat: "layout", val: prefix + layoutMappings[baseClass] });}
 
   // Visual keywords
   if (visualKeywords[baseClass])
-    return attachExtra({ cat: "visual", val: prefix + visualKeywords[baseClass] });
+    {return attachExtra({ cat: "visual", val: prefix + visualKeywords[baseClass] });}
 
   // Text color
   const textColorMatch = baseClass.match(
     /^text-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/
   );
   if (textColorMatch)
-    return attachExtra({ cat: "visual", val: prefix + "text:" + textColorMatch[1] });
+    {return attachExtra({ cat: "visual", val: prefix + "text:" + textColorMatch[1] });}
 
   // Text alignment
   if (
@@ -451,10 +451,10 @@ function convertClass(twClass, exact) {
       baseClass
     )
   )
-    return attachExtra({
+    {return attachExtra({
       cat: "visual",
       val: prefix + "text:" + baseClass.replace("text-", ""),
-    });
+    });}
 
   // Text size
   const textSizeMatch = baseClass.match(
@@ -547,7 +547,7 @@ function convertClass(twClass, exact) {
     const isNeg = baseClass.startsWith("-");
     const side = marginMatch[1] ? "-" + marginMatch[1] : "";
     let val = getSpacing(marginMatch[2], exact);
-    
+
     if (isNeg && val) {
       if (val.startsWith('[') && val.endsWith(']')) {
         // Handle arbitrary value: [10px] -> [-10px]
@@ -627,7 +627,7 @@ function convertClass(twClass, exact) {
     /^font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/
   );
   if (fontWeightMatch)
-    return attachExtra({ cat: "visual", val: prefix + "font:tw-" + fontWeightMatch[1] });
+    {return attachExtra({ cat: "visual", val: prefix + "font:tw-" + fontWeightMatch[1] });}
 
   // Border width
   const borderWidthMatch = baseClass.match(
@@ -674,7 +674,7 @@ function convertClass(twClass, exact) {
     const isNeg = translateMatch[1] === '-';
     const axis = translateMatch[2];
     let val = translateMatch[3];
-    
+
     // Map fractions and values
     if (val && val.startsWith('[') && val.endsWith(']')) {
       // Keep arbitrary values as-is, but handle negative
@@ -691,7 +691,7 @@ function convertClass(twClass, exact) {
       val = getSpacing(val, exact);
       if (isNeg) val = `-${val}`;
     }
-    
+
     return attachExtra({ cat: "visual", val: prefix + `translate-${axis}:${val}` });
   }
 
@@ -843,7 +843,7 @@ function convertClass(twClass, exact) {
   if (ringColorMatch) {
     return attachExtra({ cat: "visual", val: prefix + "ring-color:" + ringColorMatch[1] });
   }
-  
+
   // Divide color - directional (check divide-x and divide-y BEFORE generic divide)
   const divideXMatch = baseClass.match(/^divide-x-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
   if (divideXMatch) {
@@ -852,7 +852,7 @@ function convertClass(twClass, exact) {
       val: prefix + "divide-x:" + divideXMatch[1],
     });
   }
-  
+
   const divideYMatch = baseClass.match(/^divide-y-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
   if (divideYMatch) {
     return attachExtra({
@@ -860,7 +860,7 @@ function convertClass(twClass, exact) {
       val: prefix + "divide-y:" + divideYMatch[1],
     });
   }
-  
+
   // Divide color - all directions (check divide-x and divide-y AFTER generic divide)
   const divideColorMatch = baseClass.match(/^divide-((?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(?:-\d+)?)$/);
   if (divideColorMatch) {
@@ -869,7 +869,7 @@ function convertClass(twClass, exact) {
       val: prefix + "divide:" + divideColorMatch[1],
     });
   }
-  
+
   // Divide width - all directions
   const divideWidthMatch = baseClass.match(/^divide-(\d+)$/);
   if (divideWidthMatch) {
@@ -878,7 +878,7 @@ function convertClass(twClass, exact) {
       val: prefix + "divide-w:" + getBorderWidth(divideWidthMatch[1], exact),
     });
   }
-  
+
   // Divide reverse (check these FIRST as they are specific)
   if (baseClass === 'divide-x-reverse') {
     return attachExtra({ cat: "visual", val: prefix + "divide-x:reverse" });
@@ -886,7 +886,7 @@ function convertClass(twClass, exact) {
   if (baseClass === 'divide-y-reverse') {
     return attachExtra({ cat: "visual", val: prefix + "divide-y:reverse" });
   }
-  
+
   // Divide width - directional
   const divideXWidthMatch = baseClass.match(/^divide-x-(\d+)$/);
   if (divideXWidthMatch) {
@@ -895,7 +895,7 @@ function convertClass(twClass, exact) {
       val: prefix + "divide-x-w:" + getBorderWidth(divideXWidthMatch[1], exact),
     });
   }
-  
+
   // Divide width (implicit x/y from Tailwind divide-x/y without number is usually 1px)
   // Tailwind: divide-x = border-right-width: 1px (or left if reverse).
   // SenangStart: divide-x-w:thin
@@ -905,7 +905,7 @@ function convertClass(twClass, exact) {
   if (baseClass === 'divide-y') {
     return attachExtra({ cat: "visual", val: prefix + "divide-y-w:thin" });
   }
-  
+
   const divideYWidthMatch = baseClass.match(/^divide-y-(\d+)$/);
   if (divideYWidthMatch) {
     return attachExtra({
@@ -913,7 +913,7 @@ function convertClass(twClass, exact) {
       val: prefix + "divide-y-w:" + getBorderWidth(divideYWidthMatch[1], exact),
     });
   }
-  
+
   // Divide style
   const divideStyleMatch = baseClass.match(/^divide-(solid|dashed|dotted|double|none)$/);
   if (divideStyleMatch) {
@@ -922,7 +922,7 @@ function convertClass(twClass, exact) {
       val: prefix + "divide-style:" + divideStyleMatch[1], // Fixed category from 'color' to 'visual'
     });
   }
-  
+
   // Border style
   const borderStyleMatch = baseClass.match(/^border-(solid|dashed|dotted|double|none)$/);
   if (borderStyleMatch) {
@@ -931,7 +931,7 @@ function convertClass(twClass, exact) {
       val: prefix + "border-style:" + borderStyleMatch[1],
     });
   }
-  
+
   // Filter utilities
   // Blur
   const blurMatch = baseClass.match(/^blur-(0|sm|md|lg|xl|2xl|3xl)$/);
@@ -950,7 +950,7 @@ function convertClass(twClass, exact) {
       val: prefix + "blur:" + blurScale[blurMatch[1]],
     });
   }
-  
+
   // Brightness
   const brightnessMatch = baseClass.match(/^brightness-(0|50|75|90|95|100|105|110|125|150|200)$/);
   if (brightnessMatch) {
@@ -972,7 +972,7 @@ function convertClass(twClass, exact) {
       val: prefix + "brightness:" + brightnessScale[brightnessMatch[1]],
     });
   }
-  
+
   // Contrast
   const contrastMatch = baseClass.match(/^contrast-(0|50|75|100|125|150|200)$/);
   if (contrastMatch) {
@@ -990,7 +990,7 @@ function convertClass(twClass, exact) {
       val: prefix + "contrast:" + contrastScale[contrastMatch[1]],
     });
   }
-  
+
   // Grayscale
   const grayscaleMatch = baseClass.match(/^grayscale(0)?$/);
   if (grayscaleMatch) {
@@ -1000,7 +1000,7 @@ function convertClass(twClass, exact) {
       val: prefix + "grayscale:" + val,
     });
   }
-  
+
   // Hue rotate
   const hueRotateMatch = baseClass.match(/^hue-rotate-(0|15|30|60|90|180)$/);
   if (hueRotateMatch) {
@@ -1009,7 +1009,7 @@ function convertClass(twClass, exact) {
       val: prefix + "hue-rotate:" + hueRotateMatch[1],
     });
   }
-  
+
   // Invert
   const invertMatch = baseClass.match(/^invert(0)?$/);
   if (invertMatch) {
@@ -1019,7 +1019,7 @@ function convertClass(twClass, exact) {
       val: prefix + "invert:" + val,
     });
   }
-  
+
   // Saturate
   const saturateMatch = baseClass.match(/^saturate-(0|50|100|150|200)$/);
   if (saturateMatch) {
@@ -1035,7 +1035,7 @@ function convertClass(twClass, exact) {
       val: prefix + "saturate:" + saturateScale[saturateMatch[1]],
     });
   }
-  
+
   // Sepia
   const sepiaMatch = baseClass.match(/^sepia(0)?$/);
   if (sepiaMatch) {
@@ -1045,7 +1045,7 @@ function convertClass(twClass, exact) {
       val: prefix + "sepia:" + val,
     });
   }
-  
+
   // Animation utilities
   const animateMatch = baseClass.match(/^animate-(none|spin|ping|pulse|bounce)$/);
   if (animateMatch) {
@@ -1054,7 +1054,7 @@ function convertClass(twClass, exact) {
       val: prefix + "animate:" + animateMatch[1],
     });
   }
-  
+
   return null;
 }
 
@@ -1077,11 +1077,11 @@ function convertClasses(classString, exact = false) {
 
   for (const cls of classes) {
     const result = convertClass(cls, exact);
-    
+
     if (result) {
       // Normalize to array to support 1-to-many mapping
       const results = Array.isArray(result) ? result : [result];
-      
+
       for (const res of results) {
         if (res.cat === "layout") pushUnique(layout, res.val);
         else if (res.cat === "space") pushUnique(space, res.val);
@@ -1101,8 +1101,8 @@ function convertHTML(html, exact) {
   return html.replace(
     /\bclass(Name)?=(['"])([^"']+)\2/gi,
     function(match, nameAttr, quote, classValue) {
-      var result = convertClasses(classValue, exact);
-      var attrs = [];
+      const result = convertClasses(classValue, exact);
+      const attrs = [];
       if (result.layout.length) attrs.push('layout="' + result.layout.join(' ') + '"');
       if (result.space.length) attrs.push('space="' + result.space.join(' ') + '"');
       if (result.visual.length) attrs.push('visual="' + result.visual.join(' ') + '"');

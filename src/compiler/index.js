@@ -6,8 +6,6 @@
 import { parseSource, parseMultipleSources } from './parser.js';
 import { tokenizeAll } from './tokenizer.js';
 import { generateCSS, minifyCSS } from './generators/css.js';
-import { generateAIContext } from './generators/ai-context.js';
-import { generateTypeScript } from './generators/typescript.js';
 
 /**
  * Log invalid tokens as warnings
@@ -34,14 +32,14 @@ export function compileSource(content, config) {
   if (typeof content !== 'string') {
     throw new TypeError(`compileSource: content must be a string, got ${typeof content}`);
   }
-  
+
   const parsed = parseSource(content);
   const tokens = tokenizeAll(parsed);
   const invalidTokens = logInvalidTokens(tokens);
-  
+
   const css = generateCSS(tokens, config);
   const hasErrors = invalidTokens.length > 0;
-  
+
   return {
     tokens,
     css,
@@ -70,10 +68,10 @@ export function compileMultiple(files, config) {
   const parsed = parseMultipleSources(files);
   const tokens = tokenizeAll(parsed);
   const invalidTokens = logInvalidTokens(tokens);
-  
+
   const css = generateCSS(tokens, config);
   const hasErrors = invalidTokens.length > 0;
-  
+
   return {
     tokens,
     css,

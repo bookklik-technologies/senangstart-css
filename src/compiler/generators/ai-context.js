@@ -10,7 +10,7 @@
  */
 export function generateAIContext(config) {
   const { theme } = config;
-  
+
   return `# SenangStart CSS - AI Context Guide
 
 > This file helps AI assistants understand the SenangStart CSS framework.

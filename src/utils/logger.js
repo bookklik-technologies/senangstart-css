@@ -24,23 +24,23 @@ export const logger = {
   info: (msg) => {
     console.log(`${prefix} ${colors.blue}ℹ${colors.reset} ${msg}`);
   },
-  
+
   success: (msg) => {
     console.log(`${prefix} ${colors.green}✓${colors.reset} ${msg}`);
   },
-  
+
   warn: (msg) => {
     console.log(`${prefix} ${colors.yellow}⚠${colors.reset} ${msg}`);
   },
-  
+
   error: (msg) => {
     console.log(`${prefix} ${colors.red}✗${colors.reset} ${msg}`);
   },
-  
+
   build: (msg) => {
     console.log(`${prefix} ${colors.cyan}⚡${colors.reset} ${msg}`);
   },
-  
+
   watch: (msg) => {
     console.log(`${prefix} ${colors.green}👁${colors.reset} ${msg}`);
   }

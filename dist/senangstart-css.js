@@ -576,7 +576,7 @@
       idx++;
     }
     if (idx < parts.length) {
-      let value = parts.slice(idx).join(":");
+      const value = parts.slice(idx).join(":");
       const arbitraryMatch = value.match(/^\[(.+)\]$/);
       if (arbitraryMatch) {
         token.value = sanitizeValue(arbitraryMatch[1].replace(/_/g, " "));
@@ -8196,7 +8196,7 @@ video {
     css += "}\n\n";
     return css;
   }
-  function generateLayoutRule(token, config) {
+  function generateLayoutRule(token, _config) {
     const { property, value, isArbitrary } = token;
     if (property === value && layoutMap[property]) {
       return layoutMap[property];
@@ -8472,7 +8472,7 @@ video {
     }
     return layoutMap[property] || "";
   }
-  function generateSpaceRule(token, config) {
+  function generateSpaceRule(token, _config) {
     const { property, value, isArbitrary } = token;
     const sizingSpecialValues = {
       "min": "min-content",
@@ -8597,13 +8597,13 @@ video {
     if (!property || !value) return false;
     return true;
   }
-  function generateRule(token, config, skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
+  function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
     try {
       if (!token || typeof token !== "object") {
         console.warn("[SenangStart] Invalid token object:", token);
         return "";
       }
-      const { raw, attrType, breakpoint, state } = token;
+      const { raw, attrType, state } = token;
       if (!attrType || typeof attrType !== "string") {
         console.warn("[SenangStart] Invalid token attrType:", attrType);
         return "";
@@ -8973,63 +8973,63 @@ video {
         "small": "8px",
         // Grouping inside components
         "small-2x": "10px",
-        // 
+        //
         "small-3x": "12px",
-        // 
+        //
         "small-4x": "14px",
-        // 
+        //
         "medium": "16px",
         // Standard default
         "medium-2x": "20px",
-        // 
+        //
         "medium-3x": "24px",
-        // 
+        //
         "medium-4x": "28px",
-        // 
+        //
         "large": "32px",
         // Separation between groups
         "large-2x": "36px",
-        // 
+        //
         "large-3x": "40px",
-        // 
+        //
         "large-4x": "44px",
-        // 
+        //
         "big": "48px",
         // Layout sections
         "big-2x": "56px",
-        // 
+        //
         "big-3x": "64px",
-        // 
+        //
         "big-4x": "80px",
-        // 
+        //
         "giant": "96px",
         // Hero sections
         "giant-2x": "112px",
-        // 
+        //
         "giant-3x": "128px",
-        // 
+        //
         "giant-4x": "144px",
-        // 
+        //
         "vast": "160px",
         // Page-level spacing
         "vast-2x": "176px",
-        // 
+        //
         "vast-3x": "192px",
-        // 
+        //
         "vast-4x": "208px",
-        // 
+        //
         "vast-5x": "224px",
-        // 
+        //
         "vast-6x": "240px",
-        // 
+        //
         "vast-7x": "256px",
-        // 
+        //
         "vast-8x": "288px",
-        // 
+        //
         "vast-9x": "320px",
-        // 
+        //
         "vast-10x": "384px"
-        // 
+        //
       },
       // 2. RADIUS: Tactile Feel
       radius: {
@@ -9055,31 +9055,31 @@ video {
       // 4. FONT SIZES: Reading Scale (with paired line-heights)
       fontSize: {
         "mini": "0.75rem",
-        // 12px          
+        // 12px
         "small": "0.875rem",
-        // 14px          
+        // 14px
         "base": "1rem",
-        // 16px          
+        // 16px
         "large": "1.125rem",
-        // 18px          
+        // 18px
         "big": "1.25rem",
-        // 20px (xl)     
+        // 20px (xl)
         "huge": "1.5rem",
-        // 24px (2xl)    
+        // 24px (2xl)
         "grand": "1.875rem",
-        // 30px (3xl)    
+        // 30px (3xl)
         "giant": "2.25rem",
-        // 36px (4xl)    
+        // 36px (4xl)
         "mount": "3rem",
-        // 48px (5xl)    
+        // 48px (5xl)
         "mega": "3.75rem",
-        // 60px (6xl)    
+        // 60px (6xl)
         "giga": "4.5rem",
-        // 72px (7xl)    
+        // 72px (7xl)
         "tera": "6rem",
-        // 96px (8xl)    
+        // 96px (8xl)
         "hero": "8rem"
-        // 128px         
+        // 128px
       },
       // 4b. FONT SIZE LINE-HEIGHTS: Paired with font sizes
       fontSizeLineHeight: {
@@ -9301,8 +9301,8 @@ video {
   try {
     (function() {
       "use strict";
-      var MAX_ATTR_LENGTH = 1e3;
-      var MAX_TOKEN_LENGTH = 200;
+      const MAX_ATTR_LENGTH = 1e3;
+      const MAX_TOKEN_LENGTH = 200;
       function validateConfig(config) {
         if (!config || typeof config !== "object" || Array.isArray(config)) return false;
         if (config.theme && (typeof config.theme !== "object" || Array.isArray(config.theme))) return false;
@@ -9311,16 +9311,16 @@ video {
         return true;
       }
       function loadInlineConfig() {
-        var configEl = document.querySelector('script[type="senangstart/config"]');
+        const configEl = document.querySelector('script[type="senangstart/config"]');
         if (!configEl) return {};
-        var text = (configEl.textContent || "").trim();
+        const text = (configEl.textContent || "").trim();
         if (!text) return {};
         if (text.length > 5e4) {
           console.error("[SenangStart] Config content exceeds maximum length");
           return {};
         }
         try {
-          var parsed = JSON.parse(text);
+          const parsed = JSON.parse(text);
           if (!validateConfig(parsed)) {
             console.error("[SenangStart] Invalid config structure");
             return {};
@@ -9332,17 +9332,17 @@ video {
         }
       }
       function getFinalConfig() {
-        var user = loadInlineConfig();
+        const user = loadInlineConfig();
         return mergeConfig(user);
       }
       function sanitizeAttributeValue(value) {
         if (typeof value !== "string") return "";
         if (value.length > MAX_ATTR_LENGTH) return "";
-        var sanitized = value;
+        let sanitized = value;
         sanitized = sanitized.replace(/[\\`$]/g, "");
-        var dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
+        const dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
         sanitized = sanitized.replace(dangerousProtocols, "url(about:blank");
-        var scriptVectors = [
+        const scriptVectors = [
           /expression\s*\(/gi,
           /\beval\s*\(/gi,
           /\balert\s*\(/gi,
@@ -9352,43 +9352,43 @@ video {
           /<script[^>]*>/gi,
           /<\/script>/gi
         ];
-        for (var i = 0; i < scriptVectors.length; i++) {
+        for (let i = 0; i < scriptVectors.length; i++) {
           sanitized = sanitized.replace(scriptVectors[i], "");
         }
         sanitized = sanitized.replace(/@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi, "");
         if (/[<>"']/.test(sanitized)) return "";
         sanitized = sanitized.replace(/;/g, "_");
-        var openB = (sanitized.match(/\[/g) || []).length;
-        var closeB = (sanitized.match(/\]/g) || []).length;
+        const openB = (sanitized.match(/\[/g) || []).length;
+        const closeB = (sanitized.match(/\]/g) || []).length;
         if (Math.abs(openB - closeB) > 1 || Math.max(openB, closeB) > 10) return "";
         if (sanitized.length > 500) sanitized = sanitized.substring(0, 500);
         return sanitized;
       }
       function scanElement(el, tokens) {
-        var attrs = ["layout", "space", "visual"];
-        for (var i = 0; i < attrs.length; i++) {
-          var value = el.getAttribute(attrs[i]);
+        const attrs = ["layout", "space", "visual"];
+        for (let i = 0; i < attrs.length; i++) {
+          let value = el.getAttribute(attrs[i]);
           if (value) {
             value = sanitizeAttributeValue(value);
             if (!value) continue;
-            var parts = value.split(/\s+/);
-            for (var j = 0; j < parts.length; j++) {
-              var token = parts[j];
+            const parts = value.split(/\s+/);
+            for (let j = 0; j < parts.length; j++) {
+              const token = parts[j];
               if (token && token.length <= MAX_TOKEN_LENGTH) {
                 tokens[attrs[i]].add(token);
               }
             }
           }
         }
-        var stateAttrs = ["interact", "listens"];
-        for (var i = 0; i < stateAttrs.length; i++) {
-          var value = el.getAttribute(stateAttrs[i]);
+        const stateAttrs = ["interact", "listens"];
+        for (let i = 0; i < stateAttrs.length; i++) {
+          let value = el.getAttribute(stateAttrs[i]);
           if (value) {
             value = sanitizeAttributeValue(value);
             if (!value) continue;
-            var parts = value.split(/\s+/);
-            for (var j = 0; j < parts.length; j++) {
-              var id = parts[j];
+            const parts = value.split(/\s+/);
+            for (let j = 0; j < parts.length; j++) {
+              const id = parts[j];
               if (id && id.length <= MAX_TOKEN_LENGTH) {
                 tokens[stateAttrs[i]].add(id);
               }
@@ -9397,13 +9397,13 @@ video {
         }
       }
       function scanRoot(root, tokens) {
-        var elements = root.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
-        for (var i = 0; i < elements.length; i++) {
+        const elements = root.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
+        for (let i = 0; i < elements.length; i++) {
           scanElement(elements[i], tokens);
         }
       }
       function scanDOM() {
-        var tokens = {
+        const tokens = {
           layout: /* @__PURE__ */ new Set(),
           space: /* @__PURE__ */ new Set(),
           visual: /* @__PURE__ */ new Set(),
@@ -9412,8 +9412,8 @@ video {
         };
         if (!document.body) return tokens;
         scanRoot(document, tokens);
-        var allEls = document.querySelectorAll("*");
-        for (var i = 0; i < allEls.length; i++) {
+        const allEls = document.querySelectorAll("*");
+        for (let i = 0; i < allEls.length; i++) {
           if (allEls[i].shadowRoot) {
             scanRoot(allEls[i].shadowRoot, tokens);
           }
@@ -9421,33 +9421,33 @@ video {
         return tokens;
       }
       function tokensEqual(a, b) {
-        var keys = ["layout", "space", "visual", "interact", "listens"];
-        for (var i = 0; i < keys.length; i++) {
-          var setA = a[keys[i]];
-          var setB = b[keys[i]];
+        const keys = ["layout", "space", "visual", "interact", "listens"];
+        for (let i = 0; i < keys.length; i++) {
+          const setA = a[keys[i]];
+          const setB = b[keys[i]];
           if (setA.size !== setB.size) return false;
         }
-        for (var i = 0; i < keys.length; i++) {
-          var setA = a[keys[i]];
-          var setB = b[keys[i]];
-          for (var item of setA) {
+        for (let i = 0; i < keys.length; i++) {
+          const setA = a[keys[i]];
+          const setB = b[keys[i]];
+          for (const item of setA) {
             if (!setB.has(item)) return false;
           }
         }
         return true;
       }
       function compileCSS(domTokens, config) {
-        var tokens = tokenizeAll(domTokens);
+        const tokens = tokenizeAll(domTokens);
         return generateCSS(tokens, config);
       }
       function sanitizeCSSOutput(css) {
         return css.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "").replace(/@import\s+url\(\s*['"]?(?:javascript|data|vbscript)\s*:/gi, "");
       }
       function injectStyles(css) {
-        var sanitized = sanitizeCSSOutput(css);
-        var head = document.head || document.getElementsByTagName("head")[0];
+        const sanitized = sanitizeCSSOutput(css);
+        const head = document.head || document.getElementsByTagName("head")[0];
         if (!head) return;
-        var styleEl = document.getElementById("senangstart-jit");
+        let styleEl = document.getElementById("senangstart-jit");
         if (!styleEl) {
           styleEl = document.createElement("style");
           styleEl.id = "senangstart-jit";
@@ -9456,7 +9456,7 @@ video {
         styleEl.textContent = sanitized;
       }
       function init() {
-        var config = getFinalConfig();
+        const config = getFinalConfig();
         if (!document.body) {
           console.warn("[SenangStart] document.body not ready; deferring initialization");
           if (document.readyState === "loading") {
@@ -9466,14 +9466,14 @@ video {
             return;
           }
         }
-        var cachedTokens = scanDOM();
-        var css = compileCSS(cachedTokens, config);
+        let cachedTokens = scanDOM();
+        let css = compileCSS(cachedTokens, config);
         injectStyles(css);
-        var debounceTimer = null;
-        var DEBOUNCE_MS = 200;
+        let debounceTimer = null;
+        const DEBOUNCE_MS = 200;
         function recompile() {
           observer.disconnect();
-          var newTokens = scanDOM();
+          const newTokens = scanDOM();
           if (tokensEqual(cachedTokens, newTokens)) {
             observer.observe(document.body, {
               childList: true,
@@ -9493,7 +9493,7 @@ video {
             attributeFilter: ["layout", "space", "visual", "interact", "listens"]
           });
         }
-        var observer = new MutationObserver(function() {
+        const observer = new MutationObserver(function() {
           if (debounceTimer) clearTimeout(debounceTimer);
           debounceTimer = setTimeout(recompile, DEBOUNCE_MS);
         });
@@ -9518,12 +9518,11 @@ video {
   } catch (e) {
     console.error("[SenangStart] Failed to initialize JIT runtime:", e.message);
     if (typeof document !== "undefined" && document.body) {
-      el = document.createElement("div");
+      const el = document.createElement("div");
       el.style.cssText = "background:#fef2f2;color:#991b1b;padding:8px 16px;font-family:monospace;font-size:14px;";
       el.textContent = "SenangStart CSS failed to load. See console for details.";
       document.body.prepend(el);
     }
   }
-  var el;
 })();
 //# sourceMappingURL=senangstart-css.js.map

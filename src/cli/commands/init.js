@@ -13,18 +13,18 @@ const __dirname = dirname(__filename);
 
 export async function init() {
   const configPath = join(process.cwd(), 'senangstart.config.js');
-  
+
   if (existsSync(configPath)) {
     logger.warn('senangstart.config.js already exists');
     return;
   }
-  
+
   const templatePath = join(__dirname, '..', '..', '..', 'templates', 'senangstart.config.js');
   let template;
-  
+
   try {
     template = readFileSync(templatePath, 'utf-8');
-  } catch (e) {
+  } catch {
     template = `/**
  * SenangStart CSS Configuration
  */
@@ -49,7 +49,7 @@ export default {
 }
 `;
   }
-  
+
   try {
     writeFileSync(configPath, template);
     logger.success('Created senangstart.config.js');

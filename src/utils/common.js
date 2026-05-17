@@ -15,22 +15,22 @@ export function sanitizeValue(value) {
   if (typeof value !== 'string') {
     return '';
   }
-  
+
   // Early length check - reject values > 1000 chars initially
   if (value.length > 1000) {
     return '';
   }
-  
+
   let sanitized = value;
-  
+
   // 1. Remove escape characters that could bypass filters
   sanitized = sanitized.replace(/[\\`$]/g, '');
-  
+
   // 2. Block ALL url() with dangerous protocols (including nested)
   const dangerousUrlProtocols = [
     'javascript:', 'vbscript:', 'data:', 'about:', 'file:', 'ftp:', 'mailto:'
   ].join('|');
-  
+
   // Replace all url() with dangerous protocols with safe alternative
   // Use regex that handles nested parentheses
   const urlRegex = /url\s*\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/gi;
@@ -41,7 +41,7 @@ export function sanitizeValue(value) {
     }
     return match; // Return original if safe
   });
-  
+
   // 3. Block any remaining script execution vectors
   const scriptVectors = [
     /expression\s*\(/gi,        // IE expression()
@@ -53,15 +53,15 @@ export function sanitizeValue(value) {
     /<script[^>]*>/gi,            // <script> tags
     /<\/script>/gi,                // </script> tags
   ];
-  
+
   for (const pattern of scriptVectors) {
     sanitized = sanitized.replace(pattern, '');
   }
-  
+
   // 4. Block at-rules
   const atRules = /@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi;
   sanitized = sanitized.replace(atRules, '');
-  
+
   // 4b. Strip parentheses content if it contains dangerous patterns after url() filtering
   // Prevents bypass via parenthesized expressions like "progid:DXImageTransform"
   sanitized = sanitized.replace(/\([^)]*\)/g, (match) => {
@@ -71,7 +71,7 @@ export function sanitizeValue(value) {
     }
     return match;
   });
-  
+
   // 5. Remove semicolons (statement terminators)
   // Note: semicolons are rare in legitimate CSS property values,
   // but if they appear, they are silently replaced with underscores.
@@ -79,7 +79,7 @@ export function sanitizeValue(value) {
   if (/[;]/.test(sanitized)) {
     sanitized = sanitized.replace(/[;]/g, '_');
   }
-  
+
   // 6. Validate bracket nesting
   const openBrackets = (sanitized.match(/\[/g) || []).length;
   const closeBrackets = (sanitized.match(/\]/g) || []).length;
@@ -87,15 +87,15 @@ export function sanitizeValue(value) {
   if (Math.abs(openBrackets - closeBrackets) > 1 || Math.max(openBrackets, closeBrackets) > 10) {
     return '';
   }
-  
+
   // 7. Filter @ symbols (could start at-rules)
   sanitized = sanitized.replace(/@/g, '');
-  
+
   // 8. Final length check (after all processing)
   if (sanitized.length > 500) {
     sanitized = sanitized.substring(0, 500);
   }
-  
+
   return sanitized;
 }
 
@@ -106,7 +106,7 @@ export function sanitizeValue(value) {
  */
 export function isValidColor(value) {
   if (typeof value !== 'string' || value.length === 0) return false;
-  
+
   // CSS color keywords
   const colorKeywords = [
     'transparent', 'currentcolor', 'inherit', 'initial', 'unset',
@@ -141,17 +141,17 @@ export function isValidColor(value) {
     'steelblue', 'tan', 'teal', 'thistle', 'tomato', 'turquoise',
     'violet', 'wheat', 'white', 'whitesmoke', 'yellow', 'yellowgreen'
   ];
-  
+
   if (colorKeywords.includes(value.toLowerCase())) return true;
-  
+
   // Hex color: #RGB, #RGBA, #RRGGBB, #RRGGBBAA
   if (/^#([0-9A-Fa-f]{3}){1,2}$/.test(value)) return true;
   if (/^#([0-9A-Fa-f]{4}|[0-9A-Fa-f]{8})$/.test(value)) return true;
-  
+
   // Modern CSS functional notation: rgb/rgba/hsl/hsla with comma or space separators
   // rgb(r g b / a), hsl(h s l / a), etc.
   if (/^(rgba?|hsla?)\(\s*\d+\.?\d*(%?)\s+/.test(value)) return true;
-  
+
   // Legacy comma-separated rgb/rgba
   const rgbPattern = /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\)$/;
   if (rgbPattern.test(value)) {
@@ -161,14 +161,14 @@ export function isValidColor(value) {
       if (valid) return true;
     }
   }
-  
+
   // Legacy comma-separated hsl/hsla
   const hslPattern = /^hsla?\(\s*\d+\s*,\s*[\d.]+%\s*,\s*[\d.]+%\s*(,\s*[\d.]+\s*)?\)$/;
   if (hslPattern.test(value)) return true;
-  
+
   // Modern CSS: oklch(), lab(), lch(), oklab(), color()
   if (/^(oklch|oklab|lab|lch|color)\(/.test(value)) return true;
-  
+
   return false;
 }
 
@@ -179,14 +179,14 @@ export function isValidColor(value) {
  */
 export function isValidCSSLength(value) {
   if (typeof value !== 'string' || value.length === 0) return false;
-  
+
   // Match CSS length syntax: number + unit (px, em, rem, %, vw, vh, vmin, vmax, ch, ex, pt, pc, in, cm, mm, q, fr, deg, rad, turn, s, ms)
   // Allow 0 or any number without unit
   if (value === '0') return true;
-  
+
   // Accept bare numbers (for test compatibility and some use cases)
   if (/^\d+\.?\d*$/.test(value)) return true;
-  
+
   const lengthPattern = /^(\d*\.?\d+)(px|em|rem|%|vw|vh|vmin|vmax|ch|ex|pt|pc|in|cm|mm|q|fr|deg|rad|turn|s|ms)$/;
   return lengthPattern.test(value);
 }
@@ -198,7 +198,7 @@ export function isValidCSSLength(value) {
  */
 export function isValidCSSVariableName(name) {
   if (typeof name !== 'string' || name.length === 0) return false;
-  
+
   // CSS custom properties must start with letter or underscore
   // Can contain letters, digits, hyphens, underscores
   // Cannot contain: !, $, @, ~, ^, (, ), [, ], {, }, ", ', \, /
@@ -214,7 +214,7 @@ export function isValidCSSVariableName(name) {
  */
 export function validateThemeSection(section, values) {
   const errors = [];
-  
+
   switch (section) {
     case 'spacing':
     case 'radius':
@@ -224,7 +224,7 @@ export function validateThemeSection(section, values) {
           errors.push(`Invalid key in ${section}: "${key}"`);
           continue;
         }
-        
+
         // Check value is valid CSS length or 'none' keyword
         const isValid = isValidCSSLength(value) || value === 'none';
         if (!isValid) {
@@ -232,7 +232,7 @@ export function validateThemeSection(section, values) {
         }
       }
       break;
-    
+
     case 'shadow':
       for (const [key, value] of Object.entries(values)) {
         // Check key is valid CSS variable name
@@ -240,11 +240,11 @@ export function validateThemeSection(section, values) {
           errors.push(`Invalid key in ${section}: "${key}"`);
           continue;
         }
-        
+
         // Shadow values can be complex: 'none' or '<offset-x> <offset-y> <blur> <spread>? <color>?'
         // Check for valid shadow syntax (very basic validation)
-        const isValid = value === 'none' || 
-                      (typeof value === 'string' && 
+        const isValid = value === 'none' ||
+                      (typeof value === 'string' &&
                        value.trim().length > 0 &&
                        // Basic check: should contain at least one length value (number with optional unit)
                        /^\s*\d+\.?\d*\s*(px|em|rem|%|cm|mm|in|pt|pc|vmin|vmax|vw|vh|)?\s*/.test(value));
@@ -253,7 +253,7 @@ export function validateThemeSection(section, values) {
         }
       }
       break;
-      
+
     case 'colors':
       for (const [key, value] of Object.entries(values)) {
         // Check key is valid CSS variable name
@@ -261,34 +261,34 @@ export function validateThemeSection(section, values) {
           errors.push(`Invalid key in colors: "${key}"`);
           continue;
         }
-        
+
         // Check value is valid color
         if (!isValidColor(value)) {
           errors.push(`Invalid color value for colors.${key}: "${value}"`);
         }
       }
       break;
-      
+
     case 'screens':
       for (const [key, value] of Object.entries(values)) {
         if (!isValidCSSVariableName(key)) {
           errors.push(`Invalid screen name: "${key}"`);
           continue;
         }
-        
+
         if (!isValidCSSLength(value)) {
           errors.push(`Invalid screen value for ${key}: "${value}" (expected CSS length)`);
         }
       }
       break;
-      
+
     case 'fontSize':
       for (const [key, value] of Object.entries(values)) {
         if (!isValidCSSVariableName(key)) {
           errors.push(`Invalid font size key: "${key}"`);
           continue;
         }
-        
+
         // Font size can be length or keyword
         const validKeywords = ['xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
         if (!isValidCSSLength(value) && !validKeywords.includes(value)) {
@@ -296,25 +296,25 @@ export function validateThemeSection(section, values) {
         }
       }
       break;
-      
+
     case 'fontWeight':
       for (const [key, value] of Object.entries(values)) {
         if (!isValidCSSVariableName(key)) {
           errors.push(`Invalid font weight key: "${key}"`);
           continue;
         }
-        
+
         // Font weight: 100-900 or keyword
         const weightNum = parseInt(value, 10);
         const validKeywords = ['normal', 'bold', 'lighter', 'bolder'];
-        
-        if (!(weightNum >= 100 && weightNum <= 900 && weightNum % 100 === 0) && 
+
+        if (!(weightNum >= 100 && weightNum <= 900 && weightNum % 100 === 0) &&
             !validKeywords.includes(value)) {
           errors.push(`Invalid font weight value for ${key}: "${value}"`);
         }
       }
       break;
-      
+
     default:
       // Validate remaining theme sections by type
       switch (section) {
@@ -327,7 +327,7 @@ export function validateThemeSection(section, values) {
             }
           }
           break;
-        
+
         case 'brightness':
         case 'contrast':
         case 'saturate':
@@ -340,7 +340,7 @@ export function validateThemeSection(section, values) {
             }
           }
           break;
-        
+
         case 'grayscale':
         case 'invert':
         case 'sepia':
@@ -352,7 +352,7 @@ export function validateThemeSection(section, values) {
             }
           }
           break;
-        
+
         case 'dropShadow':
           for (const [key, value] of Object.entries(values)) {
             if (!isValidCSSVariableName(key)) {
@@ -362,7 +362,7 @@ export function validateThemeSection(section, values) {
             }
           }
           break;
-        
+
         case 'transitionProperty':
         case 'animationDuration':
         case 'animationDelay':
@@ -375,7 +375,7 @@ export function validateThemeSection(section, values) {
             }
           }
           break;
-        
+
         case 'container':
           for (const [key, value] of Object.entries(values)) {
             if (!isValidCSSVariableName(key)) {
@@ -385,7 +385,7 @@ export function validateThemeSection(section, values) {
             }
           }
           break;
-        
+
         case 'zIndex':
           for (const [key, value] of Object.entries(values)) {
             if (!isValidCSSVariableName(key)) {
@@ -395,7 +395,7 @@ export function validateThemeSection(section, values) {
             }
           }
           break;
-        
+
         default:
           for (const [key, value] of Object.entries(values)) {
             if (typeof value !== 'string') {
@@ -404,7 +404,7 @@ export function validateThemeSection(section, values) {
           }
       }
   }
-  
+
   return {
     valid: errors.length === 0,
     errors

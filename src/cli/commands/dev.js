@@ -106,7 +106,7 @@ export async function dev(options = {}) {
       try {
         const resolved = require.resolve(path);
         delete require.cache[resolved];
-      } catch (e) {
+      } catch {
         // Config may use native ESM — cache clear is best-effort
       }
     } else {
@@ -133,7 +133,7 @@ export async function dev(options = {}) {
       });
   }
 
-  let watcher = setupWatcher(chokidar.watch(watchPatterns, {
+  const watcher = setupWatcher(chokidar.watch(watchPatterns, {
     ignored: ignorePatterns,
     persistent: true,
     ignoreInitial: true

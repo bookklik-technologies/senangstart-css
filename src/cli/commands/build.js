@@ -101,11 +101,11 @@ async function findFiles(patterns) {
               allFiles.push(fullPath);
             }
           }
-        } catch (e) {
+        } catch {
           // skip inaccessible files
         }
       }
-    } catch (e) {
+    } catch {
       // skip inaccessible directories
     }
   }
@@ -117,7 +117,7 @@ async function findFiles(patterns) {
       if (statResult.isDirectory()) {
         await walk(dirPath, extensions);
       }
-    } catch (e) {
+    } catch {
       // directory doesn't exist, skip
     }
   }
@@ -173,34 +173,34 @@ function ensureDir(filePath) {
 export async function build(options = {}) {
   const startTime = Date.now();
   let hasErrors = false;
-  
+
   logger.build('Starting build...');
-  
+
   // Load config
   const config = await loadConfig(options.config || 'senangstart.config.js');
-  
+
   // Override output path if specified
   if (options.output) {
     config.output.css = options.output;
   }
-  
+
   // Override minify if specified
   if (options.minify) {
     config.output.minify = true;
   }
-  
+
   // Override preflight if specified (Commander converts --no-preflight to preflight: false)
   if (options.preflight === false) {
     config.preflight = false;
   }
-  
+
   // Find source files
   const files = await findFiles(config.content);
-  
+
   if (files.length === 0) {
     throw new Error('No source files found matching content patterns. Aborting build.');
   }
-  
+
   logger.info(`Found ${files.length} source files`);
 
   // Parse all files with timeout protection
@@ -240,7 +240,7 @@ export async function build(options = {}) {
   if (failedFiles > 0 && failedFiles === files.length) {
     throw new Error('All source files failed to process. Aborting build.');
   }
-  
+
   if (failedFiles > 0) {
     logger.warn(`${failedFiles} file(s) failed to process`);
   }
@@ -267,7 +267,7 @@ export async function build(options = {}) {
   }
 
   logger.info(`Generated ${tokens.length} tokens`);
-  
+
   // Check for invalid tokens
   const invalidTokens = tokens.filter(token => token.error);
   if (invalidTokens.length > 0) {
@@ -276,7 +276,7 @@ export async function build(options = {}) {
       logger.warn(`  • ${token.raw} (${token.attrType}): ${token.error}`);
     }
   }
-  
+
   // Generate CSS
   let css;
   try {
@@ -284,7 +284,7 @@ export async function build(options = {}) {
   } catch (e) {
     throw new Error(`CSS generation failed: ${e.message}`);
   }
-  
+
   if (config.output.minify) {
     try {
       css = minifyCSS(css);
@@ -292,7 +292,7 @@ export async function build(options = {}) {
       throw new Error(`CSS minification failed: ${e.message}`);
     }
   }
-  
+
   // Write CSS
   const cssPath = join(process.cwd(), config.output.css);
   try {
@@ -303,7 +303,7 @@ export async function build(options = {}) {
     logger.error(`Failed to write CSS: ${e.message}`);
     hasErrors = true;
   }
-  
+
   // Generate AI context
   if (config.output.aiContext) {
     try {
@@ -317,7 +317,7 @@ export async function build(options = {}) {
       hasErrors = true;
     }
   }
-  
+
   // Generate TypeScript definitions
   if (config.output.typescript) {
     try {
@@ -331,10 +331,10 @@ export async function build(options = {}) {
       hasErrors = true;
     }
   }
-  
+
   const elapsed = Date.now() - startTime;
   logger.build(`Build completed in ${elapsed}ms`);
-  
+
   if (hasErrors) {
     logger.warn('Build completed with warnings');
   }
