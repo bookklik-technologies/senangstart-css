@@ -3,20 +3,28 @@
   "version": "0.3.0",
   "description": "Fluent Style Utilities for Humans and AI",
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/senangstart-css.cjs",
+  "module": "src/index.js",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
       "import": "./src/index.js",
-      "types": "./types/index.d.ts"
+      "require": "./dist/senangstart-css.cjs",
+      "types": "./types/index.d.ts",
+      "default": "./dist/senangstart-css.cjs"
     },
     "./cli": "./src/cli/index.js"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
   },
   "files": [
     "dist",
     "src",
     "types",
     "templates",
+    "scripts",
     "LICENSE.md",
     "README.md"
   ],

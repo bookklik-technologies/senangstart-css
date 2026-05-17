@@ -421,22 +421,6 @@
   };
   var CSS_COLOR_KEYWORDS = ["transparent", "currentColor", "inherit", "initial", "unset"];
 
-  // src/utils/logger.js
-  var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
-  var colors = {
-    reset: isBrowser ? "" : "\x1B[0m",
-    bright: isBrowser ? "" : "\x1B[1m",
-    dim: isBrowser ? "" : "\x1B[2m",
-    red: isBrowser ? "" : "\x1B[31m",
-    green: isBrowser ? "" : "\x1B[32m",
-    yellow: isBrowser ? "" : "\x1B[33m",
-    blue: isBrowser ? "" : "\x1B[34m",
-    magenta: isBrowser ? "" : "\x1B[35m",
-    cyan: isBrowser ? "" : "\x1B[36m",
-    white: isBrowser ? "" : "\x1B[37m"
-  };
-  var prefix = isBrowser ? "[senang]" : `${colors.magenta}${colors.bright}[senang]${colors.reset}`;
-
   // src/utils/common.js
   function sanitizeValue(value) {
     if (typeof value !== "string") {
@@ -8523,6 +8507,15 @@ video {
       return propMap[property] || "";
     }
     let cssValue;
+    const NEGATABLE_PROPERTIES = /* @__PURE__ */ new Set([
+      "m",
+      "m-t",
+      "m-r",
+      "m-b",
+      "m-l",
+      "m-x",
+      "m-y"
+    ]);
     if (isArbitrary) {
       cssValue = value;
     } else {
@@ -8535,7 +8528,7 @@ video {
       } else {
         baseValue = `var(--s-${cleanValue})`;
       }
-      cssValue = isNegative ? `calc(${baseValue} * -1)` : baseValue;
+      cssValue = isNegative && NEGATABLE_PROPERTIES.has(property) ? `calc(${baseValue} * -1)` : baseValue;
     }
     if (value === "auto") {
       const autoValue = "auto";
@@ -9227,6 +9220,55 @@ video {
         }
       }
     }
+    const numericSections = ["brightness", "contrast", "saturate", "backdropOpacity"];
+    for (const section of numericSections) {
+      if (theme[section]) {
+        for (const [key, val] of Object.entries(theme[section])) {
+          if (typeof val === "string" && isNaN(parseFloat(val))) {
+            warnings.push(`theme.${section}["${key}"]: expected numeric value, got "${val}"`);
+          }
+        }
+      }
+    }
+    const percentageSections = ["grayscale", "invert", "sepia"];
+    for (const section of percentageSections) {
+      if (theme[section]) {
+        for (const [key, val] of Object.entries(theme[section])) {
+          if (typeof val !== "string" || !/^\d+%$/.test(val)) {
+            warnings.push(`theme.${section}["${key}"]: expected percentage value, got "${val}"`);
+          }
+        }
+      }
+    }
+    const lengthSections = ["blur", "perspective", "container"];
+    for (const section of lengthSections) {
+      if (theme[section]) {
+        for (const [key, val] of Object.entries(theme[section])) {
+          if (typeof val !== "string") {
+            warnings.push(`theme.${section}["${key}"]: expected string, got ${typeof val}`);
+          } else if (val !== "none" && !VALID_UNITS.test(val) && !val.startsWith("var(")) {
+            warnings.push(`theme.${section}["${key}"]: invalid value "${val}" \u2014 expected CSS length or "none"`);
+          }
+        }
+      }
+    }
+    if (theme.zIndex) {
+      for (const [key, val] of Object.entries(theme.zIndex)) {
+        if (typeof val === "string" && isNaN(parseInt(val, 10))) {
+          warnings.push(`theme.zIndex["${key}"]: expected integer, got "${val}"`);
+        }
+      }
+    }
+    const stringSections = ["transitionProperty", "animationDuration", "animationDelay", "dropShadow"];
+    for (const section of stringSections) {
+      if (theme[section]) {
+        for (const [key, val] of Object.entries(theme[section])) {
+          if (typeof val !== "string") {
+            warnings.push(`theme.${section}["${key}"]: expected string, got ${typeof val}`);
+          }
+        }
+      }
+    }
     return warnings;
   }
   function mergeConfig(userConfig = {}) {
@@ -9296,8 +9338,31 @@ video {
       function sanitizeAttributeValue(value) {
         if (typeof value !== "string") return "";
         if (value.length > MAX_ATTR_LENGTH) return "";
-        if (/[<>"']/.test(value)) return "";
-        return value;
+        var sanitized = value;
+        sanitized = sanitized.replace(/[\\`$]/g, "");
+        var dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
+        sanitized = sanitized.replace(dangerousProtocols, "url(about:blank");
+        var scriptVectors = [
+          /expression\s*\(/gi,
+          /\beval\s*\(/gi,
+          /\balert\s*\(/gi,
+          /\bdocument\./g,
+          /\bwindow\./g,
+          /on\w+\s*=/gi,
+          /<script[^>]*>/gi,
+          /<\/script>/gi
+        ];
+        for (var i = 0; i < scriptVectors.length; i++) {
+          sanitized = sanitized.replace(scriptVectors[i], "");
+        }
+        sanitized = sanitized.replace(/@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi, "");
+        if (/[<>"']/.test(sanitized)) return "";
+        sanitized = sanitized.replace(/;/g, "_");
+        var openB = (sanitized.match(/\[/g) || []).length;
+        var closeB = (sanitized.match(/\]/g) || []).length;
+        if (Math.abs(openB - closeB) > 1 || Math.max(openB, closeB) > 10) return "";
+        if (sanitized.length > 500) sanitized = sanitized.substring(0, 500);
+        return sanitized;
       }
       function scanElement(el, tokens) {
         var attrs = ["layout", "space", "visual"];

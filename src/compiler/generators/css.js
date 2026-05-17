@@ -572,23 +572,28 @@ function generateSpaceRule(token, config) {
   
   // Determine the CSS value
   let cssValue;
+  const NEGATABLE_PROPERTIES = new Set([
+    'm', 'm-t', 'm-r', 'm-b', 'm-l', 'm-x', 'm-y'
+  ]);
+  
   if (isArbitrary) {
     cssValue = value;
   } else {
-    // Check for negative value
     const isNegative = value && value.startsWith('-');
     const cleanValue = isNegative ? value.substring(1) : (value || '');
     
     let baseValue;
     if (cleanValue.startsWith('tw-')) {
-      const twValue = cleanValue.slice(3); // Remove 'tw-' prefix
+      const twValue = cleanValue.slice(3);
       baseValue = `var(--tw-${twValue.replace(/\./g, '-')})`;
     } else {
       baseValue = `var(--s-${cleanValue})`;
     }
     
-    // Apply negative calculation if needed
-    cssValue = isNegative ? `calc(${baseValue} * -1)` : baseValue;
+    // Only apply negative calc for margin properties (padding, gap, sizing don't support negative values)
+    cssValue = (isNegative && NEGATABLE_PROPERTIES.has(property))
+      ? `calc(${baseValue} * -1)`
+      : baseValue;
   }
   
   // Handle special values

@@ -120,6 +120,23 @@ describe('Compiler Integration', () => {
       assert.ok(result.css.includes(':root'));
     });
 
+    it('throws TypeError for null content', () => {
+      const config = createTestConfig();
+      assert.throws(() => compileSource(null, config), TypeError);
+    });
+
+    it('throws TypeError for undefined content', () => {
+      const config = createTestConfig();
+      assert.throws(() => compileSource(undefined, config), TypeError);
+    });
+
+    it('throws TypeError for non-string content', () => {
+      const config = createTestConfig();
+      assert.throws(() => compileSource(42, config), TypeError);
+      assert.throws(() => compileSource({}, config), TypeError);
+      assert.throws(() => compileSource([], config), TypeError);
+    });
+
     it('handles HTML without SenangStart attributes', () => {
       const html = '<div class="regular">Normal HTML</div>';
       const config = createTestConfig();

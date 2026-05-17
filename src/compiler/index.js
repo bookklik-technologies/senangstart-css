@@ -31,6 +31,10 @@ function logInvalidTokens(tokens) {
  * @returns {Object} - Compilation results
  */
 export function compileSource(content, config) {
+  if (typeof content !== 'string') {
+    throw new TypeError(`compileSource: content must be a string, got ${typeof content}`);
+  }
+  
   const parsed = parseSource(content);
   const tokens = tokenizeAll(parsed);
   const invalidTokens = logInvalidTokens(tokens);

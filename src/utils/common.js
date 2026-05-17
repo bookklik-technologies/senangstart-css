@@ -316,11 +316,92 @@ export function validateThemeSection(section, values) {
       break;
       
     default:
-      // Unknown section - basic validation
-      for (const [key, value] of Object.entries(values)) {
-        if (typeof value !== 'string') {
-          errors.push(`Invalid value type for ${section}.${key}: expected string`);
-        }
+      // Validate remaining theme sections by type
+      switch (section) {
+        case 'blur':
+          for (const [key, value] of Object.entries(values)) {
+            if (!isValidCSSVariableName(key)) {
+              errors.push(`Invalid key in ${section}: "${key}"`);
+            } else if (!isValidCSSLength(value) && value !== '0') {
+              errors.push(`Invalid value in ${section}.${key}: "${value}" (expected CSS length)`);
+            }
+          }
+          break;
+        
+        case 'brightness':
+        case 'contrast':
+        case 'saturate':
+        case 'backdropOpacity':
+          for (const [key, value] of Object.entries(values)) {
+            if (!isValidCSSVariableName(key)) {
+              errors.push(`Invalid key in ${section}: "${key}"`);
+            } else if (typeof value === 'string' && isNaN(parseFloat(value))) {
+              errors.push(`Invalid value in ${section}.${key}: "${value}" (expected number)`);
+            }
+          }
+          break;
+        
+        case 'grayscale':
+        case 'invert':
+        case 'sepia':
+          for (const [key, value] of Object.entries(values)) {
+            if (!isValidCSSVariableName(key)) {
+              errors.push(`Invalid key in ${section}: "${key}"`);
+            } else if (typeof value !== 'string' || !/^\d+%$/.test(value)) {
+              errors.push(`Invalid value in ${section}.${key}: "${value}" (expected percentage like "0%" or "100%")`);
+            }
+          }
+          break;
+        
+        case 'dropShadow':
+          for (const [key, value] of Object.entries(values)) {
+            if (!isValidCSSVariableName(key)) {
+              errors.push(`Invalid key in ${section}: "${key}"`);
+            } else if (value !== 'none' && typeof value === 'string' && !/^\s*\d/.test(value)) {
+              errors.push(`Invalid value in ${section}.${key}: "${value}" (expected CSS shadow value or 'none')`);
+            }
+          }
+          break;
+        
+        case 'transitionProperty':
+        case 'animationDuration':
+        case 'animationDelay':
+        case 'perspective':
+          for (const [key, value] of Object.entries(values)) {
+            if (!isValidCSSVariableName(key)) {
+              errors.push(`Invalid key in ${section}: "${key}"`);
+            } else if (typeof value !== 'string') {
+              errors.push(`Invalid value in ${section}.${key}: expected string, got ${typeof value}`);
+            }
+          }
+          break;
+        
+        case 'container':
+          for (const [key, value] of Object.entries(values)) {
+            if (!isValidCSSVariableName(key)) {
+              errors.push(`Invalid key in ${section}: "${key}"`);
+            } else if (!isValidCSSLength(value)) {
+              errors.push(`Invalid value in ${section}.${key}: "${value}" (expected CSS length)`);
+            }
+          }
+          break;
+        
+        case 'zIndex':
+          for (const [key, value] of Object.entries(values)) {
+            if (!isValidCSSVariableName(key)) {
+              errors.push(`Invalid key in ${section}: "${key}"`);
+            } else if (typeof value === 'string' && isNaN(parseInt(value, 10))) {
+              errors.push(`Invalid value in ${section}.${key}: "${value}" (expected integer)`);
+            }
+          }
+          break;
+        
+        default:
+          for (const [key, value] of Object.entries(values)) {
+            if (typeof value !== 'string') {
+              errors.push(`Invalid value type for ${section}.${key}: expected string`);
+            }
+          }
       }
   }
   

@@ -265,6 +265,65 @@ export function validateTheme(theme) {
     }
   }
 
+  // Validate numeric theme sections (brightness, contrast, saturate, backdropOpacity)
+  const numericSections = ['brightness', 'contrast', 'saturate', 'backdropOpacity'];
+  for (const section of numericSections) {
+    if (theme[section]) {
+      for (const [key, val] of Object.entries(theme[section])) {
+        if (typeof val === 'string' && isNaN(parseFloat(val))) {
+          warnings.push(`theme.${section}["${key}"]: expected numeric value, got "${val}"`);
+        }
+      }
+    }
+  }
+  
+  // Validate percentage theme sections (grayscale, invert, sepia)
+  const percentageSections = ['grayscale', 'invert', 'sepia'];
+  for (const section of percentageSections) {
+    if (theme[section]) {
+      for (const [key, val] of Object.entries(theme[section])) {
+        if (typeof val !== 'string' || !/^\d+%$/.test(val)) {
+          warnings.push(`theme.${section}["${key}"]: expected percentage value, got "${val}"`);
+        }
+      }
+    }
+  }
+  
+  // Validate blur, perspective, container as CSS lengths
+  const lengthSections = ['blur', 'perspective', 'container'];
+  for (const section of lengthSections) {
+    if (theme[section]) {
+      for (const [key, val] of Object.entries(theme[section])) {
+        if (typeof val !== 'string') {
+          warnings.push(`theme.${section}["${key}"]: expected string, got ${typeof val}`);
+        } else if (val !== 'none' && !VALID_UNITS.test(val) && !val.startsWith('var(')) {
+          warnings.push(`theme.${section}["${key}"]: invalid value "${val}" — expected CSS length or "none"`);
+        }
+      }
+    }
+  }
+  
+  // Validate zIndex as integers
+  if (theme.zIndex) {
+    for (const [key, val] of Object.entries(theme.zIndex)) {
+      if (typeof val === 'string' && isNaN(parseInt(val, 10))) {
+        warnings.push(`theme.zIndex["${key}"]: expected integer, got "${val}"`);
+      }
+    }
+  }
+  
+  // Validate string-based theme sections (transitionProperty, animationDuration, animationDelay)
+  const stringSections = ['transitionProperty', 'animationDuration', 'animationDelay', 'dropShadow'];
+  for (const section of stringSections) {
+    if (theme[section]) {
+      for (const [key, val] of Object.entries(theme[section])) {
+        if (typeof val !== 'string') {
+          warnings.push(`theme.${section}["${key}"]: expected string, got ${typeof val}`);
+        }
+      }
+    }
+  }
+
   return warnings;
 }
 

@@ -70,9 +70,49 @@ try {
   function sanitizeAttributeValue(value) {
     if (typeof value !== 'string') return '';
     if (value.length > MAX_ATTR_LENGTH) return '';
-    // Remove event handlers and dangerous patterns
-    if (/[<>"']/.test(value)) return '';
-    return value;
+    
+    var sanitized = value;
+    
+    // Strip escape characters
+    sanitized = sanitized.replace(/[\\`$]/g, '');
+    
+    // Block url() with dangerous protocols
+    var dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
+    sanitized = sanitized.replace(dangerousProtocols, 'url(about:blank');
+    
+    // Block script execution vectors
+    var scriptVectors = [
+      /expression\s*\(/gi,
+      /\beval\s*\(/gi,
+      /\balert\s*\(/gi,
+      /\bdocument\./g,
+      /\bwindow\./g,
+      /on\w+\s*=/gi,
+      /<script[^>]*>/gi,
+      /<\/script>/gi
+    ];
+    for (var i = 0; i < scriptVectors.length; i++) {
+      sanitized = sanitized.replace(scriptVectors[i], '');
+    }
+    
+    // Strip at-rules
+    sanitized = sanitized.replace(/@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi, '');
+    
+    // Strip angle brackets and quotes
+    if (/[<>"']/.test(sanitized)) return '';
+    
+    // Strip semicolons to prevent CSS injection via statement breaking
+    sanitized = sanitized.replace(/;/g, '_');
+    
+    // Validate bracket nesting (reject if deeply nested or unbalanced)
+    var openB = (sanitized.match(/\[/g) || []).length;
+    var closeB = (sanitized.match(/\]/g) || []).length;
+    if (Math.abs(openB - closeB) > 1 || Math.max(openB, closeB) > 10) return '';
+    
+    // Final length check
+    if (sanitized.length > 500) sanitized = sanitized.substring(0, 500);
+    
+    return sanitized;
   }
 
   function scanElement(el, tokens) {

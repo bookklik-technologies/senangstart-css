@@ -13,7 +13,7 @@ import { generateCSS, minifyCSS } from '../../compiler/generators/css.js';
 import { generateAIContext } from '../../compiler/generators/ai-context.js';
 import { generateTypeScript } from '../../compiler/generators/typescript.js';
 import logger from '../../utils/logger.js';
-import { validateThemeValue, getMemoryUsage } from '../../utils/common.js';
+import { getMemoryUsage } from '../../utils/common.js';
 import { readMultipleFilesWithTimeout } from '../../utils/node-io.js';
 
 const SKIP_DIRS = new Set([

@@ -1,9 +1,7 @@
 /**
- * SenangStart CSS - Main Type Definitions Entry Point
+ * SenangStart CSS - Type Definitions
+ * Single source of truth for all public type definitions
  */
-
-// Re-export from SDK types
-export * from './sdk.d.js';
 
 // Tokenizer types
 export interface Token {
@@ -17,18 +15,25 @@ export interface Token {
   error?: string;
 }
 
+// Error info type
+export interface ErrorInfo {
+  token: string;
+  attrType: 'layout' | 'space' | 'visual' | 'interact' | 'listens';
+  error: string;
+}
+
 // Compiler result types
 export interface CompileResult {
   tokens: Token[];
   css: string;
-  errors: Array<{ token: string; attrType: string; error: string }> | null;
+  errors: ErrorInfo[] | null;
   minifiedCSS: string | null;
 }
 
 export interface MultipleCompileResult {
   tokens: Token[];
   css: string;
-  errors: Array<{ token: string; attrType: string; error: string }> | null;
+  errors: ErrorInfo[] | null;
   minifiedCSS: string | null;
 }
 
@@ -45,6 +50,20 @@ export interface SenangStartConfig {
     colors?: Record<string, string>;
     screens?: Record<string, string>;
     zIndex?: Record<string, string>;
+    blur?: Record<string, string>;
+    brightness?: Record<string, string>;
+    contrast?: Record<string, string>;
+    grayscale?: Record<string, string>;
+    invert?: Record<string, string>;
+    saturate?: Record<string, string>;
+    sepia?: Record<string, string>;
+    dropShadow?: Record<string, string>;
+    backdropOpacity?: Record<string, string>;
+    transitionProperty?: Record<string, string>;
+    animationDuration?: Record<string, string>;
+    animationDelay?: Record<string, string>;
+    perspective?: Record<string, string>;
+    container?: Record<string, string>;
   };
   output?: {
     css?: string;
@@ -56,6 +75,8 @@ export interface SenangStartConfig {
   darkMode?: 'media' | 'selector' | [string, string];
 }
 
+export type SenangStartConfigPartial = Partial<SenangStartConfig>;
+
 // API function signatures
 export function tokenize(raw: string, attrType: string): Token;
 export function tokenizeAll(parsed: Record<string, Set<string>>): Token[];
@@ -64,8 +85,8 @@ export function parseMultipleSources(files: Array<{path: string; content: string
 export function generateCSS(tokens: Token[], config: SenangStartConfig): string;
 export function generateCSSVariables(config: SenangStartConfig): string;
 export function generatePreflight(config: SenangStartConfig): string;
-export function compileSource(content: string, config?: Partial<SenangStartConfig>): CompileResult;
-export function compileMultiple(files: Array<{path: string; content: string}>, config?: Partial<SenangStartConfig>): MultipleCompileResult;
-export function mergeConfig(userConfig: Partial<SenangStartConfig>): SenangStartConfig;
+export function compileSource(content: string, config?: SenangStartConfigPartial): CompileResult;
+export function compileMultiple(files: Array<{path: string; content: string}>, config?: SenangStartConfigPartial): MultipleCompileResult;
+export function mergeConfig(userConfig: SenangStartConfigPartial): SenangStartConfig;
 
 export const defaultConfig: SenangStartConfig;
