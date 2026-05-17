@@ -11,6 +11,10 @@
 
 If you discover a security vulnerability in SenangStart CSS, please report it to the maintainers. Do **not** open a public GitHub issue.
 
+**Report security issues via:**  
+- Email: hello@bookklik.com 
+- GitHub Security Advisory: https://github.com/bookklik-technologies/senangstart-css/security/advisories/new
+
 **We take CSS injection and XSS vectors seriously.** All user-provided values are sanitized through `sanitizeValue()` which blocks:
 
 - `javascript:`, `data:`, `file:` URLs in `url()` expressions

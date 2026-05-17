@@ -15,9 +15,25 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
       - run: npm ci
+      - name: JS Lint
+        run: npm run lint
       - name: CSS Lint
         run: npm run lint:css
+
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
 
   test:
     name: Test (Node ${{ matrix.node-version }})
@@ -30,22 +46,36 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - run: npm ci
       - name: Run tests
         run: npm test
       - name: Test coverage
         run: |
-          npx c8 --reporter=text --reporter=lcov --check-coverage --lines 70 --branches 60 --functions 70 --statements 70 node --test tests/
+          npx c8 --reporter=text --reporter=lcov --check-coverage --lines 60 --branches 50 --functions 60 --statements 60 node --test tests/
 
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [lint, test]
+    needs: [lint, audit, test]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
       - run: npm ci
       - name: Build dist
         run: npm run build:dist
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 7

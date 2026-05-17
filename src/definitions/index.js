@@ -93,17 +93,27 @@ export function getDefinitionsByCategory() {
   };
 }
 
+// Memoized merged definition object for getDefinition lookups
+let _mergedDefsCache = null;
+
+function getMergedDefs() {
+  if (!_mergedDefsCache) {
+    _mergedDefsCache = {
+      ...layoutDefinitions,
+      ...spaceDefinitions,
+      ...allVisualDefinitions
+    };
+  }
+  return _mergedDefsCache;
+}
+
 /**
  * Get a specific definition by name
  * @param {string} name - Definition name (e.g., 'display', 'padding')
  * @returns {Object|null} - Definition object or null
  */
 export function getDefinition(name) {
-  const allDefs = {
-    ...layoutDefinitions,
-    ...spaceDefinitions,
-    ...allVisualDefinitions
-  };
+  const allDefs = getMergedDefs();
   
   return allDefs[name] || null;
 }
