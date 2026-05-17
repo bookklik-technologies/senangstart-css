@@ -7,7 +7,7 @@
  */
 
 import * as esbuild from 'esbuild';
-import { mkdirSync, statSync, copyFileSync, readFileSync, writeFileSync } from 'fs';
+import { mkdirSync, statSync, copyFileSync, readFileSync, writeFileSync, readdirSync, unlinkSync, renameSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -19,8 +19,26 @@ async function main() {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf-8'));
   const version = pkg.version;
 
-  // Ensure dist folder exists
+  // Ensure dist folder exists and clean up old files to prevent Windows EPERM issues
   const distDir = join(root, 'dist');
+  try {
+    const files = readdirSync(distDir);
+    for (const file of files) {
+      if (file.endsWith('.old')) {
+        try { unlinkSync(join(distDir, file)); } catch(e) {}
+      } else {
+        try {
+          unlinkSync(join(distDir, file));
+        } catch(e) {
+          try {
+            renameSync(join(distDir, file), join(distDir, file + '.' + Date.now() + '.old'));
+          } catch(e2) {}
+        }
+      }
+    }
+  } catch (e) {
+    // Ignore ENOENT if dist doesn't exist yet
+  }
   mkdirSync(distDir, { recursive: true });
 
   console.log(`📦 Building SenangStart CSS v${version}...\n`);
