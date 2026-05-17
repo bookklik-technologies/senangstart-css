@@ -4,13 +4,14 @@ Tetapkan warna garis luar
 
 ## Sintaks
 ```
-visual="outline:[color]"
+visual="outline:[color]/[opacity]"
 ```
 
 ## Contoh
 
 ```html
 <button visual="focus:outline:primary">Focus outline</button>
+<button visual="outline:primary/50">50% opacity</button>
 ```
 
 ## Pratonton

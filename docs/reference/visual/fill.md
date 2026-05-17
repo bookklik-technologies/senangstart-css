@@ -4,7 +4,7 @@ Set SVG fill color
 
 ## Syntax
 ```
-visual="fill:[color]"
+visual="fill:[color]/[opacity]"
 ```
 
 ## Values
@@ -18,6 +18,7 @@ visual="fill:[color]"
 
 ```html
 <svg visual="fill:primary">...</svg>
+<svg visual="fill:primary/50">...</svg>
 ```
 
 ## Preview

@@ -11,11 +11,11 @@ visual="scroll-m:[value]"
 
 | Value | CSS Output | Description |
 |-------|------------|-------------|
-| `scroll-m` | `scroll-margin: var(--s-medium)` | All sides |
-| `scroll-m-t` | `scroll-margin-top: var(--s-medium)` | Top margin |
-| `scroll-m-r` | `scroll-margin-right: var(--s-medium)` | Right margin |
-| `scroll-m-b` | `scroll-margin-bottom: var(--s-medium)` | Bottom margin |
-| `scroll-m-l` | `scroll-margin-left: var(--s-medium)` | Left margin |
+| `scroll-m` | `scroll-margin: var(--s-{value})` | All sides |
+| `scroll-m-t` | `scroll-margin-top: var(--s-{value})` | Top margin |
+| `scroll-m-r` | `scroll-margin-right: var(--s-{value})` | Right margin |
+| `scroll-m-b` | `scroll-margin-bottom: var(--s-{value})` | Bottom margin |
+| `scroll-m-l` | `scroll-margin-left: var(--s-{value})` | Left margin |
 
 ## Examples
 

@@ -4,13 +4,14 @@ Set outline color
 
 ## Syntax
 ```
-visual="outline:[color]"
+visual="outline:[color]/[opacity]"
 ```
 
 ## Examples
 
 ```html
 <button visual="focus:outline:primary">Focus outline</button>
+<button visual="outline:primary/50">50% opacity</button>
 ```
 
 ## Preview

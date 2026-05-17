@@ -47,6 +47,11 @@ export const LAYOUT_MAP = {
   'inline-flex': 'display: inline-flex;',
   'inline-grid': 'display: inline-grid;',
   'inline-block': 'display: inline-block;',
+  'table': 'display: table;',
+  'table-row': 'display: table-row;',
+  'table-cell': 'display: table-cell;',
+  'list-item': 'display: list-item;',
+  'contents': 'display: contents;',
   'block': 'display: block;',
   'inline': 'display: inline;',
   'hidden': 'display: none;',
@@ -114,8 +119,8 @@ export const LAYOUT_MAP = {
   'clear-none': 'clear: none;',
   
   // Table Border Collapse
-  'border-collapse': 'border-collapse: collapse;',
-  'border-separate': 'border-collapse: separate;',
+  'collapse': 'border-collapse: collapse;',
+  'separate': 'border-collapse: separate;',
   
   // Table Layout
   'table-auto': 'table-layout: auto;',

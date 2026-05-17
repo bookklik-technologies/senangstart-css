@@ -53,24 +53,6 @@ const percentageAdjectives = {
 };
 
 /**
- * Resolve a color value to CSS
- * @param {string} value - The color value
- * @param {boolean} isArbitrary - Whether the value is arbitrary (wrapped in [])
- * @returns {string} - The resolved CSS color value
- */
-function resolveColorValue(value, isArbitrary) {
-  if (isArbitrary) {
-    return value;
-  }
-  // Check if it's a CSS keyword that should pass through directly
-  if (CSS_COLOR_KEYWORDS.includes(value)) {
-    return value;
-  }
-  // Otherwise wrap in CSS variable
-  return `var(--c-${value})`;
-}
-
-/**
  * Generate CSS custom properties from config
  * @param {Object} config - Configuration object
  * @returns {string} - CSS custom properties block

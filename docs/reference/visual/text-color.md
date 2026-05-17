@@ -4,7 +4,7 @@ Set text color
 
 ## Syntax
 ```
-visual="text:[color]"
+visual="text:[color]/[opacity]"
 ```
 
 ## Examples
@@ -13,6 +13,7 @@ visual="text:[color]"
 <div visual="text:white">White text</div>
 <div visual="text:blue-500">Blue text</div>
 <div visual="text:[#FF5733]">Custom color</div>
+<div visual="text:primary/75">75% opacity text</div>
 ```
 
 ## Preview

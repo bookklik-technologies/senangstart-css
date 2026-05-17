@@ -17,6 +17,9 @@ try {
 (function() {
   'use strict';
 
+  var MAX_ATTR_LENGTH = 1000;
+  var MAX_TOKEN_LENGTH = 200;
+
   // ============================================
   // CONFIG LOADER
   // ============================================
@@ -24,61 +27,97 @@ try {
   function validateConfig(config) {
     if (!config || typeof config !== 'object' || Array.isArray(config)) return false;
     if (config.theme && (typeof config.theme !== 'object' || Array.isArray(config.theme))) return false;
+    if (config.content && !Array.isArray(config.content)) return false;
+    if (config.output && typeof config.output !== 'object') return false;
     return true;
   }
 
   function loadInlineConfig() {
-    const configEl = document.querySelector('script[type="senangstart/config"]');
+    var configEl = document.querySelector('script[type="senangstart/config"]');
     if (!configEl) return {};
 
+    var text = (configEl.textContent || '').trim();
+    if (!text) return {};
+
+    // Validate content length to prevent DoS
+    if (text.length > 50000) {
+      console.error('[SenangStart] Config content exceeds maximum length');
+      return {};
+    }
+
     try {
-      const parsed = JSON.parse(configEl.textContent);
+      var parsed = JSON.parse(text);
       if (!validateConfig(parsed)) {
         console.error('[SenangStart] Invalid config structure');
         return {};
       }
       return parsed;
     } catch (e) {
-      console.error('[SenangStart] Invalid config JSON:', e);
+      console.error('[SenangStart] Invalid config JSON:', e.message);
       return {};
     }
   }
 
   function getFinalConfig() {
-    const user = loadInlineConfig();
+    var user = loadInlineConfig();
     return mergeConfig(user);
   }
 
   // ============================================
-  // DOM SCANNER
+  // DOM SCANNER (with sanitization)
   // ============================================
-  function scanElement(el, tokens) {
-    ['layout', 'space', 'visual'].forEach(attr => {
-      const value = el.getAttribute(attr);
-      if (value) {
-        value.split(/\s+/).forEach(token => {
-          if (token) tokens[attr].add(token);
-        });
-      }
-    });
 
-    ['interact', 'listens'].forEach(attr => {
-      const value = el.getAttribute(attr);
+  function sanitizeAttributeValue(value) {
+    if (typeof value !== 'string') return '';
+    if (value.length > MAX_ATTR_LENGTH) return '';
+    // Remove event handlers and dangerous patterns
+    if (/[<>"']/.test(value)) return '';
+    return value;
+  }
+
+  function scanElement(el, tokens) {
+    var attrs = ['layout', 'space', 'visual'];
+    for (var i = 0; i < attrs.length; i++) {
+      var value = el.getAttribute(attrs[i]);
       if (value) {
-        value.split(/\s+/).forEach(id => {
-          if (id) tokens[attr].add(id);
-        });
+        value = sanitizeAttributeValue(value);
+        if (!value) continue;
+        var parts = value.split(/\s+/);
+        for (var j = 0; j < parts.length; j++) {
+          var token = parts[j];
+          if (token && token.length <= MAX_TOKEN_LENGTH) {
+            tokens[attrs[i]].add(token);
+          }
+        }
       }
-    });
+    }
+
+    var stateAttrs = ['interact', 'listens'];
+    for (var i = 0; i < stateAttrs.length; i++) {
+      var value = el.getAttribute(stateAttrs[i]);
+      if (value) {
+        value = sanitizeAttributeValue(value);
+        if (!value) continue;
+        var parts = value.split(/\s+/);
+        for (var j = 0; j < parts.length; j++) {
+          var id = parts[j];
+          if (id && id.length <= MAX_TOKEN_LENGTH) {
+            tokens[stateAttrs[i]].add(id);
+          }
+        }
+      }
+    }
   }
 
   function scanRoot(root, tokens) {
-    const elements = root.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
-    elements.forEach(el => scanElement(el, tokens));
+    var elements = root.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
+    for (var i = 0; i < elements.length; i++) {
+      scanElement(elements[i], tokens);
+    }
   }
 
   function scanDOM() {
-    const tokens = {
+    var tokens = {
       layout: new Set(),
       space: new Set(),
       visual: new Set(),
@@ -86,28 +125,38 @@ try {
       listens: new Set()
     };
 
+    if (!document.body) return tokens;
+
     scanRoot(document, tokens);
 
-    document.querySelectorAll('*').forEach(el => {
-      if (el.shadowRoot) {
-        scanRoot(el.shadowRoot, tokens);
+    var allEls = document.querySelectorAll('*');
+    for (var i = 0; i < allEls.length; i++) {
+      if (allEls[i].shadowRoot) {
+        scanRoot(allEls[i].shadowRoot, tokens);
       }
-    });
+    }
 
     return tokens;
   }
 
   // ============================================
-  // TOKEN CACHE
+  // TOKEN CACHE (optimized comparison)
   // ============================================
-  
+
   function tokensEqual(a, b) {
-    const keys = ['layout', 'space', 'visual', 'interact', 'listens'];
-    for (const key of keys) {
-      const setA = a[key] || new Set();
-      const setB = b[key] || new Set();
+    var keys = ['layout', 'space', 'visual', 'interact', 'listens'];
+    for (var i = 0; i < keys.length; i++) {
+      var setA = a[keys[i]];
+      var setB = b[keys[i]];
       if (setA.size !== setB.size) return false;
-      for (const item of setA) {
+      // Only compare contents if sizes differ (size check already passed above)
+      // For equal-size sets, we need to check items only if they might differ
+    }
+    // If all sizes match, do a full comparison (needed for correctness)
+    for (var i = 0; i < keys.length; i++) {
+      var setA = a[keys[i]];
+      var setB = b[keys[i]];
+      for (var item of setA) {
         if (!setB.has(item)) return false;
       }
     }
@@ -117,47 +166,69 @@ try {
   // ============================================
   // CSS COMPILER
   // ============================================
-  
+
   function compileCSS(domTokens, config) {
-    const tokens = tokenizeAll(domTokens);
+    var tokens = tokenizeAll(domTokens);
     return generateCSS(tokens, config);
   }
 
   // ============================================
-  // STYLE INJECTION
+  // STYLE INJECTION (with basic CSS validation)
   // ============================================
-  
+
+  function sanitizeCSSOutput(css) {
+    // Remove any <script> tags that might have been injected
+    // and dangerous at-rules that could exfiltrate data
+    return css
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/@import\s+url\(\s*['"]?(?:javascript|data|vbscript)\s*:/gi, '');
+  }
+
   function injectStyles(css) {
-    let styleEl = document.getElementById('senangstart-jit');
+    var sanitized = sanitizeCSSOutput(css);
+
+    var head = document.head || document.getElementsByTagName('head')[0];
+    if (!head) return;
+
+    var styleEl = document.getElementById('senangstart-jit');
     if (!styleEl) {
       styleEl = document.createElement('style');
       styleEl.id = 'senangstart-jit';
-      document.head.appendChild(styleEl);
+      head.appendChild(styleEl);
     }
-    styleEl.textContent = css;
+    styleEl.textContent = sanitized;
   }
 
   // ============================================
   // INITIALIZATION
   // ============================================
-  
+
   function init() {
-    const config = getFinalConfig();
-    
-    let cachedTokens = scanDOM();
-    let css = compileCSS(cachedTokens, config);
+    var config = getFinalConfig();
+
+    // Guard: ensure document.body is available
+    if (!document.body) {
+      console.warn('[SenangStart] document.body not ready; deferring initialization');
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { init(); });
+        return;
+      }
+    }
+
+    var cachedTokens = scanDOM();
+    var css = compileCSS(cachedTokens, config);
     injectStyles(css);
 
     var debounceTimer = null;
     var DEBOUNCE_MS = 200;
 
     function recompile() {
-      unboundedObserver.disconnect();
+      observer.disconnect();
 
       var newTokens = scanDOM();
 
       if (tokensEqual(cachedTokens, newTokens)) {
-        unboundedObserver.observe(document.body, {
+        observer.observe(document.body, {
           childList: true,
           subtree: true,
           attributes: true,
@@ -170,7 +241,7 @@ try {
       css = compileCSS(newTokens, config);
       injectStyles(css);
 
-      unboundedObserver.observe(document.body, {
+      observer.observe(document.body, {
         childList: true,
         subtree: true,
         attributes: true,
@@ -178,27 +249,24 @@ try {
       });
     }
 
-    // Use a throttled observer that debounces rapid mutations
-    var unboundedObserver = new MutationObserver(function() {
+    var observer = new MutationObserver(function() {
       if (debounceTimer) clearTimeout(debounceTimer);
       debounceTimer = setTimeout(recompile, DEBOUNCE_MS);
     });
 
-    unboundedObserver.observe(document.body, {
+    observer.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
       attributeFilter: ['layout', 'space', 'visual', 'interact', 'listens']
     });
 
-    console.log('%c[SenangStart CSS]%c Just-in-Time runtime initialized ✓', 
-      'color: #2563EB; font-weight: bold;', 
+    console.log('%c[SenangStart CSS]%c Just-in-Time runtime initialized \u2713',
+      'color: #2563EB; font-weight: bold;',
       'color: #10B981;'
     );
   }
 
-  // Run on DOMContentLoaded or immediately if already loaded
-  // Handles 'loading', 'interactive', and 'complete' states
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -208,11 +276,10 @@ try {
 })();
 } catch (e) {
   console.error('[SenangStart] Failed to initialize JIT runtime:', e.message);
-  // Write a visible warning for debugging but don't crash the page
-  if (typeof document !== 'undefined') {
+  if (typeof document !== 'undefined' && document.body) {
     var el = document.createElement('div');
     el.style.cssText = 'background:#fef2f2;color:#991b1b;padding:8px 16px;font-family:monospace;font-size:14px;';
     el.textContent = 'SenangStart CSS failed to load. See console for details.';
-    document.body && document.body.prepend(el);
+    document.body.prepend(el);
   }
 }

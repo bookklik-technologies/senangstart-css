@@ -586,11 +586,80 @@ export const fontVariantNumeric = {
   ]
 };
 
+// ======================
+// TEXT DECORATION COLOR
+// ======================
+
+export const textDecorationColor = {
+  name: 'text-decoration-color',
+  property: 'visual',
+  syntax: 'visual="decoration:[color]/[opacity]"',
+  description: 'Set text decoration color',
+  descriptionMs: 'Tetapkan warna hiasan teks',
+  category: 'visual',
+  usesScale: 'colors',
+  supportsArbitrary: true,
+  values: [],
+  examples: [
+    { code: '<span visual="underline decoration:primary">Colored underline</span>', description: 'Decoration color' },
+    { code: '<span visual="underline decoration:[#FF5733]">Custom color</span>', description: 'Arbitrary color' },
+    { code: '<span visual="underline decoration:primary/50">50% opacity underline</span>', description: 'With opacity modifier' }
+  ],
+  preview: [
+    {
+      title: 'Decoration Color',
+      titleMs: 'Warna Hiasan',
+      description: 'Set text underline/overline color',
+      descriptionMs: 'Tetapkan warna garis bawah/atas teks',
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="underline decoration:primary text-size:big">primary underline</span>
+  <span visual="line-through decoration:danger text-size:big">danger strikethrough</span>
+  <span visual="underline decoration:success text-size:big">success underline</span>
+</div>`,
+      highlightValue: 'decoration:primary'
+    }
+  ]
+};
+
+export const textDecorationThickness = {
+  name: 'text-decoration-thickness',
+  property: 'visual',
+  syntax: 'visual="decoration-thickness:[value]"',
+  description: 'Set text decoration thickness',
+  descriptionMs: 'Tetapkan ketebalan hiasan teks',
+  category: 'visual',
+  supportsArbitrary: true,
+  values: [
+    { value: 'auto', css: 'text-decoration-thickness: auto;', description: 'Auto thickness', descriptionMs: 'Ketebalan automatik' },
+    { value: 'from-font', css: 'text-decoration-thickness: from-font;', description: 'Use font-specified thickness', descriptionMs: 'Gunakan ketebalan yang ditetapkan fon' }
+  ],
+  examples: [
+    { code: '<span visual="underline decoration-thickness:[3px]">3px underline</span>', description: 'Custom thickness' },
+    { code: '<span visual="underline decoration-thickness:from-font">Font thickness</span>', description: 'From font' }
+  ],
+  preview: [
+    {
+      title: 'Decoration Thickness',
+      titleMs: 'Ketebalan Hiasan',
+      description: 'Control underline/overline thickness',
+      descriptionMs: 'Kawal ketebalan garis bawah/atas',
+      html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="underline decoration-thickness:auto text-size:big">auto</span>
+  <span visual="underline decoration-thickness:[3px] text-size:big">3px</span>
+  <span visual="underline decoration-thickness:[5px] text-size:big">5px</span>
+</div>`,
+      highlightValue: 'decoration-thickness:[3px]'
+    }
+  ]
+};
+
 // Export all typography definitions
 export const typographyDefinitions = {
   textAlignment,
   textTransform,
   textDecoration,
+  textDecorationColor,
+  textDecorationThickness,
   textOverflow,
   textWrap,
   whitespace,

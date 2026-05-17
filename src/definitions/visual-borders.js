@@ -10,7 +10,7 @@
 export const borderColor = {
   name: 'border',
   property: 'visual',
-  syntax: 'visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"',
+  syntax: 'visual="border:[color]/[opacity]" | visual="border-{t|b|l|r|x|y}:[color]/[opacity]"',
   description: 'Set border color for all sides or specific sides',
   descriptionMs: 'Tetapkan warna sempadan untuk semua sisi atau sisi tertentu',
   category: 'visual',
@@ -26,7 +26,8 @@ export const borderColor = {
     { code: '<div visual="border-t:primary border-t-w:regular">Top only</div>', description: 'Top border only' },
     { code: '<div visual="border-b:gray-300 border-b-w:thin">Bottom only</div>', description: 'Bottom border only' },
     { code: '<div visual="border-x:primary border-x-w:regular">Left & right</div>', description: 'Horizontal borders' },
-    { code: '<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>', description: 'Vertical borders' }
+    { code: '<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>', description: 'Vertical borders' },
+    { code: '<div visual="border:primary/50 border-w:thin">50% opacity</div>', description: 'With opacity modifier' }
   ],
   preview: [
     {
@@ -176,7 +177,7 @@ export const outlineWidth = {
 export const outlineColor = {
   name: 'outline',
   property: 'visual',
-  syntax: 'visual="outline:[color]"',
+  syntax: 'visual="outline:[color]/[opacity]"',
   description: 'Set outline color',
   descriptionMs: 'Tetapkan warna garis luar',
   category: 'visual',
@@ -184,7 +185,8 @@ export const outlineColor = {
   supportsArbitrary: true,
   values: [],
   examples: [
-    { code: '<button visual="focus:outline:primary">Focus outline</button>', description: 'Focus outline' }
+    { code: '<button visual="focus:outline:primary">Focus outline</button>', description: 'Focus outline' },
+    { code: '<button visual="outline:primary/50">50% opacity</button>', description: 'With opacity modifier' }
   ],
   preview: [
     {
@@ -318,7 +320,7 @@ export const ring = {
 export const ringColor = {
   name: 'ring-color',
   property: 'visual',
-  syntax: 'visual="ring-color:[color]"',
+  syntax: 'visual="ring-color:[color]/[opacity]"',
   description: 'Set ring color',
   descriptionMs: 'Tetapkan warna cincin',
   category: 'visual',
@@ -329,7 +331,22 @@ export const ringColor = {
     { value: 'blue-500', css: '--ss-ring-color: var(--c-blue-500);', description: 'Blue ring color', descriptionMs: 'Warna cincin biru' }
   ],
   examples: [
-    { code: '<button visual="ring:small ring-color:primary">Colored ring</button>', description: 'Ring with custom color' }
+    { code: '<button visual="ring:small ring-color:primary">Colored ring</button>', description: 'Ring with custom color' },
+    { code: '<button visual="ring:small ring-color:primary/50">50% opacity ring</button>', description: 'Ring with opacity modifier' }
+  ],
+  preview: [
+    {
+      title: 'Ring Color',
+      titleMs: 'Warna Cincin',
+      description: 'Set the color of the focus ring',
+      descriptionMs: 'Tetapkan warna cincin fokus',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <button space="p:small p-x:medium" visual="ring:regular ring-color:primary bg:white dark:bg:neutral-800 rounded:small">primary</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-color:danger bg:white dark:bg:neutral-800 rounded:small">danger</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-color:success bg:white dark:bg:neutral-800 rounded:small">success</button>
+</div>`,
+      highlightValue: 'ring-color:primary'
+    }
   ]
 };
 
@@ -348,6 +365,20 @@ export const ringOffset = {
   ],
   examples: [
     { code: '<button visual="ring:small ring-offset:2 ring-color:primary">With offset</button>', description: 'Ring with offset' }
+  ],
+  preview: [
+    {
+      title: 'Ring Offset',
+      titleMs: 'Offset Cincin',
+      description: 'Add space between ring and element',
+      descriptionMs: 'Tambah ruang antara cincin dan elemen',
+      html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <button space="p:small p-x:medium" visual="ring:regular ring-offset:0 ring-color:primary bg:white dark:bg:neutral-800 rounded:small">0</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-offset:2 ring-color:primary bg:white dark:bg:neutral-800 rounded:small">2px</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-offset:4 ring-color:primary bg:white dark:bg:neutral-800 rounded:small">4px</button>
+</div>`,
+      highlightValue: 'ring-offset:2'
+    }
   ]
 };
 

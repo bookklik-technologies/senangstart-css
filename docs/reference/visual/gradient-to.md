@@ -4,7 +4,7 @@ Set gradient end color
 
 ## Syntax
 ```
-visual="to:[color]"
+visual="to:[color]/[opacity]"
 ```
 
 ## Values

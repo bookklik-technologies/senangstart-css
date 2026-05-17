@@ -18,6 +18,11 @@ layout="[display-value]"
 | `block` | `display: block` | Elemen blok |
 | `inline` | `display: inline` | Elemen sebaris |
 | `inline-block` | `display: inline-block` | Elemen blok sebaris |
+| `table` | `display: table` | Elemen jadual |
+| `table-row` | `display: table-row` | Elemen baris jadual |
+| `table-cell` | `display: table-cell` | Elemen sel jadual |
+| `list-item` | `display: list-item` | Elemen item senarai |
+| `contents` | `display: contents` | Paparkan kandungan sahaja (tiada kotak) |
 | `hidden` | `display: none` | Elemen tersembunyi |
 
 ## Contoh
@@ -25,6 +30,7 @@ layout="[display-value]"
 ```html
 <div layout="flex">Flexbox container</div>
 <div layout="grid">Grid container</div>
+<div layout="table">Table container</div>
 <div layout="hidden">Hidden element</div>
 ```
 

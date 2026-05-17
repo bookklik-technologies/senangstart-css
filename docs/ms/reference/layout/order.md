@@ -79,3 +79,11 @@ layout="order:[value]"
 </details>
 
 </div>
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div layout="order:[custom-value]">Custom</div>
+```

@@ -79,3 +79,11 @@ layout="order:[value]"
 </details>
 
 </div>
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div layout="order:[custom-value]">Custom</div>
+```

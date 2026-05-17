@@ -54,3 +54,11 @@ visual="opacity:[value]"
 </details>
 
 </div>
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div visual="opacity:[custom-value]">Custom</div>
+```

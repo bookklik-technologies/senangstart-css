@@ -32,6 +32,7 @@ program
   .option('--minify', 'Minify CSS output')
   .option('--no-preflight', 'Exclude Preflight base styles')
   .option('--config <path>', 'Path to config file', 'senangstart.config.js')
+  .option('-o, --output <path>', 'Output CSS file path')
   .action(build);
 
 program

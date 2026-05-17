@@ -87,3 +87,11 @@ layout="grid-cols:[value]"
 </details>
 
 </div>
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div layout="grid:[custom-value]">Custom</div>
+```

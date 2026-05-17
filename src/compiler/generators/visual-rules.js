@@ -7,10 +7,43 @@
 import { sanitizeValue } from '../../utils/common.js';
 import { CSS_COLOR_KEYWORDS } from '../../core/constants.js';
 
+function parseOpacityModifier(value) {
+  const slashIndex = value.lastIndexOf('/');
+  if (slashIndex < 1) return null;
+  const color = value.slice(0, slashIndex);
+  const raw = value.slice(slashIndex + 1);
+  if (/^\d{1,3}$/.test(raw)) {
+    const n = parseInt(raw, 10);
+    if (n >= 0 && n <= 100) return { color, opacity: n / 100 };
+  }
+  if (/^\d*\.?\d+$/.test(raw)) {
+    const n = parseFloat(raw);
+    if (n >= 0 && n <= 1) return { color, opacity: n };
+  }
+  return null;
+}
+
 function resolveColorValue(value, isArbitrary) {
-  if (isArbitrary) return value;
-  if (CSS_COLOR_KEYWORDS.includes(value)) return value;
-  return `var(--c-${value})`;
+  const parsed = parseOpacityModifier(value);
+  const colorValue = parsed ? parsed.color : value;
+  const opacity = parsed ? parsed.opacity : null;
+  let resolved;
+  if (isArbitrary) {
+    resolved = colorValue;
+  } else if (CSS_COLOR_KEYWORDS.includes(colorValue)) {
+    resolved = colorValue;
+  } else {
+    const arbitraryMatch = colorValue.match(/^\[(.+)\]$/);
+    if (arbitraryMatch) {
+      resolved = arbitraryMatch[1];
+    } else {
+      resolved = `var(--c-${colorValue})`;
+    }
+  }
+  if (opacity !== null) {
+    return `color-mix(in srgb, ${resolved} ${Math.round(opacity * 100)}%, transparent)`;
+  }
+  return resolved;
 }
 
 function sanitizeArbitraryValue(value) {
@@ -61,7 +94,11 @@ const rules = {
   leading: (v, a) => `line-height: ${a ? v : ({ none:'1', tight:'1.25', snug:'1.375', normal:'1.5', relaxed:'1.625', loose:'2' })[v] || v};`,
   'line-clamp': (v) => `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: ${v};`,
   decoration: (v, a) => `text-decoration-color: ${resolveColorValue(v, a)};`,
-  'decoration-thickness': (v, a) => `text-decoration-thickness: ${a ? v : `${v}px`};`,
+  'decoration-thickness': (v, a) => {
+    if (a) return `text-decoration-thickness: ${v};`;
+    if (['auto', 'from-font'].includes(v)) return `text-decoration-thickness: ${v};`;
+    return `text-decoration-thickness: ${v}px;`;
+  },
   'underline-offset': (v, a) => `text-underline-offset: ${a ? v : `${v}px`};`,
   indent: (v, a) => `text-indent: ${a ? v : `var(--s-${v})`};`,
 
@@ -254,9 +291,9 @@ const rules = {
     return `perspective-origin: ${a ? v.replace(/_/g, ' ') : (map[v] || v)};`;
   },
 
-  accent: (v, a) => `accent-color: ${a ? v : `var(--c-${v})`};`,
+  accent: (v, a) => `accent-color: ${resolveColorValue(v, a)};`,
   appearance: (v) => `appearance: ${v};`,
-  caret: (v, a) => `caret-color: ${a ? v : `var(--c-${v})`};`,
+  caret: (v, a) => `caret-color: ${resolveColorValue(v, a)};`,
   'color-scheme': (v) => `color-scheme: ${v};`,
   cursor: (v) => `cursor: ${v};`,
   'field-sizing': (v) => `field-sizing: ${v};`,
@@ -291,12 +328,12 @@ const rules = {
   fill: (v, a) => {
     if (v === 'none') return 'fill: none;';
     if (v === 'current') return 'fill: currentColor;';
-    return `fill: ${a ? v : `var(--c-${v})`};`;
+    return `fill: ${resolveColorValue(v, a)};`;
   },
   stroke: (v, a) => {
     if (v === 'none') return 'stroke: none;';
     if (v === 'current') return 'stroke: currentColor;';
-    return `stroke: ${a ? v : `var(--c-${v})`};`;
+    return `stroke: ${resolveColorValue(v, a)};`;
   },
   'stroke-w': (v, a) => `stroke-width: ${a ? v : `${v}px`};`,
 

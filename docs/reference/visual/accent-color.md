@@ -4,13 +4,14 @@ Set accent color for form controls
 
 ## Syntax
 ```
-visual="accent:[color]"
+visual="accent:[color]/[opacity]"
 ```
 
 ## Examples
 
 ```html
-<input type="checkbox" visual="accent:primary">
+<input type="checkbox" visual="accent:primary">Primary accent</input>
+<input type="checkbox" visual="accent:primary/50">50% opacity</input>
 ```
 
 ## Preview

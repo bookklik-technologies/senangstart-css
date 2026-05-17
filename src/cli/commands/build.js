@@ -3,7 +3,8 @@
  * One-time compilation of CSS from source files
  */
 
-import { writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { readdir, stat } from 'fs/promises';
 import { join, dirname, resolve } from 'path';
 import { defaultConfig, mergeConfig } from '../../config/defaults.js';
 import { parseSource } from '../../compiler/parser.js';
@@ -14,6 +15,11 @@ import { generateTypeScript } from '../../compiler/generators/typescript.js';
 import logger from '../../utils/logger.js';
 import { validateThemeValue, getMemoryUsage } from '../../utils/common.js';
 import { readMultipleFilesWithTimeout } from '../../utils/node-io.js';
+
+const SKIP_DIRS = new Set([
+  'node_modules', 'dist', '.git', '.cache', '.next', '.nuxt', '.output',
+  'coverage', '.nyc_output', '.turbo', '.vercel', 'build', '.build'
+]);
 
 /**
  * Parse glob patterns to extract scan directories and file extensions
@@ -72,23 +78,23 @@ function parseContentPatterns(patterns) {
 /**
  * Find files matching content patterns
  */
-function findFiles(patterns) {
+async function findFiles(patterns) {
   const { dirExtensions, walkAll } = parseContentPatterns(patterns);
   const allFiles = [];
   const seen = new Set();
 
-  function walk(dir, allowedExts) {
+  async function walk(dir, allowedExts) {
     try {
-      const entries = readdirSync(dir);
+      const entries = await readdir(dir);
       for (const entry of entries) {
         const fullPath = join(dir, entry);
         try {
-          const stat = statSync(fullPath);
-          if (stat.isDirectory()) {
-            if (!entry.startsWith('.') && entry !== 'node_modules' && entry !== 'dist') {
-              walk(fullPath, allowedExts);
+          const statResult = await stat(fullPath);
+          if (statResult.isDirectory()) {
+            if (!entry.startsWith('.') && !SKIP_DIRS.has(entry)) {
+              await walk(fullPath, allowedExts);
             }
-          } else if (stat.isFile()) {
+          } else if (statResult.isFile()) {
             const ext = entry.split('.').pop().toLowerCase();
             if (allowedExts.has(ext) && !seen.has(fullPath)) {
               seen.add(fullPath);
@@ -104,21 +110,20 @@ function findFiles(patterns) {
     }
   }
 
-  // Walk configured subdirectories with their specific extensions
   for (const [subDir, extensions] of Object.entries(dirExtensions)) {
     const dirPath = join(process.cwd(), subDir);
     try {
-      if (statSync(dirPath).isDirectory()) {
-        walk(dirPath, extensions);
+      const statResult = await stat(dirPath);
+      if (statResult.isDirectory()) {
+        await walk(dirPath, extensions);
       }
     } catch (e) {
       // directory doesn't exist, skip
     }
   }
 
-  // Walk from CWD for root-level patterns
   if (walkAll.size > 0) {
-    walk(process.cwd(), walkAll);
+    await walk(process.cwd(), walkAll);
   }
 
   return allFiles;
@@ -174,6 +179,11 @@ export async function build(options = {}) {
   // Load config
   const config = await loadConfig(options.config || 'senangstart.config.js');
   
+  // Override output path if specified
+  if (options.output) {
+    config.output.css = options.output;
+  }
+  
   // Override minify if specified
   if (options.minify) {
     config.output.minify = true;
@@ -197,7 +207,9 @@ export async function build(options = {}) {
   const allTokens = {
     layout: new Set(),
     space: new Set(),
-    visual: new Set()
+    visual: new Set(),
+    interact: new Set(),
+    listens: new Set()
   };
 
   let failedFiles = 0;
@@ -216,6 +228,8 @@ export async function build(options = {}) {
       parsed.layout.forEach(t => allTokens.layout.add(t));
       parsed.space.forEach(t => allTokens.space.add(t));
       parsed.visual.forEach(t => allTokens.visual.add(t));
+      if (parsed.interact) parsed.interact.forEach(t => allTokens.interact.add(t));
+      if (parsed.listens) parsed.listens.forEach(t => allTokens.listens.add(t));
     } catch (e) {
       logger.warn(`Could not parse ${filePath}: ${e.message}`);
       failedFiles++;
@@ -232,7 +246,7 @@ export async function build(options = {}) {
   }
 
   // Calculate total token count
-  const totalTokens = allTokens.layout.size + allTokens.space.size + allTokens.visual.size;
+  const totalTokens = allTokens.layout.size + allTokens.space.size + allTokens.visual.size + allTokens.interact.size + allTokens.listens.size;
   logger.info(`Found ${totalTokens} unique token values`);
 
   // Check memory usage and decide whether to use batch processing

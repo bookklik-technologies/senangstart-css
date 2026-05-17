@@ -10,7 +10,7 @@
 export const svgFill = {
   name: 'fill',
   property: 'visual',
-  syntax: 'visual="fill:[color]"',
+  syntax: 'visual="fill:[color]/[opacity]"',
   description: 'Set SVG fill color',
   descriptionMs: 'Tetapkan warna pengisian SVG',
   category: 'visual',
@@ -21,7 +21,8 @@ export const svgFill = {
     { value: 'current', css: 'fill: currentColor;', description: 'Current color', descriptionMs: 'Warna semasa' }
   ],
   examples: [
-    { code: '<svg visual="fill:primary">...</svg>', description: 'Primary fill' }
+    { code: '<svg visual="fill:primary">...</svg>', description: 'Primary fill' },
+    { code: '<svg visual="fill:primary/50">...</svg>', description: '50% opacity fill' }
   ],
   preview: [
     {
@@ -46,7 +47,7 @@ export const svgFill = {
 export const svgStroke = {
   name: 'stroke',
   property: 'visual',
-  syntax: 'visual="stroke:[color]"',
+  syntax: 'visual="stroke:[color]/[opacity]"',
   description: 'Set SVG stroke color',
   descriptionMs: 'Tetapkan warna gurisan SVG',
   category: 'visual',
@@ -57,7 +58,8 @@ export const svgStroke = {
     { value: 'current', css: 'stroke: currentColor;', description: 'Current color', descriptionMs: 'Warna semasa' }
   ],
   examples: [
-    { code: '<svg visual="stroke:primary stroke-w:2">...</svg>', description: 'Primary stroke' }
+    { code: '<svg visual="stroke:primary stroke-w:2">...</svg>', description: 'Primary stroke' },
+    { code: '<svg visual="stroke:primary/50 stroke-w:2">...</svg>', description: '50% opacity stroke' }
   ],
   preview: [
     {

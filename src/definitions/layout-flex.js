@@ -22,11 +22,17 @@ export const display = {
     { value: 'block', css: 'display: block;', description: 'Block element', descriptionMs: 'Elemen blok' },
     { value: 'inline', css: 'display: inline;', description: 'Inline element', descriptionMs: 'Elemen sebaris' },
     { value: 'inline-block', css: 'display: inline-block;', description: 'Inline block element', descriptionMs: 'Elemen blok sebaris' },
+    { value: 'table', css: 'display: table;', description: 'Table element', descriptionMs: 'Elemen jadual' },
+    { value: 'table-row', css: 'display: table-row;', description: 'Table row element', descriptionMs: 'Elemen baris jadual' },
+    { value: 'table-cell', css: 'display: table-cell;', description: 'Table cell element', descriptionMs: 'Elemen sel jadual' },
+    { value: 'list-item', css: 'display: list-item;', description: 'List item element', descriptionMs: 'Elemen item senarai' },
+    { value: 'contents', css: 'display: contents;', description: 'Display contents only (no box)', descriptionMs: 'Paparkan kandungan sahaja (tiada kotak)' },
     { value: 'hidden', css: 'display: none;', description: 'Hidden element', descriptionMs: 'Elemen tersembunyi' }
   ],
   examples: [
     { code: '<div layout="flex">Flexbox container</div>', description: 'Create a flex container' },
     { code: '<div layout="grid">Grid container</div>', description: 'Create a grid container' },
+    { code: '<div layout="table">Table container</div>', description: 'Create a table element' },
     { code: '<div layout="hidden">Hidden element</div>', description: 'Hide an element' }
   ],
   preview: [
@@ -314,6 +320,7 @@ export const order = {
   descriptionMs: 'Kawal susunan item flex/grid',
   category: 'layout',
   dynamic: true,
+  supportsArbitrary: true,
   values: [
     { value: 'first', css: 'order: -9999;', description: 'Move to first', descriptionMs: 'Pindah ke pertama' },
     { value: 'last', css: 'order: 9999;', description: 'Move to last', descriptionMs: 'Pindah ke terakhir' },

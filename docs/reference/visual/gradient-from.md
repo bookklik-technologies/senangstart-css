@@ -4,7 +4,7 @@ Set gradient start color
 
 ## Syntax
 ```
-visual="from:[color]"
+visual="from:[color]/[opacity]"
 ```
 
 ## Values

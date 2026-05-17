@@ -54,3 +54,11 @@ visual="opacity:[value]"
 </details>
 
 </div>
+
+## Arbitrary Values
+
+Supports custom values using bracket syntax:
+
+```html
+<div visual="opacity:[custom-value]">Custom</div>
+```

@@ -4,7 +4,7 @@ Set gradient middle color
 
 ## Syntax
 ```
-visual="via:[color]"
+visual="via:[color]/[opacity]"
 ```
 
 ## Values

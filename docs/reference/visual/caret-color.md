@@ -4,7 +4,7 @@ Set text input caret color
 
 ## Syntax
 ```
-visual="caret:[color]"
+visual="caret:[color]/[opacity]"
 ```
 
 ## Examples

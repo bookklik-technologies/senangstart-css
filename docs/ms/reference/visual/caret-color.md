@@ -4,7 +4,7 @@ Tetapkan warna karet input teks
 
 ## Sintaks
 ```
-visual="caret:[color]"
+visual="caret:[color]/[opacity]"
 ```
 
 ## Contoh

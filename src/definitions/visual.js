@@ -10,7 +10,7 @@
 export const backgroundColor = {
   name: 'background-color',
   property: 'visual',
-  syntax: 'visual="bg:[color]"',
+  syntax: 'visual="bg:[color]/[opacity]"',
   description: 'Set background color',
   descriptionMs: 'Tetapkan warna latar belakang',
   category: 'visual',
@@ -20,7 +20,8 @@ export const backgroundColor = {
   examples: [
     { code: '<div visual="bg:primary">Primary background</div>', description: 'Theme color' },
     { code: '<div visual="bg:blue-500">Blue background</div>', description: 'Palette color' },
-    { code: '<div visual="bg:[#FF5733]">Custom color</div>', description: 'Arbitrary color' }
+    { code: '<div visual="bg:[#FF5733]">Custom color</div>', description: 'Arbitrary color' },
+    { code: '<div visual="bg:primary/50">50% opacity</div>', description: 'With opacity modifier' }
   ],
   preview: [
     {
@@ -47,7 +48,7 @@ export const backgroundColor = {
 export const textColor = {
   name: 'text-color',
   property: 'visual',
-  syntax: 'visual="text:[color]"',
+  syntax: 'visual="text:[color]/[opacity]"',
   description: 'Set text color',
   descriptionMs: 'Tetapkan warna teks',
   category: 'visual',
@@ -57,7 +58,8 @@ export const textColor = {
   examples: [
     { code: '<div visual="text:white">White text</div>', description: 'Theme color' },
     { code: '<div visual="text:blue-500">Blue text</div>', description: 'Palette color' },
-    { code: '<div visual="text:[#FF5733]">Custom color</div>', description: 'Arbitrary color' }
+    { code: '<div visual="text:[#FF5733]">Custom color</div>', description: 'Arbitrary color' },
+    { code: '<div visual="text:primary/75">75% opacity text</div>', description: 'With opacity modifier' }
   ],
   preview: [
     {
@@ -457,6 +459,7 @@ export const opacity = {
   descriptionMs: 'Tetapkan kelegapan elemen (0-100)',
   category: 'visual',
   dynamic: true,
+  supportsArbitrary: true,
   values: [
     { value: '0', css: 'opacity: 0;', description: 'Invisible', descriptionMs: 'Tidak kelihatan' },
     { value: '25', css: 'opacity: 0.25;', description: '25% visible', descriptionMs: '25% kelihatan' },
@@ -677,7 +680,7 @@ export const mixBlendMode = {
 export const accentColor = {
   name: 'accent-color',
   property: 'visual',
-  syntax: 'visual="accent:[color]"',
+  syntax: 'visual="accent:[color]/[opacity]"',
   description: 'Set accent color for form controls',
   descriptionMs: 'Tetapkan warna aksen untuk kawalan borang',
   category: 'visual',
@@ -685,7 +688,8 @@ export const accentColor = {
   supportsArbitrary: true,
   values: [],
   examples: [
-    { code: '<input type="checkbox" visual="accent:primary">', description: 'Primary accent' }
+    { code: '<input type="checkbox" visual="accent:primary">Primary accent</input>', description: 'Primary accent' },
+    { code: '<input type="checkbox" visual="accent:primary/50">50% opacity</input>', description: 'With opacity modifier' }
   ],
   preview: [
     {
@@ -710,7 +714,7 @@ export const accentColor = {
 export const caretColor = {
   name: 'caret-color',
   property: 'visual',
-  syntax: 'visual="caret:[color]"',
+  syntax: 'visual="caret:[color]/[opacity]"',
   description: 'Set text input caret color',
   descriptionMs: 'Tetapkan warna karet input teks',
   category: 'visual',

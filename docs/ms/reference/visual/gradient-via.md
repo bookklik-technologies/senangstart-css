@@ -4,7 +4,7 @@ Tetapkan warna tengah gradien
 
 ## Sintaks
 ```
-visual="via:[color]"
+visual="via:[color]/[opacity]"
 ```
 
 ## Nilai

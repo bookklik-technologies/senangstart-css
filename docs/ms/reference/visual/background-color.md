@@ -4,7 +4,7 @@ Tetapkan warna latar belakang
 
 ## Sintaks
 ```
-visual="bg:[color]"
+visual="bg:[color]/[opacity]"
 ```
 
 ## Contoh
@@ -13,6 +13,7 @@ visual="bg:[color]"
 <div visual="bg:primary">Primary background</div>
 <div visual="bg:blue-500">Blue background</div>
 <div visual="bg:[#FF5733]">Custom color</div>
+<div visual="bg:primary/50">50% opacity</div>
 ```
 
 ## Pratonton

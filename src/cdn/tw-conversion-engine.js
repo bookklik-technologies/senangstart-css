@@ -367,7 +367,7 @@ function convertClass(twClass, exact) {
   // Handle prefixes (hover:, sm:, md:, etc.)
   // Added group-* and peer-* variant support
   const prefixMatch = twClass.match(
-    /^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|focus-visible:|active:|disabled:|dark:|group-hover:|peer-hover:|group-focus:|peer-focus:|group-active:|peer-active:|peer-check:|group-open:|peer-open:)(.+)$/
+    /^(sm:|md:|lg:|xl:|2xl:|3xl:|4xl:|hover:|focus:|focus-visible:|focus-within:|active:|disabled:|dark:|first:|last:|odd:|even:|visited:|checked:|indeterminate:|default:|required:|optional:|valid:|invalid:|in-range:|out-of-range:|placeholder-shown:|autofill:|read-only:|before:|after:|first-letter:|first-line:|marker:|selection:|file:|backdrop:|rtl:|ltr:|portrait:|landscape:|print:|group-hover:|peer-hover:|group-focus:|peer-focus:|group-active:|peer-active:|peer-check:|group-open:|peer-open:)(.+)$/
   );
   let prefix = "",
     baseClass = twClass,
@@ -377,7 +377,7 @@ function convertClass(twClass, exact) {
     const rawPrefix = prefixMatch[1].slice(0, -1); // remove colon
     
     // Responsive prefixes
-    if (['sm', 'md', 'lg', 'xl', '2xl'].includes(rawPrefix)) {
+    if (['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'].includes(rawPrefix)) {
       prefix = `tw-${rawPrefix}:`;
     } 
     // Group/Peer prefixes (map to standard state prefixes)
@@ -1050,7 +1050,7 @@ function convertClass(twClass, exact) {
   return null;
 }
 
-function convertClasses(classString, exact) {
+function convertClasses(classString, exact = false) {
   const classes = classString
     .trim()
     .split(/\s+/)
@@ -1091,20 +1091,17 @@ function convertClasses(classString, exact) {
 
 function convertHTML(html, exact) {
   return html.replace(
-    /class=(['"])([^"']+)\1/g,
-    (match, quote, classValue) => {
-      const { layout, space, visual, interact, listens, unknown } = convertClasses(
-        classValue,
-        exact
-      );
-      const attrs = [];
-      if (layout.length) attrs.push(`layout="${layout.join(" ")}"`);
-      if (space.length) attrs.push(`space="${space.join(" ")}"`);
-      if (visual.length) attrs.push(`visual="${visual.join(" ")}"`);
-      if (interact.length) attrs.push(`interact="${interact.join(" ")}"`);
-      if (listens.length) attrs.push(`listens="${listens.join(" ")}"`);
-      if (unknown.length) attrs.push(`class="${unknown.join(" ")}"`);
-      return attrs.join(" ") || 'class=""';
+    /\bclass(Name)?=(['"])([^"']+)\2/gi,
+    function(match, nameAttr, quote, classValue) {
+      var result = convertClasses(classValue, exact);
+      var attrs = [];
+      if (result.layout.length) attrs.push('layout="' + result.layout.join(' ') + '"');
+      if (result.space.length) attrs.push('space="' + result.space.join(' ') + '"');
+      if (result.visual.length) attrs.push('visual="' + result.visual.join(' ') + '"');
+      if (result.interact.length) attrs.push('interact="' + result.interact.join(' ') + '"');
+      if (result.listens.length) attrs.push('listens="' + result.listens.join(' ') + '"');
+      if (result.unknown.length) attrs.push('class="' + result.unknown.join(' ') + '"');
+      return attrs.join(' ') || 'class=""';
     }
   );
 }

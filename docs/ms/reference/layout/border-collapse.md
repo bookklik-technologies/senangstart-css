@@ -4,7 +4,7 @@ Kawal runtuhan sempadan jadual
 
 ## Sintaks
 ```
-layout="border:[value]"
+layout="[value]"
 ```
 
 ## Nilai
@@ -17,7 +17,7 @@ layout="border:[value]"
 ## Contoh
 
 ```html
-<table layout="border:collapse">Collapsed table</table>
+<table layout="collapse">Collapsed table</table>
 ```
 
 ## Pratonton
@@ -27,8 +27,8 @@ layout="border:[value]"
 ### Runtuh Sempadan
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="border:collapse"</code> - Sempadan jadual runtuh menjadi satu baris</p>
-<table layout="border:collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="collapse"</code> - Sempadan jadual runtuh menjadi satu baris</p>
+<table layout="collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white">A1</td>
@@ -46,7 +46,7 @@ layout="border:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<table layout="border:collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
+<table layout="collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white">A1</td>
@@ -69,8 +69,8 @@ layout="border:[value]"
 ### Asingkan Sempadan
 
 <div layout="flex col" space="g:medium">
-  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="border:separate"</code> - Sempadan jadual diasingkan (lalai)</p>
-<table layout="border:separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
+  <p space="m:none" visual="text:neutral-600 dark:text:neutral-400 text-sm"><code>layout="separate"</code> - Sempadan jadual diasingkan (lalai)</p>
+<table layout="separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white rounded:small">A1</td>
@@ -88,7 +88,7 @@ layout="border:[value]"
 <summary>Lihat Kod</summary>
 
 ```html
-<table layout="border:separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
+<table layout="separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white rounded:small">A1</td>

@@ -519,6 +519,124 @@ describe('CSS Generator', () => {
 
     });
 
+    describe('Opacity Modifier', () => {
+
+      it('applies opacity modifier to bg color via color-mix', () => {
+        const token = { property: 'bg', value: 'red-500/50', attrType: 'visual', raw: 'bg:red-500/50' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-red-500) 50%, transparent)'));
+      });
+
+      it('applies opacity modifier to text color via color-mix', () => {
+        const token = { property: 'text', value: 'blue-500/25', attrType: 'visual', raw: 'text:blue-500/25' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-blue-500) 25%, transparent)'));
+      });
+
+      it('applies opacity modifier to border color via color-mix', () => {
+        const token = { property: 'border', value: 'primary/75', attrType: 'visual', raw: 'border:primary/75' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 75%, transparent)'));
+      });
+
+      it('applies opacity modifier to ring color via color-mix', () => {
+        const token = { property: 'ring-color', value: 'primary/60', attrType: 'visual', raw: 'ring-color:primary/60' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 60%, transparent)'));
+      });
+
+      it('applies opacity modifier to accent color via color-mix', () => {
+        const token = { property: 'accent', value: 'primary/30', attrType: 'visual', raw: 'accent:primary/30' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 30%, transparent)'));
+      });
+
+      it('applies opacity modifier to fill color via color-mix', () => {
+        const token = { property: 'fill', value: 'danger/40', attrType: 'visual', raw: 'fill:danger/40' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-danger) 40%, transparent)'));
+      });
+
+      it('applies opacity modifier to stroke color via color-mix', () => {
+        const token = { property: 'stroke', value: 'success/80', attrType: 'visual', raw: 'stroke:success/80' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-success) 80%, transparent)'));
+      });
+
+      it('supports decimal opacity (0.5 = 50%)', () => {
+        const token = { property: 'bg', value: 'primary/0.5', attrType: 'visual', raw: 'bg:primary/0.5' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 50%, transparent)'));
+      });
+
+      it('supports arbitrary color with opacity modifier', () => {
+        const token = { property: 'bg', value: '[#EF4444]/50', attrType: 'visual', raw: 'bg:[#EF4444]/50' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, #EF4444 50%, transparent)'));
+      });
+
+      it('does not apply color-mix when no opacity modifier', () => {
+        const token = { property: 'bg', value: 'primary', attrType: 'visual', raw: 'bg:primary' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(!css.includes('color-mix'));
+        assert.ok(css.includes('background-color: var(--c-primary)'));
+      });
+
+      it('applies opacity modifier to CSS keyword colors', () => {
+        const token = { property: 'bg', value: 'transparent/50', attrType: 'visual', raw: 'bg:transparent/50' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, transparent 50%, transparent)'));
+      });
+
+      it('applies opacity modifier to gradient from', () => {
+        const token = { property: 'from', value: 'red-500/75', attrType: 'visual', raw: 'from:red-500/75' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-red-500) 75%, transparent)'));
+        assert.ok(css.includes('--ss-gradient-from'));
+      });
+
+      it('applies opacity modifier to divide color', () => {
+        const token = { property: 'divide', value: 'primary/30', attrType: 'visual', raw: 'divide:primary/30' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 30%, transparent)'));
+      });
+
+      it('handles opacity 0 correctly', () => {
+        const token = { property: 'bg', value: 'primary/0', attrType: 'visual', raw: 'bg:primary/0' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 0%, transparent)'));
+      });
+
+      it('handles opacity 100 correctly', () => {
+        const token = { property: 'bg', value: 'primary/100', attrType: 'visual', raw: 'bg:primary/100' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 100%, transparent)'));
+      });
+
+      it('does not parse non-opacity slashes as modifiers', () => {
+        const token = { property: 'bg', value: 'gradient-to-r', attrType: 'visual', raw: 'bg-image:gradient-to-r' };
+        const config = createTestConfig();
+        const css = generateCSS([token], config);
+        assert.ok(!css.includes('color-mix'));
+      });
+
+    });
+
     describe('Text', () => {
 
       it('generates text color', () => {

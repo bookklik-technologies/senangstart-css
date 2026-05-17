@@ -14,20 +14,17 @@ const __dirname = dirname(__filename);
 export async function init() {
   const configPath = join(process.cwd(), 'senangstart.config.js');
   
-  // Check if config already exists
   if (existsSync(configPath)) {
     logger.warn('senangstart.config.js already exists');
     return;
   }
   
-  // Read template
-  const templatePath = join(__dirname, '../../../templates/senangstart.config.js');
+  const templatePath = join(__dirname, '..', '..', '..', 'templates', 'senangstart.config.js');
   let template;
   
   try {
     template = readFileSync(templatePath, 'utf-8');
   } catch (e) {
-    // Fallback template if file not found
     template = `/**
  * SenangStart CSS Configuration
  */
@@ -53,12 +50,22 @@ export default {
 `;
   }
   
-  // Write config file
-  writeFileSync(configPath, template);
-  
-  logger.success('Created senangstart.config.js');
-  logger.info('Edit this file to customize your theme');
-  logger.info('Run "senangstart dev" to start watching files');
+  try {
+    writeFileSync(configPath, template);
+    logger.success('Created senangstart.config.js');
+    logger.info('Edit this file to customize your theme');
+    logger.info('Run "senangstart dev" to start watching files');
+  } catch (e) {
+    if (e.code === 'EACCES') {
+      logger.error(`Permission denied: cannot write to ${configPath}`);
+      logger.info('Try running with elevated permissions or check directory permissions');
+    } else if (e.code === 'ENOSPC') {
+      logger.error('Disk full: cannot write config file');
+    } else {
+      logger.error(`Failed to write config: ${e.message}`);
+    }
+    process.exitCode = 1;
+  }
 }
 
 export default init;

@@ -4,7 +4,7 @@ Tetapkan warna sempadan untuk semua sisi atau sisi tertentu
 
 ## Sintaks
 ```
-visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"
+visual="border:[color]/[opacity]" | visual="border-{t|b|l|r|x|y}:[color]/[opacity]"
 ```
 
 ## Nilai
@@ -23,6 +23,7 @@ visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"
 <div visual="border-b:gray-300 border-b-w:thin">Bottom only</div>
 <div visual="border-x:primary border-x-w:regular">Left & right</div>
 <div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>
+<div visual="border:primary/50 border-w:thin">50% opacity</div>
 ```
 
 ## Pratonton

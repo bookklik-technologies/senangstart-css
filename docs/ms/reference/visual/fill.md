@@ -4,7 +4,7 @@ Tetapkan warna pengisian SVG
 
 ## Sintaks
 ```
-visual="fill:[color]"
+visual="fill:[color]/[opacity]"
 ```
 
 ## Nilai
@@ -18,6 +18,7 @@ visual="fill:[color]"
 
 ```html
 <svg visual="fill:primary">...</svg>
+<svg visual="fill:primary/50">...</svg>
 ```
 
 ## Pratonton

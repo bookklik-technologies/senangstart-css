@@ -10,7 +10,7 @@
 export const divideColor = {
   name: 'divide',
   property: 'visual',
-  syntax: 'visual="divide:[color]" | visual="divide-{x|y}:[color]" | visual="divide-{x|y}:reverse"',
+  syntax: 'visual="divide:[color]/[opacity]" | visual="divide-{x|y}:[color]/[opacity]" | visual="divide-{x|y}:reverse"',
   description: 'Add borders between child elements',
   descriptionMs: 'Tambah sempadan antara elemen anak',
   category: 'visual',
@@ -25,7 +25,8 @@ export const divideColor = {
     { code: '<div visual="divide:primary divide-w:thin">', description: 'Divide with primary color' },
     { code: '<div visual="divide-y:gray-300 divide-y-w:regular">', description: 'Vertical dividers only' },
     { code: '<div visual="divide-x:danger divide-x-w:thin">', description: 'Horizontal dividers only' },
-    { code: '<div layout="flex flex-row-reverse" visual="divide-x:primary divide-x-w:thin divide-x:reverse">', description: 'Reverse dividers for flex-reverse' }
+    { code: '<div layout="flex flex-row-reverse" visual="divide-x:primary divide-x-w:thin divide-x:reverse">', description: 'Reverse dividers for flex-reverse' },
+    { code: '<div visual="divide:primary/50 divide-w:thin">', description: '50% opacity divide' }
   ],
   preview: [
     {

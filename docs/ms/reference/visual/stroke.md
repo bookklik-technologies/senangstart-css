@@ -4,7 +4,7 @@ Tetapkan warna gurisan SVG
 
 ## Sintaks
 ```
-visual="stroke:[color]"
+visual="stroke:[color]/[opacity]"
 ```
 
 ## Nilai
@@ -18,6 +18,7 @@ visual="stroke:[color]"
 
 ```html
 <svg visual="stroke:primary stroke-w:2">...</svg>
+<svg visual="stroke:primary/50 stroke-w:2">...</svg>
 ```
 
 ## Pratonton

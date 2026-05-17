@@ -249,7 +249,7 @@ export const width = {
     'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
     'min', 'max', 'fit',
     // Percentage adjectives
-    'full', 'half', 'third', 'third-2x', 'quarter', 'quarter-2x', 'quarter-3x',
+    'full', 'half', 'third', 'third-2x', 'quarter', 'quarter-3x',
     // Fractional values (backwards compatibility)
     '1/1', '1/2', '1/3', '2/3', '1/4', '2/4', '3/4'
   ],
@@ -259,7 +259,6 @@ export const width = {
     { name: 'third', value: '33.333333%', description: 'One third width (33%)', descriptionMs: 'Satu pertiga lebar (33%)' },
     { name: 'third-2x', value: '66.666667%', description: 'Two thirds width (66%)', descriptionMs: 'Dua pertiga lebar (66%)' },
     { name: 'quarter', value: '25%', description: 'One quarter width (25%)', descriptionMs: 'Satu perempat lebar (25%)' },
-    { name: 'quarter-2x', value: '50%', description: 'Two quarters width (50%)', descriptionMs: 'Dua perempat lebar (50%)' },
     { name: 'quarter-3x', value: '75%', description: 'Three quarters width (75%)', descriptionMs: 'Tiga perempat lebar (75%)' }
   ],
   supportsArbitrary: true,
@@ -347,7 +346,7 @@ export const height = {
     'vast', 'vast-2x', 'vast-3x', 'vast-4x', 'vast-5x', 'vast-6x', 'vast-7x', 'vast-8x', 'vast-9x', 'vast-10x',
     'min', 'max', 'fit',
     // Percentage adjectives
-    'full', 'half', 'third', 'third-2x', 'quarter', 'quarter-2x', 'quarter-3x',
+    'full', 'half', 'third', 'third-2x', 'quarter', 'quarter-3x',
     // Fractional values (backwards compatibility)
     '1/1', '1/2', '1/3', '2/3', '1/4', '2/4', '3/4'
   ],
@@ -357,7 +356,6 @@ export const height = {
     { name: 'third', value: '33.333333%', description: 'One third height (33%)', descriptionMs: 'Satu pertiga tinggi (33%)' },
     { name: 'third-2x', value: '66.666667%', description: 'Two thirds height (66%)', descriptionMs: 'Dua pertiga tinggi (66%)' },
     { name: 'quarter', value: '25%', description: 'One quarter height (25%)', descriptionMs: 'Satu perempat tinggi (25%)' },
-    { name: 'quarter-2x', value: '50%', description: 'Two quarters height (50%)', descriptionMs: 'Dua perempat tinggi (50%)' },
     { name: 'quarter-3x', value: '75%', description: 'Three quarters height (75%)', descriptionMs: 'Tiga perempat tinggi (75%)' }
   ],
   supportsArbitrary: true,

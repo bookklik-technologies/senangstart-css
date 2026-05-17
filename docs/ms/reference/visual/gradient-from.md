@@ -4,7 +4,7 @@ Tetapkan warna mula gradien
 
 ## Sintaks
 ```
-visual="from:[color]"
+visual="from:[color]/[opacity]"
 ```
 
 ## Nilai

@@ -51,11 +51,11 @@ export const scrollMargin = {
   supportsArbitrary: true,
   dynamic: true,
   values: [
-    { value: 'scroll-m', css: 'scroll-margin: var(--s-medium);', description: 'All sides', descriptionMs: 'Semua sisi' },
-    { value: 'scroll-m-t', css: 'scroll-margin-top: var(--s-medium);', description: 'Top margin', descriptionMs: 'Margin atas' },
-    { value: 'scroll-m-r', css: 'scroll-margin-right: var(--s-medium);', description: 'Right margin', descriptionMs: 'Margin kanan' },
-    { value: 'scroll-m-b', css: 'scroll-margin-bottom: var(--s-medium);', description: 'Bottom margin', descriptionMs: 'Margin bawah' },
-    { value: 'scroll-m-l', css: 'scroll-margin-left: var(--s-medium);', description: 'Left margin', descriptionMs: 'Margin kiri' }
+    { value: 'scroll-m', css: 'scroll-margin: var(--s-{value});', description: 'All sides', descriptionMs: 'Semua sisi' },
+    { value: 'scroll-m-t', css: 'scroll-margin-top: var(--s-{value});', description: 'Top margin', descriptionMs: 'Margin atas' },
+    { value: 'scroll-m-r', css: 'scroll-margin-right: var(--s-{value});', description: 'Right margin', descriptionMs: 'Margin kanan' },
+    { value: 'scroll-m-b', css: 'scroll-margin-bottom: var(--s-{value});', description: 'Bottom margin', descriptionMs: 'Margin bawah' },
+    { value: 'scroll-m-l', css: 'scroll-margin-left: var(--s-{value});', description: 'Left margin', descriptionMs: 'Margin kiri' }
   ],
   examples: [
     { code: '<div visual="scroll-m:medium">Scroll margin</div>', description: 'Scroll margin' }
@@ -89,11 +89,11 @@ export const scrollPadding = {
   supportsArbitrary: true,
   dynamic: true,
   values: [
-    { value: 'scroll-p', css: 'scroll-padding: var(--s-big);', description: 'All sides', descriptionMs: 'Semua sisi' },
-    { value: 'scroll-p-t', css: 'scroll-padding-top: var(--s-big);', description: 'Top padding', descriptionMs: 'Padding atas' },
-    { value: 'scroll-p-r', css: 'scroll-padding-right: var(--s-big);', description: 'Right padding', descriptionMs: 'Padding kanan' },
-    { value: 'scroll-p-b', css: 'scroll-padding-bottom: var(--s-big);', description: 'Bottom padding', descriptionMs: 'Padding bawah' },
-    { value: 'scroll-p-l', css: 'scroll-padding-left: var(--s-big);', description: 'Left padding', descriptionMs: 'Padding kiri' }
+    { value: 'scroll-p', css: 'scroll-padding: var(--s-{value});', description: 'All sides', descriptionMs: 'Semua sisi' },
+    { value: 'scroll-p-t', css: 'scroll-padding-top: var(--s-{value});', description: 'Top padding', descriptionMs: 'Padding atas' },
+    { value: 'scroll-p-r', css: 'scroll-padding-right: var(--s-{value});', description: 'Right padding', descriptionMs: 'Padding kanan' },
+    { value: 'scroll-p-b', css: 'scroll-padding-bottom: var(--s-{value});', description: 'Bottom padding', descriptionMs: 'Padding bawah' },
+    { value: 'scroll-p-l', css: 'scroll-padding-left: var(--s-{value});', description: 'Left padding', descriptionMs: 'Padding kiri' }
   ],
   examples: [
     { code: '<div visual="scroll-p:big">Scroll padding</div>', description: 'Scroll padding' }

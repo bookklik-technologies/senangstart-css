@@ -87,3 +87,11 @@ layout="grid-cols:[value]"
 </details>
 
 </div>
+
+## Nilai Arbitrari
+
+Sokong nilai tersuai menggunakan sintaks kurungan segi empat:
+
+```html
+<div layout="grid:[custom-value]">Custom</div>
+```

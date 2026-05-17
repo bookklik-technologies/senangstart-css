@@ -1002,11 +1002,17 @@ video {
       { value: "block", css: "display: block;", description: "Block element", descriptionMs: "Elemen blok" },
       { value: "inline", css: "display: inline;", description: "Inline element", descriptionMs: "Elemen sebaris" },
       { value: "inline-block", css: "display: inline-block;", description: "Inline block element", descriptionMs: "Elemen blok sebaris" },
+      { value: "table", css: "display: table;", description: "Table element", descriptionMs: "Elemen jadual" },
+      { value: "table-row", css: "display: table-row;", description: "Table row element", descriptionMs: "Elemen baris jadual" },
+      { value: "table-cell", css: "display: table-cell;", description: "Table cell element", descriptionMs: "Elemen sel jadual" },
+      { value: "list-item", css: "display: list-item;", description: "List item element", descriptionMs: "Elemen item senarai" },
+      { value: "contents", css: "display: contents;", description: "Display contents only (no box)", descriptionMs: "Paparkan kandungan sahaja (tiada kotak)" },
       { value: "hidden", css: "display: none;", description: "Hidden element", descriptionMs: "Elemen tersembunyi" }
     ],
     examples: [
       { code: '<div layout="flex">Flexbox container</div>', description: "Create a flex container" },
       { code: '<div layout="grid">Grid container</div>', description: "Create a grid container" },
+      { code: '<div layout="table">Table container</div>', description: "Create a table element" },
       { code: '<div layout="hidden">Hidden element</div>', description: "Hide an element" }
     ],
     preview: [
@@ -1264,6 +1270,7 @@ video {
     descriptionMs: "Kawal susunan item flex/grid",
     category: "layout",
     dynamic: true,
+    supportsArbitrary: true,
     values: [
       { value: "first", css: "order: -9999;", description: "Move to first", descriptionMs: "Pindah ke pertama" },
       { value: "last", css: "order: 9999;", description: "Move to last", descriptionMs: "Pindah ke terakhir" },
@@ -1709,6 +1716,7 @@ video {
     descriptionMs: "Tentukan templat lajur grid",
     category: "layout",
     dynamic: true,
+    supportsArbitrary: true,
     values: [
       { value: "1-12", css: "grid-template-columns: repeat({n}, minmax(0, 1fr));", description: "N equal columns", descriptionMs: "N lajur sama" },
       { value: "none", css: "grid-template-columns: none;", description: "No columns defined", descriptionMs: "Tiada lajur ditakrifkan" },
@@ -2427,7 +2435,7 @@ video {
   var borderCollapse = {
     name: "border-collapse",
     property: "layout",
-    syntax: 'layout="border:[value]"',
+    syntax: 'layout="[value]"',
     description: "Control table border collapse",
     descriptionMs: "Kawal runtuhan sempadan jadual",
     category: "layout",
@@ -2436,7 +2444,7 @@ video {
       { value: "separate", css: "border-collapse: separate;", description: "Separate borders", descriptionMs: "Asingkan sempadan" }
     ],
     examples: [
-      { code: '<table layout="border:collapse">Collapsed table</table>', description: "Collapse table borders" }
+      { code: '<table layout="collapse">Collapsed table</table>', description: "Collapse table borders" }
     ],
     preview: [
       {
@@ -2444,7 +2452,7 @@ video {
         titleMs: "Runtuh Sempadan",
         description: "Table borders collapse into single lines",
         descriptionMs: "Sempadan jadual runtuh menjadi satu baris",
-        html: `<table layout="border:collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
+        html: `<table layout="collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white">A1</td>
@@ -2456,14 +2464,14 @@ video {
     </tr>
   </tbody>
 </table>`,
-        highlightValue: "border:collapse"
+        highlightValue: "collapse"
       },
       {
         title: "Border Separate",
         titleMs: "Asingkan Sempadan",
         description: "Table borders are separate (default)",
         descriptionMs: "Sempadan jadual diasingkan (lalai)",
-        html: `<table layout="border:separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
+        html: `<table layout="separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white rounded:small">A1</td>
@@ -2475,7 +2483,7 @@ video {
     </tr>
   </tbody>
 </table>`,
-        highlightValue: "border:separate"
+        highlightValue: "separate"
       }
     ]
   };
@@ -3032,7 +3040,6 @@ video {
       "third",
       "third-2x",
       "quarter",
-      "quarter-2x",
       "quarter-3x",
       // Fractional values (backwards compatibility)
       "1/1",
@@ -3049,7 +3056,6 @@ video {
       { name: "third", value: "33.333333%", description: "One third width (33%)", descriptionMs: "Satu pertiga lebar (33%)" },
       { name: "third-2x", value: "66.666667%", description: "Two thirds width (66%)", descriptionMs: "Dua pertiga lebar (66%)" },
       { name: "quarter", value: "25%", description: "One quarter width (25%)", descriptionMs: "Satu perempat lebar (25%)" },
-      { name: "quarter-2x", value: "50%", description: "Two quarters width (50%)", descriptionMs: "Dua perempat lebar (50%)" },
       { name: "quarter-3x", value: "75%", description: "Three quarters width (75%)", descriptionMs: "Tiga perempat lebar (75%)" }
     ],
     supportsArbitrary: true,
@@ -3168,7 +3174,6 @@ video {
       "third",
       "third-2x",
       "quarter",
-      "quarter-2x",
       "quarter-3x",
       // Fractional values (backwards compatibility)
       "1/1",
@@ -3185,7 +3190,6 @@ video {
       { name: "third", value: "33.333333%", description: "One third height (33%)", descriptionMs: "Satu pertiga tinggi (33%)" },
       { name: "third-2x", value: "66.666667%", description: "Two thirds height (66%)", descriptionMs: "Dua pertiga tinggi (66%)" },
       { name: "quarter", value: "25%", description: "One quarter height (25%)", descriptionMs: "Satu perempat tinggi (25%)" },
-      { name: "quarter-2x", value: "50%", description: "Two quarters height (50%)", descriptionMs: "Dua perempat tinggi (50%)" },
       { name: "quarter-3x", value: "75%", description: "Three quarters height (75%)", descriptionMs: "Tiga perempat tinggi (75%)" }
     ],
     supportsArbitrary: true,
@@ -3265,7 +3269,7 @@ video {
   var backgroundColor = {
     name: "background-color",
     property: "visual",
-    syntax: 'visual="bg:[color]"',
+    syntax: 'visual="bg:[color]/[opacity]"',
     description: "Set background color",
     descriptionMs: "Tetapkan warna latar belakang",
     category: "visual",
@@ -3276,7 +3280,8 @@ video {
     examples: [
       { code: '<div visual="bg:primary">Primary background</div>', description: "Theme color" },
       { code: '<div visual="bg:blue-500">Blue background</div>', description: "Palette color" },
-      { code: '<div visual="bg:[#FF5733]">Custom color</div>', description: "Arbitrary color" }
+      { code: '<div visual="bg:[#FF5733]">Custom color</div>', description: "Arbitrary color" },
+      { code: '<div visual="bg:primary/50">50% opacity</div>', description: "With opacity modifier" }
     ],
     preview: [
       {
@@ -3298,7 +3303,7 @@ video {
   var textColor = {
     name: "text-color",
     property: "visual",
-    syntax: 'visual="text:[color]"',
+    syntax: 'visual="text:[color]/[opacity]"',
     description: "Set text color",
     descriptionMs: "Tetapkan warna teks",
     category: "visual",
@@ -3308,7 +3313,8 @@ video {
     examples: [
       { code: '<div visual="text:white">White text</div>', description: "Theme color" },
       { code: '<div visual="text:blue-500">Blue text</div>', description: "Palette color" },
-      { code: '<div visual="text:[#FF5733]">Custom color</div>', description: "Arbitrary color" }
+      { code: '<div visual="text:[#FF5733]">Custom color</div>', description: "Arbitrary color" },
+      { code: '<div visual="text:primary/75">75% opacity text</div>', description: "With opacity modifier" }
     ],
     preview: [
       {
@@ -3663,6 +3669,7 @@ video {
     descriptionMs: "Tetapkan kelegapan elemen (0-100)",
     category: "visual",
     dynamic: true,
+    supportsArbitrary: true,
     values: [
       { value: "0", css: "opacity: 0;", description: "Invisible", descriptionMs: "Tidak kelihatan" },
       { value: "25", css: "opacity: 0.25;", description: "25% visible", descriptionMs: "25% kelihatan" },
@@ -3853,7 +3860,7 @@ video {
   var accentColor = {
     name: "accent-color",
     property: "visual",
-    syntax: 'visual="accent:[color]"',
+    syntax: 'visual="accent:[color]/[opacity]"',
     description: "Set accent color for form controls",
     descriptionMs: "Tetapkan warna aksen untuk kawalan borang",
     category: "visual",
@@ -3861,7 +3868,8 @@ video {
     supportsArbitrary: true,
     values: [],
     examples: [
-      { code: '<input type="checkbox" visual="accent:primary">', description: "Primary accent" }
+      { code: '<input type="checkbox" visual="accent:primary">Primary accent</input>', description: "Primary accent" },
+      { code: '<input type="checkbox" visual="accent:primary/50">50% opacity</input>', description: "With opacity modifier" }
     ],
     preview: [
       {
@@ -3881,7 +3889,7 @@ video {
   var caretColor = {
     name: "caret-color",
     property: "visual",
-    syntax: 'visual="caret:[color]"',
+    syntax: 'visual="caret:[color]/[opacity]"',
     description: "Set text input caret color",
     descriptionMs: "Tetapkan warna karet input teks",
     category: "visual",
@@ -4517,7 +4525,7 @@ video {
   var gradientFrom = {
     name: "gradient-from",
     property: "visual",
-    syntax: 'visual="from:[color]"',
+    syntax: 'visual="from:[color]/[opacity]"',
     description: "Set gradient start color",
     descriptionMs: "Tetapkan warna mula gradien",
     category: "visual",
@@ -4547,7 +4555,7 @@ video {
   var gradientVia = {
     name: "gradient-via",
     property: "visual",
-    syntax: 'visual="via:[color]"',
+    syntax: 'visual="via:[color]/[opacity]"',
     description: "Set gradient middle color",
     descriptionMs: "Tetapkan warna tengah gradien",
     category: "visual",
@@ -4575,7 +4583,7 @@ video {
   var gradientTo = {
     name: "gradient-to",
     property: "visual",
-    syntax: 'visual="to:[color]"',
+    syntax: 'visual="to:[color]/[opacity]"',
     description: "Set gradient end color",
     descriptionMs: "Tetapkan warna akhir gradien",
     category: "visual",
@@ -4666,11 +4674,11 @@ video {
     supportsArbitrary: true,
     dynamic: true,
     values: [
-      { value: "scroll-m", css: "scroll-margin: var(--s-medium);", description: "All sides", descriptionMs: "Semua sisi" },
-      { value: "scroll-m-t", css: "scroll-margin-top: var(--s-medium);", description: "Top margin", descriptionMs: "Margin atas" },
-      { value: "scroll-m-r", css: "scroll-margin-right: var(--s-medium);", description: "Right margin", descriptionMs: "Margin kanan" },
-      { value: "scroll-m-b", css: "scroll-margin-bottom: var(--s-medium);", description: "Bottom margin", descriptionMs: "Margin bawah" },
-      { value: "scroll-m-l", css: "scroll-margin-left: var(--s-medium);", description: "Left margin", descriptionMs: "Margin kiri" }
+      { value: "scroll-m", css: "scroll-margin: var(--s-{value});", description: "All sides", descriptionMs: "Semua sisi" },
+      { value: "scroll-m-t", css: "scroll-margin-top: var(--s-{value});", description: "Top margin", descriptionMs: "Margin atas" },
+      { value: "scroll-m-r", css: "scroll-margin-right: var(--s-{value});", description: "Right margin", descriptionMs: "Margin kanan" },
+      { value: "scroll-m-b", css: "scroll-margin-bottom: var(--s-{value});", description: "Bottom margin", descriptionMs: "Margin bawah" },
+      { value: "scroll-m-l", css: "scroll-margin-left: var(--s-{value});", description: "Left margin", descriptionMs: "Margin kiri" }
     ],
     examples: [
       { code: '<div visual="scroll-m:medium">Scroll margin</div>', description: "Scroll margin" }
@@ -4699,11 +4707,11 @@ video {
     supportsArbitrary: true,
     dynamic: true,
     values: [
-      { value: "scroll-p", css: "scroll-padding: var(--s-big);", description: "All sides", descriptionMs: "Semua sisi" },
-      { value: "scroll-p-t", css: "scroll-padding-top: var(--s-big);", description: "Top padding", descriptionMs: "Padding atas" },
-      { value: "scroll-p-r", css: "scroll-padding-right: var(--s-big);", description: "Right padding", descriptionMs: "Padding kanan" },
-      { value: "scroll-p-b", css: "scroll-padding-bottom: var(--s-big);", description: "Bottom padding", descriptionMs: "Padding bawah" },
-      { value: "scroll-p-l", css: "scroll-padding-left: var(--s-big);", description: "Left padding", descriptionMs: "Padding kiri" }
+      { value: "scroll-p", css: "scroll-padding: var(--s-{value});", description: "All sides", descriptionMs: "Semua sisi" },
+      { value: "scroll-p-t", css: "scroll-padding-top: var(--s-{value});", description: "Top padding", descriptionMs: "Padding atas" },
+      { value: "scroll-p-r", css: "scroll-padding-right: var(--s-{value});", description: "Right padding", descriptionMs: "Padding kanan" },
+      { value: "scroll-p-b", css: "scroll-padding-bottom: var(--s-{value});", description: "Bottom padding", descriptionMs: "Padding bawah" },
+      { value: "scroll-p-l", css: "scroll-padding-left: var(--s-{value});", description: "Left padding", descriptionMs: "Padding kiri" }
     ],
     examples: [
       { code: '<div visual="scroll-p:big">Scroll padding</div>', description: "Scroll padding" }
@@ -5516,10 +5524,73 @@ video {
       }
     ]
   };
+  var textDecorationColor = {
+    name: "text-decoration-color",
+    property: "visual",
+    syntax: 'visual="decoration:[color]/[opacity]"',
+    description: "Set text decoration color",
+    descriptionMs: "Tetapkan warna hiasan teks",
+    category: "visual",
+    usesScale: "colors",
+    supportsArbitrary: true,
+    values: [],
+    examples: [
+      { code: '<span visual="underline decoration:primary">Colored underline</span>', description: "Decoration color" },
+      { code: '<span visual="underline decoration:[#FF5733]">Custom color</span>', description: "Arbitrary color" },
+      { code: '<span visual="underline decoration:primary/50">50% opacity underline</span>', description: "With opacity modifier" }
+    ],
+    preview: [
+      {
+        title: "Decoration Color",
+        titleMs: "Warna Hiasan",
+        description: "Set text underline/overline color",
+        descriptionMs: "Tetapkan warna garis bawah/atas teks",
+        html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="underline decoration:primary text-size:big">primary underline</span>
+  <span visual="line-through decoration:danger text-size:big">danger strikethrough</span>
+  <span visual="underline decoration:success text-size:big">success underline</span>
+</div>`,
+        highlightValue: "decoration:primary"
+      }
+    ]
+  };
+  var textDecorationThickness = {
+    name: "text-decoration-thickness",
+    property: "visual",
+    syntax: 'visual="decoration-thickness:[value]"',
+    description: "Set text decoration thickness",
+    descriptionMs: "Tetapkan ketebalan hiasan teks",
+    category: "visual",
+    supportsArbitrary: true,
+    values: [
+      { value: "auto", css: "text-decoration-thickness: auto;", description: "Auto thickness", descriptionMs: "Ketebalan automatik" },
+      { value: "from-font", css: "text-decoration-thickness: from-font;", description: "Use font-specified thickness", descriptionMs: "Gunakan ketebalan yang ditetapkan fon" }
+    ],
+    examples: [
+      { code: '<span visual="underline decoration-thickness:[3px]">3px underline</span>', description: "Custom thickness" },
+      { code: '<span visual="underline decoration-thickness:from-font">Font thickness</span>', description: "From font" }
+    ],
+    preview: [
+      {
+        title: "Decoration Thickness",
+        titleMs: "Ketebalan Hiasan",
+        description: "Control underline/overline thickness",
+        descriptionMs: "Kawal ketebalan garis bawah/atas",
+        html: `<div layout="flex col" space="g:small p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <span visual="underline decoration-thickness:auto text-size:big">auto</span>
+  <span visual="underline decoration-thickness:[3px] text-size:big">3px</span>
+  <span visual="underline decoration-thickness:[5px] text-size:big">5px</span>
+</div>`,
+        highlightValue: "decoration-thickness:[3px]"
+      }
+    ]
+  };
   var typographyDefinitions = {
     textAlignment,
     textTransform,
     textDecoration,
+    textDecorationColor,
+    textDecorationThickness,
     textOverflow,
     textWrap,
     whitespace,
@@ -6737,7 +6808,7 @@ video {
   var borderColor = {
     name: "border",
     property: "visual",
-    syntax: 'visual="border:[color]" | visual="border-{t|b|l|r|x|y}:[color]"',
+    syntax: 'visual="border:[color]/[opacity]" | visual="border-{t|b|l|r|x|y}:[color]/[opacity]"',
     description: "Set border color for all sides or specific sides",
     descriptionMs: "Tetapkan warna sempadan untuk semua sisi atau sisi tertentu",
     category: "visual",
@@ -6753,7 +6824,8 @@ video {
       { code: '<div visual="border-t:primary border-t-w:regular">Top only</div>', description: "Top border only" },
       { code: '<div visual="border-b:gray-300 border-b-w:thin">Bottom only</div>', description: "Bottom border only" },
       { code: '<div visual="border-x:primary border-x-w:regular">Left & right</div>', description: "Horizontal borders" },
-      { code: '<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>', description: "Vertical borders" }
+      { code: '<div visual="border-y:gray-300 border-y-w:thin">Top & bottom</div>', description: "Vertical borders" },
+      { code: '<div visual="border:primary/50 border-w:thin">50% opacity</div>', description: "With opacity modifier" }
     ],
     preview: [
       {
@@ -6887,7 +6959,7 @@ video {
   var outlineColor = {
     name: "outline",
     property: "visual",
-    syntax: 'visual="outline:[color]"',
+    syntax: 'visual="outline:[color]/[opacity]"',
     description: "Set outline color",
     descriptionMs: "Tetapkan warna garis luar",
     category: "visual",
@@ -6895,7 +6967,8 @@ video {
     supportsArbitrary: true,
     values: [],
     examples: [
-      { code: '<button visual="focus:outline:primary">Focus outline</button>', description: "Focus outline" }
+      { code: '<button visual="focus:outline:primary">Focus outline</button>', description: "Focus outline" },
+      { code: '<button visual="outline:primary/50">50% opacity</button>', description: "With opacity modifier" }
     ],
     preview: [
       {
@@ -7013,7 +7086,7 @@ video {
   var ringColor = {
     name: "ring-color",
     property: "visual",
-    syntax: 'visual="ring-color:[color]"',
+    syntax: 'visual="ring-color:[color]/[opacity]"',
     description: "Set ring color",
     descriptionMs: "Tetapkan warna cincin",
     category: "visual",
@@ -7024,7 +7097,22 @@ video {
       { value: "blue-500", css: "--ss-ring-color: var(--c-blue-500);", description: "Blue ring color", descriptionMs: "Warna cincin biru" }
     ],
     examples: [
-      { code: '<button visual="ring:small ring-color:primary">Colored ring</button>', description: "Ring with custom color" }
+      { code: '<button visual="ring:small ring-color:primary">Colored ring</button>', description: "Ring with custom color" },
+      { code: '<button visual="ring:small ring-color:primary/50">50% opacity ring</button>', description: "Ring with opacity modifier" }
+    ],
+    preview: [
+      {
+        title: "Ring Color",
+        titleMs: "Warna Cincin",
+        description: "Set the color of the focus ring",
+        descriptionMs: "Tetapkan warna cincin fokus",
+        html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <button space="p:small p-x:medium" visual="ring:regular ring-color:primary bg:white dark:bg:neutral-800 rounded:small">primary</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-color:danger bg:white dark:bg:neutral-800 rounded:small">danger</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-color:success bg:white dark:bg:neutral-800 rounded:small">success</button>
+</div>`,
+        highlightValue: "ring-color:primary"
+      }
     ]
   };
   var ringOffset = {
@@ -7042,6 +7130,20 @@ video {
     ],
     examples: [
       { code: '<button visual="ring:small ring-offset:2 ring-color:primary">With offset</button>', description: "Ring with offset" }
+    ],
+    preview: [
+      {
+        title: "Ring Offset",
+        titleMs: "Offset Cincin",
+        description: "Add space between ring and element",
+        descriptionMs: "Tambah ruang antara cincin dan elemen",
+        html: `<div layout="flex" space="g:medium p:medium" visual="bg:neutral-100 dark:bg:neutral-900 rounded:medium">
+  <button space="p:small p-x:medium" visual="ring:regular ring-offset:0 ring-color:primary bg:white dark:bg:neutral-800 rounded:small">0</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-offset:2 ring-color:primary bg:white dark:bg:neutral-800 rounded:small">2px</button>
+  <button space="p:small p-x:medium" visual="ring:regular ring-offset:4 ring-color:primary bg:white dark:bg:neutral-800 rounded:small">4px</button>
+</div>`,
+        highlightValue: "ring-offset:2"
+      }
     ]
   };
   var borderDefinitions = {
@@ -7062,7 +7164,7 @@ video {
   var divideColor = {
     name: "divide",
     property: "visual",
-    syntax: 'visual="divide:[color]" | visual="divide-{x|y}:[color]" | visual="divide-{x|y}:reverse"',
+    syntax: 'visual="divide:[color]/[opacity]" | visual="divide-{x|y}:[color]/[opacity]" | visual="divide-{x|y}:reverse"',
     description: "Add borders between child elements",
     descriptionMs: "Tambah sempadan antara elemen anak",
     category: "visual",
@@ -7077,7 +7179,8 @@ video {
       { code: '<div visual="divide:primary divide-w:thin">', description: "Divide with primary color" },
       { code: '<div visual="divide-y:gray-300 divide-y-w:regular">', description: "Vertical dividers only" },
       { code: '<div visual="divide-x:danger divide-x-w:thin">', description: "Horizontal dividers only" },
-      { code: '<div layout="flex flex-row-reverse" visual="divide-x:primary divide-x-w:thin divide-x:reverse">', description: "Reverse dividers for flex-reverse" }
+      { code: '<div layout="flex flex-row-reverse" visual="divide-x:primary divide-x-w:thin divide-x:reverse">', description: "Reverse dividers for flex-reverse" },
+      { code: '<div visual="divide:primary/50 divide-w:thin">', description: "50% opacity divide" }
     ],
     preview: [
       {
@@ -7262,7 +7365,7 @@ video {
   var svgFill = {
     name: "fill",
     property: "visual",
-    syntax: 'visual="fill:[color]"',
+    syntax: 'visual="fill:[color]/[opacity]"',
     description: "Set SVG fill color",
     descriptionMs: "Tetapkan warna pengisian SVG",
     category: "visual",
@@ -7273,7 +7376,8 @@ video {
       { value: "current", css: "fill: currentColor;", description: "Current color", descriptionMs: "Warna semasa" }
     ],
     examples: [
-      { code: '<svg visual="fill:primary">...</svg>', description: "Primary fill" }
+      { code: '<svg visual="fill:primary">...</svg>', description: "Primary fill" },
+      { code: '<svg visual="fill:primary/50">...</svg>', description: "50% opacity fill" }
     ],
     preview: [
       {
@@ -7293,7 +7397,7 @@ video {
   var svgStroke = {
     name: "stroke",
     property: "visual",
-    syntax: 'visual="stroke:[color]"',
+    syntax: 'visual="stroke:[color]/[opacity]"',
     description: "Set SVG stroke color",
     descriptionMs: "Tetapkan warna gurisan SVG",
     category: "visual",
@@ -7304,7 +7408,8 @@ video {
       { value: "current", css: "stroke: currentColor;", description: "Current color", descriptionMs: "Warna semasa" }
     ],
     examples: [
-      { code: '<svg visual="stroke:primary stroke-w:2">...</svg>', description: "Primary stroke" }
+      { code: '<svg visual="stroke:primary stroke-w:2">...</svg>', description: "Primary stroke" },
+      { code: '<svg visual="stroke:primary/50 stroke-w:2">...</svg>', description: "50% opacity stroke" }
     ],
     preview: [
       {
@@ -7502,10 +7607,42 @@ video {
   }
 
   // src/compiler/generators/visual-rules.js
+  function parseOpacityModifier(value) {
+    const slashIndex = value.lastIndexOf("/");
+    if (slashIndex < 1) return null;
+    const color = value.slice(0, slashIndex);
+    const raw = value.slice(slashIndex + 1);
+    if (/^\d{1,3}$/.test(raw)) {
+      const n = parseInt(raw, 10);
+      if (n >= 0 && n <= 100) return { color, opacity: n / 100 };
+    }
+    if (/^\d*\.?\d+$/.test(raw)) {
+      const n = parseFloat(raw);
+      if (n >= 0 && n <= 1) return { color, opacity: n };
+    }
+    return null;
+  }
   function resolveColorValue(value, isArbitrary) {
-    if (isArbitrary) return value;
-    if (CSS_COLOR_KEYWORDS.includes(value)) return value;
-    return `var(--c-${value})`;
+    const parsed = parseOpacityModifier(value);
+    const colorValue = parsed ? parsed.color : value;
+    const opacity2 = parsed ? parsed.opacity : null;
+    let resolved;
+    if (isArbitrary) {
+      resolved = colorValue;
+    } else if (CSS_COLOR_KEYWORDS.includes(colorValue)) {
+      resolved = colorValue;
+    } else {
+      const arbitraryMatch = colorValue.match(/^\[(.+)\]$/);
+      if (arbitraryMatch) {
+        resolved = arbitraryMatch[1];
+      } else {
+        resolved = `var(--c-${colorValue})`;
+      }
+    }
+    if (opacity2 !== null) {
+      return `color-mix(in srgb, ${resolved} ${Math.round(opacity2 * 100)}%, transparent)`;
+    }
+    return resolved;
   }
   function sanitizeArbitraryValue(value) {
     return sanitizeValue(value);
@@ -7552,7 +7689,11 @@ video {
     leading: (v, a) => `line-height: ${a ? v : { none: "1", tight: "1.25", snug: "1.375", normal: "1.5", relaxed: "1.625", loose: "2" }[v] || v};`,
     "line-clamp": (v) => `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: ${v};`,
     decoration: (v, a) => `text-decoration-color: ${resolveColorValue(v, a)};`,
-    "decoration-thickness": (v, a) => `text-decoration-thickness: ${a ? v : `${v}px`};`,
+    "decoration-thickness": (v, a) => {
+      if (a) return `text-decoration-thickness: ${v};`;
+      if (["auto", "from-font"].includes(v)) return `text-decoration-thickness: ${v};`;
+      return `text-decoration-thickness: ${v}px;`;
+    },
     "underline-offset": (v, a) => `text-underline-offset: ${a ? v : `${v}px`};`,
     indent: (v, a) => `text-indent: ${a ? v : `var(--s-${v})`};`,
     border: (v, a) => `border-color: ${resolveColorValue(v, a)}; border-style: solid;`,
@@ -7728,9 +7869,9 @@ video {
       const map = { center: "center", top: "top", "top-right": "top right", right: "right", "bottom-right": "bottom right", bottom: "bottom", "bottom-left": "bottom left", left: "left", "top-left": "top left" };
       return `perspective-origin: ${a ? v.replace(/_/g, " ") : map[v] || v};`;
     },
-    accent: (v, a) => `accent-color: ${a ? v : `var(--c-${v})`};`,
+    accent: (v, a) => `accent-color: ${resolveColorValue(v, a)};`,
     appearance: (v) => `appearance: ${v};`,
-    caret: (v, a) => `caret-color: ${a ? v : `var(--c-${v})`};`,
+    caret: (v, a) => `caret-color: ${resolveColorValue(v, a)};`,
     "color-scheme": (v) => `color-scheme: ${v};`,
     cursor: (v) => `cursor: ${v};`,
     "field-sizing": (v) => `field-sizing: ${v};`,
@@ -7760,12 +7901,12 @@ video {
     fill: (v, a) => {
       if (v === "none") return "fill: none;";
       if (v === "current") return "fill: currentColor;";
-      return `fill: ${a ? v : `var(--c-${v})`};`;
+      return `fill: ${resolveColorValue(v, a)};`;
     },
     stroke: (v, a) => {
       if (v === "none") return "stroke: none;";
       if (v === "current") return "stroke: currentColor;";
-      return `stroke: ${a ? v : `var(--c-${v})`};`;
+      return `stroke: ${resolveColorValue(v, a)};`;
     },
     "stroke-w": (v, a) => `stroke-width: ${a ? v : `${v}px`};`,
     "forced-colors": (v) => `forced-color-adjust: ${v};`
@@ -8911,105 +9052,158 @@ video {
   try {
     (function() {
       "use strict";
+      var MAX_ATTR_LENGTH = 1e3;
+      var MAX_TOKEN_LENGTH = 200;
       function validateConfig(config) {
         if (!config || typeof config !== "object" || Array.isArray(config)) return false;
         if (config.theme && (typeof config.theme !== "object" || Array.isArray(config.theme))) return false;
+        if (config.content && !Array.isArray(config.content)) return false;
+        if (config.output && typeof config.output !== "object") return false;
         return true;
       }
       function loadInlineConfig() {
-        const configEl = document.querySelector('script[type="senangstart/config"]');
+        var configEl = document.querySelector('script[type="senangstart/config"]');
         if (!configEl) return {};
+        var text = (configEl.textContent || "").trim();
+        if (!text) return {};
+        if (text.length > 5e4) {
+          console.error("[SenangStart] Config content exceeds maximum length");
+          return {};
+        }
         try {
-          const parsed = JSON.parse(configEl.textContent);
+          var parsed = JSON.parse(text);
           if (!validateConfig(parsed)) {
             console.error("[SenangStart] Invalid config structure");
             return {};
           }
           return parsed;
         } catch (e) {
-          console.error("[SenangStart] Invalid config JSON:", e);
+          console.error("[SenangStart] Invalid config JSON:", e.message);
           return {};
         }
       }
       function getFinalConfig() {
-        const user = loadInlineConfig();
+        var user = loadInlineConfig();
         return mergeConfig(user);
       }
+      function sanitizeAttributeValue(value) {
+        if (typeof value !== "string") return "";
+        if (value.length > MAX_ATTR_LENGTH) return "";
+        if (/[<>"']/.test(value)) return "";
+        return value;
+      }
       function scanElement(el, tokens) {
-        ["layout", "space", "visual"].forEach((attr) => {
-          const value = el.getAttribute(attr);
+        var attrs = ["layout", "space", "visual"];
+        for (var i = 0; i < attrs.length; i++) {
+          var value = el.getAttribute(attrs[i]);
           if (value) {
-            value.split(/\s+/).forEach((token) => {
-              if (token) tokens[attr].add(token);
-            });
+            value = sanitizeAttributeValue(value);
+            if (!value) continue;
+            var parts = value.split(/\s+/);
+            for (var j = 0; j < parts.length; j++) {
+              var token = parts[j];
+              if (token && token.length <= MAX_TOKEN_LENGTH) {
+                tokens[attrs[i]].add(token);
+              }
+            }
           }
-        });
-        ["interact", "listens"].forEach((attr) => {
-          const value = el.getAttribute(attr);
+        }
+        var stateAttrs = ["interact", "listens"];
+        for (var i = 0; i < stateAttrs.length; i++) {
+          var value = el.getAttribute(stateAttrs[i]);
           if (value) {
-            value.split(/\s+/).forEach((id) => {
-              if (id) tokens[attr].add(id);
-            });
+            value = sanitizeAttributeValue(value);
+            if (!value) continue;
+            var parts = value.split(/\s+/);
+            for (var j = 0; j < parts.length; j++) {
+              var id = parts[j];
+              if (id && id.length <= MAX_TOKEN_LENGTH) {
+                tokens[stateAttrs[i]].add(id);
+              }
+            }
           }
-        });
+        }
       }
       function scanRoot(root, tokens) {
-        const elements = root.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
-        elements.forEach((el) => scanElement(el, tokens));
+        var elements = root.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
+        for (var i = 0; i < elements.length; i++) {
+          scanElement(elements[i], tokens);
+        }
       }
       function scanDOM() {
-        const tokens = {
+        var tokens = {
           layout: /* @__PURE__ */ new Set(),
           space: /* @__PURE__ */ new Set(),
           visual: /* @__PURE__ */ new Set(),
           interact: /* @__PURE__ */ new Set(),
           listens: /* @__PURE__ */ new Set()
         };
+        if (!document.body) return tokens;
         scanRoot(document, tokens);
-        document.querySelectorAll("*").forEach((el) => {
-          if (el.shadowRoot) {
-            scanRoot(el.shadowRoot, tokens);
+        var allEls = document.querySelectorAll("*");
+        for (var i = 0; i < allEls.length; i++) {
+          if (allEls[i].shadowRoot) {
+            scanRoot(allEls[i].shadowRoot, tokens);
           }
-        });
+        }
         return tokens;
       }
       function tokensEqual(a, b) {
-        const keys = ["layout", "space", "visual", "interact", "listens"];
-        for (const key of keys) {
-          const setA = a[key] || /* @__PURE__ */ new Set();
-          const setB = b[key] || /* @__PURE__ */ new Set();
+        var keys = ["layout", "space", "visual", "interact", "listens"];
+        for (var i = 0; i < keys.length; i++) {
+          var setA = a[keys[i]];
+          var setB = b[keys[i]];
           if (setA.size !== setB.size) return false;
-          for (const item of setA) {
+        }
+        for (var i = 0; i < keys.length; i++) {
+          var setA = a[keys[i]];
+          var setB = b[keys[i]];
+          for (var item of setA) {
             if (!setB.has(item)) return false;
           }
         }
         return true;
       }
       function compileCSS(domTokens, config) {
-        const tokens = tokenizeAll(domTokens);
+        var tokens = tokenizeAll(domTokens);
         return generateCSS(tokens, config);
       }
+      function sanitizeCSSOutput(css) {
+        return css.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "").replace(/@import\s+url\(\s*['"]?(?:javascript|data|vbscript)\s*:/gi, "");
+      }
       function injectStyles(css) {
-        let styleEl = document.getElementById("senangstart-jit");
+        var sanitized = sanitizeCSSOutput(css);
+        var head = document.head || document.getElementsByTagName("head")[0];
+        if (!head) return;
+        var styleEl = document.getElementById("senangstart-jit");
         if (!styleEl) {
           styleEl = document.createElement("style");
           styleEl.id = "senangstart-jit";
-          document.head.appendChild(styleEl);
+          head.appendChild(styleEl);
         }
-        styleEl.textContent = css;
+        styleEl.textContent = sanitized;
       }
       function init() {
-        const config = getFinalConfig();
-        let cachedTokens = scanDOM();
-        let css = compileCSS(cachedTokens, config);
+        var config = getFinalConfig();
+        if (!document.body) {
+          console.warn("[SenangStart] document.body not ready; deferring initialization");
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function() {
+              init();
+            });
+            return;
+          }
+        }
+        var cachedTokens = scanDOM();
+        var css = compileCSS(cachedTokens, config);
         injectStyles(css);
         var debounceTimer = null;
         var DEBOUNCE_MS = 200;
         function recompile() {
-          unboundedObserver.disconnect();
+          observer.disconnect();
           var newTokens = scanDOM();
           if (tokensEqual(cachedTokens, newTokens)) {
-            unboundedObserver.observe(document.body, {
+            observer.observe(document.body, {
               childList: true,
               subtree: true,
               attributes: true,
@@ -9020,18 +9214,18 @@ video {
           cachedTokens = newTokens;
           css = compileCSS(newTokens, config);
           injectStyles(css);
-          unboundedObserver.observe(document.body, {
+          observer.observe(document.body, {
             childList: true,
             subtree: true,
             attributes: true,
             attributeFilter: ["layout", "space", "visual", "interact", "listens"]
           });
         }
-        var unboundedObserver = new MutationObserver(function() {
+        var observer = new MutationObserver(function() {
           if (debounceTimer) clearTimeout(debounceTimer);
           debounceTimer = setTimeout(recompile, DEBOUNCE_MS);
         });
-        unboundedObserver.observe(document.body, {
+        observer.observe(document.body, {
           childList: true,
           subtree: true,
           attributes: true,
@@ -9051,11 +9245,11 @@ video {
     })();
   } catch (e) {
     console.error("[SenangStart] Failed to initialize JIT runtime:", e.message);
-    if (typeof document !== "undefined") {
+    if (typeof document !== "undefined" && document.body) {
       el = document.createElement("div");
       el.style.cssText = "background:#fef2f2;color:#991b1b;padding:8px 16px;font-family:monospace;font-size:14px;";
       el.textContent = "SenangStart CSS failed to load. See console for details.";
-      document.body && document.body.prepend(el);
+      document.body.prepend(el);
     }
   }
   var el;

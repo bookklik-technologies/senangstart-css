@@ -15,6 +15,7 @@ export const gridColumns = {
   descriptionMs: 'Tentukan templat lajur grid',
   category: 'layout',
   dynamic: true,
+  supportsArbitrary: true,
   values: [
     { value: '1-12', css: 'grid-template-columns: repeat({n}, minmax(0, 1fr));', description: 'N equal columns', descriptionMs: 'N lajur sama' },
     { value: 'none', css: 'grid-template-columns: none;', description: 'No columns defined', descriptionMs: 'Tiada lajur ditakrifkan' },

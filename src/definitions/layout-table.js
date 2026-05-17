@@ -10,7 +10,7 @@
 export const borderCollapse = {
   name: 'border-collapse',
   property: 'layout',
-  syntax: 'layout="border:[value]"',
+  syntax: 'layout="[value]"',
   description: 'Control table border collapse',
   descriptionMs: 'Kawal runtuhan sempadan jadual',
   category: 'layout',
@@ -19,7 +19,7 @@ export const borderCollapse = {
     { value: 'separate', css: 'border-collapse: separate;', description: 'Separate borders', descriptionMs: 'Asingkan sempadan' }
   ],
   examples: [
-    { code: '<table layout="border:collapse">Collapsed table</table>', description: 'Collapse table borders' }
+    { code: '<table layout="collapse">Collapsed table</table>', description: 'Collapse table borders' }
   ],
   preview: [
     {
@@ -27,7 +27,7 @@ export const borderCollapse = {
       titleMs: 'Runtuh Sempadan',
       description: 'Table borders collapse into single lines',
       descriptionMs: 'Sempadan jadual runtuh menjadi satu baris',
-      html: `<table layout="border:collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
+      html: `<table layout="collapse" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white">A1</td>
@@ -39,14 +39,14 @@ export const borderCollapse = {
     </tr>
   </tbody>
 </table>`,
-      highlightValue: 'border:collapse'
+      highlightValue: 'collapse'
     },
     {
       title: 'Border Separate',
       titleMs: 'Asingkan Sempadan',
       description: 'Table borders are separate (default)',
       descriptionMs: 'Sempadan jadual diasingkan (lalai)',
-      html: `<table layout="border:separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
+      html: `<table layout="separate" visual="border:1 border:neutral-300 dark:border:neutral-700" style="width: 100%; border-spacing: 4px;">
   <tbody>
     <tr>
       <td space="p:small" visual="border:1 border:neutral-300 dark:border:neutral-700 bg:primary text:white rounded:small">A1</td>
@@ -58,7 +58,7 @@ export const borderCollapse = {
     </tr>
   </tbody>
 </table>`,
-      highlightValue: 'border:separate'
+      highlightValue: 'separate'
     }
   ]
 };

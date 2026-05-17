@@ -18,6 +18,11 @@ layout="[display-value]"
 | `block` | `display: block` | Block element |
 | `inline` | `display: inline` | Inline element |
 | `inline-block` | `display: inline-block` | Inline block element |
+| `table` | `display: table` | Table element |
+| `table-row` | `display: table-row` | Table row element |
+| `table-cell` | `display: table-cell` | Table cell element |
+| `list-item` | `display: list-item` | List item element |
+| `contents` | `display: contents` | Display contents only (no box) |
 | `hidden` | `display: none` | Hidden element |
 
 ## Examples
@@ -25,6 +30,7 @@ layout="[display-value]"
 ```html
 <div layout="flex">Flexbox container</div>
 <div layout="grid">Grid container</div>
+<div layout="table">Table container</div>
 <div layout="hidden">Hidden element</div>
 ```
 

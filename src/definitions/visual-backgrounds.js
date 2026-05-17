@@ -637,7 +637,7 @@ export const backdropSepia = {
 export const gradientFrom = {
   name: 'gradient-from',
   property: 'visual',
-  syntax: 'visual="from:[color]"',
+  syntax: 'visual="from:[color]/[opacity]"',
   description: 'Set gradient start color',
   descriptionMs: 'Tetapkan warna mula gradien',
   category: 'visual',
@@ -668,7 +668,7 @@ export const gradientFrom = {
 export const gradientVia = {
   name: 'gradient-via',
   property: 'visual',
-  syntax: 'visual="via:[color]"',
+  syntax: 'visual="via:[color]/[opacity]"',
   description: 'Set gradient middle color',
   descriptionMs: 'Tetapkan warna tengah gradien',
   category: 'visual',
@@ -697,7 +697,7 @@ export const gradientVia = {
 export const gradientTo = {
   name: 'gradient-to',
   property: 'visual',
-  syntax: 'visual="to:[color]"',
+  syntax: 'visual="to:[color]/[opacity]"',
   description: 'Set gradient end color',
   descriptionMs: 'Tetapkan warna akhir gradien',
   category: 'visual',

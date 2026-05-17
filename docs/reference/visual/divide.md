@@ -4,7 +4,7 @@ Add borders between child elements
 
 ## Syntax
 ```
-visual="divide:[color]" | visual="divide-{x|y}:[color]" | visual="divide-{x|y}:reverse"
+visual="divide:[color]/[opacity]" | visual="divide-{x|y}:[color]/[opacity]" | visual="divide-{x|y}:reverse"
 ```
 
 ## Values
@@ -22,6 +22,7 @@ visual="divide:[color]" | visual="divide-{x|y}:[color]" | visual="divide-{x|y}:r
 <div visual="divide-y:gray-300 divide-y-w:regular">
 <div visual="divide-x:danger divide-x-w:thin">
 <div layout="flex flex-row-reverse" visual="divide-x:primary divide-x-w:thin divide-x:reverse">
+<div visual="divide:primary/50 divide-w:thin">
 ```
 
 ## Preview
