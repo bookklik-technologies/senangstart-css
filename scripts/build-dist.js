@@ -132,6 +132,7 @@ async function main() {
 
   const standaloneCSS = [
     `/* SenangStart CSS v${version} | MIT License */`,
+    '',
     `/* Preflight + CSS Variables — for non-JIT consumers */`,
     '',
     generatePreflight(defaultConfig),

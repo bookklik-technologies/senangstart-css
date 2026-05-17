@@ -667,10 +667,12 @@ html,
 /*
  * 1. Remove the margin in all browsers
  * 2. Inherit line-height from html so users can set them as a class directly on the html element
+ * 3. Support safe-area-inset for modern devices with notches
  */
 body {
   margin: 0; /* 1 */
   line-height: inherit; /* 2 */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); /* 3 */
 }
 
 /*
@@ -695,7 +697,8 @@ textarea::placeholder {
 }
 
 /*
- * Remove the default font size and weight for headings
+ * 1. Remove the default font size and weight for headings
+ * 2. Make sure links don't get underlined in headings
  */
 h1,
 h2,
@@ -703,8 +706,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: inherit;
-  font-weight: inherit;
+  font-size: inherit; /* 1 */
+  font-weight: inherit; /* 1 */
+  text-decoration: none; /* 2 */
 }
 
 /*
@@ -840,12 +844,7 @@ abbr:where([title]) {
   text-decoration: underline dotted;
 }
 
-/*
- * Make sure links don't get underlined in headings
- */
-h1, h2, h3, h4, h5, h6 {
-  text-decoration: none;
-}
+
 
 /*
  * Correct the cursor style of increment and decrement buttons in Safari
@@ -915,16 +914,7 @@ legend {
   padding: 0;
 }
 
-/*
- * Support safe-area-inset for modern devices with notches
- * Only applied to body to avoid adding unwanted padding to all elements
- */
-body {
-  padding-top: env(safe-area-inset-top);
-  padding-right: env(safe-area-inset-right);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-}
+
 
 /*
  * Reset default styling for dialogs
