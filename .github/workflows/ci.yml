@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [20]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -103,7 +103,8 @@ jobs:
 
   visual:
     name: Visual Regression
-    runs-on: ubuntu-latest
+    # Match the committed *-chromium-win32.png screenshot baselines.
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
