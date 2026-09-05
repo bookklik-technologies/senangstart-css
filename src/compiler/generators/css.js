@@ -18,24 +18,8 @@ function sanitizeArbitraryValue(value) {
 }
 
 // Shared CSS maps (defined once, not inside functions)
-const positioningPercentages = {
-  'full': '100%',
-  'half': '50%',
-  'third': '33.333333%',
-  'third-2x': '66.666667%',
-  'quarter': '25%',
-  'quarter-2x': '50%',
-  'quarter-3x': '75%',
-  '1/1': '100%',
-  '1/2': '50%',
-  '1/3': '33.333333%',
-  '2/3': '66.666667%',
-  '1/4': '25%',
-  '2/4': '50%',
-  '3/4': '75%'
-};
-
-const percentageAdjectives = {
+// Percentage keywords/fractions used by both positioning and sizing utilities
+const percentageValues = {
   'full': '100%',
   'half': '50%',
   'third': '33.333333%',
@@ -339,12 +323,12 @@ function generateLayoutRule(token, _config) {
     if (!val || val === '0') return '0';
     if (val.startsWith('-')) {
       const positiveVal = val.substring(1);
-      if (positioningPercentages[positiveVal]) {
-        return `-${positioningPercentages[positiveVal]}`;
+      if (percentageValues[positiveVal]) {
+        return `-${percentageValues[positiveVal]}`;
       }
     }
-    if (positioningPercentages[val]) {
-      return positioningPercentages[val];
+    if (percentageValues[val]) {
+      return percentageValues[val];
     }
     return `var(--s-${val})`;
   };
@@ -556,8 +540,8 @@ function generateSpaceRule(token, _config) {
   }
 
   // Check if this is a sizing utility with a percentage adjective
-  if (sizingProps.includes(property) && percentageAdjectives[value]) {
-    const cssVal = percentageAdjectives[value];
+  if (sizingProps.includes(property) && percentageValues[value]) {
+    const cssVal = percentageValues[value];
     const propMap = {
       'w': `width: ${cssVal};`,
       'h': `height: ${cssVal};`,
@@ -858,6 +842,90 @@ function getDarkModeSelector(config) {
 }
 
 /**
+ * Prefix every selector in a CSS rule with a descendant selector.
+ * Handles comma-separated selector lists (including group/peer selectors)
+ * without touching declaration blocks.
+ * @param {string} rule - Single rule string, e.g. "[a~="x"],\n[b~="y"] { decl }\n"
+ * @param {string} prefix - Selector to prepend, e.g. ".dark"
+ * @returns {string} Prefixed rule
+ */
+function prefixRuleSelectors(rule, prefix) {
+  const braceIndex = rule.indexOf('{');
+  if (braceIndex === -1) return rule;
+
+  const selectorPart = rule.slice(0, braceIndex);
+  const rest = rule.slice(braceIndex);
+
+  const prefixed = selectorPart
+    .split(',')
+    .map((sel) => {
+      const trimmed = sel.trim();
+      if (!trimmed) return sel;
+      // Nested @media wrappers or at-rules must not be prefixed
+      if (trimmed.startsWith('@')) return sel;
+      return `${prefix} ${trimmed}`;
+    })
+    .join(',\n');
+
+  return `${prefixed} ${rest}`;
+}
+
+/**
+ * Indent every non-empty line of a CSS fragment.
+ * @param {string} css - CSS fragment
+ * @param {string} indent - Indentation string, e.g. "  "
+ * @returns {string} Indented CSS
+ */
+function indentCSS(css, indent) {
+  return css
+    .split('\n')
+    .map((line) => (line.trim() ? indent + line : line))
+    .join('\n');
+}
+
+/**
+ * Emit rules for a group of dark tokens, optionally nested inside a
+ * breakpoint media query when the group has a breakpoint.
+ * @param {Array} bpTokens - Dark tokens sharing the same breakpoint
+ * @param {string|null} breakpoint - Breakpoint name or null for base
+ * @param {Object} ctx - { config, screens, interactIds, errors, wrapSelector (string|null) }
+ * @returns {string} CSS fragment
+ */
+function generateDarkRules(bpTokens, breakpoint, ctx) {
+  const { config, screens, interactIds, errors, wrapSelector } = ctx;
+  let out = '';
+
+  const emitRules = (innerIndent) => {
+    let inner = '';
+    for (const token of bpTokens) {
+      try {
+        const rule = generateRule(token, config, true, interactIds);
+        if (rule) {
+          const finalRule = wrapSelector ? prefixRuleSelectors(rule, wrapSelector) : rule;
+          inner += indentCSS(finalRule, innerIndent);
+        } else {
+          errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
+        }
+      } catch (e) {
+        errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
+        console.warn(`[SenangStart] Error generating dark rule: ${e.message}`);
+      }
+    }
+    return inner;
+  };
+
+  if (!breakpoint) {
+    return emitRules(ctx.baseIndent || '');
+  }
+
+  const screenWidth = screens && screens[breakpoint] ? screens[breakpoint] : breakpoint;
+  out += `  @media (min-width: ${screenWidth}) {\n`;
+  out += emitRules('    ');
+  out += '  }\n';
+  return out;
+}
+
+/**
  * Generate CSS from tokens with detailed error reporting
  * Each token is processed in isolation - one failure doesn't crash the build
  * @param {Array} tokens - Array of token objects
@@ -918,8 +986,10 @@ export function generateCSSWithErrors(tokens, config) {
 `;
 
     // Group tokens by breakpoint and dark mode
+    // Dark tokens are bucketed by breakpoint so breakpoint+dark combos (e.g. tab:dark:bg:black)
+    // keep their responsive media query when emitted inside the dark mode block.
     const baseTokens = [];
-    const darkTokens = [];
+    const darkTokensByBreakpoint = new Map();
     const breakpointTokens = {};
 
     // Initialize breakpoint collections from config
@@ -934,7 +1004,11 @@ export function generateCSSWithErrors(tokens, config) {
       try {
         if (token && typeof token === 'object') {
           if (token.state === 'dark') {
-            darkTokens.push(token);
+            const bpKey = token.breakpoint || null;
+            if (!darkTokensByBreakpoint.has(bpKey)) {
+              darkTokensByBreakpoint.set(bpKey, []);
+            }
+            darkTokensByBreakpoint.get(bpKey).push(token);
           } else if (token.breakpoint) {
             if (!breakpointTokens[token.breakpoint]) {
               breakpointTokens[token.breakpoint] = [];
@@ -1047,44 +1121,27 @@ export function generateCSSWithErrors(tokens, config) {
       }
     }
 
-    // Generate dark mode rules
-    if (darkTokens.length > 0) {
+    // Generate dark mode rules (grouped by breakpoint so breakpoint+dark
+    // combos like tab:dark:bg:black keep their responsive media query)
+    if (darkTokensByBreakpoint.size > 0) {
       try {
         const darkMode = config.darkMode || 'media';
         const darkSelector = getDarkModeSelector(config);
+        const darkCtx = { config, screens, interactIds, errors, baseIndent: darkMode === 'media' ? '  ' : '' };
 
         if (darkMode === 'media') {
           css += `\n/* Dark Mode (prefers-color-scheme) */\n`;
           css += `@media (prefers-color-scheme: dark) {\n`;
-          for (const token of darkTokens) {
-            try {
-              const rule = generateRule(token, config, true, interactIds);
-              if (rule) {
-                css += '  ' + rule;
-              } else {
-                errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
-              }
-            } catch (e) {
-              errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating dark rule (media): ${e.message}`);
-            }
+          // Base (no breakpoint) rules first, then breakpoint-nested rules
+          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
+            css += generateDarkRules(bpDarkTokens, bp || null, darkCtx);
           }
           css += '}\n';
         } else {
           css += `\n/* Dark Mode (${darkSelector}) */\n`;
-          for (const token of darkTokens) {
-            try {
-              const baseRule = generateRule(token, config, true, interactIds);
-              if (baseRule) {
-                const wrappedRule = baseRule.replace(/^(\[[^\]]+?\])/m, `${darkSelector} $1`);
-                css += wrappedRule;
-              } else {
-                errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
-              }
-            } catch (e) {
-              errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating dark rule (selector): ${e.message}`);
-            }
+          const selectorCtx = { ...darkCtx, wrapSelector: darkSelector };
+          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
+            css += generateDarkRules(bpDarkTokens, bp || null, selectorCtx);
           }
         }
       } catch (e) {
@@ -1115,17 +1172,63 @@ export function generateCSS(tokens, config) {
 /**
  * Minify CSS by removing whitespace and comments
  * Preserves spaces inside CSS values (font shorthand, media queries, etc.)
+ * String/comment-aware: quoted strings (e.g. content:"a: b") and url(...)
+ * tokens (e.g. url(data:image/png;base64,...)) are never mangled.
  */
 export function minifyCSS(css) {
-  return css
-    .replace(/\/\*[\s\S]*?\*\//g, '')       // Remove comments
+  if (typeof css !== 'string' || css === '') return '';
+
+  // Pass 1: strip comments with a scanner that respects quoted strings
+  let stripped = '';
+  let state = 'normal'; // normal | string | comment
+  let quote = '';
+  for (let i = 0; i < css.length; i++) {
+    const ch = css[i];
+    if (state === 'comment') {
+      if (ch === '*' && css[i + 1] === '/') {
+        state = 'normal';
+        i++;
+      }
+      continue;
+    }
+    if (state === 'string') {
+      stripped += ch;
+      if (ch === '\\') {
+        stripped += css[i + 1] || '';
+        i++;
+      } else if (ch === quote) {
+        state = 'normal';
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      state = 'string';
+      quote = ch;
+      stripped += ch;
+      continue;
+    }
+    if (ch === '/' && css[i + 1] === '*') {
+      state = 'comment';
+      i++;
+      continue;
+    }
+    stripped += ch;
+  }
+
+  // Pass 2: preserve quoted strings as placeholders, collapse the rest
+  const preserved = [];
+  const collapsed = stripped
+    .replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, (m) => `\u0000${preserved.push(m) - 1}\u0000`)
     .replace(/\s+/g, ' ')                    // Collapse whitespace to single space
     .replace(/ ?\{ ?/g, '{')                 // Remove space around {
     .replace(/ ?\} ?/g, '}')                 // Remove space around }
     .replace(/; ?/g, ';')                    // Remove space after ;
-    .replace(/([a-z-]) ?: ?/g, '$1:')      // Remove space around : only after property names
+    .replace(/([a-z-]) ?: ?/g, '$1:')        // Remove space around : only after property names
     .replace(/, ?/g, ',')                    // Remove space after ,
     .trim();
+
+  // Pass 3: restore preserved strings
+  return collapsed.replace(/\u0000(\d+)\u0000/g, (_, i) => preserved[Number(i)] ?? '');
 }
 
 export default { generateCSS, generateCSSVariables, generateRule, minifyCSS };

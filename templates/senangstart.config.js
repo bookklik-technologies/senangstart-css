@@ -1,6 +1,6 @@
 /**
  * SenangStart CSS Configuration
- * @see https://senangstart.dev/docs/configuration
+ * @see https://bookklik-technologies.github.io/senangstart-css/guide/configuration
  */
 
 export default {
@@ -18,6 +18,18 @@ export default {
     aiContext: './.cursorrules',
     typescript: './types/senang.d.ts'
   },
+
+  // Build behavior
+  build: {
+    // true = warn instead of failing on invalid tokens (same as --ignore-invalid)
+    ignoreInvalid: false
+  },
+
+  // Base reset styles (set false if you have your own reset/normalize)
+  preflight: true,
+
+  // Dark mode: 'media' (OS preference) | 'selector' (.dark class) | ['selector', '.custom']
+  darkMode: 'media',
 
   // Theme customization
   theme: {

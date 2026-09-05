@@ -71,6 +71,9 @@ export interface SenangStartConfig {
     aiContext?: string;
     typescript?: string;
   };
+  build?: {
+    ignoreInvalid?: boolean;
+  };
   preflight?: boolean;
   darkMode?: 'media' | 'selector' | [string, string];
 }

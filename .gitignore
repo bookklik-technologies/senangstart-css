@@ -5,6 +5,8 @@ node_modules/
 # dist/
 # public/senangstart.css
 # public/senangstart.min.css
+# Windows EPERM fallback files created by scripts/build-dist.js
+*.old
 
 # Generated files
 .cursorrules

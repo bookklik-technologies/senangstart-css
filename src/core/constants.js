@@ -2,17 +2,15 @@
  * SenangStart CSS - Core Constants
  * Shared constants used by both JIT runtime and build-time compiler
  *
- * NOTE: DEFAULT_THEME is a lightweight theme used by the CDN/JIT runtime.
- * The canonical, full-featured theme is in src/config/defaults.js (defaultConfig.theme).
- * These differ intentionally: DEFAULT_THEME uses px-based compact font sizes
- * for smaller bundle size, while defaultConfig.theme uses rem-based full-scale
- * font sizes. The Tailwind compatibility scales (TW_SPACING, etc.) are the
- * single source of truth for tw-* prefixed values used by both.
+ * NOTE: The canonical default theme lives in src/config/defaults.js
+ * (defaultConfig.theme) — that is what the JIT runtime and build compiler
+ * both consume via mergeConfig(). The Tailwind compatibility scales
+ * (TW_SPACING, etc.) are the single source of truth for tw-* prefixed
+ * values used by both.
  *
- * Colors are now sourced from src/config/colors.js (COLOR_PALETTE) to avoid duplication.
+ * Colors are defined in src/config/colors.js (COLOR_PALETTE) and consumed by
+ * defaultConfig.theme in src/config/defaults.js.
  */
-
-import { COLOR_PALETTE } from '../config/colors.js';
 
 // Configurable safety limits
 export const LIMITS = {
@@ -228,122 +226,6 @@ export const TYPOGRAPHY_KEYWORDS = {
   'list-outside': 'list-style-position: outside;'
 };
 
-// Default theme configuration
-export const DEFAULT_THEME = {
-  spacing: {
-    'none':      '0px',
-    'thin':      '1px',
-    'regular':   '2px',
-    'thick':     '3px',
-    'tiny':      '4px',
-    'tiny-2x':   '6px',
-    'small':     '8px',
-    'small-2x':  '10px',
-    'small-3x':  '12px',
-    'small-4x':  '14px',
-    'medium':    '16px',
-    'medium-2x': '20px',
-    'medium-3x': '24px',
-    'medium-4x': '28px',
-    'large':     '32px',
-    'large-2x':  '36px',
-    'large-3x':  '40px',
-    'large-4x':  '44px',
-    'big':       '48px',
-    'big-2x':    '56px',
-    'big-3x':    '64px',
-    'big-4x':    '80px',
-    'giant':     '96px',
-    'giant-2x':  '112px',
-    'giant-3x':  '128px',
-    'giant-4x':  '144px',
-    'vast':      '160px',
-    'vast-2x':   '176px',
-    'vast-3x':   '192px',
-    'vast-4x':   '208px',
-    'vast-5x':   '224px',
-    'vast-6x':   '240px',
-    'vast-7x':   '256px',
-    'vast-8x':   '288px',
-    'vast-9x':   '320px',
-    'vast-10x':  '384px'
-  },
-  radius: {
-    'none':   '0px',
-    'small':  '4px',
-    'medium': '8px',
-    'big':    '16px',
-    'round':  '9999px'
-  },
-  shadow: {
-    'none':   'none',
-    'small':  '0 1px 2px rgba(0,0,0,0.05)',
-    'medium': '0 4px 6px rgba(0,0,0,0.1)',
-    'big':    '0 10px 15px rgba(0,0,0,0.15)',
-    'giant':  '0 25px 50px rgba(0,0,0,0.25)'
-  },
-  fontSize: {
-    'tiny':   '12px',
-    'small':  '14px',
-    'medium': '16px',
-    'big':    '20px',
-    'giant':  '32px',
-    'vast':   '48px'
-  },
-  fontWeight: {
-    'normal': '400',
-    'medium': '500',
-    'bold': '700'
-  },
-  fontSizeLineHeight: {
-    'tiny': '1rem',
-    'small': '1.25rem',
-    'medium': '1.5rem',
-    'big': '1.75rem',
-    'giant': '1',
-    'vast': '1'
-  },
-  screens: {
-    'mob':  '480px',
-    'tab':  '768px',
-    'lap':  '1024px',
-    'desk': '1280px',
-    // Tailwind compatibility
-    'tw-sm': '640px',
-    'tw-md': '768px',
-    'tw-lg': '1024px',
-    'tw-xl': '1280px',
-    'tw-2xl': '1536px'
-  },
-  colors: COLOR_PALETTE,
-  container: {
-    'mob': '480px',
-    'tab': '768px',
-    'lap': '1024px',
-    'desk': '1280px'
-  },
-  zIndex: {
-    'base':   '0',
-    'low':    '10',
-    'mid':    '50',
-    'high':   '100',
-    'top':    '9999'
-  },
-  blur: { none: '0', tiny: '2px', small: '4px', medium: '8px', big: '12px', giant: '24px', vast: '48px' },
-  brightness: { dim: '0.5', dark: '0.75', normal: '1', bright: '1.25', vivid: '1.5' },
-  contrast: { low: '0.5', reduced: '0.75', normal: '1', high: '1.25', max: '1.5' },
-  grayscale: { none: '0%', partial: '50%', full: '100%' },
-  invert: { none: '0%', partial: '50%', full: '100%' },
-  saturate: { none: '0', low: '0.5', normal: '1', high: '1.5', vivid: '2' },
-  sepia: { none: '0%', partial: '50%', full: '100%' },
-  dropShadow: { none: 'none', tiny: '0 1px 1px rgba(0,0,0,0.05)', small: '0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)', medium: '0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)', big: '0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)', giant: '0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)' },
-  backdropOpacity: { invisible: '0', faint: '0.25', half: '0.5', visible: '0.75', solid: '1' },
-  transitionProperty: { none: 'none', all: 'all', DEFAULT: 'color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter', colors: 'color, background-color, border-color, text-decoration-color, fill, stroke', opacity: 'opacity', shadow: 'box-shadow', transform: 'transform' },
-  animationDuration: { instant: '75ms', quick: '100ms', fast: '150ms', normal: '200ms', slow: '300ms', slower: '500ms', lazy: '700ms' },
-  animationDelay: { instant: '75ms', quick: '100ms', fast: '150ms', normal: '200ms', slow: '300ms', slower: '500ms', lazy: '700ms' },
-  perspective: { none: 'none', dramatic: '100px', near: '300px', normal: '500px', midrange: '800px', far: '1000px', distant: '1200px' }
-};
-
 // Tailwind spacing scale
 // Note: Dotted keys like '0.5' are stored with hyphen equivalents ('0-5')
 // to avoid CSS variable escape issues (--tw-0\.5 → --tw-0-5)
@@ -411,7 +293,6 @@ export default {
   LAYOUT_KEYWORDS,
   LAYOUT_MAP,
   TYPOGRAPHY_KEYWORDS,
-  DEFAULT_THEME,
   TW_SPACING,
   TW_RADIUS,
   TW_SHADOW,

@@ -8,14 +8,33 @@ SenangStart provides a [Tailwind conversion engine](https://unpkg.com/@bookklik/
 
 ### Automated Conversion
 
+**Option A — Node script (from the SenangStart repository):**
+
 ```bash
-npx senangstart convert-tailwind input.html -o output.html
+git clone https://github.com/bookklik-technologies/senangstart-css.git
+cd senangstart-css
+node scripts/convert-tailwind.js /path/to/input.html -o /path/to/output.html
 ```
 
-For single strings:
+**Option B — Browser (anywhere, via CDN):**
+
+```html
+<script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-tw.min.js"></script>
+<script>
+  const html = document.documentElement.outerHTML;
+  const converted = window.SenangStartTW.convertHTML(html);
+  console.log(converted);
+</script>
+```
+
+`window.SenangStartTW` exposes `convertHTML(html)`, `convertClass(twClass)` and `convertClasses(classString)`.
+
+> **Note:** The converter is not part of the `senangstart` CLI (`senangstart --help` shows `init`, `build`, `dev`). Use the Node script from the repository or the browser bundle above.
+
+For single strings (Node script):
 
 ```bash
-npx senangstart convert-tailwind --string '<div class="flex p-4 bg-blue-500 text-white rounded-lg">'
+node scripts/convert-tailwind.js --string '<div class="flex p-4 bg-blue-500 text-white rounded-lg">'
 ```
 
 ### Manual Mapping
@@ -45,7 +64,7 @@ npx senangstart convert-tailwind --string '<div class="flex p-4 bg-blue-500 text
 For projects that need Tailwind scale fidelity without semantic mapping:
 
 ```bash
-npx senangstart convert-tailwind --exact input.html -o output.html
+node scripts/convert-tailwind.js --exact /path/to/input.html -o /path/to/output.html
 ```
 
 This preserves Tailwind numeric values using the `tw-` prefix (`space="p:tw-4"`).

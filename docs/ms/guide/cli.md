@@ -38,6 +38,9 @@ senangstart build
 |---------|------------|
 | `--minify` | Minify output CSS |
 | `--config <path>` | Laluan ke fail config |
+| `-o, --output <path>` | Override laluan fail CSS output |
+| `--no-preflight` | Kecualikan gaya asas Preflight |
+| `--ignore-invalid` | Amaran sahaja (jangan gagalkan build) untuk token tidak sah |
 
 ```bash
 # Build produksi dengan minification
@@ -45,7 +48,41 @@ senangstart build --minify
 
 # Guna config tersuai
 senangstart build --config ./custom.config.js
+
+# Laluan output tersuai
+senangstart build -o ./dist/styles.css
 ```
+
+### Pengendalian Token Tidak Sah
+
+Secara lalai, build akan **gagal dengan exit code 1** apabila token tidak sah ditemui (contohnya utiliti yang tidak diketahui atau nilai yang tidak sah). Setiap token tidak disenaraikan bersama jenis atributnya:
+
+```bash
+$ senangstart build
+✖ 1 error(s) found in source:
+  • invalid_layout_token (rule_generation): No rule generated
+...
+✖ Build failed: 1 invalid token(s). Fix the errors above or pass --ignore-invalid.
+```
+
+Untuk terus membina walaupun terdapat ralat (berguna semasa migrasi), sama ada guna flag:
+
+```bash
+senangstart build --ignore-invalid
+```
+
+atau tetapkan dalam config:
+
+```js
+// senangstart.config.js
+export default {
+  build: {
+    ignoreInvalid: true
+  }
+}
+```
+
+Dalam mod watch (`senangstart dev`), proses kekal berjalan dan merekod token tidak sah tanpa keluar.
 
 ### `senangstart dev`
 
@@ -169,6 +206,6 @@ Tambah ke pipeline bina anda:
 | Persediaan | Tanpa config | Memerlukan npm |
 | Langkah Bina | Tiada | Diperlukan |
 | Prestasi | Overhead runtime | Pra-kompil |
-| Saiz Fail | ~15KB JS | Hanya CSS yang digunakan |
+| Saiz Fail | ~333KB JS (60KB digzip) | Hanya CSS yang digunakan |
 | Kes Penggunaan | Prototaip | Produksi |
 | Kandungan Dinamik | ✅ Automatik | Perlu rebuild |

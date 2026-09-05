@@ -33,6 +33,13 @@ export const defaultConfig = {
   // false - Disable preflight completely
   preflight: true,
 
+  // Build behavior
+  build: {
+    // false (default) - build fails with exit code 1 on invalid tokens
+    // true - warn instead of failing (same as --ignore-invalid CLI flag)
+    ignoreInvalid: false
+  },
+
   theme: {
     // 1. SPACING: The "Natural Object" Scale with multiplier variants
     // Logic: How big is the object/gap physically?
@@ -347,6 +354,10 @@ export function mergeConfig(userConfig = {}) {
 
   if (userConfig.preflight !== undefined) {
     merged.preflight = userConfig.preflight;
+  }
+
+  if (userConfig.build && typeof userConfig.build === 'object') {
+    merged.build = { ...(merged.build || {}), ...userConfig.build };
   }
 
   if (userConfig.theme) {

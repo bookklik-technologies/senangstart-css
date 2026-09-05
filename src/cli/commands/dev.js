@@ -37,7 +37,7 @@ export async function dev(options = {}) {
     }
 
     try {
-      await build(options);
+      await build({ ...options, watch: true });
       consecutiveErrors = 0;
     } catch (error) {
       consecutiveErrors++;

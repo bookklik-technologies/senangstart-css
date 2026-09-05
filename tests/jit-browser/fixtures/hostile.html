@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SenangStart JIT - Hostile Attribute Fixture</title>
+  <script src="/dist/senangstart-css.min.js"></script>
+</head>
+<body>
+  <!-- Hostile tokens: XSS vectors that must be sanitized away -->
+  <div id="evil" visual="bg:red; background:url(javascript:alert(1)); color:expression(document.cookie)"></div>
+  <div id="evil2" visual="bg:blue" layout="flex" onmouseover="alert(2)"></div>
+  <div id="safe" visual="bg:white text:black">Safe element</div>
+</body>
+</html>

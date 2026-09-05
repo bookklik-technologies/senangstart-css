@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [18, 20]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -52,7 +52,7 @@ jobs:
         run: npm test
       - name: Test coverage
         run: |
-          npx c8 --reporter=text --reporter=lcov --check-coverage --lines 60 --branches 50 --functions 60 --statements 60 node --test tests/
+          npx c8 --exclude dist --reporter=text --reporter=lcov --check-coverage --lines 90 --branches 80 --functions 85 --statements 90 node --test tests/
 
   build:
     name: Build
@@ -67,6 +67,10 @@ jobs:
       - run: npm ci
       - name: Build dist
         run: npm run build:dist
+      - name: Packaging smoke tests (CJS/ESM imports)
+        run: node --test tests/packaging/
+      - name: Lint package exports (publint)
+        run: npx -y publint
       - name: Upload dist artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -79,3 +83,37 @@ jobs:
           name: coverage
           path: coverage/
           retention-days: 7
+
+  jit-browser:
+    name: JIT Engine (browser)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build dist
+        run: npm run build:dist
+      - name: Run JIT engine browser tests
+        run: npm run test:jit
+
+  visual:
+    name: Visual Regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build dist
+        run: npm run build:dist
+      - name: Run visual regression tests (Chromium)
+        run: npx playwright test --project=chromium

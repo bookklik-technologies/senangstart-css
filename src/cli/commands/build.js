@@ -5,11 +5,12 @@
 
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { readdir, stat } from 'fs/promises';
-import { join, dirname, resolve } from 'path';
+import { join, dirname, resolve, relative, isAbsolute } from 'path';
+import { pathToFileURL } from 'url';
 import { defaultConfig, mergeConfig } from '../../config/defaults.js';
 import { parseSource } from '../../compiler/parser.js';
 import { tokenizeAll, tokenizeAllWithBatching } from '../../compiler/tokenizer.js';
-import { generateCSS, minifyCSS } from '../../compiler/generators/css.js';
+import { generateCSSWithErrors, minifyCSS } from '../../compiler/generators/css.js';
 import { generateAIContext } from '../../compiler/generators/ai-context.js';
 import { generateTypeScript } from '../../compiler/generators/typescript.js';
 import logger from '../../utils/logger.js';
@@ -130,6 +131,24 @@ async function findFiles(patterns) {
 }
 
 /**
+ * Check whether a resolved path is safely contained within the given root.
+ * Uses path.relative so sibling directories (e.g. /app vs /app-evil) don't
+ * pass a startsWith check. Case-insensitive on Windows.
+ * @param {string} resolvedPath - Absolute resolved path to check
+ * @param {string} root - Absolute root directory
+ * @returns {boolean} - True if safely inside root
+ */
+export function isPathInsideRoot(resolvedPath, root) {
+  const rel = relative(root, resolvedPath);
+  if (rel === '' || isAbsolute(rel)) return false;
+  // Windows paths are case-insensitive
+  if (process.platform === 'win32') {
+    return !rel.toLowerCase().startsWith('..');
+  }
+  return !rel.startsWith('..');
+}
+
+/**
  * Load user config with path traversal protection
  */
 async function loadConfig(configPath) {
@@ -143,13 +162,13 @@ async function loadConfig(configPath) {
   // Validate path is within allowed directory
   const resolvedFilePath = resolve(fullPath);
   const cwdResolved = resolve(process.cwd());
-  if (!resolvedFilePath.startsWith(cwdResolved)) {
+  if (!isPathInsideRoot(resolvedFilePath, cwdResolved)) {
     logger.error(`Invalid config path: ${configPath}`);
     return defaultConfig;
   }
 
   try {
-    const userConfig = await import('file://' + fullPath);
+    const userConfig = await import(pathToFileURL(resolvedFilePath).href);
     return mergeConfig(userConfig.default || userConfig);
   } catch (e) {
     logger.error(`Failed to load config: ${e.message}`);
@@ -173,6 +192,7 @@ function ensureDir(filePath) {
 export async function build(options = {}) {
   const startTime = Date.now();
   let hasErrors = false;
+  let hasInvalidTokens = false;
 
   logger.build('Starting build...');
 
@@ -268,21 +288,43 @@ export async function build(options = {}) {
 
   logger.info(`Generated ${tokens.length} tokens`);
 
-  // Check for invalid tokens
+  // Check for invalid tokens:
+  //  - tokenizer-level errors (token.error: malformed/oversized values)
+  //  - generation-level errors (unknown utilities that produced no CSS rule)
+  // By default the build FAILS (exit code 1) when invalid tokens are found.
+  // Escape hatch: --ignore-invalid CLI flag or build.ignoreInvalid in config.
+  const ignoreInvalid = options.ignoreInvalid === true || config.build?.ignoreInvalid === true;
   const invalidTokens = tokens.filter(token => token.error);
-  if (invalidTokens.length > 0) {
-    logger.warn(`${invalidTokens.length} error(s) found in source:`);
+  let css;
+  let tokenGenerationErrors = [];
+  try {
+    const { css: generatedCSS, errors: generationErrors } = generateCSSWithErrors(tokens, config);
+    css = generatedCSS;
+    tokenGenerationErrors = (generationErrors || []).filter(e => e && e.token);
+  } catch (e) {
+    throw new Error(`CSS generation failed: ${e.message}`);
+  }
+
+  const totalInvalid = invalidTokens.length + tokenGenerationErrors.length;
+  if (totalInvalid > 0) {
+    if (ignoreInvalid) {
+      logger.warn(`${totalInvalid} error(s) found in source (ignored):`);
+    } else {
+      logger.error(`${totalInvalid} error(s) found in source:`);
+    }
     for (const token of invalidTokens) {
-      logger.warn(`  • ${token.raw} (${token.attrType}): ${token.error}`);
+      (ignoreInvalid ? logger.warn : logger.error)(`  • ${token.raw} (${token.attrType}): ${token.error}`);
+    }
+    for (const genError of tokenGenerationErrors) {
+      (ignoreInvalid ? logger.warn : logger.error)(`  • ${genError.token} (${genError.type}): ${genError.message}`);
+    }
+    if (!ignoreInvalid) {
+      hasInvalidTokens = true;
     }
   }
 
-  // Generate CSS
-  let css;
-  try {
-    css = generateCSS(tokens, config);
-  } catch (e) {
-    throw new Error(`CSS generation failed: ${e.message}`);
+  if (!css) {
+    throw new Error('CSS generation failed: no CSS generated');
   }
 
   if (config.output.minify) {
@@ -337,6 +379,14 @@ export async function build(options = {}) {
 
   if (hasErrors) {
     logger.warn('Build completed with warnings');
+  }
+
+  // Fail the build (non-zero exit) when invalid tokens were found.
+  // In watch mode (dev), the process stays alive — errors are surfaced
+  // via the logger and the exit code is not set.
+  if (hasInvalidTokens && !options.watch) {
+    logger.error(`Build failed: ${totalInvalid} invalid token(s). Fix the errors above or pass --ignore-invalid.`);
+    process.exitCode = 1;
   }
 }
 

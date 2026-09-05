@@ -38,6 +38,9 @@ senangstart build
 |--------|-------------|
 | `--minify` | Minify the output CSS |
 | `--config <path>` | Path to config file |
+| `-o, --output <path>` | Override the output CSS file path |
+| `--no-preflight` | Exclude Preflight base styles |
+| `--ignore-invalid` | Warn instead of failing on invalid tokens |
 
 ```bash
 # Production build with minification
@@ -45,7 +48,41 @@ senangstart build --minify
 
 # Use custom config
 senangstart build --config ./custom.config.js
+
+# Custom output path
+senangstart build -o ./dist/styles.css
 ```
+
+### Invalid Token Handling
+
+By default, the build **fails with exit code 1** when invalid tokens are found (e.g. unknown utilities or malformed values). Each invalid token is listed with its attribute type:
+
+```bash
+$ senangstart build
+✖ 1 error(s) found in source:
+  • invalid_layout_token (rule_generation): No rule generated
+...
+✖ Build failed: 1 invalid token(s). Fix the errors above or pass --ignore-invalid.
+```
+
+To keep building despite errors (useful during migration), either pass the flag:
+
+```bash
+senangstart build --ignore-invalid
+```
+
+or set it in your config:
+
+```js
+// senangstart.config.js
+export default {
+  build: {
+    ignoreInvalid: true
+  }
+}
+```
+
+In watch mode (`senangstart dev`), the process stays alive and logs invalid tokens without exiting.
 
 ### `senangstart dev`
 
@@ -169,6 +206,6 @@ Add to your build pipeline:
 | Setup | Zero config | Requires npm |
 | Build Step | None | Required |
 | Performance | Runtime overhead | Pre-compiled |
-| File Size | ~15KB JS | Only CSS used |
+| File Size | ~333KB JS (60KB gzipped) | Only CSS used |
 | Use Case | Prototyping | Production |
 | Dynamic Content | ✅ Automatic | Requires rebuild |

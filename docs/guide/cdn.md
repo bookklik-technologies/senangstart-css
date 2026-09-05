@@ -66,11 +66,17 @@ Now you can use your custom values:
 
 ## Local Development
 
-For local development without a CDN, use the local JIT file:
+For local development without a CDN, install the package and point to the bundled JIT file:
+
+```bash
+npm i @bookklik/senangstart-css
+```
 
 ```html
-<script src="./path/to/senangstart/src/cdn/senangstart-engine.js"></script>
+<script src="./node_modules/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 ```
+
+> **Note:** Use the bundled `dist/senangstart-css.min.js` (or unminified `senangstart-css.js`) — not `src/cdn/senangstart-engine.js`, which is an ES module with `import` statements that browsers cannot load directly via `<script src>`.
 
 ## Performance Considerations
 

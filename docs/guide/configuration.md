@@ -30,6 +30,14 @@ export default {
     typescript: './types/senang.d.ts'
   },
 
+  // Build behavior
+  build: {
+    ignoreInvalid: false  // true = warn instead of failing on invalid tokens
+  },
+
+  // Base reset styles (disable if you have your own reset)
+  preflight: true,
+
   // Theme customization
   theme: {
     // Your overrides here
@@ -58,6 +66,23 @@ content: [
 | `minify` | `false` | Minify the generated CSS |
 | `aiContext` | `./.cursorrules` | Output path for AI assistant context file |
 | `typescript` | `./types/senang.d.ts` | Output path for generated TypeScript definitions |
+
+## Build Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `build.ignoreInvalid` | `false` | When `false` (default), the build **fails with exit code 1** if invalid tokens are found. Set `true` (or pass `--ignore-invalid`) to log warnings instead — useful during migration. |
+
+## Preflight
+
+Preflight is the opinionated base reset applied to your output. It is enabled by default:
+
+```js
+preflight: true   // default — include base reset
+// preflight: false  // disable if you already have your own reset/normalize
+```
+
+See [Preflight](/guide/preflight) for what it includes, or the [migration guide](/guide/migration) for when to disable it.
 
 ## Dark Mode
 

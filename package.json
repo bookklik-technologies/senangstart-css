@@ -1,19 +1,25 @@
 {
   "name": "@bookklik/senangstart-css",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Fluent Style Utilities for Humans and AI",
   "type": "module",
-  "main": "dist/senangstart-css.cjs",
-  "module": "src/index.js",
+  "main": "./dist/senangstart-css.cjs",
+  "module": "./dist/senangstart-css.mjs",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./types/index.d.ts",
-      "import": "./src/index.js",
-      "require": "./dist/senangstart-css.cjs",
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/senangstart-css.mjs"
+      },
+      "require": {
+        "types": "./types/index.d.cts",
+        "default": "./dist/senangstart-css.cjs"
+      },
       "default": "./dist/senangstart-css.cjs"
     },
-    "./cli": "./src/cli/index.js"
+    "./cli": "./src/cli/index.js",
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "engines": {
@@ -24,7 +30,6 @@
     "src",
     "types",
     "templates",
-    "scripts",
     "LICENSE.md",
     "README.md"
   ],
@@ -36,8 +41,7 @@
     "dev": "node src/cli/index.js dev",
     "build": "npm run build:dist && npm run docs:generate && vitepress build docs && npm run docs:llms",
     "build:dist": "node scripts/build-dist.js",
-    "prepublishOnly": "npm test && npm run build:dist",
-    "postinstall": "node scripts/generate-types.js",
+    "prepublishOnly": "npm test && npm run generate:types && npm run build:dist",
     "generate:types": "node scripts/generate-types.js",
     "docs:dev": "vitepress dev docs",
     "docs:generate": "node scripts/generate-docs.js",
@@ -49,9 +53,10 @@
     "test:integration": "node --test tests/integration/",
     "test:sync": "node --test tests/sync/",
     "test:watch": "node --test --watch tests/",
-    "test:coverage": "npx c8 --reporter=text --reporter=html node --test tests/",
+    "test:coverage": "npx c8 --exclude dist --reporter=text --reporter=html node --test tests/",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
+    "test:jit": "playwright test --config playwright.jit.config.js",
     "lint": "eslint src/",
     "lint:css": "stylelint \"public/**/*.css\" \"dist/**/*.css\"",
     "lint:css:fix": "stylelint \"public/**/*.css\" \"dist/**/*.css\" --fix"
@@ -66,7 +71,7 @@
   "homepage": "https://bookklik-technologies.github.io/senangstart-css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bookklik-technologies/senangstart-css.git"
+    "url": "git+https://github.com/bookklik-technologies/senangstart-css.git"
   },
   "bugs": {
     "url": "https://github.com/bookklik-technologies/senangstart-css/issues"

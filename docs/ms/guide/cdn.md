@@ -66,11 +66,17 @@ Sekarang anda boleh guna nilai tersuai anda:
 
 ## Pembangunan Tempatan
 
-Untuk pembangunan tempatan tanpa CDN, guna fail JIT tempatan:
+Untuk pembangunan tempatan tanpa CDN, pasang pakej dan rujuk fail JIT yang telah dibundel:
+
+```bash
+npm i @bookklik/senangstart-css
+```
 
 ```html
-<script src="./path/to/senangstart/src/cdn/senangstart-engine.js"></script>
+<script src="./node_modules/@bookklik/senangstart-css/dist/senangstart-css.min.js"></script>
 ```
+
+> **Nota:** Guna fail `dist/senangstart-css.min.js` (atau `senangstart-css.js` tanpa minifikasi) — bukan `src/cdn/senangstart-engine.js`, kerana fail tersebut ialah modul ES dengan pernyataan `import` yang tidak boleh dimuatkan terus oleh pelayar melalui `<script src>`.
 
 ## Pertimbangan Prestasi
 

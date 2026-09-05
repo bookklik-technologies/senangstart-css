@@ -106,6 +106,8 @@ This watches your files and rebuilds on changes.
 senangstart build --minify
 ```
 
+> **Note:** The build fails (non-zero exit code) when invalid tokens are found. See [Invalid Token Handling](/guide/cli#invalid-token-handling) for the `--ignore-invalid` escape hatch.
+
 ## Your First Component
 
 Let's create a simple card:

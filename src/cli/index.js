@@ -31,6 +31,7 @@ program
   .description('Compile CSS from source files')
   .option('--minify', 'Minify CSS output')
   .option('--no-preflight', 'Exclude Preflight base styles')
+  .option('--ignore-invalid', 'Warn instead of failing on invalid tokens')
   .option('--config <path>', 'Path to config file', 'senangstart.config.js')
   .option('-o, --output <path>', 'Output CSS file path')
   .action(build);

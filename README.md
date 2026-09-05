@@ -24,22 +24,44 @@ A utility-first CSS framework that replaces abstract naming conventions with Nat
 
 ```bash
 npm i @bookklik/senangstart-css
-senangstart init    # or: sen init
-senangstart dev     # or: sen dev
+senangstart init    # or: sen init — creates senangstart.config.js
+senangstart dev     # or: sen dev — watch & rebuild on changes
+senangstart build --minify  # production build
 ```
 
 Both `senangstart` and `sen` bin aliases are available.
+
+Link the generated stylesheet in your HTML:
+
+```html
+<link rel="stylesheet" href="./public/senangstart.css">
+```
+
+> The build **fails on invalid tokens** by default. Use `--ignore-invalid` to warn instead.
 
 ## Tailwind CSS Converter
 
 Migrate from Tailwind to SenangStart with the built-in converter:
 
 ```bash
+# From the SenangStart repository (scripts/ is not shipped in the npm package)
+git clone https://github.com/bookklik-technologies/senangstart-css.git
+cd senangstart-css
+
 # Convert HTML file
 node scripts/convert-tailwind.js input.html -o output.html
 
 # Convert inline string
 node scripts/convert-tailwind.js --string "<div class='flex p-4 bg-blue-500'>"
+```
+
+Or use the browser bundle (no build step):
+
+```html
+<script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-tw.min.js"></script>
+<script>
+  console.log(window.SenangStartTW.convertHTML('<div class="flex p-4">Hi</div>'));
+</script>
 ```
 
 **Before (Tailwind):**

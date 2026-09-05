@@ -125,6 +125,26 @@ async function main() {
   const cjsSize = statSync(join(distDir, 'senangstart-css.cjs')).size;
   console.log(`\u2713 Created senangstart-css.cjs (${(cjsSize / 1024).toFixed(1)} KB)`);
 
+  // Build ESM bundle for programmatic ESM consumers.
+  // Bundling to dist (instead of exposing raw src/) keeps the public API stable
+  // and gives ESM/CJS consumers identical, versioned artifacts.
+  await esbuild.build({
+    entryPoints: [join(root, 'src', 'index.js')],
+    bundle: true,
+    format: 'esm',
+    platform: 'node',
+    sourcemap: true,
+    outfile: join(distDir, 'senangstart-css.mjs'),
+    minify: false,
+    external: ['chokidar', 'commander', 'fs', 'fs/promises', 'path'],
+    banner: {
+      js: `/* SenangStart CSS - ESM Runtime v${version} | MIT License */`
+    }
+  });
+
+  const esmSize = statSync(join(distDir, 'senangstart-css.mjs')).size;
+  console.log(`\u2713 Created senangstart-css.mjs (${(esmSize / 1024).toFixed(1)} KB)`);
+
   // Generate standalone CSS for non-JIT consumers
   const { defaultConfig } = await import('../src/config/defaults.js');
   const { generateCSSVariables } = await import('../src/compiler/generators/css.js');
@@ -176,6 +196,7 @@ async function main() {
   console.log('   dist/senangstart-css.js');
   console.log('   dist/senangstart-css.min.js');
   console.log('   dist/senangstart-css.cjs');
+  console.log('   dist/senangstart-css.mjs');
   console.log('   dist/senangstart-tw.js');
   console.log('   dist/senangstart-tw.min.js');
   console.log('   dist/senangstart.css');

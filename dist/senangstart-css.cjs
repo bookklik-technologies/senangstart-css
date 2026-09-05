@@ -1,4 +1,4 @@
-/* SenangStart CSS - CJS Runtime v0.3.0 | MIT License */
+/* SenangStart CSS - CJS Runtime v0.3.1 | MIT License */
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -40,7 +40,6 @@ var constants_exports = {};
 __export(constants_exports, {
   BREAKPOINTS: () => BREAKPOINTS,
   CSS_COLOR_KEYWORDS: () => CSS_COLOR_KEYWORDS,
-  DEFAULT_THEME: () => DEFAULT_THEME,
   LAYOUT_KEYWORDS: () => LAYOUT_KEYWORDS,
   LAYOUT_MAP: () => LAYOUT_MAP,
   LIMITS: () => LIMITS,
@@ -54,288 +53,6 @@ __export(constants_exports, {
   TYPOGRAPHY_KEYWORDS: () => TYPOGRAPHY_KEYWORDS,
   default: () => constants_default
 });
-
-// src/config/colors.js
-var COLOR_PALETTE = {
-  // Base colors
-  "white": "#FFFFFF",
-  "black": "#000000",
-  // Brand/Semantic colors
-  "grey": "#6B7280",
-  "dark": "#3E4A5D",
-  "light": "#DBEAFE",
-  "primary": "#2563EB",
-  "secondary": "#1E40AF",
-  "success": "#10B981",
-  "warning": "#F59E0B",
-  "danger": "#EF4444",
-  // Red
-  "red-50": "#FEF2F2",
-  "red-100": "#FEE2E2",
-  "red-200": "#FECACA",
-  "red-300": "#FCA5A5",
-  "red-400": "#F87171",
-  "red-500": "#EF4444",
-  "red-600": "#DC2626",
-  "red-700": "#B91C1C",
-  "red-800": "#991B1B",
-  "red-900": "#7F1D1D",
-  "red-950": "#450A0A",
-  // Orange
-  "orange-50": "#FFF7ED",
-  "orange-100": "#FFEDD5",
-  "orange-200": "#FED7AA",
-  "orange-300": "#FDBA74",
-  "orange-400": "#FB923C",
-  "orange-500": "#F97316",
-  "orange-600": "#EA580C",
-  "orange-700": "#C2410C",
-  "orange-800": "#9A3412",
-  "orange-900": "#7C2D12",
-  "orange-950": "#431407",
-  // Amber
-  "amber-50": "#FFFBEB",
-  "amber-100": "#FEF3C7",
-  "amber-200": "#FDE68A",
-  "amber-300": "#FCD34D",
-  "amber-400": "#FBBF24",
-  "amber-500": "#F59E0B",
-  "amber-600": "#D97706",
-  "amber-700": "#B45309",
-  "amber-800": "#92400E",
-  "amber-900": "#78350F",
-  "amber-950": "#451A03",
-  // Yellow
-  "yellow-50": "#FEFCE8",
-  "yellow-100": "#FEF9C3",
-  "yellow-200": "#FEF08A",
-  "yellow-300": "#FDE047",
-  "yellow-400": "#FACC15",
-  "yellow-500": "#EAB308",
-  "yellow-600": "#CA8A04",
-  "yellow-700": "#A16207",
-  "yellow-800": "#854D0E",
-  "yellow-900": "#713F12",
-  "yellow-950": "#422006",
-  // Lime
-  "lime-50": "#F7FEE7",
-  "lime-100": "#ECFCCB",
-  "lime-200": "#D9F99D",
-  "lime-300": "#BEF264",
-  "lime-400": "#A3E635",
-  "lime-500": "#84CC16",
-  "lime-600": "#65A30D",
-  "lime-700": "#4D7C0F",
-  "lime-800": "#3F6212",
-  "lime-900": "#365314",
-  "lime-950": "#1A2E05",
-  // Green
-  "green-50": "#F0FDF4",
-  "green-100": "#DCFCE7",
-  "green-200": "#BBF7D0",
-  "green-300": "#86EFAC",
-  "green-400": "#4ADE80",
-  "green-500": "#22C55E",
-  "green-600": "#16A34A",
-  "green-700": "#15803D",
-  "green-800": "#166534",
-  "green-900": "#14532D",
-  "green-950": "#052E16",
-  // Emerald
-  "emerald-50": "#ECFDF5",
-  "emerald-100": "#D1FAE5",
-  "emerald-200": "#A7F3D0",
-  "emerald-300": "#6EE7B7",
-  "emerald-400": "#34D399",
-  "emerald-500": "#10B981",
-  "emerald-600": "#059669",
-  "emerald-700": "#047857",
-  "emerald-800": "#065F46",
-  "emerald-900": "#064E3B",
-  "emerald-950": "#022C22",
-  // Teal
-  "teal-50": "#F0FDFA",
-  "teal-100": "#CCFBF1",
-  "teal-200": "#99F6E4",
-  "teal-300": "#5EEAD4",
-  "teal-400": "#2DD4BF",
-  "teal-500": "#14B8A6",
-  "teal-600": "#0D9488",
-  "teal-700": "#0F766E",
-  "teal-800": "#115E59",
-  "teal-900": "#134E4A",
-  "teal-950": "#042F2E",
-  // Cyan
-  "cyan-50": "#ECFEFF",
-  "cyan-100": "#CFFAFE",
-  "cyan-200": "#A5F3FC",
-  "cyan-300": "#67E8F9",
-  "cyan-400": "#22D3EE",
-  "cyan-500": "#06B6D4",
-  "cyan-600": "#0891B2",
-  "cyan-700": "#0E7490",
-  "cyan-800": "#155E75",
-  "cyan-900": "#164E63",
-  "cyan-950": "#083344",
-  // Sky
-  "sky-50": "#F0F9FF",
-  "sky-100": "#E0F2FE",
-  "sky-200": "#BAE6FD",
-  "sky-300": "#7DD3FC",
-  "sky-400": "#38BDF8",
-  "sky-500": "#0EA5E9",
-  "sky-600": "#0284C7",
-  "sky-700": "#0369A1",
-  "sky-800": "#075985",
-  "sky-900": "#0C4A6E",
-  "sky-950": "#082F49",
-  // Blue
-  "blue-50": "#EFF6FF",
-  "blue-100": "#DBEAFE",
-  "blue-200": "#BFDBFE",
-  "blue-300": "#93C5FD",
-  "blue-400": "#60A5FA",
-  "blue-500": "#3B82F6",
-  "blue-600": "#2563EB",
-  "blue-700": "#1D4ED8",
-  "blue-800": "#1E40AF",
-  "blue-900": "#1E3A8A",
-  "blue-950": "#172554",
-  // Indigo
-  "indigo-50": "#EEF2FF",
-  "indigo-100": "#E0E7FF",
-  "indigo-200": "#C7D2FE",
-  "indigo-300": "#A5B4FC",
-  "indigo-400": "#818CF8",
-  "indigo-500": "#6366F1",
-  "indigo-600": "#4F46E5",
-  "indigo-700": "#4338CA",
-  "indigo-800": "#3730A3",
-  "indigo-900": "#312E81",
-  "indigo-950": "#1E1B4B",
-  // Violet
-  "violet-50": "#F5F3FF",
-  "violet-100": "#EDE9FE",
-  "violet-200": "#DDD6FE",
-  "violet-300": "#C4B5FD",
-  "violet-400": "#A78BFA",
-  "violet-500": "#8B5CF6",
-  "violet-600": "#7C3AED",
-  "violet-700": "#6D28D9",
-  "violet-800": "#5B21B6",
-  "violet-900": "#4C1D95",
-  "violet-950": "#2E1065",
-  // Purple
-  "purple-50": "#FAF5FF",
-  "purple-100": "#F3E8FF",
-  "purple-200": "#E9D5FF",
-  "purple-300": "#D8B4FE",
-  "purple-400": "#C084FC",
-  "purple-500": "#A855F7",
-  "purple-600": "#9333EA",
-  "purple-700": "#7E22CE",
-  "purple-800": "#6B21A8",
-  "purple-900": "#581C87",
-  "purple-950": "#3B0764",
-  // Fuchsia
-  "fuchsia-50": "#FDF4FF",
-  "fuchsia-100": "#FAE8FF",
-  "fuchsia-200": "#F5D0FE",
-  "fuchsia-300": "#F0ABFC",
-  "fuchsia-400": "#E879F9",
-  "fuchsia-500": "#D946EF",
-  "fuchsia-600": "#C026D3",
-  "fuchsia-700": "#A21CAF",
-  "fuchsia-800": "#86198F",
-  "fuchsia-900": "#701A75",
-  "fuchsia-950": "#4A044E",
-  // Pink
-  "pink-50": "#FDF2F8",
-  "pink-100": "#FCE7F3",
-  "pink-200": "#FBCFE8",
-  "pink-300": "#F9A8D4",
-  "pink-400": "#F472B6",
-  "pink-500": "#EC4899",
-  "pink-600": "#DB2777",
-  "pink-700": "#BE185D",
-  "pink-800": "#9D174D",
-  "pink-900": "#831843",
-  "pink-950": "#500724",
-  // Rose
-  "rose-50": "#FFF1F2",
-  "rose-100": "#FFE4E6",
-  "rose-200": "#FECDD3",
-  "rose-300": "#FDA4AF",
-  "rose-400": "#FB7185",
-  "rose-500": "#F43F5E",
-  "rose-600": "#E11D48",
-  "rose-700": "#BE123C",
-  "rose-800": "#9F1239",
-  "rose-900": "#881337",
-  "rose-950": "#4C0519",
-  // Slate
-  "slate-50": "#F8FAFC",
-  "slate-100": "#F1F5F9",
-  "slate-200": "#E2E8F0",
-  "slate-300": "#CBD5E1",
-  "slate-400": "#94A3B8",
-  "slate-500": "#64748B",
-  "slate-600": "#475569",
-  "slate-700": "#334155",
-  "slate-800": "#1E293B",
-  "slate-900": "#0F172A",
-  "slate-950": "#020617",
-  // Gray
-  "gray-50": "#F9FAFB",
-  "gray-100": "#F3F4F6",
-  "gray-200": "#E5E7EB",
-  "gray-300": "#D1D5DB",
-  "gray-400": "#9CA3AF",
-  "gray-500": "#6B7280",
-  "gray-600": "#4B5563",
-  "gray-700": "#374151",
-  "gray-800": "#1F2937",
-  "gray-900": "#111827",
-  "gray-950": "#030712",
-  // Zinc
-  "zinc-50": "#FAFAFA",
-  "zinc-100": "#F4F4F5",
-  "zinc-200": "#E4E4E7",
-  "zinc-300": "#D4D4D8",
-  "zinc-400": "#A1A1AA",
-  "zinc-500": "#71717A",
-  "zinc-600": "#52525B",
-  "zinc-700": "#3F3F46",
-  "zinc-800": "#27272A",
-  "zinc-900": "#18181B",
-  "zinc-950": "#09090B",
-  // Neutral
-  "neutral-50": "#FAFAFA",
-  "neutral-100": "#F5F5F5",
-  "neutral-200": "#E5E5E5",
-  "neutral-300": "#D4D4D4",
-  "neutral-400": "#A3A3A3",
-  "neutral-500": "#737373",
-  "neutral-600": "#525252",
-  "neutral-700": "#404040",
-  "neutral-800": "#262626",
-  "neutral-900": "#171717",
-  "neutral-950": "#0A0A0A",
-  // Stone
-  "stone-50": "#FAFAF9",
-  "stone-100": "#F5F5F4",
-  "stone-200": "#E7E5E4",
-  "stone-300": "#D6D3D1",
-  "stone-400": "#A8A29E",
-  "stone-500": "#78716C",
-  "stone-600": "#57534E",
-  "stone-700": "#44403C",
-  "stone-800": "#292524",
-  "stone-900": "#1C1917",
-  "stone-950": "#0C0A09"
-};
-
-// src/core/constants.js
 var LIMITS = {
   MAX_PROPERTY_LENGTH: 100,
   MAX_VALUE_LENGTH: 500,
@@ -531,120 +248,6 @@ var TYPOGRAPHY_KEYWORDS = {
   "list-inside": "list-style-position: inside;",
   "list-outside": "list-style-position: outside;"
 };
-var DEFAULT_THEME = {
-  spacing: {
-    "none": "0px",
-    "thin": "1px",
-    "regular": "2px",
-    "thick": "3px",
-    "tiny": "4px",
-    "tiny-2x": "6px",
-    "small": "8px",
-    "small-2x": "10px",
-    "small-3x": "12px",
-    "small-4x": "14px",
-    "medium": "16px",
-    "medium-2x": "20px",
-    "medium-3x": "24px",
-    "medium-4x": "28px",
-    "large": "32px",
-    "large-2x": "36px",
-    "large-3x": "40px",
-    "large-4x": "44px",
-    "big": "48px",
-    "big-2x": "56px",
-    "big-3x": "64px",
-    "big-4x": "80px",
-    "giant": "96px",
-    "giant-2x": "112px",
-    "giant-3x": "128px",
-    "giant-4x": "144px",
-    "vast": "160px",
-    "vast-2x": "176px",
-    "vast-3x": "192px",
-    "vast-4x": "208px",
-    "vast-5x": "224px",
-    "vast-6x": "240px",
-    "vast-7x": "256px",
-    "vast-8x": "288px",
-    "vast-9x": "320px",
-    "vast-10x": "384px"
-  },
-  radius: {
-    "none": "0px",
-    "small": "4px",
-    "medium": "8px",
-    "big": "16px",
-    "round": "9999px"
-  },
-  shadow: {
-    "none": "none",
-    "small": "0 1px 2px rgba(0,0,0,0.05)",
-    "medium": "0 4px 6px rgba(0,0,0,0.1)",
-    "big": "0 10px 15px rgba(0,0,0,0.15)",
-    "giant": "0 25px 50px rgba(0,0,0,0.25)"
-  },
-  fontSize: {
-    "tiny": "12px",
-    "small": "14px",
-    "medium": "16px",
-    "big": "20px",
-    "giant": "32px",
-    "vast": "48px"
-  },
-  fontWeight: {
-    "normal": "400",
-    "medium": "500",
-    "bold": "700"
-  },
-  fontSizeLineHeight: {
-    "tiny": "1rem",
-    "small": "1.25rem",
-    "medium": "1.5rem",
-    "big": "1.75rem",
-    "giant": "1",
-    "vast": "1"
-  },
-  screens: {
-    "mob": "480px",
-    "tab": "768px",
-    "lap": "1024px",
-    "desk": "1280px",
-    // Tailwind compatibility
-    "tw-sm": "640px",
-    "tw-md": "768px",
-    "tw-lg": "1024px",
-    "tw-xl": "1280px",
-    "tw-2xl": "1536px"
-  },
-  colors: COLOR_PALETTE,
-  container: {
-    "mob": "480px",
-    "tab": "768px",
-    "lap": "1024px",
-    "desk": "1280px"
-  },
-  zIndex: {
-    "base": "0",
-    "low": "10",
-    "mid": "50",
-    "high": "100",
-    "top": "9999"
-  },
-  blur: { none: "0", tiny: "2px", small: "4px", medium: "8px", big: "12px", giant: "24px", vast: "48px" },
-  brightness: { dim: "0.5", dark: "0.75", normal: "1", bright: "1.25", vivid: "1.5" },
-  contrast: { low: "0.5", reduced: "0.75", normal: "1", high: "1.25", max: "1.5" },
-  grayscale: { none: "0%", partial: "50%", full: "100%" },
-  invert: { none: "0%", partial: "50%", full: "100%" },
-  saturate: { none: "0", low: "0.5", normal: "1", high: "1.5", vivid: "2" },
-  sepia: { none: "0%", partial: "50%", full: "100%" },
-  dropShadow: { none: "none", tiny: "0 1px 1px rgba(0,0,0,0.05)", small: "0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)", medium: "0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)", big: "0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)", giant: "0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)" },
-  backdropOpacity: { invisible: "0", faint: "0.25", half: "0.5", visible: "0.75", solid: "1" },
-  transitionProperty: { none: "none", all: "all", DEFAULT: "color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter", colors: "color, background-color, border-color, text-decoration-color, fill, stroke", opacity: "opacity", shadow: "box-shadow", transform: "transform" },
-  animationDuration: { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" },
-  animationDelay: { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" },
-  perspective: { none: "none", dramatic: "100px", near: "300px", normal: "500px", midrange: "800px", far: "1000px", distant: "1200px" }
-};
 var TW_SPACING = {
   "0": "0px",
   "px": "1px",
@@ -751,7 +354,6 @@ var constants_default = {
   LAYOUT_KEYWORDS,
   LAYOUT_MAP,
   TYPOGRAPHY_KEYWORDS,
-  DEFAULT_THEME,
   TW_SPACING,
   TW_RADIUS,
   TW_SHADOW,
@@ -8478,23 +8080,7 @@ var { layoutMap, typographyKeywords: typographyKeywords2 } = buildAllMaps();
 function sanitizeArbitraryValue2(value) {
   return sanitizeValue(value);
 }
-var positioningPercentages = {
-  "full": "100%",
-  "half": "50%",
-  "third": "33.333333%",
-  "third-2x": "66.666667%",
-  "quarter": "25%",
-  "quarter-2x": "50%",
-  "quarter-3x": "75%",
-  "1/1": "100%",
-  "1/2": "50%",
-  "1/3": "33.333333%",
-  "2/3": "66.666667%",
-  "1/4": "25%",
-  "2/4": "50%",
-  "3/4": "75%"
-};
-var percentageAdjectives = {
+var percentageValues = {
   "full": "100%",
   "half": "50%",
   "third": "33.333333%",
@@ -8720,12 +8306,12 @@ function generateLayoutRule(token, _config) {
     if (!val || val === "0") return "0";
     if (val.startsWith("-")) {
       const positiveVal = val.substring(1);
-      if (positioningPercentages[positiveVal]) {
-        return `-${positioningPercentages[positiveVal]}`;
+      if (percentageValues[positiveVal]) {
+        return `-${percentageValues[positiveVal]}`;
       }
     }
-    if (positioningPercentages[val]) {
-      return positioningPercentages[val];
+    if (percentageValues[val]) {
+      return percentageValues[val];
     }
     return `var(--s-${val})`;
   };
@@ -8885,8 +8471,8 @@ function generateSpaceRule(token, _config) {
     };
     return propMap[property] || "";
   }
-  if (sizingProps.includes(property) && percentageAdjectives[value]) {
-    const cssVal = percentageAdjectives[value];
+  if (sizingProps.includes(property) && percentageValues[value]) {
+    const cssVal = percentageValues[value];
     const propMap = {
       "w": `width: ${cssVal};`,
       "h": `height: ${cssVal};`,
@@ -9103,6 +8689,53 @@ function getDarkModeSelector(config) {
   }
   return null;
 }
+function prefixRuleSelectors(rule, prefix) {
+  const braceIndex = rule.indexOf("{");
+  if (braceIndex === -1) return rule;
+  const selectorPart = rule.slice(0, braceIndex);
+  const rest = rule.slice(braceIndex);
+  const prefixed = selectorPart.split(",").map((sel) => {
+    const trimmed = sel.trim();
+    if (!trimmed) return sel;
+    if (trimmed.startsWith("@")) return sel;
+    return `${prefix} ${trimmed}`;
+  }).join(",\n");
+  return `${prefixed} ${rest}`;
+}
+function indentCSS(css, indent) {
+  return css.split("\n").map((line) => line.trim() ? indent + line : line).join("\n");
+}
+function generateDarkRules(bpTokens, breakpoint, ctx) {
+  const { config, screens, interactIds, errors, wrapSelector } = ctx;
+  let out = "";
+  const emitRules = (innerIndent) => {
+    let inner = "";
+    for (const token of bpTokens) {
+      try {
+        const rule = generateRule(token, config, true, interactIds);
+        if (rule) {
+          const finalRule = wrapSelector ? prefixRuleSelectors(rule, wrapSelector) : rule;
+          inner += indentCSS(finalRule, innerIndent);
+        } else {
+          errors.push({ type: "dark_rule", token: token.raw, message: "No rule generated" });
+        }
+      } catch (e) {
+        errors.push({ type: "dark_rule", token: token.raw, message: e.message });
+        console.warn(`[SenangStart] Error generating dark rule: ${e.message}`);
+      }
+    }
+    return inner;
+  };
+  if (!breakpoint) {
+    return emitRules(ctx.baseIndent || "");
+  }
+  const screenWidth = screens && screens[breakpoint] ? screens[breakpoint] : breakpoint;
+  out += `  @media (min-width: ${screenWidth}) {
+`;
+  out += emitRules("    ");
+  out += "  }\n";
+  return out;
+}
 function generateCSSWithErrors(tokens, config) {
   const errors = [];
   try {
@@ -9147,7 +8780,7 @@ function generateCSSWithErrors(tokens, config) {
 /* SenangStart CSS - Utility Classes */
 `;
     const baseTokens = [];
-    const darkTokens = [];
+    const darkTokensByBreakpoint = /* @__PURE__ */ new Map();
     const breakpointTokens = {};
     const { screens } = config.theme || {};
     if (screens && typeof screens === "object") {
@@ -9159,7 +8792,11 @@ function generateCSSWithErrors(tokens, config) {
       try {
         if (token && typeof token === "object") {
           if (token.state === "dark") {
-            darkTokens.push(token);
+            const bpKey = token.breakpoint || null;
+            if (!darkTokensByBreakpoint.has(bpKey)) {
+              darkTokensByBreakpoint.set(bpKey, []);
+            }
+            darkTokensByBreakpoint.get(bpKey).push(token);
           } else if (token.breakpoint) {
             if (!breakpointTokens[token.breakpoint]) {
               breakpointTokens[token.breakpoint] = [];
@@ -9261,47 +8898,28 @@ function generateCSSWithErrors(tokens, config) {
         console.warn(`[SenangStart] Error generating breakpoint ${bp}: ${e.message}`);
       }
     }
-    if (darkTokens.length > 0) {
+    if (darkTokensByBreakpoint.size > 0) {
       try {
         const darkMode = config.darkMode || "media";
         const darkSelector = getDarkModeSelector(config);
+        const darkCtx = { config, screens, interactIds, errors, baseIndent: darkMode === "media" ? "  " : "" };
         if (darkMode === "media") {
           css += `
 /* Dark Mode (prefers-color-scheme) */
 `;
           css += `@media (prefers-color-scheme: dark) {
 `;
-          for (const token of darkTokens) {
-            try {
-              const rule = generateRule(token, config, true, interactIds);
-              if (rule) {
-                css += "  " + rule;
-              } else {
-                errors.push({ type: "dark_rule", token: token.raw, message: "No rule generated" });
-              }
-            } catch (e) {
-              errors.push({ type: "dark_rule", token: token.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating dark rule (media): ${e.message}`);
-            }
+          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
+            css += generateDarkRules(bpDarkTokens, bp || null, darkCtx);
           }
           css += "}\n";
         } else {
           css += `
 /* Dark Mode (${darkSelector}) */
 `;
-          for (const token of darkTokens) {
-            try {
-              const baseRule = generateRule(token, config, true, interactIds);
-              if (baseRule) {
-                const wrappedRule = baseRule.replace(/^(\[[^\]]+?\])/m, `${darkSelector} $1`);
-                css += wrappedRule;
-              } else {
-                errors.push({ type: "dark_rule", token: token.raw, message: "No rule generated" });
-              }
-            } catch (e) {
-              errors.push({ type: "dark_rule", token: token.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating dark rule (selector): ${e.message}`);
-            }
+          const selectorCtx = { ...darkCtx, wrapSelector: darkSelector };
+          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
+            css += generateDarkRules(bpDarkTokens, bp || null, selectorCtx);
           }
         }
       } catch (e) {
@@ -9321,8 +8939,326 @@ function generateCSS(tokens, config) {
   return css;
 }
 function minifyCSS(css) {
-  return css.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s+/g, " ").replace(/ ?\{ ?/g, "{").replace(/ ?\} ?/g, "}").replace(/; ?/g, ";").replace(/([a-z-]) ?: ?/g, "$1:").replace(/, ?/g, ",").trim();
+  if (typeof css !== "string" || css === "") return "";
+  let stripped = "";
+  let state = "normal";
+  let quote = "";
+  for (let i = 0; i < css.length; i++) {
+    const ch = css[i];
+    if (state === "comment") {
+      if (ch === "*" && css[i + 1] === "/") {
+        state = "normal";
+        i++;
+      }
+      continue;
+    }
+    if (state === "string") {
+      stripped += ch;
+      if (ch === "\\") {
+        stripped += css[i + 1] || "";
+        i++;
+      } else if (ch === quote) {
+        state = "normal";
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      state = "string";
+      quote = ch;
+      stripped += ch;
+      continue;
+    }
+    if (ch === "/" && css[i + 1] === "*") {
+      state = "comment";
+      i++;
+      continue;
+    }
+    stripped += ch;
+  }
+  const preserved = [];
+  const collapsed = stripped.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, (m) => `\0${preserved.push(m) - 1}\0`).replace(/\s+/g, " ").replace(/ ?\{ ?/g, "{").replace(/ ?\} ?/g, "}").replace(/; ?/g, ";").replace(/([a-z-]) ?: ?/g, "$1:").replace(/, ?/g, ",").trim();
+  return collapsed.replace(/\u0000(\d+)\u0000/g, (_, i) => preserved[Number(i)] ?? "");
 }
+
+// src/config/colors.js
+var COLOR_PALETTE = {
+  // Base colors
+  "white": "#FFFFFF",
+  "black": "#000000",
+  // Brand/Semantic colors
+  "grey": "#6B7280",
+  "dark": "#3E4A5D",
+  "light": "#DBEAFE",
+  "primary": "#2563EB",
+  "secondary": "#1E40AF",
+  "success": "#10B981",
+  "warning": "#F59E0B",
+  "danger": "#EF4444",
+  // Red
+  "red-50": "#FEF2F2",
+  "red-100": "#FEE2E2",
+  "red-200": "#FECACA",
+  "red-300": "#FCA5A5",
+  "red-400": "#F87171",
+  "red-500": "#EF4444",
+  "red-600": "#DC2626",
+  "red-700": "#B91C1C",
+  "red-800": "#991B1B",
+  "red-900": "#7F1D1D",
+  "red-950": "#450A0A",
+  // Orange
+  "orange-50": "#FFF7ED",
+  "orange-100": "#FFEDD5",
+  "orange-200": "#FED7AA",
+  "orange-300": "#FDBA74",
+  "orange-400": "#FB923C",
+  "orange-500": "#F97316",
+  "orange-600": "#EA580C",
+  "orange-700": "#C2410C",
+  "orange-800": "#9A3412",
+  "orange-900": "#7C2D12",
+  "orange-950": "#431407",
+  // Amber
+  "amber-50": "#FFFBEB",
+  "amber-100": "#FEF3C7",
+  "amber-200": "#FDE68A",
+  "amber-300": "#FCD34D",
+  "amber-400": "#FBBF24",
+  "amber-500": "#F59E0B",
+  "amber-600": "#D97706",
+  "amber-700": "#B45309",
+  "amber-800": "#92400E",
+  "amber-900": "#78350F",
+  "amber-950": "#451A03",
+  // Yellow
+  "yellow-50": "#FEFCE8",
+  "yellow-100": "#FEF9C3",
+  "yellow-200": "#FEF08A",
+  "yellow-300": "#FDE047",
+  "yellow-400": "#FACC15",
+  "yellow-500": "#EAB308",
+  "yellow-600": "#CA8A04",
+  "yellow-700": "#A16207",
+  "yellow-800": "#854D0E",
+  "yellow-900": "#713F12",
+  "yellow-950": "#422006",
+  // Lime
+  "lime-50": "#F7FEE7",
+  "lime-100": "#ECFCCB",
+  "lime-200": "#D9F99D",
+  "lime-300": "#BEF264",
+  "lime-400": "#A3E635",
+  "lime-500": "#84CC16",
+  "lime-600": "#65A30D",
+  "lime-700": "#4D7C0F",
+  "lime-800": "#3F6212",
+  "lime-900": "#365314",
+  "lime-950": "#1A2E05",
+  // Green
+  "green-50": "#F0FDF4",
+  "green-100": "#DCFCE7",
+  "green-200": "#BBF7D0",
+  "green-300": "#86EFAC",
+  "green-400": "#4ADE80",
+  "green-500": "#22C55E",
+  "green-600": "#16A34A",
+  "green-700": "#15803D",
+  "green-800": "#166534",
+  "green-900": "#14532D",
+  "green-950": "#052E16",
+  // Emerald
+  "emerald-50": "#ECFDF5",
+  "emerald-100": "#D1FAE5",
+  "emerald-200": "#A7F3D0",
+  "emerald-300": "#6EE7B7",
+  "emerald-400": "#34D399",
+  "emerald-500": "#10B981",
+  "emerald-600": "#059669",
+  "emerald-700": "#047857",
+  "emerald-800": "#065F46",
+  "emerald-900": "#064E3B",
+  "emerald-950": "#022C22",
+  // Teal
+  "teal-50": "#F0FDFA",
+  "teal-100": "#CCFBF1",
+  "teal-200": "#99F6E4",
+  "teal-300": "#5EEAD4",
+  "teal-400": "#2DD4BF",
+  "teal-500": "#14B8A6",
+  "teal-600": "#0D9488",
+  "teal-700": "#0F766E",
+  "teal-800": "#115E59",
+  "teal-900": "#134E4A",
+  "teal-950": "#042F2E",
+  // Cyan
+  "cyan-50": "#ECFEFF",
+  "cyan-100": "#CFFAFE",
+  "cyan-200": "#A5F3FC",
+  "cyan-300": "#67E8F9",
+  "cyan-400": "#22D3EE",
+  "cyan-500": "#06B6D4",
+  "cyan-600": "#0891B2",
+  "cyan-700": "#0E7490",
+  "cyan-800": "#155E75",
+  "cyan-900": "#164E63",
+  "cyan-950": "#083344",
+  // Sky
+  "sky-50": "#F0F9FF",
+  "sky-100": "#E0F2FE",
+  "sky-200": "#BAE6FD",
+  "sky-300": "#7DD3FC",
+  "sky-400": "#38BDF8",
+  "sky-500": "#0EA5E9",
+  "sky-600": "#0284C7",
+  "sky-700": "#0369A1",
+  "sky-800": "#075985",
+  "sky-900": "#0C4A6E",
+  "sky-950": "#082F49",
+  // Blue
+  "blue-50": "#EFF6FF",
+  "blue-100": "#DBEAFE",
+  "blue-200": "#BFDBFE",
+  "blue-300": "#93C5FD",
+  "blue-400": "#60A5FA",
+  "blue-500": "#3B82F6",
+  "blue-600": "#2563EB",
+  "blue-700": "#1D4ED8",
+  "blue-800": "#1E40AF",
+  "blue-900": "#1E3A8A",
+  "blue-950": "#172554",
+  // Indigo
+  "indigo-50": "#EEF2FF",
+  "indigo-100": "#E0E7FF",
+  "indigo-200": "#C7D2FE",
+  "indigo-300": "#A5B4FC",
+  "indigo-400": "#818CF8",
+  "indigo-500": "#6366F1",
+  "indigo-600": "#4F46E5",
+  "indigo-700": "#4338CA",
+  "indigo-800": "#3730A3",
+  "indigo-900": "#312E81",
+  "indigo-950": "#1E1B4B",
+  // Violet
+  "violet-50": "#F5F3FF",
+  "violet-100": "#EDE9FE",
+  "violet-200": "#DDD6FE",
+  "violet-300": "#C4B5FD",
+  "violet-400": "#A78BFA",
+  "violet-500": "#8B5CF6",
+  "violet-600": "#7C3AED",
+  "violet-700": "#6D28D9",
+  "violet-800": "#5B21B6",
+  "violet-900": "#4C1D95",
+  "violet-950": "#2E1065",
+  // Purple
+  "purple-50": "#FAF5FF",
+  "purple-100": "#F3E8FF",
+  "purple-200": "#E9D5FF",
+  "purple-300": "#D8B4FE",
+  "purple-400": "#C084FC",
+  "purple-500": "#A855F7",
+  "purple-600": "#9333EA",
+  "purple-700": "#7E22CE",
+  "purple-800": "#6B21A8",
+  "purple-900": "#581C87",
+  "purple-950": "#3B0764",
+  // Fuchsia
+  "fuchsia-50": "#FDF4FF",
+  "fuchsia-100": "#FAE8FF",
+  "fuchsia-200": "#F5D0FE",
+  "fuchsia-300": "#F0ABFC",
+  "fuchsia-400": "#E879F9",
+  "fuchsia-500": "#D946EF",
+  "fuchsia-600": "#C026D3",
+  "fuchsia-700": "#A21CAF",
+  "fuchsia-800": "#86198F",
+  "fuchsia-900": "#701A75",
+  "fuchsia-950": "#4A044E",
+  // Pink
+  "pink-50": "#FDF2F8",
+  "pink-100": "#FCE7F3",
+  "pink-200": "#FBCFE8",
+  "pink-300": "#F9A8D4",
+  "pink-400": "#F472B6",
+  "pink-500": "#EC4899",
+  "pink-600": "#DB2777",
+  "pink-700": "#BE185D",
+  "pink-800": "#9D174D",
+  "pink-900": "#831843",
+  "pink-950": "#500724",
+  // Rose
+  "rose-50": "#FFF1F2",
+  "rose-100": "#FFE4E6",
+  "rose-200": "#FECDD3",
+  "rose-300": "#FDA4AF",
+  "rose-400": "#FB7185",
+  "rose-500": "#F43F5E",
+  "rose-600": "#E11D48",
+  "rose-700": "#BE123C",
+  "rose-800": "#9F1239",
+  "rose-900": "#881337",
+  "rose-950": "#4C0519",
+  // Slate
+  "slate-50": "#F8FAFC",
+  "slate-100": "#F1F5F9",
+  "slate-200": "#E2E8F0",
+  "slate-300": "#CBD5E1",
+  "slate-400": "#94A3B8",
+  "slate-500": "#64748B",
+  "slate-600": "#475569",
+  "slate-700": "#334155",
+  "slate-800": "#1E293B",
+  "slate-900": "#0F172A",
+  "slate-950": "#020617",
+  // Gray
+  "gray-50": "#F9FAFB",
+  "gray-100": "#F3F4F6",
+  "gray-200": "#E5E7EB",
+  "gray-300": "#D1D5DB",
+  "gray-400": "#9CA3AF",
+  "gray-500": "#6B7280",
+  "gray-600": "#4B5563",
+  "gray-700": "#374151",
+  "gray-800": "#1F2937",
+  "gray-900": "#111827",
+  "gray-950": "#030712",
+  // Zinc
+  "zinc-50": "#FAFAFA",
+  "zinc-100": "#F4F4F5",
+  "zinc-200": "#E4E4E7",
+  "zinc-300": "#D4D4D8",
+  "zinc-400": "#A1A1AA",
+  "zinc-500": "#71717A",
+  "zinc-600": "#52525B",
+  "zinc-700": "#3F3F46",
+  "zinc-800": "#27272A",
+  "zinc-900": "#18181B",
+  "zinc-950": "#09090B",
+  // Neutral
+  "neutral-50": "#FAFAFA",
+  "neutral-100": "#F5F5F5",
+  "neutral-200": "#E5E5E5",
+  "neutral-300": "#D4D4D4",
+  "neutral-400": "#A3A3A3",
+  "neutral-500": "#737373",
+  "neutral-600": "#525252",
+  "neutral-700": "#404040",
+  "neutral-800": "#262626",
+  "neutral-900": "#171717",
+  "neutral-950": "#0A0A0A",
+  // Stone
+  "stone-50": "#FAFAF9",
+  "stone-100": "#F5F5F4",
+  "stone-200": "#E7E5E4",
+  "stone-300": "#D6D3D1",
+  "stone-400": "#A8A29E",
+  "stone-500": "#78716C",
+  "stone-600": "#57534E",
+  "stone-700": "#44403C",
+  "stone-800": "#292524",
+  "stone-900": "#1C1917",
+  "stone-950": "#0C0A09"
+};
 
 // src/config/defaults.js
 var defaultConfig = {
@@ -9349,6 +9285,12 @@ var defaultConfig = {
   // true - Include all preflight styles (default)
   // false - Disable preflight completely
   preflight: true,
+  // Build behavior
+  build: {
+    // false (default) - build fails with exit code 1 on invalid tokens
+    // true - warn instead of failing (same as --ignore-invalid CLI flag)
+    ignoreInvalid: false
+  },
   theme: {
     // 1. SPACING: The "Natural Object" Scale with multiplier variants
     // Logic: How big is the object/gap physically?
@@ -9679,6 +9621,9 @@ function mergeConfig(userConfig = {}) {
   }
   if (userConfig.preflight !== void 0) {
     merged.preflight = userConfig.preflight;
+  }
+  if (userConfig.build && typeof userConfig.build === "object") {
+    merged.build = { ...merged.build || {}, ...userConfig.build };
   }
   if (userConfig.theme) {
     merged.theme = deepMerge(merged.theme, userConfig.theme);
