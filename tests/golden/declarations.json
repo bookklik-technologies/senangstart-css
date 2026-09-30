@@ -1,0 +1,5214 @@
+{
+ "layout=flex": [
+  "display: flex"
+ ],
+ "layout=inline-flex": [
+  "display: inline-flex"
+ ],
+ "layout=grid": [
+  "display: grid"
+ ],
+ "layout=inline-grid": [
+  "display: inline-grid"
+ ],
+ "layout=block": [
+  "display: block"
+ ],
+ "layout=inline": [
+  "display: inline"
+ ],
+ "layout=inline-block": [
+  "display: inline-block"
+ ],
+ "layout=table": [
+  "display: table"
+ ],
+ "layout=table-row": [
+  "display: table-row"
+ ],
+ "layout=table-cell": [
+  "display: table-cell"
+ ],
+ "layout=list-item": [
+  "display: list-item"
+ ],
+ "layout=contents": [
+  "display: contents"
+ ],
+ "layout=hidden": [
+  "display: none"
+ ],
+ "layout=row": [
+  "flex-direction: row"
+ ],
+ "layout=col": [
+  "flex-direction: column"
+ ],
+ "layout=row-reverse": [
+  "flex-direction: row-reverse"
+ ],
+ "layout=col-reverse": [
+  "flex-direction: column-reverse"
+ ],
+ "layout=wrap": [
+  "flex-wrap: wrap"
+ ],
+ "layout=nowrap": [
+  "flex-wrap: nowrap"
+ ],
+ "layout=wrap-reverse": [
+  "flex-wrap: wrap-reverse"
+ ],
+ "layout=grow": [
+  "flex-grow: 1"
+ ],
+ "layout=grow-0": [
+  "flex-grow: 0"
+ ],
+ "layout=shrink": [
+  "flex-shrink: 1"
+ ],
+ "layout=shrink-0": [
+  "flex-shrink: 0"
+ ],
+ "layout=flex:1": [
+  "flex: 1 1 0%"
+ ],
+ "layout=flex:auto": [
+  "flex: 1 1 auto"
+ ],
+ "layout=flex:initial": [
+  "flex: 0 1 auto"
+ ],
+ "layout=flex:none": [
+  "flex: none"
+ ],
+ "layout=basis:auto": [
+  "flex-basis: var(--s-auto)"
+ ],
+ "layout=basis:0": [
+  "flex-basis: var(--s-0)"
+ ],
+ "layout=basis:none": [
+  "flex-basis: var(--s-none)"
+ ],
+ "layout=basis:tiny": [
+  "flex-basis: var(--s-tiny)"
+ ],
+ "layout=basis:small": [
+  "flex-basis: var(--s-small)"
+ ],
+ "layout=basis:medium": [
+  "flex-basis: var(--s-medium)"
+ ],
+ "layout=basis:big": [
+  "flex-basis: var(--s-big)"
+ ],
+ "layout=basis:giant": [
+  "flex-basis: var(--s-giant)"
+ ],
+ "layout=basis:vast": [
+  "flex-basis: var(--s-vast)"
+ ],
+ "layout=basis:small-2x": [
+  "flex-basis: var(--s-small-2x)"
+ ],
+ "layout=basis:[13px]": [
+  "flex-basis: 13px"
+ ],
+ "layout=order:first": [
+  "order: -9999"
+ ],
+ "layout=order:last": [
+  "order: 9999"
+ ],
+ "layout=order:none": [
+  "order: 0"
+ ],
+ "layout=order:1": [
+  "order: 1"
+ ],
+ "layout=order:2": [
+  "order: 2"
+ ],
+ "layout=order:3": [
+  "order: 3"
+ ],
+ "layout=order:4": [
+  "order: 4"
+ ],
+ "layout=order:5": [
+  "order: 5"
+ ],
+ "layout=order:6": [
+  "order: 6"
+ ],
+ "layout=order:7": [
+  "order: 7"
+ ],
+ "layout=order:8": [
+  "order: 8"
+ ],
+ "layout=order:9": [
+  "order: 9"
+ ],
+ "layout=order:10": [
+  "order: 10"
+ ],
+ "layout=order:11": [
+  "order: 11"
+ ],
+ "layout=order:12": [
+  "order: 12"
+ ],
+ "layout=justify:start": [
+  "justify-content: flex-start"
+ ],
+ "layout=justify:end": [
+  "justify-content: flex-end"
+ ],
+ "layout=justify:center": [
+  "justify-content: center"
+ ],
+ "layout=justify:between": [
+  "justify-content: space-between"
+ ],
+ "layout=justify:around": [
+  "justify-content: space-around"
+ ],
+ "layout=justify:evenly": [
+  "justify-content: space-evenly"
+ ],
+ "layout=justify:stretch": [
+  "justify-content: stretch"
+ ],
+ "layout=items:start": [
+  "align-items: flex-start"
+ ],
+ "layout=items:end": [
+  "align-items: flex-end"
+ ],
+ "layout=items:center": [
+  "align-items: center"
+ ],
+ "layout=items:baseline": [
+  "align-items: baseline"
+ ],
+ "layout=items:stretch": [
+  "align-items: stretch"
+ ],
+ "layout=self:auto": [
+  "align-self: auto"
+ ],
+ "layout=self:start": [
+  "align-self: flex-start"
+ ],
+ "layout=self:end": [
+  "align-self: flex-end"
+ ],
+ "layout=self:center": [
+  "align-self: center"
+ ],
+ "layout=self:baseline": [
+  "align-self: baseline"
+ ],
+ "layout=self:stretch": [
+  "align-self: stretch"
+ ],
+ "layout=content:start": [
+  "align-content: flex-start"
+ ],
+ "layout=content:end": [
+  "align-content: flex-end"
+ ],
+ "layout=content:center": [
+  "align-content: center"
+ ],
+ "layout=content:between": [
+  "align-content: space-between"
+ ],
+ "layout=content:around": [
+  "align-content: space-around"
+ ],
+ "layout=content:evenly": [
+  "align-content: space-evenly"
+ ],
+ "layout=content:stretch": [
+  "align-content: stretch"
+ ],
+ "layout=center": [
+  "align-items: center",
+  "justify-content: center"
+ ],
+ "layout=start": [
+  "align-items: flex-start",
+  "justify-content: flex-start"
+ ],
+ "layout=end": [
+  "align-items: flex-end",
+  "justify-content: flex-end"
+ ],
+ "layout=between": [
+  "justify-content: space-between"
+ ],
+ "layout=around": [
+  "justify-content: space-around"
+ ],
+ "layout=evenly": [
+  "justify-content: space-evenly"
+ ],
+ "layout=justify-items:start": [
+  "justify-items: start"
+ ],
+ "layout=justify-items:end": [
+  "justify-items: end"
+ ],
+ "layout=justify-items:center": [
+  "justify-items: center"
+ ],
+ "layout=justify-items:stretch": [
+  "justify-items: stretch"
+ ],
+ "layout=justify-self:auto": [
+  "justify-self: auto"
+ ],
+ "layout=justify-self:start": [
+  "justify-self: start"
+ ],
+ "layout=justify-self:end": [
+  "justify-self: end"
+ ],
+ "layout=justify-self:center": [
+  "justify-self: center"
+ ],
+ "layout=justify-self:stretch": [
+  "justify-self: stretch"
+ ],
+ "layout=place-content:start": [
+  "place-content: start"
+ ],
+ "layout=place-content:end": [
+  "place-content: end"
+ ],
+ "layout=place-content:center": [
+  "place-content: center"
+ ],
+ "layout=place-content:between": [
+  "place-content: space-between"
+ ],
+ "layout=place-content:around": [
+  "place-content: space-around"
+ ],
+ "layout=place-content:evenly": [
+  "place-content: space-evenly"
+ ],
+ "layout=place-content:stretch": [
+  "place-content: stretch"
+ ],
+ "layout=place-items:start": [
+  "place-items: start"
+ ],
+ "layout=place-items:end": [
+  "place-items: end"
+ ],
+ "layout=place-items:center": [
+  "place-items: center"
+ ],
+ "layout=place-items:stretch": [
+  "place-items: stretch"
+ ],
+ "layout=place-self:auto": [
+  "place-self: auto"
+ ],
+ "layout=place-self:start": [
+  "place-self: start"
+ ],
+ "layout=place-self:end": [
+  "place-self: end"
+ ],
+ "layout=place-self:center": [
+  "place-self: center"
+ ],
+ "layout=place-self:stretch": [
+  "place-self: stretch"
+ ],
+ "layout=grid-cols:1": [
+  "grid-template-columns: repeat(1, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:2": [
+  "grid-template-columns: repeat(2, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:3": [
+  "grid-template-columns: repeat(3, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:4": [
+  "grid-template-columns: repeat(4, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:5": [
+  "grid-template-columns: repeat(5, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:6": [
+  "grid-template-columns: repeat(6, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:7": [
+  "grid-template-columns: repeat(7, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:8": [
+  "grid-template-columns: repeat(8, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:9": [
+  "grid-template-columns: repeat(9, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:10": [
+  "grid-template-columns: repeat(10, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:11": [
+  "grid-template-columns: repeat(11, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:12": [
+  "grid-template-columns: repeat(12, minmax(0, 1fr))"
+ ],
+ "layout=grid-cols:none": [
+  "grid-template-columns: none"
+ ],
+ "layout=grid-cols:subgrid": [
+  "grid-template-columns: subgrid"
+ ],
+ "layout=grid-rows:1": [
+  "grid-template-rows: repeat(1, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:2": [
+  "grid-template-rows: repeat(2, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:3": [
+  "grid-template-rows: repeat(3, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:4": [
+  "grid-template-rows: repeat(4, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:5": [
+  "grid-template-rows: repeat(5, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:6": [
+  "grid-template-rows: repeat(6, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:7": [
+  "grid-template-rows: repeat(7, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:8": [
+  "grid-template-rows: repeat(8, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:9": [
+  "grid-template-rows: repeat(9, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:10": [
+  "grid-template-rows: repeat(10, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:11": [
+  "grid-template-rows: repeat(11, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:12": [
+  "grid-template-rows: repeat(12, minmax(0, 1fr))"
+ ],
+ "layout=grid-rows:none": [
+  "grid-template-rows: none"
+ ],
+ "layout=grid-rows:subgrid": [
+  "grid-template-rows: subgrid"
+ ],
+ "layout=col-span:1": [
+  "grid-column: span 1 / span 1"
+ ],
+ "layout=col-span:2": [
+  "grid-column: span 2 / span 2"
+ ],
+ "layout=col-span:3": [
+  "grid-column: span 3 / span 3"
+ ],
+ "layout=col-span:4": [
+  "grid-column: span 4 / span 4"
+ ],
+ "layout=col-span:5": [
+  "grid-column: span 5 / span 5"
+ ],
+ "layout=col-span:6": [
+  "grid-column: span 6 / span 6"
+ ],
+ "layout=col-span:7": [
+  "grid-column: span 7 / span 7"
+ ],
+ "layout=col-span:8": [
+  "grid-column: span 8 / span 8"
+ ],
+ "layout=col-span:9": [
+  "grid-column: span 9 / span 9"
+ ],
+ "layout=col-span:10": [
+  "grid-column: span 10 / span 10"
+ ],
+ "layout=col-span:11": [
+  "grid-column: span 11 / span 11"
+ ],
+ "layout=col-span:12": [
+  "grid-column: span 12 / span 12"
+ ],
+ "layout=col-span:full": [
+  "grid-column: 1 / -1"
+ ],
+ "layout=row-span:1": [
+  "grid-row: span 1 / span 1"
+ ],
+ "layout=row-span:2": [
+  "grid-row: span 2 / span 2"
+ ],
+ "layout=row-span:3": [
+  "grid-row: span 3 / span 3"
+ ],
+ "layout=row-span:4": [
+  "grid-row: span 4 / span 4"
+ ],
+ "layout=row-span:5": [
+  "grid-row: span 5 / span 5"
+ ],
+ "layout=row-span:6": [
+  "grid-row: span 6 / span 6"
+ ],
+ "layout=row-span:7": [
+  "grid-row: span 7 / span 7"
+ ],
+ "layout=row-span:8": [
+  "grid-row: span 8 / span 8"
+ ],
+ "layout=row-span:9": [
+  "grid-row: span 9 / span 9"
+ ],
+ "layout=row-span:10": [
+  "grid-row: span 10 / span 10"
+ ],
+ "layout=row-span:11": [
+  "grid-row: span 11 / span 11"
+ ],
+ "layout=row-span:12": [
+  "grid-row: span 12 / span 12"
+ ],
+ "layout=row-span:full": [
+  "grid-row: 1 / -1"
+ ],
+ "layout=grid-flow:row": null,
+ "layout=grid-flow:col": null,
+ "layout=grid-flow:dense": null,
+ "layout=grid-flow:row-dense": null,
+ "layout=grid-flow:col-dense": null,
+ "layout=auto-cols:auto": [
+  "grid-auto-columns: auto"
+ ],
+ "layout=auto-rows:auto": [
+  "grid-auto-rows: auto"
+ ],
+ "layout=auto-cols:min": [
+  "grid-auto-columns: min-content"
+ ],
+ "layout=auto-rows:min": [
+  "grid-auto-rows: min-content"
+ ],
+ "layout=auto-cols:max": [
+  "grid-auto-columns: max-content"
+ ],
+ "layout=auto-rows:max": [
+  "grid-auto-rows: max-content"
+ ],
+ "layout=auto-cols:fr": [
+  "grid-auto-columns: minmax(0, 1fr)"
+ ],
+ "layout=auto-rows:fr": [
+  "grid-auto-rows: minmax(0, 1fr)"
+ ],
+ "layout=static": [
+  "position: static"
+ ],
+ "layout=relative": [
+  "position: relative"
+ ],
+ "layout=absolute": [
+  "position: absolute"
+ ],
+ "layout=fixed": [
+  "position: fixed"
+ ],
+ "layout=sticky": [
+  "position: sticky"
+ ],
+ "layout=inset:inset": [
+  "inset: var(--s-inset)"
+ ],
+ "layout=top:inset": [
+  "top: var(--s-inset)"
+ ],
+ "layout=inset:inset-x": [
+  "inset: var(--s-inset-x)"
+ ],
+ "layout=top:inset-x": [
+  "top: var(--s-inset-x)"
+ ],
+ "layout=inset:inset-y": [
+  "inset: var(--s-inset-y)"
+ ],
+ "layout=top:inset-y": [
+  "top: var(--s-inset-y)"
+ ],
+ "layout=inset:top": [
+  "inset: var(--s-top)"
+ ],
+ "layout=top:top": [
+  "top: var(--s-top)"
+ ],
+ "layout=inset:right": [
+  "inset: var(--s-right)"
+ ],
+ "layout=top:right": [
+  "top: var(--s-right)"
+ ],
+ "layout=inset:bottom": [
+  "inset: var(--s-bottom)"
+ ],
+ "layout=top:bottom": [
+  "top: var(--s-bottom)"
+ ],
+ "layout=inset:left": [
+  "inset: var(--s-left)"
+ ],
+ "layout=top:left": [
+  "top: var(--s-left)"
+ ],
+ "layout=inset:none": [
+  "inset: var(--s-none)"
+ ],
+ "layout=inset:tiny": [
+  "inset: var(--s-tiny)"
+ ],
+ "layout=inset:small": [
+  "inset: var(--s-small)"
+ ],
+ "layout=inset:medium": [
+  "inset: var(--s-medium)"
+ ],
+ "layout=inset:big": [
+  "inset: var(--s-big)"
+ ],
+ "layout=inset:giant": [
+  "inset: var(--s-giant)"
+ ],
+ "layout=inset:vast": [
+  "inset: var(--s-vast)"
+ ],
+ "layout=inset:small-2x": [
+  "inset: var(--s-small-2x)"
+ ],
+ "layout=inset:[13px]": [
+  "inset: 13px"
+ ],
+ "layout=top:none": [
+  "top: var(--s-none)"
+ ],
+ "layout=top:tiny": [
+  "top: var(--s-tiny)"
+ ],
+ "layout=top:small": [
+  "top: var(--s-small)"
+ ],
+ "layout=top:medium": [
+  "top: var(--s-medium)"
+ ],
+ "layout=top:big": [
+  "top: var(--s-big)"
+ ],
+ "layout=top:giant": [
+  "top: var(--s-giant)"
+ ],
+ "layout=top:vast": [
+  "top: var(--s-vast)"
+ ],
+ "layout=top:small-2x": [
+  "top: var(--s-small-2x)"
+ ],
+ "layout=top:[13px]": [
+  "top: 13px"
+ ],
+ "layout=z:base": [
+  "z-index: var(--z-base)"
+ ],
+ "layout=z:low": [
+  "z-index: var(--z-low)"
+ ],
+ "layout=z:mid": [
+  "z-index: var(--z-mid)"
+ ],
+ "layout=z:high": [
+  "z-index: var(--z-high)"
+ ],
+ "layout=z:top": [
+  "z-index: var(--z-top)"
+ ],
+ "layout=visible": [
+  "visibility: visible"
+ ],
+ "layout=invisible": [
+  "visibility: hidden"
+ ],
+ "layout=overflow:auto": [
+  "overflow: auto"
+ ],
+ "layout=overflow:hidden": [
+  "overflow: hidden"
+ ],
+ "layout=overflow:visible": [
+  "overflow: visible"
+ ],
+ "layout=overflow:scroll": [
+  "overflow: scroll"
+ ],
+ "layout=overflow:clip": [
+  "overflow: clip"
+ ],
+ "layout=box:border": null,
+ "layout=box:content": null,
+ "layout=float:left": null,
+ "layout=clear:left": null,
+ "layout=float:right": null,
+ "layout=clear:right": null,
+ "layout=float:none": null,
+ "layout=clear:none": null,
+ "layout=float:clear-left": null,
+ "layout=clear:clear-left": null,
+ "layout=float:clear-right": null,
+ "layout=clear:clear-right": null,
+ "layout=float:clear-both": null,
+ "layout=clear:clear-both": null,
+ "layout=float:clear-none": null,
+ "layout=clear:clear-none": null,
+ "layout=aspect:auto": [
+  "aspect-ratio: auto"
+ ],
+ "layout=aspect:square": [
+  "aspect-ratio: 1 / 1"
+ ],
+ "layout=aspect:video": [
+  "aspect-ratio: 16 / 9"
+ ],
+ "layout=object:contain": [
+  "object-fit: contain"
+ ],
+ "layout=object:cover": [
+  "object-fit: cover"
+ ],
+ "layout=object:fill": [
+  "object-fit: fill"
+ ],
+ "layout=object:none": [
+  "object-fit: none"
+ ],
+ "layout=object:scale-down": [
+  "object-fit: scale-down"
+ ],
+ "layout=object-pos:center": [
+  "object-position: center"
+ ],
+ "layout=object-pos:top": [
+  "object-position: top"
+ ],
+ "layout=object-pos:bottom": [
+  "object-position: bottom"
+ ],
+ "layout=object-pos:left": [
+  "object-position: left"
+ ],
+ "layout=object-pos:right": [
+  "object-position: right"
+ ],
+ "layout=object-pos:top-left": [
+  "object-position: top-left"
+ ],
+ "layout=object-pos:top-right": [
+  "object-position: top-right"
+ ],
+ "layout=object-pos:bottom-left": [
+  "object-position: bottom-left"
+ ],
+ "layout=object-pos:bottom-right": [
+  "object-position: bottom-right"
+ ],
+ "layout=container": null,
+ "layout=isolation:isolate": null,
+ "layout=isolation:auto": null,
+ "layout=overscroll:auto": [
+  "overscroll-behavior: auto"
+ ],
+ "layout=overscroll:contain": [
+  "overscroll-behavior: contain"
+ ],
+ "layout=overscroll:none": [
+  "overscroll-behavior: none"
+ ],
+ "layout=cols:1": [
+  "columns: 1"
+ ],
+ "layout=cols:2": [
+  "columns: 2"
+ ],
+ "layout=cols:3": [
+  "columns: 3"
+ ],
+ "layout=cols:4": [
+  "columns: 4"
+ ],
+ "layout=cols:5": [
+  "columns: 5"
+ ],
+ "layout=cols:6": [
+  "columns: 6"
+ ],
+ "layout=cols:7": [
+  "columns: 7"
+ ],
+ "layout=cols:8": [
+  "columns: 8"
+ ],
+ "layout=cols:9": [
+  "columns: 9"
+ ],
+ "layout=cols:10": [
+  "columns: 10"
+ ],
+ "layout=cols:11": [
+  "columns: 11"
+ ],
+ "layout=cols:12": [
+  "columns: 12"
+ ],
+ "layout=cols:auto": [
+  "columns: auto"
+ ],
+ "layout=collapse": [
+  "border-collapse: collapse"
+ ],
+ "layout=separate": [
+  "border-collapse: separate"
+ ],
+ "layout=border-spacing:border-spacing": [
+  "border-spacing: var(--s-border-spacing)"
+ ],
+ "layout=border-spacing:border-spacing-x": [
+  "border-spacing: var(--s-border-spacing-x)"
+ ],
+ "layout=border-spacing:border-spacing-y": [
+  "border-spacing: var(--s-border-spacing-y)"
+ ],
+ "layout=border-spacing:none": [
+  "border-spacing: var(--s-none)"
+ ],
+ "layout=border-spacing:tiny": [
+  "border-spacing: var(--s-tiny)"
+ ],
+ "layout=border-spacing:small": [
+  "border-spacing: var(--s-small)"
+ ],
+ "layout=border-spacing:medium": [
+  "border-spacing: var(--s-medium)"
+ ],
+ "layout=border-spacing:big": [
+  "border-spacing: var(--s-big)"
+ ],
+ "layout=border-spacing:giant": [
+  "border-spacing: var(--s-giant)"
+ ],
+ "layout=border-spacing:vast": [
+  "border-spacing: var(--s-vast)"
+ ],
+ "layout=border-spacing:small-2x": [
+  "border-spacing: var(--s-small-2x)"
+ ],
+ "layout=border-spacing:[13px]": [
+  "border-spacing: 13px"
+ ],
+ "layout=table:auto": [
+  "display: table"
+ ],
+ "layout=table:fixed": [
+  "display: table"
+ ],
+ "layout=caption:top": null,
+ "layout=caption:bottom": null,
+ "space=p:none": [
+  "padding: var(--s-none)"
+ ],
+ "space=p:thin": [
+  "padding: var(--s-thin)"
+ ],
+ "space=p:regular": [
+  "padding: var(--s-regular)"
+ ],
+ "space=p:thick": [
+  "padding: var(--s-thick)"
+ ],
+ "space=p:tiny": [
+  "padding: var(--s-tiny)"
+ ],
+ "space=p:tiny-2x": [
+  "padding: var(--s-tiny-2x)"
+ ],
+ "space=p:small": [
+  "padding: var(--s-small)"
+ ],
+ "space=p:small-2x": [
+  "padding: var(--s-small-2x)"
+ ],
+ "space=p:small-3x": [
+  "padding: var(--s-small-3x)"
+ ],
+ "space=p:small-4x": [
+  "padding: var(--s-small-4x)"
+ ],
+ "space=p:medium": [
+  "padding: var(--s-medium)"
+ ],
+ "space=p:medium-2x": [
+  "padding: var(--s-medium-2x)"
+ ],
+ "space=p:medium-3x": [
+  "padding: var(--s-medium-3x)"
+ ],
+ "space=p:medium-4x": [
+  "padding: var(--s-medium-4x)"
+ ],
+ "space=p:[13px]": [
+  "padding: 13px"
+ ],
+ "space=p-t:none": [
+  "padding-top: var(--s-none)"
+ ],
+ "space=p-t:thin": [
+  "padding-top: var(--s-thin)"
+ ],
+ "space=p-t:regular": [
+  "padding-top: var(--s-regular)"
+ ],
+ "space=p-t:thick": [
+  "padding-top: var(--s-thick)"
+ ],
+ "space=p-t:tiny": [
+  "padding-top: var(--s-tiny)"
+ ],
+ "space=p-t:tiny-2x": [
+  "padding-top: var(--s-tiny-2x)"
+ ],
+ "space=p-t:small": [
+  "padding-top: var(--s-small)"
+ ],
+ "space=p-t:small-2x": [
+  "padding-top: var(--s-small-2x)"
+ ],
+ "space=p-t:small-3x": [
+  "padding-top: var(--s-small-3x)"
+ ],
+ "space=p-t:small-4x": [
+  "padding-top: var(--s-small-4x)"
+ ],
+ "space=p-t:medium": [
+  "padding-top: var(--s-medium)"
+ ],
+ "space=p-t:medium-2x": [
+  "padding-top: var(--s-medium-2x)"
+ ],
+ "space=p-t:medium-3x": [
+  "padding-top: var(--s-medium-3x)"
+ ],
+ "space=p-t:medium-4x": [
+  "padding-top: var(--s-medium-4x)"
+ ],
+ "space=p-t:[13px]": [
+  "padding-top: 13px"
+ ],
+ "space=p-r:none": [
+  "padding-right: var(--s-none)"
+ ],
+ "space=p-r:thin": [
+  "padding-right: var(--s-thin)"
+ ],
+ "space=p-r:regular": [
+  "padding-right: var(--s-regular)"
+ ],
+ "space=p-r:thick": [
+  "padding-right: var(--s-thick)"
+ ],
+ "space=p-r:tiny": [
+  "padding-right: var(--s-tiny)"
+ ],
+ "space=p-r:tiny-2x": [
+  "padding-right: var(--s-tiny-2x)"
+ ],
+ "space=p-r:small": [
+  "padding-right: var(--s-small)"
+ ],
+ "space=p-r:small-2x": [
+  "padding-right: var(--s-small-2x)"
+ ],
+ "space=p-r:small-3x": [
+  "padding-right: var(--s-small-3x)"
+ ],
+ "space=p-r:small-4x": [
+  "padding-right: var(--s-small-4x)"
+ ],
+ "space=p-r:medium": [
+  "padding-right: var(--s-medium)"
+ ],
+ "space=p-r:medium-2x": [
+  "padding-right: var(--s-medium-2x)"
+ ],
+ "space=p-r:medium-3x": [
+  "padding-right: var(--s-medium-3x)"
+ ],
+ "space=p-r:medium-4x": [
+  "padding-right: var(--s-medium-4x)"
+ ],
+ "space=p-r:[13px]": [
+  "padding-right: 13px"
+ ],
+ "space=p-b:none": [
+  "padding-bottom: var(--s-none)"
+ ],
+ "space=p-b:thin": [
+  "padding-bottom: var(--s-thin)"
+ ],
+ "space=p-b:regular": [
+  "padding-bottom: var(--s-regular)"
+ ],
+ "space=p-b:thick": [
+  "padding-bottom: var(--s-thick)"
+ ],
+ "space=p-b:tiny": [
+  "padding-bottom: var(--s-tiny)"
+ ],
+ "space=p-b:tiny-2x": [
+  "padding-bottom: var(--s-tiny-2x)"
+ ],
+ "space=p-b:small": [
+  "padding-bottom: var(--s-small)"
+ ],
+ "space=p-b:small-2x": [
+  "padding-bottom: var(--s-small-2x)"
+ ],
+ "space=p-b:small-3x": [
+  "padding-bottom: var(--s-small-3x)"
+ ],
+ "space=p-b:small-4x": [
+  "padding-bottom: var(--s-small-4x)"
+ ],
+ "space=p-b:medium": [
+  "padding-bottom: var(--s-medium)"
+ ],
+ "space=p-b:medium-2x": [
+  "padding-bottom: var(--s-medium-2x)"
+ ],
+ "space=p-b:medium-3x": [
+  "padding-bottom: var(--s-medium-3x)"
+ ],
+ "space=p-b:medium-4x": [
+  "padding-bottom: var(--s-medium-4x)"
+ ],
+ "space=p-b:[13px]": [
+  "padding-bottom: 13px"
+ ],
+ "space=p-l:none": [
+  "padding-left: var(--s-none)"
+ ],
+ "space=p-l:thin": [
+  "padding-left: var(--s-thin)"
+ ],
+ "space=p-l:regular": [
+  "padding-left: var(--s-regular)"
+ ],
+ "space=p-l:thick": [
+  "padding-left: var(--s-thick)"
+ ],
+ "space=p-l:tiny": [
+  "padding-left: var(--s-tiny)"
+ ],
+ "space=p-l:tiny-2x": [
+  "padding-left: var(--s-tiny-2x)"
+ ],
+ "space=p-l:small": [
+  "padding-left: var(--s-small)"
+ ],
+ "space=p-l:small-2x": [
+  "padding-left: var(--s-small-2x)"
+ ],
+ "space=p-l:small-3x": [
+  "padding-left: var(--s-small-3x)"
+ ],
+ "space=p-l:small-4x": [
+  "padding-left: var(--s-small-4x)"
+ ],
+ "space=p-l:medium": [
+  "padding-left: var(--s-medium)"
+ ],
+ "space=p-l:medium-2x": [
+  "padding-left: var(--s-medium-2x)"
+ ],
+ "space=p-l:medium-3x": [
+  "padding-left: var(--s-medium-3x)"
+ ],
+ "space=p-l:medium-4x": [
+  "padding-left: var(--s-medium-4x)"
+ ],
+ "space=p-l:[13px]": [
+  "padding-left: 13px"
+ ],
+ "space=p-x:none": [
+  "padding-left: var(--s-none)",
+  "padding-right: var(--s-none)"
+ ],
+ "space=p-x:thin": [
+  "padding-left: var(--s-thin)",
+  "padding-right: var(--s-thin)"
+ ],
+ "space=p-x:regular": [
+  "padding-left: var(--s-regular)",
+  "padding-right: var(--s-regular)"
+ ],
+ "space=p-x:thick": [
+  "padding-left: var(--s-thick)",
+  "padding-right: var(--s-thick)"
+ ],
+ "space=p-x:tiny": [
+  "padding-left: var(--s-tiny)",
+  "padding-right: var(--s-tiny)"
+ ],
+ "space=p-x:tiny-2x": [
+  "padding-left: var(--s-tiny-2x)",
+  "padding-right: var(--s-tiny-2x)"
+ ],
+ "space=p-x:small": [
+  "padding-left: var(--s-small)",
+  "padding-right: var(--s-small)"
+ ],
+ "space=p-x:small-2x": [
+  "padding-left: var(--s-small-2x)",
+  "padding-right: var(--s-small-2x)"
+ ],
+ "space=p-x:small-3x": [
+  "padding-left: var(--s-small-3x)",
+  "padding-right: var(--s-small-3x)"
+ ],
+ "space=p-x:small-4x": [
+  "padding-left: var(--s-small-4x)",
+  "padding-right: var(--s-small-4x)"
+ ],
+ "space=p-x:medium": [
+  "padding-left: var(--s-medium)",
+  "padding-right: var(--s-medium)"
+ ],
+ "space=p-x:medium-2x": [
+  "padding-left: var(--s-medium-2x)",
+  "padding-right: var(--s-medium-2x)"
+ ],
+ "space=p-x:medium-3x": [
+  "padding-left: var(--s-medium-3x)",
+  "padding-right: var(--s-medium-3x)"
+ ],
+ "space=p-x:medium-4x": [
+  "padding-left: var(--s-medium-4x)",
+  "padding-right: var(--s-medium-4x)"
+ ],
+ "space=p-x:[13px]": [
+  "padding-left: 13px",
+  "padding-right: 13px"
+ ],
+ "space=p-y:none": [
+  "padding-bottom: var(--s-none)",
+  "padding-top: var(--s-none)"
+ ],
+ "space=p-y:thin": [
+  "padding-bottom: var(--s-thin)",
+  "padding-top: var(--s-thin)"
+ ],
+ "space=p-y:regular": [
+  "padding-bottom: var(--s-regular)",
+  "padding-top: var(--s-regular)"
+ ],
+ "space=p-y:thick": [
+  "padding-bottom: var(--s-thick)",
+  "padding-top: var(--s-thick)"
+ ],
+ "space=p-y:tiny": [
+  "padding-bottom: var(--s-tiny)",
+  "padding-top: var(--s-tiny)"
+ ],
+ "space=p-y:tiny-2x": [
+  "padding-bottom: var(--s-tiny-2x)",
+  "padding-top: var(--s-tiny-2x)"
+ ],
+ "space=p-y:small": [
+  "padding-bottom: var(--s-small)",
+  "padding-top: var(--s-small)"
+ ],
+ "space=p-y:small-2x": [
+  "padding-bottom: var(--s-small-2x)",
+  "padding-top: var(--s-small-2x)"
+ ],
+ "space=p-y:small-3x": [
+  "padding-bottom: var(--s-small-3x)",
+  "padding-top: var(--s-small-3x)"
+ ],
+ "space=p-y:small-4x": [
+  "padding-bottom: var(--s-small-4x)",
+  "padding-top: var(--s-small-4x)"
+ ],
+ "space=p-y:medium": [
+  "padding-bottom: var(--s-medium)",
+  "padding-top: var(--s-medium)"
+ ],
+ "space=p-y:medium-2x": [
+  "padding-bottom: var(--s-medium-2x)",
+  "padding-top: var(--s-medium-2x)"
+ ],
+ "space=p-y:medium-3x": [
+  "padding-bottom: var(--s-medium-3x)",
+  "padding-top: var(--s-medium-3x)"
+ ],
+ "space=p-y:medium-4x": [
+  "padding-bottom: var(--s-medium-4x)",
+  "padding-top: var(--s-medium-4x)"
+ ],
+ "space=p-y:[13px]": [
+  "padding-bottom: 13px",
+  "padding-top: 13px"
+ ],
+ "space=p:big": [
+  "padding: var(--s-big)"
+ ],
+ "space=p:giant": [
+  "padding: var(--s-giant)"
+ ],
+ "space=p:vast": [
+  "padding: var(--s-vast)"
+ ],
+ "space=p-side:none": null,
+ "space=p-side:tiny": null,
+ "space=p-side:small": null,
+ "space=p-side:medium": null,
+ "space=p-side:big": null,
+ "space=p-side:giant": null,
+ "space=p-side:vast": null,
+ "space=p-side:small-2x": null,
+ "space=p-side:[13px]": null,
+ "space=m:none": [
+  "margin: var(--s-none)"
+ ],
+ "space=m:thin": [
+  "margin: var(--s-thin)"
+ ],
+ "space=m:regular": [
+  "margin: var(--s-regular)"
+ ],
+ "space=m:thick": [
+  "margin: var(--s-thick)"
+ ],
+ "space=m:tiny": [
+  "margin: var(--s-tiny)"
+ ],
+ "space=m:tiny-2x": [
+  "margin: var(--s-tiny-2x)"
+ ],
+ "space=m:small": [
+  "margin: var(--s-small)"
+ ],
+ "space=m:small-2x": [
+  "margin: var(--s-small-2x)"
+ ],
+ "space=m:small-3x": [
+  "margin: var(--s-small-3x)"
+ ],
+ "space=m:small-4x": [
+  "margin: var(--s-small-4x)"
+ ],
+ "space=m:medium": [
+  "margin: var(--s-medium)"
+ ],
+ "space=m:medium-2x": [
+  "margin: var(--s-medium-2x)"
+ ],
+ "space=m:medium-3x": [
+  "margin: var(--s-medium-3x)"
+ ],
+ "space=m:medium-4x": [
+  "margin: var(--s-medium-4x)"
+ ],
+ "space=m:[13px]": [
+  "margin: 13px"
+ ],
+ "space=m-t:none": [
+  "margin-top: var(--s-none)"
+ ],
+ "space=m-t:thin": [
+  "margin-top: var(--s-thin)"
+ ],
+ "space=m-t:regular": [
+  "margin-top: var(--s-regular)"
+ ],
+ "space=m-t:thick": [
+  "margin-top: var(--s-thick)"
+ ],
+ "space=m-t:tiny": [
+  "margin-top: var(--s-tiny)"
+ ],
+ "space=m-t:tiny-2x": [
+  "margin-top: var(--s-tiny-2x)"
+ ],
+ "space=m-t:small": [
+  "margin-top: var(--s-small)"
+ ],
+ "space=m-t:small-2x": [
+  "margin-top: var(--s-small-2x)"
+ ],
+ "space=m-t:small-3x": [
+  "margin-top: var(--s-small-3x)"
+ ],
+ "space=m-t:small-4x": [
+  "margin-top: var(--s-small-4x)"
+ ],
+ "space=m-t:medium": [
+  "margin-top: var(--s-medium)"
+ ],
+ "space=m-t:medium-2x": [
+  "margin-top: var(--s-medium-2x)"
+ ],
+ "space=m-t:medium-3x": [
+  "margin-top: var(--s-medium-3x)"
+ ],
+ "space=m-t:medium-4x": [
+  "margin-top: var(--s-medium-4x)"
+ ],
+ "space=m-t:[13px]": [
+  "margin-top: 13px"
+ ],
+ "space=m-r:none": [
+  "margin-right: var(--s-none)"
+ ],
+ "space=m-r:thin": [
+  "margin-right: var(--s-thin)"
+ ],
+ "space=m-r:regular": [
+  "margin-right: var(--s-regular)"
+ ],
+ "space=m-r:thick": [
+  "margin-right: var(--s-thick)"
+ ],
+ "space=m-r:tiny": [
+  "margin-right: var(--s-tiny)"
+ ],
+ "space=m-r:tiny-2x": [
+  "margin-right: var(--s-tiny-2x)"
+ ],
+ "space=m-r:small": [
+  "margin-right: var(--s-small)"
+ ],
+ "space=m-r:small-2x": [
+  "margin-right: var(--s-small-2x)"
+ ],
+ "space=m-r:small-3x": [
+  "margin-right: var(--s-small-3x)"
+ ],
+ "space=m-r:small-4x": [
+  "margin-right: var(--s-small-4x)"
+ ],
+ "space=m-r:medium": [
+  "margin-right: var(--s-medium)"
+ ],
+ "space=m-r:medium-2x": [
+  "margin-right: var(--s-medium-2x)"
+ ],
+ "space=m-r:medium-3x": [
+  "margin-right: var(--s-medium-3x)"
+ ],
+ "space=m-r:medium-4x": [
+  "margin-right: var(--s-medium-4x)"
+ ],
+ "space=m-r:[13px]": [
+  "margin-right: 13px"
+ ],
+ "space=m-b:none": [
+  "margin-bottom: var(--s-none)"
+ ],
+ "space=m-b:thin": [
+  "margin-bottom: var(--s-thin)"
+ ],
+ "space=m-b:regular": [
+  "margin-bottom: var(--s-regular)"
+ ],
+ "space=m-b:thick": [
+  "margin-bottom: var(--s-thick)"
+ ],
+ "space=m-b:tiny": [
+  "margin-bottom: var(--s-tiny)"
+ ],
+ "space=m-b:tiny-2x": [
+  "margin-bottom: var(--s-tiny-2x)"
+ ],
+ "space=m-b:small": [
+  "margin-bottom: var(--s-small)"
+ ],
+ "space=m-b:small-2x": [
+  "margin-bottom: var(--s-small-2x)"
+ ],
+ "space=m-b:small-3x": [
+  "margin-bottom: var(--s-small-3x)"
+ ],
+ "space=m-b:small-4x": [
+  "margin-bottom: var(--s-small-4x)"
+ ],
+ "space=m-b:medium": [
+  "margin-bottom: var(--s-medium)"
+ ],
+ "space=m-b:medium-2x": [
+  "margin-bottom: var(--s-medium-2x)"
+ ],
+ "space=m-b:medium-3x": [
+  "margin-bottom: var(--s-medium-3x)"
+ ],
+ "space=m-b:medium-4x": [
+  "margin-bottom: var(--s-medium-4x)"
+ ],
+ "space=m-b:[13px]": [
+  "margin-bottom: 13px"
+ ],
+ "space=m-l:none": [
+  "margin-left: var(--s-none)"
+ ],
+ "space=m-l:thin": [
+  "margin-left: var(--s-thin)"
+ ],
+ "space=m-l:regular": [
+  "margin-left: var(--s-regular)"
+ ],
+ "space=m-l:thick": [
+  "margin-left: var(--s-thick)"
+ ],
+ "space=m-l:tiny": [
+  "margin-left: var(--s-tiny)"
+ ],
+ "space=m-l:tiny-2x": [
+  "margin-left: var(--s-tiny-2x)"
+ ],
+ "space=m-l:small": [
+  "margin-left: var(--s-small)"
+ ],
+ "space=m-l:small-2x": [
+  "margin-left: var(--s-small-2x)"
+ ],
+ "space=m-l:small-3x": [
+  "margin-left: var(--s-small-3x)"
+ ],
+ "space=m-l:small-4x": [
+  "margin-left: var(--s-small-4x)"
+ ],
+ "space=m-l:medium": [
+  "margin-left: var(--s-medium)"
+ ],
+ "space=m-l:medium-2x": [
+  "margin-left: var(--s-medium-2x)"
+ ],
+ "space=m-l:medium-3x": [
+  "margin-left: var(--s-medium-3x)"
+ ],
+ "space=m-l:medium-4x": [
+  "margin-left: var(--s-medium-4x)"
+ ],
+ "space=m-l:[13px]": [
+  "margin-left: 13px"
+ ],
+ "space=m-x:none": [
+  "margin-left: var(--s-none)",
+  "margin-right: var(--s-none)"
+ ],
+ "space=m-x:thin": [
+  "margin-left: var(--s-thin)",
+  "margin-right: var(--s-thin)"
+ ],
+ "space=m-x:regular": [
+  "margin-left: var(--s-regular)",
+  "margin-right: var(--s-regular)"
+ ],
+ "space=m-x:thick": [
+  "margin-left: var(--s-thick)",
+  "margin-right: var(--s-thick)"
+ ],
+ "space=m-x:tiny": [
+  "margin-left: var(--s-tiny)",
+  "margin-right: var(--s-tiny)"
+ ],
+ "space=m-x:tiny-2x": [
+  "margin-left: var(--s-tiny-2x)",
+  "margin-right: var(--s-tiny-2x)"
+ ],
+ "space=m-x:small": [
+  "margin-left: var(--s-small)",
+  "margin-right: var(--s-small)"
+ ],
+ "space=m-x:small-2x": [
+  "margin-left: var(--s-small-2x)",
+  "margin-right: var(--s-small-2x)"
+ ],
+ "space=m-x:small-3x": [
+  "margin-left: var(--s-small-3x)",
+  "margin-right: var(--s-small-3x)"
+ ],
+ "space=m-x:small-4x": [
+  "margin-left: var(--s-small-4x)",
+  "margin-right: var(--s-small-4x)"
+ ],
+ "space=m-x:medium": [
+  "margin-left: var(--s-medium)",
+  "margin-right: var(--s-medium)"
+ ],
+ "space=m-x:medium-2x": [
+  "margin-left: var(--s-medium-2x)",
+  "margin-right: var(--s-medium-2x)"
+ ],
+ "space=m-x:medium-3x": [
+  "margin-left: var(--s-medium-3x)",
+  "margin-right: var(--s-medium-3x)"
+ ],
+ "space=m-x:medium-4x": [
+  "margin-left: var(--s-medium-4x)",
+  "margin-right: var(--s-medium-4x)"
+ ],
+ "space=m-x:[13px]": [
+  "margin-left: 13px",
+  "margin-right: 13px"
+ ],
+ "space=m-y:none": [
+  "margin-bottom: var(--s-none)",
+  "margin-top: var(--s-none)"
+ ],
+ "space=m-y:thin": [
+  "margin-bottom: var(--s-thin)",
+  "margin-top: var(--s-thin)"
+ ],
+ "space=m-y:regular": [
+  "margin-bottom: var(--s-regular)",
+  "margin-top: var(--s-regular)"
+ ],
+ "space=m-y:thick": [
+  "margin-bottom: var(--s-thick)",
+  "margin-top: var(--s-thick)"
+ ],
+ "space=m-y:tiny": [
+  "margin-bottom: var(--s-tiny)",
+  "margin-top: var(--s-tiny)"
+ ],
+ "space=m-y:tiny-2x": [
+  "margin-bottom: var(--s-tiny-2x)",
+  "margin-top: var(--s-tiny-2x)"
+ ],
+ "space=m-y:small": [
+  "margin-bottom: var(--s-small)",
+  "margin-top: var(--s-small)"
+ ],
+ "space=m-y:small-2x": [
+  "margin-bottom: var(--s-small-2x)",
+  "margin-top: var(--s-small-2x)"
+ ],
+ "space=m-y:small-3x": [
+  "margin-bottom: var(--s-small-3x)",
+  "margin-top: var(--s-small-3x)"
+ ],
+ "space=m-y:small-4x": [
+  "margin-bottom: var(--s-small-4x)",
+  "margin-top: var(--s-small-4x)"
+ ],
+ "space=m-y:medium": [
+  "margin-bottom: var(--s-medium)",
+  "margin-top: var(--s-medium)"
+ ],
+ "space=m-y:medium-2x": [
+  "margin-bottom: var(--s-medium-2x)",
+  "margin-top: var(--s-medium-2x)"
+ ],
+ "space=m-y:medium-3x": [
+  "margin-bottom: var(--s-medium-3x)",
+  "margin-top: var(--s-medium-3x)"
+ ],
+ "space=m-y:medium-4x": [
+  "margin-bottom: var(--s-medium-4x)",
+  "margin-top: var(--s-medium-4x)"
+ ],
+ "space=m-y:[13px]": [
+  "margin-bottom: 13px",
+  "margin-top: 13px"
+ ],
+ "space=m:big": [
+  "margin: var(--s-big)"
+ ],
+ "space=m:giant": [
+  "margin: var(--s-giant)"
+ ],
+ "space=m:vast": [
+  "margin: var(--s-vast)"
+ ],
+ "space=m-side:none": null,
+ "space=m-side:tiny": null,
+ "space=m-side:small": null,
+ "space=m-side:medium": null,
+ "space=m-side:big": null,
+ "space=m-side:giant": null,
+ "space=m-side:vast": null,
+ "space=m-side:small-2x": null,
+ "space=m-side:[13px]": null,
+ "space=g:none": [
+  "gap: var(--s-none)"
+ ],
+ "space=g:thin": [
+  "gap: var(--s-thin)"
+ ],
+ "space=g:regular": [
+  "gap: var(--s-regular)"
+ ],
+ "space=g:thick": [
+  "gap: var(--s-thick)"
+ ],
+ "space=g:tiny": [
+  "gap: var(--s-tiny)"
+ ],
+ "space=g:tiny-2x": [
+  "gap: var(--s-tiny-2x)"
+ ],
+ "space=g:small": [
+  "gap: var(--s-small)"
+ ],
+ "space=g:small-2x": [
+  "gap: var(--s-small-2x)"
+ ],
+ "space=g:small-3x": [
+  "gap: var(--s-small-3x)"
+ ],
+ "space=g:small-4x": [
+  "gap: var(--s-small-4x)"
+ ],
+ "space=g:medium": [
+  "gap: var(--s-medium)"
+ ],
+ "space=g:medium-2x": [
+  "gap: var(--s-medium-2x)"
+ ],
+ "space=g:medium-3x": [
+  "gap: var(--s-medium-3x)"
+ ],
+ "space=g:medium-4x": [
+  "gap: var(--s-medium-4x)"
+ ],
+ "space=g:[13px]": [
+  "gap: 13px"
+ ],
+ "space=g-x:none": [
+  "column-gap: var(--s-none)"
+ ],
+ "space=g-x:thin": [
+  "column-gap: var(--s-thin)"
+ ],
+ "space=g-x:regular": [
+  "column-gap: var(--s-regular)"
+ ],
+ "space=g-x:thick": [
+  "column-gap: var(--s-thick)"
+ ],
+ "space=g-x:tiny": [
+  "column-gap: var(--s-tiny)"
+ ],
+ "space=g-x:tiny-2x": [
+  "column-gap: var(--s-tiny-2x)"
+ ],
+ "space=g-x:small": [
+  "column-gap: var(--s-small)"
+ ],
+ "space=g-x:small-2x": [
+  "column-gap: var(--s-small-2x)"
+ ],
+ "space=g-x:small-3x": [
+  "column-gap: var(--s-small-3x)"
+ ],
+ "space=g-x:small-4x": [
+  "column-gap: var(--s-small-4x)"
+ ],
+ "space=g-x:medium": [
+  "column-gap: var(--s-medium)"
+ ],
+ "space=g-x:medium-2x": [
+  "column-gap: var(--s-medium-2x)"
+ ],
+ "space=g-x:medium-3x": [
+  "column-gap: var(--s-medium-3x)"
+ ],
+ "space=g-x:medium-4x": [
+  "column-gap: var(--s-medium-4x)"
+ ],
+ "space=g-x:[13px]": [
+  "column-gap: 13px"
+ ],
+ "space=g-y:none": [
+  "row-gap: var(--s-none)"
+ ],
+ "space=g-y:thin": [
+  "row-gap: var(--s-thin)"
+ ],
+ "space=g-y:regular": [
+  "row-gap: var(--s-regular)"
+ ],
+ "space=g-y:thick": [
+  "row-gap: var(--s-thick)"
+ ],
+ "space=g-y:tiny": [
+  "row-gap: var(--s-tiny)"
+ ],
+ "space=g-y:tiny-2x": [
+  "row-gap: var(--s-tiny-2x)"
+ ],
+ "space=g-y:small": [
+  "row-gap: var(--s-small)"
+ ],
+ "space=g-y:small-2x": [
+  "row-gap: var(--s-small-2x)"
+ ],
+ "space=g-y:small-3x": [
+  "row-gap: var(--s-small-3x)"
+ ],
+ "space=g-y:small-4x": [
+  "row-gap: var(--s-small-4x)"
+ ],
+ "space=g-y:medium": [
+  "row-gap: var(--s-medium)"
+ ],
+ "space=g-y:medium-2x": [
+  "row-gap: var(--s-medium-2x)"
+ ],
+ "space=g-y:medium-3x": [
+  "row-gap: var(--s-medium-3x)"
+ ],
+ "space=g-y:medium-4x": [
+  "row-gap: var(--s-medium-4x)"
+ ],
+ "space=g-y:[13px]": [
+  "row-gap: 13px"
+ ],
+ "space=g:big": [
+  "gap: var(--s-big)"
+ ],
+ "space=g:giant": [
+  "gap: var(--s-giant)"
+ ],
+ "space=g:vast": [
+  "gap: var(--s-vast)"
+ ],
+ "space=g-axis:none": null,
+ "space=g-axis:tiny": null,
+ "space=g-axis:small": null,
+ "space=g-axis:medium": null,
+ "space=g-axis:big": null,
+ "space=g-axis:giant": null,
+ "space=g-axis:vast": null,
+ "space=g-axis:small-2x": null,
+ "space=g-axis:[13px]": null,
+ "space=w:none": [
+  "width: var(--s-none)"
+ ],
+ "space=w:thin": [
+  "width: var(--s-thin)"
+ ],
+ "space=w:regular": [
+  "width: var(--s-regular)"
+ ],
+ "space=w:thick": [
+  "width: var(--s-thick)"
+ ],
+ "space=w:tiny": [
+  "width: var(--s-tiny)"
+ ],
+ "space=w:tiny-2x": [
+  "width: var(--s-tiny-2x)"
+ ],
+ "space=w:small": [
+  "width: var(--s-small)"
+ ],
+ "space=w:small-2x": [
+  "width: var(--s-small-2x)"
+ ],
+ "space=w:small-3x": [
+  "width: var(--s-small-3x)"
+ ],
+ "space=w:small-4x": [
+  "width: var(--s-small-4x)"
+ ],
+ "space=w:medium": [
+  "width: var(--s-medium)"
+ ],
+ "space=w:medium-2x": [
+  "width: var(--s-medium-2x)"
+ ],
+ "space=w:medium-3x": [
+  "width: var(--s-medium-3x)"
+ ],
+ "space=w:medium-4x": [
+  "width: var(--s-medium-4x)"
+ ],
+ "space=w:[13px]": [
+  "width: 13px"
+ ],
+ "space=min-w:none": [
+  "min-width: var(--s-none)"
+ ],
+ "space=min-w:thin": [
+  "min-width: var(--s-thin)"
+ ],
+ "space=min-w:regular": [
+  "min-width: var(--s-regular)"
+ ],
+ "space=min-w:thick": [
+  "min-width: var(--s-thick)"
+ ],
+ "space=min-w:tiny": [
+  "min-width: var(--s-tiny)"
+ ],
+ "space=min-w:tiny-2x": [
+  "min-width: var(--s-tiny-2x)"
+ ],
+ "space=min-w:small": [
+  "min-width: var(--s-small)"
+ ],
+ "space=min-w:small-2x": [
+  "min-width: var(--s-small-2x)"
+ ],
+ "space=min-w:small-3x": [
+  "min-width: var(--s-small-3x)"
+ ],
+ "space=min-w:small-4x": [
+  "min-width: var(--s-small-4x)"
+ ],
+ "space=min-w:medium": [
+  "min-width: var(--s-medium)"
+ ],
+ "space=min-w:medium-2x": [
+  "min-width: var(--s-medium-2x)"
+ ],
+ "space=min-w:medium-3x": [
+  "min-width: var(--s-medium-3x)"
+ ],
+ "space=min-w:medium-4x": [
+  "min-width: var(--s-medium-4x)"
+ ],
+ "space=min-w:[13px]": [
+  "min-width: 13px"
+ ],
+ "space=max-w:none": [
+  "max-width: var(--s-none)"
+ ],
+ "space=max-w:thin": [
+  "max-width: var(--s-thin)"
+ ],
+ "space=max-w:regular": [
+  "max-width: var(--s-regular)"
+ ],
+ "space=max-w:thick": [
+  "max-width: var(--s-thick)"
+ ],
+ "space=max-w:tiny": [
+  "max-width: var(--s-tiny)"
+ ],
+ "space=max-w:tiny-2x": [
+  "max-width: var(--s-tiny-2x)"
+ ],
+ "space=max-w:small": [
+  "max-width: var(--s-small)"
+ ],
+ "space=max-w:small-2x": [
+  "max-width: var(--s-small-2x)"
+ ],
+ "space=max-w:small-3x": [
+  "max-width: var(--s-small-3x)"
+ ],
+ "space=max-w:small-4x": [
+  "max-width: var(--s-small-4x)"
+ ],
+ "space=max-w:medium": [
+  "max-width: var(--s-medium)"
+ ],
+ "space=max-w:medium-2x": [
+  "max-width: var(--s-medium-2x)"
+ ],
+ "space=max-w:medium-3x": [
+  "max-width: var(--s-medium-3x)"
+ ],
+ "space=max-w:medium-4x": [
+  "max-width: var(--s-medium-4x)"
+ ],
+ "space=max-w:[13px]": [
+  "max-width: 13px"
+ ],
+ "space=w:big": [
+  "width: var(--s-big)"
+ ],
+ "space=w:giant": [
+  "width: var(--s-giant)"
+ ],
+ "space=w:vast": [
+  "width: var(--s-vast)"
+ ],
+ "space=h:none": [
+  "height: var(--s-none)"
+ ],
+ "space=h:thin": [
+  "height: var(--s-thin)"
+ ],
+ "space=h:regular": [
+  "height: var(--s-regular)"
+ ],
+ "space=h:thick": [
+  "height: var(--s-thick)"
+ ],
+ "space=h:tiny": [
+  "height: var(--s-tiny)"
+ ],
+ "space=h:tiny-2x": [
+  "height: var(--s-tiny-2x)"
+ ],
+ "space=h:small": [
+  "height: var(--s-small)"
+ ],
+ "space=h:small-2x": [
+  "height: var(--s-small-2x)"
+ ],
+ "space=h:small-3x": [
+  "height: var(--s-small-3x)"
+ ],
+ "space=h:small-4x": [
+  "height: var(--s-small-4x)"
+ ],
+ "space=h:medium": [
+  "height: var(--s-medium)"
+ ],
+ "space=h:medium-2x": [
+  "height: var(--s-medium-2x)"
+ ],
+ "space=h:medium-3x": [
+  "height: var(--s-medium-3x)"
+ ],
+ "space=h:medium-4x": [
+  "height: var(--s-medium-4x)"
+ ],
+ "space=h:[13px]": [
+  "height: 13px"
+ ],
+ "space=min-h:none": [
+  "min-height: var(--s-none)"
+ ],
+ "space=min-h:thin": [
+  "min-height: var(--s-thin)"
+ ],
+ "space=min-h:regular": [
+  "min-height: var(--s-regular)"
+ ],
+ "space=min-h:thick": [
+  "min-height: var(--s-thick)"
+ ],
+ "space=min-h:tiny": [
+  "min-height: var(--s-tiny)"
+ ],
+ "space=min-h:tiny-2x": [
+  "min-height: var(--s-tiny-2x)"
+ ],
+ "space=min-h:small": [
+  "min-height: var(--s-small)"
+ ],
+ "space=min-h:small-2x": [
+  "min-height: var(--s-small-2x)"
+ ],
+ "space=min-h:small-3x": [
+  "min-height: var(--s-small-3x)"
+ ],
+ "space=min-h:small-4x": [
+  "min-height: var(--s-small-4x)"
+ ],
+ "space=min-h:medium": [
+  "min-height: var(--s-medium)"
+ ],
+ "space=min-h:medium-2x": [
+  "min-height: var(--s-medium-2x)"
+ ],
+ "space=min-h:medium-3x": [
+  "min-height: var(--s-medium-3x)"
+ ],
+ "space=min-h:medium-4x": [
+  "min-height: var(--s-medium-4x)"
+ ],
+ "space=min-h:[13px]": [
+  "min-height: 13px"
+ ],
+ "space=max-h:none": [
+  "max-height: var(--s-none)"
+ ],
+ "space=max-h:thin": [
+  "max-height: var(--s-thin)"
+ ],
+ "space=max-h:regular": [
+  "max-height: var(--s-regular)"
+ ],
+ "space=max-h:thick": [
+  "max-height: var(--s-thick)"
+ ],
+ "space=max-h:tiny": [
+  "max-height: var(--s-tiny)"
+ ],
+ "space=max-h:tiny-2x": [
+  "max-height: var(--s-tiny-2x)"
+ ],
+ "space=max-h:small": [
+  "max-height: var(--s-small)"
+ ],
+ "space=max-h:small-2x": [
+  "max-height: var(--s-small-2x)"
+ ],
+ "space=max-h:small-3x": [
+  "max-height: var(--s-small-3x)"
+ ],
+ "space=max-h:small-4x": [
+  "max-height: var(--s-small-4x)"
+ ],
+ "space=max-h:medium": [
+  "max-height: var(--s-medium)"
+ ],
+ "space=max-h:medium-2x": [
+  "max-height: var(--s-medium-2x)"
+ ],
+ "space=max-h:medium-3x": [
+  "max-height: var(--s-medium-3x)"
+ ],
+ "space=max-h:medium-4x": [
+  "max-height: var(--s-medium-4x)"
+ ],
+ "space=max-h:[13px]": [
+  "max-height: 13px"
+ ],
+ "space=h:big": [
+  "height: var(--s-big)"
+ ],
+ "space=h:giant": [
+  "height: var(--s-giant)"
+ ],
+ "space=h:vast": [
+  "height: var(--s-vast)"
+ ],
+ "space=size:none": [
+  "height: var(--s-none)",
+  "width: var(--s-none)"
+ ],
+ "space=size:thin": [
+  "height: var(--s-thin)",
+  "width: var(--s-thin)"
+ ],
+ "space=size:regular": [
+  "height: var(--s-regular)",
+  "width: var(--s-regular)"
+ ],
+ "space=size:thick": [
+  "height: var(--s-thick)",
+  "width: var(--s-thick)"
+ ],
+ "space=size:tiny": [
+  "height: var(--s-tiny)",
+  "width: var(--s-tiny)"
+ ],
+ "space=size:tiny-2x": [
+  "height: var(--s-tiny-2x)",
+  "width: var(--s-tiny-2x)"
+ ],
+ "space=size:small": [
+  "height: var(--s-small)",
+  "width: var(--s-small)"
+ ],
+ "space=size:small-2x": [
+  "height: var(--s-small-2x)",
+  "width: var(--s-small-2x)"
+ ],
+ "space=size:small-3x": [
+  "height: var(--s-small-3x)",
+  "width: var(--s-small-3x)"
+ ],
+ "space=size:small-4x": [
+  "height: var(--s-small-4x)",
+  "width: var(--s-small-4x)"
+ ],
+ "space=size:medium": [
+  "height: var(--s-medium)",
+  "width: var(--s-medium)"
+ ],
+ "space=size:medium-2x": [
+  "height: var(--s-medium-2x)",
+  "width: var(--s-medium-2x)"
+ ],
+ "space=size:medium-3x": [
+  "height: var(--s-medium-3x)",
+  "width: var(--s-medium-3x)"
+ ],
+ "space=size:medium-4x": [
+  "height: var(--s-medium-4x)",
+  "width: var(--s-medium-4x)"
+ ],
+ "space=size:[13px]": [
+  "height: 13px",
+  "width: 13px"
+ ],
+ "space=size:big": [
+  "height: var(--s-big)",
+  "width: var(--s-big)"
+ ],
+ "space=size:giant": [
+  "height: var(--s-giant)",
+  "width: var(--s-giant)"
+ ],
+ "space=size:vast": [
+  "height: var(--s-vast)",
+  "width: var(--s-vast)"
+ ],
+ "visual=bg:primary": [
+  "background-color: var(--c-primary)"
+ ],
+ "visual=bg:white": [
+  "background-color: var(--c-white)"
+ ],
+ "visual=bg:black": [
+  "background-color: var(--c-black)"
+ ],
+ "visual=bg:blue-500": [
+  "background-color: var(--c-blue-500)"
+ ],
+ "visual=bg:gray-100": [
+  "background-color: var(--c-gray-100)"
+ ],
+ "visual=bg:transparent": [
+  "background-color: transparent"
+ ],
+ "visual=bg:current": [
+  "background-color: var(--c-current)"
+ ],
+ "visual=bg:primary/50": [
+  "background-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=bg:[13px]": [
+  "background-color: 13px"
+ ],
+ "visual=text:primary": [
+  "color: var(--c-primary)"
+ ],
+ "visual=text:white": [
+  "color: var(--c-white)"
+ ],
+ "visual=text:black": [
+  "color: var(--c-black)"
+ ],
+ "visual=text:blue-500": [
+  "color: var(--c-blue-500)"
+ ],
+ "visual=text:gray-100": [
+  "color: var(--c-gray-100)"
+ ],
+ "visual=text:transparent": [
+  "color: transparent"
+ ],
+ "visual=text:current": [
+  "color: var(--c-current)"
+ ],
+ "visual=text:primary/50": [
+  "color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=text:[13px]": [
+  "color: 13px"
+ ],
+ "visual=text-size:mini": [
+  "font-size: var(--font-mini)",
+  "line-height: var(--font-lh-mini)"
+ ],
+ "visual=text-size:small": [
+  "font-size: var(--font-small)",
+  "line-height: var(--font-lh-small)"
+ ],
+ "visual=text-size:base": [
+  "font-size: var(--font-base)",
+  "line-height: var(--font-lh-base)"
+ ],
+ "visual=text-size:large": [
+  "font-size: var(--font-large)",
+  "line-height: var(--font-lh-large)"
+ ],
+ "visual=text-size:big": [
+  "font-size: var(--font-big)",
+  "line-height: var(--font-lh-big)"
+ ],
+ "visual=text-size:huge": [
+  "font-size: var(--font-huge)",
+  "line-height: var(--font-lh-huge)"
+ ],
+ "visual=text-size:grand": [
+  "font-size: var(--font-grand)",
+  "line-height: var(--font-lh-grand)"
+ ],
+ "visual=text-size:giant": [
+  "font-size: var(--font-giant)",
+  "line-height: var(--font-lh-giant)"
+ ],
+ "visual=text-size:mount": [
+  "font-size: var(--font-mount)",
+  "line-height: var(--font-lh-mount)"
+ ],
+ "visual=text-size:mega": [
+  "font-size: var(--font-mega)",
+  "line-height: var(--font-lh-mega)"
+ ],
+ "visual=text-size:giga": [
+  "font-size: var(--font-giga)",
+  "line-height: var(--font-lh-giga)"
+ ],
+ "visual=text-size:tera": [
+  "font-size: var(--font-tera)",
+  "line-height: var(--font-lh-tera)"
+ ],
+ "visual=text-size:hero": [
+  "font-size: var(--font-hero)",
+  "line-height: var(--font-lh-hero)"
+ ],
+ "visual=font:normal": [
+  "font-weight: var(--fw-normal)"
+ ],
+ "visual=font:medium": [
+  "font-weight: var(--fw-medium)"
+ ],
+ "visual=font:bold": [
+  "font-weight: var(--fw-bold)"
+ ],
+ "visual=font:sans": [
+  "font-family: ui-sans-serif, system-ui, sans-serif"
+ ],
+ "visual=font:serif": [
+  "font-family: ui-serif, Georgia, serif"
+ ],
+ "visual=font:mono": [
+  "font-family: ui-monospace, monospace"
+ ],
+ "visual=decoration-solid": [
+  "text-decoration-style: solid"
+ ],
+ "visual=decoration-double": [
+  "text-decoration-style: double"
+ ],
+ "visual=decoration-dotted": [
+  "text-decoration-style: dotted"
+ ],
+ "visual=decoration-dashed": [
+  "text-decoration-style: dashed"
+ ],
+ "visual=decoration-wavy": [
+  "text-decoration-style: wavy"
+ ],
+ "visual=tracking:tighter": [
+  "letter-spacing: -0.05em"
+ ],
+ "visual=tracking:tight": [
+  "letter-spacing: -0.025em"
+ ],
+ "visual=tracking:normal": [
+  "letter-spacing: 0"
+ ],
+ "visual=tracking:wide": [
+  "letter-spacing: 0.025em"
+ ],
+ "visual=tracking:wider": [
+  "letter-spacing: 0.05em"
+ ],
+ "visual=tracking:widest": [
+  "letter-spacing: 0.1em"
+ ],
+ "visual=leading:none": [
+  "line-height: 1"
+ ],
+ "visual=leading:tight": [
+  "line-height: 1.25"
+ ],
+ "visual=leading:snug": [
+  "line-height: 1.375"
+ ],
+ "visual=leading:normal": [
+  "line-height: 1.5"
+ ],
+ "visual=leading:relaxed": [
+  "line-height: 1.625"
+ ],
+ "visual=leading:loose": [
+  "line-height: 2"
+ ],
+ "visual=rounded:none": [
+  "border-radius: var(--r-none)"
+ ],
+ "visual=rounded-t:none": [
+  "border-top-left-radius: var(--r-none)",
+  "border-top-right-radius: var(--r-none)"
+ ],
+ "visual=rounded-b:none": [
+  "border-bottom-left-radius: var(--r-none)",
+  "border-bottom-right-radius: var(--r-none)"
+ ],
+ "visual=rounded-l:none": [
+  "border-bottom-left-radius: var(--r-none)",
+  "border-top-left-radius: var(--r-none)"
+ ],
+ "visual=rounded-r:none": [
+  "border-bottom-right-radius: var(--r-none)",
+  "border-top-right-radius: var(--r-none)"
+ ],
+ "visual=rounded-tl:none": [
+  "border-top-left-radius: var(--r-none)"
+ ],
+ "visual=rounded-tr:none": [
+  "border-top-right-radius: var(--r-none)"
+ ],
+ "visual=rounded-bl:none": [
+  "border-bottom-left-radius: var(--r-none)"
+ ],
+ "visual=rounded-br:none": [
+  "border-bottom-right-radius: var(--r-none)"
+ ],
+ "visual=rounded:small": [
+  "border-radius: var(--r-small)"
+ ],
+ "visual=rounded-t:small": [
+  "border-top-left-radius: var(--r-small)",
+  "border-top-right-radius: var(--r-small)"
+ ],
+ "visual=rounded-b:small": [
+  "border-bottom-left-radius: var(--r-small)",
+  "border-bottom-right-radius: var(--r-small)"
+ ],
+ "visual=rounded-l:small": [
+  "border-bottom-left-radius: var(--r-small)",
+  "border-top-left-radius: var(--r-small)"
+ ],
+ "visual=rounded-r:small": [
+  "border-bottom-right-radius: var(--r-small)",
+  "border-top-right-radius: var(--r-small)"
+ ],
+ "visual=rounded-tl:small": [
+  "border-top-left-radius: var(--r-small)"
+ ],
+ "visual=rounded-tr:small": [
+  "border-top-right-radius: var(--r-small)"
+ ],
+ "visual=rounded-bl:small": [
+  "border-bottom-left-radius: var(--r-small)"
+ ],
+ "visual=rounded-br:small": [
+  "border-bottom-right-radius: var(--r-small)"
+ ],
+ "visual=rounded:medium": [
+  "border-radius: var(--r-medium)"
+ ],
+ "visual=rounded-t:medium": [
+  "border-top-left-radius: var(--r-medium)",
+  "border-top-right-radius: var(--r-medium)"
+ ],
+ "visual=rounded-b:medium": [
+  "border-bottom-left-radius: var(--r-medium)",
+  "border-bottom-right-radius: var(--r-medium)"
+ ],
+ "visual=rounded-l:medium": [
+  "border-bottom-left-radius: var(--r-medium)",
+  "border-top-left-radius: var(--r-medium)"
+ ],
+ "visual=rounded-r:medium": [
+  "border-bottom-right-radius: var(--r-medium)",
+  "border-top-right-radius: var(--r-medium)"
+ ],
+ "visual=rounded-tl:medium": [
+  "border-top-left-radius: var(--r-medium)"
+ ],
+ "visual=rounded-tr:medium": [
+  "border-top-right-radius: var(--r-medium)"
+ ],
+ "visual=rounded-bl:medium": [
+  "border-bottom-left-radius: var(--r-medium)"
+ ],
+ "visual=rounded-br:medium": [
+  "border-bottom-right-radius: var(--r-medium)"
+ ],
+ "visual=rounded:big": [
+  "border-radius: var(--r-big)"
+ ],
+ "visual=rounded-t:big": [
+  "border-top-left-radius: var(--r-big)",
+  "border-top-right-radius: var(--r-big)"
+ ],
+ "visual=rounded-b:big": [
+  "border-bottom-left-radius: var(--r-big)",
+  "border-bottom-right-radius: var(--r-big)"
+ ],
+ "visual=rounded-l:big": [
+  "border-bottom-left-radius: var(--r-big)",
+  "border-top-left-radius: var(--r-big)"
+ ],
+ "visual=rounded-r:big": [
+  "border-bottom-right-radius: var(--r-big)",
+  "border-top-right-radius: var(--r-big)"
+ ],
+ "visual=rounded-tl:big": [
+  "border-top-left-radius: var(--r-big)"
+ ],
+ "visual=rounded-tr:big": [
+  "border-top-right-radius: var(--r-big)"
+ ],
+ "visual=rounded-bl:big": [
+  "border-bottom-left-radius: var(--r-big)"
+ ],
+ "visual=rounded-br:big": [
+  "border-bottom-right-radius: var(--r-big)"
+ ],
+ "visual=rounded:round": [
+  "border-radius: var(--r-round)"
+ ],
+ "visual=rounded-t:round": [
+  "border-top-left-radius: var(--r-round)",
+  "border-top-right-radius: var(--r-round)"
+ ],
+ "visual=rounded-b:round": [
+  "border-bottom-left-radius: var(--r-round)",
+  "border-bottom-right-radius: var(--r-round)"
+ ],
+ "visual=rounded-l:round": [
+  "border-bottom-left-radius: var(--r-round)",
+  "border-top-left-radius: var(--r-round)"
+ ],
+ "visual=rounded-r:round": [
+  "border-bottom-right-radius: var(--r-round)",
+  "border-top-right-radius: var(--r-round)"
+ ],
+ "visual=rounded-tl:round": [
+  "border-top-left-radius: var(--r-round)"
+ ],
+ "visual=rounded-tr:round": [
+  "border-top-right-radius: var(--r-round)"
+ ],
+ "visual=rounded-bl:round": [
+  "border-bottom-left-radius: var(--r-round)"
+ ],
+ "visual=rounded-br:round": [
+  "border-bottom-right-radius: var(--r-round)"
+ ],
+ "visual=shadow:none": [
+  "box-shadow: var(--shadow-none)"
+ ],
+ "visual=shadow:small": [
+  "box-shadow: var(--shadow-small)"
+ ],
+ "visual=shadow:medium": [
+  "box-shadow: var(--shadow-medium)"
+ ],
+ "visual=shadow:big": [
+  "box-shadow: var(--shadow-big)"
+ ],
+ "visual=shadow:giant": [
+  "box-shadow: var(--shadow-giant)"
+ ],
+ "visual=opacity:0": [
+  "opacity: 0"
+ ],
+ "visual=opacity:25": [
+  "opacity: 0.25"
+ ],
+ "visual=opacity:50": [
+  "opacity: 0.5"
+ ],
+ "visual=opacity:75": [
+  "opacity: 0.75"
+ ],
+ "visual=opacity:100": [
+  "opacity: 1"
+ ],
+ "visual=blur:none": [
+  "filter: none"
+ ],
+ "visual=blur:tiny": [
+  "filter: blur(2px)"
+ ],
+ "visual=blur:small": [
+  "filter: blur(4px)"
+ ],
+ "visual=blur:medium": [
+  "filter: blur(8px)"
+ ],
+ "visual=blur:big": [
+  "filter: blur(12px)"
+ ],
+ "visual=blur:giant": [
+  "filter: blur(24px)"
+ ],
+ "visual=blur:vast": [
+  "filter: blur(48px)"
+ ],
+ "visual=cursor:auto": [
+  "cursor: auto"
+ ],
+ "visual=cursor:default": [
+  "cursor: default"
+ ],
+ "visual=cursor:pointer": [
+  "cursor: pointer"
+ ],
+ "visual=cursor:wait": [
+  "cursor: wait"
+ ],
+ "visual=cursor:text": [
+  "cursor: text"
+ ],
+ "visual=cursor:move": [
+  "cursor: move"
+ ],
+ "visual=cursor:not-allowed": [
+  "cursor: not-allowed"
+ ],
+ "visual=cursor:grab": [
+  "cursor: grab"
+ ],
+ "visual=cursor:grabbing": [
+  "cursor: grabbing"
+ ],
+ "visual=select:none": [
+  "user-select: none"
+ ],
+ "visual=select:text": [
+  "user-select: text"
+ ],
+ "visual=select:all": [
+  "user-select: all"
+ ],
+ "visual=select:auto": [
+  "user-select: auto"
+ ],
+ "visual=pointer-events:none": [
+  "pointer-events: none"
+ ],
+ "visual=pointer-events:auto": [
+  "pointer-events: auto"
+ ],
+ "visual=mix-blend:normal": [
+  "mix-blend-mode: normal"
+ ],
+ "visual=mix-blend:multiply": [
+  "mix-blend-mode: multiply"
+ ],
+ "visual=mix-blend:screen": [
+  "mix-blend-mode: screen"
+ ],
+ "visual=mix-blend:overlay": [
+  "mix-blend-mode: overlay"
+ ],
+ "visual=mix-blend:darken": [
+  "mix-blend-mode: darken"
+ ],
+ "visual=mix-blend:lighten": [
+  "mix-blend-mode: lighten"
+ ],
+ "visual=accent:primary": [
+  "accent-color: var(--c-primary)"
+ ],
+ "visual=accent:white": [
+  "accent-color: var(--c-white)"
+ ],
+ "visual=accent:black": [
+  "accent-color: var(--c-black)"
+ ],
+ "visual=accent:blue-500": [
+  "accent-color: var(--c-blue-500)"
+ ],
+ "visual=accent:gray-100": [
+  "accent-color: var(--c-gray-100)"
+ ],
+ "visual=accent:transparent": [
+  "accent-color: transparent"
+ ],
+ "visual=accent:current": [
+  "accent-color: var(--c-current)"
+ ],
+ "visual=accent:primary/50": [
+  "accent-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=accent:[13px]": [
+  "accent-color: 13px"
+ ],
+ "visual=caret:primary": [
+  "caret-color: var(--c-primary)"
+ ],
+ "visual=caret:white": [
+  "caret-color: var(--c-white)"
+ ],
+ "visual=caret:black": [
+  "caret-color: var(--c-black)"
+ ],
+ "visual=caret:blue-500": [
+  "caret-color: var(--c-blue-500)"
+ ],
+ "visual=caret:gray-100": [
+  "caret-color: var(--c-gray-100)"
+ ],
+ "visual=caret:transparent": [
+  "caret-color: transparent"
+ ],
+ "visual=caret:current": [
+  "caret-color: var(--c-current)"
+ ],
+ "visual=caret:primary/50": [
+  "caret-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=caret:[13px]": [
+  "caret-color: 13px"
+ ],
+ "visual=appearance:none": [
+  "appearance: none"
+ ],
+ "visual=appearance:auto": [
+  "appearance: auto"
+ ],
+ "visual=bg-image:none": [
+  "background-image: none"
+ ],
+ "visual=bg-image:gradient-to-t": [
+  "background-image: linear-gradient(to top, var(--ss-gradient-stops, transparent))"
+ ],
+ "visual=bg-image:gradient-to-b": [
+  "background-image: linear-gradient(to bottom, var(--ss-gradient-stops, transparent))"
+ ],
+ "visual=bg-image:gradient-to-l": [
+  "background-image: linear-gradient(to left, var(--ss-gradient-stops, transparent))"
+ ],
+ "visual=bg-image:gradient-to-r": [
+  "background-image: linear-gradient(to right, var(--ss-gradient-stops, transparent))"
+ ],
+ "visual=bg-attachment:fixed": [
+  "background-attachment: fixed"
+ ],
+ "visual=bg-attachment:local": [
+  "background-attachment: local"
+ ],
+ "visual=bg-attachment:scroll": [
+  "background-attachment: scroll"
+ ],
+ "visual=bg-clip:border": [
+  "background-clip: border-box"
+ ],
+ "visual=bg-clip:padding": [
+  "background-clip: padding-box"
+ ],
+ "visual=bg-clip:content": [
+  "background-clip: content-box"
+ ],
+ "visual=bg-clip:text": [
+  "background-clip: text"
+ ],
+ "visual=bg-origin:border": [
+  "background-origin: border-box"
+ ],
+ "visual=bg-origin:padding": [
+  "background-origin: padding-box"
+ ],
+ "visual=bg-origin:content": [
+  "background-origin: content-box"
+ ],
+ "visual=bg-pos:center": null,
+ "visual=bg-pos:top": null,
+ "visual=bg-pos:bottom": null,
+ "visual=bg-pos:left": null,
+ "visual=bg-pos:right": null,
+ "visual=bg-pos:top-left": null,
+ "visual=bg-pos:top-right": null,
+ "visual=bg-pos:bottom-left": null,
+ "visual=bg-pos:bottom-right": null,
+ "visual=bg-repeat:repeat": [
+  "background-repeat: repeat"
+ ],
+ "visual=bg-repeat:no-repeat": [
+  "background-repeat: no-repeat"
+ ],
+ "visual=bg-repeat:repeat-x": [
+  "background-repeat: repeat-x"
+ ],
+ "visual=bg-repeat:repeat-y": [
+  "background-repeat: repeat-y"
+ ],
+ "visual=bg-repeat:round": [
+  "background-repeat: round"
+ ],
+ "visual=bg-repeat:space": [
+  "background-repeat: space"
+ ],
+ "visual=bg-size:auto": [
+  "background-size: auto"
+ ],
+ "visual=bg-size:cover": [
+  "background-size: cover"
+ ],
+ "visual=bg-size:contain": [
+  "background-size: contain"
+ ],
+ "visual=bg-blend:normal": [
+  "background-blend-mode: normal"
+ ],
+ "visual=bg-blend:multiply": [
+  "background-blend-mode: multiply"
+ ],
+ "visual=bg-blend:screen": [
+  "background-blend-mode: screen"
+ ],
+ "visual=bg-blend:overlay": [
+  "background-blend-mode: overlay"
+ ],
+ "visual=bg-blend:darken": [
+  "background-blend-mode: darken"
+ ],
+ "visual=bg-blend:lighten": [
+  "background-blend-mode: lighten"
+ ],
+ "visual=from:primary": [
+  "--ss-gradient-from: var(--c-primary)",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:blue-500": [
+  "--ss-gradient-from: var(--c-blue-500)",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:white": [
+  "--ss-gradient-from: var(--c-white)",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:black": [
+  "--ss-gradient-from: var(--c-black)",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:gray-100": [
+  "--ss-gradient-from: var(--c-gray-100)",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:transparent": [
+  "--ss-gradient-from: transparent",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:current": [
+  "--ss-gradient-from: var(--c-current)",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:primary/50": [
+  "--ss-gradient-from: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=from:[13px]": [
+  "--ss-gradient-from: 13px",
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:purple-500": [
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-purple-500), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:primary": [
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-primary), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:white": [
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-white), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:black": [
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-black), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:blue-500": [
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-blue-500), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:gray-100": [
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-gray-100), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:transparent": [
+  "--ss-gradient-stops: var(--ss-gradient-from), transparent, var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:current": [
+  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-current), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:primary/50": [
+  "--ss-gradient-stops: var(--ss-gradient-from), color-mix(in srgb, var(--c-primary) 50%, transparent), var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=via:[13px]": [
+  "--ss-gradient-stops: var(--ss-gradient-from), 13px, var(--ss-gradient-to)",
+  "--ss-gradient-to: rgb(255 255 255 / 0)"
+ ],
+ "visual=to:purple-500": [
+  "--ss-gradient-to: var(--c-purple-500)"
+ ],
+ "visual=to:pink-500": [
+  "--ss-gradient-to: var(--c-pink-500)"
+ ],
+ "visual=to:primary": [
+  "--ss-gradient-to: var(--c-primary)"
+ ],
+ "visual=to:white": [
+  "--ss-gradient-to: var(--c-white)"
+ ],
+ "visual=to:black": [
+  "--ss-gradient-to: var(--c-black)"
+ ],
+ "visual=to:blue-500": [
+  "--ss-gradient-to: var(--c-blue-500)"
+ ],
+ "visual=to:gray-100": [
+  "--ss-gradient-to: var(--c-gray-100)"
+ ],
+ "visual=to:transparent": [
+  "--ss-gradient-to: transparent"
+ ],
+ "visual=to:current": [
+  "--ss-gradient-to: var(--c-current)"
+ ],
+ "visual=to:primary/50": [
+  "--ss-gradient-to: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=to:[13px]": [
+  "--ss-gradient-to: 13px"
+ ],
+ "visual=backdrop-blur:none": [
+  "backdrop-filter: blur(0)"
+ ],
+ "visual=backdrop-blur:tiny": [
+  "backdrop-filter: blur(2px)"
+ ],
+ "visual=backdrop-blur:small": [
+  "backdrop-filter: blur(4px)"
+ ],
+ "visual=backdrop-blur:medium": [
+  "backdrop-filter: blur(8px)"
+ ],
+ "visual=backdrop-blur:big": [
+  "backdrop-filter: blur(12px)"
+ ],
+ "visual=backdrop-blur:giant": [
+  "backdrop-filter: blur(24px)"
+ ],
+ "visual=backdrop-blur:vast": [
+  "backdrop-filter: blur(48px)"
+ ],
+ "visual=backdrop-brightness:dim": [
+  "backdrop-filter: brightness(0.5)"
+ ],
+ "visual=backdrop-brightness:dark": [
+  "backdrop-filter: brightness(0.75)"
+ ],
+ "visual=backdrop-brightness:normal": [
+  "backdrop-filter: brightness(1)"
+ ],
+ "visual=backdrop-brightness:bright": [
+  "backdrop-filter: brightness(1.25)"
+ ],
+ "visual=backdrop-brightness:vivid": [
+  "backdrop-filter: brightness(1.5)"
+ ],
+ "visual=backdrop-contrast:low": [
+  "backdrop-filter: contrast(0.5)"
+ ],
+ "visual=backdrop-contrast:reduced": [
+  "backdrop-filter: contrast(0.75)"
+ ],
+ "visual=backdrop-contrast:normal": [
+  "backdrop-filter: contrast(1)"
+ ],
+ "visual=backdrop-contrast:high": [
+  "backdrop-filter: contrast(1.25)"
+ ],
+ "visual=backdrop-contrast:max": [
+  "backdrop-filter: contrast(1.5)"
+ ],
+ "visual=backdrop-grayscale:none": [
+  "backdrop-filter: grayscale(0%)"
+ ],
+ "visual=backdrop-grayscale:partial": [
+  "backdrop-filter: grayscale(50%)"
+ ],
+ "visual=backdrop-grayscale:full": [
+  "backdrop-filter: grayscale(100%)"
+ ],
+ "visual=backdrop-hue-rotate:0": [
+  "backdrop-filter: hue-rotate(0deg)"
+ ],
+ "visual=backdrop-hue-rotate:90": [
+  "backdrop-filter: hue-rotate(90deg)"
+ ],
+ "visual=backdrop-hue-rotate:180": [
+  "backdrop-filter: hue-rotate(180deg)"
+ ],
+ "visual=backdrop-invert:none": [
+  "backdrop-filter: invert(0%)"
+ ],
+ "visual=backdrop-invert:partial": [
+  "backdrop-filter: invert(50%)"
+ ],
+ "visual=backdrop-invert:full": [
+  "backdrop-filter: invert(100%)"
+ ],
+ "visual=backdrop-opacity:0": [
+  "backdrop-filter: opacity(1)"
+ ],
+ "visual=backdrop-opacity:50": [
+  "backdrop-filter: opacity(1)"
+ ],
+ "visual=backdrop-opacity:100": [
+  "backdrop-filter: opacity(1)"
+ ],
+ "visual=backdrop-saturate:none": [
+  "backdrop-filter: saturate(0)"
+ ],
+ "visual=backdrop-saturate:low": [
+  "backdrop-filter: saturate(0.5)"
+ ],
+ "visual=backdrop-saturate:normal": [
+  "backdrop-filter: saturate(1)"
+ ],
+ "visual=backdrop-saturate:high": [
+  "backdrop-filter: saturate(1.5)"
+ ],
+ "visual=backdrop-saturate:vivid": [
+  "backdrop-filter: saturate(2)"
+ ],
+ "visual=backdrop-sepia:none": [
+  "backdrop-filter: sepia(0%)"
+ ],
+ "visual=backdrop-sepia:partial": [
+  "backdrop-filter: sepia(50%)"
+ ],
+ "visual=backdrop-sepia:full": [
+  "backdrop-filter: sepia(100%)"
+ ],
+ "visual=scroll-behavior:auto": null,
+ "visual=scroll-behavior:smooth": null,
+ "visual=scroll-m:scroll-m": [
+  "scroll-margin: var(--s-scroll-m)"
+ ],
+ "visual=scroll-m:scroll-m-t": [
+  "scroll-margin: var(--s-scroll-m-t)"
+ ],
+ "visual=scroll-m:scroll-m-r": [
+  "scroll-margin: var(--s-scroll-m-r)"
+ ],
+ "visual=scroll-m:scroll-m-b": [
+  "scroll-margin: var(--s-scroll-m-b)"
+ ],
+ "visual=scroll-m:scroll-m-l": [
+  "scroll-margin: var(--s-scroll-m-l)"
+ ],
+ "visual=scroll-m:none": [
+  "scroll-margin: var(--s-none)"
+ ],
+ "visual=scroll-m:tiny": [
+  "scroll-margin: var(--s-tiny)"
+ ],
+ "visual=scroll-m:small": [
+  "scroll-margin: var(--s-small)"
+ ],
+ "visual=scroll-m:medium": [
+  "scroll-margin: var(--s-medium)"
+ ],
+ "visual=scroll-m:big": [
+  "scroll-margin: var(--s-big)"
+ ],
+ "visual=scroll-m:giant": [
+  "scroll-margin: var(--s-giant)"
+ ],
+ "visual=scroll-m:vast": [
+  "scroll-margin: var(--s-vast)"
+ ],
+ "visual=scroll-m:small-2x": [
+  "scroll-margin: var(--s-small-2x)"
+ ],
+ "visual=scroll-m:[13px]": [
+  "scroll-margin: 13px"
+ ],
+ "visual=scroll-p:scroll-p": [
+  "scroll-padding: var(--s-scroll-p)"
+ ],
+ "visual=scroll-p:scroll-p-t": [
+  "scroll-padding: var(--s-scroll-p-t)"
+ ],
+ "visual=scroll-p:scroll-p-r": [
+  "scroll-padding: var(--s-scroll-p-r)"
+ ],
+ "visual=scroll-p:scroll-p-b": [
+  "scroll-padding: var(--s-scroll-p-b)"
+ ],
+ "visual=scroll-p:scroll-p-l": [
+  "scroll-padding: var(--s-scroll-p-l)"
+ ],
+ "visual=scroll-p:none": [
+  "scroll-padding: var(--s-none)"
+ ],
+ "visual=scroll-p:tiny": [
+  "scroll-padding: var(--s-tiny)"
+ ],
+ "visual=scroll-p:small": [
+  "scroll-padding: var(--s-small)"
+ ],
+ "visual=scroll-p:medium": [
+  "scroll-padding: var(--s-medium)"
+ ],
+ "visual=scroll-p:big": [
+  "scroll-padding: var(--s-big)"
+ ],
+ "visual=scroll-p:giant": [
+  "scroll-padding: var(--s-giant)"
+ ],
+ "visual=scroll-p:vast": [
+  "scroll-padding: var(--s-vast)"
+ ],
+ "visual=scroll-p:small-2x": [
+  "scroll-padding: var(--s-small-2x)"
+ ],
+ "visual=scroll-p:[13px]": [
+  "scroll-padding: 13px"
+ ],
+ "visual=snap-align:start": [
+  "scroll-snap-align: start"
+ ],
+ "visual=snap-align:end": [
+  "scroll-snap-align: end"
+ ],
+ "visual=snap-align:center": [
+  "scroll-snap-align: center"
+ ],
+ "visual=snap-align:none": [
+  "scroll-snap-align: none"
+ ],
+ "visual=snap-stop:normal": [
+  "scroll-snap-stop: normal"
+ ],
+ "visual=snap-stop:always": [
+  "scroll-snap-stop: always"
+ ],
+ "visual=snap-type:none": null,
+ "visual=snap-type:x": null,
+ "visual=snap-type:y": null,
+ "visual=snap-type:both": null,
+ "visual=snap-type:x-proximity": null,
+ "visual=snap-type:y-proximity": null,
+ "visual=touch:auto": [
+  "touch-action: auto"
+ ],
+ "visual=touch:none": [
+  "touch-action: none"
+ ],
+ "visual=touch:pan-x": [
+  "touch-action: pan-x"
+ ],
+ "visual=touch:pan-y": [
+  "touch-action: pan-y"
+ ],
+ "visual=touch:pan-left": [
+  "touch-action: pan-left"
+ ],
+ "visual=touch:pan-right": [
+  "touch-action: pan-right"
+ ],
+ "visual=touch:pinch-zoom": [
+  "touch-action: pinch-zoom"
+ ],
+ "visual=touch:manipulation": [
+  "touch-action: manipulation"
+ ],
+ "visual=resize:none": [
+  "resize: none"
+ ],
+ "visual=resize:both": [
+  "resize: both"
+ ],
+ "visual=resize:x": [
+  "resize: horizontal"
+ ],
+ "visual=resize:y": [
+  "resize: vertical"
+ ],
+ "visual=will-change:auto": [
+  "will-change: auto"
+ ],
+ "visual=will-change:scroll": [
+  "will-change: scroll-position"
+ ],
+ "visual=will-change:contents": [
+  "will-change: contents"
+ ],
+ "visual=will-change:transform": [
+  "will-change: transform"
+ ],
+ "visual=will-change:opacity": [
+  "will-change: opacity"
+ ],
+ "visual=color-scheme:light": [
+  "color-scheme: light"
+ ],
+ "visual=color-scheme:dark": [
+  "color-scheme: dark"
+ ],
+ "visual=color-scheme:normal": [
+  "color-scheme: normal"
+ ],
+ "visual=field-sizing:fixed": [
+  "field-sizing: fixed"
+ ],
+ "visual=field-sizing:content": [
+  "field-sizing: content"
+ ],
+ "visual=forced-color:auto": null,
+ "visual=forced-color:none": null,
+ "visual=text:left": [
+  "text-align: left"
+ ],
+ "visual=text:center": [
+  "text-align: center"
+ ],
+ "visual=text:right": [
+  "text-align: right"
+ ],
+ "visual=text:justify": [
+  "text-align: justify"
+ ],
+ "visual=uppercase": [
+  "text-transform: uppercase"
+ ],
+ "visual=lowercase": [
+  "text-transform: lowercase"
+ ],
+ "visual=capitalize": [
+  "text-transform: capitalize"
+ ],
+ "visual=normal-case": [
+  "text-transform: none"
+ ],
+ "visual=underline": [
+  "text-decoration-line: underline"
+ ],
+ "visual=overline": [
+  "text-decoration-line: overline"
+ ],
+ "visual=line-through": [
+  "text-decoration-line: line-through"
+ ],
+ "visual=no-underline": [
+  "text-decoration-line: none"
+ ],
+ "visual=decoration:primary": [
+  "text-decoration-color: var(--c-primary)"
+ ],
+ "visual=decoration:white": [
+  "text-decoration-color: var(--c-white)"
+ ],
+ "visual=decoration:black": [
+  "text-decoration-color: var(--c-black)"
+ ],
+ "visual=decoration:blue-500": [
+  "text-decoration-color: var(--c-blue-500)"
+ ],
+ "visual=decoration:gray-100": [
+  "text-decoration-color: var(--c-gray-100)"
+ ],
+ "visual=decoration:transparent": [
+  "text-decoration-color: transparent"
+ ],
+ "visual=decoration:current": [
+  "text-decoration-color: var(--c-current)"
+ ],
+ "visual=decoration:primary/50": [
+  "text-decoration-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=decoration:[13px]": [
+  "text-decoration-color: 13px"
+ ],
+ "visual=decoration-thickness:auto": [
+  "text-decoration-thickness: auto"
+ ],
+ "visual=decoration-thickness:from-font": [
+  "text-decoration-thickness: from-font"
+ ],
+ "visual=truncate": [
+  "overflow: hidden",
+  "text-overflow: ellipsis",
+  "white-space: nowrap"
+ ],
+ "visual=text-ellipsis": [
+  "text-overflow: ellipsis"
+ ],
+ "visual=text-clip": [
+  "text-overflow: clip"
+ ],
+ "visual=text-wrap": [
+  "text-wrap: wrap"
+ ],
+ "visual=text-nowrap": [
+  "text-wrap: nowrap"
+ ],
+ "visual=text-balance": [
+  "text-wrap: balance"
+ ],
+ "visual=text-pretty": [
+  "text-wrap: pretty"
+ ],
+ "visual=whitespace:normal": null,
+ "visual=whitespace:nowrap": null,
+ "visual=whitespace:pre": null,
+ "visual=whitespace:pre-line": null,
+ "visual=whitespace:pre-wrap": null,
+ "visual=whitespace:break-spaces": null,
+ "visual=break-normal": [
+  "overflow-wrap: normal",
+  "word-break: normal"
+ ],
+ "visual=break-words": [
+  "overflow-wrap: break-word"
+ ],
+ "visual=break-all": [
+  "word-break: break-all"
+ ],
+ "visual=break-keep": [
+  "word-break: keep-all"
+ ],
+ "visual=hyphens:none": null,
+ "visual=hyphens:manual": null,
+ "visual=hyphens:auto": null,
+ "visual=indent:0": [
+  "text-indent: var(--s-0)"
+ ],
+ "visual=indent:none": [
+  "text-indent: var(--s-none)"
+ ],
+ "visual=indent:tiny": [
+  "text-indent: var(--s-tiny)"
+ ],
+ "visual=indent:small": [
+  "text-indent: var(--s-small)"
+ ],
+ "visual=indent:medium": [
+  "text-indent: var(--s-medium)"
+ ],
+ "visual=indent:big": [
+  "text-indent: var(--s-big)"
+ ],
+ "visual=indent:giant": [
+  "text-indent: var(--s-giant)"
+ ],
+ "visual=indent:vast": [
+  "text-indent: var(--s-vast)"
+ ],
+ "visual=indent:small-2x": [
+  "text-indent: var(--s-small-2x)"
+ ],
+ "visual=indent:[13px]": [
+  "text-indent: 13px"
+ ],
+ "visual=align:baseline": null,
+ "visual=align:top": null,
+ "visual=align:middle": null,
+ "visual=align:bottom": null,
+ "visual=align:text-top": null,
+ "visual=align:text-bottom": null,
+ "visual=align:sub": null,
+ "visual=align:super": null,
+ "visual=italic": [
+  "font-style: italic"
+ ],
+ "visual=not-italic": [
+  "font-style: normal"
+ ],
+ "visual=antialiased": [
+  "-moz-osx-font-smoothing: grayscale",
+  "-webkit-font-smoothing: antialiased"
+ ],
+ "visual=subpixel-antialiased": [
+  "-moz-osx-font-smoothing: auto",
+  "-webkit-font-smoothing: auto"
+ ],
+ "visual=line-clamp:1": [
+  "-webkit-box-orient: vertical",
+  "-webkit-line-clamp: 1",
+  "display: -webkit-box",
+  "overflow: hidden"
+ ],
+ "visual=line-clamp:2": [
+  "-webkit-box-orient: vertical",
+  "-webkit-line-clamp: 2",
+  "display: -webkit-box",
+  "overflow: hidden"
+ ],
+ "visual=line-clamp:3": [
+  "-webkit-box-orient: vertical",
+  "-webkit-line-clamp: 3",
+  "display: -webkit-box",
+  "overflow: hidden"
+ ],
+ "visual=line-clamp:none": [
+  "-webkit-box-orient: vertical",
+  "-webkit-line-clamp: none",
+  "display: -webkit-box",
+  "overflow: hidden"
+ ],
+ "visual=list:none": null,
+ "visual=list:disc": null,
+ "visual=list:decimal": null,
+ "visual=list:square": null,
+ "visual=list:inside": null,
+ "visual=list:outside": null,
+ "visual=text-shadow:none": [
+  "text-shadow: none"
+ ],
+ "visual=text-shadow:small": [
+  "text-shadow: 0 1px 2px rgba(0,0,0,0.1)"
+ ],
+ "visual=text-shadow:medium": [
+  "text-shadow: 0 2px 4px rgba(0,0,0,0.15)"
+ ],
+ "visual=text-shadow:big": [
+  "text-shadow: 0 4px 8px rgba(0,0,0,0.2)"
+ ],
+ "visual=normal-nums": null,
+ "visual=ordinal": null,
+ "visual=slashed-zero": null,
+ "visual=lining-nums": null,
+ "visual=oldstyle-nums": null,
+ "visual=proportional-nums": null,
+ "visual=tabular-nums": null,
+ "visual=perspective:none": [
+  "perspective: none"
+ ],
+ "visual=perspective:dramatic": [
+  "perspective: 100px"
+ ],
+ "visual=perspective:near": [
+  "perspective: 300px"
+ ],
+ "visual=perspective:normal": [
+  "perspective: 500px"
+ ],
+ "visual=perspective:midrange": [
+  "perspective: 800px"
+ ],
+ "visual=perspective:far": [
+  "perspective: 1000px"
+ ],
+ "visual=perspective:distant": [
+  "perspective: 1200px"
+ ],
+ "visual=perspective-origin:center": [
+  "perspective-origin: center"
+ ],
+ "visual=perspective-origin:top": [
+  "perspective-origin: top"
+ ],
+ "visual=perspective-origin:bottom": [
+  "perspective-origin: bottom"
+ ],
+ "visual=perspective-origin:left": [
+  "perspective-origin: left"
+ ],
+ "visual=perspective-origin:right": [
+  "perspective-origin: right"
+ ],
+ "visual=perspective-origin:top-left": [
+  "perspective-origin: top left"
+ ],
+ "visual=perspective-origin:top-right": [
+  "perspective-origin: top right"
+ ],
+ "visual=perspective-origin:bottom-left": [
+  "perspective-origin: bottom left"
+ ],
+ "visual=perspective-origin:bottom-right": [
+  "perspective-origin: bottom right"
+ ],
+ "visual=rotate-x:0": [
+  "transform: rotateX(0deg)"
+ ],
+ "visual=rotate-y:0": [
+  "transform: rotateY(0deg)"
+ ],
+ "visual=rotate-z:0": [
+  "transform: rotateZ(0deg)"
+ ],
+ "visual=rotate-x:45": [
+  "transform: rotateX(45deg)"
+ ],
+ "visual=rotate-y:45": [
+  "transform: rotateY(45deg)"
+ ],
+ "visual=rotate-z:45": [
+  "transform: rotateZ(45deg)"
+ ],
+ "visual=rotate-x:90": [
+  "transform: rotateX(90deg)"
+ ],
+ "visual=rotate-y:90": [
+  "transform: rotateY(90deg)"
+ ],
+ "visual=rotate-z:90": [
+  "transform: rotateZ(90deg)"
+ ],
+ "visual=rotate-x:180": [
+  "transform: rotateX(180deg)"
+ ],
+ "visual=rotate-y:180": [
+  "transform: rotateY(180deg)"
+ ],
+ "visual=rotate-z:180": [
+  "transform: rotateZ(180deg)"
+ ],
+ "visual=translate-z:0": [
+  "transform: translateZ(0)"
+ ],
+ "visual=translate-z:near": [
+  "transform: translateZ(50px)"
+ ],
+ "visual=translate-z:far": [
+  "transform: translateZ(-50px)"
+ ],
+ "visual=transform-style:flat": [
+  "transform-style: flat"
+ ],
+ "visual=transform-style:preserve-3d": [
+  "transform-style: preserve-3d"
+ ],
+ "visual=backface:visible": [
+  "backface-visibility: visible"
+ ],
+ "visual=backface:hidden": [
+  "backface-visibility: hidden"
+ ],
+ "visual=mask:none": null,
+ "visual=mask:fade-y": null,
+ "visual=mask:fade-x": null,
+ "visual=hover:hover:": null,
+ "visual=hover:focus:": null,
+ "visual=hover:active:": null,
+ "visual=hover:disabled:": null,
+ "visual=hover:visited:": null,
+ "visual=hover:first:": null,
+ "visual=hover:last:": null,
+ "visual=hover:odd:": null,
+ "visual=hover:even:": null,
+ "visual=brightness:dim": [
+  "filter: brightness(0.5)"
+ ],
+ "visual=brightness:dark": [
+  "filter: brightness(0.75)"
+ ],
+ "visual=brightness:normal": [
+  "filter: brightness(1)"
+ ],
+ "visual=brightness:bright": [
+  "filter: brightness(1.25)"
+ ],
+ "visual=brightness:vivid": [
+  "filter: brightness(1.5)"
+ ],
+ "visual=contrast:low": [
+  "filter: contrast(0.5)"
+ ],
+ "visual=contrast:reduced": [
+  "filter: contrast(0.75)"
+ ],
+ "visual=contrast:normal": [
+  "filter: contrast(1)"
+ ],
+ "visual=contrast:high": [
+  "filter: contrast(1.25)"
+ ],
+ "visual=contrast:max": [
+  "filter: contrast(1.5)"
+ ],
+ "visual=grayscale:none": [
+  "filter: grayscale(0%)"
+ ],
+ "visual=grayscale:partial": [
+  "filter: grayscale(50%)"
+ ],
+ "visual=grayscale:full": [
+  "filter: grayscale(100%)"
+ ],
+ "visual=hue-rotate:0": [
+  "filter: hue-rotate(0deg)"
+ ],
+ "visual=hue-rotate:90": [
+  "filter: hue-rotate(90deg)"
+ ],
+ "visual=hue-rotate:180": [
+  "filter: hue-rotate(180deg)"
+ ],
+ "visual=invert:none": [
+  "filter: invert(0%)"
+ ],
+ "visual=invert:partial": [
+  "filter: invert(50%)"
+ ],
+ "visual=invert:full": [
+  "filter: invert(100%)"
+ ],
+ "visual=saturate:none": [
+  "filter: saturate(0)"
+ ],
+ "visual=saturate:low": [
+  "filter: saturate(0.5)"
+ ],
+ "visual=saturate:normal": [
+  "filter: saturate(1)"
+ ],
+ "visual=saturate:high": [
+  "filter: saturate(1.5)"
+ ],
+ "visual=saturate:vivid": [
+  "filter: saturate(2)"
+ ],
+ "visual=sepia:none": [
+  "filter: sepia(0%)"
+ ],
+ "visual=sepia:partial": [
+  "filter: sepia(50%)"
+ ],
+ "visual=sepia:full": [
+  "filter: sepia(100%)"
+ ],
+ "visual=drop-shadow:none": [
+  "filter: drop-shadow(none)"
+ ],
+ "visual=drop-shadow:tiny": [
+  "filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05))"
+ ],
+ "visual=drop-shadow:small": [
+  "filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06))"
+ ],
+ "visual=drop-shadow:medium": [
+  "filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06))"
+ ],
+ "visual=drop-shadow:big": [
+  "filter: drop-shadow(0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1))"
+ ],
+ "visual=drop-shadow:giant": [
+  "filter: drop-shadow(0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08))"
+ ],
+ "visual=transition:none": [
+  "transition-duration: 150ms",
+  "transition-property: none",
+  "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)"
+ ],
+ "visual=transition:all": [
+  "transition-duration: 150ms",
+  "transition-property: all",
+  "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)"
+ ],
+ "visual=transition:colors": [
+  "transition-duration: 150ms",
+  "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke",
+  "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)"
+ ],
+ "visual=transition:opacity": [
+  "transition-duration: 150ms",
+  "transition-property: opacity",
+  "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)"
+ ],
+ "visual=transition:shadow": [
+  "transition-duration: 150ms",
+  "transition-property: box-shadow",
+  "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)"
+ ],
+ "visual=transition:transform": [
+  "transition-duration: 150ms",
+  "transition-property: transform",
+  "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)"
+ ],
+ "visual=duration:instant": [
+  "transition-duration: 75ms"
+ ],
+ "visual=duration:quick": [
+  "transition-duration: 100ms"
+ ],
+ "visual=duration:fast": [
+  "transition-duration: 150ms"
+ ],
+ "visual=duration:normal": [
+  "transition-duration: 200ms"
+ ],
+ "visual=duration:slow": [
+  "transition-duration: 300ms"
+ ],
+ "visual=duration:slower": [
+  "transition-duration: 500ms"
+ ],
+ "visual=duration:lazy": [
+  "transition-duration: 700ms"
+ ],
+ "visual=ease:linear": [
+  "transition-timing-function: linear"
+ ],
+ "visual=ease:in": [
+  "transition-timing-function: cubic-bezier(0.4, 0, 1, 1)"
+ ],
+ "visual=ease:out": [
+  "transition-timing-function: cubic-bezier(0, 0, 0.2, 1)"
+ ],
+ "visual=ease:in-out": [
+  "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)"
+ ],
+ "visual=delay:instant": [
+  "transition-delay: 75ms"
+ ],
+ "visual=delay:quick": [
+  "transition-delay: 100ms"
+ ],
+ "visual=delay:fast": [
+  "transition-delay: 150ms"
+ ],
+ "visual=delay:normal": [
+  "transition-delay: 200ms"
+ ],
+ "visual=delay:slow": [
+  "transition-delay: 300ms"
+ ],
+ "visual=animate:none": [
+  "animation: none"
+ ],
+ "visual=animate:spin": [
+  "animation: spin 1s linear infinite"
+ ],
+ "visual=animate:ping": [
+  "animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite"
+ ],
+ "visual=animate:pulse": [
+  "animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+ ],
+ "visual=animate:bounce": [
+  "animation: bounce 1s infinite"
+ ],
+ "visual=animation-duration:instant": [
+  "animation-duration: 75ms"
+ ],
+ "visual=animation-duration:quick": [
+  "animation-duration: 100ms"
+ ],
+ "visual=animation-duration:fast": [
+  "animation-duration: 150ms"
+ ],
+ "visual=animation-duration:normal": [
+  "animation-duration: 200ms"
+ ],
+ "visual=animation-duration:slow": [
+  "animation-duration: 300ms"
+ ],
+ "visual=animation-duration:slower": [
+  "animation-duration: 500ms"
+ ],
+ "visual=animation-duration:lazy": [
+  "animation-duration: 700ms"
+ ],
+ "visual=animation-delay:instant": [
+  "animation-delay: 75ms"
+ ],
+ "visual=animation-delay:quick": [
+  "animation-delay: 100ms"
+ ],
+ "visual=animation-delay:fast": [
+  "animation-delay: 150ms"
+ ],
+ "visual=animation-delay:normal": [
+  "animation-delay: 200ms"
+ ],
+ "visual=animation-delay:slow": [
+  "animation-delay: 300ms"
+ ],
+ "visual=animation-iteration:1": [
+  "animation-iteration-count: 1"
+ ],
+ "visual=animation-iteration:infinite": [
+  "animation-iteration-count: infinite"
+ ],
+ "visual=animation-direction:normal": [
+  "animation-direction: normal"
+ ],
+ "visual=animation-direction:reverse": [
+  "animation-direction: reverse"
+ ],
+ "visual=animation-direction:alternate": [
+  "animation-direction: alternate"
+ ],
+ "visual=animation-direction:alternate-reverse": [
+  "animation-direction: alternate-reverse"
+ ],
+ "visual=animation-fill:none": [
+  "animation-fill-mode: none"
+ ],
+ "visual=animation-fill:forwards": [
+  "animation-fill-mode: forwards"
+ ],
+ "visual=animation-fill:backwards": [
+  "animation-fill-mode: backwards"
+ ],
+ "visual=animation-fill:both": [
+  "animation-fill-mode: both"
+ ],
+ "visual=animation-play:running": [
+  "animation-play-state: running"
+ ],
+ "visual=animation-play:paused": [
+  "animation-play-state: paused"
+ ],
+ "visual=scale:0": [
+  "transform: scale(0)"
+ ],
+ "visual=scale:50": [
+  "transform: scale(0.5)"
+ ],
+ "visual=scale:75": [
+  "transform: scale(0.75)"
+ ],
+ "visual=scale:100": [
+  "transform: scale(1)"
+ ],
+ "visual=scale:110": [
+  "transform: scale(1.1)"
+ ],
+ "visual=scale:125": [
+  "transform: scale(1.25)"
+ ],
+ "visual=scale:150": [
+  "transform: scale(1.5)"
+ ],
+ "visual=rotate:0": [
+  "transform: rotate(0deg)"
+ ],
+ "visual=rotate:45": [
+  "transform: rotate(45deg)"
+ ],
+ "visual=rotate:90": [
+  "transform: rotate(90deg)"
+ ],
+ "visual=rotate:180": [
+  "transform: rotate(180deg)"
+ ],
+ "visual=translate-x:0": [
+  "transform: translateX(var(--s-0))"
+ ],
+ "visual=translate-y:0": [
+  "transform: translateY(var(--s-0))"
+ ],
+ "visual=translate-x:tiny": [
+  "transform: translateX(var(--s-tiny))"
+ ],
+ "visual=translate-y:tiny": [
+  "transform: translateY(var(--s-tiny))"
+ ],
+ "visual=translate-z:tiny": [
+  "transform: translateZ(var(--s-tiny))"
+ ],
+ "visual=translate-x:small": [
+  "transform: translateX(var(--s-small))"
+ ],
+ "visual=translate-y:small": [
+  "transform: translateY(var(--s-small))"
+ ],
+ "visual=translate-z:small": [
+  "transform: translateZ(var(--s-small))"
+ ],
+ "visual=translate-x:medium": [
+  "transform: translateX(var(--s-medium))"
+ ],
+ "visual=translate-y:medium": [
+  "transform: translateY(var(--s-medium))"
+ ],
+ "visual=translate-z:medium": [
+  "transform: translateZ(var(--s-medium))"
+ ],
+ "visual=translate-x:big": [
+  "transform: translateX(var(--s-big))"
+ ],
+ "visual=translate-y:big": [
+  "transform: translateY(var(--s-big))"
+ ],
+ "visual=translate-z:big": [
+  "transform: translateZ(var(--s-big))"
+ ],
+ "visual=translate-x:full": [
+  "transform: translateX(100%)"
+ ],
+ "visual=translate-y:full": [
+  "transform: translateY(100%)"
+ ],
+ "visual=translate-z:full": [
+  "transform: translateZ(var(--s-full))"
+ ],
+ "visual=translate-x:1/2": [
+  "transform: translateX(50%)"
+ ],
+ "visual=translate-y:1/2": [
+  "transform: translateY(50%)"
+ ],
+ "visual=translate-z:1/2": [
+  "transform: translateZ(var(--s-1/2))"
+ ],
+ "visual=translate-x:-full": [
+  "transform: translateX(-100%)"
+ ],
+ "visual=translate-y:-full": [
+  "transform: translateY(-100%)"
+ ],
+ "visual=translate-z:-full": [
+  "transform: translateZ(var(--s--full))"
+ ],
+ "visual=translate-x:-1/2": [
+  "transform: translateX(-50%)"
+ ],
+ "visual=translate-y:-1/2": [
+  "transform: translateY(-50%)"
+ ],
+ "visual=translate-z:-1/2": [
+  "transform: translateZ(var(--s--1/2))"
+ ],
+ "visual=translate-x:none": [
+  "transform: translateX(var(--s-none))"
+ ],
+ "visual=translate-x:giant": [
+  "transform: translateX(var(--s-giant))"
+ ],
+ "visual=translate-x:vast": [
+  "transform: translateX(var(--s-vast))"
+ ],
+ "visual=translate-x:small-2x": [
+  "transform: translateX(var(--s-small-2x))"
+ ],
+ "visual=translate-x:[13px]": [
+  "transform: translateX(13px)"
+ ],
+ "visual=translate-y:none": [
+  "transform: translateY(var(--s-none))"
+ ],
+ "visual=translate-y:giant": [
+  "transform: translateY(var(--s-giant))"
+ ],
+ "visual=translate-y:vast": [
+  "transform: translateY(var(--s-vast))"
+ ],
+ "visual=translate-y:small-2x": [
+  "transform: translateY(var(--s-small-2x))"
+ ],
+ "visual=translate-y:[13px]": [
+  "transform: translateY(13px)"
+ ],
+ "visual=translate-z:none": [
+  "transform: translateZ(var(--s-none))"
+ ],
+ "visual=translate-z:giant": [
+  "transform: translateZ(var(--s-giant))"
+ ],
+ "visual=translate-z:vast": [
+  "transform: translateZ(var(--s-vast))"
+ ],
+ "visual=translate-z:small-2x": [
+  "transform: translateZ(var(--s-small-2x))"
+ ],
+ "visual=translate-z:[13px]": [
+  "transform: translateZ(13px)"
+ ],
+ "visual=skew-x:0": [
+  "transform: skewX(0deg)"
+ ],
+ "visual=skew-y:0": [
+  "transform: skewY(0deg)"
+ ],
+ "visual=skew-x:3": [
+  "transform: skewX(3deg)"
+ ],
+ "visual=skew-y:3": [
+  "transform: skewY(3deg)"
+ ],
+ "visual=skew-x:6": [
+  "transform: skewX(6deg)"
+ ],
+ "visual=skew-y:6": [
+  "transform: skewY(6deg)"
+ ],
+ "visual=skew-x:12": [
+  "transform: skewX(12deg)"
+ ],
+ "visual=skew-y:12": [
+  "transform: skewY(12deg)"
+ ],
+ "visual=origin:center": [
+  "transform-origin: center"
+ ],
+ "visual=origin:top": [
+  "transform-origin: top"
+ ],
+ "visual=origin:top-right": [
+  "transform-origin: top right"
+ ],
+ "visual=origin:right": [
+  "transform-origin: right"
+ ],
+ "visual=origin:bottom-right": [
+  "transform-origin: bottom right"
+ ],
+ "visual=origin:bottom": [
+  "transform-origin: bottom"
+ ],
+ "visual=origin:bottom-left": [
+  "transform-origin: bottom left"
+ ],
+ "visual=origin:left": [
+  "transform-origin: left"
+ ],
+ "visual=origin:top-left": [
+  "transform-origin: top left"
+ ],
+ "visual=border:primary": [
+  "border-color: var(--c-primary)",
+  "border-style: solid"
+ ],
+ "visual=border-t:primary": [
+  "border-top-color: var(--c-primary)",
+  "border-top-style: solid"
+ ],
+ "visual=border-b:primary": [
+  "border-bottom-color: var(--c-primary)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-l:primary": [
+  "border-left-color: var(--c-primary)",
+  "border-left-style: solid"
+ ],
+ "visual=border-r:primary": [
+  "border-right-color: var(--c-primary)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:primary": [
+  "border-left-color: var(--c-primary)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-primary)",
+  "border-right-style: solid"
+ ],
+ "visual=border-y:primary": [
+  "border-bottom-color: var(--c-primary)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-primary)",
+  "border-top-style: solid"
+ ],
+ "visual=border:gray-300": [
+  "border-color: var(--c-gray-300)",
+  "border-style: solid"
+ ],
+ "visual=border-t:gray-300": [
+  "border-top-color: var(--c-gray-300)",
+  "border-top-style: solid"
+ ],
+ "visual=border-b:gray-300": [
+  "border-bottom-color: var(--c-gray-300)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-l:gray-300": [
+  "border-left-color: var(--c-gray-300)",
+  "border-left-style: solid"
+ ],
+ "visual=border-r:gray-300": [
+  "border-right-color: var(--c-gray-300)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:gray-300": [
+  "border-left-color: var(--c-gray-300)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-gray-300)",
+  "border-right-style: solid"
+ ],
+ "visual=border-y:gray-300": [
+  "border-bottom-color: var(--c-gray-300)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-gray-300)",
+  "border-top-style: solid"
+ ],
+ "visual=border:danger": [
+  "border-color: var(--c-danger)",
+  "border-style: solid"
+ ],
+ "visual=border-t:danger": [
+  "border-top-color: var(--c-danger)",
+  "border-top-style: solid"
+ ],
+ "visual=border-b:danger": [
+  "border-bottom-color: var(--c-danger)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-l:danger": [
+  "border-left-color: var(--c-danger)",
+  "border-left-style: solid"
+ ],
+ "visual=border-r:danger": [
+  "border-right-color: var(--c-danger)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:danger": [
+  "border-left-color: var(--c-danger)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-danger)",
+  "border-right-style: solid"
+ ],
+ "visual=border-y:danger": [
+  "border-bottom-color: var(--c-danger)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-danger)",
+  "border-top-style: solid"
+ ],
+ "visual=border:white": [
+  "border-color: var(--c-white)",
+  "border-style: solid"
+ ],
+ "visual=border:black": [
+  "border-color: var(--c-black)",
+  "border-style: solid"
+ ],
+ "visual=border:blue-500": [
+  "border-color: var(--c-blue-500)",
+  "border-style: solid"
+ ],
+ "visual=border:gray-100": [
+  "border-color: var(--c-gray-100)",
+  "border-style: solid"
+ ],
+ "visual=border:transparent": [
+  "border-color: transparent",
+  "border-style: solid"
+ ],
+ "visual=border:current": [
+  "border-color: var(--c-current)",
+  "border-style: solid"
+ ],
+ "visual=border:primary/50": [
+  "border-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-style: solid"
+ ],
+ "visual=border:[13px]": [
+  "border-color: 13px",
+  "border-style: solid"
+ ],
+ "visual=border-t:white": [
+  "border-top-color: var(--c-white)",
+  "border-top-style: solid"
+ ],
+ "visual=border-t:black": [
+  "border-top-color: var(--c-black)",
+  "border-top-style: solid"
+ ],
+ "visual=border-t:blue-500": [
+  "border-top-color: var(--c-blue-500)",
+  "border-top-style: solid"
+ ],
+ "visual=border-t:gray-100": [
+  "border-top-color: var(--c-gray-100)",
+  "border-top-style: solid"
+ ],
+ "visual=border-t:transparent": [
+  "border-top-color: transparent",
+  "border-top-style: solid"
+ ],
+ "visual=border-t:current": [
+  "border-top-color: var(--c-current)",
+  "border-top-style: solid"
+ ],
+ "visual=border-t:primary/50": [
+  "border-top-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-top-style: solid"
+ ],
+ "visual=border-t:[13px]": [
+  "border-top-color: 13px",
+  "border-top-style: solid"
+ ],
+ "visual=border-b:white": [
+  "border-bottom-color: var(--c-white)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-b:black": [
+  "border-bottom-color: var(--c-black)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-b:blue-500": [
+  "border-bottom-color: var(--c-blue-500)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-b:gray-100": [
+  "border-bottom-color: var(--c-gray-100)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-b:transparent": [
+  "border-bottom-color: transparent",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-b:current": [
+  "border-bottom-color: var(--c-current)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-b:primary/50": [
+  "border-bottom-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-b:[13px]": [
+  "border-bottom-color: 13px",
+  "border-bottom-style: solid"
+ ],
+ "visual=border-l:white": [
+  "border-left-color: var(--c-white)",
+  "border-left-style: solid"
+ ],
+ "visual=border-l:black": [
+  "border-left-color: var(--c-black)",
+  "border-left-style: solid"
+ ],
+ "visual=border-l:blue-500": [
+  "border-left-color: var(--c-blue-500)",
+  "border-left-style: solid"
+ ],
+ "visual=border-l:gray-100": [
+  "border-left-color: var(--c-gray-100)",
+  "border-left-style: solid"
+ ],
+ "visual=border-l:transparent": [
+  "border-left-color: transparent",
+  "border-left-style: solid"
+ ],
+ "visual=border-l:current": [
+  "border-left-color: var(--c-current)",
+  "border-left-style: solid"
+ ],
+ "visual=border-l:primary/50": [
+  "border-left-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-left-style: solid"
+ ],
+ "visual=border-l:[13px]": [
+  "border-left-color: 13px",
+  "border-left-style: solid"
+ ],
+ "visual=border-r:white": [
+  "border-right-color: var(--c-white)",
+  "border-right-style: solid"
+ ],
+ "visual=border-r:black": [
+  "border-right-color: var(--c-black)",
+  "border-right-style: solid"
+ ],
+ "visual=border-r:blue-500": [
+  "border-right-color: var(--c-blue-500)",
+  "border-right-style: solid"
+ ],
+ "visual=border-r:gray-100": [
+  "border-right-color: var(--c-gray-100)",
+  "border-right-style: solid"
+ ],
+ "visual=border-r:transparent": [
+  "border-right-color: transparent",
+  "border-right-style: solid"
+ ],
+ "visual=border-r:current": [
+  "border-right-color: var(--c-current)",
+  "border-right-style: solid"
+ ],
+ "visual=border-r:primary/50": [
+  "border-right-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-right-style: solid"
+ ],
+ "visual=border-r:[13px]": [
+  "border-right-color: 13px",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:white": [
+  "border-left-color: var(--c-white)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-white)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:black": [
+  "border-left-color: var(--c-black)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-black)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:blue-500": [
+  "border-left-color: var(--c-blue-500)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-blue-500)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:gray-100": [
+  "border-left-color: var(--c-gray-100)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-gray-100)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:transparent": [
+  "border-left-color: transparent",
+  "border-left-style: solid",
+  "border-right-color: transparent",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:current": [
+  "border-left-color: var(--c-current)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-current)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:primary/50": [
+  "border-left-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-left-style: solid",
+  "border-right-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-right-style: solid"
+ ],
+ "visual=border-x:[13px]": [
+  "border-left-color: 13px",
+  "border-left-style: solid",
+  "border-right-color: 13px",
+  "border-right-style: solid"
+ ],
+ "visual=border-y:white": [
+  "border-bottom-color: var(--c-white)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-white)",
+  "border-top-style: solid"
+ ],
+ "visual=border-y:black": [
+  "border-bottom-color: var(--c-black)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-black)",
+  "border-top-style: solid"
+ ],
+ "visual=border-y:blue-500": [
+  "border-bottom-color: var(--c-blue-500)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-blue-500)",
+  "border-top-style: solid"
+ ],
+ "visual=border-y:gray-100": [
+  "border-bottom-color: var(--c-gray-100)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-gray-100)",
+  "border-top-style: solid"
+ ],
+ "visual=border-y:transparent": [
+  "border-bottom-color: transparent",
+  "border-bottom-style: solid",
+  "border-top-color: transparent",
+  "border-top-style: solid"
+ ],
+ "visual=border-y:current": [
+  "border-bottom-color: var(--c-current)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-current)",
+  "border-top-style: solid"
+ ],
+ "visual=border-y:primary/50": [
+  "border-bottom-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-bottom-style: solid",
+  "border-top-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-top-style: solid"
+ ],
+ "visual=border-y:[13px]": [
+  "border-bottom-color: 13px",
+  "border-bottom-style: solid",
+  "border-top-color: 13px",
+  "border-top-style: solid"
+ ],
+ "visual=border-w:none": [
+  "border-width: var(--s-none)"
+ ],
+ "visual=border-t-w:none": [
+  "border-top-width: var(--s-none)"
+ ],
+ "visual=border-b-w:none": [
+  "border-bottom-width: var(--s-none)"
+ ],
+ "visual=border-l-w:none": [
+  "border-left-width: var(--s-none)"
+ ],
+ "visual=border-r-w:none": [
+  "border-right-width: var(--s-none)"
+ ],
+ "visual=border-x-w:none": [
+  "border-left-width: var(--s-none)",
+  "border-right-width: var(--s-none)"
+ ],
+ "visual=border-y-w:none": [
+  "border-bottom-width: var(--s-none)",
+  "border-top-width: var(--s-none)"
+ ],
+ "visual=border-w:thin": [
+  "border-width: var(--s-thin)"
+ ],
+ "visual=border-t-w:thin": [
+  "border-top-width: var(--s-thin)"
+ ],
+ "visual=border-b-w:thin": [
+  "border-bottom-width: var(--s-thin)"
+ ],
+ "visual=border-l-w:thin": [
+  "border-left-width: var(--s-thin)"
+ ],
+ "visual=border-r-w:thin": [
+  "border-right-width: var(--s-thin)"
+ ],
+ "visual=border-x-w:thin": [
+  "border-left-width: var(--s-thin)",
+  "border-right-width: var(--s-thin)"
+ ],
+ "visual=border-y-w:thin": [
+  "border-bottom-width: var(--s-thin)",
+  "border-top-width: var(--s-thin)"
+ ],
+ "visual=border-w:regular": [
+  "border-width: var(--s-regular)"
+ ],
+ "visual=border-t-w:regular": [
+  "border-top-width: var(--s-regular)"
+ ],
+ "visual=border-b-w:regular": [
+  "border-bottom-width: var(--s-regular)"
+ ],
+ "visual=border-l-w:regular": [
+  "border-left-width: var(--s-regular)"
+ ],
+ "visual=border-r-w:regular": [
+  "border-right-width: var(--s-regular)"
+ ],
+ "visual=border-x-w:regular": [
+  "border-left-width: var(--s-regular)",
+  "border-right-width: var(--s-regular)"
+ ],
+ "visual=border-y-w:regular": [
+  "border-bottom-width: var(--s-regular)",
+  "border-top-width: var(--s-regular)"
+ ],
+ "visual=border-w:thick": [
+  "border-width: var(--s-thick)"
+ ],
+ "visual=border-t-w:thick": [
+  "border-top-width: var(--s-thick)"
+ ],
+ "visual=border-b-w:thick": [
+  "border-bottom-width: var(--s-thick)"
+ ],
+ "visual=border-l-w:thick": [
+  "border-left-width: var(--s-thick)"
+ ],
+ "visual=border-r-w:thick": [
+  "border-right-width: var(--s-thick)"
+ ],
+ "visual=border-x-w:thick": [
+  "border-left-width: var(--s-thick)",
+  "border-right-width: var(--s-thick)"
+ ],
+ "visual=border-y-w:thick": [
+  "border-bottom-width: var(--s-thick)",
+  "border-top-width: var(--s-thick)"
+ ],
+ "visual=border-w:tiny": [
+  "border-width: var(--s-tiny)"
+ ],
+ "visual=border-w:small": [
+  "border-width: var(--s-small)"
+ ],
+ "visual=border-w:medium": [
+  "border-width: var(--s-medium)"
+ ],
+ "visual=border-w:big": [
+  "border-width: var(--s-big)"
+ ],
+ "visual=border-w:giant": [
+  "border-width: var(--s-giant)"
+ ],
+ "visual=border-w:vast": [
+  "border-width: var(--s-vast)"
+ ],
+ "visual=border-w:small-2x": [
+  "border-width: var(--s-small-2x)"
+ ],
+ "visual=border-w:[13px]": [
+  "border-width: 13px"
+ ],
+ "visual=border-t-w:tiny": [
+  "border-top-width: var(--s-tiny)"
+ ],
+ "visual=border-t-w:small": [
+  "border-top-width: var(--s-small)"
+ ],
+ "visual=border-t-w:medium": [
+  "border-top-width: var(--s-medium)"
+ ],
+ "visual=border-t-w:big": [
+  "border-top-width: var(--s-big)"
+ ],
+ "visual=border-t-w:giant": [
+  "border-top-width: var(--s-giant)"
+ ],
+ "visual=border-t-w:vast": [
+  "border-top-width: var(--s-vast)"
+ ],
+ "visual=border-t-w:small-2x": [
+  "border-top-width: var(--s-small-2x)"
+ ],
+ "visual=border-t-w:[13px]": [
+  "border-top-width: 13px"
+ ],
+ "visual=border-b-w:tiny": [
+  "border-bottom-width: var(--s-tiny)"
+ ],
+ "visual=border-b-w:small": [
+  "border-bottom-width: var(--s-small)"
+ ],
+ "visual=border-b-w:medium": [
+  "border-bottom-width: var(--s-medium)"
+ ],
+ "visual=border-b-w:big": [
+  "border-bottom-width: var(--s-big)"
+ ],
+ "visual=border-b-w:giant": [
+  "border-bottom-width: var(--s-giant)"
+ ],
+ "visual=border-b-w:vast": [
+  "border-bottom-width: var(--s-vast)"
+ ],
+ "visual=border-b-w:small-2x": [
+  "border-bottom-width: var(--s-small-2x)"
+ ],
+ "visual=border-b-w:[13px]": [
+  "border-bottom-width: 13px"
+ ],
+ "visual=border-l-w:tiny": [
+  "border-left-width: var(--s-tiny)"
+ ],
+ "visual=border-l-w:small": [
+  "border-left-width: var(--s-small)"
+ ],
+ "visual=border-l-w:medium": [
+  "border-left-width: var(--s-medium)"
+ ],
+ "visual=border-l-w:big": [
+  "border-left-width: var(--s-big)"
+ ],
+ "visual=border-l-w:giant": [
+  "border-left-width: var(--s-giant)"
+ ],
+ "visual=border-l-w:vast": [
+  "border-left-width: var(--s-vast)"
+ ],
+ "visual=border-l-w:small-2x": [
+  "border-left-width: var(--s-small-2x)"
+ ],
+ "visual=border-l-w:[13px]": [
+  "border-left-width: 13px"
+ ],
+ "visual=border-r-w:tiny": [
+  "border-right-width: var(--s-tiny)"
+ ],
+ "visual=border-r-w:small": [
+  "border-right-width: var(--s-small)"
+ ],
+ "visual=border-r-w:medium": [
+  "border-right-width: var(--s-medium)"
+ ],
+ "visual=border-r-w:big": [
+  "border-right-width: var(--s-big)"
+ ],
+ "visual=border-r-w:giant": [
+  "border-right-width: var(--s-giant)"
+ ],
+ "visual=border-r-w:vast": [
+  "border-right-width: var(--s-vast)"
+ ],
+ "visual=border-r-w:small-2x": [
+  "border-right-width: var(--s-small-2x)"
+ ],
+ "visual=border-r-w:[13px]": [
+  "border-right-width: 13px"
+ ],
+ "visual=border-x-w:tiny": [
+  "border-left-width: var(--s-tiny)",
+  "border-right-width: var(--s-tiny)"
+ ],
+ "visual=border-x-w:small": [
+  "border-left-width: var(--s-small)",
+  "border-right-width: var(--s-small)"
+ ],
+ "visual=border-x-w:medium": [
+  "border-left-width: var(--s-medium)",
+  "border-right-width: var(--s-medium)"
+ ],
+ "visual=border-x-w:big": [
+  "border-left-width: var(--s-big)",
+  "border-right-width: var(--s-big)"
+ ],
+ "visual=border-x-w:giant": [
+  "border-left-width: var(--s-giant)",
+  "border-right-width: var(--s-giant)"
+ ],
+ "visual=border-x-w:vast": [
+  "border-left-width: var(--s-vast)",
+  "border-right-width: var(--s-vast)"
+ ],
+ "visual=border-x-w:small-2x": [
+  "border-left-width: var(--s-small-2x)",
+  "border-right-width: var(--s-small-2x)"
+ ],
+ "visual=border-x-w:[13px]": [
+  "border-left-width: 13px",
+  "border-right-width: 13px"
+ ],
+ "visual=border-y-w:tiny": [
+  "border-bottom-width: var(--s-tiny)",
+  "border-top-width: var(--s-tiny)"
+ ],
+ "visual=border-y-w:small": [
+  "border-bottom-width: var(--s-small)",
+  "border-top-width: var(--s-small)"
+ ],
+ "visual=border-y-w:medium": [
+  "border-bottom-width: var(--s-medium)",
+  "border-top-width: var(--s-medium)"
+ ],
+ "visual=border-y-w:big": [
+  "border-bottom-width: var(--s-big)",
+  "border-top-width: var(--s-big)"
+ ],
+ "visual=border-y-w:giant": [
+  "border-bottom-width: var(--s-giant)",
+  "border-top-width: var(--s-giant)"
+ ],
+ "visual=border-y-w:vast": [
+  "border-bottom-width: var(--s-vast)",
+  "border-top-width: var(--s-vast)"
+ ],
+ "visual=border-y-w:small-2x": [
+  "border-bottom-width: var(--s-small-2x)",
+  "border-top-width: var(--s-small-2x)"
+ ],
+ "visual=border-y-w:[13px]": [
+  "border-bottom-width: 13px",
+  "border-top-width: 13px"
+ ],
+ "visual=border-style:solid": [
+  "border-style: solid"
+ ],
+ "visual=border-style:dashed": [
+  "border-style: dashed"
+ ],
+ "visual=border-style:dotted": [
+  "border-style: dotted"
+ ],
+ "visual=border-style:double": [
+  "border-style: double"
+ ],
+ "visual=border-style:none": [
+  "border-style: none"
+ ],
+ "visual=outline-w:none": [
+  "outline-width: var(--s-none)"
+ ],
+ "visual=outline-w:thin": [
+  "outline-width: var(--s-thin)"
+ ],
+ "visual=outline-w:regular": [
+  "outline-width: var(--s-regular)"
+ ],
+ "visual=outline-w:thick": [
+  "outline-width: var(--s-thick)"
+ ],
+ "visual=outline-w:tiny": [
+  "outline-width: var(--s-tiny)"
+ ],
+ "visual=outline-w:small": [
+  "outline-width: var(--s-small)"
+ ],
+ "visual=outline-w:medium": [
+  "outline-width: var(--s-medium)"
+ ],
+ "visual=outline-w:big": [
+  "outline-width: var(--s-big)"
+ ],
+ "visual=outline-w:giant": [
+  "outline-width: var(--s-giant)"
+ ],
+ "visual=outline-w:vast": [
+  "outline-width: var(--s-vast)"
+ ],
+ "visual=outline-w:small-2x": [
+  "outline-width: var(--s-small-2x)"
+ ],
+ "visual=outline-w:[13px]": [
+  "outline-width: 13px"
+ ],
+ "visual=outline:primary": [
+  "outline-color: var(--c-primary)"
+ ],
+ "visual=outline:white": [
+  "outline-color: var(--c-white)"
+ ],
+ "visual=outline:black": [
+  "outline-color: var(--c-black)"
+ ],
+ "visual=outline:blue-500": [
+  "outline-color: var(--c-blue-500)"
+ ],
+ "visual=outline:gray-100": [
+  "outline-color: var(--c-gray-100)"
+ ],
+ "visual=outline:transparent": [
+  "outline-color: transparent"
+ ],
+ "visual=outline:current": [
+  "outline-color: var(--c-current)"
+ ],
+ "visual=outline:primary/50": [
+  "outline-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=outline:[13px]": [
+  "outline-color: 13px"
+ ],
+ "visual=outline-offset:none": [
+  "outline-offset: var(--s-none)"
+ ],
+ "visual=outline-offset:thin": [
+  "outline-offset: var(--s-thin)"
+ ],
+ "visual=outline-offset:small": [
+  "outline-offset: var(--s-small)"
+ ],
+ "visual=outline-offset:medium": [
+  "outline-offset: var(--s-medium)"
+ ],
+ "visual=outline-offset:tiny": [
+  "outline-offset: var(--s-tiny)"
+ ],
+ "visual=outline-offset:big": [
+  "outline-offset: var(--s-big)"
+ ],
+ "visual=outline-offset:giant": [
+  "outline-offset: var(--s-giant)"
+ ],
+ "visual=outline-offset:vast": [
+  "outline-offset: var(--s-vast)"
+ ],
+ "visual=outline-offset:small-2x": [
+  "outline-offset: var(--s-small-2x)"
+ ],
+ "visual=outline-offset:[13px]": [
+  "outline-offset: 13px"
+ ],
+ "visual=outline-style:solid": [
+  "outline-style: solid"
+ ],
+ "visual=outline-style:dashed": [
+  "outline-style: dashed"
+ ],
+ "visual=outline-style:dotted": [
+  "outline-style: dotted"
+ ],
+ "visual=outline-style:double": [
+  "outline-style: double"
+ ],
+ "visual=outline-style:none": [
+  "outline-style: none"
+ ],
+ "visual=ring:none": [
+  "box-shadow: 0 0 #0000"
+ ],
+ "visual=ring:thin": [
+  "--ss-ring-width: 1px",
+  "box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color)"
+ ],
+ "visual=ring:regular": [
+  "--ss-ring-width: 2px",
+  "box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color)"
+ ],
+ "visual=ring:small": [
+  "--ss-ring-width: 4px",
+  "box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color)"
+ ],
+ "visual=ring:medium": [
+  "--ss-ring-width: 6px",
+  "box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color)"
+ ],
+ "visual=ring:big": [
+  "--ss-ring-width: 8px",
+  "box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color)"
+ ],
+ "visual=ring-color:primary": [
+  "--ss-ring-color: var(--c-primary)"
+ ],
+ "visual=ring-color:blue-500": [
+  "--ss-ring-color: var(--c-blue-500)"
+ ],
+ "visual=ring-color:white": [
+  "--ss-ring-color: var(--c-white)"
+ ],
+ "visual=ring-color:black": [
+  "--ss-ring-color: var(--c-black)"
+ ],
+ "visual=ring-color:gray-100": [
+  "--ss-ring-color: var(--c-gray-100)"
+ ],
+ "visual=ring-color:transparent": [
+  "--ss-ring-color: transparent"
+ ],
+ "visual=ring-color:current": [
+  "--ss-ring-color: var(--c-current)"
+ ],
+ "visual=ring-color:primary/50": [
+  "--ss-ring-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=ring-color:[13px]": [
+  "--ss-ring-color: 13px"
+ ],
+ "visual=ring-offset:0": [
+  "--ss-ring-offset-width: var(--s-0)"
+ ],
+ "visual=ring-offset:2": [
+  "--ss-ring-offset-width: var(--s-2)"
+ ],
+ "visual=ring-offset:4": [
+  "--ss-ring-offset-width: var(--s-4)"
+ ],
+ "visual=divide:primary": [
+  "border-color: var(--c-primary)",
+  "border-style: solid"
+ ],
+ "visual=divide-x:primary": [
+  "border-left-color: var(--c-primary)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-primary)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-y:primary": [
+  "border-bottom-color: var(--c-primary)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-primary)",
+  "border-top-style: solid"
+ ],
+ "visual=divide:gray-300": [
+  "border-color: var(--c-gray-300)",
+  "border-style: solid"
+ ],
+ "visual=divide-x:gray-300": [
+  "border-left-color: var(--c-gray-300)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-gray-300)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-y:gray-300": [
+  "border-bottom-color: var(--c-gray-300)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-gray-300)",
+  "border-top-style: solid"
+ ],
+ "visual=divide:danger": [
+  "border-color: var(--c-danger)",
+  "border-style: solid"
+ ],
+ "visual=divide-x:danger": [
+  "border-left-color: var(--c-danger)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-danger)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-y:danger": [
+  "border-bottom-color: var(--c-danger)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-danger)",
+  "border-top-style: solid"
+ ],
+ "visual=divide:white": [
+  "border-color: var(--c-white)",
+  "border-style: solid"
+ ],
+ "visual=divide:black": [
+  "border-color: var(--c-black)",
+  "border-style: solid"
+ ],
+ "visual=divide:blue-500": [
+  "border-color: var(--c-blue-500)",
+  "border-style: solid"
+ ],
+ "visual=divide:gray-100": [
+  "border-color: var(--c-gray-100)",
+  "border-style: solid"
+ ],
+ "visual=divide:transparent": [
+  "border-color: transparent",
+  "border-style: solid"
+ ],
+ "visual=divide:current": [
+  "border-color: var(--c-current)",
+  "border-style: solid"
+ ],
+ "visual=divide:primary/50": [
+  "border-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-style: solid"
+ ],
+ "visual=divide:[13px]": [
+  "border-color: 13px",
+  "border-style: solid"
+ ],
+ "visual=divide-x:white": [
+  "border-left-color: var(--c-white)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-white)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-x:black": [
+  "border-left-color: var(--c-black)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-black)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-x:blue-500": [
+  "border-left-color: var(--c-blue-500)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-blue-500)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-x:gray-100": [
+  "border-left-color: var(--c-gray-100)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-gray-100)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-x:transparent": [
+  "border-left-color: transparent",
+  "border-left-style: solid",
+  "border-right-color: transparent",
+  "border-right-style: solid"
+ ],
+ "visual=divide-x:current": [
+  "border-left-color: var(--c-current)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-current)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-x:primary/50": [
+  "border-left-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-left-style: solid",
+  "border-right-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-x:[13px]": [
+  "border-left-color: 13px",
+  "border-left-style: solid",
+  "border-right-color: 13px",
+  "border-right-style: solid"
+ ],
+ "visual=divide-y:white": [
+  "border-bottom-color: var(--c-white)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-white)",
+  "border-top-style: solid"
+ ],
+ "visual=divide-y:black": [
+  "border-bottom-color: var(--c-black)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-black)",
+  "border-top-style: solid"
+ ],
+ "visual=divide-y:blue-500": [
+  "border-bottom-color: var(--c-blue-500)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-blue-500)",
+  "border-top-style: solid"
+ ],
+ "visual=divide-y:gray-100": [
+  "border-bottom-color: var(--c-gray-100)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-gray-100)",
+  "border-top-style: solid"
+ ],
+ "visual=divide-y:transparent": [
+  "border-bottom-color: transparent",
+  "border-bottom-style: solid",
+  "border-top-color: transparent",
+  "border-top-style: solid"
+ ],
+ "visual=divide-y:current": [
+  "border-bottom-color: var(--c-current)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-current)",
+  "border-top-style: solid"
+ ],
+ "visual=divide-y:primary/50": [
+  "border-bottom-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-bottom-style: solid",
+  "border-top-color: color-mix(in srgb, var(--c-primary) 50%, transparent)",
+  "border-top-style: solid"
+ ],
+ "visual=divide-y:[13px]": [
+  "border-bottom-color: 13px",
+  "border-bottom-style: solid",
+  "border-top-color: 13px",
+  "border-top-style: solid"
+ ],
+ "visual=divide-w:none": [
+  "border-bottom-width: calc(var(--s-none) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-none) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-none) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-none) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-x-w:none": [
+  "border-left-width: calc(var(--s-none) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-none) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-y-w:none": [
+  "border-bottom-width: calc(var(--s-none) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-none) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:thin": [
+  "border-bottom-width: calc(var(--s-thin) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-thin) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-thin) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-thin) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-x-w:thin": [
+  "border-left-width: calc(var(--s-thin) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-thin) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-y-w:thin": [
+  "border-bottom-width: calc(var(--s-thin) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-thin) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:regular": [
+  "border-bottom-width: calc(var(--s-regular) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-regular) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-regular) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-regular) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-x-w:regular": [
+  "border-left-width: calc(var(--s-regular) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-regular) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-y-w:regular": [
+  "border-bottom-width: calc(var(--s-regular) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-regular) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:thick": [
+  "border-bottom-width: calc(var(--s-thick) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-thick) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-thick) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-thick) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-x-w:thick": [
+  "border-left-width: calc(var(--s-thick) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-thick) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-y-w:thick": [
+  "border-bottom-width: calc(var(--s-thick) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-thick) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:tiny": [
+  "border-bottom-width: calc(var(--s-tiny) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-tiny) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-tiny) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-tiny) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:small": [
+  "border-bottom-width: calc(var(--s-small) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-small) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-small) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-small) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:medium": [
+  "border-bottom-width: calc(var(--s-medium) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-medium) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-medium) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-medium) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:big": [
+  "border-bottom-width: calc(var(--s-big) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-big) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-big) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-big) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:giant": [
+  "border-bottom-width: calc(var(--s-giant) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-giant) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-giant) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-giant) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:vast": [
+  "border-bottom-width: calc(var(--s-vast) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-vast) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-vast) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-vast) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:small-2x": [
+  "border-bottom-width: calc(var(--s-small-2x) * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(var(--s-small-2x) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-small-2x) * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(var(--s-small-2x) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-w:[13px]": [
+  "border-bottom-width: calc(13px * var(--ss-divide-y-reverse))",
+  "border-left-width: calc(13px * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(13px * var(--ss-divide-x-reverse))",
+  "border-top-width: calc(13px * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-x-w:tiny": [
+  "border-left-width: calc(var(--s-tiny) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-tiny) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-x-w:small": [
+  "border-left-width: calc(var(--s-small) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-small) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-x-w:medium": [
+  "border-left-width: calc(var(--s-medium) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-medium) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-x-w:big": [
+  "border-left-width: calc(var(--s-big) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-big) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-x-w:giant": [
+  "border-left-width: calc(var(--s-giant) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-giant) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-x-w:vast": [
+  "border-left-width: calc(var(--s-vast) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-vast) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-x-w:small-2x": [
+  "border-left-width: calc(var(--s-small-2x) * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(var(--s-small-2x) * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-x-w:[13px]": [
+  "border-left-width: calc(13px * (1 - var(--ss-divide-x-reverse)))",
+  "border-right-width: calc(13px * var(--ss-divide-x-reverse))"
+ ],
+ "visual=divide-y-w:tiny": [
+  "border-bottom-width: calc(var(--s-tiny) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-tiny) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-y-w:small": [
+  "border-bottom-width: calc(var(--s-small) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-small) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-y-w:medium": [
+  "border-bottom-width: calc(var(--s-medium) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-medium) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-y-w:big": [
+  "border-bottom-width: calc(var(--s-big) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-big) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-y-w:giant": [
+  "border-bottom-width: calc(var(--s-giant) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-giant) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-y-w:vast": [
+  "border-bottom-width: calc(var(--s-vast) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-vast) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-y-w:small-2x": [
+  "border-bottom-width: calc(var(--s-small-2x) * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(var(--s-small-2x) * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-y-w:[13px]": [
+  "border-bottom-width: calc(13px * var(--ss-divide-y-reverse))",
+  "border-top-width: calc(13px * (1 - var(--ss-divide-y-reverse)))"
+ ],
+ "visual=divide-style:solid": [
+  "border-style: solid"
+ ],
+ "visual=divide-style:dashed": [
+  "border-style: dashed"
+ ],
+ "visual=divide-style:dotted": [
+  "border-style: dotted"
+ ],
+ "visual=divide-style:double": [
+  "border-style: double"
+ ],
+ "visual=divide-style:none": [
+  "border-style: none"
+ ],
+ "visual=divide-x:divide-x:reverse": [
+  "border-left-color: var(--c-divide-x:reverse)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-divide-x:reverse)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-y:divide-x:reverse": [
+  "border-bottom-color: var(--c-divide-x:reverse)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-divide-x:reverse)",
+  "border-top-style: solid"
+ ],
+ "visual=divide-x:divide-y:reverse": [
+  "border-left-color: var(--c-divide-y:reverse)",
+  "border-left-style: solid",
+  "border-right-color: var(--c-divide-y:reverse)",
+  "border-right-style: solid"
+ ],
+ "visual=divide-y:divide-y:reverse": [
+  "border-bottom-color: var(--c-divide-y:reverse)",
+  "border-bottom-style: solid",
+  "border-top-color: var(--c-divide-y:reverse)",
+  "border-top-style: solid"
+ ],
+ "visual=fill:none": [
+  "fill: none"
+ ],
+ "visual=fill:current": [
+  "fill: currentColor"
+ ],
+ "visual=fill:primary": [
+  "fill: var(--c-primary)"
+ ],
+ "visual=fill:white": [
+  "fill: var(--c-white)"
+ ],
+ "visual=fill:black": [
+  "fill: var(--c-black)"
+ ],
+ "visual=fill:blue-500": [
+  "fill: var(--c-blue-500)"
+ ],
+ "visual=fill:gray-100": [
+  "fill: var(--c-gray-100)"
+ ],
+ "visual=fill:transparent": [
+  "fill: transparent"
+ ],
+ "visual=fill:primary/50": [
+  "fill: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=fill:[13px]": [
+  "fill: 13px"
+ ],
+ "visual=stroke:none": [
+  "stroke: none"
+ ],
+ "visual=stroke:current": [
+  "stroke: currentColor"
+ ],
+ "visual=stroke:primary": [
+  "stroke: var(--c-primary)"
+ ],
+ "visual=stroke:white": [
+  "stroke: var(--c-white)"
+ ],
+ "visual=stroke:black": [
+  "stroke: var(--c-black)"
+ ],
+ "visual=stroke:blue-500": [
+  "stroke: var(--c-blue-500)"
+ ],
+ "visual=stroke:gray-100": [
+  "stroke: var(--c-gray-100)"
+ ],
+ "visual=stroke:transparent": [
+  "stroke: transparent"
+ ],
+ "visual=stroke:primary/50": [
+  "stroke: color-mix(in srgb, var(--c-primary) 50%, transparent)"
+ ],
+ "visual=stroke:[13px]": [
+  "stroke: 13px"
+ ],
+ "visual=stroke-w:0": [
+  "stroke-width: 0px"
+ ],
+ "visual=stroke-w:1": [
+  "stroke-width: 1px"
+ ],
+ "visual=stroke-w:2": [
+  "stroke-width: 2px"
+ ],
+ "visual=content-visibility:visible": null,
+ "visual=content-visibility:auto": null,
+ "visual=content-visibility:hidden": null,
+ "visual=contain:none": null,
+ "visual=contain:strict": null,
+ "visual=contain:content": null,
+ "visual=contain:size": null,
+ "visual=contain:layout": null,
+ "visual=contain:style": null,
+ "visual=contain:paint": null,
+ "visual=writing-mode:horizontal-tb": null,
+ "visual=writing-mode:vertical-rl": null,
+ "visual=writing-mode:vertical-lr": null,
+ "visual=writing-mode:sideways-rl": null,
+ "visual=writing-mode:sideways-lr": null,
+ "space=tab:p:big": [
+  "padding: var(--s-big)"
+ ],
+ "space=hover:p:big": [
+  "padding: var(--s-big)"
+ ],
+ "space=tab:hover:p:big": [
+  "padding: var(--s-big)"
+ ],
+ "space=dark:p:big": [
+  "padding: var(--s-big)"
+ ],
+ "space=m:-small": [
+  "margin: calc(var(--s-small) * -1)"
+ ],
+ "space=p:[calc(100%_-_2rem)]": [
+  "padding: calc(100% - 2rem)"
+ ],
+ "visual=hover:bg:primary": [
+  "background-color: var(--c-primary)"
+ ],
+ "visual=dark:bg:black": [
+  "background-color: var(--c-black)"
+ ],
+ "visual=focus:ring:small": [
+  "--ss-ring-width: 4px",
+  "box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color)"
+ ],
+ "visual=bg:[#123456]": [
+  "background-color: #123456"
+ ],
+ "visual=bg:[#123456]/50": [
+  "background-color: color-mix(in srgb, #123456 50%, transparent)"
+ ],
+ "visual=text:[rgb(1_2_3)]": [
+  "color: rgb(1 2 3)"
+ ],
+ "visual=placeholder:text:gray-400": [
+  "color: var(--c-gray-400)"
+ ],
+ "layout=tab:hidden": [
+  "display: none"
+ ],
+ "layout=hoverable": null
+}
