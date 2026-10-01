@@ -1,6 +1,6 @@
 /* SenangStart CSS - Tailwind Converter v0.4.0 | MIT License */
 (() => {
-  // src/cdn/tw-conversion-engine.js
+  // src/converter/base.js
   var spacingScale = {
     0: "none",
     // 0px → none
@@ -385,43 +385,12 @@
     8: "small"
     // 8px → small
   };
-  function getBorderWidth(value, exact) {
-    if (exact) {
-      return `tw-${value}`;
-    }
+  function getBorderWidth(value) {
     return borderWidthScale[value] || `[${value}px]`;
   }
-  function convertClass(twClass, exact) {
-    const prefixMatch = twClass.match(
-      /^(sm:|md:|lg:|xl:|2xl:|3xl:|4xl:|hover:|focus:|focus-visible:|focus-within:|active:|disabled:|dark:|first:|last:|odd:|even:|visited:|checked:|indeterminate:|default:|required:|optional:|valid:|invalid:|in-range:|out-of-range:|placeholder-shown:|autofill:|read-only:|before:|after:|first-letter:|first-line:|marker:|selection:|file:|backdrop:|rtl:|ltr:|portrait:|landscape:|print:|group-hover:|peer-hover:|group-focus:|peer-focus:|group-active:|peer-active:|peer-check:|group-open:|peer-open:)(.+)$/
-    );
-    let prefix = "", baseClass = twClass, extraAttr = null;
-    if (prefixMatch) {
-      const rawPrefix = prefixMatch[1].slice(0, -1);
-      if (["sm", "md", "lg", "xl", "2xl", "3xl", "4xl"].includes(rawPrefix)) {
-        prefix = `tw-${rawPrefix}:`;
-      } else if (rawPrefix.startsWith("group-") || rawPrefix.startsWith("peer-")) {
-        const stateMap = {
-          "hover": "hover",
-          "focus": "focus",
-          // or focus-within if we strictly follow group logic, but SenangStart group logic handles mapped state triggers
-          "active": "active",
-          "open": "expanded",
-          // map open -> expanded
-          "check": "checked"
-          // map check -> checked
-        };
-        const variant = rawPrefix.split("-")[1];
-        const mappedState = stateMap[variant] || variant;
-        prefix = `${mappedState}:`;
-        if (rawPrefix.startsWith("peer-")) {
-          extraAttr = { cat: "listens", val: "peer" };
-        }
-      } else {
-        prefix = prefixMatch[1];
-      }
-      baseClass = prefixMatch[2];
-    }
+  function convertBase(baseClass, exact) {
+    const prefix = "";
+    const extraAttr = null;
     if (baseClass === "group") {
       return { cat: "layout", val: "hoverable focusable pressable expandable" };
     }
@@ -919,62 +888,545 @@
     }
     return null;
   }
-  function convertClasses(classString, exact = false) {
-    const classes = classString.trim().split(/\s+/).filter((c) => c);
-    const layout = [], space = [], visual = [], interact = [], listens = [], unknown = [];
-    const pushUnique = (arr, val) => {
-      if (!arr.includes(val)) arr.push(val);
-    };
-    for (const cls of classes) {
-      const result = convertClass(cls, exact);
-      if (result) {
-        const results = Array.isArray(result) ? result : [result];
-        for (const res of results) {
-          if (res.cat === "layout") pushUnique(layout, res.val);
-          else if (res.cat === "space") pushUnique(space, res.val);
-          else if (res.cat === "visual") pushUnique(visual, res.val);
-          else if (res.cat === "interact") pushUnique(interact, res.val);
-          else if (res.cat === "listens") pushUnique(listens, res.val);
-        }
-      } else {
-        unknown.push(cls);
+
+  // src/converter/variants.js
+  var SCREENS = /* @__PURE__ */ new Set(["sm", "md", "lg", "xl", "2xl"]);
+  var CONTAINERS = /* @__PURE__ */ new Set(["3xs", "2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl"]);
+  var SAME = /* @__PURE__ */ new Set([
+    "hover",
+    "focus",
+    "focus-visible",
+    "focus-within",
+    "active",
+    "visited",
+    "target",
+    "checked",
+    "indeterminate",
+    "default",
+    "required",
+    "optional",
+    "valid",
+    "invalid",
+    "user-valid",
+    "user-invalid",
+    "in-range",
+    "out-of-range",
+    "placeholder-shown",
+    "autofill",
+    "read-only",
+    "disabled",
+    "enabled",
+    "empty",
+    "open",
+    "first",
+    "last",
+    "only",
+    "odd",
+    "even",
+    "first-of-type",
+    "last-of-type",
+    "before",
+    "after",
+    "first-letter",
+    "first-line",
+    "marker",
+    "selection",
+    "file",
+    "backdrop",
+    "placeholder",
+    "dark",
+    "rtl",
+    "ltr",
+    "print",
+    "portrait",
+    "landscape",
+    "motion-safe",
+    "motion-reduce",
+    "contrast-more",
+    "contrast-less",
+    "forced-colors",
+    "pointer-fine",
+    "pointer-coarse"
+  ]);
+  var GROUP_STATES = { hover: "hover", focus: "focus", "focus-visible": "focus-visible", "focus-within": "focus-within", active: "active", open: "expanded", checked: "checked" };
+  function convertVariant(variant) {
+    if (SAME.has(variant)) return { prefix: variant };
+    if (SCREENS.has(variant)) return { prefix: `tw-${variant}` };
+    if (variant.startsWith("max-") && SCREENS.has(variant.slice(4))) return { prefix: `max-tw-${variant.slice(4)}` };
+    if (variant.startsWith("min-") && SCREENS.has(variant.slice(4))) return { prefix: `tw-${variant.slice(4)}` };
+    if (variant.startsWith("@")) {
+      const [size, name] = variant.slice(1).split("/");
+      const isMax = size.startsWith("max-");
+      const key = isMax ? size.slice(4) : size;
+      if (!CONTAINERS.has(key) || !SCREENS.has(key)) return null;
+      return { prefix: `@${isMax ? "max-" : ""}tw-${key}${name ? `/${name}` : ""}` };
+    }
+    const gm = /^(group|peer)-([a-z-]+?)(?:\/[\w-]+)?$/.exec(variant);
+    if (gm) {
+      const state = GROUP_STATES[gm[2]];
+      if (!state) return null;
+      if (gm[1] === "group") return { prefix: state, needsGroup: true };
+      return { prefix: state, extra: { cat: "listens", val: "peer" } };
+    }
+    if (/^aria-(\[.+\]|[a-z]+)$/.test(variant)) return { prefix: variant };
+    if (/^data-(\[.+\]|[a-z][a-z0-9-]*)$/.test(variant)) return { prefix: variant };
+    if (/^has-\[.+\]$/.test(variant)) return { prefix: variant };
+    if (variant.startsWith("not-")) {
+      const inner = variant.slice(4);
+      if (SAME.has(inner) || /^\[.+\]$/.test(inner)) return { prefix: variant };
+      return null;
+    }
+    return null;
+  }
+  function splitClass(cls) {
+    const parts = [];
+    let depth = 0;
+    let start = 0;
+    for (let i = 0; i < cls.length; i++) {
+      const ch = cls[i];
+      if (ch === "[") depth++;
+      else if (ch === "]") depth = Math.max(0, depth - 1);
+      else if (ch === ":" && depth === 0) {
+        parts.push(cls.slice(start, i));
+        start = i + 1;
       }
     }
-    return { layout, space, visual, interact, listens, unknown };
+    parts.push(cls.slice(start));
+    let base = parts.pop();
+    let important = false;
+    if (base.startsWith("!")) {
+      important = true;
+      base = base.slice(1);
+    }
+    if (base.endsWith("!") && !base.endsWith("]!")) {
+      important = true;
+      base = base.slice(0, -1);
+    } else if (base.endsWith("]!")) {
+      important = true;
+      base = base.slice(0, -1);
+    }
+    return { variants: parts, base, important };
   }
-  function convertHTML(html, exact) {
-    return html.replace(
-      /\bclass(Name)?=(['"])([^"']+)\2/gi,
-      function(match, nameAttr, quote, classValue) {
-        const result = convertClasses(classValue, exact);
-        const attrs = [];
-        if (result.layout.length) attrs.push('layout="' + result.layout.join(" ") + '"');
-        if (result.space.length) attrs.push('space="' + result.space.join(" ") + '"');
-        if (result.visual.length) attrs.push('visual="' + result.visual.join(" ") + '"');
-        if (result.interact.length) attrs.push('interact="' + result.interact.join(" ") + '"');
-        if (result.listens.length) attrs.push('listens="' + result.listens.join(" ") + '"');
-        if (result.unknown.length) attrs.push('class="' + result.unknown.join(" ") + '"');
-        return attrs.join(" ") || 'class=""';
-      }
-    );
+
+  // src/converter/extra.js
+  var NUM = /^\d+(\.\d+)?$/;
+  var exactMode = false;
+  var radiusToken = (size) => size.startsWith("[") ? size : exactMode ? `tw-${size === "DEFAULT" ? "base" : size}` : radiusScale[size === "DEFAULT" ? "" : size] || size;
+  var FRACTIONS = { "1/2": "half", "2/4": "half", "1/3": "third", "2/3": "third-2x", "1/4": "quarter", "3/4": "quarter-3x" };
+  var asArb = (v) => /^\[.+\]$/.test(v) ? v : null;
+  function convertExtra(base, exact) {
+    exactMode = !!exact;
+    if (/^\[(?:--)?[a-zA-Z][\w-]*:.+\]$/.test(base)) return { cat: "visual", val: base };
+    let m;
+    if (m = /^(-?)rotate(?:-([xyz]))?-(\d+|\[.+\])$/.exec(base)) {
+      const prop = m[2] ? `rotate-${m[2]}` : "rotate";
+      return { cat: "visual", val: `${prop}:${m[1]}${m[3]}` };
+    }
+    if (m = /^(-?)scale(?:-([xy]))?-(\d+|\[.+\])$/.exec(base)) {
+      const prop = m[2] ? `scale-${m[2]}` : "scale";
+      return { cat: "visual", val: `${prop}:${m[1]}${m[3]}` };
+    }
+    if (m = /^(-?)skew-([xy])-(\d+|\[.+\])$/.exec(base)) {
+      return { cat: "visual", val: `skew-${m[2]}:${m[1]}${m[3]}` };
+    }
+    if (base === "transform-none") return { cat: "visual", val: "[transform:none]" };
+    if (exact && (m = /^shadow(?:-(2xs|xs|sm|md|lg|xl|2xl|inner|none))?$/.exec(base))) {
+      const v4 = m[1] || "sm";
+      const key = { "2xs": null, xs: "tw-sm", sm: "tw-DEFAULT", md: "tw-md", lg: "tw-lg", xl: "tw-xl", "2xl": "tw-2xl", inner: "tw-inner", none: "tw-none" }[v4];
+      if (key === null) return { cat: "visual", val: "shadow:[0_1px_rgb(0_0_0_/_0.05)]" };
+      return { cat: "visual", val: `shadow:${key}` };
+    }
+    if (m = /^(w|h|min-w|max-w|min-h|max-h|size|basis)-(full|min|max|fit|\d\/\d)$/.exec(base)) {
+      return { cat: m[1] === "basis" ? "layout" : "space", val: `${m[1]}:${FRACTIONS[m[2]] || m[2]}` };
+    }
+    if (m = /^rounded-(t|b|l|r|tl|tr|bl|br|s|e|ss|se|es|ee)(?:-(none|sm|md|lg|xl|2xl|3xl|full|\[.+\]))?$/.exec(base)) {
+      const side = { s: "l", e: "r", ss: "tl", se: "tr", es: "bl", ee: "br" }[m[1]] || m[1];
+      const size = m[2] === void 0 ? "DEFAULT" : m[2];
+      return { cat: "visual", val: `rounded-${side}:${radiusToken(size)}` };
+    }
+    if (m = /^(-?)translate-z-(\d+(?:\.\d+)?|px|\[.+\])$/.exec(base)) {
+      const v = m[2].startsWith("[") ? m[2] : getSpacing(m[2], exact);
+      return { cat: "visual", val: `translate-z:${m[1]}${v}` };
+    }
+    if (/^-?(?:[pm][trblxy]?|gap(?:-[xy])?)-\d+\/\d+$/.test(base)) return null;
+    if (m = /^(-?)space-([xy])-(\d+(?:\.\d+)?|px|\[.+\])$/.exec(base)) {
+      const v = m[3].startsWith("[") ? m[3] : getSpacing(m[3], exact);
+      return { cat: "visual", val: `space-${m[2]}:${m[1]}${v}` };
+    }
+    if (/^space-[xy]-reverse$/.test(base)) return null;
+    if (m = /^border-([tblr]|x|y)$/.exec(base)) {
+      const sides = { x: ["l", "r"], y: ["t", "b"] }[m[1]] || [m[1]];
+      return sides.map((side) => ({ cat: "visual", val: `border-${side}-w:thin` }));
+    }
+    if (m = /^max-w-(xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|prose|screen-(?:sm|md|lg|xl|2xl))$/.exec(base)) {
+      const MAXW = { xs: "20rem", sm: "24rem", md: "28rem", lg: "32rem", xl: "36rem", "2xl": "42rem", "3xl": "48rem", "4xl": "56rem", "5xl": "64rem", "6xl": "72rem", "7xl": "80rem", prose: "65ch", "screen-sm": "640px", "screen-md": "768px", "screen-lg": "1024px", "screen-xl": "1280px", "screen-2xl": "1536px" };
+      return { cat: "space", val: `max-w:[${MAXW[m[1]]}]` };
+    }
+    if (m = /^mask-(none|alpha|luminance|match)$/.exec(base)) return { cat: "visual", val: `mask:${m[1]}` };
+    if (m = /^(mask-(?:image|mode|origin|clip|composite|position|repeat|size|type)|perspective-origin|transform-style)-([a-z0-9-]+|\[.+\])$/.exec(base)) return { cat: "visual", val: `${m[1]}:${m[2]}` };
+    if (m = /^backface-(visible|hidden)$/.exec(base)) return { cat: "visual", val: `backface:${m[1]}` };
+    if (m = /^origin-(center|top|top-right|right|bottom-right|bottom|bottom-left|left|top-left|\[.+\])$/.exec(base)) return { cat: "visual", val: `origin:${m[1]}` };
+    if (m = /^perspective-(\d+|none|\[.+\])$/.exec(base)) return { cat: "visual", val: `perspective:${m[1]}` };
+    if (m = /^place-(items|content|self)-([a-z-]+)$/.exec(base)) return { cat: "layout", val: `place-${m[1]}:${m[2]}` };
+    if (m = /^justify-items-([a-z]+)$/.exec(base)) return { cat: "layout", val: `justify-items:${m[1]}` };
+    if (m = /^content-(center|start|end|between|around|evenly|baseline|stretch)$/.exec(base)) return { cat: "layout", val: `content:${m[1]}` };
+    if (m = /^aspect-(video|square|auto|\[.+\])$/.exec(base)) return { cat: "layout", val: `aspect:${m[1]}` };
+    if (m = /^line-clamp-(\d+|none)$/.exec(base)) return { cat: "visual", val: `line-clamp:${m[1]}` };
+    if (base === "sr-only") {
+      return { cat: "visual", val: "[position:absolute] [width:1px] [height:1px] [padding:0] [margin:-1px] [overflow:hidden] [clip:rect(0,0,0,0)] [white-space:nowrap] [border-width:0]" };
+    }
+    if (m = /^columns-(\d+|\[.+\])$/.exec(base)) return { cat: "layout", val: `[columns:${m[1].replace(/^\[|\]$/g, "")}]` };
+    return void 0;
   }
-  if (typeof window !== "undefined") {
-    window.SenangStartTW = {
-      convertClass,
-      convertClasses,
-      convertHTML,
-      // Expose scales for customization
-      scales: {
-        spacing: spacingScale,
-        radius: radiusScale,
-        shadow: shadowScale,
-        fontSize: fontSizeScale
-      },
-      mappings: {
-        layout: layoutMappings,
-        visual: visualKeywords
+  var ARB_PREFIX = {
+    p: ["space", "p"],
+    px: ["space", "p-x"],
+    py: ["space", "p-y"],
+    pt: ["space", "p-t"],
+    pr: ["space", "p-r"],
+    pb: ["space", "p-b"],
+    pl: ["space", "p-l"],
+    m: ["space", "m"],
+    mx: ["space", "m-x"],
+    my: ["space", "m-y"],
+    mt: ["space", "m-t"],
+    mr: ["space", "m-r"],
+    mb: ["space", "m-b"],
+    ml: ["space", "m-l"],
+    gap: ["space", "g"],
+    "gap-x": ["space", "g-x"],
+    "gap-y": ["space", "g-y"],
+    w: ["space", "w"],
+    h: ["space", "h"],
+    "min-w": ["space", "min-w"],
+    "max-w": ["space", "max-w"],
+    "min-h": ["space", "min-h"],
+    "max-h": ["space", "max-h"],
+    size: ["space", "size"],
+    top: ["layout", "top"],
+    right: ["layout", "right"],
+    bottom: ["layout", "bottom"],
+    left: ["layout", "left"],
+    inset: ["layout", "inset"],
+    "inset-x": ["layout", "inset-x"],
+    "inset-y": ["layout", "inset-y"],
+    z: ["layout", "z"],
+    order: ["layout", "order"],
+    basis: ["layout", "basis"],
+    flex: ["layout", "flex"],
+    "grid-cols": ["layout", "grid-cols"],
+    "grid-rows": ["layout", "grid-rows"],
+    rounded: ["visual", "rounded"],
+    shadow: ["visual", "shadow"],
+    opacity: ["visual", "opacity"],
+    leading: ["visual", "leading"],
+    tracking: ["visual", "tracking"],
+    duration: ["visual", "duration"],
+    delay: ["visual", "delay"],
+    ring: ["visual", "ring"],
+    "ring-offset": ["visual", "ring-offset"],
+    outline: ["visual", "outline-w"],
+    "translate-x": ["visual", "translate-x"],
+    "translate-y": ["visual", "translate-y"],
+    indent: ["visual", "indent"],
+    content: ["visual", "content"],
+    fill: ["visual", "fill"],
+    stroke: ["visual", "stroke"],
+    accent: ["visual", "accent"],
+    caret: ["visual", "caret"],
+    decoration: ["visual", "decoration"],
+    from: ["visual", "from"],
+    via: ["visual", "via"],
+    to: ["visual", "to"],
+    "border-t": ["visual", "border-t"],
+    "border-b": ["visual", "border-b"],
+    "border-l": ["visual", "border-l"],
+    "border-r": ["visual", "border-r"]
+  };
+  var LENGTH = /^-?(\d*\.?\d+)(px|r?em|%|vh|vw|vmin|vmax|ch|ex|dvh|svh|lvh|cq[wh])$|^calc\(|^var\(|^clamp\(|^min\(|^max\(/;
+  var COLOR = /^(#[0-9a-fA-F]{3,8}|rgba?\(|hsla?\(|oklch\(|oklab\(|color-mix\(|var\(--|transparent$|currentColor$)/;
+  function convertArbitrary(base) {
+    const m = /^(-?)([a-z][a-z-]*?)-\[(.+)\]$/.exec(base);
+    if (!m) return null;
+    const [, neg, prefix, raw] = m;
+    const value = neg ? `[-${raw}]` : `[${raw}]`;
+    const plain = raw.replace(/_/g, " ");
+    if (ARB_PREFIX[prefix]) {
+      const [cat, prop] = ARB_PREFIX[prefix];
+      return { cat, val: `${prop}:${value}` };
+    }
+    if (prefix === "text") {
+      if (LENGTH.test(plain)) return { cat: "visual", val: `text-size:${value}` };
+      return { cat: "visual", val: `text:${value}` };
+    }
+    if (prefix === "bg") {
+      if (/^(url\(|linear-gradient|radial-gradient|conic-gradient|repeating-)/.test(plain)) return { cat: "visual", val: `bg-image:${value}` };
+      if (COLOR.test(plain) || !LENGTH.test(plain)) return { cat: "visual", val: `bg:${value}` };
+      return { cat: "visual", val: `bg-size:${value}` };
+    }
+    if (prefix === "border") {
+      if (LENGTH.test(plain) || NUM.test(plain)) return { cat: "visual", val: `border-w:${value}` };
+      return { cat: "visual", val: `border:${value}` };
+    }
+    if (prefix === "font") {
+      if (NUM.test(plain)) return { cat: "visual", val: `font:${value}` };
+      return { cat: "visual", val: `font-family:${value}` };
+    }
+    if (prefix === "grid-cols" || prefix === "grid-rows") return { cat: "layout", val: `${prefix}:${value}` };
+    if (asArb(value)) return null;
+    return null;
+  }
+
+  // src/converter/html.js
+  var RAW_TEXT = /* @__PURE__ */ new Set(["script", "style", "pre", "textarea"]);
+  var SS_ATTRS = ["layout", "space", "visual", "interact", "listens"];
+  function convertHTML(html, options) {
+    return rewriteClassAttributes(html, options).html;
+  }
+  function rewriteClassAttributes(html, options) {
+    const opts = typeof options === "boolean" ? { exact: options } : options || {};
+    const attrPrefix = opts.prefix ? opts.prefix.endsWith("-") ? opts.prefix : `${opts.prefix}-` : "";
+    const src = String(html ?? "");
+    let out = "";
+    let i = 0;
+    let converted = 0;
+    const unknown = /* @__PURE__ */ new Map();
+    while (i < src.length) {
+      const lt = src.indexOf("<", i);
+      if (lt === -1) {
+        out += src.slice(i);
+        break;
       }
+      out += src.slice(i, lt);
+      if (src.startsWith("<!--", lt)) {
+        const end = src.indexOf("-->", lt + 4);
+        const stop = end === -1 ? src.length : end + 3;
+        out += src.slice(lt, stop);
+        i = stop;
+        continue;
+      }
+      if (src[lt + 1] === "!" || src[lt + 1] === "?") {
+        const end = src.indexOf(">", lt);
+        const stop = end === -1 ? src.length : end + 1;
+        out += src.slice(lt, stop);
+        i = stop;
+        continue;
+      }
+      if (src[lt + 1] === "/") {
+        const end = src.indexOf(">", lt);
+        const stop = end === -1 ? src.length : end + 1;
+        out += src.slice(lt, stop);
+        i = stop;
+        continue;
+      }
+      const nm = /^<([A-Za-z][\w:.-]*)/.exec(src.slice(lt, lt + 200));
+      if (!nm) {
+        out += "<";
+        i = lt + 1;
+        continue;
+      }
+      const tag = nm[1];
+      const tagLower = tag.toLowerCase();
+      let j = lt + 1 + tag.length;
+      const attrs = [];
+      let selfClosing = false;
+      while (j < src.length) {
+        const c = src[j];
+        if (/\s/.test(c)) {
+          j++;
+          continue;
+        }
+        if (c === ">") {
+          j++;
+          break;
+        }
+        if (c === "/" && src[j + 1] === ">") {
+          selfClosing = true;
+          j += 2;
+          break;
+        }
+        const ns = j;
+        while (j < src.length && !/[\s=>/]/.test(src[j])) j++;
+        if (j === ns) {
+          j++;
+          continue;
+        }
+        const name = src.slice(ns, j);
+        let value = null, quote = "", kind = "none";
+        let k = j;
+        while (k < src.length && /\s/.test(src[k])) k++;
+        if (src[k] === "=") {
+          k++;
+          while (k < src.length && /\s/.test(src[k])) k++;
+          if (src[k] === '"' || src[k] === "'") {
+            quote = src[k];
+            const e = src.indexOf(quote, k + 1);
+            value = src.slice(k + 1, e === -1 ? src.length : e);
+            k = e === -1 ? src.length : e + 1;
+            kind = "quoted";
+          } else if (src[k] === "{") {
+            const e = findBrace(src, k);
+            const inner = src.slice(k + 1, e - 1).trim();
+            const lit = /^(["'`])([^"'`$]*)\1$/.exec(inner);
+            value = lit ? lit[2] : null;
+            quote = '"';
+            kind = lit ? "jsx" : "dynamic";
+            if (!lit) value = src.slice(k, e);
+            k = e;
+          } else {
+            let e = k;
+            while (e < src.length && !/[\s>]/.test(src[e])) e++;
+            value = src.slice(k, e);
+            k = e;
+            kind = "unquoted";
+            quote = '"';
+          }
+          j = k;
+        }
+        attrs.push({ name, value, quote, kind, raw: src.slice(ns, j) });
+      }
+      const classAttrIdx = attrs.findIndex((a) => /^class(Name)?$/i.test(a.name) && (a.kind === "quoted" || a.kind === "jsx" || a.kind === "unquoted"));
+      if (classAttrIdx === -1) {
+        out += src.slice(lt, j);
+      } else {
+        const classAttr = attrs[classAttrIdx];
+        const res = convertClasses(classAttr.value, opts);
+        converted++;
+        for (const u of res.unknown) unknown.set(u, (unknown.get(u) || 0) + 1);
+        const merged = {};
+        for (const a of SS_ATTRS) {
+          const existing = attrs.find((x) => x.name.toLowerCase() === `${attrPrefix}${a}` && x.kind !== "dynamic");
+          const tokens = [];
+          if (existing && existing.value) {
+            for (const t of existing.value.split(/\s+/)) if (t && !tokens.includes(t)) tokens.push(t);
+          }
+          for (const t of res[a]) if (!tokens.includes(t)) tokens.push(t);
+          merged[a] = tokens;
+        }
+        const esc = (v) => v.replace(/"/g, "&quot;");
+        const wrap = (name, val) => `${name}="${esc(val)}"`;
+        const pieces = [];
+        let injected = false;
+        for (let idx = 0; idx < attrs.length; idx++) {
+          const a = attrs[idx];
+          const lower = a.name.toLowerCase();
+          const ssType = SS_ATTRS.find((t) => `${attrPrefix}${t}` === lower);
+          if (ssType && a.kind !== "dynamic") continue;
+          if (idx === classAttrIdx) {
+            for (const t of SS_ATTRS) if (merged[t].length) pieces.push(wrap(`${attrPrefix}${t}`, merged[t].join(" ")));
+            if (res.unknown.length || opts.keepClass) {
+              const keep = opts.keepClass ? classAttr.value : res.unknown.join(" ");
+              if (keep) pieces.push(wrap(classAttr.name, keep));
+            }
+            injected = true;
+            continue;
+          }
+          pieces.push(a.raw);
+        }
+        if (!injected) {
+          for (const t of SS_ATTRS) if (merged[t].length) pieces.push(wrap(`${attrPrefix}${t}`, merged[t].join(" ")));
+        }
+        out += `<${tag}${pieces.length ? " " + pieces.join(" ") : ""}${selfClosing ? " />" : ">"}`;
+      }
+      i = j;
+      if (!selfClosing && RAW_TEXT.has(tagLower)) {
+        const close = src.toLowerCase().indexOf(`</${tagLower}`, i);
+        const stop = close === -1 ? src.length : close;
+        out += src.slice(i, stop);
+        i = stop;
+      }
+    }
+    return { html: out, converted, unknown };
+  }
+  function findBrace(src, start) {
+    let depth = 0;
+    let quote = null;
+    for (let i = start; i < src.length; i++) {
+      const ch = src[i];
+      if (quote) {
+        if (ch === "\\") i++;
+        else if (ch === quote) quote = null;
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === "`") quote = ch;
+      else if (ch === "{") depth++;
+      else if (ch === "}") {
+        depth--;
+        if (depth === 0) return i + 1;
+      }
+    }
+    return src.length;
+  }
+
+  // src/converter/index.js
+  function normalizeOptions(options) {
+    if (typeof options === "boolean") return { exact: options };
+    return { exact: false, ...options || {} };
+  }
+  function convertClass(twClass, options) {
+    const { exact } = normalizeOptions(options);
+    if (typeof twClass !== "string" || !twClass) return null;
+    const { variants, base, important } = splitClass(twClass);
+    let prefix = "";
+    const extras = [];
+    let needsGroup = false;
+    for (const v of variants) {
+      const r = convertVariant(v);
+      if (!r) return null;
+      prefix += `${r.prefix}:`;
+      if (r.extra) extras.push(r.extra);
+      if (r.needsGroup) needsGroup = true;
+    }
+    let result = convertExtra(base, exact);
+    if (result === void 0) result = convertBase(base, exact);
+    if (!result) result = convertArbitrary(base, exact);
+    if (!result) return null;
+    const list = Array.isArray(result) ? result : [result];
+    const out = [];
+    for (const r of list) {
+      if (!r || !r.val) continue;
+      if (r.cat === "interact" || r.cat === "listens") {
+        out.push(r);
+        continue;
+      }
+      const val = r.val.split(/\s+/).filter(Boolean).map((t) => `${important ? "!" : ""}${prefix}${t}`).join(" ");
+      out.push({ cat: r.cat, val });
+    }
+    for (const e of extras) out.push(e);
+    if (needsGroup) out.push({ cat: "meta", val: "needs-group" });
+    return out.length ? out : null;
+  }
+  function convertClasses(classString, options) {
+    const classes = String(classString || "").trim().split(/\s+/).filter(Boolean);
+    const out = { layout: [], space: [], visual: [], interact: [], listens: [], unknown: [] };
+    out.unrecognized = out.unknown;
+    const push = (arr, val) => {
+      for (const t of val.split(/\s+/)) if (t && !arr.includes(t)) arr.push(t);
     };
+    for (const cls of classes) {
+      const res = convertClass(cls, options);
+      if (!res) {
+        out.unknown.push(cls);
+        continue;
+      }
+      for (const r of res) {
+        if (r.cat === "meta") continue;
+        if (out[r.cat]) push(out[r.cat], r.val);
+      }
+    }
+    return out;
   }
+
+  // src/cdn/tw-conversion-engine.js
+  var api = {
+    convertClass,
+    convertClasses,
+    convertHTML,
+    rewriteClassAttributes,
+    scales: { spacing: spacingScale, radius: radiusScale, shadow: shadowScale, fontSize: fontSizeScale },
+    mappings: { layout: layoutMappings, visual: visualKeywords }
+  };
+  if (typeof window !== "undefined") window.SenangStartTW = api;
+  var tw_conversion_engine_default = api;
 })();
 //# sourceMappingURL=senangstart-tw.js.map

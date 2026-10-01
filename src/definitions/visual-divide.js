@@ -218,12 +218,43 @@ export const divideStyle = {
   ]
 };
 
+// ======================
+// SPACE BETWEEN CHILDREN (space-x / space-y)
+// ======================
+
+export const spaceBetween = {
+  name: 'space-between',
+  property: 'visual',
+  syntax: 'visual="space-x:[value]" or visual="space-y:[value]"',
+  description: 'Add space between direct children (margin on every child after the first), like Tailwind space-x/space-y',
+  descriptionMs: 'Tambah ruang antara anak langsung (margin pada setiap anak selepas yang pertama)',
+  category: 'visual',
+  usesScale: 'spacing',
+  supportsArbitrary: true,
+  engine: {
+    utilities: {
+      'space-x': { template: 'margin-left: {value};', scale: 'spacing', arbitrary: true, negatable: true },
+      'space-y': { template: 'margin-top: {value};', scale: 'spacing', arbitrary: true, negatable: true }
+    }
+  },
+  values: [
+    { property: 'space-x', css: 'margin-left: var(--s-{value});', description: 'Horizontal space between children', descriptionMs: 'Ruang mendatar antara anak' },
+    { property: 'space-y', css: 'margin-top: var(--s-{value});', description: 'Vertical space between children', descriptionMs: 'Ruang menegak antara anak' }
+  ],
+  scaleValues: ['none', 'tiny', 'small', 'medium', 'large', 'big', 'giant'],
+  examples: [
+    { code: '<ul visual="space-y:small"><li>a</li><li>b</li></ul>', description: 'Vertical rhythm between list items' },
+    { code: '<nav layout="flex" visual="space-x:medium">…</nav>', description: 'Horizontal spacing without gap' }
+  ]
+};
+
 // Export all divide definitions
 export const divideDefinitions = {
   divideColor,
   divideWidth,
   divideStyle,
-  divideReverse
+  divideReverse,
+  spaceBetween
 };
 
 export default divideDefinitions;

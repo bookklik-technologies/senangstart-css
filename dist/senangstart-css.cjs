@@ -375,7 +375,7 @@ function attrName(type, configOrPrefix) {
 }
 
 // src/core/value-grammar.js
-var ALLOWED_CHARS = /^[A-Za-z0-9 _.%#,/+*'"()!:-]*$/;
+var ALLOWED_CHARS = /^[A-Za-z0-9 _.%#,/+*'"()!:\u00A0-\uFFFF-]*$/;
 var FORBIDDEN_CHARS = /[{};<>\\\n\r\t@`$]/;
 var DANGEROUS_URL = /url\s*\(\s*['"]?\s*(javascript|data|vbscript|file|about)\s*:/i;
 var DANGEROUS_CALLS = /\b(expression|eval|alert)\s*\(/i;
@@ -8444,11 +8444,37 @@ var divideStyle = {
     }
   ]
 };
+var spaceBetween = {
+  name: "space-between",
+  property: "visual",
+  syntax: 'visual="space-x:[value]" or visual="space-y:[value]"',
+  description: "Add space between direct children (margin on every child after the first), like Tailwind space-x/space-y",
+  descriptionMs: "Tambah ruang antara anak langsung (margin pada setiap anak selepas yang pertama)",
+  category: "visual",
+  usesScale: "spacing",
+  supportsArbitrary: true,
+  engine: {
+    utilities: {
+      "space-x": { template: "margin-left: {value};", scale: "spacing", arbitrary: true, negatable: true },
+      "space-y": { template: "margin-top: {value};", scale: "spacing", arbitrary: true, negatable: true }
+    }
+  },
+  values: [
+    { property: "space-x", css: "margin-left: var(--s-{value});", description: "Horizontal space between children", descriptionMs: "Ruang mendatar antara anak" },
+    { property: "space-y", css: "margin-top: var(--s-{value});", description: "Vertical space between children", descriptionMs: "Ruang menegak antara anak" }
+  ],
+  scaleValues: ["none", "tiny", "small", "medium", "large", "big", "giant"],
+  examples: [
+    { code: '<ul visual="space-y:small"><li>a</li><li>b</li></ul>', description: "Vertical rhythm between list items" },
+    { code: '<nav layout="flex" visual="space-x:medium">\u2026</nav>', description: "Horizontal spacing without gap" }
+  ]
+};
 var divideDefinitions = {
   divideColor,
   divideWidth,
   divideStyle,
-  divideReverse
+  divideReverse,
+  spaceBetween
 };
 var visual_divide_default = divideDefinitions;
 
@@ -9092,7 +9118,7 @@ function buildRegistry(definitions) {
     visual: definitions_default.visual
   };
   const registry = new Registry();
-  const markers = /* @__PURE__ */ new Set(["disabled"]);
+  const markers = /* @__PURE__ */ new Set(["disabled", "checkable"]);
   for (const v of Object.values(STATE_VARIANTS)) if (v.group) markers.add(v.group);
   for (const key of markers) {
     registry.addKeyword({ ...baseEntry({ name: "state-capability" }, "layout", key), kind: "marker", css: null, order: 0, group: key });
@@ -10848,10 +10874,10 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
     if (!token.isArbitrary) {
       cssDeclaration = cssDeclaration.replace(/var\(--c-current\)/g, "currentColor").replace(/var\(--c-inherit\)/g, "inherit").replace(/(flex-basis:\s*)var\(--s-(auto|0)\)/g, (_, p1, v) => `${p1}${v === "0" ? "0px" : v}`);
     }
-    const isDivide = raw && raw.startsWith("divide");
+    const isDivide = raw && (/(^|:)divide/.test(raw) || /(^|:)space-[xy]:/.test(raw));
     let selector = "";
     if (isDivide) {
-      selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
+      selector = `:where([${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]))`;
     } else {
       selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"]`;
     }
@@ -10870,7 +10896,7 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
         cssDeclaration = `content: var(--ss-content, ""); ${cssDeclaration}`;
       }
       if (isDivide) {
-        selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
+        selector = `:where([${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]))${suffix}`;
       } else {
         const selectors = [`${selector}${suffix}`];
         const groupTriggers = {
@@ -10879,7 +10905,8 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
           "focus-visible": ["focusable", ":focus-within"],
           active: ["pressable", ":active"],
           expanded: ["expandable", '[aria-expanded="true"]'],
-          selected: ["selectable", '[aria-selected="true"]']
+          selected: ["selectable", '[aria-selected="true"]'],
+          checked: ["checkable", ":checked"]
         };
         const only = stateVs.length === 1 ? groupTriggers[stateVs[0].name] : null;
         const L = attrName("layout", config);

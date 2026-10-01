@@ -1,0 +1,24 @@
+<!-- Variant machinery, probed statically (viewport is 1280px wide → sm/md/lg apply). -->
+<section>
+  <ul class="space-y-3 divide-y divide-gray-200" data-probe="list|display,@h">
+    <li class="py-2 first:pt-0 last:pb-0 odd:bg-gray-50 even:bg-white" data-probe="li1|padding-top,padding-bottom,background-color,@y,@h">one</li>
+    <li class="py-2 first:pt-0 last:pb-0 odd:bg-gray-50 even:bg-white" data-probe="li2|padding-top,padding-bottom,background-color,@y,@h">two</li>
+    <li class="py-2 first:pt-0 last:pb-0 odd:bg-gray-50 even:bg-white" data-probe="li3|padding-top,padding-bottom,background-color,@y,@h">three</li>
+  </ul>
+
+  <div class="p-2 md:p-8 lg:px-12 max-lg:hidden sm:block text-sm md:text-lg" data-probe="responsive|padding-top,padding-left,display,font-size">responsive</div>
+
+  <p class="!mt-0 mt-10 text-[15px] leading-[1.7] tracking-[0.2em] w-[calc(100%-2rem)] [text-decoration:underline_dotted]"
+     data-probe="arbitrary|margin-top,font-size,line-height,letter-spacing,width,text-decoration-line,text-decoration-style">arbitrary</p>
+
+  <button aria-pressed="true" data-state="open" class="px-3 aria-pressed:bg-blue-700 data-[state=open]:rounded-full data-[state=open]:text-white"
+          data-probe="attr|background-color,border-top-left-radius,color">attr</button>
+
+  <figure class="p-1 has-[img]:p-6" data-probe="has|padding-top"><img alt="" width="1" height="1"></figure>
+
+  <blockquote class="relative pl-6 before:content-['“'] before:absolute before:left-0 before:text-4xl before:text-gray-400" data-probe="quote|position,padding-left">q</blockquote>
+
+  <div class="rotate-45 scale-110 translate-x-4 skew-x-6 origin-top-left" data-probe="transform|rotate,scale,translate,transform,transform-origin"></div>
+
+  <nav class="flex gap-2 rtl:flex-row-reverse print:hidden motion-reduce:transition-none" data-probe="media|display,flex-direction,column-gap"></nav>
+</section>

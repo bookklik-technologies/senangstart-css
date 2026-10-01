@@ -467,7 +467,7 @@ export function buildRegistry(definitions) {
   const registry = new Registry();
 
   // Capability markers (hoverable, focusable, …) produce no CSS and no diagnostics.
-  const markers = new Set(['disabled']);
+  const markers = new Set(['disabled', 'checkable']);
   for (const v of Object.values(STATE_VARIANTS)) if (v.group) markers.add(v.group);
   for (const key of markers) {
     registry.addKeyword({ ...baseEntry({ name: 'state-capability' }, 'layout', key), kind: 'marker', css: null, order: 0, group: key });

@@ -17,7 +17,7 @@
  * returned reason into a diagnostic (code INVALID_VALUE).
  */
 
-const ALLOWED_CHARS = /^[A-Za-z0-9 _.%#,/+*'"()!:-]*$/;
+const ALLOWED_CHARS = /^[A-Za-z0-9 _.%#,/+*'"()!:\u00A0-\uFFFF-]*$/; // non-ASCII printable text is allowed (content: "“")
 const FORBIDDEN_CHARS = /[{};<>\\\n\r\t@`$]/;
 const DANGEROUS_URL = /url\s*\(\s*['"]?\s*(javascript|data|vbscript|file|about)\s*:/i;
 const DANGEROUS_CALLS = /\b(expression|eval|alert)\s*\(/i;

@@ -217,14 +217,15 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
     }
 
     // Check if this is a divide utility (needs special selector)
-    const isDivide = raw && raw.startsWith('divide');
+    // divide-* and space-x/space-y style the children after the first
+    const isDivide = raw && (/(^|:)divide/.test(raw) || /(^|:)space-[xy]:/.test(raw));
 
     // Build selector
     let selector = '';
 
     if (isDivide) {
       // Divide utilities use special child selector pattern
-      selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
+      selector = `:where([${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]))`;
     } else {
       selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"]`;
     }
@@ -250,7 +251,7 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
       }
 
       if (isDivide) {
-        selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
+        selector = `:where([${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]))${suffix}`;
       } else {
         const selectors = [`${selector}${suffix}`];
 
@@ -261,7 +262,8 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
           'focus-visible': ['focusable', ':focus-within'],
           active: ['pressable', ':active'],
           expanded: ['expandable', '[aria-expanded="true"]'],
-          selected: ['selectable', '[aria-selected="true"]']
+          selected: ['selectable', '[aria-selected="true"]'],
+          checked: ['checkable', ':checked']
         };
         const only = stateVs.length === 1 ? groupTriggers[stateVs[0].name] : null;
         const L = attrName('layout', config);

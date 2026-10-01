@@ -63,7 +63,12 @@
     "./html-data": "./types/senang.html-data.json",
     "./data": "./types/senang-data.json",
     "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./converter": {
+      "types": "./types/converter.d.ts",
+      "import": "./src/converter/index.js",
+      "default": "./src/converter/index.js"
+    }
   },
   "sideEffects": [
     "./src/cli/**",
@@ -114,7 +119,8 @@
     "lint:all": "npm run lint && npm run lint:css",
     "typecheck": "tsc -p tests/types/tsconfig.json",
     "golden": "node tests/golden/build-golden.mjs --check",
-    "size": "size-limit"
+    "size": "size-limit",
+    "test:conformance": "playwright test --config playwright.conformance.config.js"
   },
   "keywords": [
     "css",
@@ -158,12 +164,14 @@
     "@eslint/js": "^9.0.0",
     "@playwright/test": "^1.60.0",
     "@size-limit/file": "^14.1.0",
+    "@tailwindcss/node": "^4.3.3",
     "esbuild": "^0.27.2",
     "eslint": "^9.0.0",
     "http-server": "^14.1.1",
     "size-limit": "^14.1.0",
     "stylelint": "^17.11.1",
     "stylelint-config-standard": "^40.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vitepress": "^1.6.4"
   },

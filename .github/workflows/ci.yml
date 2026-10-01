@@ -124,6 +124,8 @@ jobs:
         run: npm run build:dist
       - name: Run JIT engine browser tests
         run: npm run test:jit
+      - name: Tailwind → SenangStart conformance (computed styles)
+        run: npm run test:conformance
 
   visual:
     name: Visual Regression

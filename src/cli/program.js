@@ -12,6 +12,7 @@ import { Command } from 'commander';
 import { init } from './commands/init.js';
 import { build } from './commands/build.js';
 import { dev } from './commands/dev.js';
+import { convert } from './commands/convert.js';
 import { configureLogger } from '../utils/logger.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -87,6 +88,18 @@ export function createProgram() {
     .option('--content <glob...>', 'Override content globs')
     .option('--cwd <dir>', 'Project root (default: current directory)')
     .action((opts, cmd) => dev({ ...opts, ...pickGlobals(cmd) }));
+
+  program
+    .command('convert [inputs...]')
+    .description('Convert Tailwind class attributes to SenangStart attributes (HTML, Blade, JSX…)')
+    .option('-s, --string [html]', 'Convert an inline HTML string')
+    .option('-o, --output <path>', 'Write the result to a file (single input)')
+    .option('-w, --write', 'Rewrite input files in place')
+    .option('--exact', "Keep Tailwind's numeric scale (p:tw-4) instead of the semantic scale")
+    .option('--prefix <prefix>', 'Attribute prefix to emit (matches config.prefix)')
+    .option('--keep-class', 'Keep the original class attribute alongside the converted attributes')
+    .option('--cwd <dir>', 'Project root (default: current directory)')
+    .action(async (inputs, opts, cmd) => { process.exitCode = await convert(inputs, { ...opts, ...pickGlobals(cmd) }); });
 
   return program;
 }

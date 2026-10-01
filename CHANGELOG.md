@@ -65,6 +65,15 @@ All notable changes to SenangStart CSS will be documented in this file.
 - `prefix` option: `prefix: 'ss'` → `ss-layout` / `ss-space` / `ss-visual` (and `ss-interact` / `ss-listens`) in the extractor, generator, preflight and browser JIT; unprefixed attributes are then ignored.
 - Plugin API: `utilities`, `variants`, `theme.keyframes`, `theme.animation` config keys and functional `plugins: [({ addUtilities, addVariants, addKeyframes, addAnimation, theme }) => …]`. See `docs/guide/plugins.md`.
 
+### Changed — Tailwind converter
+- One implementation (`src/converter`, exported as `@bookklik/senangstart-css/converter`) replaces the two divergent copies; `scripts/convert-tailwind.js` and the browser bundle (`window.SenangStartTW`) are thin wrappers. New CLI command: `senangstart convert <files|globs> [--write|-o out] [--exact] [--prefix ss] [--keep-class]` and `--string`.
+- Proper HTML rewriting: quote-aware tag scanner; comments, `<script>`, `<style>`, `<pre>`, `<textarea>`, `data-class`, `:class` and dynamic `class={expr}` are left untouched; JSX `className="…"`/`className={"…"}`; existing `layout`/`space`/`visual` attributes are merged. The old regex corrupted attributes containing apostrophes and rewrote `data-class`.
+- Converts stacked variants (`md:dark:hover:`), `!` (both forms), `max-*`, `@container` sizes, `first/last/odd/even/before/after/…`, `aria-*`, `data-*`, `has-[]`, `not-*`, `group-*`/`peer-*`, media variants, arbitrary values with type detection (`text-[14px]` → `text-size`, `bg-[url()]` → `bg-image`) and arbitrary properties.
+- Fixes: `rounded-t-lg` kept its side (was `rounded`), `w-full`/`w-min`/`w-1/2` use named values, `border`/`border-2` are pixel widths in exact mode (were spacing), Tailwind **v4** shadow names in exact mode, `translate-z`, `rotate/scale/skew`, `space-x/space-y` (new `visual="space-y:…"` utility), named `max-w-*` sizes, `mask-*`, `perspective-*`, `origin-*`.
+- `divide-*` and `space-*` child selectors are wrapped in `:where()` so utilities on the children win (as in Tailwind).
+- New **conformance suite** (`npm run test:conformance`, runs in CI): Tailwind markup is rendered with Tailwind v4 CSS and, converted in exact mode, with SenangStart CSS; computed styles of probed elements must match (palette deltas between v4 oklch and v3 hex are reported and bounded).
+- Value grammar accepts non-ASCII printable text (`content:['“']`).
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING

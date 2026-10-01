@@ -6,7 +6,7 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { convertClass, convertClasses, convertHTML, spacingScale } from '../../scripts/convert-tailwind.js';
+import { convertClass, convertClasses, convertHTML, spacingScale } from '../helpers/converter-compat.js';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -205,7 +205,8 @@ describe('convertClass', () => {
 
     it('should handle hover/focus prefixes', () => {
       assert.deepStrictEqual(convertClass('hover:bg-blue-600'), { category: 'visual', value: 'hover:bg:blue-600' });
-      assert.strictEqual(convertClass('focus:ring'), null);
+      // 0.4.0: ring utilities exist, so focus:ring converts
+      assert.deepStrictEqual(convertClass('focus:ring'), { category: 'visual', value: 'focus:ring:small' });
     });
   });
 

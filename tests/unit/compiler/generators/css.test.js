@@ -2699,7 +2699,7 @@ describe('CSS Generator', () => {
       const config = createTestConfig();
       const css = generateCSS([token], config);
       // Divide utilities with state add the pseudo-class to the child selector
-      assert.ok(css.includes('> :not([hidden]) ~ :not([hidden]):hover'), 'Should include divide child selector with hover');
+      assert.ok(css.includes('> :not([hidden]) ~ :not([hidden])):hover'), 'Should include divide child selector with hover'); // 0.4.0: :where() wrapper
       assert.ok(css.includes('border-color: var(--c-primary)'));
     });
 

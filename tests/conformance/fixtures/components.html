@@ -1,0 +1,34 @@
+<!-- Each element with data-probe="name|prop1,prop2" is compared between the Tailwind
+     render and the converted SenangStart render (exact mode). Keep snippets static. -->
+<section>
+  <nav class="flex items-center justify-between p-4 bg-white border-b border-gray-200 shadow-sm"
+       data-probe="nav|display,align-items,justify-content,padding-top,padding-left,background-color,border-bottom-width,border-bottom-color,box-shadow">
+    <span class="text-xl font-bold text-gray-900 tracking-tight" data-probe="brand|font-size,font-weight,color,letter-spacing">Brand</span>
+    <ul class="flex gap-6 text-sm text-gray-600 uppercase" data-probe="menu|display,column-gap,font-size,color,text-transform">
+      <li class="underline" data-probe="menu-item|text-decoration-line">Docs</li>
+    </ul>
+  </nav>
+
+  <div class="grid grid-cols-3 gap-4 p-8 bg-gray-50" data-probe="grid|display,grid-template-columns,column-gap,row-gap,padding-top,background-color">
+    <article class="rounded-lg bg-white p-6 shadow-md border border-gray-100" data-probe="card|border-top-left-radius,background-color,padding-top,box-shadow,border-top-width,border-top-color">
+      <h3 class="text-lg font-semibold mb-2 text-gray-800" data-probe="card-title|font-size,font-weight,margin-bottom,color">Title</h3>
+      <p class="text-gray-500 leading-relaxed" data-probe="card-text|color,line-height">Body copy.</p>
+      <button class="mt-4 inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-white font-medium opacity-90"
+              data-probe="button|margin-top,display,border-top-left-radius,background-color,padding-left,padding-top,color,font-weight,opacity">Go</button>
+    </article>
+    <div class="col-span-2 flex flex-col justify-end" data-probe="span|grid-column-start,grid-column-end,display,flex-direction,justify-content">
+      <div class="h-24 w-full rounded-full bg-emerald-500" data-probe="pill|height,border-top-left-radius,background-color"></div>
+    </div>
+  </div>
+
+  <form class="max-w-md mx-auto space-y-0 p-6" data-probe="form|max-width,margin-left,padding-top">
+    <input class="w-full rounded border border-gray-300 px-3 py-2 text-base" placeholder="x"
+           data-probe="input|border-top-left-radius,border-top-width,border-top-color,padding-left,padding-top,font-size">
+    <label class="block text-sm font-medium text-gray-700 mt-1" data-probe="label|display,font-size,font-weight,color,margin-top">Label</label>
+  </form>
+
+  <footer class="relative overflow-hidden text-center italic text-xs text-gray-400 py-12 px-2 -mt-2"
+          data-probe="footer|position,overflow-x,text-align,font-style,font-size,color,padding-top,padding-left,margin-top">
+    <span class="absolute inset-0 z-10 opacity-50" data-probe="overlay|position,top,left,z-index,opacity"></span>
+  </footer>
+</section>

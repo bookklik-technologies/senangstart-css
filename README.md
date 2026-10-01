@@ -102,54 +102,43 @@ await watcher.close();
 
 ## Tailwind CSS Converter
 
-Migrate from Tailwind to SenangStart with the built-in converter:
+Migrate from Tailwind with the built-in converter (ships in the package since 0.4.0):
 
 ```bash
-# From the SenangStart repository (scripts/ is not shipped in the npm package)
-git clone https://github.com/bookklik-technologies/senangstart-css.git
-cd senangstart-css
-
-# Convert HTML file
-node scripts/convert-tailwind.js input.html -o output.html
-
-# Convert inline string
-node scripts/convert-tailwind.js --string "<div class='flex p-4 bg-blue-500'>"
-```
-
-Or use the browser bundle (no build step):
-
-```html
-<script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-tw.min.js"></script>
-<script>
-  console.log(window.SenangStartTW.convertHTML('<div class="flex p-4">Hi</div>'));
-</script>
+npx senangstart convert input.html -o output.html      # one file
+npx senangstart convert "resources/views/**/*.blade.php" --write   # in place
+npx senangstart convert --string '<div class="flex p-4 md:hover:bg-blue-500">'
 ```
 
 **Before (Tailwind):**
 ```html
-<div class="flex items-center p-8 bg-blue-500 text-white rounded-lg">
+<div class="flex items-center p-8 bg-blue-500 text-white rounded-lg md:dark:hover:bg-blue-600">
 ```
 
 **After (SenangStart):**
 ```html
-<div layout="flex items:center" space="p:big" visual="bg:blue-500 text:white rounded:medium">
+<div layout="flex items:center" space="p:large" visual="bg:blue-500 text:white rounded:medium tw-md:dark:hover:bg:blue-600">
 ```
 
-### Exact Mode (tw- prefix)
+Stacked variants, `!important`, `max-*`, `@container`, `aria-*`/`data-*`/`has-[]`, `group-*`/`peer-*`,
+arbitrary values and arbitrary properties are converted. Classes SenangStart cannot express stay in
+`class=""` and are listed at the end. Comments, `<script>`/`<style>` content, `data-class` and dynamic
+bindings are left untouched.
 
-Use `--exact` to preserve Tailwind's numeric scale with `tw-` prefix:
+### Exact mode
 
-```bash
-node scripts/convert-tailwind.js --exact --string "<div class='p-4 rounded-lg'>"
-# Output: space="p:tw-4" visual="rounded:tw-lg"
+`--exact` keeps Tailwind's numeric scale so the result renders pixel-identically (`p-4` → `p:tw-4`,
+`rounded-lg` → `rounded:tw-lg`). Without it, values map to SenangStart's semantic scale (`p-4` → `p:medium`).
+A Playwright **conformance suite** (`npm run test:conformance`) renders Tailwind markup with Tailwind v4 CSS
+and the exact-mode conversion with SenangStart CSS and compares computed styles.
+
+Programmatic and browser use:
+
+```js
+import { convertHTML, convertClasses } from '@bookklik/senangstart-css/converter';
+// browser: <script src="https://unpkg.com/@bookklik/senangstart-css/dist/senangstart-tw.min.js"></script>
+//          window.SenangStartTW.convertHTML('<div class="flex p-4">Hi</div>')
 ```
-
-| Tailwind | Semantic | Exact (tw-) |
-|----------|----------|-------------|
-| `p-4` | `p:small` | `p:tw-4` |
-| `mt-8` | `m-t:big` | `m-t:tw-8` |
-| `rounded-lg` | `rounded:medium` | `rounded:tw-lg` |
-| `text-2xl` | `text-size:giant` | `text-size:tw-2xl` |
 
 ## Documentation
 

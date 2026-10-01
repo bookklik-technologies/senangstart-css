@@ -13,7 +13,7 @@ SenangStart provides a [Tailwind conversion engine](https://unpkg.com/@bookklik/
 ```bash
 git clone https://github.com/bookklik-technologies/senangstart-css.git
 cd senangstart-css
-node scripts/convert-tailwind.js /path/to/input.html -o /path/to/output.html
+npx senangstart convert /path/to/input.html -o /path/to/output.html   # add --exact for pixel-identical output
 ```
 
 **Option B — Browser (anywhere, via CDN):**

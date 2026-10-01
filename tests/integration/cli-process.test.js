@@ -241,7 +241,7 @@ describe('CLI (child_process)', () => {
     const info = JSON.parse(res.stdout.trim());
     assert.equal(info.hasProgram, true);
     assert.equal(info.hasFactory, true);
-    assert.deepEqual(info.cmds.sort(), ['build', 'dev', 'init']);
+    assert.deepEqual(info.cmds.sort(), ['build', 'convert', 'dev', 'init']);
     assert.ok(!existsSync(join(dir, 'public')), 'importing must not build anything');
   });
 
