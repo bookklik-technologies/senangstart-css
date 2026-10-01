@@ -79,3 +79,25 @@ describe('prefix option', () => {
     assert.ok(a.includes('[ss-layout~="container"] {\n    max-width'));
   });
 });
+
+describe('gradients', () => {
+  test('angles, radial, conic and stop positions', () => {
+    const { u, errors } = util('<b visual="bg-image:gradient-[45deg] bg-image:radial-[at_top] bg-image:conic-[from_90deg] bg-image:radial from:blue-500 via:white to:red-500 from-pos:10 via-pos:60 to-pos:[95%]"></b>');
+    assert.deepEqual(errors, []);
+    assert.ok(u.includes('linear-gradient(45deg, var(--ss-gradient-stops, transparent))'));
+    assert.ok(u.includes('radial-gradient(at top, var(--ss-gradient-stops, transparent))'));
+    assert.ok(u.includes('conic-gradient(from 90deg, var(--ss-gradient-stops, transparent))'));
+    assert.ok(u.includes('--ss-gradient-from-position: 10%'));
+    assert.ok(u.includes('--ss-gradient-via-position: 60%'));
+    assert.ok(u.includes('--ss-gradient-to-position: 95%'));
+    assert.ok(u.includes('--ss-gradient-via: var(--c-white)'));
+  });
+  test('gradient variables are registered as non-inheriting @property when used', () => {
+    const { css } = compileSource('<b visual="from:blue-500"></b>', { preflight: false });
+    assert.ok(css.includes('@property --ss-gradient-from { syntax: "*"; inherits: false; }'));
+  });
+  test('injection via a gradient pattern is rejected', () => {
+    const { u } = util('<b visual="bg-image:gradient-[45deg)}body{x:y;(]"></b>');
+    assert.ok(!u.includes('body'));
+  });
+});

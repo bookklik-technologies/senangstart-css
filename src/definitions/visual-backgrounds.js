@@ -11,7 +11,27 @@ export const backgroundImage = {
   name: 'background-image',
   property: 'visual',
   syntax: 'visual="bg-image:[value]"',
-  engine: { arbitraryWrap: 'url', enum: { 'gradient-to-t': 'background-image: linear-gradient(to top, var(--ss-gradient-stops, transparent));', 'gradient-to-tr': 'background-image: linear-gradient(to top right, var(--ss-gradient-stops, transparent));', 'gradient-to-r': 'background-image: linear-gradient(to right, var(--ss-gradient-stops, transparent));', 'gradient-to-br': 'background-image: linear-gradient(to bottom right, var(--ss-gradient-stops, transparent));', 'gradient-to-b': 'background-image: linear-gradient(to bottom, var(--ss-gradient-stops, transparent));', 'gradient-to-bl': 'background-image: linear-gradient(to bottom left, var(--ss-gradient-stops, transparent));', 'gradient-to-l': 'background-image: linear-gradient(to left, var(--ss-gradient-stops, transparent));', 'gradient-to-tl': 'background-image: linear-gradient(to top left, var(--ss-gradient-stops, transparent));' } },
+  engine: {
+    arbitraryWrap: 'url',
+    enum: {
+      'gradient-to-t': 'background-image: linear-gradient(to top, var(--ss-gradient-stops, transparent));',
+      'gradient-to-tr': 'background-image: linear-gradient(to top right, var(--ss-gradient-stops, transparent));',
+      'gradient-to-r': 'background-image: linear-gradient(to right, var(--ss-gradient-stops, transparent));',
+      'gradient-to-br': 'background-image: linear-gradient(to bottom right, var(--ss-gradient-stops, transparent));',
+      'gradient-to-b': 'background-image: linear-gradient(to bottom, var(--ss-gradient-stops, transparent));',
+      'gradient-to-bl': 'background-image: linear-gradient(to bottom left, var(--ss-gradient-stops, transparent));',
+      'gradient-to-l': 'background-image: linear-gradient(to left, var(--ss-gradient-stops, transparent));',
+      'gradient-to-tl': 'background-image: linear-gradient(to top left, var(--ss-gradient-stops, transparent));',
+      radial: 'background-image: radial-gradient(var(--ss-gradient-stops, transparent));',
+      conic: 'background-image: conic-gradient(var(--ss-gradient-stops, transparent));'
+    },
+    // gradient-[45deg], gradient-[to_right_in_oklch], radial-[at_top], radial-[circle_at_center], conic-[from_90deg]
+    patterns: [
+      { re: '^gradient-\\[(.+)\\]$', template: 'background-image: linear-gradient($1, var(--ss-gradient-stops, transparent));' },
+      { re: '^radial-\\[(.+)\\]$', template: 'background-image: radial-gradient($1, var(--ss-gradient-stops, transparent));' },
+      { re: '^conic-\\[(.+)\\]$', template: 'background-image: conic-gradient($1, var(--ss-gradient-stops, transparent));' }
+    ]
+  },
   description: 'Set background image or gradient',
   descriptionMs: 'Tetapkan imej latar atau gradien',
   category: 'visual',
@@ -648,7 +668,7 @@ export const gradientFrom = {
   name: 'gradient-from',
   property: 'visual',
   syntax: 'visual="from:[color]/[opacity]"',
-  engine: { valuesAreExamples: true, template: '--ss-gradient-from: {value}; --ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to);' },
+  engine: { valuesAreExamples: true, template: '--ss-gradient-from: {value}; --ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%));', utilities: { 'from-pos': { template: '--ss-gradient-from-position: {value};', scale: null, numeric: { unit: '%' }, arbitrary: true } } },
   description: 'Set gradient start color',
   descriptionMs: 'Tetapkan warna mula gradien',
   category: 'visual',
@@ -680,7 +700,7 @@ export const gradientVia = {
   name: 'gradient-via',
   property: 'visual',
   syntax: 'visual="via:[color]/[opacity]"',
-  engine: { valuesAreExamples: true, template: '--ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), {value}, var(--ss-gradient-to);' },
+  engine: { valuesAreExamples: true, template: '--ss-gradient-via: {value}; --ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%); --ss-gradient-stops: var(--ss-gradient-via-stops);', utilities: { 'via-pos': { template: '--ss-gradient-via-position: {value};', scale: null, numeric: { unit: '%' }, arbitrary: true } } },
   description: 'Set gradient middle color',
   descriptionMs: 'Tetapkan warna tengah gradien',
   category: 'visual',
@@ -710,7 +730,7 @@ export const gradientTo = {
   name: 'gradient-to',
   property: 'visual',
   syntax: 'visual="to:[color]/[opacity]"',
-  engine: { valuesAreExamples: true, template: '--ss-gradient-to: {value};' },
+  engine: { valuesAreExamples: true, template: '--ss-gradient-to: {value}; --ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%));', utilities: { 'to-pos': { template: '--ss-gradient-to-position: {value};', scale: null, numeric: { unit: '%' }, arbitrary: true } } },
   description: 'Set gradient end color',
   descriptionMs: 'Tetapkan warna akhir gradien',
   category: 'visual',

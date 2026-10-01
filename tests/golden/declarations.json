@@ -2701,120 +2701,132 @@
  ],
  "visual=from:primary": [
   "--ss-gradient-from: var(--c-primary)",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:blue-500": [
   "--ss-gradient-from: var(--c-blue-500)",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:white": [
   "--ss-gradient-from: var(--c-white)",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:black": [
   "--ss-gradient-from: var(--c-black)",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:gray-100": [
   "--ss-gradient-from: var(--c-gray-100)",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:transparent": [
   "--ss-gradient-from: transparent",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:current": [
   "--ss-gradient-from: currentColor",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:primary/50": [
   "--ss-gradient-from: color-mix(in srgb, var(--c-primary) 50%, transparent)",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=from:[13px]": [
   "--ss-gradient-from: 13px",
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%))"
  ],
  "visual=via:purple-500": [
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-purple-500), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: var(--c-purple-500)"
  ],
  "visual=via:primary": [
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-primary), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: var(--c-primary)"
  ],
  "visual=via:white": [
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-white), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: var(--c-white)"
  ],
  "visual=via:black": [
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-black), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: var(--c-black)"
  ],
  "visual=via:blue-500": [
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-blue-500), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: var(--c-blue-500)"
  ],
  "visual=via:gray-100": [
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-gray-100), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: var(--c-gray-100)"
  ],
  "visual=via:transparent": [
-  "--ss-gradient-stops: var(--ss-gradient-from), transparent, var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: transparent"
  ],
  "visual=via:current": [
-  "--ss-gradient-stops: var(--ss-gradient-from), currentColor, var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: currentColor"
  ],
  "visual=via:primary/50": [
-  "--ss-gradient-stops: var(--ss-gradient-from), color-mix(in srgb, var(--c-primary) 50%, transparent), var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: color-mix(in srgb, var(--c-primary) 50%, transparent)"
  ],
  "visual=via:[13px]": [
-  "--ss-gradient-stops: var(--ss-gradient-from), 13px, var(--ss-gradient-to)",
-  "--ss-gradient-to: rgb(255 255 255 / 0)"
+  "--ss-gradient-stops: var(--ss-gradient-via-stops)",
+  "--ss-gradient-via-stops: var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-via) var(--ss-gradient-via-position, 50%), var(--ss-gradient-to, transparent) var(--ss-gradient-to-position, 100%)",
+  "--ss-gradient-via: 13px"
  ],
  "visual=to:purple-500": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: var(--c-purple-500)"
  ],
  "visual=to:pink-500": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: var(--c-pink-500)"
  ],
  "visual=to:primary": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: var(--c-primary)"
  ],
  "visual=to:white": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: var(--c-white)"
  ],
  "visual=to:black": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: var(--c-black)"
  ],
  "visual=to:blue-500": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: var(--c-blue-500)"
  ],
  "visual=to:gray-100": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: var(--c-gray-100)"
  ],
  "visual=to:transparent": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: transparent"
  ],
  "visual=to:current": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: currentColor"
  ],
  "visual=to:primary/50": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: color-mix(in srgb, var(--c-primary) 50%, transparent)"
  ],
  "visual=to:[13px]": [
+  "--ss-gradient-stops: var(--ss-gradient-via-stops, var(--ss-gradient-from, transparent) var(--ss-gradient-from-position, 0%), var(--ss-gradient-to) var(--ss-gradient-to-position, 100%))",
   "--ss-gradient-to: 13px"
  ],
  "visual=backdrop-blur:none": [
@@ -5214,6 +5226,66 @@
  "visual=divide-y:divide-x:reverse": null,
  "visual=divide-x:divide-y:reverse": null,
  "visual=divide-y:divide-y:reverse": null,
+ "visual=space-x:none": [
+  "margin-left: var(--s-none)"
+ ],
+ "visual=space-x:tiny": [
+  "margin-left: var(--s-tiny)"
+ ],
+ "visual=space-x:small": [
+  "margin-left: var(--s-small)"
+ ],
+ "visual=space-x:medium": [
+  "margin-left: var(--s-medium)"
+ ],
+ "visual=space-x:large": [
+  "margin-left: var(--s-large)"
+ ],
+ "visual=space-x:big": [
+  "margin-left: var(--s-big)"
+ ],
+ "visual=space-x:giant": [
+  "margin-left: var(--s-giant)"
+ ],
+ "visual=space-x:[13px]": [
+  "margin-left: 13px"
+ ],
+ "visual=space-y:none": [
+  "margin-top: var(--s-none)"
+ ],
+ "visual=space-y:tiny": [
+  "margin-top: var(--s-tiny)"
+ ],
+ "visual=space-y:small": [
+  "margin-top: var(--s-small)"
+ ],
+ "visual=space-y:medium": [
+  "margin-top: var(--s-medium)"
+ ],
+ "visual=space-y:large": [
+  "margin-top: var(--s-large)"
+ ],
+ "visual=space-y:big": [
+  "margin-top: var(--s-big)"
+ ],
+ "visual=space-y:giant": [
+  "margin-top: var(--s-giant)"
+ ],
+ "visual=space-y:[13px]": [
+  "margin-top: 13px"
+ ],
+ "visual=space-x:vast": [
+  "margin-left: var(--s-vast)"
+ ],
+ "visual=space-x:small-2x": [
+  "margin-left: var(--s-small-2x)"
+ ],
+ "visual=space-y:vast": [
+  "margin-top: var(--s-vast)"
+ ],
+ "visual=space-y:small-2x": [
+  "margin-top: var(--s-small-2x)"
+ ],
  "visual=fill:none": [
   "fill: none"
  ],

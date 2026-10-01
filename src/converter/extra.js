@@ -36,6 +36,18 @@ export function convertExtra(base, exact) {
   }
   if (base === 'transform-none') return { cat: 'visual', val: '[transform:none]' };
 
+  // Gradients: Tailwind v4 names (bg-linear-*, bg-radial, bg-conic) and stop positions (from-10%)
+  if ((m = /^bg-linear-to-(t|tr|r|br|b|bl|l|tl)$/.exec(base))) return { cat: 'visual', val: `bg-image:gradient-to-${m[1]}` };
+  if ((m = /^bg-linear-(\d+)$/.exec(base))) return { cat: 'visual', val: `bg-image:gradient-[${m[1]}deg]` };
+  if ((m = /^bg-linear-\[(.+)\]$/.exec(base))) return { cat: 'visual', val: `bg-image:gradient-[${m[1]}]` };
+  if (base === 'bg-radial') return { cat: 'visual', val: 'bg-image:radial' };
+  if ((m = /^bg-radial-\[(.+)\]$/.exec(base))) return { cat: 'visual', val: `bg-image:radial-[${m[1]}]` };
+  if (base === 'bg-conic') return { cat: 'visual', val: 'bg-image:conic' };
+  if ((m = /^bg-conic-(\d+)$/.exec(base))) return { cat: 'visual', val: `bg-image:conic-[from_${m[1]}deg]` };
+  if ((m = /^bg-conic-\[(.+)\]$/.exec(base))) return { cat: 'visual', val: `bg-image:conic-[${m[1]}]` };
+  if ((m = /^(from|via|to)-(\d+)%$/.exec(base))) return { cat: 'visual', val: `${m[1]}-pos:${m[2]}` };
+  if ((m = /^(from|via|to)-\[(\d+(?:\.\d+)?%)\]$/.exec(base))) return { cat: 'visual', val: `${m[1]}-pos:[${m[2]}]` };
+
   // Shadows: Tailwind v4 renamed the scale (v4 xs = v3 sm, v4 sm/bare = v3 DEFAULT). Exact mode
   // targets the tw-* table, which carries v3 names.
   if (exact && (m = /^shadow(?:-(2xs|xs|sm|md|lg|xl|2xl|inner|none))?$/.exec(base))) {

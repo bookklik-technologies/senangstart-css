@@ -289,6 +289,7 @@ function baseEntry(def, attr, key) {
     color: false,
     childCombinator: false,
     composes: null,
+    patterns: null,
     quote: false,
     props: [],
     order: 99,
@@ -320,6 +321,7 @@ function applyEngineMeta(entry, meta, key) {
   // valuesAreExamples: the definition's values document sample outputs, not an enum
   if (meta.valuesAreExamples) entry.enum = null;
   if (meta.enum) entry.enum = { ...(entry.enum || {}), ...meta.enum };
+  if (Array.isArray(meta.patterns)) entry.patterns = [...(entry.patterns || []), ...meta.patterns];
   if (meta.enumMap) {
     // enumMap: { value: literal } — expanded through the template
     entry.literals = { ...(entry.literals || {}), ...meta.enumMap };
@@ -372,8 +374,11 @@ export const COMPOSABLE_TRANSFORMS = {
   '-skew-y': `--ss-skew-y: skewY(-{value}); ${TF}`
 };
 
-/** @property registrations for the transform variables (emitted only when used). */
+/** @property registrations (non-inheriting) for transform and gradient variables, emitted only when used. */
 export const TRANSFORM_PROPERTIES = {
+  '--ss-gradient-from': null, '--ss-gradient-via': null, '--ss-gradient-to': null,
+  '--ss-gradient-from-position': '0%', '--ss-gradient-via-position': '50%', '--ss-gradient-to-position': '100%',
+  '--ss-gradient-via-stops': null, '--ss-gradient-stops': null,
   '--ss-translate-x': '0', '--ss-translate-y': '0', '--ss-translate-z': '0',
   '--ss-scale-x': '1', '--ss-scale-y': '1',
   '--ss-rotate-x': null, '--ss-rotate-y': null, '--ss-rotate-z': null,
@@ -503,7 +508,7 @@ function addDefinition(registry, def, attr, meta) {
   if (meta && meta.utilities) {
     for (const [key, spec] of Object.entries(meta.utilities)) {
       const e = baseEntry(def, attr, key);
-      e.scale = def.usesScale || null;
+      e.scale = spec.scale !== undefined ? spec.scale : (def.usesScale || null);
       applyEngineMeta(e, { ...spec, templates: null, arbitraryTemplates: null }, key);
       registry.addUtility(finalize(e));
     }

@@ -248,6 +248,22 @@ export function resolveDeclarations(entry, token, ctx) {
     return ok(css, varsIn(css));
   }
 
+  // ---- patterns (gradient-[45deg], radial-[at_top], conic-[from_90deg]) ----
+  if (Array.isArray(entry.patterns)) {
+    for (const pat of entry.patterns) {
+      const re = pat.re instanceof RegExp ? pat.re : new RegExp(pat.re);
+      const pm = re.exec(value);
+      if (!pm) continue;
+      const inner = pm[1] === undefined ? '' : pm[1].replace(/_/g, ' ');
+      if (inner) {
+        const check = validateValue(inner);
+        if (!check.ok) return fail(CODES.INVALID_VALUE, `Invalid value "${inner}": ${check.reason}`);
+      }
+      const css = pat.template.replace(/\$1/g, inner);
+      return ok(css, varsIn(css));
+    }
+  }
+
   if (!isValidScaleKey(value)) {
     return fail(CODES.INVALID_VALUE, `Invalid value "${value}" for "${entry.key}"`);
   }
