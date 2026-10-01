@@ -14,6 +14,7 @@ export const justifyContent = {
   description: 'Align items along the main axis',
   descriptionMs: 'Jajarkan item sepanjang paksi utama',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'start', css: 'justify-content: flex-start;', description: 'Align to start', descriptionMs: 'Jajar ke permulaan' },
     { value: 'end', css: 'justify-content: flex-end;', description: 'Align to end', descriptionMs: 'Jajar ke hujung' },
@@ -78,6 +79,7 @@ export const alignItems = {
   description: 'Align items along the cross axis',
   descriptionMs: 'Jajarkan item sepanjang paksi silang',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'start', css: 'align-items: flex-start;', description: 'Align to start', descriptionMs: 'Jajar ke permulaan' },
     { value: 'end', css: 'align-items: flex-end;', description: 'Align to end', descriptionMs: 'Jajar ke hujung' },
@@ -139,6 +141,7 @@ export const alignSelf = {
   description: 'Override alignment for a single item',
   descriptionMs: 'Ganti penjajaran untuk satu item',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'auto', css: 'align-self: auto;', description: 'Use parent alignment', descriptionMs: 'Guna penjajaran induk' },
     { value: 'start', css: 'align-self: flex-start;', description: 'Align to start', descriptionMs: 'Jajar ke permulaan' },
@@ -177,6 +180,7 @@ export const alignContent = {
   description: 'Align content rows in multi-line flex container',
   descriptionMs: 'Jajarkan baris kandungan dalam bekas flex berbilang baris',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'start', css: 'align-content: flex-start;', description: 'Align to start', descriptionMs: 'Jajar ke permulaan' },
     { value: 'end', css: 'align-content: flex-end;', description: 'Align to end', descriptionMs: 'Jajar ke hujung' },
@@ -277,6 +281,7 @@ export const justifyItems = {
   description: 'Align grid items on inline axis',
   descriptionMs: 'Jajarkan item grid pada paksi sebaris',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'start', css: 'justify-items: start;', description: 'Start alignment', descriptionMs: 'Jajar permulaan' },
     { value: 'end', css: 'justify-items: end;', description: 'End alignment', descriptionMs: 'Jajar hujung' },
@@ -313,6 +318,7 @@ export const justifySelf = {
   description: 'Align single grid item on inline axis',
   descriptionMs: 'Jajarkan satu item grid pada paksi sebaris',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'auto', css: 'justify-self: auto;', description: 'Auto alignment', descriptionMs: 'Jajar automatik' },
     { value: 'start', css: 'justify-self: start;', description: 'Start alignment', descriptionMs: 'Jajar permulaan' },
@@ -350,6 +356,7 @@ export const placeContent = {
   description: 'Shorthand for align-content and justify-content',
   descriptionMs: 'Pintasan untuk align-content dan justify-content',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'start', css: 'place-content: start;', description: 'Start alignment', descriptionMs: 'Jajar permulaan' },
     { value: 'end', css: 'place-content: end;', description: 'End alignment', descriptionMs: 'Jajar hujung' },
@@ -388,6 +395,7 @@ export const placeItems = {
   description: 'Shorthand for align-items and justify-items',
   descriptionMs: 'Pintasan untuk align-items dan justify-items',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'start', css: 'place-items: start;', description: 'Start alignment', descriptionMs: 'Jajar permulaan' },
     { value: 'end', css: 'place-items: end;', description: 'End alignment', descriptionMs: 'Jajar hujung' },
@@ -424,6 +432,7 @@ export const placeSelf = {
   description: 'Shorthand for align-self and justify-self',
   descriptionMs: 'Pintasan untuk align-self dan justify-self',
   category: 'layout',
+  engine: { passthrough: true },
   values: [
     { value: 'auto', css: 'place-self: auto;', description: 'Auto alignment', descriptionMs: 'Jajar automatik' },
     { value: 'start', css: 'place-self: start;', description: 'Start alignment', descriptionMs: 'Jajar permulaan' },

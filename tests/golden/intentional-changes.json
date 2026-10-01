@@ -1,0 +1,10 @@
+{
+  "layout=float:clear-left": "float-clear definitions now use prefix:value (clear:left); old enumeration produced nonsense tokens that never emitted CSS",
+  "layout=clear:clear-left": "same as above",
+  "layout=float:clear-right": "same as above",
+  "layout=clear:clear-right": "same as above",
+  "layout=float:clear-both": "same as above",
+  "layout=clear:clear-both": "same as above",
+  "layout=float:clear-none": "same as above",
+  "layout=clear:clear-none": "same as above"
+}

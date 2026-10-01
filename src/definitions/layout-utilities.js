@@ -48,6 +48,7 @@ export const overflow = {
   description: 'Control content overflow behavior',
   descriptionMs: 'Kawal kelakuan limpahan kandungan',
   category: 'layout',
+  engine: { aliases: ['overflow-x', 'overflow-y'], templates: { 'overflow-x': 'overflow-x: {value};', 'overflow-y': 'overflow-y: {value};' } },
   values: [
     { value: 'auto', css: 'overflow: auto;', description: 'Scrollbar when needed', descriptionMs: 'Bar skrol bila perlu' },
     { value: 'hidden', css: 'overflow: hidden;', description: 'Hide overflow', descriptionMs: 'Sembunyikan limpahan' },
@@ -127,13 +128,13 @@ export const floatClear = {
   descriptionMs: 'Kawal pengapungan dan pembersihan elemen',
   category: 'layout',
   values: [
-    { value: 'left', css: 'float: left;', description: 'Float left', descriptionMs: 'Apung kiri' },
-    { value: 'right', css: 'float: right;', description: 'Float right', descriptionMs: 'Apung kanan' },
-    { value: 'none', css: 'float: none;', description: 'No float', descriptionMs: 'Tiada pengapungan' },
-    { value: 'clear-left', css: 'clear: left;', description: 'Clear left floats', descriptionMs: 'Kosongkan apung kiri' },
-    { value: 'clear-right', css: 'clear: right;', description: 'Clear right floats', descriptionMs: 'Kosongkan apung kanan' },
-    { value: 'clear-both', css: 'clear: both;', description: 'Clear all floats', descriptionMs: 'Kosongkan semua apung' },
-    { value: 'clear-none', css: 'clear: none;', description: 'No clear', descriptionMs: 'Tiada pembersihan' }
+    { prefix: 'float', value: 'left', css: 'float: left;', description: 'Float left', descriptionMs: 'Apung kiri' },
+    { prefix: 'float', value: 'right', css: 'float: right;', description: 'Float right', descriptionMs: 'Apung kanan' },
+    { prefix: 'float', value: 'none', css: 'float: none;', description: 'No float', descriptionMs: 'Tiada pengapungan' },
+    { prefix: 'clear', value: 'left', css: 'clear: left;', description: 'Clear left floats', descriptionMs: 'Kosongkan apung kiri' },
+    { prefix: 'clear', value: 'right', css: 'clear: right;', description: 'Clear right floats', descriptionMs: 'Kosongkan apung kanan' },
+    { prefix: 'clear', value: 'both', css: 'clear: both;', description: 'Clear all floats', descriptionMs: 'Kosongkan semua apung' },
+    { prefix: 'clear', value: 'none', css: 'clear: none;', description: 'No clear', descriptionMs: 'Tiada pembersihan' }
   ],
   examples: [
     { code: '<img layout="float:left">Float left</img>', description: 'Float image left' },
@@ -252,6 +253,7 @@ export const objectPosition = {
   description: 'Position replaced element content within container',
   descriptionMs: 'Letakkan kandungan elemen diganti dalam bekas',
   category: 'layout',
+  engine: { passthrough: true },
   supportsArbitrary: true,
   values: [
     { value: 'center', css: 'object-position: center;', description: 'Center position', descriptionMs: 'Kedudukan tengah' },
@@ -294,6 +296,7 @@ export const container = {
   description: 'Create a centered container with max-width',
   descriptionMs: 'Cipta bekas berpusat dengan lebar maksimum',
   category: 'layout',
+  engine: { css: 'width: 100%; margin-left: auto; margin-right: auto;' },
   values: [
     { value: 'container', css: 'width: 100%; margin-left: auto; margin-right: auto;', description: 'Centered container', descriptionMs: 'Bekas berpusat' }
   ],
@@ -357,6 +360,7 @@ export const overscroll = {
   description: 'Control scroll chaining behavior',
   descriptionMs: 'Kawal kelakuan rantaian skrol',
   category: 'layout',
+  engine: { aliases: ['overscroll-x', 'overscroll-y'], templates: { 'overscroll-x': 'overscroll-behavior-x: {value};', 'overscroll-y': 'overscroll-behavior-y: {value};' } },
   values: [
     { value: 'auto', css: 'overscroll-behavior: auto;', description: 'Default behavior', descriptionMs: 'Kelakuan lalai' },
     { value: 'contain', css: 'overscroll-behavior: contain;', description: 'Contain scroll', descriptionMs: 'Kandung skrol' },

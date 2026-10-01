@@ -14,6 +14,7 @@ export const gridColumns = {
   description: 'Define grid template columns',
   descriptionMs: 'Tentukan templat lajur grid',
   category: 'layout',
+  engine: { arbitraryTemplate: 'grid-template-columns: {value};' },
   dynamic: true,
   supportsArbitrary: true,
   values: [
@@ -68,6 +69,7 @@ export const gridRows = {
   description: 'Define grid template rows',
   descriptionMs: 'Tentukan templat baris grid',
   category: 'layout',
+  engine: { arbitrary: true, arbitraryTemplate: 'grid-template-rows: {value};' },
   dynamic: true,
   values: [
     { value: '1-12', css: 'grid-template-rows: repeat({n}, minmax(0, 1fr));', description: 'N equal rows', descriptionMs: 'N baris sama' },
@@ -107,6 +109,7 @@ export const gridColSpan = {
   description: 'Span across grid columns',
   descriptionMs: 'Merentangi lajur grid',
   category: 'layout',
+  engine: { utilities: { 'col-start': { template: 'grid-column-start: {value};', numeric: true, passthrough: true }, 'col-end': { template: 'grid-column-end: {value};', numeric: true, passthrough: true } } },
   dynamic: true,
   values: [
     { value: '1-12', css: 'grid-column: span {n} / span {n};', description: 'Span N columns', descriptionMs: 'Merentangi N lajur' },
@@ -158,6 +161,7 @@ export const gridRowSpan = {
   description: 'Span across grid rows',
   descriptionMs: 'Merentangi baris grid',
   category: 'layout',
+  engine: { utilities: { 'row-start': { template: 'grid-row-start: {value};', numeric: true, passthrough: true }, 'row-end': { template: 'grid-row-end: {value};', numeric: true, passthrough: true } } },
   dynamic: true,
   values: [
     { value: '1-12', css: 'grid-row: span {n} / span {n};', description: 'Span N rows', descriptionMs: 'Merentangi N baris' },
@@ -246,6 +250,7 @@ export const gridAutoSizing = {
   description: 'Control size of auto-generated grid tracks',
   descriptionMs: 'Kawal saiz trek grid yang dijana automatik',
   category: 'layout',
+  engine: { templates: { 'auto-cols': 'grid-auto-columns: {value};', 'auto-rows': 'grid-auto-rows: {value};' }, passthrough: true, arbitrary: true },
   dynamic: true,
   values: [
     { value: 'auto', css: 'auto', description: 'Auto size', descriptionMs: 'Saiz automatik' },

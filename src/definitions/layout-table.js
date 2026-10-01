@@ -74,6 +74,7 @@ export const borderSpacing = {
   description: 'Control spacing between table borders',
   descriptionMs: 'Kawal jarak antara sempadan jadual',
   category: 'layout',
+  engine: { },
   usesScale: 'spacing',
   supportsArbitrary: true,
   dynamic: true,
