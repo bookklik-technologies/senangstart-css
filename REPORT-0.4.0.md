@@ -1,6 +1,6 @@
 # SenangStart CSS 0.4.0 — Production-hardening report
 
-Branch `feat/1.0-roadmap`, 15 commits on top of `master` (f36f9eb).
+Branch `feat/1.0-roadmap`, 16 commits on top of `master` (f36f9eb).
 177 files changed (+29,877 / −3,057); `src/` +6,889 / −2,184.
 
 ## Verification (all green)
@@ -53,4 +53,4 @@ Layered output; deterministic ordering; dark selector string; `darkMode:'class'`
 
 ## Delivered
 - `senangstart-css-0.4.0.zip`: full repository including `.git` (branch history), without `node_modules` or build caches.
-- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 15 commits, apply with `git am` on `master`.
+- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 16 commits, apply with `git am` on `master`.
