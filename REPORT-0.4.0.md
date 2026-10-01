@@ -1,6 +1,6 @@
 # SenangStart CSS 0.4.0 — Production-hardening report
 
-Branch `feat/1.0-roadmap`, 16 commits on top of `master` (f36f9eb).
+Branch `feat/1.0-roadmap`, 20 commits on top of `master` (f36f9eb).
 177 files changed (+29,877 / −3,057); `src/` +6,889 / −2,184.
 
 ## Verification (all green)
@@ -11,11 +11,14 @@ Branch `feat/1.0-roadmap`, 16 commits on top of `master` (f36f9eb).
 | `npm run golden` (declaration snapshot, 1,661 tokens) | 0 unexpected diffs |
 | `npx eslint src/` · stylelint on dist | clean |
 | `npm run typecheck` (strict tsc on React/Vue/Svelte/API fixtures) | clean |
-| `npx size-limit` | JIT 69.3 KB / 70 KB gz · CSS 4.1 KB / 30 KB gz |
+| `npx size-limit` | JIT **34.5 KB** / 40 KB gz · CSS 4.1 KB / 30 KB gz |
 | `docs:sync-check` · `vitepress build docs` | in sync · builds |
 | Vite + PostCSS plugin tests (real Vite/PostCSS builds) | pass |
 
-Not run: Playwright visual/JIT browser suites (no browser binaries in the sandbox).
+| Playwright JIT browser suite (Chromium) | 13 / 13 pass (incl. shadow DOM, late attachShadow, first-frame styling) |
+| Playwright visual regression vs committed snapshots (Chromium) | 6 / 6 pass |
+
+Firefox/WebKit visual projects were not run locally (no binaries); CI runs them.
 
 ## Before → after
 
@@ -38,13 +41,15 @@ Not run: Playwright visual/JIT browser suites (no browser binaries in the sandbo
 | Config errors | silently fell back to defaults, exit 0 | exit 1 with message; absolute/parent paths; schema validation |
 | Build integrations | none | Vite plugin, PostCSS plugin, programmatic `build()`/`watch()` |
 | TypeScript | README example failed `tsc --strict` | multi-token types for 6 frameworks, strict `ss()` helper, JSON schema, VS Code html-data |
+| Browser JIT bundle | 340 KB / 63.8 KB gz | 141 KB / **34.5 KB gz** |
+| Browser JIT behaviour | full DOM rescan + `<style>` rewrite per mutation, 200 ms debounce, no shadow DOM | mutation-scoped scan, memoised rules, microtask recompile, constructed stylesheet shared with shadow roots, `window.SenangStart` API |
 
 ## Breaking changes (see CHANGELOG and docs/guide/cascade.md)
 Layered output; deterministic ordering; dark selector string; `darkMode:'class'` fixed; unused palette variables pruned (`theme.exposeAll`); generated AI/TS files opt-in; config errors fail; Node ≥ 20; unknown tokens are errors; transforms use standalone properties.
 
 ## Remaining backlog (not done in this pass)
-1. **JIT bundle size**: 69.3 KB gz, just under the 70 KB budget. Documentation text from `src/definitions` is bundled; build a slim definitions bundle for the runtime (target < 35 KB gz).
-2. **JIT runtime**: still rescans the DOM and rewrites one `<style>` per mutation batch; no shadow-DOM style injection (audit M5).
+1. ~~JIT bundle size~~ — done (34.5 KB gz).
+2. ~~JIT runtime~~ — done (incremental, shadow DOM).
 3. **Tailwind converters**: two divergent copies remain (`scripts/convert-tailwind.js`, `src/cdn/tw-conversion-engine.js`); merge and parse HTML properly (M7).
 4. **Parity gaps still open**: container queries (`@container`), arbitrary properties (`[prop:value]`), `!important` modifier, attribute prefix option, plugin API / custom utilities / `@apply`-style extraction, keyframes in config, radial/conic gradients, prose and forms presets, oklch palette.
 5. Group selectors (`hoverable` parents) still have (0,4,0) specificity.
@@ -53,4 +58,4 @@ Layered output; deterministic ordering; dark selector string; `darkMode:'class'`
 
 ## Delivered
 - `senangstart-css-0.4.0.zip`: full repository including `.git` (branch history), without `node_modules` or build caches.
-- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 16 commits, apply with `git am` on `master`.
+- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 20 commits, apply with `git am` on `master`.
