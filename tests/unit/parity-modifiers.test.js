@@ -31,7 +31,7 @@ describe('arbitrary properties', () => {
     assert.deepEqual(errors, []);
     assert.ok(u.includes('[visual~="[mask-type:luminance]"] { mask-type: luminance; }'));
     assert.ok(u.includes('[visual~="[--brand:#123456]"] { --brand: #123456; }'));
-    assert.ok(u.includes(':hover { outline: 2px solid red; }'));
+    assert.ok(u.includes('[visual~="hover:[outline:2px_solid_red]"]:hover,') && u.includes('{ outline: 2px solid red; }'));
     assert.ok(u.includes('@media (min-width: 768px) { [visual~="tab:[scroll-snap-type:x_mandatory]"] { scroll-snap-type: x mandatory; }'));
   });
   test('injection through an arbitrary property is rejected', () => {
