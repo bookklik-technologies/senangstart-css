@@ -35,6 +35,7 @@
  */
 
 import definitionsIndex from '../definitions/index.js';
+import { extensionsFor } from './plugins.js';
 import { STATE_VARIANTS } from './variants.js';
 
 const SCALE_VAR_PREFIX = {
@@ -396,6 +397,62 @@ function applyComposableTransforms(registry) {
   }
 }
 
+
+// ---------------------------------------------------------------------------
+// Per-config registries (plugin utilities)
+// ---------------------------------------------------------------------------
+
+const configRegistries = new WeakMap();
+
+/**
+ * Registry for a config: the default registry plus any utilities added through
+ * `config.utilities` or functional `config.plugins`.
+ * @param {Object} [config]
+ * @returns {Registry}
+ */
+export function registryFor(config) {
+  if (!config || typeof config !== 'object') return getDefaultRegistry();
+  const hit = configRegistries.get(config);
+  if (hit) return hit;
+  const ext = extensionsFor(config);
+  const animations = Object.keys(ext.animation);
+  if (Object.keys(ext.utilities).length === 0 && animations.length === 0) {
+    configRegistries.set(config, getDefaultRegistry());
+    return getDefaultRegistry();
+  }
+  const registry = buildRegistry();
+  // theme.animation → accepted values of `animate:` (keyframes are emitted when referenced)
+  if (animations.length) {
+    const animate = registry.utility('visual', 'animate');
+    if (animate) {
+      animate.enum = { ...(animate.enum || {}) };
+      for (const [name, value] of Object.entries(ext.animation)) {
+        if (/^[a-zA-Z_][\w-]*$/.test(name) && typeof value === 'string' && !/[{};<>]/.test(value)) {
+          animate.enum[name] = `animation: ${value};`;
+        }
+      }
+    }
+  }
+  for (const [key, spec] of Object.entries(ext.utilities)) {
+    if (!spec || typeof spec !== 'object' || !/^[a-zA-Z][\w-]*$/.test(key)) continue;
+    const attr = ['layout', 'space', 'visual'].includes(spec.attr) ? spec.attr : 'visual';
+    const def = { name: `plugin:${key}`, property: attr, category: attr };
+    if (typeof spec.css === 'string') {
+      registry.addKeyword(finalize({ ...baseEntry(def, attr, key), kind: 'keyword', css: spec.css }));
+      continue;
+    }
+    const e = baseEntry(def, attr, key);
+    e.scale = spec.scale || null;
+    const meta = { ...spec, templates: null, arbitraryTemplates: null };
+    if (meta.arbitrary === undefined && (meta.template || meta.arbitraryTemplate)) meta.arbitrary = true;
+    applyEngineMeta(e, meta, key);
+    if (e.scale && !(e.scale in SCALE_VAR_PREFIX)) e.varPrefix = false; // custom scales are inlined
+    registry.addUtility(finalize(e));
+  }
+  configRegistries.set(config, registry);
+  return registry;
+}
+
 /**
  * Build a registry from a definitions object.
  * @param {Object} [definitions] - { layout, space, visual } maps (slimmed or full). Defaults to the bundled definitions.
@@ -615,4 +672,4 @@ export function resetDefaultRegistry() {
   _default = null;
 }
 
-export default { buildRegistry, getDefaultRegistry, resetDefaultRegistry, slimDefinitions, prefixesFromSyntax, Registry };
+export default { buildRegistry, getDefaultRegistry, registryFor, resetDefaultRegistry, slimDefinitions, prefixesFromSyntax, Registry };

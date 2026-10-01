@@ -242,7 +242,8 @@ deepFreeze(defaultConfig);
 
 /** Top-level keys the config loader understands. */
 export const KNOWN_CONFIG_KEYS = Object.freeze([
-  'content', 'safelist', 'prefix', 'layers', 'output', 'darkMode', 'preflight', 'build', 'theme', 'extend'
+  'content', 'safelist', 'prefix', 'layers', 'output', 'darkMode', 'preflight', 'build', 'theme', 'extend',
+  'utilities', 'variants', 'plugins'
 ]);
 
 /** Known `output` keys. */
@@ -547,12 +548,17 @@ export function mergeConfig(userConfig = {}, options = {}) {
   const merged = clone(defaultConfig);
   if (!isPlainObject(userConfig)) return merged;
 
-  const user = clone(userConfig);
+  // Plugins are functions and cannot be structured-cloned; carry them by reference.
+  const { plugins, utilities, variants, ...rest } = userConfig;
+  const user = clone(rest);
 
   if (Array.isArray(user.content)) merged.content = user.content;
   if (Array.isArray(user.safelist)) merged.safelist = user.safelist;
   if (typeof user.prefix === 'string') merged.prefix = user.prefix;
   if (typeof user.layers === 'boolean') merged.layers = user.layers;
+  if (isPlainObject(utilities)) merged.utilities = utilities;
+  if (isPlainObject(variants)) merged.variants = variants;
+  if (Array.isArray(plugins)) merged.plugins = plugins;
 
   if (isPlainObject(user.output)) merged.output = { ...merged.output, ...user.output };
   if (user.darkMode !== undefined) merged.darkMode = user.darkMode;

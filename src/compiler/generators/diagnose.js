@@ -8,14 +8,15 @@
  *   UNKNOWN_VALUE     bg:notacolor / p:hugee (did you mean huge?)
  */
 import { CODES, suggest, diagnostic } from '../../engine/diagnostics.js';
-import { getDefaultRegistry } from '../../engine/registry.js';
+import { registryFor } from '../../engine/registry.js';
 import { STATE_VARIANTS, MEDIA_VARIANTS, parseVariant } from '../../engine/variants.js';
+import { extensionsFor } from '../../engine/plugins.js';
 
 const ATTRS = ['layout', 'space', 'visual'];
 
 function knownVariantNames(config) {
   const screens = Object.keys((config && config.theme && config.theme.screens) || {});
-  return [...Object.keys(STATE_VARIANTS), ...Object.keys(MEDIA_VARIANTS), 'dark', ...screens, ...screens.map(s => `max-${s}`)];
+  return [...Object.keys(STATE_VARIANTS), ...Object.keys(MEDIA_VARIANTS), 'dark', ...screens, ...screens.map(s => `max-${s}`), ...Object.keys(extensionsFor(config).variants)];
 }
 
 function scaleKeys(entry, config) {
@@ -37,7 +38,7 @@ function scaleKeys(entry, config) {
  * @returns {Object} diagnostic
  */
 export function diagnoseToken(token, config) {
-  const registry = getDefaultRegistry();
+  const registry = registryFor(config);
   const { attrType, property, value, raw } = token;
   const props = registry.keys(attrType);
 

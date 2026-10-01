@@ -11,6 +11,7 @@
  */
 
 import { BREAKPOINTS } from '../core/constants.js';
+import { extensionsFor, parseCustomVariant } from './plugins.js';
 
 // ---------------------------------------------------------------------------
 // State (pseudo) variants
@@ -258,6 +259,11 @@ export function parseVariant(part, config) {
     return { type: 'container', name: part, query, container: container || null };
   }
   if (customHandlers.has(part)) return { type: 'custom', name: part };
+  // config.variants / plugin addVariants
+  if (config) {
+    const custom = extensionsFor(config).variants[part];
+    if (custom !== undefined) return parseCustomVariant(part, custom);
+  }
   const pat = patternSelector(part);
   if (pat) return { type: 'state', name: part, selector: pat };
 

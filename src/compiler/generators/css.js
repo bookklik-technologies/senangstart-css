@@ -11,6 +11,7 @@ import { TW_SPACING, TW_RADIUS, TW_SHADOW, TW_FONT_SIZE, TW_LEADING, TW_FONT_WEI
 import { generateDeclarations } from '../../engine/index.js';
 import { TRANSFORM_PROPERTIES } from '../../engine/registry.js';
 import { attrName } from '../../core/constants.js';
+import { customKeyframes } from '../../engine/plugins.js';
 
 /**
  * Generate CSS custom properties from config
@@ -782,6 +783,7 @@ export function generateCSSWithErrors(tokens, config) {
     css += inLayer('senangstart.theme', theme, config);
     css += inLayer('senangstart.base', preflight, config);
     css += keyframes;
+    css += customKeyframes(config, utilities);
     css += transformProperties(utilities);
     css += inLayer('senangstart.utilities', utilities, config);
     return { css, errors };

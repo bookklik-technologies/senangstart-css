@@ -6,13 +6,14 @@
  * layers, assembly).
  */
 
-import { getDefaultRegistry } from './registry.js';
+import { registryFor } from './registry.js';
 import { defaultConfig } from '../config/defaults.js';
 import { resolveDeclarations } from './resolve.js';
 import { CODES, suggest, diagnostic } from './diagnostics.js';
 import { tokenVariants, parseVariant } from './variants.js';
 
-export { buildRegistry, getDefaultRegistry, slimDefinitions, Registry } from './registry.js';
+export { buildRegistry, getDefaultRegistry, registryFor, slimDefinitions, Registry } from './registry.js';
+export { extensionsFor, parseCustomVariant, customKeyframes } from './plugins.js';
 export { resolveDeclarations, resolveColor } from './resolve.js';
 export { composeSelector, registerVariantHandler, getBreakpoints, getDarkMode, variantWeight } from './variants.js';
 export { CODES, suggest, levenshtein, diagnostic } from './diagnostics.js';
@@ -24,7 +25,7 @@ export { CODES, suggest, levenshtein, diagnostic } from './diagnostics.js';
  * @param {import('./registry.js').Registry} [registry]
  * @returns {{ css: string|null, entry: Object|null, error: Object|null, usedVars: string[] }}
  */
-export function generateDeclarations(token, config, registry = getDefaultRegistry()) {
+export function generateDeclarations(token, config, registry = registryFor(config)) {
   const empty = { css: null, entry: null, error: null, usedVars: [] };
   if (!token || typeof token !== 'object') return { ...empty, error: diagnostic(token, CODES.INVALID_TOKEN, 'Token is not an object') };
   const { attrType, property, value, raw } = token;

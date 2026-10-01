@@ -51,6 +51,8 @@ __export(constants_exports, {
   TW_SHADOW: () => TW_SHADOW,
   TW_SPACING: () => TW_SPACING,
   TYPOGRAPHY_KEYWORDS: () => TYPOGRAPHY_KEYWORDS,
+  attrName: () => attrName,
+  attrPrefix: () => attrPrefix,
   default: () => constants_default
 });
 var LIMITS = {
@@ -363,6 +365,14 @@ var constants_default = {
   LIMITS,
   CSS_COLOR_KEYWORDS
 };
+function attrPrefix(configOrPrefix) {
+  const p = typeof configOrPrefix === "string" ? configOrPrefix : configOrPrefix && configOrPrefix.prefix || "";
+  if (!p) return "";
+  return p.endsWith("-") ? p : `${p}-`;
+}
+function attrName(type, configOrPrefix) {
+  return `${attrPrefix(configOrPrefix)}${type}`;
+}
 
 // src/core/value-grammar.js
 var ALLOWED_CHARS = /^[A-Za-z0-9 _.%#,/+*'"()!:-]*$/;
@@ -495,6 +505,94 @@ function spaceMathOperators(value) {
   return out.replace(/\u0001(\d+)\u0001/g, (m, n) => protectedVars[Number(n)]);
 }
 
+// src/engine/plugins.js
+var store = /* @__PURE__ */ new WeakMap();
+function extensionsFor(config) {
+  if (!config || typeof config !== "object") return EMPTY;
+  const hit = store.get(config);
+  if (hit) return hit;
+  const ext = {
+    utilities: { ...config.utilities || {} },
+    variants: { ...config.variants || {} },
+    keyframes: { ...config.theme && config.theme.keyframes || {} },
+    animation: { ...config.theme && config.theme.animation || {} }
+  };
+  const plugins = Array.isArray(config.plugins) ? config.plugins : [];
+  const api = {
+    addUtilities(obj) {
+      Object.assign(ext.utilities, obj || {});
+    },
+    addUtility(key, spec) {
+      ext.utilities[key] = spec;
+    },
+    addVariants(obj) {
+      Object.assign(ext.variants, obj || {});
+    },
+    addVariant(name, selectorOrAtRule) {
+      ext.variants[name] = selectorOrAtRule;
+    },
+    addKeyframes(obj) {
+      Object.assign(ext.keyframes, obj || {});
+    },
+    addAnimation(obj) {
+      Object.assign(ext.animation, obj || {});
+    },
+    theme(path, fallback) {
+      let cur = config.theme;
+      for (const part of String(path).split(".")) {
+        if (cur === null || cur === void 0) return fallback;
+        cur = cur[part];
+      }
+      return cur === void 0 ? fallback : cur;
+    },
+    config
+  };
+  for (const plugin of plugins) {
+    const fn = typeof plugin === "function" ? plugin : plugin && typeof plugin.handler === "function" ? plugin.handler : null;
+    if (fn) fn(api);
+  }
+  if (Object.keys(ext.utilities).length === 0 && Object.keys(ext.variants).length === 0 && Object.keys(ext.keyframes).length === 0 && Object.keys(ext.animation).length === 0) {
+    store.set(config, EMPTY);
+    return EMPTY;
+  }
+  store.set(config, ext);
+  return ext;
+}
+var EMPTY = Object.freeze({ utilities: {}, variants: {}, keyframes: {}, animation: {} });
+function parseCustomVariant(name, def) {
+  if (typeof def !== "string" || !def.trim()) return null;
+  const d = def.trim();
+  if (/[{};<>]/.test(d)) return null;
+  if (d.startsWith("@media")) return { type: "media", name, query: d.slice(6).trim() };
+  if (d.startsWith("@supports")) return { type: "media", name, query: `${d.slice(1)}`, atRule: "supports" };
+  if (d.startsWith("@")) return null;
+  const alts = d.split(",").map((s) => s.trim()).filter(Boolean);
+  const suffixes = [];
+  for (const alt of alts) {
+    if (alt.endsWith("&")) {
+      const anc = alt.slice(0, -1).trim();
+      suffixes.push(`:where(${anc} *)`);
+    } else if (alt.startsWith("&")) {
+      suffixes.push(alt.slice(1));
+    } else {
+      suffixes.push(alt.startsWith(":") || alt.startsWith("[") ? alt : `:${alt}`);
+    }
+  }
+  const selector = suffixes.length === 1 ? suffixes[0] : `:is(${suffixes.join(", ")})`;
+  return { type: "state", name, selector };
+}
+function customKeyframes(config, css) {
+  const { keyframes } = extensionsFor(config);
+  let out = "";
+  for (const [name, body] of Object.entries(keyframes)) {
+    if (!/^[a-zA-Z_][\w-]*$/.test(name)) continue;
+    if (!new RegExp(`animation(?:-name)?:[^;]*\\b${name}\\b`).test(css)) continue;
+    out += `@keyframes ${name} { ${String(body).trim()} }
+`;
+  }
+  return out;
+}
+
 // src/engine/variants.js
 var STATE_VARIANTS = {
   hover: { selector: ":hover", group: "hoverable" },
@@ -599,6 +697,26 @@ function stateSelector(p) {
 }
 var STATE_ORDER = Object.keys(STATE_VARIANTS);
 var customHandlers = /* @__PURE__ */ new Map();
+var DEFAULT_SCREENS = {
+  mob: "480px",
+  tab: "768px",
+  lap: "1024px",
+  desk: "1280px",
+  print: "print",
+  "tw-sm": "640px",
+  "tw-md": "768px",
+  "tw-lg": "1024px",
+  "tw-xl": "1280px",
+  "tw-2xl": "1536px"
+};
+function toPx(value) {
+  if (typeof value === "number") return value;
+  if (typeof value !== "string") return NaN;
+  const m = /^(\d*\.?\d+)(px|rem|em)?$/.exec(value.trim());
+  if (!m) return NaN;
+  const n = parseFloat(m[1]);
+  return m[2] === "rem" || m[2] === "em" ? n * 16 : n;
+}
 function parseVariant(part, config) {
   if (typeof part !== "string" || !part) return null;
   if (part === "dark") return { type: "dark", name: "dark" };
@@ -607,7 +725,23 @@ function parseVariant(part, config) {
     return { type: "state", name: part, selector: st.selector, pseudoElement: !!st.pseudoElement, content: !!st.content };
   }
   if (MEDIA_VARIANTS[part]) return { type: "media", name: part, query: MEDIA_VARIANTS[part] };
+  if (part.startsWith("@") && part.length > 1) {
+    const [size2, container2] = part.slice(1).split("/");
+    const sizes = config && config.theme && config.theme.containers || config && config.theme && config.theme.screens || DEFAULT_SCREENS;
+    const isMax = size2.startsWith("max-");
+    const key = isMax ? size2.slice(4) : size2;
+    const value = sizes[key];
+    if (!value || value === "print") return null;
+    if (container2 !== void 0 && !/^[a-zA-Z][\w-]*$/.test(container2)) return null;
+    const px = toPx(value);
+    const query = isMax ? Number.isNaN(px) ? `not (min-width: ${value})` : `(max-width: ${+(px - 0.02).toFixed(2)}px)` : `(min-width: ${value})`;
+    return { type: "container", name: part, query, container: container2 || null };
+  }
   if (customHandlers.has(part)) return { type: "custom", name: part };
+  if (config) {
+    const custom = extensionsFor(config).variants[part];
+    if (custom !== void 0) return parseCustomVariant(part, custom);
+  }
   const pat = patternSelector(part);
   if (pat) return { type: "state", name: part, selector: pat };
   const names = config && config.theme && config.theme.screens ? Object.keys(config.theme.screens) : BREAKPOINTS.concat(["print"]);
@@ -712,15 +846,24 @@ function tokenize(raw, attrType, config) {
     isArbitrary: false,
     attrType
   };
-  if (attrType === "layout" && LAYOUT_KEYWORDS.includes(raw)) {
-    token.property = raw;
-    token.value = raw;
+  let body = raw;
+  if (body.startsWith("!")) {
+    token.important = true;
+    body = body.slice(1);
+  } else if (body.endsWith("!")) {
+    token.important = true;
+    body = body.slice(0, -1);
+  }
+  if (body.length === 0) return errorToken(raw, attrType, "Invalid token format", "INVALID_TOKEN");
+  if (attrType === "layout" && LAYOUT_KEYWORDS.includes(body)) {
+    token.property = body;
+    token.value = body;
     return token;
   }
-  const parts = splitOutsideBrackets(raw);
-  if (parts.length === 1) {
-    token.property = raw;
-    token.value = raw;
+  const parts = splitOutsideBrackets(body);
+  if (parts.length === 1 && !body.startsWith("[")) {
+    token.property = body;
+    token.value = body;
     return token;
   }
   const { variants, rest } = splitVariants(parts, config);
@@ -731,6 +874,20 @@ function tokenize(raw, attrType, config) {
   if (rest.length === 0) {
     token.error = "Invalid token structure";
     token.errorCode = "INVALID_TOKEN";
+    return token;
+  }
+  const arbProp = rest.length === 1 && /^\[((?:--)?[a-zA-Z][\w-]*):(.+)\]$/.exec(rest[0]);
+  if (arbProp) {
+    token.property = arbProp[1].toLowerCase();
+    token.isArbitrary = true;
+    token.arbitraryProperty = true;
+    const normalized = normalizeArbitraryValue(arbProp[2]);
+    const check = validateValue(normalized);
+    token.value = normalized;
+    if (!check.ok) {
+      token.error = `Invalid value: ${check.reason}`;
+      token.errorCode = "INVALID_VALUE";
+    }
     return token;
   }
   token.property = rest[0];
@@ -803,8 +960,10 @@ function tokenizeAll(parsed, config) {
 }
 
 // src/compiler/extractor/shape.js
-var TOKEN_SHAPE = /^!?[a-zA-Z0-9][\w./%#()\[\],+*:-]*$/;
-var BANNED_OUTSIDE_BRACKETS = /[{}$?<>;=`'"\\|&^~!@\s]/;
+var TOKEN_SHAPE = /^!?(?:@?[a-zA-Z0-9]|\[\])[\w./%#()\[\],+*:@-]*!?$/;
+var BANNED_OUTSIDE_BRACKETS = /[{}$?<>;=`'"\\|&^~\s]/;
+var BAD_BANG = /(?!^)!(?!$)/;
+var BAD_AT = /(?<!^|:)@/;
 var BRACKET_SEGMENT = /\[[^\s\[\]]*\]/g;
 var SHAPE_CACHE_LIMIT = 2e4;
 var shapeCache = /* @__PURE__ */ new Map();
@@ -825,6 +984,7 @@ function computeShape(token) {
   const outside = (collapsed[0] === "!" ? collapsed.slice(1) : collapsed).replace(/\[\]/g, "");
   if (outside.includes("[") || outside.includes("]")) return "shape";
   if (BANNED_OUTSIDE_BRACKETS.test(outside)) return "shape";
+  if (BAD_BANG.test(outside) || BAD_AT.test(outside)) return "shape";
   if (!TOKEN_SHAPE.test(collapsed)) return "shape";
   return null;
 }
@@ -1164,6 +1324,7 @@ var TEMPLATE_OPENERS = [
   // PHP
 ];
 var FAST_PATH = /[{$<@]/;
+var CONTAINER_VARIANT = /^@[A-Za-z0-9-]+(?:\/[A-Za-z][\w-]*)?:/;
 function stripPhpOpener(inner) {
   if (inner.startsWith("php")) return inner.slice(3);
   if (inner.startsWith("=")) return inner.slice(1);
@@ -1241,7 +1402,7 @@ function extractFromTemplatedString(text, sink) {
         staticStart = i;
         continue;
       }
-      if (ch === "@" && i + 1 < n && /[A-Za-z]/.test(text[i + 1])) {
+      if (ch === "@" && i + 1 < n && /[A-Za-z]/.test(text[i + 1]) && !CONTAINER_VARIANT.test(text.slice(i, i + 80))) {
         pushStatic(i);
         let j = i + 1;
         while (j < n && /[A-Za-z]/.test(text[j])) j++;
@@ -1277,17 +1438,22 @@ var WS_CODES = /* @__PURE__ */ new Set([32, 9, 10, 13, 12]);
 var isWs = (code) => WS_CODES.has(code);
 var isNameStart = (code) => code >= 65 && code <= 90 || code >= 97 && code <= 122;
 var isTagNameChar = (code) => isNameStart(code) || code >= 48 && code <= 57 || code === 45 || code === 46 || code === 58 || code === 95;
-function resolveAttributeName(name) {
-  const lower = name.toLowerCase();
+function resolveAttributeName(name, prefix = "") {
+  let lower = name.toLowerCase();
+  if (prefix) {
+    const idx = lower.indexOf(prefix);
+    if (idx === -1) return null;
+    lower = lower.slice(0, idx) + lower.slice(idx + prefix.length);
+  }
   if (ATTRIBUTE_TYPE_SET.has(lower)) return { attrType: lower, binding: "static" };
   if (lower.length > 2 && lower[0] === "[" && lower[lower.length - 1] === "]") {
     let inner = lower.slice(1, -1);
     if (inner.startsWith("attr.")) inner = inner.slice(5);
     return ATTRIBUTE_TYPE_SET.has(inner) ? { attrType: inner, binding: "dynamic" } : null;
   }
-  for (const prefix of DYNAMIC_PREFIXES) {
-    if (lower.startsWith(prefix)) {
-      let rest = lower.slice(prefix.length);
+  for (const prefix2 of DYNAMIC_PREFIXES) {
+    if (lower.startsWith(prefix2)) {
+      let rest = lower.slice(prefix2.length);
       const dot = rest.indexOf(".");
       if (dot !== -1) rest = rest.slice(0, dot);
       return ATTRIBUTE_TYPE_SET.has(rest) ? { attrType: rest, binding: "dynamic" } : null;
@@ -1295,7 +1461,7 @@ function resolveAttributeName(name) {
   }
   return null;
 }
-function scanTagAttributes(src, i, onAttr, end = src.length) {
+function scanTagAttributes(src, i, onAttr, end = src.length, prefix = "") {
   while (i < end) {
     const c = src.charCodeAt(i);
     if (isWs(c)) {
@@ -1409,7 +1575,7 @@ function scanTagAttributes(src, i, onAttr, end = src.length) {
       i = e;
       valueKind = "unquoted";
     }
-    const resolved = resolveAttributeName(name);
+    const resolved = resolveAttributeName(name, prefix);
     if (resolved) {
       onAttr({
         name,
@@ -1423,7 +1589,7 @@ function scanTagAttributes(src, i, onAttr, end = src.length) {
   }
   return end;
 }
-function scanMarkup(src, onAttr) {
+function scanMarkup(src, onAttr, prefix = "") {
   const n = src.length;
   let i = 0;
   let noCommentClose = false;
@@ -1481,10 +1647,10 @@ function scanMarkup(src, onAttr) {
       i = j;
       continue;
     }
-    i = scanTagAttributes(src, j, onAttr);
+    i = scanTagAttributes(src, j, onAttr, src.length, prefix);
   }
 }
-function scanHints(src, onAttr) {
+function scanHints(src, onAttr, prefix = "") {
   const n = src.length;
   let i = 0;
   while ((i = src.indexOf("senang:", i)) !== -1) {
@@ -1503,7 +1669,7 @@ function scanHints(src, onAttr) {
     }
     let bodyEnd = src.indexOf(closer, bodyStart);
     if (bodyEnd === -1) bodyEnd = n;
-    scanTagAttributes(src, bodyStart, (attr) => onAttr({ ...attr, source: "hint" }), bodyEnd);
+    scanTagAttributes(src, bodyStart, (attr) => onAttr({ ...attr, source: "hint" }), bodyEnd, prefix);
     i = bodyEnd;
   }
 }
@@ -1605,8 +1771,9 @@ function extractSource(content, options = {}) {
       extractFromTemplatedString(value, sink);
     }
   };
-  scanMarkup(content, handleAttribute);
-  scanHints(content, handleAttribute);
+  const prefix = attrPrefix(options.prefix || "");
+  scanMarkup(content, handleAttribute, prefix);
+  scanHints(content, handleAttribute, prefix);
   const locations = /* @__PURE__ */ new Map();
   for (const type of ATTRIBUTE_TYPES) {
     for (const [raw, list] of locationsByType[type]) locations.set(`${type}:${raw}`, list);
@@ -3081,7 +3248,15 @@ var container = {
   description: "Create a centered container with max-width",
   descriptionMs: "Cipta bekas berpusat dengan lebar maksimum",
   category: "layout",
-  engine: { css: "width: 100%; margin-left: auto; margin-right: auto;" },
+  engine: {
+    css: "width: 100%; margin-left: auto; margin-right: auto;",
+    keywords: { container: "width: 100%; margin-left: auto; margin-right: auto;" },
+    // Container queries (0.4.0): layout="container-type:inline container-name:sidebar" + @tab:/@tab/sidebar: variants
+    utilities: {
+      "container-type": { template: "container-type: {value};", literals: { inline: "inline-size", size: "size", normal: "normal" }, passthrough: true },
+      "container-name": { template: "container-name: {value};", passthrough: true }
+    }
+  },
   values: [
     { value: "container", css: "width: 100%; margin-left: auto; margin-right: auto;", description: "Centered container", descriptionMs: "Bekas berpusat" }
   ],
@@ -8868,6 +9043,48 @@ function applyComposableTransforms(registry) {
     }
   }
 }
+var configRegistries = /* @__PURE__ */ new WeakMap();
+function registryFor(config) {
+  if (!config || typeof config !== "object") return getDefaultRegistry();
+  const hit = configRegistries.get(config);
+  if (hit) return hit;
+  const ext = extensionsFor(config);
+  const animations = Object.keys(ext.animation);
+  if (Object.keys(ext.utilities).length === 0 && animations.length === 0) {
+    configRegistries.set(config, getDefaultRegistry());
+    return getDefaultRegistry();
+  }
+  const registry = buildRegistry();
+  if (animations.length) {
+    const animate = registry.utility("visual", "animate");
+    if (animate) {
+      animate.enum = { ...animate.enum || {} };
+      for (const [name, value] of Object.entries(ext.animation)) {
+        if (/^[a-zA-Z_][\w-]*$/.test(name) && typeof value === "string" && !/[{};<>]/.test(value)) {
+          animate.enum[name] = `animation: ${value};`;
+        }
+      }
+    }
+  }
+  for (const [key, spec] of Object.entries(ext.utilities)) {
+    if (!spec || typeof spec !== "object" || !/^[a-zA-Z][\w-]*$/.test(key)) continue;
+    const attr = ["layout", "space", "visual"].includes(spec.attr) ? spec.attr : "visual";
+    const def = { name: `plugin:${key}`, property: attr, category: attr };
+    if (typeof spec.css === "string") {
+      registry.addKeyword(finalize({ ...baseEntry(def, attr, key), kind: "keyword", css: spec.css }));
+      continue;
+    }
+    const e = baseEntry(def, attr, key);
+    e.scale = spec.scale || null;
+    const meta = { ...spec, templates: null, arbitraryTemplates: null };
+    if (meta.arbitrary === void 0 && (meta.template || meta.arbitraryTemplate)) meta.arbitrary = true;
+    applyEngineMeta(e, meta, key);
+    if (e.scale && !(e.scale in SCALE_VAR_PREFIX)) e.varPrefix = false;
+    registry.addUtility(finalize(e));
+  }
+  configRegistries.set(config, registry);
+  return registry;
+}
 function buildRegistry(definitions) {
   const defs = definitions || {
     layout: definitions_default.layout,
@@ -9039,7 +9256,7 @@ function getDefaultRegistry() {
 var ATTRS = ["layout", "space", "visual"];
 function knownVariantNames(config) {
   const screens = Object.keys(config && config.theme && config.theme.screens || {});
-  return [...Object.keys(STATE_VARIANTS), ...Object.keys(MEDIA_VARIANTS), "dark", ...screens, ...screens.map((s) => `max-${s}`)];
+  return [...Object.keys(STATE_VARIANTS), ...Object.keys(MEDIA_VARIANTS), "dark", ...screens, ...screens.map((s) => `max-${s}`), ...Object.keys(extensionsFor(config).variants)];
 }
 function scaleKeys(entry, config) {
   const theme = config && config.theme || {};
@@ -9053,7 +9270,7 @@ function scaleKeys(entry, config) {
   return [...out];
 }
 function diagnoseToken(token, config) {
-  const registry = getDefaultRegistry();
+  const registry = registryFor(config);
   const { attrType, property, value, raw } = token;
   const props = registry.keys(attrType);
   if (typeof value === "string" && value.includes(":")) {
@@ -9126,7 +9343,7 @@ function generateContainerCSS(config) {
     const maxWidth = containerOverrides[bp] || width2;
     css += `
 @media (min-width: ${width2}) {
-  [layout~="container"] {
+  [${attrName("layout", config)}~="container"] {
     max-width: ${maxWidth};
   }
 }
@@ -9788,7 +10005,8 @@ var defaultConfig = {
   // variant engine; consumed by the build pipeline). Entries are raw tokens
   // (`'visual=bg:primary'`, `'flex'`, `'p:medium'`) or `{ attr, tokens }`.
   safelist: [],
-  // Reserved: attribute/selector prefix for the variant engine (e.g. 'ss-').
+  // Attribute prefix: 'ss' makes the attributes ss-layout / ss-space / ss-visual
+  // (and ss-interact / ss-listens). Unprefixed attributes are then ignored.
   // Defined here so configs validate; behaviour is implemented by the engine.
   prefix: "",
   // Emit CSS wrapped in cascade layers (@layer senang.base, senang.utilities …).
@@ -10059,7 +10277,10 @@ var KNOWN_CONFIG_KEYS = Object.freeze([
   "preflight",
   "build",
   "theme",
-  "extend"
+  "extend",
+  "utilities",
+  "variants",
+  "plugins"
 ]);
 var KNOWN_OUTPUT_KEYS = Object.freeze(["css", "minify", "aiContext", "typescript"]);
 var KNOWN_BUILD_KEYS = Object.freeze(["ignoreInvalid"]);
@@ -10175,11 +10396,15 @@ function mergeConfig(userConfig = {}, options = {}) {
   const silent = options === true || options?.silent === true;
   const merged = clone(defaultConfig);
   if (!isPlainObject(userConfig)) return merged;
-  const user = clone(userConfig);
+  const { plugins, utilities, variants, ...rest } = userConfig;
+  const user = clone(rest);
   if (Array.isArray(user.content)) merged.content = user.content;
   if (Array.isArray(user.safelist)) merged.safelist = user.safelist;
   if (typeof user.prefix === "string") merged.prefix = user.prefix;
   if (typeof user.layers === "boolean") merged.layers = user.layers;
+  if (isPlainObject(utilities)) merged.utilities = utilities;
+  if (isPlainObject(variants)) merged.variants = variants;
+  if (Array.isArray(plugins)) merged.plugins = plugins;
   if (isPlainObject(user.output)) merged.output = { ...merged.output, ...user.output };
   if (user.darkMode !== void 0) merged.darkMode = user.darkMode;
   if (user.preflight !== void 0) merged.preflight = user.preflight;
@@ -10441,7 +10666,7 @@ function negateLiteral(v) {
 }
 
 // src/engine/index.js
-function generateDeclarations(token, config, registry = getDefaultRegistry()) {
+function generateDeclarations(token, config, registry = registryFor(config)) {
   const empty = { css: null, entry: null, error: null, usedVars: [] };
   if (!token || typeof token !== "object") return { ...empty, error: diagnostic(token, CODES.INVALID_TOKEN, "Token is not an object") };
   const { attrType, property, value, raw } = token;
@@ -10461,6 +10686,12 @@ function generateDeclarations(token, config, registry = getDefaultRegistry()) {
   }
   const userTheme = config && config.theme || {};
   const ctx = { theme: { ...defaultConfig.theme, ...userTheme } };
+  if (token.arbitraryProperty) {
+    if (!/^(?:--)?[a-z][a-z0-9-]*$/.test(property)) {
+      return { ...empty, error: diagnostic(token, CODES.INVALID_VALUE, `Invalid property name "${property}"`) };
+    }
+    return { css: `${property}: ${value};`, entry: { kind: "arbitrary-property", key: property, props: [property] }, error: null, usedVars: [] };
+  }
   if ((property === value || value === "") && !token.isArbitrary) {
     const kw = registry.keyword(attrType, property);
     if (kw) {
@@ -10620,9 +10851,9 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
     const isDivide = raw && raw.startsWith("divide");
     let selector = "";
     if (isDivide) {
-      selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
+      selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
     } else {
-      selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
+      selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"]`;
     }
     const parsed = tokenVariants(token).map((v) => parseVariant(v, config)).filter(Boolean);
     const stateVs = parsed.filter((p) => p.type === "state");
@@ -10639,7 +10870,7 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
         cssDeclaration = `content: var(--ss-content, ""); ${cssDeclaration}`;
       }
       if (isDivide) {
-        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
+        selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
       } else {
         const selectors = [`${selector}${suffix}`];
         const groupTriggers = {
@@ -10651,24 +10882,34 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
           selected: ["selectable", '[aria-selected="true"]']
         };
         const only = stateVs.length === 1 ? groupTriggers[stateVs[0].name] : null;
+        const L = attrName("layout", config);
         if (only) {
           const [parentAttr, trigger] = only;
-          selectors.push(`[layout~="${parentAttr}"]:not([layout~="disabled"])${trigger} ${selector}`);
+          selectors.push(`[${L}~="${parentAttr}"]:not([${L}~="disabled"])${trigger} ${selector}`);
           if (interactIds && interactIds.size > 0) {
             for (const id of interactIds) {
               const eid = escapeCSSString(id);
-              selectors.push(`[interact~="${eid}"]:not([layout~="disabled"])${trigger} ~ [listens~="${eid}"]${selector}`);
+              selectors.push(`[${attrName("interact", config)}~="${eid}"]:not([${L}~="disabled"])${trigger} ~ [${attrName("listens", config)}~="${eid}"]${selector}`);
             }
           }
         }
         selector = selectors.join(",\n");
       }
     }
+    if (token.important) {
+      cssDeclaration = cssDeclaration.split(";").map((d) => d.trim()).filter(Boolean).map((d) => `${d} !important`).join("; ") + ";";
+    }
+    const containerVs = parsed.filter((p) => p.type === "container");
+    let rule = `${selector} { ${cssDeclaration} }`;
+    for (const p of containerVs) {
+      rule = `@container ${p.container ? `${p.container} ` : ""}${p.query} { ${rule} }`;
+    }
     if (mediaVs.length > 0) {
       const query = mediaVs.map((p) => p.query).join(" and ");
-      return `@media ${query} { ${selector} { ${cssDeclaration} } }
-`;
+      rule = `@media ${query} { ${rule} }`;
     }
+    if (containerVs.length || mediaVs.length) return `${rule}
+`;
     return `${selector} { ${cssDeclaration} }
 `;
   } catch {
@@ -11010,6 +11251,7 @@ ${breakpointQuery(bp, screens, config)} {
     css += inLayer("senangstart.theme", theme, config);
     css += inLayer("senangstart.base", preflight, config);
     css += keyframes;
+    css += customKeyframes(config, utilities);
     css += transformProperties(utilities);
     css += inLayer("senangstart.utilities", utilities, config);
     return { css, errors };
@@ -11093,7 +11335,7 @@ function compileSource(content, config) {
     throw new TypeError(`compileSource: content must be a string, got ${typeof content}`);
   }
   config = resolveConfig(config);
-  const parsed = parseSource(content);
+  const parsed = parseSource(content, { prefix: config.prefix });
   const tokens = tokenizeAll(parsed, config);
   const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
   const hasErrors = diagnostics.length > 0;
@@ -11115,7 +11357,7 @@ function compileMultiple(files, config) {
     }
   }
   config = resolveConfig(config);
-  const parsed = parseMultipleSources(files);
+  const parsed = parseMultipleSources(files, { prefix: config.prefix });
   const tokens = tokenizeAll(parsed, config);
   const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
   const hasErrors = diagnostics.length > 0;

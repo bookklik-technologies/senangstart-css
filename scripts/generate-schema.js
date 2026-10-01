@@ -131,13 +131,42 @@ export function buildSchema(defaults) {
       },
       prefix: {
         type: 'string',
-        description: 'Attribute/selector prefix for the variant engine (e.g. "ss-"). Empty string disables.',
+        description: 'Attribute prefix: "ss" makes the attributes ss-layout / ss-space / ss-visual (unprefixed attributes are then ignored). Empty string disables.',
         default: defaults.prefix ?? ''
       },
       layers: {
         type: 'boolean',
-        description: 'Wrap emitted CSS in cascade layers (@layer senang.base, senang.utilities …).',
+        description: 'Wrap emitted CSS in cascade layers (@layer senangstart.theme, senangstart.base, senangstart.utilities).',
         default: defaults.layers ?? true
+      },
+      utilities: {
+        type: 'object',
+        description: 'Custom utilities. Key = utility name; value = { attr, css } for a keyword or { attr, template, scale, literals, enum, passthrough, numeric, arbitrary } for a valued utility. See docs/guide/plugins.md.',
+        additionalProperties: {
+          type: 'object',
+          properties: {
+            attr: { type: 'string', enum: ['layout', 'space', 'visual'], default: 'visual' },
+            css: { type: 'string', description: 'Static declarations (keyword utility).' },
+            template: { type: 'string', description: 'Declaration template with {value}.' },
+            arbitraryTemplate: { type: 'string' },
+            scale: { type: 'string', description: 'theme key whose entries are the accepted values.' },
+            literals: { type: 'object', additionalProperties: { type: 'string' } },
+            enum: { type: 'object', additionalProperties: { type: 'string' } },
+            passthrough: { type: 'boolean' },
+            arbitrary: { type: 'boolean' },
+            numeric: { type: 'object', properties: { unit: { type: 'string' }, divide: { type: 'number' } } }
+          }
+        }
+      },
+      variants: {
+        type: 'object',
+        description: 'Custom variants. "&:hover, &:focus" (state, alternatives become :is()), "[data-theme=dark] &" (ancestor), or "@media (…)" / "@supports (…)".',
+        additionalProperties: { type: 'string' }
+      },
+      plugins: {
+        type: 'array',
+        description: 'Functional plugins (JS configs only): ({ addUtilities, addVariants, addKeyframes, addAnimation, theme }) => void.',
+        items: {}
       },
       output: {
         type: 'object',

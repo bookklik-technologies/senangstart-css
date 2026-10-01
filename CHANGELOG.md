@@ -58,6 +58,13 @@ All notable changes to SenangStart CSS will be documented in this file.
 - New `window.SenangStart` API: `css()`, `tokens()`, `recompile()`, `version`. The console banner is now opt-in via `"debug": true`.
 - Generated rules are memoised per config in the compiler (`generateRule`), which also speeds up CLI watch rebuilds (~19 ms → ~1.5 ms for the benchmark page).
 
+### Added — parity features
+- `!important` modifier: `!p:big` or `p:big!`.
+- Arbitrary properties: `[mask-type:luminance]`, `[--brand:#123456]`, stackable with variants (`hover:[outline:none]`).
+- Container queries: `@tab:` / `@max-tab:` / `@tab/name:` variants (sizes from `theme.containers`, falling back to `theme.screens`) plus `container-type:` and `container-name:` utilities.
+- `prefix` option: `prefix: 'ss'` → `ss-layout` / `ss-space` / `ss-visual` (and `ss-interact` / `ss-listens`) in the extractor, generator, preflight and browser JIT; unprefixed attributes are then ignored.
+- Plugin API: `utilities`, `variants`, `theme.keyframes`, `theme.animation` config keys and functional `plugins: [({ addUtilities, addVariants, addKeyframes, addAnimation, theme }) => …]`. See `docs/guide/plugins.md`.
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING
