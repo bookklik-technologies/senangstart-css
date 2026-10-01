@@ -74,6 +74,35 @@ export function validateValue(value) {
 }
 
 /**
+ * Characters that may never appear anywhere in a raw token, bracketed or not.
+ * `@` is allowed only as the first character of a variant segment (reserved
+ * for container-query variants such as `@md:`).
+ */
+const RAW_FORBIDDEN = /[{};<>\\`$\u0000-\u001f\u007f]/;
+const RAW_AT_MISUSE = /(?:^|[^:])@|@(?![A-Za-z0-9])/;
+const RAW_TOKEN_MAX = 500;
+
+/**
+ * Gate applied to every raw token before tokenizing (build and JIT).
+ * @param {string} raw
+ * @returns {{ ok: boolean, reason?: string }}
+ */
+export function checkRawToken(raw) {
+  if (typeof raw !== 'string' || raw.length === 0) return { ok: false, reason: 'empty token' };
+  if (raw.length > RAW_TOKEN_MAX) return { ok: false, reason: `token exceeds ${RAW_TOKEN_MAX} characters` };
+  const bad = raw.match(RAW_FORBIDDEN);
+  if (bad) {
+    const c = bad[0];
+    const name = c === '\n' || c === '\r' ? 'newline' : c.charCodeAt(0) < 32 ? 'control character' : `"${c}"`;
+    return { ok: false, reason: `forbidden character ${name}` };
+  }
+  if (raw.includes('@') && RAW_AT_MISUSE.test(raw.replace(/^@[A-Za-z0-9]/, 'x').replace(/:@(?=[A-Za-z0-9])/g, ':x'))) {
+    return { ok: false, reason: 'forbidden character "@"' };
+  }
+  return { ok: true };
+}
+
+/**
  * Convenience predicate.
  * @param {string} value
  * @returns {boolean}
@@ -196,4 +225,4 @@ function spaceMathOperators(value) {
   return out.replace(/\u0001(\d+)\u0001/g, (m, n) => protectedVars[Number(n)]);
 }
 
-export default { validateValue, isValidValue, isValidScaleKey, escapeCSSString, attributeSelector, normalizeArbitraryValue };
+export default { checkRawToken, validateValue, isValidValue, isValidScaleKey, escapeCSSString, attributeSelector, normalizeArbitraryValue };

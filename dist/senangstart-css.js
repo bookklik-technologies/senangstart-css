@@ -141,6 +141,194 @@
   };
   var CSS_COLOR_KEYWORDS = ["transparent", "currentColor", "inherit", "initial", "unset"];
 
+  // src/core/value-grammar.js
+  var ALLOWED_CHARS = /^[A-Za-z0-9 _.%#,/+*'"()!:-]*$/;
+  var FORBIDDEN_CHARS = /[{};<>\\\n\r\t@`$]/;
+  var DANGEROUS_URL = /url\s*\(\s*['"]?\s*(javascript|data|vbscript|file|about)\s*:/i;
+  var DANGEROUS_CALLS = /\b(expression|eval|alert)\s*\(/i;
+  var MAX_LENGTH = 500;
+  function validateValue(value) {
+    if (typeof value !== "string") return { ok: false, reason: "value must be a string" };
+    if (value.length === 0) return { ok: false, reason: "empty value" };
+    if (value.length > MAX_LENGTH) return { ok: false, reason: `value exceeds ${MAX_LENGTH} characters` };
+    if (FORBIDDEN_CHARS.test(value)) {
+      const ch = value.match(FORBIDDEN_CHARS)[0];
+      const printable = ch === "\n" || ch === "\r" ? "newline" : ch === "	" ? "tab" : `"${ch}"`;
+      return { ok: false, reason: `forbidden character ${printable}` };
+    }
+    if (!ALLOWED_CHARS.test(value)) {
+      return { ok: false, reason: "character outside the allowed set" };
+    }
+    if (DANGEROUS_URL.test(value)) {
+      return { ok: false, reason: "url() with a forbidden scheme" };
+    }
+    if (DANGEROUS_CALLS.test(value)) {
+      return { ok: false, reason: "forbidden function call" };
+    }
+    let depth = 0;
+    let quote = null;
+    for (let i = 0; i < value.length; i++) {
+      const ch = value[i];
+      if (quote) {
+        if (ch === quote) quote = null;
+        continue;
+      }
+      if (ch === '"' || ch === "'") {
+        quote = ch;
+        continue;
+      }
+      if (ch === "(") depth++;
+      else if (ch === ")") {
+        depth--;
+        if (depth < 0) return { ok: false, reason: "unbalanced parentheses" };
+      }
+    }
+    if (quote) return { ok: false, reason: "unbalanced quotes" };
+    if (depth !== 0) return { ok: false, reason: "unbalanced parentheses" };
+    return { ok: true };
+  }
+  var RAW_FORBIDDEN = /[{};<>\\`$\u0000-\u001f\u007f]/;
+  var RAW_AT_MISUSE = /(?:^|[^:])@|@(?![A-Za-z0-9])/;
+  var RAW_TOKEN_MAX = 500;
+  function checkRawToken(raw) {
+    if (typeof raw !== "string" || raw.length === 0) return { ok: false, reason: "empty token" };
+    if (raw.length > RAW_TOKEN_MAX) return { ok: false, reason: `token exceeds ${RAW_TOKEN_MAX} characters` };
+    const bad = raw.match(RAW_FORBIDDEN);
+    if (bad) {
+      const c = bad[0];
+      const name = c === "\n" || c === "\r" ? "newline" : c.charCodeAt(0) < 32 ? "control character" : `"${c}"`;
+      return { ok: false, reason: `forbidden character ${name}` };
+    }
+    if (raw.includes("@") && RAW_AT_MISUSE.test(raw.replace(/^@[A-Za-z0-9]/, "x").replace(/:@(?=[A-Za-z0-9])/g, ":x"))) {
+      return { ok: false, reason: 'forbidden character "@"' };
+    }
+    return { ok: true };
+  }
+  function escapeCSSString(str) {
+    if (typeof str !== "string") return "";
+    let out = "";
+    for (let i = 0; i < str.length; i++) {
+      const ch = str[i];
+      const code = str.charCodeAt(i);
+      if (ch === '"' || ch === "\\") {
+        out += "\\" + ch;
+      } else if (code === 0) {
+        out += "\uFFFD";
+      } else if (code >= 1 && code <= 31 || code === 127) {
+        out += "\\" + code.toString(16) + " ";
+      } else {
+        out += ch;
+      }
+    }
+    return out;
+  }
+  function normalizeArbitraryValue(raw) {
+    if (typeof raw !== "string") return "";
+    const v = raw.replace(/_/g, " ").trim();
+    if (!/\b(calc|min|max|clamp)\(/.test(v)) return v;
+    return spaceMathOperators(v);
+  }
+  function spaceMathOperators(value) {
+    const protectedVars = [];
+    const work = value.replace(/--[A-Za-z0-9_-]+/g, (m) => `${protectedVars.push(m) - 1}`);
+    let out = "";
+    let depth = 0;
+    const mathStack = [];
+    for (let i = 0; i < work.length; i++) {
+      const ch = work[i];
+      if (ch === "(") {
+        const fnMatch = /([a-z-]+)$/i.exec(out);
+        mathStack.push(fnMatch && /^(calc|min|max|clamp)$/i.test(fnMatch[1]) ? "math" : "other");
+        if (mathStack[mathStack.length - 1] === "math") depth++;
+        out += ch;
+        continue;
+      }
+      if (ch === ")") {
+        if (mathStack.pop() === "math") depth--;
+        out += ch;
+        continue;
+      }
+      if (depth > 0 && (ch === "+" || ch === "*" || ch === "/" || ch === "-")) {
+        const leftRaw = out.replace(/\s+$/, "");
+        const left = leftRaw[leftRaw.length - 1] || "";
+        let j = i + 1;
+        while (j < work.length && work[j] === " ") j++;
+        const right = work[j] || "";
+        const leftIsValueEnd = /[0-9%)\u0001]/.test(left) || /\d[a-zA-Z]{1,5}$/.test(leftRaw);
+        const rightIsValueStart = /[0-9.(\u0001]/.test(right) || /^-[0-9.]/.test(work.slice(j)) || /^(var|calc|min|max|clamp)\(/.test(work.slice(j));
+        const isBinary = ch === "-" ? leftIsValueEnd && rightIsValueStart : leftIsValueEnd && rightIsValueStart;
+        if (isBinary) {
+          out = `${leftRaw} ${ch} `;
+          i = j - 1;
+          continue;
+        }
+      }
+      out += ch;
+    }
+    return out.replace(/\u0001(\d+)\u0001/g, (m, n) => protectedVars[Number(n)]);
+  }
+
+  // src/engine/variants.js
+  var STATE_VARIANTS = {
+    hover: { selector: ":hover", group: "hoverable" },
+    focus: { selector: ":focus", group: "focusable", trigger: ":focus-within" },
+    "focus-visible": { selector: ":focus-visible", group: "focusable", trigger: ":focus-within" },
+    "focus-within": { selector: ":focus-within" },
+    active: { selector: ":active", group: "pressable" },
+    checked: { selector: ":checked" },
+    disabled: { selector: ":disabled" },
+    expanded: { selector: '[aria-expanded="true"]', group: "expandable" },
+    selected: { selector: '[aria-selected="true"]', group: "selectable" },
+    required: { selector: ":required" },
+    optional: { selector: ":optional" },
+    valid: { selector: ":valid" },
+    invalid: { selector: ":invalid" },
+    placeholder: { selector: "::placeholder" }
+  };
+  var STATE_ORDER = Object.keys(STATE_VARIANTS);
+  var customHandlers = /* @__PURE__ */ new Map();
+  function parseVariant(part, config) {
+    if (typeof part !== "string" || !part) return null;
+    if (part === "dark") return { type: "dark", name: "dark" };
+    if (STATE_VARIANTS[part]) return { type: "state", name: part };
+    if (customHandlers.has(part)) return { type: "custom", name: part };
+    const names = config && config.theme && config.theme.screens ? Object.keys(config.theme.screens) : BREAKPOINTS.concat(["print"]);
+    if (names.includes(part)) return { type: "breakpoint", name: part };
+    if (part.startsWith("max-") && names.includes(part.slice(4))) {
+      return { type: "max", name: part, to: part.slice(4) };
+    }
+    for (const from of names) {
+      if (part.startsWith(`${from}-`)) {
+        const to = part.slice(from.length + 1);
+        if (names.includes(to) && from !== to) return { type: "range", name: part, from, to };
+      }
+    }
+    return null;
+  }
+  function splitVariants(parts, config) {
+    const variants = [];
+    let i = 0;
+    while (i < parts.length - 1 && parseVariant(parts[i], config)) {
+      variants.push(parts[i]);
+      i++;
+    }
+    return { variants, rest: parts.slice(i) };
+  }
+  function deriveLegacyFields(variants, config) {
+    let breakpoint = null;
+    let state = null;
+    for (const v of variants) {
+      const p = parseVariant(v, config);
+      if (!p) continue;
+      if (p.type === "breakpoint" || p.type === "max" || p.type === "range") breakpoint = breakpoint || v;
+      else if (p.type === "dark") state = state || "dark";
+      else if (p.type === "state" || p.type === "custom") {
+        if (!state || state === "dark") state = v;
+      }
+    }
+    return { breakpoint, state };
+  }
+
   // src/utils/common.js
   function sanitizeValue(value) {
     if (typeof value !== "string") {
@@ -213,7 +401,7 @@
   }
 
   // src/core/tokenizer-core.js
-  function isValidToken(token) {
+  function isValidToken(token, config) {
     if (!token.property || typeof token.property !== "string") {
       return false;
     }
@@ -229,29 +417,39 @@
     if (token.value.length > LIMITS.MAX_VALUE_LENGTH) {
       return false;
     }
-    if (token.breakpoint && !BREAKPOINTS.includes(token.breakpoint)) {
+    if (token.breakpoint && !BREAKPOINTS.includes(token.breakpoint) && !parseVariant(token.breakpoint, config)) {
       return false;
     }
-    if (token.state && !STATES.includes(token.state)) {
+    if (token.state && !STATES.includes(token.state) && !parseVariant(token.state, config)) {
       return false;
     }
     return true;
   }
-  function tokenize(raw, attrType) {
+  function errorToken(raw, attrType, message, code) {
+    return {
+      raw,
+      variants: [],
+      breakpoint: null,
+      state: null,
+      property: null,
+      value: null,
+      isArbitrary: false,
+      attrType,
+      error: message,
+      errorCode: code
+    };
+  }
+  function tokenize(raw, attrType, config) {
     if (typeof raw !== "string" || raw.length === 0 || raw.length > LIMITS.MAX_TOKEN_RAW_LENGTH) {
-      return {
-        raw,
-        breakpoint: null,
-        state: null,
-        property: null,
-        value: null,
-        isArbitrary: false,
-        attrType,
-        error: "Invalid token format"
-      };
+      return errorToken(raw, attrType, "Invalid token format", "INVALID_TOKEN");
+    }
+    const rawCheck = checkRawToken(raw);
+    if (!rawCheck.ok) {
+      return errorToken(raw, attrType, `Invalid token: ${rawCheck.reason}`, "INVALID_VALUE");
     }
     const token = {
       raw,
+      variants: [],
       breakpoint: null,
       state: null,
       property: null,
@@ -259,64 +457,82 @@
       isArbitrary: false,
       attrType
     };
-    if (attrType === "layout") {
-      if (raw.startsWith("z:")) {
-        token.property = "z";
-        token.value = raw.substring(2);
-        return token;
-      }
-      if (raw.startsWith("overflow:")) {
-        token.property = "overflow";
-        token.value = raw.substring(9);
-        return token;
-      }
-      if (LAYOUT_KEYWORDS.includes(raw)) {
-        token.property = raw;
-        token.value = raw;
-        return token;
-      }
+    if (attrType === "layout" && LAYOUT_KEYWORDS.includes(raw)) {
+      token.property = raw;
+      token.value = raw;
+      return token;
     }
-    const parts = raw.split(":");
+    const parts = splitOutsideBrackets(raw);
     if (parts.length === 1) {
       token.property = raw;
       token.value = raw;
       return token;
     }
-    let idx = 0;
-    if (BREAKPOINTS.includes(parts[0])) {
-      token.breakpoint = parts[0];
-      idx++;
+    const { variants, rest } = splitVariants(parts, config);
+    token.variants = variants;
+    const legacy = deriveLegacyFields(variants, config);
+    token.breakpoint = legacy.breakpoint;
+    token.state = legacy.state;
+    if (rest.length === 0) {
+      token.error = "Invalid token structure";
+      token.errorCode = "INVALID_TOKEN";
+      return token;
     }
-    if (STATES.includes(parts[idx])) {
-      token.state = parts[idx];
-      idx++;
-    }
-    if (idx < parts.length) {
-      token.property = parts[idx];
-      idx++;
-    }
-    if (idx < parts.length) {
-      const value = parts.slice(idx).join(":");
+    token.property = rest[0];
+    if (rest.length > 1) {
+      const value = rest.slice(1).join(":");
       const arbitraryMatch = value.match(/^\[(.+)\]$/);
       if (arbitraryMatch) {
-        token.value = sanitizeValue(arbitraryMatch[1].replace(/_/g, " "));
         token.isArbitrary = true;
+        const normalized = normalizeArbitraryValue(arbitraryMatch[1]);
+        const check = validateValue(normalized);
+        if (!check.ok) {
+          token.value = normalized;
+          token.error = `Invalid value: ${check.reason}`;
+          token.errorCode = "INVALID_VALUE";
+          return token;
+        }
+        token.value = normalized;
       } else {
+        const check = validateValue(value);
+        if (!check.ok) {
+          token.value = value;
+          token.error = `Invalid value: ${check.reason}`;
+          token.errorCode = "INVALID_VALUE";
+          return token;
+        }
         token.value = value;
       }
-    } else if (token.property && !token.value) {
+    } else {
       token.value = token.property;
     }
-    if (!isValidToken(token)) {
+    if (!isValidToken(token, config)) {
       token.error = "Invalid token structure";
+      token.errorCode = "INVALID_TOKEN";
     }
     return token;
   }
-  function tokenizeAll(parsed) {
+  function splitOutsideBrackets(raw) {
+    const parts = [];
+    let depth = 0;
+    let start = 0;
+    for (let i = 0; i < raw.length; i++) {
+      const ch = raw[i];
+      if (ch === "[" || ch === "(") depth++;
+      else if (ch === "]" || ch === ")") depth = Math.max(0, depth - 1);
+      else if (ch === ":" && depth === 0) {
+        parts.push(raw.slice(start, i));
+        start = i + 1;
+      }
+    }
+    parts.push(raw.slice(start));
+    return parts;
+  }
+  function tokenizeAll(parsed, config) {
     const tokens = [];
     for (const [attrType, values] of Object.entries(parsed)) {
       for (const raw of values) {
-        tokens.push(tokenize(raw, attrType));
+        tokens.push(tokenize(raw, attrType, config));
       }
     }
     return tokens;
@@ -908,6 +1124,7 @@ video {
     description: "Flex shorthand property",
     descriptionMs: "Properti pintasan flex",
     category: "layout",
+    engine: { passthrough: true, arbitrary: true },
     supportsArbitrary: true,
     dynamic: true,
     values: [
@@ -952,6 +1169,7 @@ video {
     description: "Set initial size of flex item",
     descriptionMs: "Tetapkan saiz awal item flex",
     category: "layout",
+    engine: { template: "flex-basis: {value};", literals: { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
     usesScale: "spacing",
     supportsArbitrary: true,
     dynamic: true,
@@ -984,6 +1202,7 @@ video {
     description: "Control flex/grid item order",
     descriptionMs: "Kawal susunan item flex/grid",
     category: "layout",
+    engine: { numeric: true, passthrough: true },
     dynamic: true,
     supportsArbitrary: true,
     values: [
@@ -1031,6 +1250,7 @@ video {
     description: "Align items along the main axis",
     descriptionMs: "Jajarkan item sepanjang paksi utama",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "start", css: "justify-content: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
       { value: "end", css: "justify-content: flex-end;", description: "Align to end", descriptionMs: "Jajar ke hujung" },
@@ -1090,6 +1310,7 @@ video {
     description: "Align items along the cross axis",
     descriptionMs: "Jajarkan item sepanjang paksi silang",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "start", css: "align-items: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
       { value: "end", css: "align-items: flex-end;", description: "Align to end", descriptionMs: "Jajar ke hujung" },
@@ -1146,6 +1367,7 @@ video {
     description: "Override alignment for a single item",
     descriptionMs: "Ganti penjajaran untuk satu item",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "auto", css: "align-self: auto;", description: "Use parent alignment", descriptionMs: "Guna penjajaran induk" },
       { value: "start", css: "align-self: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
@@ -1179,6 +1401,7 @@ video {
     description: "Align content rows in multi-line flex container",
     descriptionMs: "Jajarkan baris kandungan dalam bekas flex berbilang baris",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "start", css: "align-content: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
       { value: "end", css: "align-content: flex-end;", description: "Align to end", descriptionMs: "Jajar ke hujung" },
@@ -1269,6 +1492,7 @@ video {
     description: "Align grid items on inline axis",
     descriptionMs: "Jajarkan item grid pada paksi sebaris",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "start", css: "justify-items: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
       { value: "end", css: "justify-items: end;", description: "End alignment", descriptionMs: "Jajar hujung" },
@@ -1300,6 +1524,7 @@ video {
     description: "Align single grid item on inline axis",
     descriptionMs: "Jajarkan satu item grid pada paksi sebaris",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "auto", css: "justify-self: auto;", description: "Auto alignment", descriptionMs: "Jajar automatik" },
       { value: "start", css: "justify-self: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
@@ -1332,6 +1557,7 @@ video {
     description: "Shorthand for align-content and justify-content",
     descriptionMs: "Pintasan untuk align-content dan justify-content",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "start", css: "place-content: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
       { value: "end", css: "place-content: end;", description: "End alignment", descriptionMs: "Jajar hujung" },
@@ -1365,6 +1591,7 @@ video {
     description: "Shorthand for align-items and justify-items",
     descriptionMs: "Pintasan untuk align-items dan justify-items",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "start", css: "place-items: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
       { value: "end", css: "place-items: end;", description: "End alignment", descriptionMs: "Jajar hujung" },
@@ -1396,6 +1623,7 @@ video {
     description: "Shorthand for align-self and justify-self",
     descriptionMs: "Pintasan untuk align-self dan justify-self",
     category: "layout",
+    engine: { passthrough: true },
     values: [
       { value: "auto", css: "place-self: auto;", description: "Auto alignment", descriptionMs: "Jajar automatik" },
       { value: "start", css: "place-self: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
@@ -1430,6 +1658,7 @@ video {
     description: "Define grid template columns",
     descriptionMs: "Tentukan templat lajur grid",
     category: "layout",
+    engine: { arbitraryTemplate: "grid-template-columns: {value};" },
     dynamic: true,
     supportsArbitrary: true,
     values: [
@@ -1479,6 +1708,7 @@ video {
     description: "Define grid template rows",
     descriptionMs: "Tentukan templat baris grid",
     category: "layout",
+    engine: { arbitrary: true, arbitraryTemplate: "grid-template-rows: {value};" },
     dynamic: true,
     values: [
       { value: "1-12", css: "grid-template-rows: repeat({n}, minmax(0, 1fr));", description: "N equal rows", descriptionMs: "N baris sama" },
@@ -1513,6 +1743,7 @@ video {
     description: "Span across grid columns",
     descriptionMs: "Merentangi lajur grid",
     category: "layout",
+    engine: { utilities: { "col-start": { template: "grid-column-start: {value};", numeric: true, passthrough: true }, "col-end": { template: "grid-column-end: {value};", numeric: true, passthrough: true } } },
     dynamic: true,
     values: [
       { value: "1-12", css: "grid-column: span {n} / span {n};", description: "Span N columns", descriptionMs: "Merentangi N lajur" },
@@ -1559,6 +1790,7 @@ video {
     description: "Span across grid rows",
     descriptionMs: "Merentangi baris grid",
     category: "layout",
+    engine: { utilities: { "row-start": { template: "grid-row-start: {value};", numeric: true, passthrough: true }, "row-end": { template: "grid-row-end: {value};", numeric: true, passthrough: true } } },
     dynamic: true,
     values: [
       { value: "1-12", css: "grid-row: span {n} / span {n};", description: "Span N rows", descriptionMs: "Merentangi N baris" },
@@ -1637,6 +1869,7 @@ video {
     description: "Control size of auto-generated grid tracks",
     descriptionMs: "Kawal saiz trek grid yang dijana automatik",
     category: "layout",
+    engine: { templates: { "auto-cols": "grid-auto-columns: {value};", "auto-rows": "grid-auto-rows: {value};" }, passthrough: true, arbitrary: true },
     dynamic: true,
     values: [
       { value: "auto", css: "auto", description: "Auto size", descriptionMs: "Saiz automatik" },
@@ -1713,6 +1946,7 @@ video {
     description: "Control positioning offsets",
     descriptionMs: "Kawal ofset kedudukan",
     category: "layout",
+    engine: { negatable: true, literals: { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
     usesScale: "spacing",
     supportsArbitrary: true,
     values: [
@@ -1827,6 +2061,7 @@ video {
     description: "Control content overflow behavior",
     descriptionMs: "Kawal kelakuan limpahan kandungan",
     category: "layout",
+    engine: { aliases: ["overflow-x", "overflow-y"], templates: { "overflow-x": "overflow-x: {value};", "overflow-y": "overflow-y: {value};" } },
     values: [
       { value: "auto", css: "overflow: auto;", description: "Scrollbar when needed", descriptionMs: "Bar skrol bila perlu" },
       { value: "hidden", css: "overflow: hidden;", description: "Hide overflow", descriptionMs: "Sembunyikan limpahan" },
@@ -1896,13 +2131,13 @@ video {
     descriptionMs: "Kawal pengapungan dan pembersihan elemen",
     category: "layout",
     values: [
-      { value: "left", css: "float: left;", description: "Float left", descriptionMs: "Apung kiri" },
-      { value: "right", css: "float: right;", description: "Float right", descriptionMs: "Apung kanan" },
-      { value: "none", css: "float: none;", description: "No float", descriptionMs: "Tiada pengapungan" },
-      { value: "clear-left", css: "clear: left;", description: "Clear left floats", descriptionMs: "Kosongkan apung kiri" },
-      { value: "clear-right", css: "clear: right;", description: "Clear right floats", descriptionMs: "Kosongkan apung kanan" },
-      { value: "clear-both", css: "clear: both;", description: "Clear all floats", descriptionMs: "Kosongkan semua apung" },
-      { value: "clear-none", css: "clear: none;", description: "No clear", descriptionMs: "Tiada pembersihan" }
+      { prefix: "float", value: "left", css: "float: left;", description: "Float left", descriptionMs: "Apung kiri" },
+      { prefix: "float", value: "right", css: "float: right;", description: "Float right", descriptionMs: "Apung kanan" },
+      { prefix: "float", value: "none", css: "float: none;", description: "No float", descriptionMs: "Tiada pengapungan" },
+      { prefix: "clear", value: "left", css: "clear: left;", description: "Clear left floats", descriptionMs: "Kosongkan apung kiri" },
+      { prefix: "clear", value: "right", css: "clear: right;", description: "Clear right floats", descriptionMs: "Kosongkan apung kanan" },
+      { prefix: "clear", value: "both", css: "clear: both;", description: "Clear all floats", descriptionMs: "Kosongkan semua apung" },
+      { prefix: "clear", value: "none", css: "clear: none;", description: "No clear", descriptionMs: "Tiada pembersihan" }
     ],
     examples: [
       { code: '<img layout="float:left">Float left</img>', description: "Float image left" },
@@ -2006,6 +2241,7 @@ video {
     description: "Position replaced element content within container",
     descriptionMs: "Letakkan kandungan elemen diganti dalam bekas",
     category: "layout",
+    engine: { passthrough: true },
     supportsArbitrary: true,
     values: [
       { value: "center", css: "object-position: center;", description: "Center position", descriptionMs: "Kedudukan tengah" },
@@ -2043,6 +2279,7 @@ video {
     description: "Create a centered container with max-width",
     descriptionMs: "Cipta bekas berpusat dengan lebar maksimum",
     category: "layout",
+    engine: { css: "width: 100%; margin-left: auto; margin-right: auto;" },
     values: [
       { value: "container", css: "width: 100%; margin-left: auto; margin-right: auto;", description: "Centered container", descriptionMs: "Bekas berpusat" }
     ],
@@ -2096,6 +2333,7 @@ video {
     description: "Control scroll chaining behavior",
     descriptionMs: "Kawal kelakuan rantaian skrol",
     category: "layout",
+    engine: { aliases: ["overscroll-x", "overscroll-y"], templates: { "overscroll-x": "overscroll-behavior-x: {value};", "overscroll-y": "overscroll-behavior-y: {value};" } },
     values: [
       { value: "auto", css: "overscroll-behavior: auto;", description: "Default behavior", descriptionMs: "Kelakuan lalai" },
       { value: "contain", css: "overscroll-behavior: contain;", description: "Contain scroll", descriptionMs: "Kandung skrol" },
@@ -2209,6 +2447,7 @@ video {
     description: "Control spacing between table borders",
     descriptionMs: "Kawal jarak antara sempadan jadual",
     category: "layout",
+    engine: {},
     usesScale: "spacing",
     supportsArbitrary: true,
     dynamic: true,
@@ -8298,6 +8537,7 @@ video {
         return "";
       }
       const { raw, attrType, state } = token;
+      if (token.error) return "";
       if (!attrType || typeof attrType !== "string") {
         console.warn("[SenangStart] Invalid token attrType:", attrType);
         return "";
@@ -8344,13 +8584,13 @@ video {
       const isDivide = raw && raw.startsWith("divide");
       let selector = "";
       if (isDivide) {
-        selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
+        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
       } else {
-        selector = `[${attrType}~="${raw}"]`;
+        selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
       }
       if (state && state !== "dark") {
         if (isDivide) {
-          selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+          selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]):${state}`;
         } else {
           const getStateSelector = (s) => {
             const map = {
@@ -8380,7 +8620,7 @@ video {
             selectors.push(groupSelector);
             if (interactIds && interactIds.size > 0) {
               for (const id of interactIds) {
-                const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
+                const peerSelector = `[interact~="${escapeCSSString(id)}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${escapeCSSString(id)}"]${selector}`;
                 selectors.push(peerSelector);
               }
             }
@@ -8582,7 +8822,7 @@ video {
                   if (baseDisplayTokens.has(bpToken.attrType)) {
                     const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
                     if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
-                      const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
+                      const selector = `[${bpToken.attrType}~="${escapeCSSString(bpToken.raw)}"]`;
                       css += `  ${selector} { display: revert-layer; }
 `;
                       processedResetSelectors.add(bpToken.raw);
@@ -8938,18 +9178,34 @@ video {
   // src/config/defaults.js
   var defaultConfig = {
     // Input files to scan for attributes
+    // Globs are resolved with tinyglobby relative to the project root.
+    // Negation is supported (`'!./legacy/**'`); node_modules/.git/dist are ignored by default.
     content: [
       "./**/*.html",
-      "./src/**/*.{html,jsx,tsx,vue,svelte}",
-      "./pages/**/*.{html,jsx,tsx}",
-      "./components/**/*.{html,jsx,tsx}"
+      "./**/*.{php,blade.php}",
+      "./**/*.{js,jsx,ts,tsx}",
+      "./**/*.{vue,svelte,astro}",
+      "./**/*.{md,mdx}"
     ],
+    // Tokens to always include even if not found in `content` (reserved for the
+    // variant engine; consumed by the build pipeline). Entries are raw tokens
+    // (`'visual=bg:primary'`, `'flex'`, `'p:medium'`) or `{ attr, tokens }`.
+    safelist: [],
+    // Reserved: attribute/selector prefix for the variant engine (e.g. 'ss-').
+    // Defined here so configs validate; behaviour is implemented by the engine.
+    prefix: "",
+    // Emit CSS wrapped in cascade layers (@layer senang.base, senang.utilities …).
+    // Behaviour implemented by the engine team; defined here for config validation.
+    layers: true,
     // Output configuration
     output: {
       css: "./public/senangstart.css",
       minify: false,
-      aiContext: "./.cursorrules",
-      typescript: "./types/senang.d.ts"
+      // OPT-IN: AI context file (e.g. './.cursorrules'). `null`/`false` = disabled.
+      // Generated files carry a marker header; existing files without it are never overwritten.
+      aiContext: null,
+      // OPT-IN: TypeScript definitions (e.g. './types/senang.d.ts'). `null`/`false` = disabled.
+      typescript: null
     },
     // Dark mode configuration
     // 'media' - Uses @media (prefers-color-scheme: dark)
@@ -8967,6 +9223,9 @@ video {
       ignoreInvalid: false
     },
     theme: {
+      // Expose every theme scale as CSS custom properties (not only used ones).
+      // Behaviour implemented by the engine team; defined here for config validation.
+      exposeAll: false,
       // 1. SPACING: The "Natural Object" Scale with multiplier variants
       // Logic: How big is the object/gap physically?
       spacing: {
@@ -9182,9 +9441,31 @@ video {
       animationDelay: { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" },
       perspective: { none: "none", dramatic: "100px", near: "300px", normal: "500px", midrange: "800px", far: "1000px", distant: "1200px" }
     },
-    // Extend or override defaults
+    // Deprecated alias of `theme.extend` (kept for backwards compatibility).
     extend: {}
   };
+  function deepFreeze(obj) {
+    if (obj && typeof obj === "object" && !Object.isFrozen(obj)) {
+      Object.freeze(obj);
+      for (const value of Object.values(obj)) deepFreeze(value);
+    }
+    return obj;
+  }
+  deepFreeze(defaultConfig);
+  var KNOWN_CONFIG_KEYS = Object.freeze([
+    "content",
+    "safelist",
+    "prefix",
+    "layers",
+    "output",
+    "darkMode",
+    "preflight",
+    "build",
+    "theme",
+    "extend"
+  ]);
+  var KNOWN_OUTPUT_KEYS = Object.freeze(["css", "minify", "aiContext", "typescript"]);
+  var KNOWN_BUILD_KEYS = Object.freeze(["ignoreInvalid"]);
   function deepMerge(target, source, visited = /* @__PURE__ */ new WeakMap()) {
     if (visited.has(source)) {
       return visited.get(source);
@@ -9283,28 +9564,46 @@ video {
     }
     return warnings;
   }
-  function mergeConfig(userConfig = {}) {
-    const merged = { ...defaultConfig };
-    if (userConfig.content) {
-      merged.content = userConfig.content;
+  function clone(value) {
+    try {
+      return globalThis.structuredClone(value);
+    } catch {
+      return JSON.parse(JSON.stringify(value));
     }
-    if (userConfig.output) {
-      merged.output = { ...merged.output, ...userConfig.output };
+  }
+  function isPlainObject(v) {
+    return v !== null && typeof v === "object" && !Array.isArray(v);
+  }
+  function mergeConfig(userConfig = {}, options = {}) {
+    const silent = options === true || options?.silent === true;
+    const merged = clone(defaultConfig);
+    if (!isPlainObject(userConfig)) return merged;
+    const user = clone(userConfig);
+    if (Array.isArray(user.content)) merged.content = user.content;
+    if (Array.isArray(user.safelist)) merged.safelist = user.safelist;
+    if (typeof user.prefix === "string") merged.prefix = user.prefix;
+    if (typeof user.layers === "boolean") merged.layers = user.layers;
+    if (isPlainObject(user.output)) merged.output = { ...merged.output, ...user.output };
+    if (user.darkMode !== void 0) merged.darkMode = user.darkMode;
+    if (user.preflight !== void 0) merged.preflight = user.preflight;
+    if (isPlainObject(user.build)) merged.build = { ...merged.build, ...user.build };
+    let themeExtend = null;
+    if (isPlainObject(user.theme)) {
+      const { extend, ...directTheme } = user.theme;
+      merged.theme = deepMerge(merged.theme, directTheme);
+      if (isPlainObject(extend)) themeExtend = extend;
     }
-    if (userConfig.darkMode !== void 0) {
-      merged.darkMode = userConfig.darkMode;
+    if (isPlainObject(user.extend) && Object.keys(user.extend).length > 0) {
+      themeExtend = themeExtend ? deepMerge(user.extend, themeExtend) : user.extend;
+      merged.extend = user.extend;
     }
-    if (userConfig.preflight !== void 0) {
-      merged.preflight = userConfig.preflight;
+    if (themeExtend) {
+      merged.theme = deepMerge(merged.theme, themeExtend);
     }
-    if (userConfig.build && typeof userConfig.build === "object") {
-      merged.build = { ...merged.build || {}, ...userConfig.build };
-    }
-    if (userConfig.theme) {
-      merged.theme = deepMerge(merged.theme, userConfig.theme);
-    }
-    const warnings = validateTheme(merged.theme);
-    if (warnings.length > 0) {
+    if (!silent) {
+      const scales = { ...merged.theme };
+      delete scales.exposeAll;
+      const warnings = validateTheme(scales);
       for (const w of warnings) {
         console.warn(`[senang] Theme validation: ${w}`);
       }
@@ -9312,12 +9611,22 @@ video {
     return merged;
   }
 
+  // src/cdn/scan.js
+  var MAX_ATTR_LENGTH = 4e3;
+  var MAX_TOKEN_LENGTH = 500;
+  function splitSafeTokens(value) {
+    if (typeof value !== "string" || value.length === 0 || value.length > MAX_ATTR_LENGTH) return [];
+    const out = [];
+    for (const t of value.split(/\s+/)) {
+      if (t && t.length <= MAX_TOKEN_LENGTH && checkRawToken(t).ok) out.push(t);
+    }
+    return out;
+  }
+
   // src/cdn/senangstart-engine.js
   try {
     (function() {
       "use strict";
-      const MAX_ATTR_LENGTH = 1e3;
-      const MAX_TOKEN_LENGTH = 200;
       function validateConfig(config) {
         if (!config || typeof config !== "object" || Array.isArray(config)) return false;
         if (config.theme && (typeof config.theme !== "object" || Array.isArray(config.theme))) return false;
@@ -9350,65 +9659,11 @@ video {
         const user = loadInlineConfig();
         return mergeConfig(user);
       }
-      function sanitizeAttributeValue(value) {
-        if (typeof value !== "string") return "";
-        if (value.length > MAX_ATTR_LENGTH) return "";
-        let sanitized = value;
-        sanitized = sanitized.replace(/[\\`$]/g, "");
-        const dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
-        sanitized = sanitized.replace(dangerousProtocols, "url(about:blank");
-        const scriptVectors = [
-          /expression\s*\(/gi,
-          /\beval\s*\(/gi,
-          /\balert\s*\(/gi,
-          /\bdocument\./g,
-          /\bwindow\./g,
-          /on\w+\s*=/gi,
-          /<script[^>]*>/gi,
-          /<\/script>/gi
-        ];
-        for (let i = 0; i < scriptVectors.length; i++) {
-          sanitized = sanitized.replace(scriptVectors[i], "");
-        }
-        sanitized = sanitized.replace(/@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi, "");
-        if (/[<>"']/.test(sanitized)) return "";
-        sanitized = sanitized.replace(/;/g, "_");
-        const openB = (sanitized.match(/\[/g) || []).length;
-        const closeB = (sanitized.match(/\]/g) || []).length;
-        if (Math.abs(openB - closeB) > 1 || Math.max(openB, closeB) > 10) return "";
-        if (sanitized.length > 500) sanitized = sanitized.substring(0, 500);
-        return sanitized;
-      }
       function scanElement(el, tokens) {
-        const attrs = ["layout", "space", "visual"];
+        const attrs = ["layout", "space", "visual", "interact", "listens"];
         for (let i = 0; i < attrs.length; i++) {
-          let value = el.getAttribute(attrs[i]);
-          if (value) {
-            value = sanitizeAttributeValue(value);
-            if (!value) continue;
-            const parts = value.split(/\s+/);
-            for (let j = 0; j < parts.length; j++) {
-              const token = parts[j];
-              if (token && token.length <= MAX_TOKEN_LENGTH) {
-                tokens[attrs[i]].add(token);
-              }
-            }
-          }
-        }
-        const stateAttrs = ["interact", "listens"];
-        for (let i = 0; i < stateAttrs.length; i++) {
-          let value = el.getAttribute(stateAttrs[i]);
-          if (value) {
-            value = sanitizeAttributeValue(value);
-            if (!value) continue;
-            const parts = value.split(/\s+/);
-            for (let j = 0; j < parts.length; j++) {
-              const id = parts[j];
-              if (id && id.length <= MAX_TOKEN_LENGTH) {
-                tokens[stateAttrs[i]].add(id);
-              }
-            }
-          }
+          const parts = splitSafeTokens(el.getAttribute(attrs[i]));
+          for (let j = 0; j < parts.length; j++) tokens[attrs[i]].add(parts[j]);
         }
       }
       function scanRoot(root, tokens) {

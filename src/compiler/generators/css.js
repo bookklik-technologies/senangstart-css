@@ -3,6 +3,7 @@
  * Generates CSS from tokens using attribute selectors
  */
 
+import { escapeCSSString } from '../../core/value-grammar.js';
 import { generatePreflight } from './preflight.js';
 import { sanitizeValue } from '../../utils/common.js';
 import { buildAllMaps } from '../../definitions/index.js';
@@ -690,6 +691,9 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
 
     const { raw, attrType, state } = token;
 
+    // Tokens flagged by the tokenizer (security gate, invalid structure) never emit CSS
+    if (token.error) return '';
+
     if (!attrType || typeof attrType !== 'string') {
       console.warn('[SenangStart] Invalid token attrType:', attrType);
       return '';
@@ -747,9 +751,9 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
 
     if (isDivide) {
       // Divide utilities use special child selector pattern
-      selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
+      selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
     } else {
-      selector = `[${attrType}~="${raw}"]`;
+      selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
     }
 
     // Add state pseudo-class (but not for 'dark' - it's handled separately)
@@ -757,7 +761,7 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
       if (isDivide) {
         // For divide utilities, add state to the element after tilde
         // Divide utilities don't support group/peer states yet to avoid complexity
-        selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]):${state}`;
       } else {
         // Helper to map state to CSS selector
         const getStateSelector = (s) => {
@@ -803,7 +807,7 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
           // [interact~="id"]:not([layout~="disabled"]):hover ~ [listens~="id"][visual~="..."]
           if (interactIds && interactIds.size > 0) {
             for (const id of interactIds) {
-              const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
+              const peerSelector = `[interact~="${escapeCSSString(id)}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${escapeCSSString(id)}"]${selector}`;
               selectors.push(peerSelector);
             }
           }
@@ -1088,7 +1092,7 @@ export function generateCSSWithErrors(tokens, config) {
                 if (baseDisplayTokens.has(bpToken.attrType)) {
                   const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
                   if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
-                    const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
+                    const selector = `[${bpToken.attrType}~="${escapeCSSString(bpToken.raw)}"]`;
                     css += `  ${selector} { display: revert-layer; }\n`;
                     processedResetSelectors.add(bpToken.raw);
                   }

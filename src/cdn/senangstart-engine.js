@@ -12,13 +12,12 @@
 import { tokenizeAll } from '../core/tokenizer-core.js';
 import { generateCSS } from '../compiler/generators/css.js';
 import { mergeConfig } from '../config/defaults.js';
+import { splitSafeTokens } from './scan.js';
 
 try {
 (function() {
   'use strict';
 
-  const MAX_ATTR_LENGTH = 1000;
-  const MAX_TOKEN_LENGTH = 200;
 
   // ============================================
   // CONFIG LOADER
@@ -67,85 +66,11 @@ try {
   // DOM SCANNER (with sanitization)
   // ============================================
 
-  function sanitizeAttributeValue(value) {
-    if (typeof value !== 'string') return '';
-    if (value.length > MAX_ATTR_LENGTH) return '';
-
-    let sanitized = value;
-
-    // Strip escape characters
-    sanitized = sanitized.replace(/[\\`$]/g, '');
-
-    // Block url() with dangerous protocols
-    const dangerousProtocols = /url\s*\(\s*['"]?\s*(?:javascript|data|vbscript|file|about)/gi;
-    sanitized = sanitized.replace(dangerousProtocols, 'url(about:blank');
-
-    // Block script execution vectors
-    const scriptVectors = [
-      /expression\s*\(/gi,
-      /\beval\s*\(/gi,
-      /\balert\s*\(/gi,
-      /\bdocument\./g,
-      /\bwindow\./g,
-      /on\w+\s*=/gi,
-      /<script[^>]*>/gi,
-      /<\/script>/gi
-    ];
-    for (let i = 0; i < scriptVectors.length; i++) {
-      sanitized = sanitized.replace(scriptVectors[i], '');
-    }
-
-    // Strip at-rules
-    sanitized = sanitized.replace(/@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi, '');
-
-    // Strip angle brackets and quotes
-    if (/[<>"']/.test(sanitized)) return '';
-
-    // Strip semicolons to prevent CSS injection via statement breaking
-    sanitized = sanitized.replace(/;/g, '_');
-
-    // Validate bracket nesting (reject if deeply nested or unbalanced)
-    const openB = (sanitized.match(/\[/g) || []).length;
-    const closeB = (sanitized.match(/\]/g) || []).length;
-    if (Math.abs(openB - closeB) > 1 || Math.max(openB, closeB) > 10) return '';
-
-    // Final length check
-    if (sanitized.length > 500) sanitized = sanitized.substring(0, 500);
-
-    return sanitized;
-  }
-
   function scanElement(el, tokens) {
-    const attrs = ['layout', 'space', 'visual'];
+    const attrs = ['layout', 'space', 'visual', 'interact', 'listens'];
     for (let i = 0; i < attrs.length; i++) {
-      let value = el.getAttribute(attrs[i]);
-      if (value) {
-        value = sanitizeAttributeValue(value);
-        if (!value) continue;
-        const parts = value.split(/\s+/);
-        for (let j = 0; j < parts.length; j++) {
-          const token = parts[j];
-          if (token && token.length <= MAX_TOKEN_LENGTH) {
-            tokens[attrs[i]].add(token);
-          }
-        }
-      }
-    }
-
-    const stateAttrs = ['interact', 'listens'];
-    for (let i = 0; i < stateAttrs.length; i++) {
-      let value = el.getAttribute(stateAttrs[i]);
-      if (value) {
-        value = sanitizeAttributeValue(value);
-        if (!value) continue;
-        const parts = value.split(/\s+/);
-        for (let j = 0; j < parts.length; j++) {
-          const id = parts[j];
-          if (id && id.length <= MAX_TOKEN_LENGTH) {
-            tokens[stateAttrs[i]].add(id);
-          }
-        }
-      }
+      const parts = splitSafeTokens(el.getAttribute(attrs[i]));
+      for (let j = 0; j < parts.length; j++) tokens[attrs[i]].add(parts[j]);
     }
   }
 

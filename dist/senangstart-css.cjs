@@ -364,6 +364,194 @@ var constants_default = {
   CSS_COLOR_KEYWORDS
 };
 
+// src/core/value-grammar.js
+var ALLOWED_CHARS = /^[A-Za-z0-9 _.%#,/+*'"()!:-]*$/;
+var FORBIDDEN_CHARS = /[{};<>\\\n\r\t@`$]/;
+var DANGEROUS_URL = /url\s*\(\s*['"]?\s*(javascript|data|vbscript|file|about)\s*:/i;
+var DANGEROUS_CALLS = /\b(expression|eval|alert)\s*\(/i;
+var MAX_LENGTH = 500;
+function validateValue(value) {
+  if (typeof value !== "string") return { ok: false, reason: "value must be a string" };
+  if (value.length === 0) return { ok: false, reason: "empty value" };
+  if (value.length > MAX_LENGTH) return { ok: false, reason: `value exceeds ${MAX_LENGTH} characters` };
+  if (FORBIDDEN_CHARS.test(value)) {
+    const ch = value.match(FORBIDDEN_CHARS)[0];
+    const printable = ch === "\n" || ch === "\r" ? "newline" : ch === "	" ? "tab" : `"${ch}"`;
+    return { ok: false, reason: `forbidden character ${printable}` };
+  }
+  if (!ALLOWED_CHARS.test(value)) {
+    return { ok: false, reason: "character outside the allowed set" };
+  }
+  if (DANGEROUS_URL.test(value)) {
+    return { ok: false, reason: "url() with a forbidden scheme" };
+  }
+  if (DANGEROUS_CALLS.test(value)) {
+    return { ok: false, reason: "forbidden function call" };
+  }
+  let depth = 0;
+  let quote = null;
+  for (let i = 0; i < value.length; i++) {
+    const ch = value[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      continue;
+    }
+    if (ch === "(") depth++;
+    else if (ch === ")") {
+      depth--;
+      if (depth < 0) return { ok: false, reason: "unbalanced parentheses" };
+    }
+  }
+  if (quote) return { ok: false, reason: "unbalanced quotes" };
+  if (depth !== 0) return { ok: false, reason: "unbalanced parentheses" };
+  return { ok: true };
+}
+var RAW_FORBIDDEN = /[{};<>\\`$\u0000-\u001f\u007f]/;
+var RAW_AT_MISUSE = /(?:^|[^:])@|@(?![A-Za-z0-9])/;
+var RAW_TOKEN_MAX = 500;
+function checkRawToken(raw) {
+  if (typeof raw !== "string" || raw.length === 0) return { ok: false, reason: "empty token" };
+  if (raw.length > RAW_TOKEN_MAX) return { ok: false, reason: `token exceeds ${RAW_TOKEN_MAX} characters` };
+  const bad = raw.match(RAW_FORBIDDEN);
+  if (bad) {
+    const c = bad[0];
+    const name = c === "\n" || c === "\r" ? "newline" : c.charCodeAt(0) < 32 ? "control character" : `"${c}"`;
+    return { ok: false, reason: `forbidden character ${name}` };
+  }
+  if (raw.includes("@") && RAW_AT_MISUSE.test(raw.replace(/^@[A-Za-z0-9]/, "x").replace(/:@(?=[A-Za-z0-9])/g, ":x"))) {
+    return { ok: false, reason: 'forbidden character "@"' };
+  }
+  return { ok: true };
+}
+function escapeCSSString(str) {
+  if (typeof str !== "string") return "";
+  let out = "";
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i];
+    const code = str.charCodeAt(i);
+    if (ch === '"' || ch === "\\") {
+      out += "\\" + ch;
+    } else if (code === 0) {
+      out += "\uFFFD";
+    } else if (code >= 1 && code <= 31 || code === 127) {
+      out += "\\" + code.toString(16) + " ";
+    } else {
+      out += ch;
+    }
+  }
+  return out;
+}
+function normalizeArbitraryValue(raw) {
+  if (typeof raw !== "string") return "";
+  const v = raw.replace(/_/g, " ").trim();
+  if (!/\b(calc|min|max|clamp)\(/.test(v)) return v;
+  return spaceMathOperators(v);
+}
+function spaceMathOperators(value) {
+  const protectedVars = [];
+  const work = value.replace(/--[A-Za-z0-9_-]+/g, (m) => `${protectedVars.push(m) - 1}`);
+  let out = "";
+  let depth = 0;
+  const mathStack = [];
+  for (let i = 0; i < work.length; i++) {
+    const ch = work[i];
+    if (ch === "(") {
+      const fnMatch = /([a-z-]+)$/i.exec(out);
+      mathStack.push(fnMatch && /^(calc|min|max|clamp)$/i.test(fnMatch[1]) ? "math" : "other");
+      if (mathStack[mathStack.length - 1] === "math") depth++;
+      out += ch;
+      continue;
+    }
+    if (ch === ")") {
+      if (mathStack.pop() === "math") depth--;
+      out += ch;
+      continue;
+    }
+    if (depth > 0 && (ch === "+" || ch === "*" || ch === "/" || ch === "-")) {
+      const leftRaw = out.replace(/\s+$/, "");
+      const left = leftRaw[leftRaw.length - 1] || "";
+      let j = i + 1;
+      while (j < work.length && work[j] === " ") j++;
+      const right = work[j] || "";
+      const leftIsValueEnd = /[0-9%)\u0001]/.test(left) || /\d[a-zA-Z]{1,5}$/.test(leftRaw);
+      const rightIsValueStart = /[0-9.(\u0001]/.test(right) || /^-[0-9.]/.test(work.slice(j)) || /^(var|calc|min|max|clamp)\(/.test(work.slice(j));
+      const isBinary = ch === "-" ? leftIsValueEnd && rightIsValueStart : leftIsValueEnd && rightIsValueStart;
+      if (isBinary) {
+        out = `${leftRaw} ${ch} `;
+        i = j - 1;
+        continue;
+      }
+    }
+    out += ch;
+  }
+  return out.replace(/\u0001(\d+)\u0001/g, (m, n) => protectedVars[Number(n)]);
+}
+
+// src/engine/variants.js
+var STATE_VARIANTS = {
+  hover: { selector: ":hover", group: "hoverable" },
+  focus: { selector: ":focus", group: "focusable", trigger: ":focus-within" },
+  "focus-visible": { selector: ":focus-visible", group: "focusable", trigger: ":focus-within" },
+  "focus-within": { selector: ":focus-within" },
+  active: { selector: ":active", group: "pressable" },
+  checked: { selector: ":checked" },
+  disabled: { selector: ":disabled" },
+  expanded: { selector: '[aria-expanded="true"]', group: "expandable" },
+  selected: { selector: '[aria-selected="true"]', group: "selectable" },
+  required: { selector: ":required" },
+  optional: { selector: ":optional" },
+  valid: { selector: ":valid" },
+  invalid: { selector: ":invalid" },
+  placeholder: { selector: "::placeholder" }
+};
+var STATE_ORDER = Object.keys(STATE_VARIANTS);
+var customHandlers = /* @__PURE__ */ new Map();
+function parseVariant(part, config) {
+  if (typeof part !== "string" || !part) return null;
+  if (part === "dark") return { type: "dark", name: "dark" };
+  if (STATE_VARIANTS[part]) return { type: "state", name: part };
+  if (customHandlers.has(part)) return { type: "custom", name: part };
+  const names = config && config.theme && config.theme.screens ? Object.keys(config.theme.screens) : BREAKPOINTS.concat(["print"]);
+  if (names.includes(part)) return { type: "breakpoint", name: part };
+  if (part.startsWith("max-") && names.includes(part.slice(4))) {
+    return { type: "max", name: part, to: part.slice(4) };
+  }
+  for (const from of names) {
+    if (part.startsWith(`${from}-`)) {
+      const to = part.slice(from.length + 1);
+      if (names.includes(to) && from !== to) return { type: "range", name: part, from, to };
+    }
+  }
+  return null;
+}
+function splitVariants(parts, config) {
+  const variants = [];
+  let i = 0;
+  while (i < parts.length - 1 && parseVariant(parts[i], config)) {
+    variants.push(parts[i]);
+    i++;
+  }
+  return { variants, rest: parts.slice(i) };
+}
+function deriveLegacyFields(variants, config) {
+  let breakpoint = null;
+  let state = null;
+  for (const v of variants) {
+    const p = parseVariant(v, config);
+    if (!p) continue;
+    if (p.type === "breakpoint" || p.type === "max" || p.type === "range") breakpoint = breakpoint || v;
+    else if (p.type === "dark") state = state || "dark";
+    else if (p.type === "state" || p.type === "custom") {
+      if (!state || state === "dark") state = v;
+    }
+  }
+  return { breakpoint, state };
+}
+
 // src/utils/common.js
 function sanitizeValue(value) {
   if (typeof value !== "string") {
@@ -436,7 +624,7 @@ function sanitizeValue(value) {
 }
 
 // src/core/tokenizer-core.js
-function isValidToken(token) {
+function isValidToken(token, config) {
   if (!token.property || typeof token.property !== "string") {
     return false;
   }
@@ -452,29 +640,39 @@ function isValidToken(token) {
   if (token.value.length > LIMITS.MAX_VALUE_LENGTH) {
     return false;
   }
-  if (token.breakpoint && !BREAKPOINTS.includes(token.breakpoint)) {
+  if (token.breakpoint && !BREAKPOINTS.includes(token.breakpoint) && !parseVariant(token.breakpoint, config)) {
     return false;
   }
-  if (token.state && !STATES.includes(token.state)) {
+  if (token.state && !STATES.includes(token.state) && !parseVariant(token.state, config)) {
     return false;
   }
   return true;
 }
-function tokenize(raw, attrType) {
+function errorToken(raw, attrType, message, code) {
+  return {
+    raw,
+    variants: [],
+    breakpoint: null,
+    state: null,
+    property: null,
+    value: null,
+    isArbitrary: false,
+    attrType,
+    error: message,
+    errorCode: code
+  };
+}
+function tokenize(raw, attrType, config) {
   if (typeof raw !== "string" || raw.length === 0 || raw.length > LIMITS.MAX_TOKEN_RAW_LENGTH) {
-    return {
-      raw,
-      breakpoint: null,
-      state: null,
-      property: null,
-      value: null,
-      isArbitrary: false,
-      attrType,
-      error: "Invalid token format"
-    };
+    return errorToken(raw, attrType, "Invalid token format", "INVALID_TOKEN");
+  }
+  const rawCheck = checkRawToken(raw);
+  if (!rawCheck.ok) {
+    return errorToken(raw, attrType, `Invalid token: ${rawCheck.reason}`, "INVALID_VALUE");
   }
   const token = {
     raw,
+    variants: [],
     breakpoint: null,
     state: null,
     property: null,
@@ -482,128 +680,944 @@ function tokenize(raw, attrType) {
     isArbitrary: false,
     attrType
   };
-  if (attrType === "layout") {
-    if (raw.startsWith("z:")) {
-      token.property = "z";
-      token.value = raw.substring(2);
-      return token;
-    }
-    if (raw.startsWith("overflow:")) {
-      token.property = "overflow";
-      token.value = raw.substring(9);
-      return token;
-    }
-    if (LAYOUT_KEYWORDS.includes(raw)) {
-      token.property = raw;
-      token.value = raw;
-      return token;
-    }
+  if (attrType === "layout" && LAYOUT_KEYWORDS.includes(raw)) {
+    token.property = raw;
+    token.value = raw;
+    return token;
   }
-  const parts = raw.split(":");
+  const parts = splitOutsideBrackets(raw);
   if (parts.length === 1) {
     token.property = raw;
     token.value = raw;
     return token;
   }
-  let idx = 0;
-  if (BREAKPOINTS.includes(parts[0])) {
-    token.breakpoint = parts[0];
-    idx++;
+  const { variants, rest } = splitVariants(parts, config);
+  token.variants = variants;
+  const legacy = deriveLegacyFields(variants, config);
+  token.breakpoint = legacy.breakpoint;
+  token.state = legacy.state;
+  if (rest.length === 0) {
+    token.error = "Invalid token structure";
+    token.errorCode = "INVALID_TOKEN";
+    return token;
   }
-  if (STATES.includes(parts[idx])) {
-    token.state = parts[idx];
-    idx++;
-  }
-  if (idx < parts.length) {
-    token.property = parts[idx];
-    idx++;
-  }
-  if (idx < parts.length) {
-    const value = parts.slice(idx).join(":");
+  token.property = rest[0];
+  if (rest.length > 1) {
+    const value = rest.slice(1).join(":");
     const arbitraryMatch = value.match(/^\[(.+)\]$/);
     if (arbitraryMatch) {
-      token.value = sanitizeValue(arbitraryMatch[1].replace(/_/g, " "));
       token.isArbitrary = true;
+      const normalized = normalizeArbitraryValue(arbitraryMatch[1]);
+      const check = validateValue(normalized);
+      if (!check.ok) {
+        token.value = normalized;
+        token.error = `Invalid value: ${check.reason}`;
+        token.errorCode = "INVALID_VALUE";
+        return token;
+      }
+      token.value = normalized;
     } else {
+      const check = validateValue(value);
+      if (!check.ok) {
+        token.value = value;
+        token.error = `Invalid value: ${check.reason}`;
+        token.errorCode = "INVALID_VALUE";
+        return token;
+      }
       token.value = value;
     }
-  } else if (token.property && !token.value) {
+  } else {
     token.value = token.property;
   }
-  if (!isValidToken(token)) {
+  if (!isValidToken(token, config)) {
     token.error = "Invalid token structure";
+    token.errorCode = "INVALID_TOKEN";
   }
   return token;
 }
-function tokenizeAll(parsed) {
+function splitOutsideBrackets(raw) {
+  const parts = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw[i];
+    if (ch === "[" || ch === "(") depth++;
+    else if (ch === "]" || ch === ")") depth = Math.max(0, depth - 1);
+    else if (ch === ":" && depth === 0) {
+      parts.push(raw.slice(start, i));
+      start = i + 1;
+    }
+  }
+  parts.push(raw.slice(start));
+  return parts;
+}
+function tokenizeAll(parsed, config) {
   const tokens = [];
   for (const [attrType, values] of Object.entries(parsed)) {
     for (const raw of values) {
-      tokens.push(tokenize(raw, attrType));
+      tokens.push(tokenize(raw, attrType, config));
     }
   }
   return tokens;
 }
 
-// src/compiler/parser.js
-function createAttributePatterns() {
-  return {
-    layout: /layout\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    space: /space\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    visual: /visual\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    interact: /interact\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    listens: /listens\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g
-  };
+// src/compiler/extractor/shape.js
+var TOKEN_SHAPE = /^!?[a-zA-Z0-9][\w./%#()\[\],+*:-]*$/;
+var BANNED_OUTSIDE_BRACKETS = /[{}$?<>;=`'"\\|&^~!@\s]/;
+var BRACKET_SEGMENT = /\[[^\s\[\]]*\]/g;
+var SHAPE_CACHE_LIMIT = 2e4;
+var shapeCache = /* @__PURE__ */ new Map();
+function checkTokenShape(token) {
+  if (typeof token !== "string" || token.length === 0) return "empty";
+  if (token.length > LIMITS.MAX_VALUE_LENGTH) return "too-long";
+  const cached = shapeCache.get(token);
+  if (cached !== void 0) return cached;
+  const reason = computeShape(token);
+  if (shapeCache.size >= SHAPE_CACHE_LIMIT) shapeCache.clear();
+  shapeCache.set(token, reason);
+  return reason;
 }
-function parseSource(content) {
-  const results = {
-    layout: /* @__PURE__ */ new Set(),
-    space: /* @__PURE__ */ new Set(),
-    visual: /* @__PURE__ */ new Set(),
-    interact: /* @__PURE__ */ new Set(),
-    listens: /* @__PURE__ */ new Set()
-  };
-  const patterns = createAttributePatterns();
-  for (const [attr, pattern] of Object.entries(patterns)) {
-    let match;
-    while ((match = pattern.exec(content)) !== null) {
-      let value = match[1].trim();
-      if (value.length >= 2) {
-        const firstChar = value[0];
-        const lastChar = value[value.length - 1];
-        if (firstChar === '"' && lastChar === '"' || firstChar === "'" && lastChar === "'") {
-          value = value.slice(1, -1);
-        }
-      }
-      if (value.length > LIMITS.MAX_ATTRIBUTE_VALUE_LENGTH) {
+function computeShape(token) {
+  const first = token.charCodeAt(0);
+  if (first === 34 || first === 39 || first === 96) return "quoted";
+  const collapsed = token.replace(BRACKET_SEGMENT, "[]");
+  const outside = (collapsed[0] === "!" ? collapsed.slice(1) : collapsed).replace(/\[\]/g, "");
+  if (outside.includes("[") || outside.includes("]")) return "shape";
+  if (BANNED_OUTSIDE_BRACKETS.test(outside)) return "shape";
+  if (!TOKEN_SHAPE.test(collapsed)) return "shape";
+  return null;
+}
+
+// src/compiler/extractor/expressions.js
+var WS = /\s/;
+var isWsCode = (c) => c === 32 || c === 10 || c === 9 || c === 13 || c === 12 || c === 11;
+var IDENT_START = /[A-Za-z_$]/;
+var IDENT_CHAR = /[\w$]/;
+var CONCAT_OPERATORS = /* @__PURE__ */ new Set(["+", ".", "~"]);
+function skipQuoted(src, i, end = src.length) {
+  const quote = src.charCodeAt(i);
+  let j = i + 1;
+  while (j < end) {
+    const c = src.charCodeAt(j);
+    if (c === 92) {
+      j += 2;
+      continue;
+    }
+    if (c === quote) return j + 1;
+    j++;
+  }
+  return -1;
+}
+function findBalanced(src, start, open = "{", close = "}", end = src.length) {
+  const openCode = open.charCodeAt(0);
+  const closeCode = close.charCodeAt(0);
+  const stack = [0];
+  let i = start + 1;
+  while (i < end && stack.length > 0) {
+    const c = src.charCodeAt(i);
+    const top = stack[stack.length - 1];
+    if (top === 1) {
+      if (c === 92) {
+        i += 2;
         continue;
       }
-      value.split(/\s+/).forEach((token) => {
-        if (token && token.length <= LIMITS.MAX_VALUE_LENGTH) {
-          results[attr].add(token);
+      if (c === 96) {
+        stack.pop();
+        i++;
+        continue;
+      }
+      if (c === 36 && src.charCodeAt(i + 1) === 123) {
+        stack.push(0);
+        i += 2;
+        continue;
+      }
+      i++;
+      continue;
+    }
+    if (c === openCode) {
+      stack.push(0);
+      i++;
+      continue;
+    }
+    if (c === closeCode) {
+      stack.pop();
+      i++;
+      continue;
+    }
+    if (c === 34 || c === 39) {
+      i = skipQuoted(src, i, end);
+      continue;
+    }
+    if (c === 96) {
+      stack.push(1);
+      i++;
+      continue;
+    }
+    if (c === 47 && src.charCodeAt(i + 1) === 42) {
+      const k = src.indexOf("*/", i + 2);
+      i = k === -1 ? end : k + 2;
+      continue;
+    }
+    if (c === 36 && src.charCodeAt(i + 1) === 123) {
+      stack.push(0);
+      i += 2;
+      continue;
+    }
+    i++;
+  }
+  return stack.length === 0 ? i : -1;
+}
+function peekSignificant(src, i, end) {
+  while (i < end && WS.test(src[i])) i++;
+  return i < end ? src[i] : "";
+}
+function unescapeString(raw) {
+  return raw.includes("\\") ? raw.replace(/\\(.)/g, "$1") : raw;
+}
+function emitStatic(text, leftPartial, rightPartial, sink) {
+  const n = text.length;
+  if (n === 0) return;
+  const touchesRight = rightPartial && !WS.test(text[n - 1]);
+  let i = 0;
+  let first = true;
+  while (i < n) {
+    while (i < n && isWsCode(text.charCodeAt(i))) i++;
+    if (i >= n) break;
+    const start = i;
+    while (i < n && !isWsCode(text.charCodeAt(i))) i++;
+    const token = start === 0 && i === n ? text : text.slice(start, i);
+    const partial = first && leftPartial && start === 0 || i === n && touchesRight;
+    if (partial) sink.skip(token, "partial");
+    else sink.token(token);
+    first = false;
+  }
+}
+function processSegments(segments, sink, leftEdgePartial = false, rightEdgePartial = false) {
+  let from = 0;
+  let to = segments.length;
+  while (from < to && segments[from].type === "static" && segments[from].text === "") from++;
+  while (to > from && segments[to - 1].type === "static" && segments[to - 1].text === "") to--;
+  for (let idx = from; idx < to; idx++) {
+    const seg = segments[idx];
+    const prev = idx > from ? segments[idx - 1] : null;
+    const next = idx < to - 1 ? segments[idx + 1] : null;
+    if (seg.type === "static") {
+      const leftPartial = prev ? prev.type === "expr" : leftEdgePartial;
+      const rightPartial = next ? next.type === "expr" : rightEdgePartial;
+      emitStatic(seg.text, leftPartial, rightPartial, sink);
+      continue;
+    }
+    const touchesLeft = prev ? prev.type === "expr" || !WS.test(prev.text[prev.text.length - 1] || "") : leftEdgePartial;
+    const touchesRight = next ? next.type === "expr" || !WS.test(next.text[0] || "") : rightEdgePartial;
+    if (!seg.extract) continue;
+    if (touchesLeft || touchesRight) {
+      extractFromExpression(seg.text, partialSink(sink));
+    } else {
+      extractFromExpression(seg.text, sink);
+    }
+  }
+}
+function partialSink(sink) {
+  return {
+    helpers: sink.helpers,
+    token: (t) => sink.skip(t, "partial"),
+    skip: (t, reason) => sink.skip(t, reason)
+  };
+}
+var DEFAULT_CLASS_HELPERS = /* @__PURE__ */ new Set([
+  "clsx",
+  "classnames",
+  "classNames",
+  "cn",
+  "cx",
+  "cva",
+  "tv",
+  "tw",
+  "twMerge",
+  "twJoin",
+  "classList",
+  "join",
+  "concat",
+  "map",
+  "filter",
+  "flat",
+  "flatMap",
+  "trim",
+  "split",
+  "push",
+  "toString",
+  "String",
+  "Array",
+  "implode",
+  "array_merge",
+  "array_filter"
+]);
+function operandAfterConcatStartsWithWs(src, i, end) {
+  let j = i + 1;
+  while (j < end && WS.test(src[j])) j++;
+  const c = src[j];
+  if (c === '"' || c === "'" || c === "`") return j + 1 < end && WS.test(src[j + 1]);
+  return false;
+}
+function extractFromExpression(src, sink, start = 0, end = src.length) {
+  const helpers = sink.helpers || DEFAULT_CLASS_HELPERS;
+  let i = start;
+  let lastSig = "";
+  let lastIdent = "";
+  let lastEndsWithWs = false;
+  const callStack = [];
+  let suppress = 0;
+  const emit = (text, leftPartial, rightPartial) => {
+    if (suppress > 0) emitStatic(text, leftPartial, rightPartial, suppressedSink(sink));
+    else emitStatic(text, leftPartial, rightPartial, sink);
+  };
+  while (i < end) {
+    const ch = src[i];
+    if (WS.test(ch)) {
+      i++;
+      continue;
+    }
+    if (ch === "/" && src[i + 1] === "/") {
+      const k = src.indexOf("\n", i + 2);
+      i = k === -1 || k > end ? end : k + 1;
+      continue;
+    }
+    if (ch === "/" && src[i + 1] === "*") {
+      const k = src.indexOf("*/", i + 2);
+      i = k === -1 || k > end ? end : k + 2;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      const q = skipQuoted(src, i, end);
+      const closed = q !== -1;
+      const j = closed ? q : end;
+      const raw = src.slice(i + 1, closed ? j - 1 : j);
+      const text = unescapeString(raw);
+      const leftPartial = CONCAT_OPERATORS.has(lastSig) && !lastEndsWithWs;
+      const nextIdx = skipWs(src, j, end);
+      const nextSig = nextIdx < end ? src[nextIdx] : "";
+      const rightPartial = CONCAT_OPERATORS.has(nextSig) && !operandAfterConcatStartsWithWs(src, nextIdx, end);
+      const isComparison = lastSig === "=" || nextSig === "=" && src[nextIdx + 1] !== ">";
+      if (isComparison) emitStatic(text, false, false, reasonSink(sink, "comparison"));
+      else emit(text, leftPartial, rightPartial);
+      lastSig = '"';
+      lastEndsWithWs = text.length > 0 && WS.test(text[text.length - 1]);
+      i = j;
+      continue;
+    }
+    if (ch === "`") {
+      const leftPartial = CONCAT_OPERATORS.has(lastSig) && !lastEndsWithWs;
+      const { segments, next } = readTemplateLiteral(src, i, end);
+      const nextIdx = skipWs(src, next, end);
+      const nextSig = nextIdx < end ? src[nextIdx] : "";
+      const rightPartial = CONCAT_OPERATORS.has(nextSig) && !operandAfterConcatStartsWithWs(src, nextIdx, end);
+      processSegments(segments, suppress > 0 ? suppressedSink(sink) : sink, leftPartial, rightPartial);
+      lastSig = '"';
+      const lastSeg = segments[segments.length - 1];
+      lastEndsWithWs = !!lastSeg && lastSeg.type === "static" && lastSeg.text.length > 0 && WS.test(lastSeg.text[lastSeg.text.length - 1]);
+      i = next;
+      continue;
+    }
+    if (IDENT_START.test(ch)) {
+      let j = i + 1;
+      while (j < end && IDENT_CHAR.test(src[j])) j++;
+      const word = src.slice(i, j);
+      if ((lastSig === "{" || lastSig === ",") && peekSignificant(src, j, end) === ":") {
+        if (suppress > 0) sink.skip(word, "call-argument");
+        else sink.token(word);
+      }
+      lastSig = "a";
+      lastIdent = word;
+      lastEndsWithWs = false;
+      i = j;
+      continue;
+    }
+    if (ch >= "0" && ch <= "9") {
+      let j = i + 1;
+      while (j < end && /[\w.]/.test(src[j])) j++;
+      lastSig = "0";
+      lastEndsWithWs = false;
+      i = j;
+      continue;
+    }
+    if (ch === "(") {
+      const isCall = lastSig === "a";
+      const suppressing = isCall && !helpers.has(lastIdent);
+      callStack.push(suppressing);
+      if (suppressing) suppress++;
+    } else if (ch === ")") {
+      if (callStack.length > 0 && callStack.pop()) suppress--;
+    }
+    lastSig = ch;
+    if (!CONCAT_OPERATORS.has(ch)) lastEndsWithWs = false;
+    i++;
+  }
+}
+function skipWs(src, i, end) {
+  while (i < end && WS.test(src[i])) i++;
+  return i;
+}
+function reasonSink(sink, reason) {
+  return {
+    helpers: sink.helpers,
+    token: (t) => sink.skip(t, reason),
+    skip: (t, r) => sink.skip(t, r)
+  };
+}
+function suppressedSink(sink) {
+  return reasonSink(sink, "call-argument");
+}
+function readTemplateLiteral(src, i, end) {
+  const segments = [];
+  let j = i + 1;
+  let staticStart = j;
+  let closed = false;
+  while (j < end) {
+    const c = src.charCodeAt(j);
+    if (c === 92) {
+      j += 2;
+      continue;
+    }
+    if (c === 96) {
+      segments.push({ type: "static", text: unescapeString(src.slice(staticStart, j)) });
+      j++;
+      closed = true;
+      break;
+    }
+    if (c === 36 && src.charCodeAt(j + 1) === 123) {
+      segments.push({ type: "static", text: unescapeString(src.slice(staticStart, j)) });
+      const k = findBalanced(src, j + 1, "{", "}", end);
+      if (k === -1) {
+        segments.push({ type: "expr", text: src.slice(j + 2, end), extract: false });
+        j = end;
+        staticStart = end;
+        break;
+      }
+      segments.push({ type: "expr", text: src.slice(j + 2, k - 1), extract: true });
+      j = k;
+      staticStart = j;
+      continue;
+    }
+    j++;
+  }
+  if (!closed) {
+    if (staticStart < Math.min(j, end)) {
+      segments.push({ type: "static", text: unescapeString(src.slice(staticStart, Math.min(j, end))) });
+    }
+    j = end;
+  }
+  return { segments, next: j };
+}
+var TEMPLATE_OPENERS = [
+  { open: "{{--", close: "--}}", extract: false },
+  // Blade comment
+  { open: "{{", close: "}}", extract: true },
+  // Blade / Angular / Handlebars / Twig
+  { open: "{!!", close: "!!}", extract: true },
+  // Blade raw echo
+  { open: "{%", close: "%}", extract: false },
+  // Twig / Jinja tag
+  { open: "{#", close: "#}", extract: false },
+  // Twig comment
+  { open: "<?", close: "?>", extract: true }
+  // PHP
+];
+var FAST_PATH = /[{$<@]/;
+function stripPhpOpener(inner) {
+  if (inner.startsWith("php")) return inner.slice(3);
+  if (inner.startsWith("=")) return inner.slice(1);
+  return inner;
+}
+function extractFromTemplatedString(text, sink) {
+  if (!FAST_PATH.test(text)) {
+    emitStatic(text, false, false, sink);
+    return;
+  }
+  const segments = [];
+  const n = text.length;
+  let i = 0;
+  let staticStart = 0;
+  const pushStatic = (until) => {
+    segments.push({ type: "static", text: text.slice(staticStart, until) });
+  };
+  outer:
+    while (i < n) {
+      const ch = text[i];
+      if (ch === "{" || ch === "<") {
+        for (const opener of TEMPLATE_OPENERS) {
+          if (text.startsWith(opener.open, i)) {
+            if (opener.open === "<?") {
+              const after = text[i + 2];
+              if (!(after === "=" || after === " " || after === "\n" || after === "	" || text.startsWith("php", i + 2))) {
+                i++;
+                continue outer;
+              }
+            }
+            pushStatic(i);
+            const k = text.indexOf(opener.close, i + opener.open.length);
+            if (k === -1) {
+              segments.push({ type: "expr", text: text.slice(i + opener.open.length), extract: false });
+              staticStart = n;
+              i = n;
+              break outer;
+            }
+            let inner = text.slice(i + opener.open.length, k);
+            if (opener.open === "<?") inner = stripPhpOpener(inner);
+            segments.push({ type: "expr", text: inner, extract: opener.extract });
+            i = k + opener.close.length;
+            staticStart = i;
+            continue outer;
+          }
         }
+        if (ch === "{") {
+          pushStatic(i);
+          const k = findBalanced(text, i, "{", "}");
+          if (k === -1) {
+            segments.push({ type: "expr", text: text.slice(i + 1), extract: false });
+            staticStart = n;
+            i = n;
+            break;
+          }
+          segments.push({ type: "expr", text: text.slice(i + 1, k - 1), extract: true });
+          i = k;
+          staticStart = i;
+          continue;
+        }
+        i++;
+        continue;
+      }
+      if (ch === "$" && text[i + 1] === "{") {
+        pushStatic(i);
+        const k = findBalanced(text, i + 1, "{", "}");
+        if (k === -1) {
+          segments.push({ type: "expr", text: text.slice(i + 2), extract: false });
+          staticStart = n;
+          i = n;
+          break;
+        }
+        segments.push({ type: "expr", text: text.slice(i + 2, k - 1), extract: true });
+        i = k;
+        staticStart = i;
+        continue;
+      }
+      if (ch === "@" && i + 1 < n && /[A-Za-z]/.test(text[i + 1])) {
+        pushStatic(i);
+        let j = i + 1;
+        while (j < n && /[A-Za-z]/.test(text[j])) j++;
+        const name = text.slice(i + 1, j);
+        let inner = "";
+        if (text[j] === "(") {
+          const k = findBalanced(text, j, "(", ")");
+          if (k === -1) {
+            segments.push({ type: "expr", text: text.slice(j + 1), extract: false });
+            staticStart = n;
+            i = n;
+            break;
+          }
+          inner = text.slice(j + 1, k - 1);
+          j = k;
+        }
+        segments.push({ type: "expr", text: inner, extract: name === "class" });
+        i = j;
+        staticStart = i;
+        continue;
+      }
+      i++;
+    }
+  if (staticStart < n) pushStatic(n);
+  processSegments(segments, sink, false, false);
+}
+
+// src/compiler/extractor/scanner.js
+var ATTRIBUTE_TYPES = ["layout", "space", "visual", "interact", "listens"];
+var ATTRIBUTE_TYPE_SET = new Set(ATTRIBUTE_TYPES);
+var DYNAMIC_PREFIXES = [":", "v-bind:", "x-bind:"];
+var WS_CODES = /* @__PURE__ */ new Set([32, 9, 10, 13, 12]);
+var isWs = (code) => WS_CODES.has(code);
+var isNameStart = (code) => code >= 65 && code <= 90 || code >= 97 && code <= 122;
+var isTagNameChar = (code) => isNameStart(code) || code >= 48 && code <= 57 || code === 45 || code === 46 || code === 58 || code === 95;
+function resolveAttributeName(name) {
+  const lower = name.toLowerCase();
+  if (ATTRIBUTE_TYPE_SET.has(lower)) return { attrType: lower, binding: "static" };
+  if (lower.length > 2 && lower[0] === "[" && lower[lower.length - 1] === "]") {
+    let inner = lower.slice(1, -1);
+    if (inner.startsWith("attr.")) inner = inner.slice(5);
+    return ATTRIBUTE_TYPE_SET.has(inner) ? { attrType: inner, binding: "dynamic" } : null;
+  }
+  for (const prefix of DYNAMIC_PREFIXES) {
+    if (lower.startsWith(prefix)) {
+      let rest = lower.slice(prefix.length);
+      const dot = rest.indexOf(".");
+      if (dot !== -1) rest = rest.slice(0, dot);
+      return ATTRIBUTE_TYPE_SET.has(rest) ? { attrType: rest, binding: "dynamic" } : null;
+    }
+  }
+  return null;
+}
+function scanTagAttributes(src, i, onAttr, end = src.length) {
+  while (i < end) {
+    const c = src.charCodeAt(i);
+    if (isWs(c)) {
+      i++;
+      continue;
+    }
+    if (c === 62) return i + 1;
+    if (c === 47) {
+      if (src.charCodeAt(i + 1) === 62) return i + 2;
+      i++;
+      continue;
+    }
+    if (c === 60) {
+      if (src.charCodeAt(i + 1) === 63) {
+        const k2 = src.indexOf("?>", i + 2);
+        i = k2 === -1 || k2 + 2 > end ? end : k2 + 2;
+        continue;
+      }
+      return i;
+    }
+    if (c === 123) {
+      const k2 = findBalanced(src, i, "{", "}", end);
+      if (k2 === -1) return end;
+      i = k2;
+      continue;
+    }
+    if (c === 34 || c === 39) {
+      i++;
+      continue;
+    }
+    if (c === 61) {
+      i++;
+      continue;
+    }
+    const nameStart = i;
+    while (i < end) {
+      const d = src.charCodeAt(i);
+      if (isWs(d) || d === 61 || d === 62 || d === 47 || d === 34 || d === 39 || d === 123 || d === 60) break;
+      i++;
+    }
+    if (i === nameStart) {
+      i++;
+      continue;
+    }
+    const name = src.slice(nameStart, i);
+    let k = i;
+    while (k < end && isWs(src.charCodeAt(k))) k++;
+    if (src.charCodeAt(k) !== 61) {
+      i = k;
+      continue;
+    }
+    k++;
+    while (k < end && isWs(src.charCodeAt(k))) k++;
+    if (k >= end) return end;
+    const v = src.charCodeAt(k);
+    let value;
+    let valueKind;
+    if (v === 34 || v === 39) {
+      const close = src.indexOf(src[k], k + 1);
+      if (close === -1 || close >= end) {
+        value = src.slice(k + 1, end);
+        i = end;
+      } else {
+        value = src.slice(k + 1, close);
+        i = close + 1;
+      }
+      valueKind = "quoted";
+    } else if (v === 123) {
+      const close = findBalanced(src, k, "{", "}", end);
+      if (close === -1) {
+        value = src.slice(k + 1, end);
+        i = end;
+        valueKind = "unterminated";
+      } else {
+        value = src.slice(k + 1, close - 1);
+        i = close;
+        valueKind = "expression";
+      }
+    } else if (v === 36 && src.charCodeAt(k + 1) === 123) {
+      const close = findBalanced(src, k + 1, "{", "}", end);
+      if (close === -1) {
+        value = src.slice(k + 2, end);
+        i = end;
+        valueKind = "unterminated";
+      } else {
+        value = src.slice(k + 2, close - 1);
+        i = close;
+        valueKind = "expression";
+      }
+    } else if (v === 60 && src.charCodeAt(k + 1) === 63) {
+      let close = src.indexOf("?>", k + 2);
+      if (close !== -1 && close + 2 > end) close = -1;
+      let inner = close === -1 ? src.slice(k + 2, end) : src.slice(k + 2, close);
+      if (inner.startsWith("php")) inner = inner.slice(3);
+      else if (inner.startsWith("=")) inner = inner.slice(1);
+      value = inner;
+      i = close === -1 ? end : close + 2;
+      valueKind = "expression";
+    } else if (v === 62) {
+      i = k;
+      continue;
+    } else {
+      let e = k;
+      while (e < end) {
+        const d = src.charCodeAt(e);
+        if (isWs(d) || d === 62) break;
+        e++;
+      }
+      value = src.slice(k, e);
+      if (value.endsWith("/") && src.charCodeAt(e) === 62) value = value.slice(0, -1);
+      i = e;
+      valueKind = "unquoted";
+    }
+    const resolved = resolveAttributeName(name);
+    if (resolved) {
+      onAttr({
+        name,
+        attrType: resolved.attrType,
+        binding: resolved.binding,
+        valueKind,
+        value,
+        offset: nameStart
       });
     }
   }
-  return results;
+  return end;
 }
-function parseMultipleSources(files) {
-  const combined = {
-    layout: /* @__PURE__ */ new Set(),
-    space: /* @__PURE__ */ new Set(),
-    visual: /* @__PURE__ */ new Set(),
-    interact: /* @__PURE__ */ new Set(),
-    listens: /* @__PURE__ */ new Set()
-  };
-  for (const file of files) {
-    const parsed = parseSource(file.content);
-    parsed.layout.forEach((token) => combined.layout.add(token));
-    parsed.space.forEach((token) => combined.space.add(token));
-    parsed.visual.forEach((token) => combined.visual.add(token));
-    parsed.interact.forEach((token) => combined.interact.add(token));
-    parsed.listens.forEach((token) => combined.listens.add(token));
+function scanMarkup(src, onAttr) {
+  const n = src.length;
+  let i = 0;
+  let noCommentClose = false;
+  let noBlockClose = false;
+  let noBladeClose = false;
+  const interesting = /<|\/\*|\{\{--/g;
+  while (i < n) {
+    interesting.lastIndex = i;
+    const m = interesting.exec(src);
+    if (m === null) break;
+    const lt = m.index;
+    if (m[0] === "/*") {
+      const close = noBlockClose ? -1 : src.indexOf("*/", lt + 2);
+      if (close === -1) {
+        noBlockClose = true;
+        i = lt + 2;
+      } else i = close + 2;
+      continue;
+    }
+    if (m[0] === "{{--") {
+      const close = noBladeClose ? -1 : src.indexOf("--}}", lt + 4);
+      if (close === -1) {
+        noBladeClose = true;
+        i = lt + 4;
+      } else i = close + 4;
+      continue;
+    }
+    const next = src.charCodeAt(lt + 1);
+    if (next === 33) {
+      if (src.startsWith("<!--", lt)) {
+        const close = noCommentClose ? -1 : src.indexOf("-->", lt + 4);
+        if (close === -1) {
+          noCommentClose = true;
+          i = lt + 4;
+        } else {
+          i = close + 3;
+        }
+      } else {
+        i = lt + 2;
+      }
+      continue;
+    }
+    if (next === 47) {
+      i = lt + 2;
+      continue;
+    }
+    if (!isNameStart(next)) {
+      i = lt + 1;
+      continue;
+    }
+    let j = lt + 1;
+    while (j < n && isTagNameChar(src.charCodeAt(j))) j++;
+    const after = src.charCodeAt(j);
+    if (!(j >= n || isWs(after) || after === 62 || after === 47)) {
+      i = j;
+      continue;
+    }
+    i = scanTagAttributes(src, j, onAttr);
   }
-  return combined;
+}
+function scanHints(src, onAttr) {
+  const n = src.length;
+  let i = 0;
+  while ((i = src.indexOf("senang:", i)) !== -1) {
+    let b = i - 1;
+    while (b >= 0 && isWs(src.charCodeAt(b))) b--;
+    let closer = null;
+    if (b >= 3 && src.startsWith("<!--", b - 3)) closer = "-->";
+    else if (b >= 3 && src.startsWith("{{--", b - 3)) closer = "--}}";
+    else if (b >= 1 && src.startsWith("/*", b - 1)) closer = "*/";
+    else if (b >= 1 && src.startsWith("//", b - 1)) closer = "\n";
+    else if (b >= 0 && src.charCodeAt(b) === 35) closer = "\n";
+    const bodyStart = i + 7;
+    if (!closer) {
+      i = bodyStart;
+      continue;
+    }
+    let bodyEnd = src.indexOf(closer, bodyStart);
+    if (bodyEnd === -1) bodyEnd = n;
+    scanTagAttributes(src, bodyStart, (attr) => onAttr({ ...attr, source: "hint" }), bodyEnd);
+    i = bodyEnd;
+  }
+}
+
+// src/compiler/extractor/index.js
+var DEFAULT_MAX_SKIPPED = 500;
+var DEFAULT_MAX_LOCATIONS_PER_TOKEN = 20;
+function decodeEntities(value) {
+  if (!value.includes("&")) return value;
+  return value.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
+function createLineIndex(content) {
+  let starts = null;
+  return function locate(offset) {
+    if (starts === null) {
+      starts = [0];
+      let k = -1;
+      while ((k = content.indexOf("\n", k + 1)) !== -1) starts.push(k + 1);
+    }
+    let lo = 0;
+    let hi = starts.length - 1;
+    while (lo < hi) {
+      const mid = lo + hi + 1 >> 1;
+      if (starts[mid] <= offset) lo = mid;
+      else hi = mid - 1;
+    }
+    return { line: lo + 1, column: offset - starts[lo] + 1 };
+  };
+}
+function createEmptyResult() {
+  const result = {};
+  for (const type of ATTRIBUTE_TYPES) result[type] = /* @__PURE__ */ new Set();
+  return result;
+}
+function attachExtras(result, extras) {
+  for (const [key, value] of Object.entries(extras)) {
+    Object.defineProperty(result, key, { value, enumerable: false, writable: true, configurable: true });
+  }
+  return result;
+}
+function extractSource(content, options = {}) {
+  if (typeof content !== "string") content = content === null || content === void 0 ? "" : String(content);
+  const file = options.file ?? null;
+  const maxSkipped = options.maxSkipped ?? DEFAULT_MAX_SKIPPED;
+  const maxLocations = options.maxLocationsPerToken ?? DEFAULT_MAX_LOCATIONS_PER_TOKEN;
+  const helpers = Array.isArray(options.classHelpers) && options.classHelpers.length > 0 ? /* @__PURE__ */ new Set([...DEFAULT_CLASS_HELPERS, ...options.classHelpers]) : DEFAULT_CLASS_HELPERS;
+  const result = createEmptyResult();
+  const locationsByType = {};
+  for (const type of ATTRIBUTE_TYPES) locationsByType[type] = /* @__PURE__ */ new Map();
+  const skipped = [];
+  let skippedTotal = 0;
+  const locate = createLineIndex(content);
+  const handleAttribute = (attr) => {
+    const { attrType, value, offset } = attr;
+    const source = attr.source ?? "attribute";
+    const set = result[attrType];
+    const locs = locationsByType[attrType];
+    const recordSkip = (raw, reason) => {
+      skippedTotal++;
+      if (skipped.length < maxSkipped) {
+        const pos = locate(offset);
+        skipped.push({ attrType, raw, reason, file, line: pos.line, column: pos.column, source });
+      }
+    };
+    const sink = {
+      helpers,
+      token(raw) {
+        const reason = checkTokenShape(raw);
+        if (reason) {
+          recordSkip(raw, reason);
+          return;
+        }
+        let list = locs.get(raw);
+        if (!list) {
+          set.add(raw);
+          list = [];
+          locs.set(raw, list);
+        }
+        if (list.length < maxLocations) {
+          const pos = locate(offset);
+          list.push({ file, line: pos.line, column: pos.column, source });
+        }
+      },
+      skip: recordSkip
+    };
+    if (attr.valueKind === "unterminated") {
+      recordSkip(value.slice(0, 80) + (value.length > 80 ? "\u2026" : ""), "unterminated");
+      return;
+    }
+    if (value.length > LIMITS.MAX_ATTRIBUTE_VALUE_LENGTH) {
+      recordSkip(value.slice(0, 80) + "\u2026", "value-too-long");
+      return;
+    }
+    if (attr.valueKind === "expression") {
+      extractFromExpression(value, sink);
+    } else if (attr.binding === "dynamic") {
+      extractFromExpression(decodeEntities(value), sink);
+    } else {
+      extractFromTemplatedString(value, sink);
+    }
+  };
+  scanMarkup(content, handleAttribute);
+  scanHints(content, handleAttribute);
+  const locations = /* @__PURE__ */ new Map();
+  for (const type of ATTRIBUTE_TYPES) {
+    for (const [raw, list] of locationsByType[type]) locations.set(`${type}:${raw}`, list);
+  }
+  return attachExtras(result, { locations, skipped, skippedTotal, file });
+}
+function mergeResults(results, options = {}) {
+  const maxSkipped = options.maxSkipped ?? DEFAULT_MAX_SKIPPED;
+  const maxLocations = options.maxLocationsPerToken ?? DEFAULT_MAX_LOCATIONS_PER_TOKEN;
+  const combined = createEmptyResult();
+  const locations = /* @__PURE__ */ new Map();
+  const skipped = [];
+  let skippedTotal = 0;
+  for (const parsed of results) {
+    for (const type of ATTRIBUTE_TYPES) {
+      if (parsed[type]) parsed[type].forEach((token) => combined[type].add(token));
+    }
+    if (parsed.locations instanceof Map) {
+      for (const [key, list] of parsed.locations) {
+        let target = locations.get(key);
+        if (!target) {
+          target = [];
+          locations.set(key, target);
+        }
+        for (const loc of list) {
+          if (target.length >= maxLocations) break;
+          target.push(loc);
+        }
+      }
+    }
+    if (Array.isArray(parsed.skipped)) {
+      for (const entry of parsed.skipped) {
+        if (skipped.length >= maxSkipped) break;
+        skipped.push(entry);
+      }
+    }
+    skippedTotal += parsed.skippedTotal ?? (parsed.skipped ? parsed.skipped.length : 0);
+  }
+  return attachExtras(combined, { locations, skipped, skippedTotal, file: null });
+}
+
+// src/compiler/parser.js
+function parseSource(content, options = {}) {
+  return extractSource(content, options);
+}
+function parseMultipleSources(files, options = {}) {
+  const results = [];
+  for (const file of files || []) {
+    if (!file) continue;
+    results.push(extractSource(file.content, { ...options, file: file.path ?? null }));
+  }
+  return mergeResults(results);
 }
 
 // src/compiler/generators/preflight.js
@@ -1192,6 +2206,7 @@ var flexShorthand = {
   description: "Flex shorthand property",
   descriptionMs: "Properti pintasan flex",
   category: "layout",
+  engine: { passthrough: true, arbitrary: true },
   supportsArbitrary: true,
   dynamic: true,
   values: [
@@ -1236,6 +2251,7 @@ var flexBasis = {
   description: "Set initial size of flex item",
   descriptionMs: "Tetapkan saiz awal item flex",
   category: "layout",
+  engine: { template: "flex-basis: {value};", literals: { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   usesScale: "spacing",
   supportsArbitrary: true,
   dynamic: true,
@@ -1268,6 +2284,7 @@ var order = {
   description: "Control flex/grid item order",
   descriptionMs: "Kawal susunan item flex/grid",
   category: "layout",
+  engine: { numeric: true, passthrough: true },
   dynamic: true,
   supportsArbitrary: true,
   values: [
@@ -1315,6 +2332,7 @@ var justifyContent = {
   description: "Align items along the main axis",
   descriptionMs: "Jajarkan item sepanjang paksi utama",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "start", css: "justify-content: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
     { value: "end", css: "justify-content: flex-end;", description: "Align to end", descriptionMs: "Jajar ke hujung" },
@@ -1374,6 +2392,7 @@ var alignItems = {
   description: "Align items along the cross axis",
   descriptionMs: "Jajarkan item sepanjang paksi silang",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "start", css: "align-items: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
     { value: "end", css: "align-items: flex-end;", description: "Align to end", descriptionMs: "Jajar ke hujung" },
@@ -1430,6 +2449,7 @@ var alignSelf = {
   description: "Override alignment for a single item",
   descriptionMs: "Ganti penjajaran untuk satu item",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "auto", css: "align-self: auto;", description: "Use parent alignment", descriptionMs: "Guna penjajaran induk" },
     { value: "start", css: "align-self: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
@@ -1463,6 +2483,7 @@ var alignContent = {
   description: "Align content rows in multi-line flex container",
   descriptionMs: "Jajarkan baris kandungan dalam bekas flex berbilang baris",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "start", css: "align-content: flex-start;", description: "Align to start", descriptionMs: "Jajar ke permulaan" },
     { value: "end", css: "align-content: flex-end;", description: "Align to end", descriptionMs: "Jajar ke hujung" },
@@ -1553,6 +2574,7 @@ var justifyItems = {
   description: "Align grid items on inline axis",
   descriptionMs: "Jajarkan item grid pada paksi sebaris",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "start", css: "justify-items: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
     { value: "end", css: "justify-items: end;", description: "End alignment", descriptionMs: "Jajar hujung" },
@@ -1584,6 +2606,7 @@ var justifySelf = {
   description: "Align single grid item on inline axis",
   descriptionMs: "Jajarkan satu item grid pada paksi sebaris",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "auto", css: "justify-self: auto;", description: "Auto alignment", descriptionMs: "Jajar automatik" },
     { value: "start", css: "justify-self: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
@@ -1616,6 +2639,7 @@ var placeContent = {
   description: "Shorthand for align-content and justify-content",
   descriptionMs: "Pintasan untuk align-content dan justify-content",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "start", css: "place-content: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
     { value: "end", css: "place-content: end;", description: "End alignment", descriptionMs: "Jajar hujung" },
@@ -1649,6 +2673,7 @@ var placeItems = {
   description: "Shorthand for align-items and justify-items",
   descriptionMs: "Pintasan untuk align-items dan justify-items",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "start", css: "place-items: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
     { value: "end", css: "place-items: end;", description: "End alignment", descriptionMs: "Jajar hujung" },
@@ -1680,6 +2705,7 @@ var placeSelf = {
   description: "Shorthand for align-self and justify-self",
   descriptionMs: "Pintasan untuk align-self dan justify-self",
   category: "layout",
+  engine: { passthrough: true },
   values: [
     { value: "auto", css: "place-self: auto;", description: "Auto alignment", descriptionMs: "Jajar automatik" },
     { value: "start", css: "place-self: start;", description: "Start alignment", descriptionMs: "Jajar permulaan" },
@@ -1714,6 +2740,7 @@ var gridColumns = {
   description: "Define grid template columns",
   descriptionMs: "Tentukan templat lajur grid",
   category: "layout",
+  engine: { arbitraryTemplate: "grid-template-columns: {value};" },
   dynamic: true,
   supportsArbitrary: true,
   values: [
@@ -1763,6 +2790,7 @@ var gridRows = {
   description: "Define grid template rows",
   descriptionMs: "Tentukan templat baris grid",
   category: "layout",
+  engine: { arbitrary: true, arbitraryTemplate: "grid-template-rows: {value};" },
   dynamic: true,
   values: [
     { value: "1-12", css: "grid-template-rows: repeat({n}, minmax(0, 1fr));", description: "N equal rows", descriptionMs: "N baris sama" },
@@ -1797,6 +2825,7 @@ var gridColSpan = {
   description: "Span across grid columns",
   descriptionMs: "Merentangi lajur grid",
   category: "layout",
+  engine: { utilities: { "col-start": { template: "grid-column-start: {value};", numeric: true, passthrough: true }, "col-end": { template: "grid-column-end: {value};", numeric: true, passthrough: true } } },
   dynamic: true,
   values: [
     { value: "1-12", css: "grid-column: span {n} / span {n};", description: "Span N columns", descriptionMs: "Merentangi N lajur" },
@@ -1843,6 +2872,7 @@ var gridRowSpan = {
   description: "Span across grid rows",
   descriptionMs: "Merentangi baris grid",
   category: "layout",
+  engine: { utilities: { "row-start": { template: "grid-row-start: {value};", numeric: true, passthrough: true }, "row-end": { template: "grid-row-end: {value};", numeric: true, passthrough: true } } },
   dynamic: true,
   values: [
     { value: "1-12", css: "grid-row: span {n} / span {n};", description: "Span N rows", descriptionMs: "Merentangi N baris" },
@@ -1921,6 +2951,7 @@ var gridAutoSizing = {
   description: "Control size of auto-generated grid tracks",
   descriptionMs: "Kawal saiz trek grid yang dijana automatik",
   category: "layout",
+  engine: { templates: { "auto-cols": "grid-auto-columns: {value};", "auto-rows": "grid-auto-rows: {value};" }, passthrough: true, arbitrary: true },
   dynamic: true,
   values: [
     { value: "auto", css: "auto", description: "Auto size", descriptionMs: "Saiz automatik" },
@@ -1997,6 +3028,7 @@ var inset = {
   description: "Control positioning offsets",
   descriptionMs: "Kawal ofset kedudukan",
   category: "layout",
+  engine: { negatable: true, literals: { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   usesScale: "spacing",
   supportsArbitrary: true,
   values: [
@@ -2111,6 +3143,7 @@ var overflow = {
   description: "Control content overflow behavior",
   descriptionMs: "Kawal kelakuan limpahan kandungan",
   category: "layout",
+  engine: { aliases: ["overflow-x", "overflow-y"], templates: { "overflow-x": "overflow-x: {value};", "overflow-y": "overflow-y: {value};" } },
   values: [
     { value: "auto", css: "overflow: auto;", description: "Scrollbar when needed", descriptionMs: "Bar skrol bila perlu" },
     { value: "hidden", css: "overflow: hidden;", description: "Hide overflow", descriptionMs: "Sembunyikan limpahan" },
@@ -2180,13 +3213,13 @@ var floatClear = {
   descriptionMs: "Kawal pengapungan dan pembersihan elemen",
   category: "layout",
   values: [
-    { value: "left", css: "float: left;", description: "Float left", descriptionMs: "Apung kiri" },
-    { value: "right", css: "float: right;", description: "Float right", descriptionMs: "Apung kanan" },
-    { value: "none", css: "float: none;", description: "No float", descriptionMs: "Tiada pengapungan" },
-    { value: "clear-left", css: "clear: left;", description: "Clear left floats", descriptionMs: "Kosongkan apung kiri" },
-    { value: "clear-right", css: "clear: right;", description: "Clear right floats", descriptionMs: "Kosongkan apung kanan" },
-    { value: "clear-both", css: "clear: both;", description: "Clear all floats", descriptionMs: "Kosongkan semua apung" },
-    { value: "clear-none", css: "clear: none;", description: "No clear", descriptionMs: "Tiada pembersihan" }
+    { prefix: "float", value: "left", css: "float: left;", description: "Float left", descriptionMs: "Apung kiri" },
+    { prefix: "float", value: "right", css: "float: right;", description: "Float right", descriptionMs: "Apung kanan" },
+    { prefix: "float", value: "none", css: "float: none;", description: "No float", descriptionMs: "Tiada pengapungan" },
+    { prefix: "clear", value: "left", css: "clear: left;", description: "Clear left floats", descriptionMs: "Kosongkan apung kiri" },
+    { prefix: "clear", value: "right", css: "clear: right;", description: "Clear right floats", descriptionMs: "Kosongkan apung kanan" },
+    { prefix: "clear", value: "both", css: "clear: both;", description: "Clear all floats", descriptionMs: "Kosongkan semua apung" },
+    { prefix: "clear", value: "none", css: "clear: none;", description: "No clear", descriptionMs: "Tiada pembersihan" }
   ],
   examples: [
     { code: '<img layout="float:left">Float left</img>', description: "Float image left" },
@@ -2290,6 +3323,7 @@ var objectPosition = {
   description: "Position replaced element content within container",
   descriptionMs: "Letakkan kandungan elemen diganti dalam bekas",
   category: "layout",
+  engine: { passthrough: true },
   supportsArbitrary: true,
   values: [
     { value: "center", css: "object-position: center;", description: "Center position", descriptionMs: "Kedudukan tengah" },
@@ -2327,6 +3361,7 @@ var container = {
   description: "Create a centered container with max-width",
   descriptionMs: "Cipta bekas berpusat dengan lebar maksimum",
   category: "layout",
+  engine: { css: "width: 100%; margin-left: auto; margin-right: auto;" },
   values: [
     { value: "container", css: "width: 100%; margin-left: auto; margin-right: auto;", description: "Centered container", descriptionMs: "Bekas berpusat" }
   ],
@@ -2380,6 +3415,7 @@ var overscroll = {
   description: "Control scroll chaining behavior",
   descriptionMs: "Kawal kelakuan rantaian skrol",
   category: "layout",
+  engine: { aliases: ["overscroll-x", "overscroll-y"], templates: { "overscroll-x": "overscroll-behavior-x: {value};", "overscroll-y": "overscroll-behavior-y: {value};" } },
   values: [
     { value: "auto", css: "overscroll-behavior: auto;", description: "Default behavior", descriptionMs: "Kelakuan lalai" },
     { value: "contain", css: "overscroll-behavior: contain;", description: "Contain scroll", descriptionMs: "Kandung skrol" },
@@ -2493,6 +3529,7 @@ var borderSpacing = {
   description: "Control spacing between table borders",
   descriptionMs: "Kawal jarak antara sempadan jadual",
   category: "layout",
+  engine: {},
   usesScale: "spacing",
   supportsArbitrary: true,
   dynamic: true,
@@ -8582,6 +9619,7 @@ function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* 
       return "";
     }
     const { raw, attrType, state } = token;
+    if (token.error) return "";
     if (!attrType || typeof attrType !== "string") {
       console.warn("[SenangStart] Invalid token attrType:", attrType);
       return "";
@@ -8628,13 +9666,13 @@ function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* 
     const isDivide = raw && raw.startsWith("divide");
     let selector = "";
     if (isDivide) {
-      selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden])`;
+      selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
     } else {
-      selector = `[${attrType}~="${raw}"]`;
+      selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
     }
     if (state && state !== "dark") {
       if (isDivide) {
-        selector = `[${attrType}~="${raw}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]):${state}`;
       } else {
         const getStateSelector = (s) => {
           const map = {
@@ -8664,7 +9702,7 @@ function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* 
           selectors.push(groupSelector);
           if (interactIds && interactIds.size > 0) {
             for (const id of interactIds) {
-              const peerSelector = `[interact~="${id}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${id}"]${selector}`;
+              const peerSelector = `[interact~="${escapeCSSString(id)}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${escapeCSSString(id)}"]${selector}`;
               selectors.push(peerSelector);
             }
           }
@@ -8866,7 +9904,7 @@ function generateCSSWithErrors(tokens, config) {
                 if (baseDisplayTokens.has(bpToken.attrType)) {
                   const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
                   if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
-                    const selector = `[${bpToken.attrType}~="${bpToken.raw}"]`;
+                    const selector = `[${bpToken.attrType}~="${escapeCSSString(bpToken.raw)}"]`;
                     css += `  ${selector} { display: revert-layer; }
 `;
                     processedResetSelectors.add(bpToken.raw);
@@ -9263,18 +10301,34 @@ var COLOR_PALETTE = {
 // src/config/defaults.js
 var defaultConfig = {
   // Input files to scan for attributes
+  // Globs are resolved with tinyglobby relative to the project root.
+  // Negation is supported (`'!./legacy/**'`); node_modules/.git/dist are ignored by default.
   content: [
     "./**/*.html",
-    "./src/**/*.{html,jsx,tsx,vue,svelte}",
-    "./pages/**/*.{html,jsx,tsx}",
-    "./components/**/*.{html,jsx,tsx}"
+    "./**/*.{php,blade.php}",
+    "./**/*.{js,jsx,ts,tsx}",
+    "./**/*.{vue,svelte,astro}",
+    "./**/*.{md,mdx}"
   ],
+  // Tokens to always include even if not found in `content` (reserved for the
+  // variant engine; consumed by the build pipeline). Entries are raw tokens
+  // (`'visual=bg:primary'`, `'flex'`, `'p:medium'`) or `{ attr, tokens }`.
+  safelist: [],
+  // Reserved: attribute/selector prefix for the variant engine (e.g. 'ss-').
+  // Defined here so configs validate; behaviour is implemented by the engine.
+  prefix: "",
+  // Emit CSS wrapped in cascade layers (@layer senang.base, senang.utilities …).
+  // Behaviour implemented by the engine team; defined here for config validation.
+  layers: true,
   // Output configuration
   output: {
     css: "./public/senangstart.css",
     minify: false,
-    aiContext: "./.cursorrules",
-    typescript: "./types/senang.d.ts"
+    // OPT-IN: AI context file (e.g. './.cursorrules'). `null`/`false` = disabled.
+    // Generated files carry a marker header; existing files without it are never overwritten.
+    aiContext: null,
+    // OPT-IN: TypeScript definitions (e.g. './types/senang.d.ts'). `null`/`false` = disabled.
+    typescript: null
   },
   // Dark mode configuration
   // 'media' - Uses @media (prefers-color-scheme: dark)
@@ -9292,6 +10346,9 @@ var defaultConfig = {
     ignoreInvalid: false
   },
   theme: {
+    // Expose every theme scale as CSS custom properties (not only used ones).
+    // Behaviour implemented by the engine team; defined here for config validation.
+    exposeAll: false,
     // 1. SPACING: The "Natural Object" Scale with multiplier variants
     // Logic: How big is the object/gap physically?
     spacing: {
@@ -9507,9 +10564,31 @@ var defaultConfig = {
     animationDelay: { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" },
     perspective: { none: "none", dramatic: "100px", near: "300px", normal: "500px", midrange: "800px", far: "1000px", distant: "1200px" }
   },
-  // Extend or override defaults
+  // Deprecated alias of `theme.extend` (kept for backwards compatibility).
   extend: {}
 };
+function deepFreeze(obj) {
+  if (obj && typeof obj === "object" && !Object.isFrozen(obj)) {
+    Object.freeze(obj);
+    for (const value of Object.values(obj)) deepFreeze(value);
+  }
+  return obj;
+}
+deepFreeze(defaultConfig);
+var KNOWN_CONFIG_KEYS = Object.freeze([
+  "content",
+  "safelist",
+  "prefix",
+  "layers",
+  "output",
+  "darkMode",
+  "preflight",
+  "build",
+  "theme",
+  "extend"
+]);
+var KNOWN_OUTPUT_KEYS = Object.freeze(["css", "minify", "aiContext", "typescript"]);
+var KNOWN_BUILD_KEYS = Object.freeze(["ignoreInvalid"]);
 function deepMerge(target, source, visited = /* @__PURE__ */ new WeakMap()) {
   if (visited.has(source)) {
     return visited.get(source);
@@ -9608,28 +10687,46 @@ function validateTheme(theme) {
   }
   return warnings;
 }
-function mergeConfig(userConfig = {}) {
-  const merged = { ...defaultConfig };
-  if (userConfig.content) {
-    merged.content = userConfig.content;
+function clone(value) {
+  try {
+    return globalThis.structuredClone(value);
+  } catch {
+    return JSON.parse(JSON.stringify(value));
   }
-  if (userConfig.output) {
-    merged.output = { ...merged.output, ...userConfig.output };
+}
+function isPlainObject(v) {
+  return v !== null && typeof v === "object" && !Array.isArray(v);
+}
+function mergeConfig(userConfig = {}, options = {}) {
+  const silent = options === true || options?.silent === true;
+  const merged = clone(defaultConfig);
+  if (!isPlainObject(userConfig)) return merged;
+  const user = clone(userConfig);
+  if (Array.isArray(user.content)) merged.content = user.content;
+  if (Array.isArray(user.safelist)) merged.safelist = user.safelist;
+  if (typeof user.prefix === "string") merged.prefix = user.prefix;
+  if (typeof user.layers === "boolean") merged.layers = user.layers;
+  if (isPlainObject(user.output)) merged.output = { ...merged.output, ...user.output };
+  if (user.darkMode !== void 0) merged.darkMode = user.darkMode;
+  if (user.preflight !== void 0) merged.preflight = user.preflight;
+  if (isPlainObject(user.build)) merged.build = { ...merged.build, ...user.build };
+  let themeExtend = null;
+  if (isPlainObject(user.theme)) {
+    const { extend, ...directTheme } = user.theme;
+    merged.theme = deepMerge(merged.theme, directTheme);
+    if (isPlainObject(extend)) themeExtend = extend;
   }
-  if (userConfig.darkMode !== void 0) {
-    merged.darkMode = userConfig.darkMode;
+  if (isPlainObject(user.extend) && Object.keys(user.extend).length > 0) {
+    themeExtend = themeExtend ? deepMerge(user.extend, themeExtend) : user.extend;
+    merged.extend = user.extend;
   }
-  if (userConfig.preflight !== void 0) {
-    merged.preflight = userConfig.preflight;
+  if (themeExtend) {
+    merged.theme = deepMerge(merged.theme, themeExtend);
   }
-  if (userConfig.build && typeof userConfig.build === "object") {
-    merged.build = { ...merged.build || {}, ...userConfig.build };
-  }
-  if (userConfig.theme) {
-    merged.theme = deepMerge(merged.theme, userConfig.theme);
-  }
-  const warnings = validateTheme(merged.theme);
-  if (warnings.length > 0) {
+  if (!silent) {
+    const scales = { ...merged.theme };
+    delete scales.exposeAll;
+    const warnings = validateTheme(scales);
     for (const w of warnings) {
       console.warn(`[senang] Theme validation: ${w}`);
     }

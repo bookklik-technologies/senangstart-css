@@ -13,7 +13,7 @@
  */
 
 import { BREAKPOINTS, STATES, LAYOUT_KEYWORDS, LIMITS } from './constants.js';
-import { validateValue, normalizeArbitraryValue } from './value-grammar.js';
+import { validateValue, normalizeArbitraryValue, checkRawToken } from './value-grammar.js';
 import { splitVariants, deriveLegacyFields, parseVariant } from '../engine/variants.js';
 import { sanitizeValue } from '../utils/common.js';
 
@@ -83,6 +83,13 @@ export function tokenize(raw, attrType, config) {
     return errorToken(raw, attrType, 'Invalid token format', 'INVALID_TOKEN');
   }
 
+  // Security gate: no token may carry characters that could break out of a
+  // declaration, selector or <style> element (audit finding C1).
+  const rawCheck = checkRawToken(raw);
+  if (!rawCheck.ok) {
+    return errorToken(raw, attrType, `Invalid token: ${rawCheck.reason}`, 'INVALID_VALUE');
+  }
+
   const token = {
     raw,
     variants: [],
@@ -142,6 +149,21 @@ export function tokenize(raw, attrType, config) {
       }
       token.value = normalized;
     } else {
+      // Values like `[#123456]/50` or `primary/[.35]` embed bracket groups:
+      // validate each group's contents and the remainder separately.
+      const groups = [];
+      const outer = value.replace(/\[([^\[\]]*)\]/g, (_, inner) => { groups.push(inner); return 'x'; });
+      let check = /[[\]]/.test(outer) ? { ok: false, reason: 'unbalanced brackets' } : validateValue(outer);
+      for (const g of groups) {
+        if (!check.ok) break;
+        check = validateValue(normalizeArbitraryValue(g));
+      }
+      if (!check.ok) {
+        token.value = value;
+        token.error = `Invalid value: ${check.reason}`;
+        token.errorCode = 'INVALID_VALUE';
+        return token;
+      }
       token.value = value;
     }
   } else {
