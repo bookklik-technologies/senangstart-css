@@ -3426,49 +3426,64 @@
   "perspective-origin: bottom right"
  ],
  "visual=rotate-x:0": [
-  "transform: rotateX(0deg)"
+  "--ss-rotate-x: rotateX(0deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-y:0": [
-  "transform: rotateY(0deg)"
+  "--ss-rotate-y: rotateY(0deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-z:0": [
-  "transform: rotateZ(0deg)"
+  "--ss-rotate-z: rotateZ(0deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-x:45": [
-  "transform: rotateX(45deg)"
+  "--ss-rotate-x: rotateX(45deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-y:45": [
-  "transform: rotateY(45deg)"
+  "--ss-rotate-y: rotateY(45deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-z:45": [
-  "transform: rotateZ(45deg)"
+  "--ss-rotate-z: rotateZ(45deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-x:90": [
-  "transform: rotateX(90deg)"
+  "--ss-rotate-x: rotateX(90deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-y:90": [
-  "transform: rotateY(90deg)"
+  "--ss-rotate-y: rotateY(90deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-z:90": [
-  "transform: rotateZ(90deg)"
+  "--ss-rotate-z: rotateZ(90deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-x:180": [
-  "transform: rotateX(180deg)"
+  "--ss-rotate-x: rotateX(180deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-y:180": [
-  "transform: rotateY(180deg)"
+  "--ss-rotate-y: rotateY(180deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=rotate-z:180": [
-  "transform: rotateZ(180deg)"
+  "--ss-rotate-z: rotateZ(180deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=translate-z:0": [
-  "transform: translateZ(0)"
+  "--ss-translate-z: 0",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:near": [
-  "transform: translateZ(50px)"
+  "--ss-translate-z: 50px",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:far": [
-  "transform: translateZ(-50px)"
+  "--ss-translate-z: -50px",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=transform-style:flat": [
   "transform-style: flat"
@@ -3765,176 +3780,235 @@
   "animation-play-state: paused"
  ],
  "visual=scale:0": [
-  "transform: scale(0)"
+  "--ss-scale-x: 0",
+  "--ss-scale-y: 0",
+  "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1)"
  ],
  "visual=scale:50": [
-  "transform: scale(0.5)"
+  "--ss-scale-x: 0.5",
+  "--ss-scale-y: 0.5",
+  "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1)"
  ],
  "visual=scale:75": [
-  "transform: scale(0.75)"
+  "--ss-scale-x: 0.75",
+  "--ss-scale-y: 0.75",
+  "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1)"
  ],
  "visual=scale:100": [
-  "transform: scale(1)"
+  "--ss-scale-x: 1",
+  "--ss-scale-y: 1",
+  "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1)"
  ],
  "visual=scale:110": [
-  "transform: scale(1.1)"
+  "--ss-scale-x: 1.1",
+  "--ss-scale-y: 1.1",
+  "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1)"
  ],
  "visual=scale:125": [
-  "transform: scale(1.25)"
+  "--ss-scale-x: 1.25",
+  "--ss-scale-y: 1.25",
+  "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1)"
  ],
  "visual=scale:150": [
-  "transform: scale(1.5)"
+  "--ss-scale-x: 1.5",
+  "--ss-scale-y: 1.5",
+  "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1)"
  ],
  "visual=rotate:0": [
-  "transform: rotate(0deg)"
+  "rotate: 0deg"
  ],
  "visual=rotate:45": [
-  "transform: rotate(45deg)"
+  "rotate: 45deg"
  ],
  "visual=rotate:90": [
-  "transform: rotate(90deg)"
+  "rotate: 90deg"
  ],
  "visual=rotate:180": [
-  "transform: rotate(180deg)"
+  "rotate: 180deg"
  ],
  "visual=translate-x:0": [
-  "transform: translateX(0)"
+  "--ss-translate-x: 0",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:0": [
-  "transform: translateY(0)"
+  "--ss-translate-y: 0",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:tiny": [
-  "transform: translateX(var(--s-tiny))"
+  "--ss-translate-x: var(--s-tiny)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:tiny": [
-  "transform: translateY(var(--s-tiny))"
+  "--ss-translate-y: var(--s-tiny)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:tiny": [
-  "transform: translateZ(var(--s-tiny))"
+  "--ss-translate-z: var(--s-tiny)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:small": [
-  "transform: translateX(var(--s-small))"
+  "--ss-translate-x: var(--s-small)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:small": [
-  "transform: translateY(var(--s-small))"
+  "--ss-translate-y: var(--s-small)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:small": [
-  "transform: translateZ(var(--s-small))"
+  "--ss-translate-z: var(--s-small)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:medium": [
-  "transform: translateX(var(--s-medium))"
+  "--ss-translate-x: var(--s-medium)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:medium": [
-  "transform: translateY(var(--s-medium))"
+  "--ss-translate-y: var(--s-medium)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:medium": [
-  "transform: translateZ(var(--s-medium))"
+  "--ss-translate-z: var(--s-medium)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:big": [
-  "transform: translateX(var(--s-big))"
+  "--ss-translate-x: var(--s-big)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:big": [
-  "transform: translateY(var(--s-big))"
+  "--ss-translate-y: var(--s-big)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:big": [
-  "transform: translateZ(var(--s-big))"
+  "--ss-translate-z: var(--s-big)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:full": [
-  "transform: translateX(100%)"
+  "--ss-translate-x: 100%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:full": [
-  "transform: translateY(100%)"
+  "--ss-translate-y: 100%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:full": null,
  "visual=translate-x:1/2": [
-  "transform: translateX(50%)"
+  "--ss-translate-x: 50%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:1/2": [
-  "transform: translateY(50%)"
+  "--ss-translate-y: 50%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:1/2": null,
  "visual=translate-x:-full": [
-  "transform: translateX(-100%)"
+  "--ss-translate-x: -100%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:-full": [
-  "transform: translateY(-100%)"
+  "--ss-translate-y: -100%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:-full": null,
  "visual=translate-x:-1/2": [
-  "transform: translateX(-50%)"
+  "--ss-translate-x: -50%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:-1/2": [
-  "transform: translateY(-50%)"
+  "--ss-translate-y: -50%",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:-1/2": null,
  "visual=translate-x:none": [
-  "transform: translateX(var(--s-none))"
+  "--ss-translate-x: var(--s-none)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:giant": [
-  "transform: translateX(var(--s-giant))"
+  "--ss-translate-x: var(--s-giant)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:vast": [
-  "transform: translateX(var(--s-vast))"
+  "--ss-translate-x: var(--s-vast)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:small-2x": [
-  "transform: translateX(var(--s-small-2x))"
+  "--ss-translate-x: var(--s-small-2x)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-x:[13px]": [
-  "transform: translateX(13px)"
+  "--ss-translate-x: 13px",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:none": [
-  "transform: translateY(var(--s-none))"
+  "--ss-translate-y: var(--s-none)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:giant": [
-  "transform: translateY(var(--s-giant))"
+  "--ss-translate-y: var(--s-giant)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:vast": [
-  "transform: translateY(var(--s-vast))"
+  "--ss-translate-y: var(--s-vast)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:small-2x": [
-  "transform: translateY(var(--s-small-2x))"
+  "--ss-translate-y: var(--s-small-2x)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-y:[13px]": [
-  "transform: translateY(13px)"
+  "--ss-translate-y: 13px",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:none": [
-  "transform: translateZ(var(--s-none))"
+  "--ss-translate-z: var(--s-none)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:giant": [
-  "transform: translateZ(var(--s-giant))"
+  "--ss-translate-z: var(--s-giant)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:vast": [
-  "transform: translateZ(var(--s-vast))"
+  "--ss-translate-z: var(--s-vast)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:small-2x": [
-  "transform: translateZ(var(--s-small-2x))"
+  "--ss-translate-z: var(--s-small-2x)",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=translate-z:[13px]": [
-  "transform: translateZ(13px)"
+  "--ss-translate-z: 13px",
+  "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0)"
  ],
  "visual=skew-x:0": [
-  "transform: skewX(0deg)"
+  "--ss-skew-x: skewX(0deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=skew-y:0": [
-  "transform: skewY(0deg)"
+  "--ss-skew-y: skewY(0deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=skew-x:3": [
-  "transform: skewX(3deg)"
+  "--ss-skew-x: skewX(3deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=skew-y:3": [
-  "transform: skewY(3deg)"
+  "--ss-skew-y: skewY(3deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=skew-x:6": [
-  "transform: skewX(6deg)"
+  "--ss-skew-x: skewX(6deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=skew-y:6": [
-  "transform: skewY(6deg)"
+  "--ss-skew-y: skewY(6deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=skew-x:12": [
-  "transform: skewX(12deg)"
+  "--ss-skew-x: skewX(12deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=skew-y:12": [
-  "transform: skewY(12deg)"
+  "--ss-skew-y: skewY(12deg)",
+  "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,)"
  ],
  "visual=origin:center": [
   "transform-origin: center"

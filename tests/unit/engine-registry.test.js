@@ -46,3 +46,17 @@ describe('registry resolver kinds', () => {
     assert.ok(css('visual', 'blur:small', partial));
   });
 });
+
+describe('composable transforms', () => {
+  test('rotate, scale, translate and skew on one element do not override each other', async () => {
+    const { compileSource } = await import('../../src/index.js');
+    const { css } = compileSource('<b visual="rotate:45 scale:150 translate-x:small skew-x:12"></b>', { preflight: false });
+    const props = [...css.matchAll(/\{([^{}]*)\}/g)].map(m => m[1]).join(';');
+    // each family writes a different property, so none can cancel another
+    assert.ok(/(^|;)\s*rotate:\s*45deg/.test(props));
+    assert.ok(/(^|;)\s*scale:/.test(props));
+    assert.ok(/(^|;)\s*translate:/.test(props));
+    assert.ok(/(^|;)\s*transform:\s*var\(--ss-rotate-x,\)/.test(props));
+    assert.ok(css.includes('@property --ss-translate-x { syntax: "*"; inherits: false; initial-value: 0; }'));
+  });
+});

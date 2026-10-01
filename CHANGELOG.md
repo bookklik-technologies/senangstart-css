@@ -42,6 +42,15 @@ All notable changes to SenangStart CSS will be documented in this file.
 ### Fixed
 - `bg:current` (and other colour utilities) emit `currentColor`; `basis:auto` / `basis:0` emit CSS keywords instead of undefined variables.
 
+### Changed (BREAKING — output) — engine
+- CSS declarations now come from a table-driven registry built from `src/definitions` (the 360-line hand-written generator and `visual-rules.js` are gone; `css.js` 1,234 → ~830 lines). 84 documented tokens that silently produced nothing in 0.3.x now work (e.g. `grid-flow:*`, `float:*`, `clear:*`, `isolation:*`, `box:*`); 81 deliberate corrections are recorded in `tests/golden/CHANGES-0.4.0.json`.
+- **Transforms compose.** `rotate:`, `scale:` and `translate-*:` use the standalone CSS `rotate` / `scale` / `translate` properties; `rotate-x/y/z` and `skew-*` compose through one variable-based `transform`. Non-inheriting `@property` registrations are emitted only when used. Previously each transform utility overwrote the others.
+
+### Fixed — utilities
+- `bg-image:[url(x)]` / `mask-image:[url(x)]` are no longer double-wrapped; `mask-image:none` emits `none`.
+- Negative `top:`, `inset:`, `translate-*:` values, `z:[5]`, `bg:primary/[.35]` and `calc()` auto-spacing in arbitrary values.
+- Inline scales (blur, brightness, …) fall back to the defaults when a partial theme omits them.
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING

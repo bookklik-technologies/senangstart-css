@@ -340,6 +340,62 @@ function applyEngineMeta(entry, meta, key) {
   return entry;
 }
 
+
+// ---------------------------------------------------------------------------
+// Composable transforms (0.4.0)
+// ---------------------------------------------------------------------------
+// translate/rotate/scale use the standalone CSS properties, which compose with
+// each other natively; 3D rotation and skew compose through one transform list
+// of optional per-utility variables. Variables are registered with
+// `@property … { inherits: false }` (see TRANSFORM_PROPERTIES) so values never
+// leak from a parent to its children.
+
+const T3 = 'translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0);';
+const SC = 'scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1);';
+const TF = 'transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,);';
+
+export const COMPOSABLE_TRANSFORMS = {
+  'translate-x': `--ss-translate-x: {value}; ${T3}`,
+  'translate-y': `--ss-translate-y: {value}; ${T3}`,
+  'translate-z': `--ss-translate-z: {value}; ${T3}`,
+  scale: `--ss-scale-x: {value}; --ss-scale-y: {value}; ${SC}`,
+  'scale-x': `--ss-scale-x: {value}; ${SC}`,
+  'scale-y': `--ss-scale-y: {value}; ${SC}`,
+  rotate: 'rotate: {value};',
+  'rotate-x': `--ss-rotate-x: rotateX({value}); ${TF}`,
+  'rotate-y': `--ss-rotate-y: rotateY({value}); ${TF}`,
+  'rotate-z': `--ss-rotate-z: rotateZ({value}); ${TF}`,
+  'skew-x': `--ss-skew-x: skewX({value}); ${TF}`,
+  'skew-y': `--ss-skew-y: skewY({value}); ${TF}`,
+  '-skew-x': `--ss-skew-x: skewX(-{value}); ${TF}`,
+  '-skew-y': `--ss-skew-y: skewY(-{value}); ${TF}`
+};
+
+/** @property registrations for the transform variables (emitted only when used). */
+export const TRANSFORM_PROPERTIES = {
+  '--ss-translate-x': '0', '--ss-translate-y': '0', '--ss-translate-z': '0',
+  '--ss-scale-x': '1', '--ss-scale-y': '1',
+  '--ss-rotate-x': null, '--ss-rotate-y': null, '--ss-rotate-z': null,
+  '--ss-skew-x': null, '--ss-skew-y': null
+};
+
+function applyComposableTransforms(registry) {
+  for (const [key, template] of Object.entries(COMPOSABLE_TRANSFORMS)) {
+    const entry = registry.utility('visual', key);
+    if (!entry || !/transform:/.test(entry.template || '')) continue;
+    entry.template = template;
+    if (entry.arbitraryTemplate) entry.arbitraryTemplate = template;
+    if (entry.twTemplate) entry.twTemplate = template;
+    entry.composes = 'transform';
+    // Documented example values are baked `transform:` declarations; let the
+    // numeric resolver produce them through the composable template instead.
+    if (entry.enum && entry.numeric) {
+      entry.enum = Object.fromEntries(Object.entries(entry.enum).filter(([, css]) => !/transform:/.test(css)));
+      if (Object.keys(entry.enum).length === 0) entry.enum = null;
+    }
+  }
+}
+
 /**
  * Build a registry from a definitions object.
  * @param {Object} [definitions] - { layout, space, visual } maps (slimmed or full). Defaults to the bundled definitions.
@@ -376,6 +432,7 @@ export function buildRegistry(definitions) {
     }
   }
 
+  applyComposableTransforms(registry);
   return registry;
 }
 

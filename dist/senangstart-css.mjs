@@ -8793,6 +8793,51 @@ function applyEngineMeta(entry, meta, key) {
   if (meta.props) entry.props = meta.props.slice();
   return entry;
 }
+var T3 = "translate: var(--ss-translate-x, 0) var(--ss-translate-y, 0) var(--ss-translate-z, 0);";
+var SC = "scale: var(--ss-scale-x, 1) var(--ss-scale-y, 1);";
+var TF = "transform: var(--ss-rotate-x,) var(--ss-rotate-y,) var(--ss-rotate-z,) var(--ss-skew-x,) var(--ss-skew-y,);";
+var COMPOSABLE_TRANSFORMS = {
+  "translate-x": `--ss-translate-x: {value}; ${T3}`,
+  "translate-y": `--ss-translate-y: {value}; ${T3}`,
+  "translate-z": `--ss-translate-z: {value}; ${T3}`,
+  scale: `--ss-scale-x: {value}; --ss-scale-y: {value}; ${SC}`,
+  "scale-x": `--ss-scale-x: {value}; ${SC}`,
+  "scale-y": `--ss-scale-y: {value}; ${SC}`,
+  rotate: "rotate: {value};",
+  "rotate-x": `--ss-rotate-x: rotateX({value}); ${TF}`,
+  "rotate-y": `--ss-rotate-y: rotateY({value}); ${TF}`,
+  "rotate-z": `--ss-rotate-z: rotateZ({value}); ${TF}`,
+  "skew-x": `--ss-skew-x: skewX({value}); ${TF}`,
+  "skew-y": `--ss-skew-y: skewY({value}); ${TF}`,
+  "-skew-x": `--ss-skew-x: skewX(-{value}); ${TF}`,
+  "-skew-y": `--ss-skew-y: skewY(-{value}); ${TF}`
+};
+var TRANSFORM_PROPERTIES = {
+  "--ss-translate-x": "0",
+  "--ss-translate-y": "0",
+  "--ss-translate-z": "0",
+  "--ss-scale-x": "1",
+  "--ss-scale-y": "1",
+  "--ss-rotate-x": null,
+  "--ss-rotate-y": null,
+  "--ss-rotate-z": null,
+  "--ss-skew-x": null,
+  "--ss-skew-y": null
+};
+function applyComposableTransforms(registry) {
+  for (const [key, template] of Object.entries(COMPOSABLE_TRANSFORMS)) {
+    const entry = registry.utility("visual", key);
+    if (!entry || !/transform:/.test(entry.template || "")) continue;
+    entry.template = template;
+    if (entry.arbitraryTemplate) entry.arbitraryTemplate = template;
+    if (entry.twTemplate) entry.twTemplate = template;
+    entry.composes = "transform";
+    if (entry.enum && entry.numeric) {
+      entry.enum = Object.fromEntries(Object.entries(entry.enum).filter(([, css]) => !/transform:/.test(css)));
+      if (Object.keys(entry.enum).length === 0) entry.enum = null;
+    }
+  }
+}
 function buildRegistry(definitions) {
   const defs = definitions || {
     layout: definitions_default.layout,
@@ -8820,6 +8865,7 @@ function buildRegistry(definitions) {
       }
     }
   }
+  applyComposableTransforms(registry);
   return registry;
 }
 function addDefinition(registry, def, attr, meta) {
@@ -10781,6 +10827,16 @@ function pruneCSSVariables(rootCss, usedCss) {
     return !m || keep.has(m[1]);
   }).join("\n");
 }
+function transformProperties(utilities) {
+  let out = "";
+  for (const [name, initial] of Object.entries(TRANSFORM_PROPERTIES)) {
+    if (!utilities.includes(`${name}:`)) continue;
+    out += initial === null ? `@property ${name} { syntax: "*"; inherits: false; }
+` : `@property ${name} { syntax: "*"; inherits: false; initial-value: ${initial}; }
+`;
+  }
+  return out;
+}
 function inLayer(name, css, config) {
   if (!css || config.layers === false) return css;
   return `@layer ${name} {
@@ -10906,6 +10962,7 @@ ${breakpointQuery(bp, screens, config)} {
     css += inLayer("senangstart.theme", theme, config);
     css += inLayer("senangstart.base", preflight, config);
     css += keyframes;
+    css += transformProperties(utilities);
     css += inLayer("senangstart.utilities", utilities, config);
     return { css, errors };
   } catch (e) {

@@ -1293,6 +1293,8 @@ describe('CSS Generator', () => {
         assert.ok(css.includes('perspective-origin: 30% 70%'));
       });
     });
+    // 0.4.0: transforms compose — translate/rotate/scale use the standalone CSS
+    // properties and 3D rotate/skew compose via per-utility variables.
 
     describe('3D Rotation (Rotate X/Y/Z)', () => {
 
@@ -1300,35 +1302,35 @@ describe('CSS Generator', () => {
         const token = { property: 'rotate-x', value: '45', attrType: 'visual', raw: 'rotate-x:45' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: rotateX(45deg)'));
+        assert.ok(css.includes('--ss-rotate-x: rotateX(45deg)'));
       });
 
       it('generates rotate-y', () => {
         const token = { property: 'rotate-y', value: '90', attrType: 'visual', raw: 'rotate-y:90' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: rotateY(90deg)'));
+        assert.ok(css.includes('--ss-rotate-y: rotateY(90deg)'));
       });
 
       it('generates rotate-z', () => {
         const token = { property: 'rotate-z', value: '45', attrType: 'visual', raw: 'rotate-z:45' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: rotateZ(45deg)'));
+        assert.ok(css.includes('--ss-rotate-z: rotateZ(45deg)'));
       });
 
       it('generates rotate (same as rotate-z)', () => {
         const token = { property: 'rotate', value: '180', attrType: 'visual', raw: 'rotate:180' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: rotate(180deg)'));
+        assert.ok(css.includes('rotate: 180deg'));
       });
 
       it('generates rotate-x with arbitrary degrees', () => {
         const token = { property: 'rotate-x', value: '30deg', isArbitrary: true, attrType: 'visual', raw: 'rotate-x:[30deg]' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: rotateX(30deg)'));
+        assert.ok(css.includes('--ss-rotate-x: rotateX(30deg)'));
       });
     });
 
@@ -1338,28 +1340,28 @@ describe('CSS Generator', () => {
         const token = { property: 'skew-x', value: '6', attrType: 'visual', raw: 'skew-x:6' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: skewX(6deg)'));
+        assert.ok(css.includes('--ss-skew-x: skewX(6deg)'));
       });
 
       it('generates skew-y', () => {
         const token = { property: 'skew-y', value: '12', attrType: 'visual', raw: 'skew-y:12' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: skewY(12deg)'));
+        assert.ok(css.includes('--ss-skew-y: skewY(12deg)'));
       });
 
       it('generates -skew-x with negative degrees', () => {
         const token = { property: '-skew-x', value: '6', attrType: 'visual', raw: '-skew-x:6' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: skewX(-6deg)'));
+        assert.ok(css.includes('--ss-skew-x: skewX(-6deg)'));
       });
 
       it('generates -skew-y with negative degrees', () => {
         const token = { property: '-skew-y', value: '12', attrType: 'visual', raw: '-skew-y:12' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: skewY(-12deg)'));
+        assert.ok(css.includes('--ss-skew-y: skewY(-12deg)'));
       });
     });
 
@@ -1369,56 +1371,56 @@ describe('CSS Generator', () => {
         const token = { property: 'translate-x', value: 'medium', attrType: 'visual', raw: 'translate-x:medium' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateX(var(--s-medium))'));
+        assert.ok(css.includes('--ss-translate-x: var(--s-medium)'));
       });
 
       it('generates translate-x with preset (1/2)', () => {
         const token = { property: 'translate-x', value: '1/2', attrType: 'visual', raw: 'translate-x:1/2' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateX(50%)'));
+        assert.ok(css.includes('--ss-translate-x: 50%'));
       });
 
       it('generates translate-y with scale value', () => {
         const token = { property: 'translate-y', value: 'big', attrType: 'visual', raw: 'translate-y:big' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateY(var(--s-big))'));
+        assert.ok(css.includes('--ss-translate-y: var(--s-big)'));
       });
 
       it('generates translate-y with preset (full)', () => {
         const token = { property: 'translate-y', value: 'full', attrType: 'visual', raw: 'translate-y:full' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateY(100%)'));
+        assert.ok(css.includes('--ss-translate-y: 100%'));
       });
 
       it('generates translate-x with negative half', () => {
         const token = { property: 'translate-x', value: '-half', attrType: 'visual', raw: 'translate-x:-half' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateX(-50%)'));
+        assert.ok(css.includes('--ss-translate-x: -50%'));
       });
 
       it('generates translate-x with negative full', () => {
         const token = { property: 'translate-x', value: '-full', attrType: 'visual', raw: 'translate-x:-full' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateX(-100%)'));
+        assert.ok(css.includes('--ss-translate-x: -100%'));
       });
 
       it('generates translate-y with negative third', () => {
         const token = { property: 'translate-y', value: '-third', attrType: 'visual', raw: 'translate-y:-third' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateY(-33.333333%)'));
+        assert.ok(css.includes('--ss-translate-y: -33.333333%'));
       });
 
       it('generates translate-y with negative quarter-3x', () => {
         const token = { property: 'translate-y', value: '-quarter-3x', attrType: 'visual', raw: 'translate-y:-quarter-3x' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateY(-75%)'));
+        assert.ok(css.includes('--ss-translate-y: -75%'));
       });
     });
 
@@ -1428,21 +1430,21 @@ describe('CSS Generator', () => {
         const token = { property: 'scale', value: '75', attrType: 'visual', raw: 'scale:75' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: scale(0.75)'));
+        assert.ok(css.includes('--ss-scale-x: 0.75; --ss-scale-y: 0.75'));
       });
 
       it('generates scale-x with percentage value', () => {
         const token = { property: 'scale-x', value: '50', attrType: 'visual', raw: 'scale-x:50' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: scaleX(0.5)'));
+        assert.ok(css.includes('--ss-scale-x: 0.5'));
       });
 
       it('generates scale-y with percentage value', () => {
         const token = { property: 'scale-y', value: '125', attrType: 'visual', raw: 'scale-y:125' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: scaleY(1.25)'));
+        assert.ok(css.includes('--ss-scale-y: 1.25'));
       });
     });
 
@@ -1452,7 +1454,7 @@ describe('CSS Generator', () => {
         const token = { property: 'translate-z', value: '100px', isArbitrary: true, attrType: 'visual', raw: 'translate-z:[100px]' };
         const config = createTestConfig();
         const css = generateCSS([token], config);
-        assert.ok(css.includes('transform: translateZ(100px)'));
+        assert.ok(css.includes('--ss-translate-z: 100px'));
       });
     });
 

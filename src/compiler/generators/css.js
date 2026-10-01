@@ -9,6 +9,7 @@ import { diagnoseToken, checkUndefinedVars } from './diagnose.js';
 import { generatePreflight } from './preflight.js';
 import { TW_SPACING, TW_RADIUS, TW_SHADOW, TW_FONT_SIZE, TW_LEADING, TW_FONT_WEIGHT } from '../../core/constants.js';
 import { generateDeclarations } from '../../engine/index.js';
+import { TRANSFORM_PROPERTIES } from '../../engine/registry.js';
 
 /**
  * Generate CSS custom properties from config
@@ -586,6 +587,23 @@ export function pruneCSSVariables(rootCss, usedCss) {
   }).join('\n');
 }
 
+/**
+ * `@property` registrations for the composable-transform variables that the
+ * utilities actually set (non-inheriting, so parents never leak into children).
+ * @param {string} utilities
+ * @returns {string}
+ */
+function transformProperties(utilities) {
+  let out = '';
+  for (const [name, initial] of Object.entries(TRANSFORM_PROPERTIES)) {
+    if (!utilities.includes(`${name}:`)) continue;
+    out += initial === null
+      ? `@property ${name} { syntax: "*"; inherits: false; }\n`
+      : `@property ${name} { syntax: "*"; inherits: false; initial-value: ${initial}; }\n`;
+  }
+  return out;
+}
+
 /** Wrap a CSS chunk in a cascade layer when layers are enabled. */
 function inLayer(name, css, config) {
   if (!css || config.layers === false) return css;
@@ -728,6 +746,7 @@ export function generateCSSWithErrors(tokens, config) {
     css += inLayer('senangstart.theme', theme, config);
     css += inLayer('senangstart.base', preflight, config);
     css += keyframes;
+    css += transformProperties(utilities);
     css += inLayer('senangstart.utilities', utilities, config);
     return { css, errors };
   } catch (e) {

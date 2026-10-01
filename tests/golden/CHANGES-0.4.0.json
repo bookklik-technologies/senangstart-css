@@ -81,6 +81,7 @@
     "visual=translate-y:0": "old emitted undefined var(--s-0); now translateY(0)",
     "visual=ring-offset:0": "old emitted undefined var(--s-0); now 0px as documented",
     "visual=ring-offset:2": "old emitted undefined var(--s-2); now 2px as documented",
-    "visual=ring-offset:4": "old emitted undefined var(--s-4); now 4px as documented"
+    "visual=ring-offset:4": "old emitted undefined var(--s-4); now 4px as documented",
+    "visual=translate-*/rotate*/scale*/skew-*": "transforms now compose: standalone translate/rotate/scale properties plus a variable-based transform list for 3D rotate and skew"
   }
 }
