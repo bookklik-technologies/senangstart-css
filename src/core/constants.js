@@ -302,3 +302,23 @@ export default {
   LIMITS,
   CSS_COLOR_KEYWORDS
 };
+
+/**
+ * Normalise config.prefix ('ss' | 'ss-' | '') to an attribute prefix ('ss-' | '').
+ * @param {Object|string} [configOrPrefix]
+ * @returns {string}
+ */
+export function attrPrefix(configOrPrefix) {
+  const p = typeof configOrPrefix === 'string' ? configOrPrefix : (configOrPrefix && configOrPrefix.prefix) || '';
+  if (!p) return '';
+  return p.endsWith('-') ? p : `${p}-`;
+}
+
+/**
+ * Attribute name for a SenangStart attribute type under the configured prefix.
+ * @param {string} type - layout | space | visual | interact | listens
+ * @param {Object|string} [configOrPrefix]
+ */
+export function attrName(type, configOrPrefix) {
+  return `${attrPrefix(configOrPrefix)}${type}`;
+}

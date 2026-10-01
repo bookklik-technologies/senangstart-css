@@ -18,6 +18,7 @@ import { LIMITS } from '../../core/constants.js';
 import { checkTokenShape } from './shape.js';
 import { extractFromExpression, extractFromTemplatedString, DEFAULT_CLASS_HELPERS } from './expressions.js';
 import { scanMarkup, scanHints, ATTRIBUTE_TYPES } from './scanner.js';
+import { attrPrefix } from '../../core/constants.js';
 
 const DEFAULT_MAX_SKIPPED = 500;
 const DEFAULT_MAX_LOCATIONS_PER_TOKEN = 20;
@@ -145,8 +146,9 @@ export function extractSource(content, options = {}) {
     }
   };
 
-  scanMarkup(content, handleAttribute);
-  scanHints(content, handleAttribute);
+  const prefix = attrPrefix(options.prefix || '');
+  scanMarkup(content, handleAttribute, prefix);
+  scanHints(content, handleAttribute, prefix);
 
   const locations = new Map();
   for (const type of ATTRIBUTE_TYPES) {

@@ -172,7 +172,7 @@ export async function build(options = {}) {
       continue;
     }
     try {
-      const parsed = parseSource(content);
+      const parsed = parseSource(content, { file: filePath, prefix: config.prefix });
       for (const attr of Object.keys(allTokens)) {
         if (!parsed[attr]) continue;
         for (const t of parsed[attr]) {

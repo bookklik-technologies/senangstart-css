@@ -10,6 +10,7 @@ import { generatePreflight } from './preflight.js';
 import { TW_SPACING, TW_RADIUS, TW_SHADOW, TW_FONT_SIZE, TW_LEADING, TW_FONT_WEIGHT } from '../../core/constants.js';
 import { generateDeclarations } from '../../engine/index.js';
 import { TRANSFORM_PROPERTIES } from '../../engine/registry.js';
+import { attrName } from '../../core/constants.js';
 
 /**
  * Generate CSS custom properties from config
@@ -222,9 +223,9 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
 
     if (isDivide) {
       // Divide utilities use special child selector pattern
-      selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
+      selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
     } else {
-      selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
+      selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"]`;
     }
 
     // Variant stack → state selectors (pseudo-classes, aria/data/has/not,
@@ -248,7 +249,7 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
       }
 
       if (isDivide) {
-        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
+        selector = `[${attrName(attrType, config)}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
       } else {
         const selectors = [`${selector}${suffix}`];
 
@@ -262,13 +263,14 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
           selected: ['selectable', '[aria-selected="true"]']
         };
         const only = stateVs.length === 1 ? groupTriggers[stateVs[0].name] : null;
+        const L = attrName('layout', config);
         if (only) {
           const [parentAttr, trigger] = only;
-          selectors.push(`[layout~="${parentAttr}"]:not([layout~="disabled"])${trigger} ${selector}`);
+          selectors.push(`[${L}~="${parentAttr}"]:not([${L}~="disabled"])${trigger} ${selector}`);
           if (interactIds && interactIds.size > 0) {
             for (const id of interactIds) {
               const eid = escapeCSSString(id);
-              selectors.push(`[interact~="${eid}"]:not([layout~="disabled"])${trigger} ~ [listens~="${eid}"]${selector}`);
+              selectors.push(`[${attrName('interact', config)}~="${eid}"]:not([${L}~="disabled"])${trigger} ~ [${attrName('listens', config)}~="${eid}"]${selector}`);
             }
           }
         }

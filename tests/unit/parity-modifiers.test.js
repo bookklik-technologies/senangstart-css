@@ -60,3 +60,22 @@ describe('container queries', () => {
     assert.ok(u.includes('@container (min-width: 20rem) { [space~="tab:@card:p:big"]'));
   });
 });
+
+describe('prefix option', () => {
+  test('prefixed attributes are scanned and emitted; unprefixed ones are ignored', () => {
+    const html = '<div ss-layout="flex hoverable" ss-visual="hover:bg:red-500 dark:bg:black" layout="grid"><i ss-interact="x"></i><b ss-listens="x" ss-space="p:big"></b></div>';
+    const { u, errors } = util(html, { prefix: 'ss', darkMode: 'selector' });
+    assert.deepEqual(errors, []);
+    assert.ok(u.includes('[ss-layout~="flex"] { display: flex; }'));
+    assert.ok(!u.includes('[layout~="grid"]'));
+    assert.ok(u.includes('[ss-layout~="hoverable"]:not([ss-layout~="disabled"]):hover [ss-visual~="hover:bg:red-500"]'));
+    assert.ok(u.includes('[ss-interact~="x"]:not([ss-layout~="disabled"]):hover ~ [ss-listens~="x"]'));
+    assert.ok(u.includes(':where(.dark, :is(.dark) *)[ss-visual~="dark:bg:black"]'));
+  });
+  test("'ss' and 'ss-' are equivalent; preflight container rules use the prefix", () => {
+    const a = compileSource('<div ss-layout="container"></div>', { prefix: 'ss' }).css;
+    const b = compileSource('<div ss-layout="container"></div>', { prefix: 'ss-' }).css;
+    assert.equal(a, b);
+    assert.ok(a.includes('[ss-layout~="container"] {\n    max-width'));
+  });
+});

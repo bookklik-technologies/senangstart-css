@@ -58,7 +58,7 @@ export function compileSource(content, config) {
   }
 
   config = resolveConfig(config);
-  const parsed = parseSource(content);
+  const parsed = parseSource(content, { prefix: config.prefix });
   const tokens = tokenizeAll(parsed, config);
   const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
   const hasErrors = diagnostics.length > 0;
@@ -89,7 +89,7 @@ export function compileMultiple(files, config) {
   }
 
   config = resolveConfig(config);
-  const parsed = parseMultipleSources(files);
+  const parsed = parseMultipleSources(files, { prefix: config.prefix });
   const tokens = tokenizeAll(parsed, config);
   const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
   const hasErrors = diagnostics.length > 0;

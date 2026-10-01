@@ -34,8 +34,15 @@ const isTagNameChar = (code) =>
  * @param {string} name - Raw attribute name as written in the tag
  * @returns {{attrType:string, binding:'static'|'dynamic'}|null}
  */
-export function resolveAttributeName(name) {
-  const lower = name.toLowerCase();
+export function resolveAttributeName(name, prefix = '') {
+  let lower = name.toLowerCase();
+  if (prefix) {
+    // With a prefix configured, only `<prefix>layout` etc. count. Dynamic bindings
+    // (`:ss-layout`, `[ss-layout]`) keep their binding syntax around the prefixed name.
+    const idx = lower.indexOf(prefix);
+    if (idx === -1) return null;
+    lower = lower.slice(0, idx) + lower.slice(idx + prefix.length);
+  }
   if (ATTRIBUTE_TYPE_SET.has(lower)) return { attrType: lower, binding: 'static' };
 
   // Angular: [layout]="expr" / [attr.layout]="expr"
@@ -62,7 +69,7 @@ export function resolveAttributeName(name) {
  * Calls onAttr for every SenangStart attribute found.
  * @returns {number} Index to resume text scanning from
  */
-export function scanTagAttributes(src, i, onAttr, end = src.length) {
+export function scanTagAttributes(src, i, onAttr, end = src.length, prefix = '') {
   while (i < end) {
     const c = src.charCodeAt(i);
 
@@ -163,7 +170,7 @@ export function scanTagAttributes(src, i, onAttr, end = src.length) {
       valueKind = 'unquoted';
     }
 
-    const resolved = resolveAttributeName(name);
+    const resolved = resolveAttributeName(name, prefix);
     if (resolved) {
       onAttr({
         name,
@@ -183,7 +190,7 @@ export function scanTagAttributes(src, i, onAttr, end = src.length) {
  * @param {string} src
  * @param {(attr: object) => void} onAttr
  */
-export function scanMarkup(src, onAttr) {
+export function scanMarkup(src, onAttr, prefix = '') {
   const n = src.length;
   let i = 0;
   // Once a closer is missing after some position it is missing after every
@@ -243,7 +250,7 @@ export function scanMarkup(src, onAttr) {
       i = j;
       continue;
     }
-    i = scanTagAttributes(src, j, onAttr);
+    i = scanTagAttributes(src, j, onAttr, src.length, prefix);
   }
 }
 
@@ -253,7 +260,7 @@ export function scanMarkup(src, onAttr) {
  *   /* senang: visual="bg:red" *\/     // senang: space="p:big"
  *   {{-- senang: layout="grid" --}}    # senang: layout="flex"
  */
-export function scanHints(src, onAttr) {
+export function scanHints(src, onAttr, prefix = '') {
   const n = src.length;
   let i = 0;
 
@@ -274,7 +281,7 @@ export function scanHints(src, onAttr) {
     let bodyEnd = src.indexOf(closer, bodyStart);
     if (bodyEnd === -1) bodyEnd = n;
 
-    scanTagAttributes(src, bodyStart, (attr) => onAttr({ ...attr, source: 'hint' }), bodyEnd);
+    scanTagAttributes(src, bodyStart, (attr) => onAttr({ ...attr, source: 'hint' }), bodyEnd, prefix);
     i = bodyEnd;
   }
 }

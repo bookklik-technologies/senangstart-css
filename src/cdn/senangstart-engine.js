@@ -13,6 +13,7 @@ import { tokenizeAll } from '../core/tokenizer-core.js';
 import { generateCSS } from '../compiler/generators/css.js';
 import { mergeConfig } from '../config/defaults.js';
 import { splitSafeTokens } from './scan.js';
+import { attrPrefix } from '../core/constants.js';
 
 try {
 (function() {
@@ -67,7 +68,9 @@ try {
   // ============================================
 
   const ATTRS = ['layout', 'space', 'visual', 'interact', 'listens'];
-  const OBSERVE_OPTS = { childList: true, subtree: true, attributes: true, attributeFilter: ATTRS };
+  let ATTR_NAMES = ATTRS.slice();   // actual DOM attribute names (prefixed when config.prefix is set)
+  let OBSERVE_OPTS = { childList: true, subtree: true, attributes: true, attributeFilter: ATTR_NAMES };
+  let ATTR_SELECTOR = '[layout], [space], [visual], [interact], [listens]';
   const tokens = { layout: new Set(), space: new Set(), visual: new Set(), interact: new Set(), listens: new Set() };
   let dirty = false;
 
@@ -75,8 +78,8 @@ try {
   function scanElement(el) {
     if (!el || el.nodeType !== 1 || typeof el.getAttribute !== 'function') return;
     for (let i = 0; i < ATTRS.length; i++) {
-      if (!el.hasAttribute(ATTRS[i])) continue;
-      const parts = splitSafeTokens(el.getAttribute(ATTRS[i]));
+      if (!el.hasAttribute(ATTR_NAMES[i])) continue;
+      const parts = splitSafeTokens(el.getAttribute(ATTR_NAMES[i]));
       const set = tokens[ATTRS[i]];
       for (let j = 0; j < parts.length; j++) {
         if (!set.has(parts[j])) { set.add(parts[j]); dirty = true; }
@@ -90,7 +93,7 @@ try {
     if (!root) return;
     if (root.nodeType === 1) scanElement(root);
     if (typeof root.querySelectorAll !== 'function') return;
-    const els = root.querySelectorAll('[layout], [space], [visual], [interact], [listens]');
+    const els = root.querySelectorAll(ATTR_SELECTOR);
     for (let i = 0; i < els.length; i++) scanElement(els[i]);
     // shadow hosts without senangstart attributes of their own
     const hosts = root.querySelectorAll('*');
@@ -211,6 +214,10 @@ try {
 
   function init() {
     config = getFinalConfig();
+    const prefix = attrPrefix(config);
+    ATTR_NAMES = ATTRS.map(function (a) { return prefix + a; });
+    OBSERVE_OPTS = { childList: true, subtree: true, attributes: true, attributeFilter: ATTR_NAMES };
+    ATTR_SELECTOR = ATTR_NAMES.map(function (a) { return '[' + a + ']'; }).join(', ');
 
     if (!document.body && document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function () { init(); });

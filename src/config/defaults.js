@@ -22,7 +22,8 @@ export const defaultConfig = {
   // (`'visual=bg:primary'`, `'flex'`, `'p:medium'`) or `{ attr, tokens }`.
   safelist: [],
 
-  // Reserved: attribute/selector prefix for the variant engine (e.g. 'ss-').
+  // Attribute prefix: 'ss' makes the attributes ss-layout / ss-space / ss-visual
+  // (and ss-interact / ss-listens). Unprefixed attributes are then ignored.
   // Defined here so configs validate; behaviour is implemented by the engine.
   prefix: '',
 

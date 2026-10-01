@@ -1,3 +1,4 @@
+import { attrName } from '../../core/constants.js';
 /**
  * SenangStart CSS - Preflight Generator
  * An opinionated set of base styles similar to Tailwind's Preflight
@@ -25,7 +26,7 @@ function generateContainerCSS(config) {
 
     css += `
 @media (min-width: ${width}) {
-  [layout~="container"] {
+  [${attrName('layout', config)}~="container"] {
     max-width: ${maxWidth};
   }
 }
