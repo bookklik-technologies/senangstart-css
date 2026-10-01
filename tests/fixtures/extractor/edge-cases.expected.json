@@ -1,0 +1,73 @@
+{
+  "layout": [
+    "flex",
+    "spaced",
+    "out",
+    "unterminated",
+    "wrap",
+    "center",
+    "col",
+    "row",
+    "row-reverse",
+    "col-reverse",
+    "start",
+    "end",
+    "nowrap",
+    "last"
+  ],
+  "space": [
+    "p:big",
+    "g:small",
+    "p:a",
+    "p:b",
+    "p:c",
+    "p:fallback",
+    "p:hint"
+  ],
+  "visual": [
+    "bg:red",
+    "w:[a=b]",
+    "!important-ish",
+    "bg:blue",
+    "bg:after-php",
+    "bg:after-mustache",
+    "bg:pink",
+    "text:dim",
+    "bg:array",
+    "bg:after-calls",
+    "bg:[#ff0000]",
+    "text:[var(--x)]",
+    "bg:jsx-hint",
+    "bg:multiline"
+  ],
+  "interact": [
+    "hover:reveal"
+  ],
+  "listens": [
+    "cards:sync"
+  ],
+  "skippedIncludes": [
+    "$var",
+    "a?b",
+    "c;d",
+    "e=f",
+    "<g>",
+    "'quoted'",
+    "&amp;",
+    "|pipe",
+    "visual=",
+    "it's",
+    "home",
+    "app.visual",
+    "trap.translation",
+    "w:[350px",
+    "trap"
+  ],
+  "skippedReasons": [
+    "shape",
+    "quoted",
+    "partial",
+    "call-argument",
+    "unterminated"
+  ]
+}

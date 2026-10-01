@@ -1,0 +1,43 @@
+{
+  "layout": [
+    "flex",
+    "col",
+    "row",
+    "grid",
+    "between",
+    "wrap",
+    "center",
+    "around",
+    "relative",
+    "absolute"
+  ],
+  "space": [
+    "p:medium",
+    "p:small",
+    "p:big",
+    "m:small",
+    "g:medium"
+  ],
+  "visual": [
+    "bg:white",
+    "rounded:medium",
+    "bg:black",
+    "bg:light",
+    "text:white",
+    "text:black",
+    "bg:primary",
+    "bg:danger",
+    "bg:warning",
+    "bg:success",
+    "bg:info",
+    "text:muted",
+    "bg:card"
+  ],
+  "interact": [],
+  "listens": [],
+  "skippedIncludes": [
+    "shadow-",
+    "app.visual"
+  ],
+  "skippedReasons": []
+}

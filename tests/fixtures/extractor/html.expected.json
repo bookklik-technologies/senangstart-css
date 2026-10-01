@@ -1,0 +1,46 @@
+{
+  "layout": [
+    "center",
+    "flex",
+    "col",
+    "between",
+    "grid",
+    "grid-cols:3",
+    "wrap",
+    "tab:row",
+    "desk:grid",
+    "mob:col",
+    "relative",
+    "sticky",
+    "absolute",
+    "fixed",
+    "evenly"
+  ],
+  "space": [
+    "p:medium",
+    "p:small",
+    "g:small",
+    "m:small",
+    "w:[350px]",
+    "h:[100vh]",
+    "p:[calc(100%-2rem)]"
+  ],
+  "visual": [
+    "bg:inner",
+    "bg:white",
+    "text:black",
+    "text:primary",
+    "hover:text:secondary",
+    "rounded:medium",
+    "shadow:small",
+    "bg:hint"
+  ],
+  "interact": [
+    "click:toggle"
+  ],
+  "listens": [
+    "nav:update"
+  ],
+  "skippedIncludes": [],
+  "skippedReasons": []
+}

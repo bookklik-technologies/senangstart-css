@@ -1,0 +1,40 @@
+<!-- Edge cases: malformed input, junk filtering, hint comments -->
+<div layout="flex" visual="{junk} bg:red $var a?b c;d e=f <g> w:[a=b] 'quoted' &amp; !important-ish |pipe">
+<div layout="flex"visual="bg:blue"space="p:big">
+<div layout=" spaced   out  ">
+<div layout="">
+<div layout="   ">
+<div layout>
+<div layout=>
+<div layout="unterminated visual="bg:green">
+<div layout="<?= $x ? 'p:trap-in-php' : 'trap' " visual="bg:after-php">
+<div space="{{ $unterminatedMustache" visual="bg:after-mustache">
+<div space="{% if x %}trap{% endif %} g:small"></div>
+<div :layout="'it\'s' + ' ' + 'wrap'" :visual='"bg:pink" + " " + "text:dim"'></div>
+<div :space="cond ? cond2 ? 'p:a' : 'p:b' : 'p:c'"></div>
+<div :visual="[a, b, 'bg:array'].join(' ')"></div>
+<div :layout="fn(x, y) || 'center'"></div>
+<div :visual="route('home') + ' ' + config('app.visual') + ' bg:after-calls'"></div>
+<div :space="__('trap.translation') ?? 'p:fallback'"></div>
+<div layout=flex/>
+<div layout=col />
+<div layout="row"/><div layout="row-reverse"/>
+<div layout="a{b}c">
+<div visual="bg:[#ff0000] text:[var(--x)] w:[350px">
+<div data-layout="trap" data-space="trap" data-visual="trap" data-interact="trap" data-listens="trap">
+<span>layout="trap-text" visual='bg:trap-text'</span>
+<script>document.body.setAttribute("layout", "trap-set"); const t = `<div layout="col-reverse">`;</script>
+/* senang: visual="bg:red" space="p:hint" */
+// senang: layout="start"
+# senang: layout="end"
+{{-- senang: interact="hover:reveal" listens="cards:sync" --}}
+{/* senang: visual="bg:jsx-hint" */}
+<!--
+  senang:
+    layout="nowrap"
+    visual="bg:multiline"
+-->
+<div layout="last">
+<!-- An unterminated JSX brace swallows the rest of the file *without* emitting junk -->
+<div layout={unterminatedBrace visual="bg:trap-after-unterminated-brace">
+<div layout="trap-after-unterminated-brace">

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Extractor fixture – space = big in the title is prose</title>
+  <style>
+    /* CSS selectors mentioning attributes are not markup */
+    [layout~="flex"] { display: flex; }
+    [visual="bg:trap-css"] { color: red; }
+  </style>
+  <script>
+    // Script bodies are not markup
+    const layout = 'trap-script';
+    const visual = "visual=bg:trap";
+    if (a < b && c > d) { el.setAttribute('visual', 'bg:trap-set'); }
+    el.innerHTML = '<div layout="center" visual="bg:inner">'; // markup strings in JS are still detected
+  </script>
+</head>
+<body layout="flex col" space="p:medium" visual="bg:white text:black">
+  <!-- <header layout="trap-comment" visual="bg:trap"> -->
+  <header LAYOUT="flex between" Space="p:small">
+    <nav layout='grid grid-cols:3' space=g:small></nav>
+    <a href="#" visual="text:primary hover:text:secondary" interact="click:toggle" listens="nav:update">Link</a>
+  </header>
+  <main
+    layout = "wrap"
+    space  = 'm:small'
+    visual="rounded:medium shadow:small">
+    <p>The prose says space = big and layout=flex, but it is just text.</p>
+    <img data-layout="trap-data" alt="layout=trap-alt" title='visual="bg:trap-title"'>
+    <div playout="trap-prefix" x-layout="trap-x" layout-mode="trap-dash"></div>
+    <div layout="tab:row desk:grid mob:col" space="w:[350px] h:[100vh] p:[calc(100%-2rem)]"></div>
+    <div hidden layout="relative"></div>
+    <div layout="sticky"/>
+    <div layout=absolute/>
+    <template><div layout="fixed"></div></template>
+  </main>
+  <!-- senang: layout="evenly" visual="bg:hint" -->
+</body>
+</html>

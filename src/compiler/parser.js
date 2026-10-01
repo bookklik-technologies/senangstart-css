@@ -1,92 +1,48 @@
 /**
- * SenangStart CSS - HTML/JSX Parser
- * Extracts layout, space, and visual attributes from source files
+ * SenangStart CSS - Source Parser
+ *
+ * Extracts layout / space / visual / interact / listens attribute tokens from
+ * source files (HTML, JSX/TSX, Vue, Svelte, Astro, Blade, PHP, …).
+ *
+ * The heavy lifting lives in ./extractor/ – a tag-aware, boundary-aware,
+ * linear-time scanner that understands framework bindings (`:layout`,
+ * `layout={…}`), template interpolations ({{ }}, <?= ?>, ${}), and
+ * `senang:` hint comments. See docs/guide/content-scanning.md.
+ *
+ * Return shape (unchanged, backward compatible):
+ *   { layout: Set, space: Set, visual: Set, interact: Set, listens: Set }
+ * plus NON-enumerable extras (safe for Object.entries() consumers):
+ *   .locations    Map<"attrType:raw", Array<{file, line, column, source}>>
+ *   .skipped      Array<{attrType, raw, reason, file, line, column, source}>
+ *   .skippedTotal number
+ *   .file         string|null
  */
 
-import { LIMITS } from '../core/constants.js';
-
-/**
- * Create fresh regex patterns for each parse operation
- * Prevents regex state accumulation and potential memory leaks
- * Supports double-quoted, single-quoted, and unquoted attribute values
- */
-function createAttributePatterns() {
-  return {
-    layout:  /layout\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    space:   /space\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    visual:  /visual\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    interact:/interact\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g,
-    listens: /listens\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/g
-  };
-}
+import { extractSource, mergeResults } from './extractor/index.js';
 
 /**
  * Parse a source file and extract all SenangStart attributes
  * @param {string} content - File content to parse
+ * @param {{file?: string}} [options] - Optional metadata (file path is used for locations)
  * @returns {Object} - Extracted attributes by type
  */
-export function parseSource(content) {
-  const results = {
-    layout: new Set(),
-    space: new Set(),
-    visual: new Set(),
-    interact: new Set(),
-    listens: new Set()
-  };
-
-  const patterns = createAttributePatterns();
-
-  for (const [attr, pattern] of Object.entries(patterns)) {
-    let match;
-    while ((match = pattern.exec(content)) !== null) {
-      let value = match[1].trim();
-      // Strip surrounding quotes (double or single) if present
-      if (value.length >= 2) {
-        const firstChar = value[0];
-        const lastChar = value[value.length - 1];
-        if ((firstChar === '"' && lastChar === '"') || (firstChar === "'" && lastChar === "'")) {
-          value = value.slice(1, -1);
-        }
-      }
-      if (value.length > LIMITS.MAX_ATTRIBUTE_VALUE_LENGTH) {
-        continue;
-      }
-      value.split(/\s+/).forEach(token => {
-        if (token && token.length <= LIMITS.MAX_VALUE_LENGTH) {
-          results[attr].add(token);
-        }
-      });
-    }
-  }
-
-  return results;
+export function parseSource(content, options = {}) {
+  return extractSource(content, options);
 }
 
 /**
  * Parse multiple source files
  * @param {Array<{path: string, content: string}>} files - Array of file objects
+ * @param {{classHelpers?: string[]}} [options] - Shared extraction options
  * @returns {Object} - Combined extracted attributes
  */
-export function parseMultipleSources(files) {
-  const combined = {
-    layout: new Set(),
-    space: new Set(),
-    visual: new Set(),
-    interact: new Set(),
-    listens: new Set()
-  };
-
-  for (const file of files) {
-    const parsed = parseSource(file.content);
-
-    parsed.layout.forEach(token => combined.layout.add(token));
-    parsed.space.forEach(token => combined.space.add(token));
-    parsed.visual.forEach(token => combined.visual.add(token));
-    parsed.interact.forEach(token => combined.interact.add(token));
-    parsed.listens.forEach(token => combined.listens.add(token));
+export function parseMultipleSources(files, options = {}) {
+  const results = [];
+  for (const file of files || []) {
+    if (!file) continue;
+    results.push(extractSource(file.content, { ...options, file: file.path ?? null }));
   }
-
-  return combined;
+  return mergeResults(results);
 }
 
 export default { parseSource, parseMultipleSources };

@@ -1,0 +1,25 @@
+---
+// Astro frontmatter: plain TS, nothing here is an attribute
+import Layout from '../layouts/Layout.astro';
+const layout = 'trap-frontmatter';
+const visual = "visual=bg:trap";
+const { open = false, size } = Astro.props;
+const cls = size < 2 ? 'trap-small' : 'trap-large';
+---
+<!-- <div layout="trap-comment"> -->
+<Layout title="Home">
+  <main layout="flex col" space="p:medium" visual="bg:white">
+    <nav layout={open ? 'flex row' : 'grid'} space={open ? 'p:big' : 'p:small'} />
+    <aside visual={`rounded:medium ${open ? 'shadow:big' : 'shadow:small'} ring-${size}`} />
+    <div visual={['bg:primary', open && 'text:white'].filter(Boolean).join(' ')} />
+    <div layout={layout} data-layout="trap-data" class:list={['trap-class-list']} />
+    {open && <section layout="between" visual="bg:success" />}
+    {items.map((item) => <p visual="text:muted" set:html={item.html} />)}
+    <p>space = big in prose</p>
+  </main>
+</Layout>
+
+<script>
+  const layout = 'trap-client-script';
+  document.querySelector('[layout="flex"]')?.setAttribute('visual', 'bg:trap');
+</script>

@@ -1,0 +1,34 @@
+{
+  "layout": [
+    "flex",
+    "col",
+    "row",
+    "grid",
+    "wrap",
+    "center",
+    "around",
+    "between"
+  ],
+  "space": [
+    "p:medium",
+    "p:small",
+    "p:big"
+  ],
+  "visual": [
+    "bg:white",
+    "rounded:medium",
+    "bg:black",
+    "bg:light",
+    "text:big",
+    "bg:info",
+    "text:muted",
+    "bg:dark"
+  ],
+  "interact": [],
+  "listens": [],
+  "skippedIncludes": [
+    "shadow-",
+    "text-"
+  ],
+  "skippedReasons": []
+}
