@@ -8,6 +8,16 @@ import assert from 'node:assert';
 import { compileSource, compileMultiple } from '../../src/compiler/index.js';
 import { createTestConfig, normalizeCSS } from '../helpers/test-utils.js';
 
+
+/** Index of a selector in the CSS, asserting it exists. (0.4.0: display conflicts are
+ * resolved purely by cascade order — responsive rules come after base rules at equal
+ * specificity — so the old `display: revert-layer` resets were removed as dead code.) */
+function posOf(css, needle) {
+  const i = css.indexOf(needle);
+  assert.ok(i >= 0, `missing ${needle}`);
+  return i;
+}
+
 describe('Compiler Integration', () => {
 
   describe('compileSource', () => {
@@ -282,9 +292,9 @@ describe('Compiler Integration', () => {
       // Responsive rule: flex should apply at lap+ with display reset
       assert.ok(result.css.includes('@media (min-width: 1024px)'));
 
-      // Check that display: revert-layer is added to reset the base display: none
-      assert.ok(result.css.includes('display: revert-layer'));
-      assert.ok(result.css.includes('[layout~="lap:flex"]'));
+      // lap:flex must be emitted after the base hidden rule so it wins at lap+
+      assert.ok(posOf(result.css, '[layout~="lap:flex"]') > posOf(result.css, '[layout~="hidden"]'));
+      assert.ok(!result.css.includes('revert-layer'));
     });
 
     it('does not add display reset when display properties are the same', () => {
@@ -295,8 +305,8 @@ describe('Compiler Integration', () => {
 
       // Both are display properties but different ones, so reset should be added
       assert.ok(result.css.includes('@media (min-width: 1024px)'));
-      // Should have display reset since block != flex
-      assert.ok(result.css.includes('display: revert-layer'));
+      // lap:flex must come after block so it wins at lap+
+      assert.ok(posOf(result.css, '[layout~="lap:flex"]') > posOf(result.css, '[layout~="block"]'));
     });
 
     it('does not add display reset for non-display properties', () => {
@@ -322,13 +332,13 @@ describe('Compiler Integration', () => {
       // Base: hidden
       assert.ok(result.css.includes('[layout~="hidden"]'));
 
-      // tab:flex should reset hidden
+      // tab:flex must come after hidden
       assert.ok(result.css.includes('@media (min-width: 768px)'));
-      assert.ok(result.css.includes('display: revert-layer'));
+      assert.ok(posOf(result.css, '[layout~="tab:flex"]') > posOf(result.css, '[layout~="hidden"]'));
 
-      // desk:grid should reset flex
+      // desk:grid must come after tab:flex (breakpoints ordered by width)
       assert.ok(result.css.includes('@media (min-width: 1280px)'));
-      assert.ok(result.css.includes('display: revert-layer'));
+      assert.ok(posOf(result.css, '[layout~="desk:grid"]') > posOf(result.css, '[layout~="tab:flex"]'));
     });
 
   });

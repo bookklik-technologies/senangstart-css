@@ -50,7 +50,7 @@ describe('Production Fixes (Phase 1)', () => {
       const css = generateCSS([token], config);
 
       assert.ok(css.includes('@media (min-width: 768px)'), 'breakpoint media query must be preserved');
-      assert.ok(css.includes('.dark [visual~="tab:dark:bg:black"]'), 'dark selector prefix must be applied');
+      assert.ok(css.includes(':where(.dark, :is(.dark) *)[visual~="tab:dark:bg:black"]'), 'dark selector prefix must be applied');
     });
 
     it('keeps media query for desk:dark token', () => {
@@ -102,7 +102,7 @@ describe('Production Fixes (Phase 1)', () => {
       const css = generateCSS(tokens, config);
 
       assert.ok(
-        css.includes('.dark [visual~="dark:bg:[#ff0000]"]'),
+        css.includes(':where(.dark, :is(.dark) *)[visual~="dark:bg:[#ff0000]"]'),
         'full selector must be prefixed once, unbroken'
       );
       assert.ok(css.includes('background-color: #ff0000'));
@@ -113,7 +113,7 @@ describe('Production Fixes (Phase 1)', () => {
       const config = createTestConfig({ darkMode: 'selector' });
       const css = generateCSS(tokens, config);
 
-      assert.ok(css.includes('.dark [visual~="dark:bg:black"]'));
+      assert.ok(css.includes(':where(.dark, :is(.dark) *)[visual~="dark:bg:black"]'));
       assert.ok(css.includes('background-color: var(--c-black)'));
     });
 
@@ -121,8 +121,8 @@ describe('Production Fixes (Phase 1)', () => {
       const config = createTestConfig({ darkMode: 'selector' });
       const token = { state: 'dark', property: 'bg', value: 'black', attrType: 'visual', raw: 'dark:bg:black' };
       const css = generateCSS([token], config);
-      assert.ok(css.includes('.dark [visual~="dark:bg:black"]'));
-      assert.ok(!css.includes('.dark .dark'), 'each selector must be prefixed exactly once');
+      assert.ok(css.includes(':where(.dark, :is(.dark) *)[visual~="dark:bg:black"]'));
+      assert.equal(css.split(':where(.dark').length - 1, 1, 'each selector must be prefixed exactly once');
     });
   });
 

@@ -831,18 +831,51 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
  */
 function getDarkModeSelector(config) {
   const darkMode = config.darkMode || 'media';
-
-  if (Array.isArray(darkMode)) {
-    // Custom selector: ['selector', '.my-dark-class'] or ['selector', '[data-theme="dark"]']
-    return darkMode[1] || '.dark';
-  }
-
-  if (darkMode === 'selector') {
-    return '.dark';
-  }
-
-  // 'media' strategy - handled separately
+  if (Array.isArray(darkMode)) return darkMode[1] || '.dark';
+  if (darkMode === 'selector' || darkMode === 'class') return '.dark';
   return null;
+}
+
+/**
+ * Normalised dark-mode strategy: 'media' or 'selector'.
+ * 'class' (Tailwind v3 name) is accepted as an alias of 'selector'.
+ * @param {Object} config
+ * @returns {'media'|'selector'}
+ */
+function getDarkModeStrategy(config) {
+  const darkMode = config.darkMode || 'media';
+  if (Array.isArray(darkMode) || darkMode === 'selector' || darkMode === 'class') return 'selector';
+  return 'media';
+}
+
+/**
+ * Split a selector list on top-level commas only (ignores commas inside
+ * quotes, [] and ()).
+ * @param {string} list
+ * @returns {string[]}
+ */
+function splitSelectorList(list) {
+  const out = [];
+  let depth = 0;
+  let quote = null;
+  let start = 0;
+  for (let i = 0; i < list.length; i++) {
+    const ch = list[i];
+    if (quote) {
+      if (ch === '\\') i++;
+      else if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") quote = ch;
+    else if (ch === '[' || ch === '(') depth++;
+    else if (ch === ']' || ch === ')') depth--;
+    else if (ch === ',' && depth === 0) {
+      out.push(list.slice(start, i));
+      start = i + 1;
+    }
+  }
+  out.push(list.slice(start));
+  return out;
 }
 
 /**
@@ -853,24 +886,21 @@ function getDarkModeSelector(config) {
  * @param {string} prefix - Selector to prepend, e.g. ".dark"
  * @returns {string} Prefixed rule
  */
-function prefixRuleSelectors(rule, prefix) {
+function prefixRuleSelectors(rule, darkSelector) {
   const braceIndex = rule.indexOf('{');
   if (braceIndex === -1) return rule;
-
   const selectorPart = rule.slice(0, braceIndex);
   const rest = rule.slice(braceIndex);
-
-  const prefixed = selectorPart
-    .split(',')
+  // Zero-specificity wrapper that matches the dark element itself and its
+  // descendants, so state variants (hover:…) still win over dark: rules.
+  const wrapper = `:where(${darkSelector}, :is(${darkSelector}) *)`;
+  const prefixed = splitSelectorList(selectorPart)
     .map((sel) => {
       const trimmed = sel.trim();
-      if (!trimmed) return sel;
-      // Nested @media wrappers or at-rules must not be prefixed
-      if (trimmed.startsWith('@')) return sel;
-      return `${prefix} ${trimmed}`;
+      if (!trimmed || trimmed.startsWith('@')) return sel;
+      return `${wrapper}${trimmed}`;
     })
     .join(',\n');
-
   return `${prefixed} ${rest}`;
 }
 
@@ -897,36 +927,29 @@ function indentCSS(css, indent) {
  */
 function generateDarkRules(bpTokens, breakpoint, ctx) {
   const { config, screens, interactIds, errors, wrapSelector } = ctx;
-  let out = '';
-
-  const emitRules = (innerIndent) => {
-    let inner = '';
-    for (const token of bpTokens) {
-      try {
-        const rule = generateRule(token, config, true, interactIds);
-        if (rule) {
-          const finalRule = wrapSelector ? prefixRuleSelectors(rule, wrapSelector) : rule;
-          inner += indentCSS(finalRule, innerIndent);
-        } else {
-          errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
-        }
-      } catch (e) {
-        errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
-        console.warn(`[SenangStart] Error generating dark rule: ${e.message}`);
-      }
+  const entries = [];
+  const seen = new Set();
+  for (const token of bpTokens) {
+    const id = `${token.attrType}\u0000${token.raw}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    try {
+      const rule = generateRule(token, config, true, interactIds);
+      if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
+      else errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
+    } catch (e) {
+      errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
     }
-    return inner;
-  };
-
-  if (!breakpoint) {
-    return emitRules(ctx.baseIndent || '');
   }
+  entries.sort(compareRuleKeys);
+  const emitRules = (indent) => entries
+    .map(({ rule }) => indentCSS(wrapSelector ? prefixRuleSelectors(rule, wrapSelector) : rule, indent))
+    .join('');
 
-  const screenWidth = screens && screens[breakpoint] ? screens[breakpoint] : breakpoint;
-  out += `  @media (min-width: ${screenWidth}) {\n`;
-  out += emitRules('    ');
-  out += '  }\n';
-  return out;
+  if (!breakpoint) return emitRules(ctx.baseIndent || '');
+  const inner = ctx.baseIndent ? '    ' : '  ';
+  const outer = ctx.baseIndent ? '  ' : '';
+  return `${outer}${breakpointQuery(breakpoint, screens)} {\n${emitRules(inner)}${outer}}\n`;
 }
 
 /**
@@ -936,42 +959,173 @@ function generateDarkRules(bpTokens, breakpoint, ctx) {
  * @param {Object} config - Configuration object
  * @returns {Object} - { css: string, errors: Array<{type, token, message}> }
  */
+
+// ============================================
+// DETERMINISTIC CASCADE HELPERS
+// ============================================
+
+/** Physical/positional longhands that are "children" of a shorthand despite having no hyphen. */
+const ZERO_HYPHEN_LONGHANDS = new Set(['top', 'right', 'bottom', 'left']);
+
+/**
+ * Shorthand depth of a CSS property: shorthands sort before their longhands
+ * (padding < padding-left, inset < top, border < border-top < border-top-width).
+ * @param {string} prop
+ * @returns {number}
+ */
+function propertyDepth(prop) {
+  if (prop.startsWith('--')) return 0;
+  if (ZERO_HYPHEN_LONGHANDS.has(prop)) return 1;
+  return (prop.match(/-/g) || []).length;
+}
+
+/**
+ * Sort key for a generated rule. Rules are ordered by shorthand depth, then by
+ * number of declarations (p-x before p-l), then by raw token — so the output
+ * is identical regardless of file or token discovery order.
+ * @param {string} rule
+ * @param {string} raw
+ */
+function ruleSortKey(rule, raw) {
+  const body = rule.slice(rule.indexOf('{') + 1, rule.lastIndexOf('}'));
+  const props = body.split(';').map(d => d.split(':')[0].trim()).filter(Boolean);
+  const depth = props.length ? Math.min(...props.map(propertyDepth)) : 0;
+  return { depth, count: props.length, raw };
+}
+
+function compareRuleKeys(a, b) {
+  if (a.key.depth !== b.key.depth) return a.key.depth - b.key.depth;
+  if (a.key.count !== b.key.count) return b.key.count - a.key.count;
+  return a.key.raw < b.key.raw ? -1 : a.key.raw > b.key.raw ? 1 : 0;
+}
+
+/**
+ * Generate rules for a list of tokens and return them in deterministic order.
+ * @returns {string[]}
+ */
+function generateSortedRules(tokens, config, interactIds, errors, errorType) {
+  const entries = [];
+  const seen = new Set();
+  for (const token of tokens) {
+    const id = `${token.attrType}\u0000${token.raw}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    try {
+      const rule = generateRule(token, config, false, interactIds);
+      if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
+      else errors.push({ type: errorType, token: token.raw, message: 'No rule generated' });
+    } catch (e) {
+      errors.push({ type: errorType, token: token.raw, message: e.message });
+    }
+  }
+  entries.sort(compareRuleKeys);
+  return entries.map(e => e.rule);
+}
+
+/**
+ * Convert a screen value to pixels for ordering ('print' and unknowns sort last).
+ * @param {string} value
+ * @returns {number}
+ */
+export function screenToPx(value) {
+  if (typeof value !== 'string') return Number.POSITIVE_INFINITY;
+  const m = value.trim().match(/^(-?\d*\.?\d+)(px|rem|em)?$/);
+  if (!m) return Number.POSITIVE_INFINITY;
+  const n = parseFloat(m[1]);
+  return m[2] === 'rem' || m[2] === 'em' ? n * 16 : n;
+}
+
+/**
+ * Media query prelude for a breakpoint.
+ * @param {string} bp
+ * @param {Object} screens
+ */
+function breakpointQuery(bp, screens) {
+  const value = screens && screens[bp] ? screens[bp] : bp;
+  if (bp === 'print' || value === 'print') return '@media print';
+  return `@media (min-width: ${value})`;
+}
+
+
+/** Palette shades (`--c-blue-500`) and Tailwind-compat scales (`--tw-*`) are pruned when unused. */
+const PRUNABLE_VAR = /^--(?:c-[a-z]+-(?:50|[1-9]00|950)|tw-[\w-]+)$/;
+
+/**
+ * Remove unreferenced prunable variables from a `:root { … }` block.
+ * References are resolved transitively (a kept variable keeps the variables it uses).
+ * @param {string} rootCss - output of generateCSSVariables
+ * @param {string} usedCss - every other CSS chunk that may reference variables
+ * @returns {string}
+ */
+export function pruneCSSVariables(rootCss, usedCss) {
+  const lines = rootCss.split('\n');
+  const defs = new Map();
+  for (const line of lines) {
+    const m = line.match(/^\s*(--[\w-]+)\s*:\s*(.*);\s*$/);
+    if (m) defs.set(m[1], m[2]);
+  }
+  const keep = new Set();
+  const queue = [];
+  const visit = (text) => {
+    for (const m of text.matchAll(/var\(\s*(--[\w-]+)/g)) {
+      if (!keep.has(m[1])) { keep.add(m[1]); queue.push(m[1]); }
+    }
+  };
+  visit(usedCss);
+  for (const name of defs.keys()) if (!PRUNABLE_VAR.test(name)) { keep.add(name); queue.push(name); }
+  while (queue.length) {
+    const v = defs.get(queue.pop());
+    if (v) visit(v);
+  }
+  return lines.filter((line) => {
+    const m = line.match(/^\s*(--[\w-]+)\s*:/);
+    return !m || keep.has(m[1]);
+  }).join('\n');
+}
+
+/** Wrap a CSS chunk in a cascade layer when layers are enabled. */
+function inLayer(name, css, config) {
+  if (!css || config.layers === false) return css;
+  return `@layer ${name} {\n${css}}\n`;
+}
+
+export const LAYER_ORDER = '@layer senangstart.theme, senangstart.base, senangstart.utilities;\n';
+
 export function generateCSSWithErrors(tokens, config) {
   const errors = [];
   try {
-    let css = '';
-
-    // Validate inputs
     if (!config || typeof config !== 'object') {
       errors.push({ type: 'config', message: 'Invalid config provided' });
       return { css: '', errors };
     }
-
     if (!Array.isArray(tokens)) {
       errors.push({ type: 'tokens', message: 'Invalid tokens provided' });
       return { css: '', errors };
     }
 
-    // Add CSS variables
+    const layered = config.layers !== false;
+    let css = layered ? LAYER_ORDER : '';
+
+    // Theme variables (pruned once utilities are known — see end of function)
+    let rootVars = '';
     try {
-      css += generateCSSVariables(config);
+      rootVars = generateCSSVariables(config);
     } catch (e) {
       errors.push({ type: 'variables', message: e.message });
-      console.warn(`[SenangStart] Error generating CSS variables: ${e.message}`);
     }
 
-    // Add Preflight base styles if enabled (default: true)
+    // Preflight base styles (default: on)
+    let preflight = '';
     if (config.preflight !== false) {
       try {
-        css += generatePreflight(config);
+        preflight = generatePreflight(config);
       } catch (e) {
         errors.push({ type: 'preflight', message: e.message });
-        console.warn(`[SenangStart] Error generating preflight: ${e.message}`);
       }
     }
 
-    // Add animation keyframes
-    css += `/* SenangStart CSS - Animation Keyframes */
+    // Keyframes are global names, unaffected by layers
+    const keyframes = `/* SenangStart CSS - Animation Keyframes */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -985,179 +1139,91 @@ export function generateCSSWithErrors(tokens, config) {
   0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
   50% { transform: none; animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
 }
-
-/* SenangStart CSS - Utility Classes */
 `;
 
-    // Group tokens by breakpoint and dark mode
-    // Dark tokens are bucketed by breakpoint so breakpoint+dark combos (e.g. tab:dark:bg:black)
-    // keep their responsive media query when emitted inside the dark mode block.
+    // Bucket tokens: base, per-breakpoint, dark (per-breakpoint)
     const baseTokens = [];
     const darkTokensByBreakpoint = new Map();
-    const breakpointTokens = {};
-
-    // Initialize breakpoint collections from config
+    const breakpointTokens = new Map();
     const { screens } = config.theme || {};
-    if (screens && typeof screens === 'object') {
-      for (const bp of Object.keys(screens)) {
-        breakpointTokens[bp] = [];
-      }
-    }
 
     for (const token of tokens) {
-      try {
-        if (token && typeof token === 'object') {
-          if (token.state === 'dark') {
-            const bpKey = token.breakpoint || null;
-            if (!darkTokensByBreakpoint.has(bpKey)) {
-              darkTokensByBreakpoint.set(bpKey, []);
-            }
-            darkTokensByBreakpoint.get(bpKey).push(token);
-          } else if (token.breakpoint) {
-            if (!breakpointTokens[token.breakpoint]) {
-              breakpointTokens[token.breakpoint] = [];
-            }
-            breakpointTokens[token.breakpoint].push(token);
-          } else {
-            baseTokens.push(token);
-          }
-        } else {
-          errors.push({ type: 'token_format', token: token, message: 'Token is not an object' });
-        }
-      } catch (e) {
-        errors.push({ type: 'token_processing', token: token?.raw, message: e.message });
-        console.warn(`[SenangStart] Error processing token: ${e.message}`);
+      if (!token || typeof token !== 'object') {
+        errors.push({ type: 'token_format', token, message: 'Token is not an object' });
+        continue;
+      }
+      if (token.state === 'dark') {
+        const bpKey = token.breakpoint || null;
+        if (!darkTokensByBreakpoint.has(bpKey)) darkTokensByBreakpoint.set(bpKey, []);
+        darkTokensByBreakpoint.get(bpKey).push(token);
+      } else if (token.breakpoint) {
+        if (!breakpointTokens.has(token.breakpoint)) breakpointTokens.set(token.breakpoint, []);
+        breakpointTokens.get(token.breakpoint).push(token);
+      } else {
+        baseTokens.push(token);
       }
     }
 
-    // Collect interact IDs for Peer selector generation
+    // Interact IDs for peer selectors
     const interactIds = new Set();
     for (const token of tokens) {
-      try {
-        if (token && token.attrType === 'interact' && token.raw) {
-          interactIds.add(token.raw);
-        }
-      } catch (e) {
-        errors.push({ type: 'interact_collection', token: token?.raw, message: e.message });
-        console.warn(`[SenangStart] Error collecting interact IDs: ${e.message}`);
-      }
+      if (token && token.attrType === 'interact' && token.raw) interactIds.add(token.raw);
     }
 
-    // Track display properties to handle conflicts like Tailwind
-    const displayProps = ['flex', 'grid', 'inline-flex', 'inline-grid', 'block', 'inline', 'inline-block', 'hidden'];
-    const baseDisplayTokens = new Map();
-
-    // Find display properties in base tokens
-    for (const token of baseTokens) {
-      try {
-        if (token.attrType && displayProps.includes(token.property)) {
-          if (!baseDisplayTokens.has(token.attrType)) {
-            baseDisplayTokens.set(token.attrType, new Set());
-          }
-          baseDisplayTokens.get(token.attrType).add(token.raw);
-        }
-      } catch (e) {
-        errors.push({ type: 'display_track', token: token?.raw, message: e.message });
-        console.warn(`[SenangStart] Error tracking display properties: ${e.message}`);
-      }
+    // Utilities, in deterministic order
+    let utilities = '/* SenangStart CSS - Utilities */\n';
+    for (const rule of generateSortedRules(baseTokens, config, interactIds, errors, 'rule_generation')) {
+      utilities += rule;
     }
 
-    // Generate base rules
-    for (const token of baseTokens) {
-      try {
-        const rule = generateRule(token, config, false, interactIds);
-        if (rule) {
-          css += rule;
-        } else {
-          errors.push({ type: 'rule_generation', token: token.raw, message: 'No rule generated' });
-        }
-      } catch (e) {
-        errors.push({ type: 'rule_generation', token: token.raw, message: e.message });
-        console.warn(`[SenangStart] Error generating base rule: ${e.message}`);
-      }
+    // Breakpoints ordered by numeric min-width (mobile-first); print last
+    const orderedBps = [...breakpointTokens.keys()].sort((a, b) => {
+      const pa = screenToPx(screens && screens[a]);
+      const pb = screenToPx(screens && screens[b]);
+      return pa !== pb ? pa - pb : (a < b ? -1 : 1);
+    });
+    for (const bp of orderedBps) {
+      const rules = generateSortedRules(breakpointTokens.get(bp), config, interactIds, errors, 'responsive_rule');
+      if (rules.length === 0) continue;
+      utilities += `\n${breakpointQuery(bp, screens)} {\n`;
+      for (const rule of rules) utilities += '  ' + rule;
+      utilities += '}\n';
     }
 
-    // Generate responsive rules
-    for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
-      try {
-        if (bpTokens.length > 0) {
-          // Use screen value if defined, otherwise use breakpoint name itself
-          const screenWidth = screens && screens[bp] ? screens[bp] : bp;
-          css += `\n@media (min-width: ${screenWidth}) {\n`;
-
-          const processedResetSelectors = new Set();
-          for (const bpToken of bpTokens) {
-            try {
-              if (bpToken.attrType && displayProps.includes(bpToken.property)) {
-                if (baseDisplayTokens.has(bpToken.attrType)) {
-                  const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
-                  if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
-                    const selector = `[${bpToken.attrType}~="${escapeCSSString(bpToken.raw)}"]`;
-                    css += `  ${selector} { display: revert-layer; }\n`;
-                    processedResetSelectors.add(bpToken.raw);
-                  }
-                }
-              }
-            } catch (e) {
-              errors.push({ type: 'display_reset', token: bpToken.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating display reset: ${e.message}`);
-            }
-          }
-
-          for (const token of bpTokens) {
-            try {
-              const rule = generateRule(token, config, false, interactIds);
-              if (rule) {
-                css += '  ' + rule;
-              } else {
-                errors.push({ type: 'responsive_rule', token: token.raw, message: 'No rule generated' });
-              }
-            } catch (e) {
-              errors.push({ type: 'responsive_rule', token: token.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating responsive rule: ${e.message}`);
-            }
-          }
-          css += '}\n';
-        }
-      } catch (e) {
-        errors.push({ type: 'breakpoint_generation', message: `Error generating breakpoint ${bp}: ${e.message}` });
-        console.warn(`[SenangStart] Error generating breakpoint ${bp}: ${e.message}`);
-      }
-    }
-
-    // Generate dark mode rules (grouped by breakpoint so breakpoint+dark
-    // combos like tab:dark:bg:black keep their responsive media query)
+    // Dark mode (after light rules so it wins at equal specificity)
     if (darkTokensByBreakpoint.size > 0) {
       try {
-        const darkMode = config.darkMode || 'media';
+        const darkMode = getDarkModeStrategy(config);
         const darkSelector = getDarkModeSelector(config);
         const darkCtx = { config, screens, interactIds, errors, baseIndent: darkMode === 'media' ? '  ' : '' };
-
+        const darkBps = [...darkTokensByBreakpoint.keys()].sort((a, b) => {
+          if (a === null) return -1;
+          if (b === null) return 1;
+          return screenToPx(screens && screens[a]) - screenToPx(screens && screens[b]);
+        });
         if (darkMode === 'media') {
-          css += `\n/* Dark Mode (prefers-color-scheme) */\n`;
-          css += `@media (prefers-color-scheme: dark) {\n`;
-          // Base (no breakpoint) rules first, then breakpoint-nested rules
-          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
-            css += generateDarkRules(bpDarkTokens, bp || null, darkCtx);
-          }
-          css += '}\n';
+          utilities += `\n/* Dark Mode (prefers-color-scheme) */\n@media (prefers-color-scheme: dark) {\n`;
+          for (const bp of darkBps) utilities += generateDarkRules(darkTokensByBreakpoint.get(bp), bp, darkCtx);
+          utilities += '}\n';
         } else {
-          css += `\n/* Dark Mode (${darkSelector}) */\n`;
+          utilities += `\n/* Dark Mode (${darkSelector}) */\n`;
           const selectorCtx = { ...darkCtx, wrapSelector: darkSelector };
-          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
-            css += generateDarkRules(bpDarkTokens, bp || null, selectorCtx);
-          }
+          for (const bp of darkBps) utilities += generateDarkRules(darkTokensByBreakpoint.get(bp), bp, selectorCtx);
         }
       } catch (e) {
         errors.push({ type: 'dark_mode_generation', message: e.message });
-        console.warn(`[SenangStart] Error generating dark mode rules: ${e.message}`);
       }
     }
 
+    const exposeAll = config.theme && config.theme.exposeAll === true;
+    const theme = exposeAll ? rootVars : pruneCSSVariables(rootVars, preflight + utilities);
+    css += inLayer('senangstart.theme', theme, config);
+    css += inLayer('senangstart.base', preflight, config);
+    css += keyframes;
+    css += inLayer('senangstart.utilities', utilities, config);
     return { css, errors };
   } catch (e) {
     errors.push({ type: 'fatal', message: e.message });
-    console.error(`[SenangStart] Fatal error in generateCSSWithErrors: ${e.message}`);
     return { css: '', errors };
   }
 }
