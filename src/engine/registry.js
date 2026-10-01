@@ -316,6 +316,8 @@ function applyEngineMeta(entry, meta, key) {
   if (meta.arbitraryTemplates && meta.arbitraryTemplates[key]) entry.arbitraryTemplate = meta.arbitraryTemplates[key];
   if (meta.arbitraryTemplate) entry.arbitraryTemplate = meta.arbitraryTemplate;
   if (meta.twTemplate) entry.twTemplate = meta.twTemplate;
+  // valuesAreExamples: the definition's values document sample outputs, not an enum
+  if (meta.valuesAreExamples) entry.enum = null;
   if (meta.enum) entry.enum = { ...(entry.enum || {}), ...meta.enum };
   if (meta.enumMap) {
     // enumMap: { value: literal } — expanded through the template
@@ -518,7 +520,7 @@ function addDefinition(registry, def, attr, meta) {
           if (single && !(val in e.literals)) e.literals[val] = single.val;
         }
       }
-      e.enum = null;
+      e.enum = meta.enum ? { ...meta.enum } : null;
     }
     registry.addUtility(finalize(e));
   }

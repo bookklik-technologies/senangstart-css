@@ -84,6 +84,7 @@ export const svgStrokeWidth = {
   name: 'stroke-width',
   property: 'visual',
   syntax: 'visual="stroke-w:[value]"',
+  engine: { enum: { '0': 'stroke-width: 0px;' } },
   description: 'Set SVG stroke width',
   descriptionMs: 'Tetapkan lebar gurisan SVG',
   category: 'visual',

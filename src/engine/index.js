@@ -7,6 +7,7 @@
  */
 
 import { getDefaultRegistry } from './registry.js';
+import { defaultConfig } from '../config/defaults.js';
 import { resolveDeclarations } from './resolve.js';
 import { CODES, suggest, diagnostic } from './diagnostics.js';
 import { tokenVariants, parseVariant } from './variants.js';
@@ -44,10 +45,13 @@ export function generateDeclarations(token, config, registry = getDefaultRegistr
     }
   }
 
-  const ctx = { theme: (config && config.theme) || {} };
+  // Scales missing from a partial theme fall back to the defaults (inline
+  // scales such as blur/brightness have no CSS variables to fall back on).
+  const userTheme = (config && config.theme) || {};
+  const ctx = { theme: { ...defaultConfig.theme, ...userTheme } };
 
   // Keyword (property === value, no colon): flex, italic, container…
-  if (property === value && !token.isArbitrary) {
+  if ((property === value || value === '') && !token.isArbitrary) {
     const kw = registry.keyword(attrType, property);
     if (kw) {
       if (kw.kind === 'marker') return { css: null, entry: kw, error: null, usedVars: [] };

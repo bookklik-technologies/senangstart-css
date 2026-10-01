@@ -233,7 +233,7 @@ export const flexShorthand = {
   description: 'Flex shorthand property',
   descriptionMs: 'Properti pintasan flex',
   category: 'layout',
-  engine: { passthrough: true, arbitrary: true },
+  engine: { template: 'flex: {value};', passthrough: true, arbitrary: true },
   supportsArbitrary: true,
   dynamic: true,
   values: [
@@ -283,7 +283,7 @@ export const flexBasis = {
   description: 'Set initial size of flex item',
   descriptionMs: 'Tetapkan saiz awal item flex',
   category: 'layout',
-  engine: { template: 'flex-basis: {value};', literals: { full: '100%', half: '50%', third: '33.333333%', 'third-2x': '66.666667%', quarter: '25%', 'quarter-2x': '50%', 'quarter-3x': '75%', '1/1': '100%', '1/2': '50%', '1/3': '33.333333%', '2/3': '66.666667%', '1/4': '25%', '2/4': '50%', '3/4': '75%' } },
+  engine: { template: 'flex-basis: {value};', enum: { '0': 'flex-basis: 0px;' }, literals: { full: '100%', half: '50%', third: '33.333333%', 'third-2x': '66.666667%', quarter: '25%', 'quarter-2x': '50%', 'quarter-3x': '75%', '1/1': '100%', '1/2': '50%', '1/3': '33.333333%', '2/3': '66.666667%', '1/4': '25%', '2/4': '50%', '3/4': '75%' } },
   usesScale: 'spacing',
   supportsArbitrary: true,
   dynamic: true,

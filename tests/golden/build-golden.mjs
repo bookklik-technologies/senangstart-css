@@ -103,7 +103,7 @@ if (process.argv.includes('--check')) {
   let diffs = 0;
   for (const k of Object.keys(prev)) {
     const a = JSON.stringify(prev[k]), b = JSON.stringify(out[k]);
-    if (a !== b && !(k in allowed)) { diffs++; if (diffs <= 40) console.log(`DIFF ${k}\n  was: ${a}\n  now: ${b}`); }
+    if (a !== b && !(k in allowed)) { diffs++; if (diffs <= (process.env.GOLDEN_ALL ? 1e9 : 40)) console.log(`DIFF ${k}\n  was: ${a}\n  now: ${b}`); }
   }
   console.log(`${Object.keys(prev).length} golden tokens, ${diffs} unexpected diffs`);
   process.exit(diffs ? 1 : 0);

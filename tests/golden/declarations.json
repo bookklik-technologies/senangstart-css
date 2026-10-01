@@ -84,10 +84,10 @@
   "flex: none"
  ],
  "layout=basis:auto": [
-  "flex-basis: var(--s-auto)"
+  "flex-basis: auto"
  ],
  "layout=basis:0": [
-  "flex-basis: var(--s-0)"
+  "flex-basis: 0px"
  ],
  "layout=basis:none": [
   "flex-basis: var(--s-none)"
@@ -494,11 +494,21 @@
  "layout=row-span:full": [
   "grid-row: 1 / -1"
  ],
- "layout=grid-flow:row": null,
- "layout=grid-flow:col": null,
- "layout=grid-flow:dense": null,
- "layout=grid-flow:row-dense": null,
- "layout=grid-flow:col-dense": null,
+ "layout=grid-flow:row": [
+  "grid-auto-flow: row"
+ ],
+ "layout=grid-flow:col": [
+  "grid-auto-flow: column"
+ ],
+ "layout=grid-flow:dense": [
+  "grid-auto-flow: dense"
+ ],
+ "layout=grid-flow:row-dense": [
+  "grid-auto-flow: row dense"
+ ],
+ "layout=grid-flow:col-dense": [
+  "grid-auto-flow: column dense"
+ ],
  "layout=auto-cols:auto": [
   "grid-auto-columns: auto"
  ],
@@ -538,48 +548,20 @@
  "layout=sticky": [
   "position: sticky"
  ],
- "layout=inset:inset": [
-  "inset: var(--s-inset)"
- ],
- "layout=top:inset": [
-  "top: var(--s-inset)"
- ],
- "layout=inset:inset-x": [
-  "inset: var(--s-inset-x)"
- ],
- "layout=top:inset-x": [
-  "top: var(--s-inset-x)"
- ],
- "layout=inset:inset-y": [
-  "inset: var(--s-inset-y)"
- ],
- "layout=top:inset-y": [
-  "top: var(--s-inset-y)"
- ],
- "layout=inset:top": [
-  "inset: var(--s-top)"
- ],
- "layout=top:top": [
-  "top: var(--s-top)"
- ],
- "layout=inset:right": [
-  "inset: var(--s-right)"
- ],
- "layout=top:right": [
-  "top: var(--s-right)"
- ],
- "layout=inset:bottom": [
-  "inset: var(--s-bottom)"
- ],
- "layout=top:bottom": [
-  "top: var(--s-bottom)"
- ],
- "layout=inset:left": [
-  "inset: var(--s-left)"
- ],
- "layout=top:left": [
-  "top: var(--s-left)"
- ],
+ "layout=inset:inset": null,
+ "layout=top:inset": null,
+ "layout=inset:inset-x": null,
+ "layout=top:inset-x": null,
+ "layout=inset:inset-y": null,
+ "layout=top:inset-y": null,
+ "layout=inset:top": null,
+ "layout=top:top": null,
+ "layout=inset:right": null,
+ "layout=top:right": null,
+ "layout=inset:bottom": null,
+ "layout=top:bottom": null,
+ "layout=inset:left": null,
+ "layout=top:left": null,
  "layout=inset:none": [
   "inset: var(--s-none)"
  ],
@@ -670,22 +652,34 @@
  "layout=overflow:clip": [
   "overflow: clip"
  ],
- "layout=box:border": null,
- "layout=box:content": null,
- "layout=float:left": null,
- "layout=clear:left": null,
- "layout=float:right": null,
- "layout=clear:right": null,
- "layout=float:none": null,
- "layout=clear:none": null,
- "layout=float:clear-left": null,
- "layout=clear:clear-left": null,
- "layout=float:clear-right": null,
- "layout=clear:clear-right": null,
- "layout=float:clear-both": null,
- "layout=clear:clear-both": null,
- "layout=float:clear-none": null,
- "layout=clear:clear-none": null,
+ "layout=box:border": [
+  "box-sizing: border-box"
+ ],
+ "layout=box:content": [
+  "box-sizing: content-box"
+ ],
+ "layout=float:left": [
+  "float: left"
+ ],
+ "layout=clear:left": [
+  "clear: left"
+ ],
+ "layout=float:right": [
+  "float: right"
+ ],
+ "layout=clear:right": [
+  "clear: right"
+ ],
+ "layout=float:none": [
+  "float: none"
+ ],
+ "layout=clear:none": [
+  "clear: none"
+ ],
+ "layout=float:both": null,
+ "layout=clear:both": [
+  "clear: both"
+ ],
  "layout=aspect:auto": [
   "aspect-ratio: auto"
  ],
@@ -726,20 +720,24 @@
   "object-position: right"
  ],
  "layout=object-pos:top-left": [
-  "object-position: top-left"
+  "object-position: top left"
  ],
  "layout=object-pos:top-right": [
-  "object-position: top-right"
+  "object-position: top right"
  ],
  "layout=object-pos:bottom-left": [
-  "object-position: bottom-left"
+  "object-position: bottom left"
  ],
  "layout=object-pos:bottom-right": [
-  "object-position: bottom-right"
+  "object-position: bottom right"
  ],
  "layout=container": null,
- "layout=isolation:isolate": null,
- "layout=isolation:auto": null,
+ "layout=isolation:isolate": [
+  "isolation: isolate"
+ ],
+ "layout=isolation:auto": [
+  "isolation: auto"
+ ],
  "layout=overscroll:auto": [
   "overscroll-behavior: auto"
  ],
@@ -794,15 +792,9 @@
  "layout=separate": [
   "border-collapse: separate"
  ],
- "layout=border-spacing:border-spacing": [
-  "border-spacing: var(--s-border-spacing)"
- ],
- "layout=border-spacing:border-spacing-x": [
-  "border-spacing: var(--s-border-spacing-x)"
- ],
- "layout=border-spacing:border-spacing-y": [
-  "border-spacing: var(--s-border-spacing-y)"
- ],
+ "layout=border-spacing:border-spacing": null,
+ "layout=border-spacing:border-spacing-x": null,
+ "layout=border-spacing:border-spacing-y": null,
  "layout=border-spacing:none": [
   "border-spacing: var(--s-none)"
  ],
@@ -831,13 +823,17 @@
   "border-spacing: 13px"
  ],
  "layout=table:auto": [
-  "display: table"
+  "table-layout: auto"
  ],
  "layout=table:fixed": [
-  "display: table"
+  "table-layout: fixed"
  ],
- "layout=caption:top": null,
- "layout=caption:bottom": null,
+ "layout=caption:top": [
+  "caption-side: top"
+ ],
+ "layout=caption:bottom": [
+  "caption-side: bottom"
+ ],
  "space=p:none": [
   "padding: var(--s-none)"
  ],
@@ -2096,7 +2092,7 @@
   "background-color: transparent"
  ],
  "visual=bg:current": [
-  "background-color: var(--c-current)"
+  "background-color: currentColor"
  ],
  "visual=bg:primary/50": [
   "background-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -2123,7 +2119,7 @@
   "color: transparent"
  ],
  "visual=text:current": [
-  "color: var(--c-current)"
+  "color: currentColor"
  ],
  "visual=text:primary/50": [
   "color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -2540,7 +2536,7 @@
   "accent-color: transparent"
  ],
  "visual=accent:current": [
-  "accent-color: var(--c-current)"
+  "accent-color: currentColor"
  ],
  "visual=accent:primary/50": [
   "accent-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -2567,7 +2563,7 @@
   "caret-color: transparent"
  ],
  "visual=caret:current": [
-  "caret-color: var(--c-current)"
+  "caret-color: currentColor"
  ],
  "visual=caret:primary/50": [
   "caret-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -2615,6 +2611,7 @@
   "background-clip: content-box"
  ],
  "visual=bg-clip:text": [
+  "-webkit-background-clip: text",
   "background-clip: text"
  ],
  "visual=bg-origin:border": [
@@ -2626,15 +2623,33 @@
  "visual=bg-origin:content": [
   "background-origin: content-box"
  ],
- "visual=bg-pos:center": null,
- "visual=bg-pos:top": null,
- "visual=bg-pos:bottom": null,
- "visual=bg-pos:left": null,
- "visual=bg-pos:right": null,
- "visual=bg-pos:top-left": null,
- "visual=bg-pos:top-right": null,
- "visual=bg-pos:bottom-left": null,
- "visual=bg-pos:bottom-right": null,
+ "visual=bg-pos:center": [
+  "background-position: center"
+ ],
+ "visual=bg-pos:top": [
+  "background-position: top"
+ ],
+ "visual=bg-pos:bottom": [
+  "background-position: bottom"
+ ],
+ "visual=bg-pos:left": [
+  "background-position: left"
+ ],
+ "visual=bg-pos:right": [
+  "background-position: right"
+ ],
+ "visual=bg-pos:top-left": [
+  "background-position: top left"
+ ],
+ "visual=bg-pos:top-right": [
+  "background-position: top right"
+ ],
+ "visual=bg-pos:bottom-left": [
+  "background-position: bottom left"
+ ],
+ "visual=bg-pos:bottom-right": [
+  "background-position: bottom right"
+ ],
  "visual=bg-repeat:repeat": [
   "background-repeat: repeat"
  ],
@@ -2711,7 +2726,7 @@
   "--ss-gradient-to: rgb(255 255 255 / 0)"
  ],
  "visual=from:current": [
-  "--ss-gradient-from: var(--c-current)",
+  "--ss-gradient-from: currentColor",
   "--ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to)",
   "--ss-gradient-to: rgb(255 255 255 / 0)"
  ],
@@ -2754,7 +2769,7 @@
   "--ss-gradient-to: rgb(255 255 255 / 0)"
  ],
  "visual=via:current": [
-  "--ss-gradient-stops: var(--ss-gradient-from), var(--c-current), var(--ss-gradient-to)",
+  "--ss-gradient-stops: var(--ss-gradient-from), currentColor, var(--ss-gradient-to)",
   "--ss-gradient-to: rgb(255 255 255 / 0)"
  ],
  "visual=via:primary/50": [
@@ -2790,7 +2805,7 @@
   "--ss-gradient-to: transparent"
  ],
  "visual=to:current": [
-  "--ss-gradient-to: var(--c-current)"
+  "--ss-gradient-to: currentColor"
  ],
  "visual=to:primary/50": [
   "--ss-gradient-to: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -2877,10 +2892,10 @@
   "backdrop-filter: invert(100%)"
  ],
  "visual=backdrop-opacity:0": [
-  "backdrop-filter: opacity(1)"
+  "backdrop-filter: opacity(0)"
  ],
  "visual=backdrop-opacity:50": [
-  "backdrop-filter: opacity(1)"
+  "backdrop-filter: opacity(0.5)"
  ],
  "visual=backdrop-opacity:100": [
   "backdrop-filter: opacity(1)"
@@ -2909,23 +2924,17 @@
  "visual=backdrop-sepia:full": [
   "backdrop-filter: sepia(100%)"
  ],
- "visual=scroll-behavior:auto": null,
- "visual=scroll-behavior:smooth": null,
- "visual=scroll-m:scroll-m": [
-  "scroll-margin: var(--s-scroll-m)"
+ "visual=scroll-behavior:auto": [
+  "scroll-behavior: auto"
  ],
- "visual=scroll-m:scroll-m-t": [
-  "scroll-margin: var(--s-scroll-m-t)"
+ "visual=scroll-behavior:smooth": [
+  "scroll-behavior: smooth"
  ],
- "visual=scroll-m:scroll-m-r": [
-  "scroll-margin: var(--s-scroll-m-r)"
- ],
- "visual=scroll-m:scroll-m-b": [
-  "scroll-margin: var(--s-scroll-m-b)"
- ],
- "visual=scroll-m:scroll-m-l": [
-  "scroll-margin: var(--s-scroll-m-l)"
- ],
+ "visual=scroll-m:scroll-m": null,
+ "visual=scroll-m:scroll-m-t": null,
+ "visual=scroll-m:scroll-m-r": null,
+ "visual=scroll-m:scroll-m-b": null,
+ "visual=scroll-m:scroll-m-l": null,
  "visual=scroll-m:none": [
   "scroll-margin: var(--s-none)"
  ],
@@ -2953,21 +2962,11 @@
  "visual=scroll-m:[13px]": [
   "scroll-margin: 13px"
  ],
- "visual=scroll-p:scroll-p": [
-  "scroll-padding: var(--s-scroll-p)"
- ],
- "visual=scroll-p:scroll-p-t": [
-  "scroll-padding: var(--s-scroll-p-t)"
- ],
- "visual=scroll-p:scroll-p-r": [
-  "scroll-padding: var(--s-scroll-p-r)"
- ],
- "visual=scroll-p:scroll-p-b": [
-  "scroll-padding: var(--s-scroll-p-b)"
- ],
- "visual=scroll-p:scroll-p-l": [
-  "scroll-padding: var(--s-scroll-p-l)"
- ],
+ "visual=scroll-p:scroll-p": null,
+ "visual=scroll-p:scroll-p-t": null,
+ "visual=scroll-p:scroll-p-r": null,
+ "visual=scroll-p:scroll-p-b": null,
+ "visual=scroll-p:scroll-p-l": null,
  "visual=scroll-p:none": [
   "scroll-padding: var(--s-none)"
  ],
@@ -3013,12 +3012,24 @@
  "visual=snap-stop:always": [
   "scroll-snap-stop: always"
  ],
- "visual=snap-type:none": null,
- "visual=snap-type:x": null,
- "visual=snap-type:y": null,
- "visual=snap-type:both": null,
- "visual=snap-type:x-proximity": null,
- "visual=snap-type:y-proximity": null,
+ "visual=snap-type:none": [
+  "scroll-snap-type: none"
+ ],
+ "visual=snap-type:x": [
+  "scroll-snap-type: x mandatory"
+ ],
+ "visual=snap-type:y": [
+  "scroll-snap-type: y mandatory"
+ ],
+ "visual=snap-type:both": [
+  "scroll-snap-type: both mandatory"
+ ],
+ "visual=snap-type:x-proximity": [
+  "scroll-snap-type: x proximity"
+ ],
+ "visual=snap-type:y-proximity": [
+  "scroll-snap-type: y proximity"
+ ],
  "visual=touch:auto": [
   "touch-action: auto"
  ],
@@ -3085,8 +3096,12 @@
  "visual=field-sizing:content": [
   "field-sizing: content"
  ],
- "visual=forced-color:auto": null,
- "visual=forced-color:none": null,
+ "visual=forced-color:auto": [
+  "forced-color-adjust: auto"
+ ],
+ "visual=forced-color:none": [
+  "forced-color-adjust: none"
+ ],
  "visual=text:left": [
   "text-align: left"
  ],
@@ -3142,7 +3157,7 @@
   "text-decoration-color: transparent"
  ],
  "visual=decoration:current": [
-  "text-decoration-color: var(--c-current)"
+  "text-decoration-color: currentColor"
  ],
  "visual=decoration:primary/50": [
   "text-decoration-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -3179,12 +3194,24 @@
  "visual=text-pretty": [
   "text-wrap: pretty"
  ],
- "visual=whitespace:normal": null,
- "visual=whitespace:nowrap": null,
- "visual=whitespace:pre": null,
- "visual=whitespace:pre-line": null,
- "visual=whitespace:pre-wrap": null,
- "visual=whitespace:break-spaces": null,
+ "visual=whitespace:normal": [
+  "white-space: normal"
+ ],
+ "visual=whitespace:nowrap": [
+  "white-space: nowrap"
+ ],
+ "visual=whitespace:pre": [
+  "white-space: pre"
+ ],
+ "visual=whitespace:pre-line": [
+  "white-space: pre-line"
+ ],
+ "visual=whitespace:pre-wrap": [
+  "white-space: pre-wrap"
+ ],
+ "visual=whitespace:break-spaces": [
+  "white-space: break-spaces"
+ ],
  "visual=break-normal": [
   "overflow-wrap: normal",
   "word-break: normal"
@@ -3198,11 +3225,17 @@
  "visual=break-keep": [
   "word-break: keep-all"
  ],
- "visual=hyphens:none": null,
- "visual=hyphens:manual": null,
- "visual=hyphens:auto": null,
+ "visual=hyphens:none": [
+  "hyphens: none"
+ ],
+ "visual=hyphens:manual": [
+  "hyphens: manual"
+ ],
+ "visual=hyphens:auto": [
+  "hyphens: auto"
+ ],
  "visual=indent:0": [
-  "text-indent: var(--s-0)"
+  "text-indent: 0"
  ],
  "visual=indent:none": [
   "text-indent: var(--s-none)"
@@ -3231,14 +3264,30 @@
  "visual=indent:[13px]": [
   "text-indent: 13px"
  ],
- "visual=align:baseline": null,
- "visual=align:top": null,
- "visual=align:middle": null,
- "visual=align:bottom": null,
- "visual=align:text-top": null,
- "visual=align:text-bottom": null,
- "visual=align:sub": null,
- "visual=align:super": null,
+ "visual=align:baseline": [
+  "vertical-align: baseline"
+ ],
+ "visual=align:top": [
+  "vertical-align: top"
+ ],
+ "visual=align:middle": [
+  "vertical-align: middle"
+ ],
+ "visual=align:bottom": [
+  "vertical-align: bottom"
+ ],
+ "visual=align:text-top": [
+  "vertical-align: text-top"
+ ],
+ "visual=align:text-bottom": [
+  "vertical-align: text-bottom"
+ ],
+ "visual=align:sub": [
+  "vertical-align: sub"
+ ],
+ "visual=align:super": [
+  "vertical-align: super"
+ ],
  "visual=italic": [
   "font-style: italic"
  ],
@@ -3272,17 +3321,29 @@
   "overflow: hidden"
  ],
  "visual=line-clamp:none": [
-  "-webkit-box-orient: vertical",
+  "-webkit-box-orient: horizontal",
   "-webkit-line-clamp: none",
-  "display: -webkit-box",
-  "overflow: hidden"
+  "display: block",
+  "overflow: visible"
  ],
- "visual=list:none": null,
- "visual=list:disc": null,
- "visual=list:decimal": null,
- "visual=list:square": null,
- "visual=list:inside": null,
- "visual=list:outside": null,
+ "visual=list:none": [
+  "list-style-type: none"
+ ],
+ "visual=list:disc": [
+  "list-style-type: disc"
+ ],
+ "visual=list:decimal": [
+  "list-style-type: decimal"
+ ],
+ "visual=list:square": [
+  "list-style-type: square"
+ ],
+ "visual=list:inside": [
+  "list-style-position: inside"
+ ],
+ "visual=list:outside": [
+  "list-style-position: outside"
+ ],
  "visual=text-shadow:none": [
   "text-shadow: none"
  ],
@@ -3295,13 +3356,27 @@
  "visual=text-shadow:big": [
   "text-shadow: 0 4px 8px rgba(0,0,0,0.2)"
  ],
- "visual=normal-nums": null,
- "visual=ordinal": null,
- "visual=slashed-zero": null,
- "visual=lining-nums": null,
- "visual=oldstyle-nums": null,
- "visual=proportional-nums": null,
- "visual=tabular-nums": null,
+ "visual=normal-nums": [
+  "font-variant-numeric: normal"
+ ],
+ "visual=ordinal": [
+  "font-variant-numeric: ordinal"
+ ],
+ "visual=slashed-zero": [
+  "font-variant-numeric: slashed-zero"
+ ],
+ "visual=lining-nums": [
+  "font-variant-numeric: lining-nums"
+ ],
+ "visual=oldstyle-nums": [
+  "font-variant-numeric: oldstyle-nums"
+ ],
+ "visual=proportional-nums": [
+  "font-variant-numeric: proportional-nums"
+ ],
+ "visual=tabular-nums": [
+  "font-variant-numeric: tabular-nums"
+ ],
  "visual=perspective:none": [
   "perspective: none"
  ],
@@ -3407,9 +3482,15 @@
  "visual=backface:hidden": [
   "backface-visibility: hidden"
  ],
- "visual=mask:none": null,
- "visual=mask:fade-y": null,
- "visual=mask:fade-x": null,
+ "visual=mask:none": [
+  "mask-image: none"
+ ],
+ "visual=mask:fade-y": [
+  "mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)"
+ ],
+ "visual=mask:fade-x": [
+  "mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
+ ],
  "visual=hover:hover:": null,
  "visual=hover:focus:": null,
  "visual=hover:active:": null,
@@ -3717,10 +3798,10 @@
   "transform: rotate(180deg)"
  ],
  "visual=translate-x:0": [
-  "transform: translateX(var(--s-0))"
+  "transform: translateX(0)"
  ],
  "visual=translate-y:0": [
-  "transform: translateY(var(--s-0))"
+  "transform: translateY(0)"
  ],
  "visual=translate-x:tiny": [
   "transform: translateX(var(--s-tiny))"
@@ -3764,36 +3845,28 @@
  "visual=translate-y:full": [
   "transform: translateY(100%)"
  ],
- "visual=translate-z:full": [
-  "transform: translateZ(var(--s-full))"
- ],
+ "visual=translate-z:full": null,
  "visual=translate-x:1/2": [
   "transform: translateX(50%)"
  ],
  "visual=translate-y:1/2": [
   "transform: translateY(50%)"
  ],
- "visual=translate-z:1/2": [
-  "transform: translateZ(var(--s-1/2))"
- ],
+ "visual=translate-z:1/2": null,
  "visual=translate-x:-full": [
   "transform: translateX(-100%)"
  ],
  "visual=translate-y:-full": [
   "transform: translateY(-100%)"
  ],
- "visual=translate-z:-full": [
-  "transform: translateZ(var(--s--full))"
- ],
+ "visual=translate-z:-full": null,
  "visual=translate-x:-1/2": [
   "transform: translateX(-50%)"
  ],
  "visual=translate-y:-1/2": [
   "transform: translateY(-50%)"
  ],
- "visual=translate-z:-1/2": [
-  "transform: translateZ(var(--s--1/2))"
- ],
+ "visual=translate-z:-1/2": null,
  "visual=translate-x:none": [
   "transform: translateX(var(--s-none))"
  ],
@@ -4007,7 +4080,7 @@
   "border-style: solid"
  ],
  "visual=border:current": [
-  "border-color: var(--c-current)",
+  "border-color: currentColor",
   "border-style: solid"
  ],
  "visual=border:primary/50": [
@@ -4039,7 +4112,7 @@
   "border-top-style: solid"
  ],
  "visual=border-t:current": [
-  "border-top-color: var(--c-current)",
+  "border-top-color: currentColor",
   "border-top-style: solid"
  ],
  "visual=border-t:primary/50": [
@@ -4071,7 +4144,7 @@
   "border-bottom-style: solid"
  ],
  "visual=border-b:current": [
-  "border-bottom-color: var(--c-current)",
+  "border-bottom-color: currentColor",
   "border-bottom-style: solid"
  ],
  "visual=border-b:primary/50": [
@@ -4103,7 +4176,7 @@
   "border-left-style: solid"
  ],
  "visual=border-l:current": [
-  "border-left-color: var(--c-current)",
+  "border-left-color: currentColor",
   "border-left-style: solid"
  ],
  "visual=border-l:primary/50": [
@@ -4135,7 +4208,7 @@
   "border-right-style: solid"
  ],
  "visual=border-r:current": [
-  "border-right-color: var(--c-current)",
+  "border-right-color: currentColor",
   "border-right-style: solid"
  ],
  "visual=border-r:primary/50": [
@@ -4177,9 +4250,9 @@
   "border-right-style: solid"
  ],
  "visual=border-x:current": [
-  "border-left-color: var(--c-current)",
+  "border-left-color: currentColor",
   "border-left-style: solid",
-  "border-right-color: var(--c-current)",
+  "border-right-color: currentColor",
   "border-right-style: solid"
  ],
  "visual=border-x:primary/50": [
@@ -4225,9 +4298,9 @@
   "border-top-style: solid"
  ],
  "visual=border-y:current": [
-  "border-bottom-color: var(--c-current)",
+  "border-bottom-color: currentColor",
   "border-bottom-style: solid",
-  "border-top-color: var(--c-current)",
+  "border-top-color: currentColor",
   "border-top-style: solid"
  ],
  "visual=border-y:primary/50": [
@@ -4588,7 +4661,7 @@
   "outline-color: transparent"
  ],
  "visual=outline:current": [
-  "outline-color: var(--c-current)"
+  "outline-color: currentColor"
  ],
  "visual=outline:primary/50": [
   "outline-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -4683,7 +4756,7 @@
   "--ss-ring-color: transparent"
  ],
  "visual=ring-color:current": [
-  "--ss-ring-color: var(--c-current)"
+  "--ss-ring-color: currentColor"
  ],
  "visual=ring-color:primary/50": [
   "--ss-ring-color: color-mix(in srgb, var(--c-primary) 50%, transparent)"
@@ -4692,13 +4765,13 @@
   "--ss-ring-color: 13px"
  ],
  "visual=ring-offset:0": [
-  "--ss-ring-offset-width: var(--s-0)"
+  "--ss-ring-offset-width: 0px"
  ],
  "visual=ring-offset:2": [
-  "--ss-ring-offset-width: var(--s-2)"
+  "--ss-ring-offset-width: 2px"
  ],
  "visual=ring-offset:4": [
-  "--ss-ring-offset-width: var(--s-4)"
+  "--ss-ring-offset-width: 4px"
  ],
  "visual=divide:primary": [
   "border-color: var(--c-primary)",
@@ -4769,7 +4842,7 @@
   "border-style: solid"
  ],
  "visual=divide:current": [
-  "border-color: var(--c-current)",
+  "border-color: currentColor",
   "border-style: solid"
  ],
  "visual=divide:primary/50": [
@@ -4811,9 +4884,9 @@
   "border-right-style: solid"
  ],
  "visual=divide-x:current": [
-  "border-left-color: var(--c-current)",
+  "border-left-color: currentColor",
   "border-left-style: solid",
-  "border-right-color: var(--c-current)",
+  "border-right-color: currentColor",
   "border-right-style: solid"
  ],
  "visual=divide-x:primary/50": [
@@ -4859,9 +4932,9 @@
   "border-top-style: solid"
  ],
  "visual=divide-y:current": [
-  "border-bottom-color: var(--c-current)",
+  "border-bottom-color: currentColor",
   "border-bottom-style: solid",
-  "border-top-color: var(--c-current)",
+  "border-top-color: currentColor",
   "border-top-style: solid"
  ],
  "visual=divide-y:primary/50": [
@@ -5059,30 +5132,10 @@
  "visual=divide-style:none": [
   "border-style: none"
  ],
- "visual=divide-x:divide-x:reverse": [
-  "border-left-color: var(--c-divide-x:reverse)",
-  "border-left-style: solid",
-  "border-right-color: var(--c-divide-x:reverse)",
-  "border-right-style: solid"
- ],
- "visual=divide-y:divide-x:reverse": [
-  "border-bottom-color: var(--c-divide-x:reverse)",
-  "border-bottom-style: solid",
-  "border-top-color: var(--c-divide-x:reverse)",
-  "border-top-style: solid"
- ],
- "visual=divide-x:divide-y:reverse": [
-  "border-left-color: var(--c-divide-y:reverse)",
-  "border-left-style: solid",
-  "border-right-color: var(--c-divide-y:reverse)",
-  "border-right-style: solid"
- ],
- "visual=divide-y:divide-y:reverse": [
-  "border-bottom-color: var(--c-divide-y:reverse)",
-  "border-bottom-style: solid",
-  "border-top-color: var(--c-divide-y:reverse)",
-  "border-top-style: solid"
- ],
+ "visual=divide-x:divide-x:reverse": null,
+ "visual=divide-y:divide-x:reverse": null,
+ "visual=divide-x:divide-y:reverse": null,
+ "visual=divide-y:divide-y:reverse": null,
  "visual=fill:none": [
   "fill: none"
  ],
@@ -5152,21 +5205,51 @@
  "visual=stroke-w:2": [
   "stroke-width: 2px"
  ],
- "visual=content-visibility:visible": null,
- "visual=content-visibility:auto": null,
- "visual=content-visibility:hidden": null,
- "visual=contain:none": null,
- "visual=contain:strict": null,
- "visual=contain:content": null,
- "visual=contain:size": null,
- "visual=contain:layout": null,
- "visual=contain:style": null,
- "visual=contain:paint": null,
- "visual=writing-mode:horizontal-tb": null,
- "visual=writing-mode:vertical-rl": null,
- "visual=writing-mode:vertical-lr": null,
- "visual=writing-mode:sideways-rl": null,
- "visual=writing-mode:sideways-lr": null,
+ "visual=content-visibility:visible": [
+  "content-visibility: visible"
+ ],
+ "visual=content-visibility:auto": [
+  "content-visibility: auto"
+ ],
+ "visual=content-visibility:hidden": [
+  "content-visibility: hidden"
+ ],
+ "visual=contain:none": [
+  "contain: none"
+ ],
+ "visual=contain:strict": [
+  "contain: strict"
+ ],
+ "visual=contain:content": [
+  "contain: content"
+ ],
+ "visual=contain:size": [
+  "contain: size"
+ ],
+ "visual=contain:layout": [
+  "contain: layout"
+ ],
+ "visual=contain:style": [
+  "contain: style"
+ ],
+ "visual=contain:paint": [
+  "contain: paint"
+ ],
+ "visual=writing-mode:horizontal-tb": [
+  "writing-mode: horizontal-tb"
+ ],
+ "visual=writing-mode:vertical-rl": [
+  "writing-mode: vertical-rl"
+ ],
+ "visual=writing-mode:vertical-lr": [
+  "writing-mode: vertical-lr"
+ ],
+ "visual=writing-mode:sideways-rl": [
+  "writing-mode: sideways-rl"
+ ],
+ "visual=writing-mode:sideways-lr": [
+  "writing-mode: sideways-lr"
+ ],
  "space=tab:p:big": [
   "padding: var(--s-big)"
  ],

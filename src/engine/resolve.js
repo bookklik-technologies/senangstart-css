@@ -188,7 +188,7 @@ function resolveNumeric(entry, key) {
   if (n.integer && !/^-?\d+$/.test(key)) return null;
   const num = parseFloat(key);
   if (n.divide) return String(num / n.divide);
-  if (num === 0) return '0';
+  if (num === 0) return n.unit === 'deg' || n.unit === 'px' ? `0${n.unit}` : '0';
   return `${key}${n.unit || ''}`;
 }
 
@@ -268,7 +268,9 @@ export function resolveDeclarations(entry, token, ctx) {
   if (entry.literals && Object.prototype.hasOwnProperty.call(entry.literals, key) && template) {
     let v = entry.literals[key];
     if (negative) v = negateLiteral(v);
-    const css = fillTemplate(template, v, key);
+    // url()-wrapped utilities: keywords such as `none` must not become url(none)
+    const tpl = entry.arbitraryWrap === 'url' && entry.arbitraryTemplate ? entry.arbitraryTemplate : template;
+    const css = fillTemplate(tpl, v, key);
     return ok(css, varsIn(css));
   }
 
@@ -294,6 +296,12 @@ export function resolveDeclarations(entry, token, ctx) {
     }
   }
 
+  // ---- url paths (mask-image:path/to/mask.png) ---------------------------
+  if (entry.arbitraryWrap === 'url' && entry.passthrough && template && URL_PATH.test(value) && !negative) {
+    const css = fillTemplate(template, value, value);
+    return ok(css, varsIn(css));
+  }
+
   // ---- passthrough (keyword properties) ----------------------------------
   if (entry.passthrough && template && IDENTIFIER.test(value) && !negative) {
     const css = fillTemplate(template, entry.quote ? quoteValue(value) : value, value);
@@ -312,6 +320,8 @@ export function resolveDeclarations(entry, token, ctx) {
     suggest(key, candidates)
   );
 }
+
+const URL_PATH = /^[A-Za-z0-9_.\/-]+\.[A-Za-z0-9]+$/;
 
 const UNQUOTED_CONTENT = /^(none|normal|open-quote|close-quote|no-open-quote|no-close-quote|inherit|initial|unset)$/;
 

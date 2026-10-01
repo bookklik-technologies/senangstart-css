@@ -11,6 +11,7 @@ export const transitionProperty = {
   name: 'transition-property',
   property: 'visual',
   syntax: 'visual="transition:[value]"',
+  engine: { keywords: { 'transition-none': 'transition-property: none;' }, utilities: { 'transition-behavior': { template: 'transition-behavior: {value};', passthrough: true } }, scale: 'transitionProperty', varPrefix: false, valuesAreExamples: true, template: 'transition-property: {value}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;' },
   description: 'Set transition properties',
   descriptionMs: 'Tetapkan properti peralihan',
   category: 'visual',
