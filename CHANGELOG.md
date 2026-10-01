@@ -74,6 +74,12 @@ All notable changes to SenangStart CSS will be documented in this file.
 - New **conformance suite** (`npm run test:conformance`, runs in CI): Tailwind markup is rendered with Tailwind v4 CSS and, converted in exact mode, with SenangStart CSS; computed styles of probed elements must match (palette deltas between v4 oklch and v3 hex are reported and bounded).
 - Value grammar accepts non-ASCII printable text (`content:['“']`).
 
+### Added — gradients, palette, presets
+- Gradients: `bg-image:gradient-[45deg]`, `bg-image:radial`, `bg-image:radial-[at_top]`, `bg-image:conic`, `bg-image:conic-[from_90deg]`; stop positions `from-pos:10` / `via-pos:60` / `to-pos:[95%]`; `via:` composes correctly with `from:`/`to:`. Gradient variables are registered with non-inheriting `@property`. Converter maps Tailwind v4 `bg-linear-*`, `bg-radial*`, `bg-conic*` and `from-10%`.
+- `theme.palette: 'oklch'` — opt-in Tailwind v4 oklch palette generated from `tailwindcss/theme.css` (`npm run generate:oklch`); semantic colours (`primary`, `success`, …) follow it; user colours are kept. The CDN runtime keeps the hex palette. The conformance suite now runs in strict colour mode.
+- `presets: ['prose', 'forms']` — opt-in typography (`visual="prose prose-lg prose-invert"`) and form-control styling in a new `senangstart.components` layer (below utilities). Options: `prose.maxWidth`, `forms.accent/border/radius`. Converter maps `prose*` classes.
+- Registry gains `patterns` (regex → template) for bracketed utility values.
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING

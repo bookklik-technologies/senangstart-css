@@ -45,6 +45,7 @@ const enSidebar = {
         { text: 'CLI Build', link: '/guide/cli' },
         { text: 'Vite, Laravel & PostCSS', link: '/guide/integrations' },
         { text: 'Extending (plugins)', link: '/guide/plugins' },
+        { text: 'Presets: prose & forms', link: '/guide/presets' },
         { text: 'Configuration', link: '/guide/configuration' },
         { text: 'Content Scanning', link: '/guide/content-scanning' },
         { text: 'TypeScript', link: '/guide/typescript' },

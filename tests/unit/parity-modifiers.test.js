@@ -121,3 +121,30 @@ describe('oklch palette', () => {
     assert.ok(css.includes('--c-red-500: #EF4444'));
   });
 });
+
+describe('presets', () => {
+  test('prose and forms are opt-in and live in the components layer', () => {
+    const { css, errors } = compileSource('<article visual="prose prose-lg prose-invert"><input type="text"></article>', { preflight: false, presets: ['prose', 'forms'] });
+    assert.equal(errors, null);
+    const comps = css.slice(css.indexOf('@layer senangstart.components {'), css.indexOf('@layer senangstart.utilities'));
+    assert.ok(comps.includes('[visual~="prose"] :where(h2)'));
+    assert.ok(comps.includes('[visual~="prose-lg"]'));
+    assert.ok(comps.includes('[visual~="prose-invert"]'));
+    assert.ok(comps.includes(":where([type='checkbox'], [type='radio'])"));
+    assert.ok(css.includes('--c-gray-700:'), 'theme tokens used by presets survive pruning');
+  });
+  test('object form with options; prefix-aware selectors', () => {
+    const { css } = compileSource('<article ss-visual="prose"></article>', { preflight: false, prefix: 'ss', presets: { prose: { maxWidth: '70ch' }, forms: { accent: 'red' } } });
+    assert.ok(css.includes('[ss-visual~="prose"] {'));
+    assert.ok(css.includes('max-width: 70ch'));
+    assert.ok(css.includes('border-color: red'));
+  });
+  test('prose without the preset is a helpful error', () => {
+    const { errors } = compileSource('<article visual="prose"></article>', { preflight: false });
+    assert.match(errors[0].message, /presets: \['prose'\]/);
+  });
+  test('nothing is emitted when no preset is enabled', () => {
+    const { css } = compileSource('<b space="p:big"></b>', { preflight: false });
+    assert.ok(!css.includes('preset:'));
+  });
+});

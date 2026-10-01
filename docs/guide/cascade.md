@@ -5,9 +5,10 @@ Since **0.4.0**, SenangStart CSS emits deterministic, layered output.
 ## Cascade layers
 
 ```css
-@layer senangstart.theme, senangstart.base, senangstart.utilities;
+@layer senangstart.theme, senangstart.base, senangstart.components, senangstart.utilities;
 @layer senangstart.theme { :root { … } }        /* design tokens */
 @layer senangstart.base { … }                    /* preflight */
+@layer senangstart.components { … }              /* opt-in presets: prose, forms */
 @keyframes spin { … }                            /* keyframes (global) */
 @layer senangstart.utilities { … }               /* everything you write */
 ```

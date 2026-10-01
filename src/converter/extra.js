@@ -36,6 +36,14 @@ export function convertExtra(base, exact) {
   }
   if (base === 'transform-none') return { cat: 'visual', val: '[transform:none]' };
 
+  // Typography plugin classes → prose preset keywords
+  if ((m = /^prose(?:-(sm|base|lg|xl|2xl|invert))?$/.exec(base))) {
+    const size = m[1];
+    if (!size || size === 'base') return { cat: 'visual', val: 'prose' };
+    if (size === 'xl' || size === '2xl') return { cat: 'visual', val: 'prose prose-lg' };
+    return { cat: 'visual', val: `prose prose-${size}` };
+  }
+
   // Gradients: Tailwind v4 names (bg-linear-*, bg-radial, bg-conic) and stop positions (from-10%)
   if ((m = /^bg-linear-to-(t|tr|r|br|b|bl|l|tl)$/.exec(base))) return { cat: 'visual', val: `bg-image:gradient-to-${m[1]}` };
   if ((m = /^bg-linear-(\d+)$/.exec(base))) return { cat: 'visual', val: `bg-image:gradient-[${m[1]}deg]` };

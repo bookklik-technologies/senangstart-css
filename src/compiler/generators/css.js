@@ -12,6 +12,7 @@ import { generateDeclarations } from '../../engine/index.js';
 import { TRANSFORM_PROPERTIES } from '../../engine/registry.js';
 import { attrName } from '../../core/constants.js';
 import { customKeyframes } from '../../engine/plugins.js';
+import { generatePresets, enabledPresets, PRESET_KEYWORDS } from './presets.js';
 
 /**
  * Generate CSS custom properties from config
@@ -516,6 +517,14 @@ function safeRule(token, config, skipDark, interactIds, errors, errorType, defin
   if (!rule) {
     // Marker keywords (hoverable, focusable…) intentionally produce no CSS
     if (token.attrType === 'layout' && MARKER_KEYWORDS.has(token.raw)) return '';
+    // Preset keywords (prose, prose-lg, …): styled by the components layer when enabled
+    const preset = token.attrType === 'visual' ? PRESET_KEYWORDS[token.raw] : undefined;
+    if (preset) {
+      if (enabledPresets(config).has(preset)) return '';
+      errors.push({ ...diagnoseToken(token, config), type: errorType, code: 'UNKNOWN_PROPERTY',
+        message: `"${token.raw}" needs the ${preset} preset: add presets: ['${preset}'] to your config`, suggestion: undefined });
+      return '';
+    }
     errors.push({ ...diagnoseToken(token, config), type: errorType });
     return '';
   }
@@ -649,7 +658,7 @@ function inLayer(name, css, config) {
   return `@layer ${name} {\n${css}}\n`;
 }
 
-export const LAYER_ORDER = '@layer senangstart.theme, senangstart.base, senangstart.utilities;\n';
+export const LAYER_ORDER = '@layer senangstart.theme, senangstart.base, senangstart.components, senangstart.utilities;\n';
 
 export function generateCSSWithErrors(tokens, config) {
   const errors = [];
@@ -682,6 +691,14 @@ export function generateCSSWithErrors(tokens, config) {
       } catch (e) {
         errors.push({ type: 'preflight', message: e.message });
       }
+    }
+
+    // Opt-in presets (prose, forms) — components layer
+    let presets = '';
+    try {
+      presets = generatePresets(config);
+    } catch (e) {
+      errors.push({ type: 'presets', message: e.message });
     }
 
     // Keyframes are global names, unaffected by layers
@@ -781,9 +798,10 @@ export function generateCSSWithErrors(tokens, config) {
     }
 
     const exposeAll = config.theme && config.theme.exposeAll === true;
-    const theme = exposeAll ? rootVars : pruneCSSVariables(rootVars, preflight + utilities);
+    const theme = exposeAll ? rootVars : pruneCSSVariables(rootVars, preflight + presets + utilities);
     css += inLayer('senangstart.theme', theme, config);
     css += inLayer('senangstart.base', preflight, config);
+    css += inLayer('senangstart.components', presets, config);
     css += keyframes;
     css += customKeyframes(config, utilities);
     css += transformProperties(utilities);

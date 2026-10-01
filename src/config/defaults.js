@@ -28,6 +28,9 @@ export const defaultConfig = {
   // Defined here so configs validate; behaviour is implemented by the engine.
   prefix: '',
 
+  // Opt-in presets: ['prose', 'forms'] (or { prose: { maxWidth: '70ch' }, forms: true })
+  presets: [],
+
   // Emit CSS wrapped in cascade layers (@layer senang.base, senang.utilities …).
   // Behaviour implemented by the engine team; defined here for config validation.
   layers: true,
@@ -247,7 +250,7 @@ deepFreeze(defaultConfig);
 /** Top-level keys the config loader understands. */
 export const KNOWN_CONFIG_KEYS = Object.freeze([
   'content', 'safelist', 'prefix', 'layers', 'output', 'darkMode', 'preflight', 'build', 'theme', 'extend',
-  'utilities', 'variants', 'plugins'
+  'utilities', 'variants', 'plugins', 'presets'
 ]);
 
 /** Known `output` keys. */
@@ -564,6 +567,7 @@ export function mergeConfig(userConfig = {}, options = {}) {
   if (Array.isArray(user.safelist)) merged.safelist = user.safelist;
   if (typeof user.prefix === 'string') merged.prefix = user.prefix;
   if (typeof user.layers === 'boolean') merged.layers = user.layers;
+  if (Array.isArray(user.presets) || isPlainObject(user.presets)) merged.presets = user.presets;
   if (isPlainObject(utilities)) merged.utilities = utilities;
   if (isPlainObject(variants)) merged.variants = variants;
   if (Array.isArray(plugins)) merged.plugins = plugins;

@@ -75,6 +75,64 @@
       "description": "Wrap emitted CSS in cascade layers (@layer senangstart.theme, senangstart.base, senangstart.utilities).",
       "default": true
     },
+    "presets": {
+      "description": "Opt-in presets: ['prose', 'forms'], or { prose: { maxWidth: '70ch' }, forms: { accent: 'var(--c-primary)' } }.",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "prose",
+              "forms"
+            ]
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "prose": {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "maxWidth": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            },
+            "forms": {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "accent": {
+                      "type": "string"
+                    },
+                    "border": {
+                      "type": "string"
+                    },
+                    "radius": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "default": []
+    },
     "utilities": {
       "type": "object",
       "description": "Custom utilities. Key = utility name; value = { attr, css } for a keyword or { attr, template, scale, literals, enum, passthrough, numeric, arbitrary } for a valued utility. See docs/guide/plugins.md.",

@@ -35,7 +35,7 @@ describe('deterministic cascade', () => {
 
   test('output is wrapped in cascade layers by default and can be disabled', () => {
     const { css } = compileSource('<b space="p:big"></b>', cfg());
-    assert.ok(css.startsWith('@layer senangstart.theme, senangstart.base, senangstart.utilities;'));
+    assert.ok(css.startsWith('@layer senangstart.theme, senangstart.base, senangstart.components, senangstart.utilities;'));
     assert.ok(css.includes('@layer senangstart.utilities {'));
     const flat = compileSource('<b space="p:big"></b>', cfg({ layers: false })).css;
     assert.ok(!flat.includes('@layer'));
