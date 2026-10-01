@@ -11387,11 +11387,11 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
         const L = attrName("layout", config);
         if (only) {
           const [parentAttr, trigger] = only;
-          selectors.push(`[${L}~="${parentAttr}"]:not([${L}~="disabled"])${trigger} ${selector}`);
+          selectors.push(`:where([${L}~="${parentAttr}"]:not([${L}~="disabled"])${trigger}) ${selector}${selector}`);
           if (interactIds && interactIds.size > 0) {
             for (const id of interactIds) {
               const eid = escapeCSSString(id);
-              selectors.push(`[${attrName("interact", config)}~="${eid}"]:not([${L}~="disabled"])${trigger} ~ [${attrName("listens", config)}~="${eid}"]${selector}`);
+              selectors.push(`:where([${attrName("interact", config)}~="${eid}"]:not([${L}~="disabled"])${trigger}) ~ [${attrName("listens", config)}~="${eid}"]${selector}`);
             }
           }
         }
@@ -11477,7 +11477,7 @@ function generateDarkRules(bpTokens, breakpoint, ctx) {
     if (seen.has(id)) continue;
     seen.add(id);
     const rule = safeRule(token, config, true, interactIds, errors, "dark_rule", ctx.defined);
-    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
+    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`, token.variants) });
   }
   entries.sort(compareRuleKeys);
   const emitRules = (indent) => entries.map(({ rule }) => indentCSS(wrapSelector ? prefixRuleSelectors(rule, wrapSelector) : rule, indent)).join("");
@@ -11494,18 +11494,64 @@ function propertyDepth(prop) {
   if (ZERO_HYPHEN_LONGHANDS.has(prop)) return 1;
   return (prop.match(/-/g) || []).length;
 }
-function ruleSortKey(rule, raw) {
+var VARIANT_ORDER = [
+  "first",
+  "last",
+  "only",
+  "odd",
+  "even",
+  "first-of-type",
+  "last-of-type",
+  "empty",
+  "visited",
+  "target",
+  "open",
+  "default",
+  "checked",
+  "indeterminate",
+  "placeholder-shown",
+  "autofill",
+  "optional",
+  "required",
+  "valid",
+  "invalid",
+  "user-valid",
+  "user-invalid",
+  "in-range",
+  "out-of-range",
+  "read-only",
+  "expanded",
+  "selected",
+  "focus-within",
+  "hover",
+  "focus",
+  "focus-visible",
+  "active",
+  "enabled",
+  "disabled"
+];
+var VARIANT_RANK = new Map(VARIANT_ORDER.map((v, i) => [v, i + 1]));
+function variantRank(variants) {
+  let rank = 0;
+  for (const v of variants || []) {
+    const r = VARIANT_RANK.get(v) ?? (/^(aria-|data-|has-|not-|group-|peer-)/.test(v) ? VARIANT_ORDER.length + 1 : 0);
+    if (r > rank) rank = r;
+  }
+  return rank;
+}
+function ruleSortKey(rule, raw, variants) {
   if (rule.startsWith("@")) {
     const inner = rule.slice(rule.indexOf("{") + 1, rule.lastIndexOf("}"));
-    const k = ruleSortKey(inner.trim(), raw);
+    const k = ruleSortKey(inner.trim(), raw, variants);
     return { ...k, depth: k.depth + 100 };
   }
   const body = rule.slice(rule.indexOf("{") + 1, rule.lastIndexOf("}"));
   const props = body.split(";").map((d) => d.split(":")[0].trim()).filter(Boolean);
   const depth = props.length ? Math.min(...props.map(propertyDepth)) : 0;
-  return { depth, count: props.length, raw };
+  return { vrank: variantRank(variants), depth, count: props.length, raw };
 }
 function compareRuleKeys(a, b) {
+  if (a.key.vrank !== b.key.vrank) return a.key.vrank - b.key.vrank;
   if (a.key.depth !== b.key.depth) return a.key.depth - b.key.depth;
   if (a.key.count !== b.key.count) return b.key.count - a.key.count;
   return a.key.raw < b.key.raw ? -1 : a.key.raw > b.key.raw ? 1 : 0;
@@ -11518,7 +11564,7 @@ function generateSortedRules(tokens, config, interactIds, errors, errorType, def
     if (seen.has(id)) continue;
     seen.add(id);
     const rule = safeRule(token, config, false, interactIds, errors, errorType, defined);
-    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
+    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`, token.variants) });
   }
   entries.sort(compareRuleKeys);
   return entries.map((e) => e.rule);

@@ -35,6 +35,16 @@ token first appears. Inside each block, rules are ordered by:
 Responsive blocks are ordered by their numeric `min-width` (mobile-first),
 whatever order `theme.screens` is written in. `print` is emitted as `@media print`.
 
+## State variants and groups
+
+Within a block, state variants are ordered like Tailwind v4: structural
+(`first`, `odd`, …) and form states first, then `hover` → `focus` →
+`focus-visible` → `active`, then `enabled` / `disabled` last. Every state rule,
+whether triggered on the element itself, by a `hoverable`/`focusable` parent, or by
+an `interact`/`listens` peer, has the same specificity, (0,2,0), so this order is
+what decides: a `disabled:` style always wins over `hover:`, even while a parent
+card is hovered.
+
 ## Dark mode
 
 - `darkMode: 'media'` uses `@media (prefers-color-scheme: dark)`.
@@ -60,4 +70,5 @@ use them. Set `theme.exposeAll: true` to emit every variable.
 | Dark selector | `.dark [visual~=…]` became `:where(.dark, :is(.dark) *)[visual~=…]`. Update any CSS or tests that matched the old selector string. |
 | `darkMode: 'class'` | Previously applied dark styles **always** (bug). Now behaves like `'selector'`. |
 | Pruned palette | If your CSS uses `var(--c-red-500)` without any utility using it, set `theme.exposeAll: true`. |
+| Group/peer selectors | Now `:where(parent:hover) [visual~=…][visual~=…]`, specificity (0,2,0) instead of (0,4,0). Update CSS or tests that matched the old selector string. |
 | Display resets removed | `display: revert-layer` resets were dead code; responsive display utilities override base ones by order. |

@@ -209,3 +209,19 @@ test.describe('JIT engine — incremental + shadow DOM (0.4.0)', () => {
     expect(ms).toBeLessThan(1500);
   });
 });
+
+test.describe('JIT engine — group specificity (0.4.0)', () => {
+  test('a disabled child keeps its disabled: style while its hoverable parent is hovered', async ({ page }) => {
+    await page.goto('/tests/jit-browser/fixtures/basic.html');
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
+    await page.evaluate(() => {
+      document.body.insertAdjacentHTML('beforeend',
+        '<div id="card" layout="hoverable" space="p:big"><button id="btn" disabled visual="hover:text:white disabled:text:gray-400 bg:primary">Buy</button><span id="live" visual="hover:text:white">live</span></div>');
+    });
+    await page.waitForFunction(() => window.SenangStart.css().includes('disabled:text:gray-400'));
+    await page.hover('#card');
+    const [btn, live] = await page.evaluate(() => [getComputedStyle(document.getElementById('btn')).color, getComputedStyle(document.getElementById('live')).color]);
+    expect(btn).toBe('rgb(156, 163, 175)');   // gray-400: disabled wins
+    expect(live).toBe('rgb(255, 255, 255)');  // group hover still applies to enabled children
+  });
+});

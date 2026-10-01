@@ -1,13 +1,13 @@
 # SenangStart CSS 0.4.0 — Production-hardening report
 
-Branch `feat/1.0-roadmap`, 31 commits on top of `master` (f36f9eb).
+Branch `feat/1.0-roadmap`, 32 commits on top of `master` (f36f9eb).
 177 files changed (+29,877 / −3,057); `src/` +6,889 / −2,184.
 
 ## Verification (all green)
 
 | Check | Result |
 |---|---|
-| `npm test` (Node 24; CI matrix 20/22/24) | **1,184 / 1,184 pass** (was 846, and `npm test` itself was broken on Node 22+) |
+| `npm test` (Node 24; CI matrix 20/22/24) | **1,187 / 1,187 pass** (was 846, and `npm test` itself was broken on Node 22+) |
 | `npm run golden` (declaration snapshot, 1,661 tokens) | 0 unexpected diffs |
 | `npx eslint src/` · stylelint on dist | clean |
 | `npm run typecheck` (strict tsc on React/Vue/Svelte/API fixtures) | clean |
@@ -15,7 +15,7 @@ Branch `feat/1.0-roadmap`, 31 commits on top of `master` (f36f9eb).
 | `docs:sync-check` · `vitepress build docs` | in sync · builds |
 | Vite + PostCSS plugin tests (real Vite/PostCSS builds) | pass |
 
-| Playwright JIT browser suite (Chromium) | 13 / 13 pass (incl. shadow DOM, late attachShadow, first-frame styling) |
+| Playwright JIT browser suite (Chromium) | 14 / 14 pass (incl. shadow DOM, late attachShadow, first-frame styling) |
 | Playwright visual regression vs committed snapshots (Chromium) | 6 / 6 pass |
 | Tailwind → SenangStart conformance (Tailwind v4 CSS vs converted exact-mode markup, computed styles) | 2 / 2 fixtures pass in **strict colour mode** (oklch palette) |
 
@@ -58,10 +58,10 @@ Layered output; deterministic ordering; dark selector string; `darkMode:'class'`
 2. ~~JIT runtime~~ — done (incremental, shadow DOM).
 3. ~~Tailwind converters~~ — merged, with a conformance suite.
 4. ~~radial/conic gradients, prose and forms presets, oklch palette~~ — done. Still open: an `@apply`-style component extraction (the plugin API's keyword utilities cover the common case).
-5. Group selectors (`hoverable` parents) still have (0,4,0) specificity.
+5. ~~Group selectors at (0,4,0)~~ — now (0,2,0) with Tailwind-order state variants.
 6. VS Code extension (data files are generated; extension not built).
 7. ~~Playwright visual + Tailwind computed-style conformance suite~~ — done (both run in CI).
 
 ## Delivered
 - `senangstart-css-0.4.0.zip`: full repository including `.git` (branch history), without `node_modules` or build caches.
-- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 31 commits, apply with `git am` on `master`.
+- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 32 commits, apply with `git am` on `master`.

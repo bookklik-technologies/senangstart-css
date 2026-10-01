@@ -80,6 +80,10 @@ All notable changes to SenangStart CSS will be documented in this file.
 - `presets: ['prose', 'forms']` — opt-in typography (`visual="prose prose-lg prose-invert"`) and form-control styling in a new `senangstart.components` layer (below utilities). Options: `prose.maxWidth`, `forms.accent/border/radius`. Converter maps `prose*` classes.
 - Registry gains `patterns` (regex → template) for bracketed utility values.
 
+### Fixed — group/peer specificity
+- Group (`hoverable`, `focusable`, …) and peer (`interact`/`listens`) selectors dropped from (0,4,0)/(0,5,0) to **(0,2,0)**, the same as the child's own state rules (and Tailwind v4's `group-hover:`), by wrapping the parent/peer part in `:where()`. Previously a parent's hover overrode the child's other states, e.g. a `disabled:` button inside a hovered card took the hover colour.
+- State variants are ordered like Tailwind v4 (structural → hover → focus → active → enabled/disabled), so `disabled:` wins over `hover:` at equal specificity.
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING

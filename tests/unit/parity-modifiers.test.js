@@ -68,8 +68,8 @@ describe('prefix option', () => {
     assert.deepEqual(errors, []);
     assert.ok(u.includes('[ss-layout~="flex"] { display: flex; }'));
     assert.ok(!u.includes('[layout~="grid"]'));
-    assert.ok(u.includes('[ss-layout~="hoverable"]:not([ss-layout~="disabled"]):hover [ss-visual~="hover:bg:red-500"]'));
-    assert.ok(u.includes('[ss-interact~="x"]:not([ss-layout~="disabled"]):hover ~ [ss-listens~="x"]'));
+    assert.ok(u.includes(':where([ss-layout~="hoverable"]:not([ss-layout~="disabled"]):hover) [ss-visual~="hover:bg:red-500"]'));
+    assert.ok(u.includes(':where([ss-interact~="x"]:not([ss-layout~="disabled"]):hover) ~ [ss-listens~="x"]'));
     assert.ok(u.includes(':where(.dark, :is(.dark) *)[ss-visual~="dark:bg:black"]'));
   });
   test("'ss' and 'ss-' are equivalent; preflight container rules use the prefix", () => {
