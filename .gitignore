@@ -43,3 +43,4 @@ playwright-report/
 docs/.vitepress/dist/
 docs/.vitepress/cache/
 
+.build/
