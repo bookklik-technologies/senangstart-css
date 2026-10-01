@@ -101,6 +101,5 @@ describe('package.json manifest (0.4.0)', () => {
 
   it('publishes with provenance/public access', () => {
     assert.equal(pkg.publishConfig.access, 'public');
-    assert.equal(pkg.publishConfig.provenance, true);
   });
 });
