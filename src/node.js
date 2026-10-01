@@ -200,7 +200,7 @@ export async function build(options = {}) {
   const useBatching = totalRaw > 10000 || getMemoryUsage() > 200;
   let tokens;
   try {
-    tokens = useBatching ? await tokenizeAllWithBatching(allTokens, 1000) : tokenizeAll(allTokens);
+    tokens = useBatching ? await tokenizeAllWithBatching(allTokens, 1000, config) : tokenizeAll(allTokens, config);
   } catch (e) {
     throw new BuildError(`Tokenization failed: ${e.message}`, { code: 'TOKENIZE', cause: e });
   }

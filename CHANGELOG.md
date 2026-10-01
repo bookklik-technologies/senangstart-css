@@ -22,6 +22,19 @@ All notable changes to SenangStart CSS will be documented in this file.
 - Tokens containing quotes (e.g. `content:["hi"]`) produce valid selectors; the JIT no longer drops them.
 - Removed dead `display: revert-layer` resets.
 
+### Added — variants
+- Stacked variants in any order: `dark:hover:`, `tab:dark:hover:`, `hover:focus:`.
+- Structural/state: `first last only odd even first-of-type last-of-type empty visited target enabled indeterminate default autofill read-only placeholder-shown in-range out-of-range user-valid user-invalid open`.
+- Pseudo-elements: `before after selection marker file backdrop first-line first-letter` (before/after get a default `content`).
+- Attribute and relational: `aria-<name>`, `aria-[name=value]`, `data-<name>`, `data-[name=value]`, `has-[…]`, `not-<state>`, `not-[…]`.
+- Media features: `motion-safe motion-reduce contrast-more contrast-less forced-colors portrait landscape pointer-fine pointer-coarse hover-none`, plus working `print:`.
+- Direction: `rtl:` / `ltr:`.
+- Breakpoint ranges: `max-tab:` and `tab-lap:`; custom `theme.screens` names now work as variants.
+
+### Fixed
+- Peer (`interact`/`listens`) selectors are only emitted for ids that something listens to.
+- `compileSource()` / `compileMultiple()` accept a partial or missing config, and pass config to the tokenizer (custom screens were ignored).
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING

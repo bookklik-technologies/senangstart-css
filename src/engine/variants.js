@@ -36,8 +36,112 @@ export const STATE_VARIANTS = {
   optional:        { selector: ':optional' },
   valid:           { selector: ':valid' },
   invalid:         { selector: ':invalid' },
-  placeholder:     { selector: '::placeholder' }
+  placeholder:     { selector: '::placeholder' },
+  // Structural
+  first:           { selector: ':first-child' },
+  last:            { selector: ':last-child' },
+  only:            { selector: ':only-child' },
+  odd:             { selector: ':nth-child(odd)' },
+  even:            { selector: ':nth-child(even)' },
+  'first-of-type': { selector: ':first-of-type' },
+  'last-of-type':  { selector: ':last-of-type' },
+  empty:           { selector: ':empty' },
+  // Links & forms
+  visited:         { selector: ':visited' },
+  target:          { selector: ':target' },
+  enabled:         { selector: ':enabled' },
+  indeterminate:   { selector: ':indeterminate' },
+  default:         { selector: ':default' },
+  autofill:        { selector: ':autofill' },
+  'read-only':     { selector: ':read-only' },
+  'placeholder-shown': { selector: ':placeholder-shown' },
+  'in-range':      { selector: ':in-range' },
+  'out-of-range':  { selector: ':out-of-range' },
+  'user-valid':    { selector: ':user-valid' },
+  'user-invalid':  { selector: ':user-invalid' },
+  open:            { selector: ':is([open], :popover-open)' },
+  // Direction (matches the element or any ancestor with dir set)
+  rtl:             { selector: ':where([dir="rtl"], [dir="rtl"] *)' },
+  ltr:             { selector: ':where([dir="ltr"], [dir="ltr"] *)' },
+  // Pseudo-elements (always placed last in the compound selector)
+  before:          { selector: '::before', pseudoElement: true, content: true },
+  after:           { selector: '::after', pseudoElement: true, content: true },
+  selection:       { selector: '::selection', pseudoElement: true },
+  marker:          { selector: '::marker', pseudoElement: true },
+  file:            { selector: '::file-selector-button', pseudoElement: true },
+  backdrop:        { selector: '::backdrop', pseudoElement: true },
+  'first-line':    { selector: '::first-line', pseudoElement: true },
+  'first-letter':  { selector: '::first-letter', pseudoElement: true }
 };
+
+/** Media-feature variants (wrap the rule in an @media block). */
+export const MEDIA_VARIANTS = {
+  'motion-safe':    '(prefers-reduced-motion: no-preference)',
+  'motion-reduce':  '(prefers-reduced-motion: reduce)',
+  'contrast-more':  '(prefers-contrast: more)',
+  'contrast-less':  '(prefers-contrast: less)',
+  'forced-colors':  '(forced-colors: active)',
+  portrait:         '(orientation: portrait)',
+  landscape:        '(orientation: landscape)',
+  'pointer-fine':   '(pointer: fine)',
+  'pointer-coarse': '(pointer: coarse)',
+  'hover-none':     '(hover: none)'
+};
+
+const ARBITRARY_ATTR = /^\[([a-z][a-z0-9-]*)(?:=([A-Za-z0-9_ .-]+))?\]$/;
+
+/**
+ * Selector for a pattern variant: aria-*, data-*, has-[…], not-* or null.
+ * @param {string} part
+ * @returns {string|null}
+ */
+function patternSelector(part) {
+  // aria-checked → [aria-checked="true"]; aria-[sort=asc] → [aria-sort="asc"]
+  if (part.startsWith('aria-')) {
+    const rest = part.slice(5);
+    const m = ARBITRARY_ATTR.exec(rest);
+    if (m) return `[aria-${m[1]}="${m[2] !== undefined ? m[2].replace(/_/g, ' ') : 'true'}"]`;
+    if (/^[a-z]+$/.test(rest)) return `[aria-${rest}="true"]`;
+    return null;
+  }
+  // data-active → [data-active]; data-[state=open] → [data-state="open"]
+  if (part.startsWith('data-')) {
+    const rest = part.slice(5);
+    const m = ARBITRARY_ATTR.exec(rest);
+    if (m) return m[2] !== undefined ? `[data-${m[1]}="${m[2].replace(/_/g, ' ')}"]` : `[data-${m[1]}]`;
+    if (/^[a-z][a-z0-9-]*$/.test(rest)) return `[data-${rest}]`;
+    return null;
+  }
+  // has-[img] / has-[:checked] / has-[.x] → :has(…)
+  if (part.startsWith('has-[') && part.endsWith(']')) {
+    const inner = part.slice(5, -1).replace(/_/g, ' ');
+    if (/^[A-Za-z0-9 :.#\[\]=()*"'-]+$/.test(inner)) return `:has(${inner})`;
+    return null;
+  }
+  // not-hover / not-first / not-[.x] → :not(…)
+  if (part.startsWith('not-')) {
+    const rest = part.slice(4);
+    if (rest.startsWith('[') && rest.endsWith(']')) {
+      const inner = rest.slice(1, -1).replace(/_/g, ' ');
+      return /^[A-Za-z0-9 :.#\[\]=()*"'-]+$/.test(inner) ? `:not(${inner})` : null;
+    }
+    const st = STATE_VARIANTS[rest];
+    if (st && !st.pseudoElement && !st.selector.startsWith(':where')) return `:not(${st.selector})`;
+    return null;
+  }
+  return null;
+}
+
+/**
+ * CSS selector suffix for a parsed state variant.
+ * @param {{ name: string, selector?: string }} p
+ * @returns {string}
+ */
+export function stateSelector(p) {
+  if (p.selector) return p.selector;
+  const st = STATE_VARIANTS[p.name];
+  return st ? st.selector : `:${p.name}`;
+}
 
 const STATE_ORDER = Object.keys(STATE_VARIANTS);
 
@@ -132,8 +236,14 @@ function findBreakpoint(name, config) {
 export function parseVariant(part, config) {
   if (typeof part !== 'string' || !part) return null;
   if (part === 'dark') return { type: 'dark', name: 'dark' };
-  if (STATE_VARIANTS[part]) return { type: 'state', name: part };
+  if (STATE_VARIANTS[part]) {
+    const st = STATE_VARIANTS[part];
+    return { type: 'state', name: part, selector: st.selector, pseudoElement: !!st.pseudoElement, content: !!st.content };
+  }
+  if (MEDIA_VARIANTS[part]) return { type: 'media', name: part, query: MEDIA_VARIANTS[part] };
   if (customHandlers.has(part)) return { type: 'custom', name: part };
+  const pat = patternSelector(part);
+  if (pat) return { type: 'state', name: part, selector: pat };
 
   const names = config && config.theme && config.theme.screens
     ? Object.keys(config.theme.screens)

@@ -130,7 +130,7 @@ try {
   // ============================================
 
   function compileCSS(domTokens, config) {
-    const tokens = tokenizeAll(domTokens);
+    const tokens = tokenizeAll(domTokens, config);
     return generateCSS(tokens, config);
   }
 

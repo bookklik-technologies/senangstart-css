@@ -4,6 +4,7 @@
  */
 
 import { escapeCSSString } from '../../core/value-grammar.js';
+import { parseVariant, tokenVariants, stateSelector } from '../../engine/variants.js';
 import { generatePreflight } from './preflight.js';
 import { sanitizeValue } from '../../utils/common.js';
 import { buildAllMaps } from '../../definitions/index.js';
@@ -756,65 +757,58 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
       selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
     }
 
-    // Add state pseudo-class (but not for 'dark' - it's handled separately)
-    if (state && state !== 'dark') {
+    // Variant stack → state selectors (pseudo-classes, aria/data/has/not,
+    // pseudo-elements last) and media-feature wrappers. Breakpoints and dark
+    // are handled by the caller (bucketing).
+    const parsed = tokenVariants(token).map((v) => parseVariant(v, config)).filter(Boolean);
+    const stateVs = parsed.filter((p) => p.type === 'state');
+    const mediaVs = parsed.filter((p) => p.type === 'media');
+    if (stateVs.length === 0 && state && state !== 'dark' && !Array.isArray(token.variants)) {
+      // hand-built legacy token without a variants array
+      const p = parseVariant(state, config);
+      if (p && p.type === 'state') stateVs.push(p);
+    }
+
+    if (stateVs.length > 0) {
+      const classes = stateVs.filter((p) => !p.pseudoElement).map(stateSelector).join('');
+      const elements = stateVs.filter((p) => p.pseudoElement).map(stateSelector).join('');
+      const suffix = classes + elements;
+      if (stateVs.some((p) => p.content) && !/(^|;)\s*content\s*:/.test(cssDeclaration)) {
+        cssDeclaration = `content: var(--ss-content, ""); ${cssDeclaration}`;
+      }
+
       if (isDivide) {
-        // For divide utilities, add state to the element after tilde
-        // Divide utilities don't support group/peer states yet to avoid complexity
-        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
       } else {
-        // Helper to map state to CSS selector
-        const getStateSelector = (s) => {
-          const map = {
-            'expanded': '[aria-expanded="true"]',
-            'selected': '[aria-selected="true"]',
-            'disabled': ':disabled',
-            'placeholder': '::placeholder'
-          };
-          return map[s] || `:${s}`;
-        };
+        const selectors = [`${selector}${suffix}`];
 
-        const selectors = [];
-
-        // 1. Standard State Selector
-        selectors.push(`${selector}${getStateSelector(state)}`);
-
-        // 2. Group & Peer State Selectors
-        // Only for supported triggers
+        // Group & peer selectors: only for a single interactive state
         const groupTriggers = {
-          'hover': 'hoverable',
-          'focus': 'focusable',
-          'focus-visible': 'focusable',
-          'active': 'pressable',
-          'expanded': 'expandable',
-          'selected': 'selectable'
+          hover: ['hoverable', ':hover'],
+          focus: ['focusable', ':focus-within'],
+          'focus-visible': ['focusable', ':focus-within'],
+          active: ['pressable', ':active'],
+          expanded: ['expandable', '[aria-expanded="true"]'],
+          selected: ['selectable', '[aria-selected="true"]']
         };
-
-        if (groupTriggers[state]) {
-          const parentAttr = groupTriggers[state];
-          // For focus, we trigger on focus-within of the container
-          let triggerState = state;
-          if (state === 'focus' || state === 'focus-visible') triggerState = 'focus-within';
-
-          const triggerSelector = getStateSelector(triggerState);
-
-          // Group Selector
-          // [layout~="hoverable"]:not([layout~="disabled"]):hover [visual~="..."]
-          const groupSelector = `[layout~="${parentAttr}"]:not([layout~="disabled"])${triggerSelector} ${selector}`;
-          selectors.push(groupSelector);
-
-          // Peer Selectors
-          // [interact~="id"]:not([layout~="disabled"]):hover ~ [listens~="id"][visual~="..."]
+        const only = stateVs.length === 1 ? groupTriggers[stateVs[0].name] : null;
+        if (only) {
+          const [parentAttr, trigger] = only;
+          selectors.push(`[layout~="${parentAttr}"]:not([layout~="disabled"])${trigger} ${selector}`);
           if (interactIds && interactIds.size > 0) {
             for (const id of interactIds) {
-              const peerSelector = `[interact~="${escapeCSSString(id)}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${escapeCSSString(id)}"]${selector}`;
-              selectors.push(peerSelector);
+              const eid = escapeCSSString(id);
+              selectors.push(`[interact~="${eid}"]:not([layout~="disabled"])${trigger} ~ [listens~="${eid}"]${selector}`);
             }
           }
         }
-
         selector = selectors.join(',\n');
       }
+    }
+
+    if (mediaVs.length > 0) {
+      const query = mediaVs.map((p) => p.query).join(' and ');
+      return `@media ${query} { ${selector} { ${cssDeclaration} } }\n`;
     }
 
     return `${selector} { ${cssDeclaration} }\n`;
@@ -949,7 +943,7 @@ function generateDarkRules(bpTokens, breakpoint, ctx) {
   if (!breakpoint) return emitRules(ctx.baseIndent || '');
   const inner = ctx.baseIndent ? '    ' : '  ';
   const outer = ctx.baseIndent ? '  ' : '';
-  return `${outer}${breakpointQuery(breakpoint, screens)} {\n${emitRules(inner)}${outer}}\n`;
+  return `${outer}${breakpointQuery(breakpoint, screens, config)} {\n${emitRules(inner)}${outer}}\n`;
 }
 
 /**
@@ -987,6 +981,11 @@ function propertyDepth(prop) {
  * @param {string} raw
  */
 function ruleSortKey(rule, raw) {
+  if (rule.startsWith('@')) {
+    const inner = rule.slice(rule.indexOf('{') + 1, rule.lastIndexOf('}'));
+    const k = ruleSortKey(inner.trim(), raw);
+    return { ...k, depth: k.depth + 100 }; // media-feature rules after plain rules
+  }
   const body = rule.slice(rule.indexOf('{') + 1, rule.lastIndexOf('}'));
   const props = body.split(';').map(d => d.split(':')[0].trim()).filter(Boolean);
   const depth = props.length ? Math.min(...props.map(propertyDepth)) : 0;
@@ -1040,10 +1039,46 @@ export function screenToPx(value) {
  * @param {string} bp
  * @param {Object} screens
  */
-function breakpointQuery(bp, screens) {
+function breakpointQuery(bp, screens, config) {
+  const p = config ? parseVariant(bp, config) : null;
+  const below = (name) => {
+    const px = screenToPx(screens && screens[name]);
+    return Number.isFinite(px) ? `(max-width: ${+(px - 0.02).toFixed(2)}px)` : `not all and (min-width: ${screens[name]})`;
+  };
+  if (p && p.type === 'max') return `@media ${below(p.to)}`;
+  if (p && p.type === 'range') return `@media (min-width: ${screens[p.from]}) and ${below(p.to)}`;
   const value = screens && screens[bp] ? screens[bp] : bp;
   if (bp === 'print' || value === 'print') return '@media print';
   return `@media (min-width: ${value})`;
+}
+
+/**
+ * Ordering key for a breakpoint bucket: min-width ascending, then max-* descending,
+ * then ranges by lower bound; print last.
+ */
+function breakpointOrder(bp, screens, config) {
+  const p = parseVariant(bp, config);
+  const px = (n) => screenToPx(screens && screens[n]);
+  if (p && p.type === 'max') return [1, -px(p.to)];
+  if (p && p.type === 'range') return [2, px(p.from), px(p.to)];
+  const v = px(bp);
+  return Number.isFinite(v) ? [0, v] : [3, 0];
+}
+
+function compareBreakpoints(a, b, screens, config) {
+  const ka = breakpointOrder(a, screens, config);
+  const kb = breakpointOrder(b, screens, config);
+  for (let i = 0; i < Math.max(ka.length, kb.length); i++) {
+    const d = (ka[i] ?? 0) - (kb[i] ?? 0);
+    if (d) return d;
+  }
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
+/** True when a token carries the dark variant anywhere in its stack. */
+function isDarkToken(token) {
+  if (Array.isArray(token.variants) && token.variants.length) return token.variants.includes('dark');
+  return token.state === 'dark';
 }
 
 
@@ -1152,7 +1187,7 @@ export function generateCSSWithErrors(tokens, config) {
         errors.push({ type: 'token_format', token, message: 'Token is not an object' });
         continue;
       }
-      if (token.state === 'dark') {
+      if (isDarkToken(token)) {
         const bpKey = token.breakpoint || null;
         if (!darkTokensByBreakpoint.has(bpKey)) darkTokensByBreakpoint.set(bpKey, []);
         darkTokensByBreakpoint.get(bpKey).push(token);
@@ -1165,9 +1200,15 @@ export function generateCSSWithErrors(tokens, config) {
     }
 
     // Interact IDs for peer selectors
+    // Peer selectors are only emitted for interact ids that something listens to
+    // (previously every hover utility got one selector per interact id — M4).
     const interactIds = new Set();
+    const listenIds = new Set();
     for (const token of tokens) {
-      if (token && token.attrType === 'interact' && token.raw) interactIds.add(token.raw);
+      if (token && token.attrType === 'listens' && token.raw) listenIds.add(token.raw);
+    }
+    for (const token of tokens) {
+      if (token && token.attrType === 'interact' && token.raw && listenIds.has(token.raw)) interactIds.add(token.raw);
     }
 
     // Utilities, in deterministic order
@@ -1177,15 +1218,11 @@ export function generateCSSWithErrors(tokens, config) {
     }
 
     // Breakpoints ordered by numeric min-width (mobile-first); print last
-    const orderedBps = [...breakpointTokens.keys()].sort((a, b) => {
-      const pa = screenToPx(screens && screens[a]);
-      const pb = screenToPx(screens && screens[b]);
-      return pa !== pb ? pa - pb : (a < b ? -1 : 1);
-    });
+    const orderedBps = [...breakpointTokens.keys()].sort((a, b) => compareBreakpoints(a, b, screens, config));
     for (const bp of orderedBps) {
       const rules = generateSortedRules(breakpointTokens.get(bp), config, interactIds, errors, 'responsive_rule');
       if (rules.length === 0) continue;
-      utilities += `\n${breakpointQuery(bp, screens)} {\n`;
+      utilities += `\n${breakpointQuery(bp, screens, config)} {\n`;
       for (const rule of rules) utilities += '  ' + rule;
       utilities += '}\n';
     }
@@ -1199,7 +1236,7 @@ export function generateCSSWithErrors(tokens, config) {
         const darkBps = [...darkTokensByBreakpoint.keys()].sort((a, b) => {
           if (a === null) return -1;
           if (b === null) return 1;
-          return screenToPx(screens && screens[a]) - screenToPx(screens && screens[b]);
+          return compareBreakpoints(a, b, screens, config);
         });
         if (darkMode === 'media') {
           utilities += `\n/* Dark Mode (prefers-color-scheme) */\n@media (prefers-color-scheme: dark) {\n`;

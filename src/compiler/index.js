@@ -1,3 +1,4 @@
+import { mergeConfig } from '../config/defaults.js';
 /**
  * SenangStart CSS - Main Compiler Orchestrator
  * Coordinates parsing, tokenizing, and generating output
@@ -23,6 +24,17 @@ function logInvalidTokens(tokens) {
 }
 
 /**
+ * Accept a full config, a partial user config, or nothing (audit M9).
+ * @param {Object} [config]
+ * @returns {Object}
+ */
+function resolveConfig(config) {
+  const t = config && config.theme;
+  if (t && t.spacing && t.colors && t.screens) return config;
+  return mergeConfig(config || {});
+}
+
+/**
  * Compile a single source string
  * @param {string} content - Source content
  * @param {Object} config - Configuration
@@ -33,8 +45,9 @@ export function compileSource(content, config) {
     throw new TypeError(`compileSource: content must be a string, got ${typeof content}`);
   }
 
+  config = resolveConfig(config);
   const parsed = parseSource(content);
-  const tokens = tokenizeAll(parsed);
+  const tokens = tokenizeAll(parsed, config);
   const invalidTokens = logInvalidTokens(tokens);
 
   const css = generateCSS(tokens, config);
@@ -65,8 +78,9 @@ export function compileMultiple(files, config) {
     }
   }
 
+  config = resolveConfig(config);
   const parsed = parseMultipleSources(files);
-  const tokens = tokenizeAll(parsed);
+  const tokens = tokenizeAll(parsed, config);
   const invalidTokens = logInvalidTokens(tokens);
 
   const css = generateCSS(tokens, config);
