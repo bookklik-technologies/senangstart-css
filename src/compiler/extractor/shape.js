@@ -11,10 +11,13 @@ import { LIMITS } from '../../core/constants.js';
 
 // Overall shape once arbitrary-value brackets have been collapsed to "[]".
 // Must start with an alphanumeric (optionally prefixed with "!").
-const TOKEN_SHAPE = /^!?[a-zA-Z0-9][\w./%#()\[\],+*:-]*$/;
+const TOKEN_SHAPE = /^!?(?:@?[a-zA-Z0-9]|\[\])[\w./%#()\[\],+*:@-]*!?$/;
 
 // Characters that are only allowed inside [...] arbitrary values.
-const BANNED_OUTSIDE_BRACKETS = /[{}$?<>;=`'"\\|&^~!@\s]/;
+const BANNED_OUTSIDE_BRACKETS = /[{}$?<>;=`'"\\|&^~\s]/;
+// `!` only as first/last char, `@` only at the start of a variant segment
+const BAD_BANG = /(?!^)!(?!$)/;
+const BAD_AT = /(?<!^|:)@/;
 
 // Content of a bracketed arbitrary value: anything but whitespace or brackets.
 const BRACKET_SEGMENT = /\[[^\s\[\]]*\]/g;
@@ -52,6 +55,7 @@ function computeShape(token) {
   // Any bracket left over is unbalanced (e.g. "w:[350px").
   if (outside.includes('[') || outside.includes(']')) return 'shape';
   if (BANNED_OUTSIDE_BRACKETS.test(outside)) return 'shape';
+  if (BAD_BANG.test(outside) || BAD_AT.test(outside)) return 'shape';
   if (!TOKEN_SHAPE.test(collapsed)) return 'shape';
 
   return null;

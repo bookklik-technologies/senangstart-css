@@ -241,6 +241,22 @@ export function parseVariant(part, config) {
     return { type: 'state', name: part, selector: st.selector, pseudoElement: !!st.pseudoElement, content: !!st.content };
   }
   if (MEDIA_VARIANTS[part]) return { type: 'media', name: part, query: MEDIA_VARIANTS[part] };
+
+  // Container queries: @tab:, @max-tab:, @tab/sidebar: (sizes from theme.containers, else theme.screens)
+  if (part.startsWith('@') && part.length > 1) {
+    const [size, container] = part.slice(1).split('/');
+    const sizes = (config && config.theme && config.theme.containers) || (config && config.theme && config.theme.screens) || DEFAULT_SCREENS;
+    const isMax = size.startsWith('max-');
+    const key = isMax ? size.slice(4) : size;
+    const value = sizes[key];
+    if (!value || value === 'print') return null;
+    if (container !== undefined && !/^[a-zA-Z][\w-]*$/.test(container)) return null;
+    const px = toPx(value);
+    const query = isMax
+      ? (Number.isNaN(px) ? `not (min-width: ${value})` : `(max-width: ${+(px - 0.02).toFixed(2)}px)`)
+      : `(min-width: ${value})`;
+    return { type: 'container', name: part, query, container: container || null };
+  }
   if (customHandlers.has(part)) return { type: 'custom', name: part };
   const pat = patternSelector(part);
   if (pat) return { type: 'state', name: part, selector: pat };

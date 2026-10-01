@@ -276,10 +276,23 @@ function generateRuleUncached(token, config, _skipDarkWrapper = false, interactI
       }
     }
 
+    if (token.important) {
+      cssDeclaration = cssDeclaration
+        .split(';').map((d) => d.trim()).filter(Boolean)
+        .map((d) => `${d} !important`).join('; ') + ';';
+    }
+
+    // At-rule wrappers: container queries (innermost) and media features
+    const containerVs = parsed.filter((p) => p.type === 'container');
+    let rule = `${selector} { ${cssDeclaration} }`;
+    for (const p of containerVs) {
+      rule = `@container ${p.container ? `${p.container} ` : ''}${p.query} { ${rule} }`;
+    }
     if (mediaVs.length > 0) {
       const query = mediaVs.map((p) => p.query).join(' and ');
-      return `@media ${query} { ${selector} { ${cssDeclaration} } }\n`;
+      rule = `@media ${query} { ${rule} }`;
     }
+    if (containerVs.length || mediaVs.length) return `${rule}\n`;
 
     return `${selector} { ${cssDeclaration} }\n`;
   } catch {

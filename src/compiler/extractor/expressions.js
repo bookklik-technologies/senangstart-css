@@ -385,6 +385,8 @@ const TEMPLATE_OPENERS = [
 ];
 
 const FAST_PATH = /[{$<@]/;
+// `@tab:p:big`, `@max-tab:…`, `@tab/sidebar:…` are container-query variants, not Blade directives
+const CONTAINER_VARIANT = /^@[A-Za-z0-9-]+(?:\/[A-Za-z][\w-]*)?:/;
 
 /**
  * Strip the PHP opener remnants from "<?php … ?>" / "<?= … ?>" bodies.
@@ -482,8 +484,9 @@ export function extractFromTemplatedString(text, sink) {
       continue;
     }
 
-    if (ch === '@' && i + 1 < n && /[A-Za-z]/.test(text[i + 1])) {
+    if (ch === '@' && i + 1 < n && /[A-Za-z]/.test(text[i + 1]) && !CONTAINER_VARIANT.test(text.slice(i, i + 80))) {
       // Blade directive: @if(...), @else, @endif, @class([...]) …
+      // (but not a container-query variant such as `@tab:` or `@tab/side:`)
       pushStatic(i);
       let j = i + 1;
       while (j < n && /[A-Za-z]/.test(text[j])) j++;

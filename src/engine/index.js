@@ -50,6 +50,14 @@ export function generateDeclarations(token, config, registry = getDefaultRegistr
   const userTheme = (config && config.theme) || {};
   const ctx = { theme: { ...defaultConfig.theme, ...userTheme } };
 
+  // Arbitrary property: [mask-type:luminance] → mask-type: luminance;
+  if (token.arbitraryProperty) {
+    if (!/^(?:--)?[a-z][a-z0-9-]*$/.test(property)) {
+      return { ...empty, error: diagnostic(token, CODES.INVALID_VALUE, `Invalid property name "${property}"`) };
+    }
+    return { css: `${property}: ${value};`, entry: { kind: 'arbitrary-property', key: property, props: [property] }, error: null, usedVars: [] };
+  }
+
   // Keyword (property === value, no colon): flex, italic, container…
   if ((property === value || value === '') && !token.isArbitrary) {
     const kw = registry.keyword(attrType, property);

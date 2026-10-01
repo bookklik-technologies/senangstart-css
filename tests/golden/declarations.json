@@ -731,7 +731,11 @@
  "layout=object-pos:bottom-right": [
   "object-position: bottom right"
  ],
- "layout=container": null,
+ "layout=container": [
+  "margin-left: auto",
+  "margin-right: auto",
+  "width: 100%"
+ ],
  "layout=isolation:isolate": [
   "isolation: isolate"
  ],

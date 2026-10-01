@@ -296,7 +296,15 @@ export const container = {
   description: 'Create a centered container with max-width',
   descriptionMs: 'Cipta bekas berpusat dengan lebar maksimum',
   category: 'layout',
-  engine: { css: 'width: 100%; margin-left: auto; margin-right: auto;' },
+  engine: {
+    css: 'width: 100%; margin-left: auto; margin-right: auto;',
+    keywords: { container: 'width: 100%; margin-left: auto; margin-right: auto;' },
+    // Container queries (0.4.0): layout="container-type:inline container-name:sidebar" + @tab:/@tab/sidebar: variants
+    utilities: {
+      'container-type': { template: 'container-type: {value};', literals: { inline: 'inline-size', size: 'size', normal: 'normal' }, passthrough: true },
+      'container-name': { template: 'container-name: {value};', passthrough: true }
+    }
+  },
   values: [
     { value: 'container', css: 'width: 100%; margin-left: auto; margin-right: auto;', description: 'Centered container', descriptionMs: 'Bekas berpusat' }
   ],

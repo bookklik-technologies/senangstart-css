@@ -101,20 +101,26 @@ export function tokenize(raw, attrType, config) {
     attrType
   };
 
+  // `!important` modifier: leading `!p:big` or trailing `p:big!`
+  let body = raw;
+  if (body.startsWith('!')) { token.important = true; body = body.slice(1); }
+  else if (body.endsWith('!')) { token.important = true; body = body.slice(0, -1); }
+  if (body.length === 0) return errorToken(raw, attrType, 'Invalid token format', 'INVALID_TOKEN');
+
   // Layout keywords without colon syntax (flex, center, …)
-  if (attrType === 'layout' && LAYOUT_KEYWORDS.includes(raw)) {
-    token.property = raw;
-    token.value = raw;
+  if (attrType === 'layout' && LAYOUT_KEYWORDS.includes(body)) {
+    token.property = body;
+    token.value = body;
     return token;
   }
 
   // Split on ':' but keep colons that live inside an arbitrary [...] value
   // (e.g. bg-image:[url(https://x)] or content:["a:b"]).
-  const parts = splitOutsideBrackets(raw);
+  const parts = splitOutsideBrackets(body);
 
-  if (parts.length === 1) {
-    token.property = raw;
-    token.value = raw;
+  if (parts.length === 1 && !body.startsWith('[')) {
+    token.property = body;
+    token.value = body;
     return token;
   }
 
@@ -129,6 +135,22 @@ export function tokenize(raw, attrType, config) {
   if (rest.length === 0) {
     token.error = 'Invalid token structure';
     token.errorCode = 'INVALID_TOKEN';
+    return token;
+  }
+
+  // Arbitrary property: [mask-type:luminance], [--my-var:10px], hover:[outline:none]
+  const arbProp = rest.length === 1 && /^\[((?:--)?[a-zA-Z][\w-]*):(.+)\]$/.exec(rest[0]);
+  if (arbProp) {
+    token.property = arbProp[1].toLowerCase();
+    token.isArbitrary = true;
+    token.arbitraryProperty = true;
+    const normalized = normalizeArbitraryValue(arbProp[2]);
+    const check = validateValue(normalized);
+    token.value = normalized;
+    if (!check.ok) {
+      token.error = `Invalid value: ${check.reason}`;
+      token.errorCode = 'INVALID_VALUE';
+    }
     return token;
   }
   token.property = rest[0];
