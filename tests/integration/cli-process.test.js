@@ -11,7 +11,7 @@ import { spawnSync } from 'node:child_process';
 import { mkdtempSync, rmSync, writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join, dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const BIN = join(root, 'src', 'cli', 'index.js');
@@ -232,8 +232,9 @@ describe('CLI (child_process)', () => {
   });
 
   it('importing ./cli (program.js) has no side effects', () => {
+    const programUrl = pathToFileURL(join(root, 'src', 'cli', 'program.js')).href;
     const res = spawnSync(process.execPath, ['-e', `
-      import('${join(root, 'src', 'cli', 'program.js').split('\\').join('/')}').then(m => {
+      import('${programUrl}').then(m => {
         console.log(JSON.stringify({ hasProgram: typeof m.program?.parse === 'function', hasFactory: typeof m.createProgram === 'function', cmds: m.program.commands.map(c => c.name()) }));
       });
     `], { cwd: dir, encoding: 'utf-8', env: { ...process.env, NO_COLOR: '1' } });

@@ -111,6 +111,7 @@ export function formatDiagnostic(d, opts = {}) {
     if (opts.cwd && file.startsWith(opts.cwd)) {
       file = file.slice(opts.cwd.length).replace(/^[\\/]/, '');
     }
+    file = file.replace(/\\/g, '/');
     parts.push(d.line ? `${file}:${d.line}` : file);
   }
   const token = d.raw ? `${d.raw}${d.attrType ? ` (${d.attrType})` : ''}` : '';
