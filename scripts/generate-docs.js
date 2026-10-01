@@ -368,8 +368,11 @@ function extractValuesFromTable(markdown) {
     line = line.trim();
     // Skip non-table lines, header rows, and separator rows
     if (!line.startsWith('|')) continue;
-    if (line.includes('Value') || line.includes('Nilai') || line.includes('Property') || line.includes('Properti')) continue;
-    if (line.includes('---')) continue;
+    // Header detection must look at the FIRST cell only — descriptions in other
+    // cells may legitimately contain words like "Properti" (e.g. "Properti warna").
+    const firstCell = line.split('|')[1]?.trim() ?? '';
+    if (/^(Value|Nilai|Property|Properti)$/i.test(firstCell)) continue;
+    if (/^:?-{3,}:?$/.test(firstCell)) continue;
     
     // Extract first cell (value name) - look for backtick-quoted value
     const cellMatch = line.match(/\|\s*`([^`]+)`/);

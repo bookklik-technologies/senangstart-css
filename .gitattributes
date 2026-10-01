@@ -2,3 +2,9 @@
 *.png binary
 *.jpg binary
 *.woff2 binary
+# Generated/vendored artifacts: hide from diffs and mark as generated on GitHub
+dist/* linguist-generated=true -diff
+dist/*.map binary
+types/senang.d.ts linguist-generated=true
+tests/golden/declarations.json linguist-generated=true -diff
+package-lock.json -diff

@@ -1,162 +1,94 @@
 /**
- * SenangStart CSS - Dev Command
- * Watch mode with live compilation
+ * SenangStart CSS - Dev Command (CLI wrapper)
+ *
+ * Thin wrapper over `watch()` from `src/node.js`:
+ *   - watches exactly the resolved config.content globs + the config file
+ *   - debounced rebuilds, fresh config on config change
+ *   - errors are printed, never crash the process
+ *   - SIGINT / SIGTERM close the watcher and exit 0
  */
 
-import { createRequire } from 'module';
-import chokidar from 'chokidar';
-import { build } from './build.js';
-import logger from '../../utils/logger.js';
-
-const require = createRequire(import.meta.url);
+import { watch, ConfigError } from '../../node.js';
+import logger, { configureLogger } from '../../utils/logger.js';
+import { toBuildOptions, reportBuild } from './build.js';
 
 /**
- * Dev command handler - watches files and rebuilds on changes
+ * Dev command handler - watches files and rebuilds on changes.
+ * @param {Object} options - commander options
+ * @param {{ exitOnSignal?: boolean }} [hooks] - test hook: set exitOnSignal=false to avoid process.exit
+ * @returns {Promise<{ close(): Promise<void> }>}
  */
-export async function dev(options = {}) {
+export async function dev(options = {}, hooks = {}) {
+  if (options.quiet !== undefined || options.verbose !== undefined) {
+    configureLogger({ quiet: !!options.quiet, verbose: !!options.verbose });
+  }
+  const cwd = options.cwd || process.cwd();
+  const buildOptions = toBuildOptions({ ...options, watch: true });
+
   logger.watch('Starting development mode...');
 
   let consecutiveErrors = 0;
-  let lastErrorTime = 0;
   const MAX_CONSECUTIVE_ERRORS = 5;
-  const COOLDOWN_DURATION = 30000;
 
-  let buildInProgress = false;
-  let pendingBuild = false;
-  let debounceTimer = null;
-
-  async function runBuild() {
-    if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
-      const timeSinceLastError = Date.now() - lastErrorTime;
-      if (timeSinceLastError < COOLDOWN_DURATION) {
-        const cooldownRemaining = Math.ceil((COOLDOWN_DURATION - timeSinceLastError) / 1000);
-        logger.warn(`Cooldown active: ${cooldownRemaining}s remaining. Skipping build.`);
-        return;
-      }
-      consecutiveErrors = 0;
+  const watcher = await watch(buildOptions, (result, error, meta = {}) => {
+    if (meta.event === 'config') {
+      logger.watch(`Config changed: ${meta.path} — reloading config`);
+    } else if (meta.event && meta.event !== 'initial' && meta.event !== 'watcher-error') {
+      logger.watch(`Change detected (${meta.event}): ${meta.path}`);
     }
 
-    try {
-      await build({ ...options, watch: true });
-      consecutiveErrors = 0;
-    } catch (error) {
+    if (error) {
       consecutiveErrors++;
-      lastErrorTime = Date.now();
-      logger.error(`Build failed (${consecutiveErrors}/${MAX_CONSECUTIVE_ERRORS}): ${error.message}`);
-
-      if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
-        logger.warn(`Maximum consecutive errors (${MAX_CONSECUTIVE_ERRORS}) reached.`);
-        logger.warn(`Entering ${COOLDOWN_DURATION / 1000}s cooldown to prevent resource exhaustion.`);
+      if (meta.event === 'watcher-error') {
+        logger.error(`Watcher error: ${error.message}`);
+      } else if (error instanceof ConfigError) {
+        logger.error(error.message);
+        logger.info('Fix the config file and save it to retry.');
+      } else {
+        logger.error(`Build failed (${consecutiveErrors}/${MAX_CONSECUTIVE_ERRORS}): ${error.message}`);
       }
-    }
-  }
-
-  async function debouncedBuild() {
-    if (buildInProgress) {
-      pendingBuild = true;
+      if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+        logger.warn(`${consecutiveErrors} consecutive failures — still watching, but check your setup.`);
+      }
       return;
     }
 
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
+    consecutiveErrors = 0;
+    reportBuild(result, { cwd, ignoreInvalid: options.ignoreInvalid === true });
+    if (!result.ok) {
+      logger.warn(`${result.errors.length} invalid token(s) — output written, fix them to clear the errors.`);
     }
-
-    debounceTimer = setTimeout(async () => {
-      buildInProgress = true;
-      logger.watch('Change detected, rebuilding...');
-      try {
-        await runBuild();
-      } finally {
-        buildInProgress = false;
-      }
-
-      if (pendingBuild) {
-        pendingBuild = false;
-        debouncedBuild();
-      }
-    }, 100);
-  }
-
-  const configPatterns = [
-    'senangstart.config.js',
-    'senangstart.config.mjs',
-    'senangstart.config.cjs'
-  ];
-
-  const watchPatterns = [
-    './**/*.html',
-    './**/*.htm',
-    './src/**/*.{html,jsx,tsx,vue,svelte}',
-    './pages/**/*.{html,jsx,tsx}',
-    './components/**/*.{html,jsx,tsx,vue,svelte}',
-    ...configPatterns
-  ];
-
-  const ignorePatterns = [
-    '**/node_modules/**',
-    '**/dist/**',
-    '**/.git/**',
-    '**/public/**'
-  ];
-
-  function handleChange(path) {
-    const isConfig = configPatterns.some(p => path.endsWith(p));
-    if (isConfig) {
-      logger.watch(`Config changed: ${path} — full rebuild required`);
-      try {
-        const resolved = require.resolve(path);
-        delete require.cache[resolved];
-      } catch {
-        // Config may use native ESM — cache clear is best-effort
-      }
-    } else {
-      logger.info(`Changed: ${path}`);
-    }
-    debouncedBuild();
-  }
-
-  function setupWatcher(w) {
-    return w
-      .on('change', handleChange)
-      .on('add', (path) => {
-        logger.info(`Added: ${path}`);
-        debouncedBuild();
-      })
-      .on('unlink', (path) => {
-        logger.info(`Removed: ${path}`);
-        debouncedBuild();
-      })
-      .on('error', (error) => {
-        logger.error(`Watcher error: ${error.message}`);
-        consecutiveErrors++;
-        lastErrorTime = Date.now();
-      });
-  }
-
-  const watcher = setupWatcher(chokidar.watch(watchPatterns, {
-    ignored: ignorePatterns,
-    persistent: true,
-    ignoreInitial: true
-  }));
-
-  // Graceful shutdown
-  function shutdown() {
-    logger.watch('Shutting down...');
-    if (debounceTimer) clearTimeout(debounceTimer);
-    watcher.close().then(() => {
-      process.exit(0);
-    }).catch(() => {
-      process.exit(0);
-    });
-  }
-
-  process.on('SIGINT', shutdown);
-  process.on('SIGTERM', shutdown);
-
-  // Initial build
-  await runBuild();
+  });
 
   logger.watch('Watching for changes... (Ctrl+C to stop)');
+
+  const exitOnSignal = hooks.exitOnSignal !== false;
+  let shuttingDown = false;
+  const shutdown = async (signal) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    logger.watch(`Received ${signal}, shutting down...`);
+    try {
+      await watcher.close();
+    } catch {
+      // ignore
+    }
+    process.off('SIGINT', onSigint);
+    process.off('SIGTERM', onSigterm);
+    if (exitOnSignal) process.exit(0);
+  };
+  const onSigint = () => { shutdown('SIGINT'); };
+  const onSigterm = () => { shutdown('SIGTERM'); };
+  process.on('SIGINT', onSigint);
+  process.on('SIGTERM', onSigterm);
+
+  return {
+    async close() {
+      process.off('SIGINT', onSigint);
+      process.off('SIGTERM', onSigterm);
+      await watcher.close();
+    }
+  };
 }
 
 export default dev;

@@ -7,19 +7,38 @@ import { COLOR_PALETTE } from './colors.js';
 
 export const defaultConfig = {
   // Input files to scan for attributes
+  // Globs are resolved with tinyglobby relative to the project root.
+  // Negation is supported (`'!./legacy/**'`); node_modules/.git/dist are ignored by default.
   content: [
     './**/*.html',
-    './src/**/*.{html,jsx,tsx,vue,svelte}',
-    './pages/**/*.{html,jsx,tsx}',
-    './components/**/*.{html,jsx,tsx}'
+    './**/*.{php,blade.php}',
+    './**/*.{js,jsx,ts,tsx}',
+    './**/*.{vue,svelte,astro}',
+    './**/*.{md,mdx}'
   ],
+
+  // Tokens to always include even if not found in `content` (reserved for the
+  // variant engine; consumed by the build pipeline). Entries are raw tokens
+  // (`'visual=bg:primary'`, `'flex'`, `'p:medium'`) or `{ attr, tokens }`.
+  safelist: [],
+
+  // Reserved: attribute/selector prefix for the variant engine (e.g. 'ss-').
+  // Defined here so configs validate; behaviour is implemented by the engine.
+  prefix: '',
+
+  // Emit CSS wrapped in cascade layers (@layer senang.base, senang.utilities …).
+  // Behaviour implemented by the engine team; defined here for config validation.
+  layers: true,
 
   // Output configuration
   output: {
     css: './public/senangstart.css',
     minify: false,
-    aiContext: './.cursorrules',
-    typescript: './types/senang.d.ts'
+    // OPT-IN: AI context file (e.g. './.cursorrules'). `null`/`false` = disabled.
+    // Generated files carry a marker header; existing files without it are never overwritten.
+    aiContext: null,
+    // OPT-IN: TypeScript definitions (e.g. './types/senang.d.ts'). `null`/`false` = disabled.
+    typescript: null
   },
 
   // Dark mode configuration
@@ -41,6 +60,10 @@ export const defaultConfig = {
   },
 
   theme: {
+    // Expose every theme scale as CSS custom properties (not only used ones).
+    // Behaviour implemented by the engine team; defined here for config validation.
+    exposeAll: false,
+
     // 1. SPACING: The "Natural Object" Scale with multiplier variants
     // Logic: How big is the object/gap physically?
     spacing: {
@@ -196,9 +219,36 @@ export const defaultConfig = {
     perspective: { none: 'none', dramatic: '100px', near: '300px', normal: '500px', midrange: '800px', far: '1000px', distant: '1200px' }
   },
 
-  // Extend or override defaults
+  // Deprecated alias of `theme.extend` (kept for backwards compatibility).
   extend: {}
 };
+
+/**
+ * Recursively freeze an object (defaults must never be mutated at runtime).
+ * @template T
+ * @param {T} obj
+ * @returns {T}
+ */
+export function deepFreeze(obj) {
+  if (obj && typeof obj === 'object' && !Object.isFrozen(obj)) {
+    Object.freeze(obj);
+    for (const value of Object.values(obj)) deepFreeze(value);
+  }
+  return obj;
+}
+
+deepFreeze(defaultConfig);
+
+/** Top-level keys the config loader understands. */
+export const KNOWN_CONFIG_KEYS = Object.freeze([
+  'content', 'safelist', 'prefix', 'layers', 'output', 'darkMode', 'preflight', 'build', 'theme', 'extend'
+]);
+
+/** Known `output` keys. */
+export const KNOWN_OUTPUT_KEYS = Object.freeze(['css', 'minify', 'aiContext', 'typescript']);
+
+/** Known `build` keys. */
+export const KNOWN_BUILD_KEYS = Object.freeze(['ignoreInvalid']);
 
 /**
  * Deep merge utility - safely merges nested objects
@@ -335,37 +385,197 @@ export function validateTheme(theme) {
 }
 
 /**
- * Merge user config with defaults
+ * Structured-clone helper that tolerates functions/class instances by falling
+ * back to a JSON round-trip for the offending subtree.
+ * @param {unknown} value
  */
-export function mergeConfig(userConfig = {}) {
-  const merged = { ...defaultConfig };
+function clone(value) {
+  try {
+    return globalThis.structuredClone(value);
+  } catch {
+    return JSON.parse(JSON.stringify(value));
+  }
+}
 
-  if (userConfig.content) {
-    merged.content = userConfig.content;
+function isPlainObject(v) {
+  return v !== null && typeof v === 'object' && !Array.isArray(v);
+}
+
+/**
+ * Validate a (user or merged) config object.
+ * - Unknown top-level keys → warning
+ * - Wrong types → error
+ * - Theme value problems → warning (see validateTheme)
+ *
+ * @param {Object} config
+ * @returns {{ errors: string[], warnings: string[] }}
+ */
+export function validateConfig(config) {
+  const errors = [];
+  const warnings = [];
+
+  if (!isPlainObject(config)) {
+    errors.push(`config: expected an object, got ${config === null ? 'null' : Array.isArray(config) ? 'array' : typeof config}`);
+    return { errors, warnings };
   }
 
-  if (userConfig.output) {
-    merged.output = { ...merged.output, ...userConfig.output };
+  for (const key of Object.keys(config)) {
+    if (!KNOWN_CONFIG_KEYS.includes(key)) {
+      warnings.push(`Unknown config key "${key}" (known keys: ${KNOWN_CONFIG_KEYS.join(', ')})`);
+    }
   }
 
-  if (userConfig.darkMode !== undefined) {
-    merged.darkMode = userConfig.darkMode;
+  if (config.content !== undefined) {
+    if (!Array.isArray(config.content)) {
+      errors.push(`content: expected an array of glob strings, got ${typeof config.content}`);
+    } else if (config.content.some(p => typeof p !== 'string' || p.length === 0)) {
+      errors.push('content: every entry must be a non-empty string');
+    }
   }
 
-  if (userConfig.preflight !== undefined) {
-    merged.preflight = userConfig.preflight;
+  if (config.safelist !== undefined) {
+    if (!Array.isArray(config.safelist)) {
+      errors.push(`safelist: expected an array, got ${typeof config.safelist}`);
+    } else {
+      config.safelist.forEach((entry, idx) => {
+        if (typeof entry === 'string') return;
+        if (isPlainObject(entry) && typeof entry.attr === 'string' && Array.isArray(entry.tokens)) return;
+        errors.push(`safelist[${idx}]: expected a string or { attr: string, tokens: string[] }`);
+      });
+    }
   }
 
-  if (userConfig.build && typeof userConfig.build === 'object') {
-    merged.build = { ...(merged.build || {}), ...userConfig.build };
+  if (config.prefix !== undefined && typeof config.prefix !== 'string') {
+    errors.push(`prefix: expected a string, got ${typeof config.prefix}`);
   }
 
-  if (userConfig.theme) {
-    merged.theme = deepMerge(merged.theme, userConfig.theme);
+  if (config.layers !== undefined && typeof config.layers !== 'boolean') {
+    errors.push(`layers: expected a boolean, got ${typeof config.layers}`);
   }
 
-  const warnings = validateTheme(merged.theme);
-  if (warnings.length > 0) {
+  if (config.preflight !== undefined && typeof config.preflight !== 'boolean') {
+    errors.push(`preflight: expected a boolean, got ${typeof config.preflight}`);
+  }
+
+  if (config.darkMode !== undefined) {
+    const dm = config.darkMode;
+    const ok = dm === 'media' || dm === 'selector' || dm === false ||
+      (Array.isArray(dm) && dm[0] === 'selector' && typeof dm[1] === 'string');
+    if (!ok) {
+      errors.push(`darkMode: expected 'media' | 'selector' | ['selector', '<css selector>'] | false`);
+    }
+  }
+
+  if (config.output !== undefined) {
+    if (!isPlainObject(config.output)) {
+      errors.push(`output: expected an object, got ${typeof config.output}`);
+    } else {
+      for (const key of Object.keys(config.output)) {
+        if (!KNOWN_OUTPUT_KEYS.includes(key)) warnings.push(`Unknown output key "output.${key}"`);
+      }
+      const { css, minify, aiContext, typescript } = config.output;
+      if (css !== undefined && (typeof css !== 'string' || css.length === 0)) {
+        errors.push('output.css: expected a non-empty path string');
+      }
+      if (minify !== undefined && typeof minify !== 'boolean') {
+        errors.push(`output.minify: expected a boolean, got ${typeof minify}`);
+      }
+      for (const [name, val] of [['aiContext', aiContext], ['typescript', typescript]]) {
+        if (val !== undefined && val !== null && val !== false && typeof val !== 'string') {
+          errors.push(`output.${name}: expected a path string, null or false, got ${typeof val}`);
+        }
+      }
+    }
+  }
+
+  if (config.build !== undefined) {
+    if (!isPlainObject(config.build)) {
+      errors.push(`build: expected an object, got ${typeof config.build}`);
+    } else {
+      for (const key of Object.keys(config.build)) {
+        if (!KNOWN_BUILD_KEYS.includes(key)) warnings.push(`Unknown build key "build.${key}"`);
+      }
+      if (config.build.ignoreInvalid !== undefined && typeof config.build.ignoreInvalid !== 'boolean') {
+        errors.push(`build.ignoreInvalid: expected a boolean, got ${typeof config.build.ignoreInvalid}`);
+      }
+    }
+  }
+
+  if (config.theme !== undefined) {
+    if (!isPlainObject(config.theme)) {
+      errors.push(`theme: expected an object, got ${typeof config.theme}`);
+    } else {
+      if (config.theme.extend !== undefined && !isPlainObject(config.theme.extend)) {
+        errors.push(`theme.extend: expected an object, got ${typeof config.theme.extend}`);
+      }
+      if (config.theme.exposeAll !== undefined && typeof config.theme.exposeAll !== 'boolean') {
+        errors.push(`theme.exposeAll: expected a boolean, got ${typeof config.theme.exposeAll}`);
+      }
+      const scales = { ...config.theme };
+      const _extend = scales.extend;
+      delete scales.extend;
+      delete scales.exposeAll;
+      warnings.push(...validateTheme(scales));
+      if (isPlainObject(_extend)) warnings.push(...validateTheme(_extend).map(w => w.replace('theme.', 'theme.extend.')));
+    }
+  }
+
+  if (config.extend !== undefined && !isPlainObject(config.extend)) {
+    errors.push(`extend: expected an object, got ${typeof config.extend}`);
+  }
+
+  return { errors, warnings };
+}
+
+/**
+ * Merge user config with defaults.
+ *
+ * - Always returns a fresh deep clone (defaults are frozen and never mutated).
+ * - `theme.<scale>` REPLACES nothing: user scales are deep-merged into the
+ *   defaults (backwards compatible behaviour).
+ * - `theme.extend.<scale>` merges into the base theme as well (Tailwind-style);
+ *   it is applied AFTER direct theme keys so it always wins.
+ * - Top-level `extend` is treated as a deprecated alias of `theme.extend`.
+ *
+ * @param {Object} [userConfig]
+ * @param {{ silent?: boolean }} [options] - silent: suppress console theme warnings
+ * @returns {Object} merged config
+ */
+export function mergeConfig(userConfig = {}, options = {}) {
+  const silent = options === true || options?.silent === true;
+  const merged = clone(defaultConfig);
+  if (!isPlainObject(userConfig)) return merged;
+
+  const user = clone(userConfig);
+
+  if (Array.isArray(user.content)) merged.content = user.content;
+  if (Array.isArray(user.safelist)) merged.safelist = user.safelist;
+  if (typeof user.prefix === 'string') merged.prefix = user.prefix;
+  if (typeof user.layers === 'boolean') merged.layers = user.layers;
+
+  if (isPlainObject(user.output)) merged.output = { ...merged.output, ...user.output };
+  if (user.darkMode !== undefined) merged.darkMode = user.darkMode;
+  if (user.preflight !== undefined) merged.preflight = user.preflight;
+  if (isPlainObject(user.build)) merged.build = { ...merged.build, ...user.build };
+
+  let themeExtend = null;
+  if (isPlainObject(user.theme)) {
+    const { extend, ...directTheme } = user.theme;
+    merged.theme = deepMerge(merged.theme, directTheme);
+    if (isPlainObject(extend)) themeExtend = extend;
+  }
+  if (isPlainObject(user.extend) && Object.keys(user.extend).length > 0) {
+    themeExtend = themeExtend ? deepMerge(user.extend, themeExtend) : user.extend;
+    merged.extend = user.extend;
+  }
+  if (themeExtend) {
+    merged.theme = deepMerge(merged.theme, themeExtend);
+  }
+
+  if (!silent) {
+    const scales = { ...merged.theme };
+    delete scales.exposeAll;
+    const warnings = validateTheme(scales);
     for (const w of warnings) {
       console.warn(`[senang] Theme validation: ${w}`);
     }

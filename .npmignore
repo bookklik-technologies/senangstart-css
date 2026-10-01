@@ -1,0 +1,9 @@
+# NOTE: package.json "files" is the allow-list for the tarball. This file only
+# prunes noise from directories that ARE included (dist/, src/, types/, templates/).
+*.old
+*.map.old
+dist/*.old
+src/**/*.test.js
+types/**/*.test.ts
+.DS_Store
+Thumbs.db

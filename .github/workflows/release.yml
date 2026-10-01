@@ -1,63 +1,88 @@
 name: Release
 
+# Publishes to npm with provenance when a `v*` tag is pushed.
+#
+# Requirements:
+#   - Repository secret NPM_TOKEN: an npm "Automation" token (granular access
+#     token with publish rights for @bookklik/senangstart-css, 2FA bypass for
+#     automation). Settings → Secrets and variables → Actions → New repository secret.
+#   - `id-token: write` permission (below) so `--provenance` can sign via Sigstore.
+#   - The tag must match package.json "version" (checked in the verify job).
+#
+# Flow: verify (tests on Node 20/22/24) → publish (npm publish --provenance) → GitHub release.
+
 on:
   push:
     tags:
       - 'v*'
 
 permissions:
-  contents: write
-  id-token: write
+  contents: read
 
 jobs:
-  test:
+  verify:
+    name: Verify (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [20, 22, 24]
+    env:
+      NO_COLOR: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - name: Tag matches package.json version
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          if [ "$PKG_VERSION" != "${GITHUB_REF_NAME}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match package.json version ${PKG_VERSION}"
+            exit 1
+          fi
+      - run: npm run lint
+      - run: npm test
+      - run: npm run golden
+      - run: npm run build:dist
+      - run: npm run size
+      - run: npm run typecheck
+      - run: npm run test:packaging
+
+  publish:
+    name: Publish to npm
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write   # required for --provenance
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
       - run: npm ci
-      - run: npm test
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build:dist
+      # prepublishOnly runs lint, tests, golden, build:dist and size again.
+      - name: Publish
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/
 
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-      - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
   github-release:
+    name: GitHub Release
     needs: publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
