@@ -1,6 +1,6 @@
 {
   "name": "@bookklik/senangstart-css",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Fluent Style Utilities for Humans and AI",
   "type": "module",
   "main": "./dist/senangstart-css.cjs",

@@ -14,10 +14,10 @@ layout="float:[value]" or layout="clear:[value]"
 | `left` | `float: left` | Float left |
 | `right` | `float: right` | Float right |
 | `none` | `float: none` | No float |
-| `clear-left` | `clear: left` | Clear left floats |
-| `clear-right` | `clear: right` | Clear right floats |
-| `clear-both` | `clear: both` | Clear all floats |
-| `clear-none` | `clear: none` | No clear |
+| `left` | `clear: left` | Clear left floats |
+| `right` | `clear: right` | Clear right floats |
+| `both` | `clear: both` | Clear all floats |
+| `none` | `clear: none` | No clear |
 
 ## Examples
 

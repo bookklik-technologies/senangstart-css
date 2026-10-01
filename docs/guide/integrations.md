@@ -1,5 +1,7 @@
 # Integrations
 
+::: v-pre
+
 SenangStart generates CSS by [scanning your content files](/guide/content-scanning) for `layout`, `space` and `visual` attributes. Pick the integration that matches your toolchain — they all share the same config file (`senangstart.config.{js,mjs,cjs,json,ts}`) and the same engine.
 
 | Toolchain | Use | Entry point |
@@ -203,3 +205,5 @@ No bundler at all? The JIT runtime scans the live DOM in the browser:
 ```
 
 Great for prototypes, CMS themes and demos; for production prefer a build-time integration so users download only the CSS you use. See [CDN](/guide/cdn).
+
+:::

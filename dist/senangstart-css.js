@@ -1,4 +1,4 @@
-/* SenangStart CSS - JIT Runtime v0.3.1 | MIT License */
+/* SenangStart CSS - JIT Runtime v0.4.0 | MIT License */
 (() => {
   // src/core/constants.js
   var LIMITS = {

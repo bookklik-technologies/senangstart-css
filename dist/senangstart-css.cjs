@@ -1,4 +1,4 @@
-/* SenangStart CSS - CJS Runtime v0.3.1 | MIT License */
+/* SenangStart CSS - CJS Runtime v0.4.0 | MIT License */
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;

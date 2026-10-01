@@ -1,5 +1,7 @@
 # Content Scanning
 
+::: v-pre
+
 At build time SenangStart reads every file matched by `content`, extracts the tokens used in `layout`, `space`, `visual`, `interact` and `listens` attributes, and generates CSS for exactly those tokens. This page explains which files are read and what the extractor can (and cannot) see.
 
 ## Which files are scanned
@@ -133,3 +135,5 @@ The behaviour above is pinned by fixtures in `tests/fixtures/extractor/` (`html`
 ## Diagnostics
 
 Tokens that are extracted but unknown to the engine (e.g. `space="p:hueg"`) become diagnostics with the file and line of their first occurrence. They fail `senangstart build`, `vite build` and the PostCSS plugin unless `ignoreInvalid` is set — see [CLI › Invalid Token Handling](/guide/cli#invalid-token-handling).
+
+:::

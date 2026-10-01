@@ -4,7 +4,7 @@ All notable changes to SenangStart CSS will be documented in this file.
 
 ---
 
-## [Unreleased] — 0.4.0
+## [0.4.0] — 2026-10-01
 
 ### Security
 - **CRITICAL (C1):** Closed CSS injection through attribute values. Every raw token now passes a shared gate (`checkRawToken`) rejecting `{ } ; < > \\` newline/control characters and misplaced `@`; plain and bracketed values are validated by a balanced-grammar check; attribute selectors are escaped. Build and browser JIT share the same path. Covered by an 18-payload injection suite.
