@@ -4,6 +4,7 @@
  */
 
 import { COLOR_PALETTE } from './colors.js';
+import { OKLCH_PALETTE } from './colors-oklch.js';
 
 export const defaultConfig = {
   // Input files to scan for attributes
@@ -64,6 +65,9 @@ export const defaultConfig = {
     // Expose every theme scale as CSS custom properties (not only used ones).
     // Behaviour implemented by the engine team; defined here for config validation.
     exposeAll: false,
+    // 'hex' (default, Tailwind v3 values) or 'oklch' (Tailwind v4 values, wider gamut).
+    // Semantic colours (primary, success, …) follow the chosen palette.
+    palette: 'hex',
 
     // 1. SPACING: The "Natural Object" Scale with multiplier variants
     // Logic: How big is the object/gap physically?
@@ -510,6 +514,9 @@ export function validateConfig(config) {
       if (config.theme.extend !== undefined && !isPlainObject(config.theme.extend)) {
         errors.push(`theme.extend: expected an object, got ${typeof config.theme.extend}`);
       }
+      if (config.theme.palette !== undefined && !['hex', 'oklch'].includes(config.theme.palette)) {
+        errors.push(`theme.palette: expected 'hex' or 'oklch', got ${JSON.stringify(config.theme.palette)}`);
+      }
       if (config.theme.exposeAll !== undefined && typeof config.theme.exposeAll !== 'boolean') {
         errors.push(`theme.exposeAll: expected a boolean, got ${typeof config.theme.exposeAll}`);
       }
@@ -517,6 +524,7 @@ export function validateConfig(config) {
       const _extend = scales.extend;
       delete scales.extend;
       delete scales.exposeAll;
+      delete scales.palette;
       warnings.push(...validateTheme(scales));
       if (isPlainObject(_extend)) warnings.push(...validateTheme(_extend).map(w => w.replace('theme.', 'theme.extend.')));
     }
@@ -579,9 +587,23 @@ export function mergeConfig(userConfig = {}, options = {}) {
     merged.theme = deepMerge(merged.theme, themeExtend);
   }
 
+  // Opt-in oklch palette: swap palette shades (and the semantic aliases) but keep
+  // every colour the user set explicitly.
+  if (merged.theme.palette === 'oklch' && Object.keys(OKLCH_PALETTE).length) {
+    const userColors = (isPlainObject(user.theme) && isPlainObject(user.theme.colors)) ? user.theme.colors : {};
+    const extendColors = themeExtend && isPlainObject(themeExtend.colors) ? themeExtend.colors : {};
+    const semantic = {
+      grey: OKLCH_PALETTE['gray-500'], light: OKLCH_PALETTE['blue-100'], primary: OKLCH_PALETTE['blue-600'],
+      secondary: OKLCH_PALETTE['blue-800'], success: OKLCH_PALETTE['emerald-500'], warning: OKLCH_PALETTE['amber-500'],
+      danger: OKLCH_PALETTE['red-500']
+    };
+    merged.theme.colors = { ...merged.theme.colors, ...OKLCH_PALETTE, ...semantic, ...extendColors, ...userColors };
+  }
+
   if (!silent) {
     const scales = { ...merged.theme };
     delete scales.exposeAll;
+    delete scales.palette;
     const warnings = validateTheme(scales);
     for (const w of warnings) {
       console.warn(`[senang] Theme validation: ${w}`);

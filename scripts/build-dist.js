@@ -62,6 +62,10 @@ async function slimDefinitionsPlugin() {
         if (args.importer.includes(`${sep}src${sep}engine${sep}`)) return { path: slimPath };
         return null;
       });
+      // The oklch palette (~9 KB) is a build-time option; the CDN runtime keeps the hex palette only.
+      const stubPath = join(buildDir, 'colors-oklch.stub.js');
+      writeFileSync(stubPath, 'export const OKLCH_PALETTE = {};\nexport default OKLCH_PALETTE;\n');
+      build.onResolve({ filter: /colors-oklch\.js$/ }, () => ({ path: stubPath }));
     }
   };
 }

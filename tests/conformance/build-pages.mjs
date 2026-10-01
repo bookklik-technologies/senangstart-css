@@ -33,7 +33,8 @@ export async function buildPages() {
 
     // SenangStart: convert (exact scale) + compile
     const converted = convertHTML(markup, { exact: true });
-    const { css, errors } = compileSource(converted, { preflight: true });
+    // oklch palette → colours match Tailwind v4 exactly, so the suite runs in strict colour mode
+    const { css, errors } = compileSource(converted, { preflight: true, theme: { palette: 'oklch' } });
     writeFileSync(join(outDir, `${name}.senang.html`), SHELL(`${name} (senangstart)`, css, converted));
     writeFileSync(join(outDir, `${name}.converted.html`), converted);
     out.push({ name, errors: errors || [], unknown: [...converted.matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/)).filter(Boolean) });

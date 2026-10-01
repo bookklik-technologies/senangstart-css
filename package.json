@@ -120,7 +120,8 @@
     "typecheck": "tsc -p tests/types/tsconfig.json",
     "golden": "node tests/golden/build-golden.mjs --check",
     "size": "size-limit",
-    "test:conformance": "playwright test --config playwright.conformance.config.js"
+    "test:conformance": "playwright test --config playwright.conformance.config.js",
+    "generate:oklch": "node scripts/generate-oklch-palette.js"
   },
   "keywords": [
     "css",

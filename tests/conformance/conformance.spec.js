@@ -139,13 +139,14 @@ for (const name of fixtures) {
     }
     expect(mismatches, `\n${mismatches.join('\n')}`).toEqual([]);
 
-    // Palette deltas are expected until SenangStart ships an oklch palette (backlog).
-    // They must stay small; set CONFORMANCE_STRICT_COLORS=1 to make them fail.
+    // Palette deltas: with the default hex palette small deltas are expected; with the oklch palette none.
     if (paletteDeltas.length) {
       console.log(`  palette deltas (v4 oklch vs v3 hex): ${paletteDeltas.map((d) => `${d.where} Δ${d.delta}`).join(', ')}`);
     }
     const PALETTE_MAX_DELTA = 40;
     for (const d of paletteDeltas) expect(d.delta, `${d.where}: ${d.expected} vs ${d.actual}`).toBeLessThanOrEqual(PALETTE_MAX_DELTA);
-    if (process.env.CONFORMANCE_STRICT_COLORS) expect(paletteDeltas).toEqual([]);
+    // The pages are built with theme.palette 'oklch', so colours must match exactly
+    // (set CONFORMANCE_LOOSE_COLORS=1 to only bound the deltas, e.g. when testing the hex palette).
+    if (!process.env.CONFORMANCE_LOOSE_COLORS) expect(paletteDeltas.map((d) => `${d.where}: ${d.expected} vs ${d.actual}`)).toEqual([]);
   });
 }

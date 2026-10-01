@@ -195,3 +195,18 @@ After configuring, use your custom scales:
 <div visual="bg:brand text:accent">Custom colors</div>
 <div space="tab:p:big wide:p:huge">Custom breakpoint</div>
 ```
+
+## Colour palette: hex or oklch
+
+The default palette uses Tailwind v3's hex values. Opt into Tailwind v4's wider-gamut
+oklch palette with:
+
+```js
+export default { theme: { palette: 'oklch' } };
+```
+
+Every shade (`blue-500`, …) and the semantic aliases (`primary` = blue-600, `success` =
+emerald-500, `danger` = red-500, …) switch to oklch; colours you define yourself are
+kept. `white`, `black` and `dark` are unchanged. The browser CDN runtime ships the hex
+palette only. With the oklch palette, markup converted from Tailwind renders with
+identical colours (this is how the conformance suite runs).

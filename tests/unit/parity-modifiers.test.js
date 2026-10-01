@@ -101,3 +101,23 @@ describe('gradients', () => {
     assert.ok(!u.includes('body'));
   });
 });
+
+describe('oklch palette', () => {
+  test("theme.palette 'oklch' swaps shades and semantic aliases, keeps user colours", async () => {
+    const { mergeConfig, validateConfig } = await import('../../src/config/defaults.js');
+    const c = mergeConfig({ theme: { palette: 'oklch', colors: { brand: '#123456' } } });
+    assert.match(c.theme.colors['blue-600'], /^oklch\(/);
+    assert.equal(c.theme.colors.primary, c.theme.colors['blue-600']);
+    assert.equal(c.theme.colors.brand, '#123456');
+    assert.equal(c.theme.colors.white, '#FFFFFF');
+    assert.deepEqual(validateConfig(c).errors, []);
+    assert.match(validateConfig(mergeConfig({ theme: { palette: 'p3' } })).errors[0], /palette/);
+    const { css } = compileSource('<b visual="bg:primary/50 text:red-500"></b>', { preflight: false, theme: { palette: 'oklch' } });
+    assert.ok(css.includes('--c-red-500: oklch('));
+    assert.ok(css.includes('color-mix(in srgb, var(--c-primary) 50%, transparent)'));
+  });
+  test('default palette is unchanged (hex)', () => {
+    const { css } = compileSource('<b visual="text:red-500"></b>', { preflight: false });
+    assert.ok(css.includes('--c-red-500: #EF4444'));
+  });
+});

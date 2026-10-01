@@ -1098,6 +1098,15 @@
             }
           }
         },
+        "palette": {
+          "type": "string",
+          "enum": [
+            "hex",
+            "oklch"
+          ],
+          "description": "Colour palette: 'hex' (default, Tailwind v3 values) or 'oklch' (Tailwind v4 values; semantic colours follow).",
+          "default": "hex"
+        },
         "exposeAll": {
           "type": "boolean",
           "description": "Emit every theme scale as CSS custom properties, not only the ones that are used.",

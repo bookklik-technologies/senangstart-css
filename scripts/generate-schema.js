@@ -67,7 +67,7 @@ export function buildSchema(defaults) {
   const themeProperties = {};
   const scaleNames = [];
   for (const [key, value] of Object.entries(theme)) {
-    if (key === 'extend' || key === 'exposeAll') continue;
+    if (key === 'extend' || key === 'exposeAll' || key === 'palette') continue;
     if (value && typeof value === 'object') {
       scaleNames.push(key);
       themeProperties[key] = scaleSchema(key, value);
@@ -232,6 +232,12 @@ export function buildSchema(defaults) {
         properties: {
           ...themeProperties,
           extend: { ...themeScalesSchema, description: 'Additive overrides merged after the direct theme keys.' },
+          palette: {
+            type: 'string',
+            enum: ['hex', 'oklch'],
+            description: "Colour palette: 'hex' (default, Tailwind v3 values) or 'oklch' (Tailwind v4 values; semantic colours follow).",
+            default: theme.palette ?? 'hex'
+          },
           exposeAll: {
             type: 'boolean',
             description: 'Emit every theme scale as CSS custom properties, not only the ones that are used.',
