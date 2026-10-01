@@ -76,6 +76,7 @@ const slimPlugin = await slimDefinitionsPlugin();
     format: 'iife',
     sourcemap: true,
     plugins: [slimPlugin],
+    define: { __SENANGSTART_VERSION__: JSON.stringify(version) },
     outfile: join(distDir, 'senangstart-css.js'),
     minify: false,
     banner: {
@@ -93,6 +94,7 @@ const slimPlugin = await slimDefinitionsPlugin();
     format: 'iife',
     sourcemap: true,
     plugins: [slimPlugin],
+    define: { __SENANGSTART_VERSION__: JSON.stringify(version) },
     outfile: join(distDir, 'senangstart-css.min.js'),
     minify: true,
     banner: {

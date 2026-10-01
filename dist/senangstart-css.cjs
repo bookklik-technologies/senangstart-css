@@ -10577,7 +10577,25 @@ function isValidCSSRule(declaration) {
   if (!property || !value) return false;
   return true;
 }
-function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
+var ruleCache = /* @__PURE__ */ new WeakMap();
+function generateRule(token, config, skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
+  if (!token || typeof token !== "object" || !config || typeof config !== "object") {
+    return generateRuleUncached(token, config, skipDarkWrapper, interactIds);
+  }
+  let perConfig = ruleCache.get(config);
+  if (!perConfig) {
+    perConfig = /* @__PURE__ */ new Map();
+    ruleCache.set(config, perConfig);
+  }
+  const peers = interactIds && interactIds.size ? [...interactIds].sort().join(",") : "";
+  const key = `${token.attrType}\0${token.raw}\0${skipDarkWrapper ? 1 : 0}\0${peers}`;
+  const hit = perConfig.get(key);
+  if (hit !== void 0) return hit;
+  const rule = generateRuleUncached(token, config, skipDarkWrapper, interactIds);
+  perConfig.set(key, rule);
+  return rule;
+}
+function generateRuleUncached(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
   try {
     if (!token || typeof token !== "object") {
       return "";

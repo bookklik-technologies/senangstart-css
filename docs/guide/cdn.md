@@ -93,6 +93,33 @@ For production applications, consider the [CLI build](/guide/cli) for:
 - No runtime overhead
 :::
 
+## How the runtime works (0.4.0)
+
+- **Incremental.** The runtime reads only the elements a DOM mutation touched and
+  caches every generated rule, so adding elements that use known tokens costs
+  nothing; new tokens trigger a recompile that reuses cached rules.
+- **No debounce.** Recompiles run in a microtask right after the mutation batch,
+  so new elements are styled before the next paint (no flash of unstyled content).
+- **Constructed stylesheet.** Styles live in one `CSSStyleSheet` attached via
+  `document.adoptedStyleSheets` (a `<style>` fallback is used in older browsers),
+  so the page's own stylesheets are never touched.
+- **Shadow DOM.** Open and declarative shadow roots are scanned and share the
+  same stylesheet; roots attached later (custom elements upgrading, including
+  closed roots) are picked up automatically.
+- **~34 KB gzipped.** The CDN bundle contains only the engine-relevant parts of
+  the utility definitions.
+
+### Runtime API
+
+```js
+window.SenangStart.css()        // the CSS currently applied (copy it into a static file!)
+window.SenangStart.tokens()     // { layout: [...], space: [...], visual: [...], ... }
+window.SenangStart.recompile()  // force a recompile, returns the CSS
+window.SenangStart.version
+```
+
+Set `"debug": true` in the inline config to log a banner on initialisation.
+
 ## Browser Support
 
 The CDN JIT uses modern JavaScript features:
@@ -104,13 +131,14 @@ Supported in all modern browsers (Chrome, Firefox, Safari, Edge).
 
 ## Debugging
 
-Open your browser's Developer Tools to see:
+Add `"debug": true` to your `<script type="senangstart/config">` and open the
+Developer Tools to see:
 
 ```
 [SenangStart CSS] JIT runtime initialized ✓
 ```
 
-If you don't see this message, check that:
+If you don't see this message (or `window.SenangStart` is undefined), check that:
 1. The script is loading correctly
 2. There are no JavaScript errors in the console
 3. The config JSON (if used) is valid

@@ -2638,7 +2638,25 @@ video {
     if (!property || !value) return false;
     return true;
   }
-  function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
+  var ruleCache = /* @__PURE__ */ new WeakMap();
+  function generateRule(token, config, skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
+    if (!token || typeof token !== "object" || !config || typeof config !== "object") {
+      return generateRuleUncached(token, config, skipDarkWrapper, interactIds);
+    }
+    let perConfig = ruleCache.get(config);
+    if (!perConfig) {
+      perConfig = /* @__PURE__ */ new Map();
+      ruleCache.set(config, perConfig);
+    }
+    const peers = interactIds && interactIds.size ? [...interactIds].sort().join(",") : "";
+    const key = `${token.attrType}\0${token.raw}\0${skipDarkWrapper ? 1 : 0}\0${peers}`;
+    const hit = perConfig.get(key);
+    if (hit !== void 0) return hit;
+    const rule = generateRuleUncached(token, config, skipDarkWrapper, interactIds);
+    perConfig.set(key, rule);
+    return rule;
+  }
+  function generateRuleUncached(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
     try {
       if (!token || typeof token !== "object") {
         return "";
@@ -3082,11 +3100,11 @@ ${breakpointQuery(bp, screens, config)} {
   try {
     (function() {
       "use strict";
-      function validateConfig(config) {
-        if (!config || typeof config !== "object" || Array.isArray(config)) return false;
-        if (config.theme && (typeof config.theme !== "object" || Array.isArray(config.theme))) return false;
-        if (config.content && !Array.isArray(config.content)) return false;
-        if (config.output && typeof config.output !== "object") return false;
+      function validateConfig(config2) {
+        if (!config2 || typeof config2 !== "object" || Array.isArray(config2)) return false;
+        if (config2.theme && (typeof config2.theme !== "object" || Array.isArray(config2.theme))) return false;
+        if (config2.content && !Array.isArray(config2.content)) return false;
+        if (config2.output && typeof config2.output !== "object") return false;
         return true;
       }
       function loadInlineConfig() {
@@ -3114,125 +3132,160 @@ ${breakpointQuery(bp, screens, config)} {
         const user = loadInlineConfig();
         return mergeConfig(user);
       }
-      function scanElement(el, tokens) {
-        const attrs = ["layout", "space", "visual", "interact", "listens"];
-        for (let i = 0; i < attrs.length; i++) {
-          const parts = splitSafeTokens(el.getAttribute(attrs[i]));
-          for (let j = 0; j < parts.length; j++) tokens[attrs[i]].add(parts[j]);
+      const ATTRS2 = ["layout", "space", "visual", "interact", "listens"];
+      const OBSERVE_OPTS = { childList: true, subtree: true, attributes: true, attributeFilter: ATTRS2 };
+      const tokens = { layout: /* @__PURE__ */ new Set(), space: /* @__PURE__ */ new Set(), visual: /* @__PURE__ */ new Set(), interact: /* @__PURE__ */ new Set(), listens: /* @__PURE__ */ new Set() };
+      let dirty = false;
+      function scanElement(el) {
+        if (!el || el.nodeType !== 1 || typeof el.getAttribute !== "function") return;
+        for (let i = 0; i < ATTRS2.length; i++) {
+          if (!el.hasAttribute(ATTRS2[i])) continue;
+          const parts = splitSafeTokens(el.getAttribute(ATTRS2[i]));
+          const set = tokens[ATTRS2[i]];
+          for (let j = 0; j < parts.length; j++) {
+            if (!set.has(parts[j])) {
+              set.add(parts[j]);
+              dirty = true;
+            }
+          }
         }
+        if (el.shadowRoot) registerRoot(el.shadowRoot);
       }
-      function scanRoot(root, tokens) {
-        const elements = root.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
-        for (let i = 0; i < elements.length; i++) {
-          scanElement(elements[i], tokens);
-        }
+      function scanTree(root) {
+        if (!root) return;
+        if (root.nodeType === 1) scanElement(root);
+        if (typeof root.querySelectorAll !== "function") return;
+        const els = root.querySelectorAll("[layout], [space], [visual], [interact], [listens]");
+        for (let i = 0; i < els.length; i++) scanElement(els[i]);
+        const hosts = root.querySelectorAll("*");
+        for (let i = 0; i < hosts.length; i++) if (hosts[i].shadowRoot) registerRoot(hosts[i].shadowRoot);
       }
-      function scanDOM() {
-        const tokens = {
-          layout: /* @__PURE__ */ new Set(),
-          space: /* @__PURE__ */ new Set(),
-          visual: /* @__PURE__ */ new Set(),
-          interact: /* @__PURE__ */ new Set(),
-          listens: /* @__PURE__ */ new Set()
+      const roots = /* @__PURE__ */ new Set();
+      let observer = null;
+      function registerRoot(root) {
+        if (!root || roots.has(root)) return;
+        roots.add(root);
+        adoptInto(root);
+        if (observer) observer.observe(root, OBSERVE_OPTS);
+        if (root !== document) scanTree(root);
+      }
+      function hookAttachShadow() {
+        if (typeof Element === "undefined" || !Element.prototype.attachShadow) return;
+        const original = Element.prototype.attachShadow;
+        if (original.__senangstart) return;
+        const patched = function attachShadow(init2) {
+          const root = original.call(this, init2);
+          queueMicrotask(function() {
+            registerRoot(root);
+            scheduleCompile();
+          });
+          return root;
         };
-        if (!document.body) return tokens;
-        scanRoot(document, tokens);
-        const allEls = document.querySelectorAll("*");
-        for (let i = 0; i < allEls.length; i++) {
-          if (allEls[i].shadowRoot) {
-            scanRoot(allEls[i].shadowRoot, tokens);
+        patched.__senangstart = true;
+        Element.prototype.attachShadow = patched;
+      }
+      const supportsConstructed = typeof CSSStyleSheet !== "undefined" && "replaceSync" in CSSStyleSheet.prototype && "adoptedStyleSheets" in document;
+      let sheet = null;
+      let lastCSS = "";
+      function adoptInto(root) {
+        if (!supportsConstructed) {
+          if (root !== document && root.nodeType === 11) {
+            let el = root.querySelector("style[data-senangstart]");
+            if (!el) {
+              el = document.createElement("style");
+              el.setAttribute("data-senangstart", "");
+              root.appendChild(el);
+            }
+            el.textContent = lastCSS;
           }
+          return;
         }
-        return tokens;
-      }
-      function tokensEqual(a, b) {
-        const keys = ["layout", "space", "visual", "interact", "listens"];
-        for (let i = 0; i < keys.length; i++) {
-          const setA = a[keys[i]];
-          const setB = b[keys[i]];
-          if (setA.size !== setB.size) return false;
-        }
-        for (let i = 0; i < keys.length; i++) {
-          const setA = a[keys[i]];
-          const setB = b[keys[i]];
-          for (const item of setA) {
-            if (!setB.has(item)) return false;
-          }
-        }
-        return true;
-      }
-      function compileCSS(domTokens, config) {
-        const tokens = tokenizeAll(domTokens, config);
-        return generateCSS(tokens, config);
-      }
-      function sanitizeCSSOutput(css) {
-        return css.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "").replace(/@import\s+url\(\s*['"]?(?:javascript|data|vbscript)\s*:/gi, "");
+        if (!sheet) sheet = new CSSStyleSheet();
+        if (!root.adoptedStyleSheets.includes(sheet)) root.adoptedStyleSheets = [...root.adoptedStyleSheets, sheet];
       }
       function injectStyles(css) {
-        const sanitized = sanitizeCSSOutput(css);
-        const head = document.head || document.getElementsByTagName("head")[0];
-        if (!head) return;
-        let styleEl = document.getElementById("senangstart-jit");
-        if (!styleEl) {
-          styleEl = document.createElement("style");
-          styleEl.id = "senangstart-jit";
-          head.appendChild(styleEl);
+        if (css === lastCSS) return;
+        lastCSS = css;
+        if (supportsConstructed) {
+          if (!sheet) sheet = new CSSStyleSheet();
+          sheet.replaceSync(css);
+          return;
         }
-        styleEl.textContent = sanitized;
+        const head = document.head || document.getElementsByTagName("head")[0];
+        if (head) {
+          let styleEl = document.getElementById("senangstart-jit");
+          if (!styleEl) {
+            styleEl = document.createElement("style");
+            styleEl.id = "senangstart-jit";
+            head.appendChild(styleEl);
+          }
+          styleEl.textContent = css;
+        }
+        for (const root of roots) if (root !== document) adoptInto(root);
+      }
+      let config = null;
+      let scheduled = false;
+      function compile() {
+        scheduled = false;
+        if (!dirty) return;
+        dirty = false;
+        const list = tokenizeAll(tokens, config);
+        injectStyles(generateCSS(list, config));
+      }
+      function scheduleCompile() {
+        if (scheduled) return;
+        scheduled = true;
+        queueMicrotask(compile);
+      }
+      function onMutations(records) {
+        for (let i = 0; i < records.length; i++) {
+          const r = records[i];
+          if (r.type === "attributes") {
+            scanElement(r.target);
+          } else if (r.type === "childList") {
+            for (let j = 0; j < r.addedNodes.length; j++) scanTree(r.addedNodes[j]);
+          }
+        }
+        if (dirty) scheduleCompile();
       }
       function init() {
-        const config = getFinalConfig();
-        if (!document.body) {
-          console.warn("[SenangStart] document.body not ready; deferring initialization");
-          if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", function() {
-              init();
-            });
-            return;
-          }
-        }
-        let cachedTokens = scanDOM();
-        let css = compileCSS(cachedTokens, config);
-        injectStyles(css);
-        let debounceTimer = null;
-        const DEBOUNCE_MS = 200;
-        function recompile() {
-          observer.disconnect();
-          const newTokens = scanDOM();
-          if (tokensEqual(cachedTokens, newTokens)) {
-            observer.observe(document.body, {
-              childList: true,
-              subtree: true,
-              attributes: true,
-              attributeFilter: ["layout", "space", "visual", "interact", "listens"]
-            });
-            return;
-          }
-          cachedTokens = newTokens;
-          css = compileCSS(newTokens, config);
-          injectStyles(css);
-          observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ["layout", "space", "visual", "interact", "listens"]
+        config = getFinalConfig();
+        if (!document.body && document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", function() {
+            init();
           });
+          return;
         }
-        const observer = new MutationObserver(function() {
-          if (debounceTimer) clearTimeout(debounceTimer);
-          debounceTimer = setTimeout(recompile, DEBOUNCE_MS);
-        });
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true,
-          attributes: true,
-          attributeFilter: ["layout", "space", "visual", "interact", "listens"]
-        });
-        console.log(
-          "%c[SenangStart CSS]%c Just-in-Time runtime initialized \u2713",
-          "color: #2563EB; font-weight: bold;",
-          "color: #10B981;"
-        );
+        observer = new MutationObserver(onMutations);
+        hookAttachShadow();
+        registerRoot(document);
+        scanTree(document);
+        dirty = true;
+        compile();
+        window.SenangStart = {
+          version: true ? "0.4.0" : "dev",
+          css: function() {
+            return lastCSS;
+          },
+          tokens: function() {
+            const out = {};
+            for (const k of ATTRS2) out[k] = [...tokens[k]];
+            return out;
+          },
+          recompile: function() {
+            dirty = true;
+            compile();
+            return lastCSS;
+          },
+          config
+        };
+        if (config.debug) {
+          console.log(
+            "%c[SenangStart CSS]%c JIT runtime initialized \u2713",
+            "color: #2563EB; font-weight: bold;",
+            "color: #10B981;"
+          );
+        }
       }
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", init);

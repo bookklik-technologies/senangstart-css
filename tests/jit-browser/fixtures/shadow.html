@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SenangStart JIT - Shadow DOM Fixture</title>
+  <script src="/dist/senangstart-css.min.js"></script>
+</head>
+<body>
+  <div id="light" space="p:medium">light DOM</div>
+
+  <!-- declarative shadow root: present before the runtime scans -->
+  <x-card id="declarative">
+    <template shadowrootmode="open">
+      <div id="inner" space="p:big" visual="bg:blue-500">declarative shadow</div>
+    </template>
+  </x-card>
+
+  <!-- element whose shadow root is attached later by script -->
+  <x-late id="late"></x-late>
+</body>
+</html>

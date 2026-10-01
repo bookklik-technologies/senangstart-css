@@ -10,11 +10,10 @@
  */
 import { test, expect } from '@playwright/test';
 
+// 0.4.0: styles live in a constructed CSSStyleSheet (adoptedStyleSheets); the
+// runtime exposes the current CSS via window.SenangStart.css().
 async function getJitStyle(page) {
-  return page.evaluate(() => {
-    const el = document.getElementById('senangstart-jit');
-    return el ? el.textContent : null;
-  });
+  return page.evaluate(() => (window.SenangStart ? window.SenangStart.css() : null));
 }
 
 test.describe('JIT engine', () => {
@@ -24,7 +23,7 @@ test.describe('JIT engine', () => {
     page.on('console', msg => consoleMessages.push(msg.text()));
 
     await page.goto('/tests/jit-browser/fixtures/basic.html');
-    await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
     const css = await getJitStyle(page);
     expect(css).toBeTruthy();
@@ -35,12 +34,14 @@ test.describe('JIT engine', () => {
     expect(css).toContain('[visual~="bg:primary"]');
     expect(css).toContain('background-color: var(--c-primary)');
 
-    expect(consoleMessages.some(m => m.includes('Just-in-Time runtime initialized'))).toBe(true);
+    // The console banner is opt-in (config.debug); the public API signals readiness instead
+    expect(await page.evaluate(() => typeof window.SenangStart.version)).toBe('string');
+    expect(consoleMessages.some(m => /error/i.test(m))).toBe(false);
   });
 
   test('applies compiled styles to the page (computed style check)', async ({ page }) => {
     await page.goto('/tests/jit-browser/fixtures/basic.html');
-    await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
     const display = await page.evaluate(() => getComputedStyle(document.getElementById('target')).display);
     expect(display).toBe('flex');
@@ -48,7 +49,7 @@ test.describe('JIT engine', () => {
 
   test('recompiles when DOM attributes change (MutationObserver)', async ({ page }) => {
     await page.goto('/tests/jit-browser/fixtures/basic.html');
-    await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
     const cssBefore = await getJitStyle(page);
     expect(cssBefore).not.toContain('bg:red-500');
@@ -60,11 +61,8 @@ test.describe('JIT engine', () => {
       document.body.appendChild(el);
     });
 
-    // Wait past the 200ms MutationObserver debounce
-    await page.waitForFunction(() => {
-      const el = document.getElementById('senangstart-jit');
-      return el && el.textContent.includes('bg:red-500');
-    }, { timeout: 5000 });
+    // Recompile happens in a microtask after the mutation batch
+    await page.waitForFunction(() => window.SenangStart.css().includes('bg:red-500'), { timeout: 5000 });
 
     const cssAfter = await getJitStyle(page);
     expect(cssAfter).toContain('[visual~="bg:red-500"]');
@@ -73,7 +71,7 @@ test.describe('JIT engine', () => {
 
   test('does not recompile when the token set is unchanged', async ({ page }) => {
     await page.goto('/tests/jit-browser/fixtures/basic.html');
-    await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
     const cssBefore = await getJitStyle(page);
 
@@ -89,7 +87,7 @@ test.describe('JIT engine', () => {
 
   test('merges <script type="senangstart/config"> theme with defaults', async ({ page }) => {
     await page.goto('/tests/jit-browser/fixtures/config.html');
-    await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
     const css = await getJitStyle(page);
     expect(css).toContain('--c-brand: #123456');
@@ -101,7 +99,7 @@ test.describe('JIT engine', () => {
 
   test('falls back to defaults on invalid config JSON', async ({ page }) => {
     await page.goto('/tests/jit-browser/fixtures/invalid-config.html');
-    await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
     const css = await getJitStyle(page);
     expect(css).toContain('[layout~="flex"]');
@@ -111,7 +109,7 @@ test.describe('JIT engine', () => {
   test.describe('XSS sanitization', () => {
     test('neutralizes javascript: URLs, expression(), and event handlers', async ({ page }) => {
       await page.goto('/tests/jit-browser/fixtures/hostile.html');
-      await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+      await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
       const css = await getJitStyle(page);
       expect(css).toBeTruthy();
@@ -128,7 +126,7 @@ test.describe('JIT engine', () => {
 
     test('keeps the runtime functional alongside hostile attributes', async ({ page }) => {
       await page.goto('/tests/jit-browser/fixtures/hostile.html');
-      await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+      await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
       const css = await getJitStyle(page);
       expect(css).toContain('[visual~="bg:white"]');
@@ -143,10 +141,71 @@ test.describe('JIT engine', () => {
 
     test('strips script tags from any generated output', async ({ page }) => {
       await page.goto('/tests/jit-browser/fixtures/hostile.html');
-      await page.waitForFunction(() => document.getElementById('senangstart-jit'));
+      await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
 
       const css = await getJitStyle(page);
       expect(css).not.toMatch(/<script/i);
     });
+  });
+});
+
+test.describe('JIT engine — incremental + shadow DOM (0.4.0)', () => {
+  test('styles elements inside a declarative shadow root', async ({ page }) => {
+    await page.goto('/tests/jit-browser/fixtures/shadow.html');
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css().includes('bg:blue-500'));
+    const padding = await page.evaluate(() => {
+      const inner = document.getElementById('declarative').shadowRoot.getElementById('inner');
+      return getComputedStyle(inner).paddingTop;
+    });
+    expect(padding).toBe('48px'); // --s-big
+  });
+
+  test('styles a shadow root attached after load, and content added to it', async ({ page }) => {
+    await page.goto('/tests/jit-browser/fixtures/shadow.html');
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
+    await page.evaluate(() => {
+      const host = document.getElementById('late');
+      const root = host.attachShadow({ mode: 'open' });
+      root.innerHTML = '<span id="deep" space="m:giant" visual="text:red-500">late</span>';
+    });
+    await page.waitForFunction(() => window.SenangStart.css().includes('m:giant'), { timeout: 3000 });
+    const [margin, color] = await page.evaluate(() => {
+      const el = document.getElementById('late').shadowRoot.getElementById('deep');
+      const cs = getComputedStyle(el);
+      return [cs.marginTop, cs.color];
+    });
+    expect(margin).toBe('96px'); // --s-giant
+    expect(color).toBe('rgb(239, 68, 68)');
+  });
+
+  test('a newly inserted element is styled before the next frame (no debounce)', async ({ page }) => {
+    await page.goto('/tests/jit-browser/fixtures/basic.html');
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
+    const paddingAtFirstFrame = await page.evaluate(() => new Promise((resolve) => {
+      const el = document.createElement('div');
+      el.setAttribute('space', 'p:giant');
+      document.body.appendChild(el);
+      requestAnimationFrame(() => resolve(getComputedStyle(el).paddingTop));
+    }));
+    expect(paddingAtFirstFrame).toBe('96px');
+  });
+
+  test('recompiles are cheap: 300 insertions of known tokens do not grow the stylesheet or stall', async ({ page }) => {
+    await page.goto('/tests/jit-browser/fixtures/basic.html');
+    await page.waitForFunction(() => window.SenangStart && window.SenangStart.css());
+    const { before, after, ms } = await page.evaluate(async () => {
+      const before = window.SenangStart.css().length;
+      const t = performance.now();
+      for (let i = 0; i < 300; i++) {
+        const el = document.createElement('div');
+        el.setAttribute('space', 'p:medium');
+        el.setAttribute('visual', 'bg:primary');
+        document.body.appendChild(el);
+        await Promise.resolve();
+      }
+      return { before, after: window.SenangStart.css().length, ms: performance.now() - t };
+    });
+    expect(after).toBe(before);
+    expect(ms).toBeLessThan(1500);
   });
 });

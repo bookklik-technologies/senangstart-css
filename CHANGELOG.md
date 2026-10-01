@@ -51,6 +51,13 @@ All notable changes to SenangStart CSS will be documented in this file.
 - Negative `top:`, `inset:`, `translate-*:` values, `z:[5]`, `bg:primary/[.35]` and `calc()` auto-spacing in arbitrary values.
 - Inline scales (blur, brightness, …) fall back to the defaults when a partial theme omits them.
 
+### Changed — browser JIT (CDN)
+- Bundle shrunk from 69 KB to **34 KB gzipped**: the CDN build ships an engine-only view of the utility definitions (documentation metadata stays in the Node library).
+- Incremental runtime: scans only mutated elements, caches generated rules, recompiles in a microtask (the 200 ms debounce and its flash of unstyled content are gone).
+- Styles are injected through a constructed `CSSStyleSheet` + `adoptedStyleSheets` (with a `<style>` fallback) and shared with every shadow root, including declarative roots and roots attached after load.
+- New `window.SenangStart` API: `css()`, `tokens()`, `recompile()`, `version`. The console banner is now opt-in via `"debug": true`.
+- Generated rules are memoised per config in the compiler (`generateRule`), which also speeds up CLI watch rebuilds (~19 ms → ~1.5 ms for the benchmark page).
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING

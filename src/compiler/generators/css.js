@@ -155,7 +155,28 @@ function isValidCSSRule(declaration) {
  * @param {Object} config - Configuration object
  * @param {boolean} skipDarkWrapper - If true, don't add dark mode wrapper (used when generating inside dark block)
  */
-export function generateRule(token, config, _skipDarkWrapper = false, interactIds = new Set()) {
+const ruleCache = new WeakMap();
+
+/**
+ * Memoised wrapper: rules are pure functions of (token, config, interactIds),
+ * so repeated compiles (JIT mutations, CLI watch) only pay for assembly.
+ */
+export function generateRule(token, config, skipDarkWrapper = false, interactIds = new Set()) {
+  if (!token || typeof token !== 'object' || !config || typeof config !== 'object') {
+    return generateRuleUncached(token, config, skipDarkWrapper, interactIds);
+  }
+  let perConfig = ruleCache.get(config);
+  if (!perConfig) { perConfig = new Map(); ruleCache.set(config, perConfig); }
+  const peers = interactIds && interactIds.size ? [...interactIds].sort().join(',') : '';
+  const key = `${token.attrType}\u0000${token.raw}\u0000${skipDarkWrapper ? 1 : 0}\u0000${peers}`;
+  const hit = perConfig.get(key);
+  if (hit !== undefined) return hit;
+  const rule = generateRuleUncached(token, config, skipDarkWrapper, interactIds);
+  perConfig.set(key, rule);
+  return rule;
+}
+
+function generateRuleUncached(token, config, _skipDarkWrapper = false, interactIds = new Set()) {
   try {
     if (!token || typeof token !== 'object') {
       return '';
