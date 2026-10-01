@@ -427,6 +427,10 @@ function checkRawToken(raw) {
   }
   return { ok: true };
 }
+var SCALE_KEY = /^-?[A-Za-z0-9][A-Za-z0-9_./-]*$/;
+function isValidScaleKey(key) {
+  return typeof key === "string" && key.length > 0 && key.length <= 100 && SCALE_KEY.test(key);
+}
 function escapeCSSString(str) {
   if (typeof str !== "string") return "";
   let out = "";
@@ -506,15 +510,106 @@ var STATE_VARIANTS = {
   optional: { selector: ":optional" },
   valid: { selector: ":valid" },
   invalid: { selector: ":invalid" },
-  placeholder: { selector: "::placeholder" }
+  placeholder: { selector: "::placeholder" },
+  // Structural
+  first: { selector: ":first-child" },
+  last: { selector: ":last-child" },
+  only: { selector: ":only-child" },
+  odd: { selector: ":nth-child(odd)" },
+  even: { selector: ":nth-child(even)" },
+  "first-of-type": { selector: ":first-of-type" },
+  "last-of-type": { selector: ":last-of-type" },
+  empty: { selector: ":empty" },
+  // Links & forms
+  visited: { selector: ":visited" },
+  target: { selector: ":target" },
+  enabled: { selector: ":enabled" },
+  indeterminate: { selector: ":indeterminate" },
+  default: { selector: ":default" },
+  autofill: { selector: ":autofill" },
+  "read-only": { selector: ":read-only" },
+  "placeholder-shown": { selector: ":placeholder-shown" },
+  "in-range": { selector: ":in-range" },
+  "out-of-range": { selector: ":out-of-range" },
+  "user-valid": { selector: ":user-valid" },
+  "user-invalid": { selector: ":user-invalid" },
+  open: { selector: ":is([open], :popover-open)" },
+  // Direction (matches the element or any ancestor with dir set)
+  rtl: { selector: ':where([dir="rtl"], [dir="rtl"] *)' },
+  ltr: { selector: ':where([dir="ltr"], [dir="ltr"] *)' },
+  // Pseudo-elements (always placed last in the compound selector)
+  before: { selector: "::before", pseudoElement: true, content: true },
+  after: { selector: "::after", pseudoElement: true, content: true },
+  selection: { selector: "::selection", pseudoElement: true },
+  marker: { selector: "::marker", pseudoElement: true },
+  file: { selector: "::file-selector-button", pseudoElement: true },
+  backdrop: { selector: "::backdrop", pseudoElement: true },
+  "first-line": { selector: "::first-line", pseudoElement: true },
+  "first-letter": { selector: "::first-letter", pseudoElement: true }
 };
+var MEDIA_VARIANTS = {
+  "motion-safe": "(prefers-reduced-motion: no-preference)",
+  "motion-reduce": "(prefers-reduced-motion: reduce)",
+  "contrast-more": "(prefers-contrast: more)",
+  "contrast-less": "(prefers-contrast: less)",
+  "forced-colors": "(forced-colors: active)",
+  portrait: "(orientation: portrait)",
+  landscape: "(orientation: landscape)",
+  "pointer-fine": "(pointer: fine)",
+  "pointer-coarse": "(pointer: coarse)",
+  "hover-none": "(hover: none)"
+};
+var ARBITRARY_ATTR = /^\[([a-z][a-z0-9-]*)(?:=([A-Za-z0-9_ .-]+))?\]$/;
+function patternSelector(part) {
+  if (part.startsWith("aria-")) {
+    const rest = part.slice(5);
+    const m = ARBITRARY_ATTR.exec(rest);
+    if (m) return `[aria-${m[1]}="${m[2] !== void 0 ? m[2].replace(/_/g, " ") : "true"}"]`;
+    if (/^[a-z]+$/.test(rest)) return `[aria-${rest}="true"]`;
+    return null;
+  }
+  if (part.startsWith("data-")) {
+    const rest = part.slice(5);
+    const m = ARBITRARY_ATTR.exec(rest);
+    if (m) return m[2] !== void 0 ? `[data-${m[1]}="${m[2].replace(/_/g, " ")}"]` : `[data-${m[1]}]`;
+    if (/^[a-z][a-z0-9-]*$/.test(rest)) return `[data-${rest}]`;
+    return null;
+  }
+  if (part.startsWith("has-[") && part.endsWith("]")) {
+    const inner = part.slice(5, -1).replace(/_/g, " ");
+    if (/^[A-Za-z0-9 :.#\[\]=()*"'-]+$/.test(inner)) return `:has(${inner})`;
+    return null;
+  }
+  if (part.startsWith("not-")) {
+    const rest = part.slice(4);
+    if (rest.startsWith("[") && rest.endsWith("]")) {
+      const inner = rest.slice(1, -1).replace(/_/g, " ");
+      return /^[A-Za-z0-9 :.#\[\]=()*"'-]+$/.test(inner) ? `:not(${inner})` : null;
+    }
+    const st = STATE_VARIANTS[rest];
+    if (st && !st.pseudoElement && !st.selector.startsWith(":where")) return `:not(${st.selector})`;
+    return null;
+  }
+  return null;
+}
+function stateSelector(p) {
+  if (p.selector) return p.selector;
+  const st = STATE_VARIANTS[p.name];
+  return st ? st.selector : `:${p.name}`;
+}
 var STATE_ORDER = Object.keys(STATE_VARIANTS);
 var customHandlers = /* @__PURE__ */ new Map();
 function parseVariant(part, config) {
   if (typeof part !== "string" || !part) return null;
   if (part === "dark") return { type: "dark", name: "dark" };
-  if (STATE_VARIANTS[part]) return { type: "state", name: part };
+  if (STATE_VARIANTS[part]) {
+    const st = STATE_VARIANTS[part];
+    return { type: "state", name: part, selector: st.selector, pseudoElement: !!st.pseudoElement, content: !!st.content };
+  }
+  if (MEDIA_VARIANTS[part]) return { type: "media", name: part, query: MEDIA_VARIANTS[part] };
   if (customHandlers.has(part)) return { type: "custom", name: part };
+  const pat = patternSelector(part);
+  if (pat) return { type: "state", name: part, selector: pat };
   const names = config && config.theme && config.theme.screens ? Object.keys(config.theme.screens) : BREAKPOINTS.concat(["print"]);
   if (names.includes(part)) return { type: "breakpoint", name: part };
   if (part.startsWith("max-") && names.includes(part.slice(4))) {
@@ -551,76 +646,13 @@ function deriveLegacyFields(variants, config) {
   }
   return { breakpoint, state };
 }
-
-// src/utils/common.js
-function sanitizeValue(value) {
-  if (typeof value !== "string") {
-    return "";
-  }
-  if (value.length > 1e3) {
-    return "";
-  }
-  let sanitized = value;
-  sanitized = sanitized.replace(/[\\`$]/g, "");
-  const dangerousUrlProtocols = [
-    "javascript:",
-    "vbscript:",
-    "data:",
-    "about:",
-    "file:",
-    "ftp:",
-    "mailto:"
-  ].join("|");
-  const urlRegex = /url\s*\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/gi;
-  sanitized = sanitized.replace(urlRegex, (match) => {
-    if (dangerousUrlProtocols.split("|").some((protocol) => match.toLowerCase().includes(protocol))) {
-      return "url(about:blank)";
-    }
-    return match;
-  });
-  const scriptVectors = [
-    /expression\s*\(/gi,
-    // IE expression()
-    /\beval\s*\(/gi,
-    // eval()
-    /\balert\s*\(/gi,
-    // alert()
-    /\bdocument\./gi,
-    // document access
-    /\bwindow\./gi,
-    // window access
-    /on\w+\s*=/gi,
-    // event handlers (onclick=, etc.)
-    /<script[^>]*>/gi,
-    // <script> tags
-    /<\/script>/gi
-    // </script> tags
-  ];
-  for (const pattern of scriptVectors) {
-    sanitized = sanitized.replace(pattern, "");
-  }
-  const atRules = /@(?:import|charset|namespace|supports|keyframes|font-face|media|page)/gi;
-  sanitized = sanitized.replace(atRules, "");
-  sanitized = sanitized.replace(/\([^)]*\)/g, (match) => {
-    const lower = match.toLowerCase();
-    if (lower.includes("javascript") || lower.includes("vbscript") || lower.includes("expression") || lower.includes("progid")) {
-      return "(safe)";
-    }
-    return match;
-  });
-  if (/[;]/.test(sanitized)) {
-    sanitized = sanitized.replace(/[;]/g, "_");
-  }
-  const openBrackets = (sanitized.match(/\[/g) || []).length;
-  const closeBrackets = (sanitized.match(/\]/g) || []).length;
-  if (Math.abs(openBrackets - closeBrackets) > 1 || Math.max(openBrackets, closeBrackets) > 10) {
-    return "";
-  }
-  sanitized = sanitized.replace(/@/g, "");
-  if (sanitized.length > 500) {
-    sanitized = sanitized.substring(0, 500);
-  }
-  return sanitized;
+function tokenVariants(token) {
+  if (Array.isArray(token.variants)) return token.variants;
+  const v = [];
+  if (token.breakpoint) v.push(token.breakpoint);
+  if (token.state === "dark") v.push("dark");
+  else if (token.state) v.push(token.state);
+  return v;
 }
 
 // src/core/tokenizer-core.js
@@ -717,7 +749,16 @@ function tokenize(raw, attrType, config) {
       }
       token.value = normalized;
     } else {
-      const check = validateValue(value);
+      const groups = [];
+      const outer = value.replace(/\[([^\[\]]*)\]/g, (_, inner) => {
+        groups.push(inner);
+        return "x";
+      });
+      let check = /[[\]]/.test(outer) ? { ok: false, reason: "unbalanced brackets" } : validateValue(outer);
+      for (const g of groups) {
+        if (!check.ok) break;
+        check = validateValue(normalizeArbitraryValue(g));
+      }
       if (!check.ok) {
         token.value = value;
         token.error = `Invalid value: ${check.reason}`;
@@ -1620,383 +1661,62 @@ function parseMultipleSources(files, options = {}) {
   return mergeResults(results);
 }
 
-// src/compiler/generators/preflight.js
-function generateContainerCSS(config) {
-  const cfg = config || {};
-  const screens = cfg.theme?.screens;
-  if (!screens || typeof screens !== "object") return "";
-  const containerOverrides = cfg.theme?.container || {};
-  const skipBps = /* @__PURE__ */ new Set(["print"]);
-  let css = "";
-  for (const [bp, width2] of Object.entries(screens)) {
-    if (skipBps.has(bp) || bp.startsWith("tw-")) continue;
-    const maxWidth = containerOverrides[bp] || width2;
-    css += `
-@media (min-width: ${width2}) {
-  [layout~="container"] {
-    max-width: ${maxWidth};
+// src/engine/diagnostics.js
+var CODES = Object.freeze({
+  UNKNOWN_PROPERTY: "UNKNOWN_PROPERTY",
+  UNKNOWN_VALUE: "UNKNOWN_VALUE",
+  UNKNOWN_VARIANT: "UNKNOWN_VARIANT",
+  INVALID_VALUE: "INVALID_VALUE",
+  UNSUPPORTED_COMBINATION: "UNSUPPORTED_COMBINATION",
+  INVALID_TOKEN: "INVALID_TOKEN"
+});
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  let prev = new Array(b.length + 1);
+  let curr = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    curr[0] = i;
+    const ca = a.charCodeAt(i - 1);
+    for (let j = 1; j <= b.length; j++) {
+      const cost = ca === b.charCodeAt(j - 1) ? 0 : 1;
+      curr[j] = Math.min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost);
+    }
+    [prev, curr] = [curr, prev];
   }
+  return prev[b.length];
 }
-`;
+function suggest(input, candidates, maxDistance) {
+  if (typeof input !== "string" || !input) return null;
+  const limit = maxDistance ?? Math.min(3, Math.max(1, Math.floor(input.length / 3)));
+  let best = null;
+  let bestDist = Infinity;
+  const lower = input.toLowerCase();
+  for (const c of candidates) {
+    if (typeof c !== "string" || !c) continue;
+    if (Math.abs(c.length - lower.length) > limit) continue;
+    const d = levenshtein(lower, c.toLowerCase());
+    if (d < bestDist || d === bestDist && best !== null && c < best) {
+      bestDist = d;
+      best = c;
+    }
   }
-  return css;
+  return bestDist <= limit ? best : null;
 }
-function generatePreflight(config) {
-  const css = `/* 
- * SenangStart Preflight v1.0
- * An opinionated set of base styles for SenangStart CSS projects
- * Based on modern-normalize and Tailwind CSS Preflight
- */
-
-/*
- * 1. Prevent padding and border from affecting element width
- * 2. Allow adding a border to an element by just adding a border-width
- */
-*,
-::before,
-::after {
-  box-sizing: border-box; /* 1 */
-  border-width: 0; /* 2 */
-  border-style: solid; /* 2 */
-  border-color: currentColor; /* 2 */
-}
-
-/*
- * 1. Use a consistent sensible line-height in all browsers
- * 2. Prevent adjustments of font size after orientation changes in iOS
- * 3. Use a more readable tab size
- * 4. Use the user's configured sans font-family by default
- * 5. Use the user's configured sans font-feature-settings by default
- * 6. Use the user's configured sans font-variation-settings by default
- * 7. Disable tap highlights on iOS
- */
-html,
-:host {
-  line-height: 1.5; /* 1 */
-  -webkit-text-size-adjust: 100%; /* 2 */
-  -moz-tab-size: 4; /* 3 */
-  tab-size: 4; /* 3 */
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
-  font-feature-settings: normal; /* 5 */
-  font-variation-settings: normal; /* 6 */
-  -webkit-tap-highlight-color: transparent; /* 7 */
-}
-
-/*
- * 1. Remove the margin in all browsers
- * 2. Inherit line-height from html so users can set them as a class directly on the html element
- * 3. Support safe-area-inset for modern devices with notches
- */
-body {
-  margin: 0; /* 1 */
-  line-height: inherit; /* 2 */
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); /* 3 */
-}
-
-/*
- * 1. Add the correct height in Firefox
- * 2. Correct the inheritance of border color in Firefox
- * 3. Ensure horizontal rules are visible by default
- */
-hr {
-  height: 0; /* 1 */
-  color: inherit; /* 2 */
-  border-top-width: 1px; /* 3 */
-}
-
-/*
- * Set default placeholder color to a semi-transparent gray
- * Uses theme variable for customization with fallback
- */
-input::placeholder,
-textarea::placeholder {
-  opacity: 1; /* 1 */
-  color: var(--placeholder-color, #9ca3af); /* 2 */
-}
-
-/*
- * 1. Remove the default font size and weight for headings
- * 2. Make sure links don't get underlined in headings
- */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: inherit; /* 1 */
-  font-weight: inherit; /* 1 */
-  text-decoration: none; /* 2 */
-}
-
-/*
- * Reset links to optimize for opt-in styling instead of opt-out
- */
-a {
-  color: inherit;
-  text-decoration: inherit;
-}
-
-/*
- * Add the correct font weight in Edge and Safari
- */
-b,
-strong {
-  font-weight: bolder;
-}
-
-/*
- * 1. Use the user's configured mono font-family by default
- * 2. Use the user's configured mono font-feature-settings by default
- * 3. Use the user's configured mono font-variation-settings by default
- * 4. Correct the odd em font sizing in all browsers
- */
-code,
-kbd,
-samp,
-pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
-  font-feature-settings: normal; /* 2 */
-  font-variation-settings: normal; /* 3 */
-  font-size: 1em; /* 4 */
-}
-
-/*
- * Add the correct font size in all browsers
- */
-small {
-  font-size: 80%;
-}
-
-/*
- * Prevent sub and sup elements from affecting the line height in all browsers
- */
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-
-sub {
-  bottom: -0.25em;
-}
-
-sup {
-  top: -0.5em;
-}
-
-/*
- * 1. Remove text indentation from table contents in Chrome and Safari
- * 2. Correct table border color inheritance in all Chrome and Safari
- * 3. Remove gaps between table borders by default
- */
-table {
-  text-indent: 0; /* 1 */
-  border-color: inherit; /* 2 */
-  border-collapse: collapse; /* 3 */
-}
-
-/*
- * 1. Change the font styles in all browsers
- * 2. Remove the margin in Firefox and Safari
- * 3. Remove default padding in all browsers
- */
-button,
-input,
-optgroup,
-select,
-textarea {
-  font-family: inherit; /* 1 */
-  font-feature-settings: inherit; /* 1 */
-  font-variation-settings: inherit; /* 1 */
-  font-size: 100%; /* 1 */
-  font-weight: inherit; /* 1 */
-  line-height: inherit; /* 1 */
-  letter-spacing: inherit; /* 1 */
-  color: inherit; /* 1 */
-  margin: 0; /* 2 */
-  padding: 0; /* 3 */
-}
-
-/*
- * Remove the inheritance of text transform in Edge and Firefox
- */
-button,
-select {
-  text-transform: none;
-}
-
-/*
- * 1. Correct the inability to style clickable types in iOS and Safari
- * 2. Remove default button styles
- */
-button,
-input:where([type='button']),
-input:where([type='reset']),
-input:where([type='submit']) {
-  -webkit-appearance: button; /* 1 */
-  background-color: transparent; /* 2 */
-  background-image: none; /* 2 */
-}
-
-/*
- * Use the modern Firefox focus style for all focusable elements
- */
-:-moz-focusring {
-  outline: auto;
-}
-
-/*
- * Remove the additional :invalid styles in Firefox
- */
-:-moz-ui-invalid {
-  box-shadow: none;
-}
-
-/*
- * Add the correct text decoration in Chrome, Edge, and Safari
- */
-abbr:where([title]) {
-  text-decoration: underline dotted;
-}
-
-
-
-/*
- * Correct the cursor style of increment and decrement buttons in Safari
- */
-::-webkit-inner-spin-button,
-::-webkit-outer-spin-button {
-  height: auto;
-}
-
-/*
- * 1. Correct the odd appearance in Chrome and Safari
- * 2. Correct the outline style in Safari
- */
-[type='search'] {
-  -webkit-appearance: textfield; /* 1 */
-  outline-offset: -2px; /* 2 */
-}
-
-/*
- * Remove the inner padding in Chrome and Safari on macOS
- */
-::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-
-/*
- * 1. Correct the inability to style clickable types in iOS and Safari
- * 2. Change font properties to inherit in Safari
- */
-::-webkit-file-upload-button {
-  -webkit-appearance: button; /* 1 */
-  font: inherit; /* 2 */
-}
-
-/*
- * Add the correct display in Chrome and Safari
- */
-summary {
-  display: list-item;
-}
-
-/*
- * Removes the default spacing and border for appropriate elements
- */
-blockquote,
-dl,
-dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-figure,
-p,
-pre {
-  margin: 0;
-}
-
-fieldset {
-  margin: 0;
-  padding: 0;
-}
-
-legend {
-  padding: 0;
-}
-
-
-
-/*
- * Reset default styling for dialogs
- */
-dialog {
-  padding: 0;
-}
-
-/*
- * Prevent resizing textareas horizontally by default
- */
-textarea {
-  resize: vertical;
-}
-
-/*
- * Set the default cursor for buttons
- */
-button,
-[role="button"] {
-  cursor: pointer;
-}
-
-/*
- * Make sure disabled buttons don't get the pointer cursor
- */
-:disabled {
-  cursor: default;
-}
-
-/*
- * 1. Make replaced elements display: block by default
- * 2. Add vertical-align: middle to align replaced elements more sensibly by default
- */
-img,
-svg,
-video,
-canvas,
-audio,
-iframe,
-embed,
-object {
-  display: block; /* 1 */
-  vertical-align: middle; /* 2 */
-}
-
-/*
- * Constrain images and videos to the parent width and preserve their intrinsic aspect ratio
- */
-img,
-video {
-  max-width: 100%;
-  height: auto;
-}
-
-/*
- * Make elements with the HTML hidden attribute stay hidden by default
- */
-[hidden] {
-  display: none;
-}
-
-`;
-  return css + generateContainerCSS(config);
+function diagnostic(token, code, message, suggestion = null) {
+  const d = {
+    raw: token?.raw,
+    attrType: token?.attrType,
+    code,
+    message,
+    // legacy fields kept for existing consumers
+    type: "rule_generation",
+    token: token?.raw
+  };
+  if (suggestion) d.suggestion = suggestion;
+  return d;
 }
 
 // src/definitions/layout-flex.js
@@ -2206,7 +1926,7 @@ var flexShorthand = {
   description: "Flex shorthand property",
   descriptionMs: "Properti pintasan flex",
   category: "layout",
-  engine: { passthrough: true, arbitrary: true },
+  engine: { template: "flex: {value};", passthrough: true, arbitrary: true },
   supportsArbitrary: true,
   dynamic: true,
   values: [
@@ -2251,7 +1971,7 @@ var flexBasis = {
   description: "Set initial size of flex item",
   descriptionMs: "Tetapkan saiz awal item flex",
   category: "layout",
-  engine: { template: "flex-basis: {value};", literals: { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
+  engine: { template: "flex-basis: {value};", enum: { "0": "flex-basis: 0px;" }, literals: { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   usesScale: "spacing",
   supportsArbitrary: true,
   dynamic: true,
@@ -3028,7 +2748,7 @@ var inset = {
   description: "Control positioning offsets",
   descriptionMs: "Kawal ofset kedudukan",
   category: "layout",
-  engine: { negatable: true, literals: { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
+  engine: { negatable: true, literals: { "0": "0", full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   usesScale: "spacing",
   supportsArbitrary: true,
   values: [
@@ -3724,6 +3444,7 @@ function buildLayoutMap(definitions = layoutDefinitions) {
   }
   return map;
 }
+var layout_default = layoutDefinitions;
 
 // src/definitions/space.js
 var padding = {
@@ -3827,6 +3548,7 @@ var margin = {
   name: "margin",
   property: "space",
   syntax: 'space="m:[value]" or space="m-{side}:[value]" or space="m-{side}:-[value]"',
+  engine: { literals: { auto: "auto" } },
   description: "Add margin to elements (prefix value with - for negative)",
   descriptionMs: "Tambah margin pada elemen (awali nilai dengan - untuk negatif)",
   category: "space",
@@ -4021,6 +3743,7 @@ var width = {
   name: "width",
   property: "space",
   syntax: 'space="w:[value]"',
+  engine: { literals: { min: "min-content", max: "max-content", fit: "fit-content", full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   description: "Set element width",
   descriptionMs: "Tetapkan lebar elemen",
   category: "space",
@@ -4155,6 +3878,7 @@ var height = {
   name: "height",
   property: "space",
   syntax: 'space="h:[value]"',
+  engine: { literals: { min: "min-content", max: "max-content", fit: "fit-content", full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   description: "Set element height",
   descriptionMs: "Tetapkan tinggi elemen",
   category: "space",
@@ -4288,6 +4012,7 @@ var size = {
   name: "size",
   property: "space",
   syntax: 'space="size:[value]"',
+  engine: { literals: { min: "min-content", max: "max-content", fit: "fit-content", full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   description: "Set width and height simultaneously",
   descriptionMs: "Tetapkan lebar dan tinggi serentak",
   category: "space",
@@ -4402,12 +4127,14 @@ function buildSpacePropertyMap() {
   }
   return map;
 }
+var space_default = spaceDefinitions;
 
 // src/definitions/visual.js
 var backgroundColor = {
   name: "background-color",
   property: "visual",
   syntax: 'visual="bg:[color]/[opacity]"',
+  engine: { template: "background-color: {value};" },
   description: "Set background color",
   descriptionMs: "Tetapkan warna latar belakang",
   category: "visual",
@@ -4442,6 +4169,7 @@ var textColor = {
   name: "text-color",
   property: "visual",
   syntax: 'visual="text:[color]/[opacity]"',
+  engine: { template: "color: {value};" },
   description: "Set text color",
   descriptionMs: "Tetapkan warna teks",
   category: "visual",
@@ -4474,6 +4202,7 @@ var fontSize = {
   name: "text-size",
   property: "visual",
   syntax: 'visual="text-size:[value]"',
+  engine: { valuesAreExamples: true, template: "font-size: {value}; line-height: var(--font-lh-{key});", twTemplate: "font-size: {value}; line-height: var(--tw-leading-{key});", arbitraryTemplate: "font-size: {value};" },
   description: "Set font size",
   descriptionMs: "Tetapkan saiz fon",
   category: "visual",
@@ -4701,6 +4430,7 @@ var borderRadius = {
   name: "border-radius",
   property: "visual",
   syntax: 'visual="rounded:[value]" | visual="rounded-{t|b|l|r|tl|tr|bl|br}:[value]"',
+  engine: { templates: { "rounded": "border-radius: {value};", "rounded-t": "border-top-left-radius: {value}; border-top-right-radius: {value};", "rounded-b": "border-bottom-left-radius: {value}; border-bottom-right-radius: {value};", "rounded-l": "border-top-left-radius: {value}; border-bottom-left-radius: {value};", "rounded-r": "border-top-right-radius: {value}; border-bottom-right-radius: {value};", "rounded-tl": "border-top-left-radius: {value};", "rounded-tr": "border-top-right-radius: {value};", "rounded-bl": "border-bottom-left-radius: {value};", "rounded-br": "border-bottom-right-radius: {value};" } },
   description: "Set border radius for all corners or specific corners",
   descriptionMs: "Tetapkan jejari sempadan untuk semua bucu atau bucu tertentu",
   category: "visual",
@@ -4838,6 +4568,7 @@ var blur = {
   name: "filter-blur",
   property: "visual",
   syntax: 'visual="blur:[value]"',
+  engine: { scale: "blur", varPrefix: false, valuesAreExamples: true, template: "filter: blur({value});", enum: { none: "filter: none;" } },
   description: "Apply blur filter",
   descriptionMs: "Terapkan penapis kabur",
   category: "visual",
@@ -4999,6 +4730,7 @@ var accentColor = {
   name: "accent-color",
   property: "visual",
   syntax: 'visual="accent:[color]/[opacity]"',
+  engine: { template: "accent-color: {value};" },
   description: "Set accent color for form controls",
   descriptionMs: "Tetapkan warna aksen untuk kawalan borang",
   category: "visual",
@@ -5028,6 +4760,7 @@ var caretColor = {
   name: "caret-color",
   property: "visual",
   syntax: 'visual="caret:[color]/[opacity]"',
+  engine: { template: "caret-color: {value};" },
   description: "Set text input caret color",
   descriptionMs: "Tetapkan warna karet input teks",
   category: "visual",
@@ -5122,6 +4855,7 @@ var backgroundImage = {
   name: "background-image",
   property: "visual",
   syntax: 'visual="bg-image:[value]"',
+  engine: { arbitraryWrap: "url", enum: { "gradient-to-t": "background-image: linear-gradient(to top, var(--ss-gradient-stops, transparent));", "gradient-to-tr": "background-image: linear-gradient(to top right, var(--ss-gradient-stops, transparent));", "gradient-to-r": "background-image: linear-gradient(to right, var(--ss-gradient-stops, transparent));", "gradient-to-br": "background-image: linear-gradient(to bottom right, var(--ss-gradient-stops, transparent));", "gradient-to-b": "background-image: linear-gradient(to bottom, var(--ss-gradient-stops, transparent));", "gradient-to-bl": "background-image: linear-gradient(to bottom left, var(--ss-gradient-stops, transparent));", "gradient-to-l": "background-image: linear-gradient(to left, var(--ss-gradient-stops, transparent));", "gradient-to-tl": "background-image: linear-gradient(to top left, var(--ss-gradient-stops, transparent));" } },
   description: "Set background image or gradient",
   descriptionMs: "Tetapkan imej latar atau gradien",
   category: "visual",
@@ -5242,6 +4976,7 @@ var backgroundPosition = {
   name: "background-position",
   property: "visual",
   syntax: 'visual="bg-pos:[value]"',
+  engine: { aliases: ["bg-position"] },
   description: "Set background position",
   descriptionMs: "Tetapkan kedudukan latar",
   category: "visual",
@@ -5376,6 +5111,7 @@ var backdropBlur = {
   name: "backdrop-blur",
   property: "visual",
   syntax: 'visual="backdrop-blur:[value]"',
+  engine: { scale: "blur", varPrefix: false, valuesAreExamples: true, template: "backdrop-filter: blur({value});" },
   description: "Blur backdrop",
   descriptionMs: "Kaburkan latar belakang",
   category: "visual",
@@ -5411,6 +5147,7 @@ var backdropBrightness = {
   name: "backdrop-brightness",
   property: "visual",
   syntax: 'visual="backdrop-brightness:[value]"',
+  engine: { scale: "brightness", varPrefix: false, valuesAreExamples: true, template: "backdrop-filter: brightness({value});" },
   description: "Adjust backdrop brightness",
   descriptionMs: "Laraskan kecerahan latar belakang",
   category: "visual",
@@ -5444,6 +5181,7 @@ var backdropContrast = {
   name: "backdrop-contrast",
   property: "visual",
   syntax: 'visual="backdrop-contrast:[value]"',
+  engine: { scale: "contrast", varPrefix: false, valuesAreExamples: true, template: "backdrop-filter: contrast({value});" },
   description: "Adjust backdrop contrast",
   descriptionMs: "Laraskan kontras latar belakang",
   category: "visual",
@@ -5477,6 +5215,7 @@ var backdropGrayscale = {
   name: "backdrop-grayscale",
   property: "visual",
   syntax: 'visual="backdrop-grayscale:[value]"',
+  engine: { scale: "grayscale", varPrefix: false, valuesAreExamples: true, template: "backdrop-filter: grayscale({value});" },
   description: "Apply grayscale to backdrop",
   descriptionMs: "Terapkan skala kelabu pada latar belakang",
   category: "visual",
@@ -5539,6 +5278,7 @@ var backdropInvert = {
   name: "backdrop-invert",
   property: "visual",
   syntax: 'visual="backdrop-invert:[value]"',
+  engine: { scale: "invert", varPrefix: false, valuesAreExamples: true, template: "backdrop-filter: invert({value});" },
   description: "Invert backdrop colors",
   descriptionMs: "Songsangkan warna latar belakang",
   category: "visual",
@@ -5569,6 +5309,7 @@ var backdropOpacity = {
   name: "backdrop-opacity",
   property: "visual",
   syntax: 'visual="backdrop-opacity:[value]"',
+  engine: { scale: "backdropOpacity", varPrefix: false },
   description: "Set backdrop opacity",
   descriptionMs: "Tetapkan kelegapan latar belakang",
   category: "visual",
@@ -5601,6 +5342,7 @@ var backdropSaturate = {
   name: "backdrop-saturate",
   property: "visual",
   syntax: 'visual="backdrop-saturate:[value]"',
+  engine: { scale: "saturate", varPrefix: false, valuesAreExamples: true, template: "backdrop-filter: saturate({value});" },
   description: "Adjust backdrop saturation",
   descriptionMs: "Laraskan ketepuan latar belakang",
   category: "visual",
@@ -5634,6 +5376,7 @@ var backdropSepia = {
   name: "backdrop-sepia",
   property: "visual",
   syntax: 'visual="backdrop-sepia:[value]"',
+  engine: { scale: "sepia", varPrefix: false, valuesAreExamples: true, template: "backdrop-filter: sepia({value});" },
   description: "Apply sepia to backdrop",
   descriptionMs: "Terapkan sepia pada latar belakang",
   category: "visual",
@@ -5664,6 +5407,7 @@ var gradientFrom = {
   name: "gradient-from",
   property: "visual",
   syntax: 'visual="from:[color]/[opacity]"',
+  engine: { valuesAreExamples: true, template: "--ss-gradient-from: {value}; --ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to);" },
   description: "Set gradient start color",
   descriptionMs: "Tetapkan warna mula gradien",
   category: "visual",
@@ -5694,6 +5438,7 @@ var gradientVia = {
   name: "gradient-via",
   property: "visual",
   syntax: 'visual="via:[color]/[opacity]"',
+  engine: { valuesAreExamples: true, template: "--ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), {value}, var(--ss-gradient-to);" },
   description: "Set gradient middle color",
   descriptionMs: "Tetapkan warna tengah gradien",
   category: "visual",
@@ -5722,6 +5467,7 @@ var gradientTo = {
   name: "gradient-to",
   property: "visual",
   syntax: 'visual="to:[color]/[opacity]"',
+  engine: { valuesAreExamples: true, template: "--ss-gradient-to: {value};" },
   description: "Set gradient end color",
   descriptionMs: "Tetapkan warna akhir gradien",
   category: "visual",
@@ -5777,6 +5523,7 @@ var scrollBehavior = {
   name: "scroll-behavior",
   property: "visual",
   syntax: 'visual="scroll-behavior:[value]"',
+  engine: { aliases: ["scroll"] },
   description: "Set scroll behavior",
   descriptionMs: "Tetapkan kelakuan skrol",
   category: "visual",
@@ -5805,6 +5552,7 @@ var scrollMargin = {
   name: "scroll-margin",
   property: "visual",
   syntax: 'visual="scroll-m:[value]"',
+  engine: { utilities: { "scroll-m-x": { template: "scroll-margin-left: {value}; scroll-margin-right: {value};" }, "scroll-m-y": { template: "scroll-margin-top: {value}; scroll-margin-bottom: {value};" } } },
   description: "Set scroll margin for snap",
   descriptionMs: "Tetapkan margin skrol untuk snap",
   category: "visual",
@@ -5838,6 +5586,7 @@ var scrollPadding = {
   name: "scroll-padding",
   property: "visual",
   syntax: 'visual="scroll-p:[value]"',
+  engine: { utilities: { "scroll-p-x": { template: "scroll-padding-left: {value}; scroll-padding-right: {value};" }, "scroll-p-y": { template: "scroll-padding-top: {value}; scroll-padding-bottom: {value};" } } },
   description: "Set scroll padding for snap",
   descriptionMs: "Tetapkan padding skrol untuk snap",
   category: "visual",
@@ -5930,6 +5679,7 @@ var scrollSnapType = {
   name: "scroll-snap-type",
   property: "visual",
   syntax: 'visual="snap-type:[value]"',
+  engine: { aliases: ["snap"], enum: { "both-proximity": "scroll-snap-type: both proximity;" } },
   description: "Set scroll snap type",
   descriptionMs: "Tetapkan jenis snap skrol",
   category: "visual",
@@ -6118,6 +5868,7 @@ var forcedColorAdjust = {
   name: "forced-color-adjust",
   property: "visual",
   syntax: 'visual="forced-color:[value]"',
+  engine: { aliases: ["forced-colors"] },
   description: "Control forced colors mode behavior",
   descriptionMs: "Kawal kelakuan mod warna paksa",
   category: "visual",
@@ -6256,6 +6007,7 @@ var textOverflow = {
   name: "text-overflow",
   property: "visual",
   syntax: 'visual="[overflow-value]"',
+  engine: { utilities: { content: { template: "content: {value};", quote: true, passthrough: true, arbitrary: true } } },
   description: "Handle text overflow",
   descriptionMs: "Kendalikan limpahan teks",
   category: "visual",
@@ -6599,6 +6351,7 @@ var textShadow = {
   name: "text-shadow",
   property: "visual",
   syntax: 'visual="text-shadow:[value]"',
+  engine: { enum: { medium: "text-shadow: 0 2px 4px rgba(0,0,0,0.15);", big: "text-shadow: 0 4px 8px rgba(0,0,0,0.2);" } },
   description: "Add text shadow",
   descriptionMs: "Tambah bayang teks",
   category: "visual",
@@ -6666,6 +6419,7 @@ var textDecorationColor = {
   name: "text-decoration-color",
   property: "visual",
   syntax: 'visual="decoration:[color]/[opacity]"',
+  engine: { template: "text-decoration-color: {value};" },
   description: "Set text decoration color",
   descriptionMs: "Tetapkan warna hiasan teks",
   category: "visual",
@@ -6696,6 +6450,7 @@ var textDecorationThickness = {
   name: "text-decoration-thickness",
   property: "visual",
   syntax: 'visual="decoration-thickness:[value]"',
+  engine: { numeric: { unit: "px" }, utilities: { "underline-offset": { template: "text-underline-offset: {value};", numeric: { unit: "px" }, literals: { auto: "auto" }, arbitrary: true } } },
   description: "Set text decoration thickness",
   descriptionMs: "Tetapkan ketebalan hiasan teks",
   category: "visual",
@@ -6852,6 +6607,7 @@ var rotate3d = {
   name: "transform-rotate-3d",
   property: "visual",
   syntax: 'visual="rotate-x:[degrees]" or visual="rotate-y:[degrees]" or visual="rotate-z:[degrees]"',
+  engine: { templates: { "rotate-x": "transform: rotateX({value});", "rotate-y": "transform: rotateY({value});", "rotate-z": "transform: rotateZ({value});" } },
   description: "Rotate element in 3D space along X, Y, or Z axis",
   descriptionMs: "Putar elemen dalam ruang 3D sepanjang paksi X, Y, atau Z",
   category: "visual",
@@ -6902,6 +6658,7 @@ var translateZ = {
   name: "transform-translate-z",
   property: "visual",
   syntax: 'visual="translate-z:[value]"',
+  engine: { scale: "spacing", valuesAreExamples: true, negatable: true, template: "transform: translateZ({value});", literals: { "0": "0", near: "50px", far: "-50px" } },
   description: "Translate element along Z axis (depth) in 3D space",
   descriptionMs: "Alihkan elemen sepanjang paksi Z (kedalaman) dalam ruang 3D",
   category: "visual",
@@ -7025,6 +6782,7 @@ var mask = {
   name: "mask",
   property: "visual",
   syntax: 'visual="mask:[value]"',
+  engine: { utilities: { "mask-clip": { template: "mask-clip: {value};", literals: { border: "border-box", padding: "padding-box", content: "content-box", text: "text" }, passthrough: true, arbitrary: true }, "mask-composite": { template: "mask-composite: {value};", passthrough: true }, "mask-image": { template: "mask-image: url({value});", arbitraryTemplate: "mask-image: {value};", arbitraryWrap: "url", literals: { none: "none" }, arbitrary: true, passthrough: true }, "mask-mode": { template: "mask-mode: {value};", passthrough: true }, "mask-origin": { template: "mask-origin: {value};", literals: { border: "border-box", padding: "padding-box", content: "content-box" }, passthrough: true }, "mask-position": { template: "mask-position: {value};", literals: { "top-left": "top left", "top-right": "top right", "bottom-left": "bottom left", "bottom-right": "bottom right" }, passthrough: true, arbitrary: true }, "mask-repeat": { template: "mask-repeat: {value};", passthrough: true }, "mask-size": { template: "mask-size: {value};", passthrough: true, arbitrary: true }, "mask-type": { template: "mask-type: {value};", passthrough: true } } },
   description: "Apply mask to element",
   descriptionMs: "Terapkan topeng pada elemen",
   category: "visual",
@@ -7104,6 +6862,7 @@ var filterBrightness = {
   name: "filter-brightness",
   property: "visual",
   syntax: 'visual="brightness:[value]"',
+  engine: { scale: "brightness", varPrefix: false, valuesAreExamples: true, template: "filter: brightness({value});" },
   description: "Adjust brightness",
   descriptionMs: "Laraskan kecerahan",
   category: "visual",
@@ -7137,6 +6896,7 @@ var filterContrast = {
   name: "filter-contrast",
   property: "visual",
   syntax: 'visual="contrast:[value]"',
+  engine: { scale: "contrast", varPrefix: false, valuesAreExamples: true, template: "filter: contrast({value});" },
   description: "Adjust contrast",
   descriptionMs: "Laraskan kontras",
   category: "visual",
@@ -7170,6 +6930,7 @@ var filterGrayscale = {
   name: "filter-grayscale",
   property: "visual",
   syntax: 'visual="grayscale:[value]"',
+  engine: { scale: "grayscale", varPrefix: false, valuesAreExamples: true, template: "filter: grayscale({value});" },
   description: "Apply grayscale filter",
   descriptionMs: "Terapkan penapis skala kelabu",
   category: "visual",
@@ -7233,6 +6994,7 @@ var filterInvert = {
   name: "filter-invert",
   property: "visual",
   syntax: 'visual="invert:[value]"',
+  engine: { scale: "invert", varPrefix: false, valuesAreExamples: true, template: "filter: invert({value});" },
   description: "Invert colors",
   descriptionMs: "Songsangkan warna",
   category: "visual",
@@ -7263,6 +7025,7 @@ var filterSaturate = {
   name: "filter-saturate",
   property: "visual",
   syntax: 'visual="saturate:[value]"',
+  engine: { scale: "saturate", varPrefix: false, valuesAreExamples: true, template: "filter: saturate({value});" },
   description: "Adjust saturation",
   descriptionMs: "Laraskan ketepuan",
   category: "visual",
@@ -7296,6 +7059,7 @@ var filterSepia = {
   name: "filter-sepia",
   property: "visual",
   syntax: 'visual="sepia:[value]"',
+  engine: { scale: "sepia", varPrefix: false, valuesAreExamples: true, template: "filter: sepia({value});" },
   description: "Apply sepia filter",
   descriptionMs: "Terapkan penapis sepia",
   category: "visual",
@@ -7327,6 +7091,7 @@ var filterDropShadow = {
   name: "filter-drop-shadow",
   property: "visual",
   syntax: 'visual="drop-shadow:[value]"',
+  engine: { scale: "dropShadow", varPrefix: false, valuesAreExamples: true, template: "filter: drop-shadow({value});" },
   description: "Add drop shadow",
   descriptionMs: "Tambah bayang jatuh",
   category: "visual",
@@ -7374,6 +7139,7 @@ var transitionProperty = {
   name: "transition-property",
   property: "visual",
   syntax: 'visual="transition:[value]"',
+  engine: { keywords: { "transition-none": "transition-property: none;" }, utilities: { "transition-behavior": { template: "transition-behavior: {value};", passthrough: true } }, scale: "transitionProperty", varPrefix: false, valuesAreExamples: true, template: "transition-property: {value}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;" },
   description: "Set transition properties",
   descriptionMs: "Tetapkan properti peralihan",
   category: "visual",
@@ -7749,6 +7515,7 @@ var transformScale = {
   name: "transform-scale",
   property: "visual",
   syntax: 'visual="scale:[value]"',
+  engine: { utilities: { "scale-x": { template: "transform: scaleX({value});", numeric: { unit: "", divide: 100 }, arbitrary: true }, "scale-y": { template: "transform: scaleY({value});", numeric: { unit: "", divide: 100 }, arbitrary: true } } },
   description: "Scale element",
   descriptionMs: "Skala elemen",
   category: "visual",
@@ -7818,6 +7585,7 @@ var transformTranslate = {
   name: "transform-translate",
   property: "visual",
   syntax: 'visual="translate-x:[value]" or visual="translate-y:[value]" or visual="translate-z:[value]"',
+  engine: { prefixes: ["translate-x", "translate-y"], negatable: true, templates: { "translate-x": "transform: translateX({value});", "translate-y": "transform: translateY({value});" }, literals: { "0": "0", full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/1": "100%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "2/4": "50%", "3/4": "75%" } },
   description: "Translate element position along X, Y, or Z axis",
   descriptionMs: "Alihkan kedudukan elemen sepanjang paksi X, Y, atau Z",
   category: "visual",
@@ -7868,6 +7636,7 @@ var transformSkew = {
   name: "transform-skew",
   property: "visual",
   syntax: 'visual="skew-x:[degrees]" or visual="skew-y:[degrees]"',
+  engine: { utilities: { "-skew-x": { template: "transform: skewX(-{value});", numeric: { unit: "deg" }, arbitrary: true }, "-skew-y": { template: "transform: skewY(-{value});", numeric: { unit: "deg" }, arbitrary: true } }, templates: { "skew-x": "transform: skewX({value});", "skew-y": "transform: skewY({value});" } },
   description: "Skew element",
   descriptionMs: "Condongkan elemen",
   category: "visual",
@@ -7947,6 +7716,7 @@ var borderColor = {
   name: "border",
   property: "visual",
   syntax: 'visual="border:[color]/[opacity]" | visual="border-{t|b|l|r|x|y}:[color]/[opacity]"',
+  engine: { templates: { "border": "border-color: {value}; border-style: solid;", "border-t": "border-top-color: {value}; border-top-style: solid;", "border-b": "border-bottom-color: {value}; border-bottom-style: solid;", "border-l": "border-left-color: {value}; border-left-style: solid;", "border-r": "border-right-color: {value}; border-right-style: solid;", "border-x": "border-left-color: {value}; border-right-color: {value}; border-left-style: solid; border-right-style: solid;", "border-y": "border-top-color: {value}; border-bottom-color: {value}; border-top-style: solid; border-bottom-style: solid;" } },
   description: "Set border color for all sides or specific sides",
   descriptionMs: "Tetapkan warna sempadan untuk semua sisi atau sisi tertentu",
   category: "visual",
@@ -7996,6 +7766,7 @@ var borderWidth = {
   name: "border-width",
   property: "visual",
   syntax: 'visual="border-w:[value]" | visual="border-{t|b|l|r|x|y}-w:[value]"',
+  engine: { templates: { "border-w": "border-width: {value};", "border-t-w": "border-top-width: {value};", "border-b-w": "border-bottom-width: {value};", "border-l-w": "border-left-width: {value};", "border-r-w": "border-right-width: {value};", "border-x-w": "border-left-width: {value}; border-right-width: {value};", "border-y-w": "border-top-width: {value}; border-bottom-width: {value};" } },
   description: "Set border width for all sides or specific sides",
   descriptionMs: "Tetapkan lebar sempadan untuk semua sisi atau sisi tertentu",
   category: "visual",
@@ -8098,6 +7869,7 @@ var outlineColor = {
   name: "outline",
   property: "visual",
   syntax: 'visual="outline:[color]/[opacity]"',
+  engine: { template: "outline-color: {value};", enum: { none: "outline: none;" } },
   description: "Set outline color",
   descriptionMs: "Tetapkan warna garis luar",
   category: "visual",
@@ -8190,6 +7962,7 @@ var ring = {
   name: "ring",
   property: "visual",
   syntax: 'visual="ring:[size]"',
+  engine: { keywords: { "ring-inset": "--ring-inset: inset;" }, utilities: { "ring-w": { template: "--ss-ring-width: {value};", scale: "spacing", numeric: { unit: "px" }, arbitrary: true } }, scale: "spacing", valuesAreExamples: true, template: "--ss-ring-width: {value}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color);", literals: { thin: "1px", regular: "2px", small: "4px", medium: "6px", big: "8px" }, numeric: { unit: "px" }, enum: { none: "box-shadow: 0 0 #0000;" } },
   description: "Add focus ring around element using box-shadow",
   descriptionMs: "Tambah cincin fokus pada elemen menggunakan box-shadow",
   category: "visual",
@@ -8225,6 +7998,7 @@ var ringColor = {
   name: "ring-color",
   property: "visual",
   syntax: 'visual="ring-color:[color]/[opacity]"',
+  engine: { utilities: { "ring-offset-color": { template: "--ss-ring-offset-color: {value};", scale: "colors", color: true, arbitrary: true } } },
   description: "Set ring color",
   descriptionMs: "Tetapkan warna cincin",
   category: "visual",
@@ -8257,6 +8031,7 @@ var ringOffset = {
   name: "ring-offset",
   property: "visual",
   syntax: 'visual="ring-offset:[size]"',
+  engine: { scale: "spacing", numeric: { unit: "px" } },
   description: "Add gap between ring and element",
   descriptionMs: "Tambah ruang antara cincin dan elemen",
   category: "visual",
@@ -8303,6 +8078,7 @@ var divideColor = {
   name: "divide",
   property: "visual",
   syntax: 'visual="divide:[color]/[opacity]" | visual="divide-{x|y}:[color]/[opacity]" | visual="divide-{x|y}:reverse"',
+  engine: { prefixes: ["divide", "divide-x", "divide-y"], templates: { "divide": "border-color: {value}; border-style: solid;", "divide-x": "border-left-color: {value}; border-right-color: {value}; border-left-style: solid; border-right-style: solid;", "divide-y": "border-top-color: {value}; border-bottom-color: {value}; border-top-style: solid; border-bottom-style: solid;" } },
   description: "Add borders between child elements",
   descriptionMs: "Tambah sempadan antara elemen anak",
   category: "visual",
@@ -8363,6 +8139,7 @@ var divideWidth = {
   name: "divide-width",
   property: "visual",
   syntax: 'visual="divide-w:[value]" | visual="divide-{x|y}-w:[value]"',
+  engine: { templates: { "divide-w": "border-top-width: calc({value} * (1 - var(--ss-divide-y-reverse))); border-bottom-width: calc({value} * var(--ss-divide-y-reverse)); border-left-width: calc({value} * (1 - var(--ss-divide-x-reverse))); border-right-width: calc({value} * var(--ss-divide-x-reverse));", "divide-x-w": "border-right-width: calc({value} * var(--ss-divide-x-reverse)); border-left-width: calc({value} * (1 - var(--ss-divide-x-reverse)));", "divide-y-w": "border-bottom-width: calc({value} * var(--ss-divide-y-reverse)); border-top-width: calc({value} * (1 - var(--ss-divide-y-reverse)));" } },
   description: "Set divider width",
   descriptionMs: "Tetapkan lebar pemisah",
   category: "visual",
@@ -8412,6 +8189,7 @@ var divideReverse = {
   name: "divide-reverse",
   property: "visual",
   syntax: 'visual="divide-{x|y}:reverse"',
+  engine: { prefixes: [] },
   description: "Reverse border side for flex-reverse",
   descriptionMs: "Songsangkan sisi sempadan untuk flex-reverse",
   category: "visual",
@@ -8567,6 +8345,7 @@ var svgStrokeWidth = {
   name: "stroke-width",
   property: "visual",
   syntax: 'visual="stroke-w:[value]"',
+  engine: { enum: { "0": "stroke-width: 0px;" } },
   description: "Set SVG stroke width",
   descriptionMs: "Tetapkan lebar gurisan SVG",
   category: "visual",
@@ -8607,6 +8386,7 @@ var contentVisibility = {
   name: "content-visibility",
   property: "visual",
   syntax: 'visual="content-visibility:[value]"',
+  engine: { attrs: ["visual", "layout"] },
   description: "Optimize rendering by skipping off-screen content",
   descriptionMs: "Optimumkan rendering dengan melangkau kandungan luar skrin",
   category: "visual",
@@ -8638,6 +8418,7 @@ var contain = {
   name: "contain",
   property: "visual",
   syntax: 'visual="contain:[value]"',
+  engine: { attrs: ["visual", "layout"] },
   description: "Isolate element rendering for performance",
   descriptionMs: "Pencil rendering elemen untuk prestasi",
   category: "visual",
@@ -8673,6 +8454,7 @@ var writingMode = {
   name: "writing-mode",
   property: "visual",
   syntax: 'visual="writing-mode:[value]"',
+  engine: { attrs: ["visual", "layout"], aliases: ["writing"] },
   description: "Set writing direction for RTL/vertical text",
   descriptionMs: "Tetapkan arah penulisan untuk teks RTL/menegak",
   category: "visual",
@@ -8723,6 +8505,53 @@ var allVisualDefinitions = {
   ...visual_svg_default,
   ...visual_performance_default
 };
+function getAllDefinitions() {
+  return [
+    ...Object.values(layout_default),
+    ...Object.values(space_default),
+    ...Object.values(allVisualDefinitions)
+  ];
+}
+function getDefinitionsByCategory() {
+  return {
+    layout: Object.values(layout_default),
+    space: Object.values(space_default),
+    visual: Object.values(allVisualDefinitions)
+  };
+}
+var _mergedDefsCache = null;
+function getMergedDefs() {
+  if (!_mergedDefsCache) {
+    _mergedDefsCache = {
+      ...layout_default,
+      ...space_default,
+      ...allVisualDefinitions
+    };
+  }
+  return _mergedDefsCache;
+}
+function getDefinition(name) {
+  const allDefs = getMergedDefs();
+  return allDefs[name] || null;
+}
+function validateDefinitions(definitions = getAllDefinitions()) {
+  const requiredFields = ["name", "property", "description", "descriptionMs", "category"];
+  const errors = [];
+  for (const def of definitions) {
+    for (const field of requiredFields) {
+      if (!def[field]) {
+        errors.push(`Missing '${field}' in definition '${def.name || "unknown"}'`);
+      }
+    }
+    if (!def.examples || def.examples.length === 0) {
+      errors.push(`Missing examples in definition '${def.name}'`);
+    }
+  }
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
 function buildAllMaps() {
   const typographyKeywordDefs = [
     visual_typography_default.fontStyle,
@@ -8743,1279 +8572,878 @@ function buildAllMaps() {
     typographyKeywords: buildTypographyKeywordsMap(typographyKeywordDefs)
   };
 }
-
-// src/compiler/generators/visual-rules.js
-var DEFAULT_BLUR = { none: "0", tiny: "2px", small: "4px", medium: "8px", big: "12px", giant: "24px", vast: "48px" };
-var DEFAULT_BRIGHTNESS = { dim: 0.5, dark: 0.75, normal: 1, bright: 1.25, vivid: 1.5 };
-var DEFAULT_CONTRAST = { low: 0.5, reduced: 0.75, normal: 1, high: 1.25, max: 1.5 };
-var DEFAULT_GRAYSCALE = { none: "0%", partial: "50%", full: "100%" };
-var DEFAULT_INVERT = { none: "0%", partial: "50%", full: "100%" };
-var DEFAULT_SATURATE = { none: 0, low: 0.5, normal: 1, high: 1.5, vivid: 2 };
-var DEFAULT_SEPIA = { none: "0%", partial: "50%", full: "100%" };
-var DEFAULT_DROP_SHADOW = { none: "none", tiny: "0 1px 1px rgba(0,0,0,0.05)", small: "0 1px 2px rgba(0,0,0,0.1), 0 1px 1px rgba(0,0,0,0.06)", medium: "0 4px 3px rgba(0,0,0,0.07), 0 2px 2px rgba(0,0,0,0.06)", big: "0 10px 8px rgba(0,0,0,0.04), 0 4px 3px rgba(0,0,0,0.1)", giant: "0 20px 13px rgba(0,0,0,0.03), 0 8px 5px rgba(0,0,0,0.08)" };
-var DEFAULT_BACKDROP_OPACITY = { invisible: 0, faint: 0.25, half: 0.5, visible: 0.75, solid: 1 };
-var DEFAULT_TRANSITION_PROPERTY = { none: "none", all: "all", DEFAULT: "color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter", colors: "color, background-color, border-color, text-decoration-color, fill, stroke", opacity: "opacity", shadow: "box-shadow", transform: "transform" };
-var DEFAULT_ANIMATION_DURATION = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
-var DEFAULT_ANIMATION_DELAY = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
-var DEFAULT_PERSPECTIVE = { none: "none", dramatic: "100px", near: "300px", normal: "500px", midrange: "800px", far: "1000px", distant: "1200px" };
-var DEFAULT_ANIMATION = { none: "none", spin: "spin 1s linear infinite", ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite", pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite", bounce: "bounce 1s infinite" };
-function getScale(config, key, defaults) {
-  return config?.theme?.[key] || defaults;
-}
-function parseOpacityModifier(value) {
-  const slashIndex = value.lastIndexOf("/");
-  if (slashIndex < 1) return null;
-  const color = value.slice(0, slashIndex);
-  const raw = value.slice(slashIndex + 1);
-  if (/^\d{1,3}$/.test(raw)) {
-    const n = parseInt(raw, 10);
-    if (n >= 0 && n <= 100) return { color, opacity: n / 100 };
-  }
-  if (/^\d*\.?\d+$/.test(raw)) {
-    const n = parseFloat(raw);
-    if (n >= 0 && n <= 1) return { color, opacity: n };
-  }
-  return null;
-}
-function resolveColorValue(value, isArbitrary) {
-  const parsed = parseOpacityModifier(value);
-  const colorValue = parsed ? parsed.color : value;
-  const opacity2 = parsed ? parsed.opacity : null;
-  let resolved;
-  if (isArbitrary) {
-    resolved = colorValue;
-  } else if (CSS_COLOR_KEYWORDS.includes(colorValue)) {
-    resolved = colorValue;
-  } else {
-    const arbitraryMatch = colorValue.match(/^\[(.+)\]$/);
-    if (arbitraryMatch) {
-      resolved = arbitraryMatch[1];
-    } else {
-      resolved = `var(--c-${colorValue})`;
-    }
-  }
-  if (opacity2 !== null) {
-    return `color-mix(in srgb, ${resolved} ${Math.round(opacity2 * 100)}%, transparent)`;
-  }
-  return resolved;
-}
-function sanitizeArbitraryValue(value) {
-  return sanitizeValue(value);
-}
-var rules = {
-  bg: (v, a) => `background-color: ${resolveColorValue(v, a)};`,
-  "bg-image": (v, a) => {
-    if (!v || v === "none") return "background-image: none;";
-    if (v.startsWith("gradient-to-")) {
-      const dirMap = { t: "to top", tr: "to top right", r: "to right", br: "to bottom right", b: "to bottom", bl: "to bottom left", l: "to left", tl: "to top left" };
-      const dir = dirMap[v.replace("gradient-to-", "")];
-      if (dir) return `background-image: linear-gradient(${dir}, var(--ss-gradient-stops, transparent));`;
-    }
-    return `background-image: ${a ? sanitizeArbitraryValue(`url(${v})`) : `url(${v})`};`;
-  },
-  "bg-attachment": (v) => `background-attachment: ${v};`,
-  "bg-clip": (v) => `background-clip: ${{ border: "border-box", padding: "padding-box", content: "content-box", text: "text" }[v] || v};`,
-  "bg-origin": (v) => `background-origin: ${{ border: "border-box", padding: "padding-box", content: "content-box" }[v] || v};`,
-  "bg-position": (v, a) => `background-position: ${a ? v.replace(/_/g, " ") : { center: "center", top: "top", bottom: "bottom", left: "left", right: "right", "top-left": "top left", "top-right": "top right", "bottom-left": "bottom left", "bottom-right": "bottom right" }[v] || v};`,
-  "bg-repeat": (v) => `background-repeat: ${{ repeat: "repeat", "no-repeat": "no-repeat", "repeat-x": "repeat-x", "repeat-y": "repeat-y", round: "round", space: "space" }[v] || v};`,
-  "bg-size": (v, a) => `background-size: ${a ? v.replace(/_/g, " ") : { auto: "auto", cover: "cover", contain: "contain" }[v] || v};`,
-  "bg-blend": (v) => `background-blend-mode: ${v};`,
-  from: (v, a) => `--ss-gradient-from: ${resolveColorValue(v, a)}; --ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), var(--ss-gradient-to);`,
-  via: (v, a) => `--ss-gradient-to: rgb(255 255 255 / 0); --ss-gradient-stops: var(--ss-gradient-from), ${resolveColorValue(v, a)}, var(--ss-gradient-to);`,
-  to: (v, a) => `--ss-gradient-to: ${resolveColorValue(v, a)};`,
-  text: (v, a) => {
-    if (["left", "center", "right", "justify"].includes(v)) return `text-align: ${v};`;
-    return `color: ${resolveColorValue(v, a)};`;
-  },
-  "text-shadow": (v, a) => `text-shadow: ${a ? v.replace(/_/g, " ") : { none: "none", small: "0 1px 2px rgba(0,0,0,0.1)", medium: "0 2px 4px rgba(0,0,0,0.15)", big: "0 4px 8px rgba(0,0,0,0.2)" }[v] || v};`,
-  "text-size": (v, a) => {
-    if (a) return `font-size: ${v};`;
-    if (v.startsWith("tw-")) return `font-size: var(--tw-text-${v.slice(3)}); line-height: var(--tw-leading-${v.slice(3)});`;
-    return `font-size: var(--font-${v}); line-height: var(--font-lh-${v});`;
-  },
-  font: (v, a) => {
-    const families = { sans: "ui-sans-serif, system-ui, sans-serif", serif: "ui-serif, Georgia, serif", mono: "ui-monospace, monospace" };
-    if (families[v]) return `font-family: ${families[v]};`;
-    if (a) return `font-weight: ${v};`;
-    if (v.startsWith("tw-")) return `font-weight: var(--tw-font-${v.slice(3)});`;
-    return `font-weight: var(--fw-${v});`;
-  },
-  tracking: (v, a) => `letter-spacing: ${a ? v : { tighter: "-0.05em", tight: "-0.025em", normal: "0", wide: "0.025em", wider: "0.05em", widest: "0.1em" }[v] || v};`,
-  leading: (v, a) => `line-height: ${a ? v : { none: "1", tight: "1.25", snug: "1.375", normal: "1.5", relaxed: "1.625", loose: "2" }[v] || v};`,
-  "line-clamp": (v) => `overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: ${v};`,
-  decoration: (v, a) => `text-decoration-color: ${resolveColorValue(v, a)};`,
-  "decoration-thickness": (v, a) => {
-    if (a) return `text-decoration-thickness: ${v};`;
-    if (["auto", "from-font"].includes(v)) return `text-decoration-thickness: ${v};`;
-    return `text-decoration-thickness: ${v}px;`;
-  },
-  "underline-offset": (v, a) => `text-underline-offset: ${a ? v : `${v}px`};`,
-  indent: (v, a) => `text-indent: ${a ? v : `var(--s-${v})`};`,
-  border: (v, a) => `border-color: ${resolveColorValue(v, a)}; border-style: solid;`,
-  "border-t": (v, a) => `border-top-color: ${resolveColorValue(v, a)}; border-top-style: solid;`,
-  "border-b": (v, a) => `border-bottom-color: ${resolveColorValue(v, a)}; border-bottom-style: solid;`,
-  "border-l": (v, a) => `border-left-color: ${resolveColorValue(v, a)}; border-left-style: solid;`,
-  "border-r": (v, a) => `border-right-color: ${resolveColorValue(v, a)}; border-right-style: solid;`,
-  "border-x": (v, a) => `border-left-color: ${resolveColorValue(v, a)}; border-right-color: ${resolveColorValue(v, a)}; border-left-style: solid; border-right-style: solid;`,
-  "border-y": (v, a) => `border-top-color: ${resolveColorValue(v, a)}; border-bottom-color: ${resolveColorValue(v, a)}; border-top-style: solid; border-bottom-style: solid;`,
-  "border-w": (v, a) => `border-width: ${a ? v : `var(--s-${v})`};`,
-  "border-t-w": (v, a) => `border-top-width: ${a ? v : `var(--s-${v})`};`,
-  "border-b-w": (v, a) => `border-bottom-width: ${a ? v : `var(--s-${v})`};`,
-  "border-l-w": (v, a) => `border-left-width: ${a ? v : `var(--s-${v})`};`,
-  "border-r-w": (v, a) => `border-right-width: ${a ? v : `var(--s-${v})`};`,
-  "border-x-w": (v, a) => `border-left-width: ${a ? v : `var(--s-${v})`}; border-right-width: ${a ? v : `var(--s-${v})`};`,
-  "border-y-w": (v, a) => `border-top-width: ${a ? v : `var(--s-${v})`}; border-bottom-width: ${a ? v : `var(--s-${v})`};`,
-  "border-style": (v) => `border-style: ${v};`,
-  rounded: (v, a) => `border-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-t": (v, a) => `border-top-left-radius: ${a ? v : `var(--r-${v})`}; border-top-right-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-b": (v, a) => `border-bottom-left-radius: ${a ? v : `var(--r-${v})`}; border-bottom-right-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-l": (v, a) => `border-top-left-radius: ${a ? v : `var(--r-${v})`}; border-bottom-left-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-r": (v, a) => `border-top-right-radius: ${a ? v : `var(--r-${v})`}; border-bottom-right-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-tl": (v, a) => `border-top-left-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-tr": (v, a) => `border-top-right-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-bl": (v, a) => `border-bottom-left-radius: ${a ? v : `var(--r-${v})`};`,
-  "rounded-br": (v, a) => `border-bottom-right-radius: ${a ? v : `var(--r-${v})`};`,
-  divide: (v, a) => `border-color: ${resolveColorValue(v, a)}; border-style: solid;`,
-  "divide-x": (v, a) => {
-    if (v === "reverse") return "--ss-divide-x-reverse: 1;";
-    return `border-left-color: ${resolveColorValue(v, a)}; border-right-color: ${resolveColorValue(v, a)}; border-left-style: solid; border-right-style: solid;`;
-  },
-  "divide-y": (v, a) => {
-    if (v === "reverse") return "--ss-divide-y-reverse: 1;";
-    return `border-top-color: ${resolveColorValue(v, a)}; border-bottom-color: ${resolveColorValue(v, a)}; border-top-style: solid; border-bottom-style: solid;`;
-  },
-  "divide-w": (v, a) => {
-    const cv = a ? v : `var(--s-${v})`;
-    return `border-top-width: calc(${cv} * (1 - var(--ss-divide-y-reverse))); border-bottom-width: calc(${cv} * var(--ss-divide-y-reverse)); border-left-width: calc(${cv} * (1 - var(--ss-divide-x-reverse))); border-right-width: calc(${cv} * var(--ss-divide-x-reverse));`;
-  },
-  "divide-x-w": (v, a) => {
-    const cv = a ? v : `var(--s-${v})`;
-    return `border-right-width: calc(${cv} * var(--ss-divide-x-reverse)); border-left-width: calc(${cv} * (1 - var(--ss-divide-x-reverse)));`;
-  },
-  "divide-y-w": (v, a) => {
-    const cv = a ? v : `var(--s-${v})`;
-    return `border-bottom-width: calc(${cv} * var(--ss-divide-y-reverse)); border-top-width: calc(${cv} * (1 - var(--ss-divide-y-reverse)));`;
-  },
-  "divide-style": (v) => `border-style: ${v};`,
-  "outline-w": (v, a) => `outline-width: ${a ? v : `var(--s-${v})`};`,
-  outline: (v, a) => {
-    if (v === "none") return "outline: none;";
-    return `outline-color: ${resolveColorValue(v, a)};`;
-  },
-  "outline-style": (v) => `outline-style: ${v};`,
-  "outline-offset": (v, a) => `outline-offset: ${a ? v : `var(--s-${v})`};`,
-  "ring-w": (v, a) => `--ss-ring-width: ${a ? v : `var(--s-${v})`};`,
-  "ring-color": (v, a) => `--ss-ring-color: ${resolveColorValue(v, a)};`,
-  "ring-offset": (v, a) => `--ss-ring-offset-width: ${a ? v : `var(--s-${v})`};`,
-  "ring-offset-color": (v, a) => `--ss-ring-offset-color: ${resolveColorValue(v, a)};`,
-  ring: (v, a) => {
-    if (v === "none") return "box-shadow: 0 0 #0000;";
-    const presets = { thin: "1px", regular: "2px", small: "4px", medium: "6px", big: "8px" };
-    const w = a ? v : presets[v] || (parseInt(v) ? `${v}px` : `var(--s-${v})`);
-    return `--ss-ring-width: ${w}; box-shadow: var(--ring-inset) 0 0 0 calc(var(--ss-ring-width) + var(--ss-ring-offset-width, 0px)) var(--ss-ring-color);`;
-  },
-  "ring-inset": () => "--ring-inset: inset;",
-  shadow: (v) => `box-shadow: var(--shadow-${v});`,
-  opacity: (v, a) => {
-    if (a) return `opacity: ${v};`;
-    const n = parseInt(v, 10);
-    if (!isNaN(n) && n >= 0 && n <= 100) return `opacity: ${n / 100};`;
-    return `opacity: ${v};`;
-  },
-  "mix-blend": (v) => `mix-blend-mode: ${v};`,
-  "mask-clip": (v) => `mask-clip: ${{ border: "border-box", padding: "padding-box", content: "content-box", text: "text" }[v] || v};`,
-  "mask-composite": (v) => `mask-composite: ${v};`,
-  "mask-image": (v, a) => `mask-image: ${a ? `url(${sanitizeArbitraryValue(v)})` : `url(${v})`};`,
-  "mask-mode": (v) => `mask-mode: ${v};`,
-  "mask-origin": (v) => `mask-origin: ${{ border: "border-box", padding: "padding-box", content: "content-box" }[v] || v};`,
-  "mask-position": (v, a) => `mask-position: ${a ? v.replace(/_/g, " ") : { center: "center", top: "top", bottom: "bottom", left: "left", right: "right", "top-left": "top left", "top-right": "top right", "bottom-left": "bottom left", "bottom-right": "bottom right" }[v] || v};`,
-  "mask-repeat": (v) => `mask-repeat: ${{ repeat: "repeat", "no-repeat": "no-repeat", "repeat-x": "repeat-x", "repeat-y": "repeat-y", round: "round", space: "space" }[v] || v};`,
-  "mask-size": (v, a) => `mask-size: ${a ? v.replace(/_/g, " ") : { auto: "auto", cover: "cover", contain: "contain" }[v] || v};`,
-  "mask-type": (v) => `mask-type: ${v};`,
-  content: (v) => `content: "${sanitizeArbitraryValue(v).replace(/"/g, '\\"')}";`,
-  blur: (v, a, cfg) => {
-    if (a) return `filter: blur(${v});`;
-    const scale = getScale(cfg, "blur", DEFAULT_BLUR);
-    const cv = scale[v] || scale.medium;
-    return cv === "0" ? "filter: none;" : `filter: blur(${cv});`;
-  },
-  brightness: (v, a, cfg) => {
-    const scale = getScale(cfg, "brightness", DEFAULT_BRIGHTNESS);
-    return `filter: brightness(${a ? v : scale[v] || 1});`;
-  },
-  contrast: (v, a, cfg) => {
-    const scale = getScale(cfg, "contrast", DEFAULT_CONTRAST);
-    return `filter: contrast(${a ? v : scale[v] || 1});`;
-  },
-  "drop-shadow": (v, a, cfg) => {
-    const scale = getScale(cfg, "dropShadow", DEFAULT_DROP_SHADOW);
-    return `filter: drop-shadow(${a ? v.replace(/_/g, " ") : scale[v] || v});`;
-  },
-  grayscale: (v, a, cfg) => {
-    const scale = getScale(cfg, "grayscale", DEFAULT_GRAYSCALE);
-    return `filter: grayscale(${a ? v : scale[v] || "100%"});`;
-  },
-  "hue-rotate": (v, a) => `filter: hue-rotate(${a ? v : `${v}deg`});`,
-  invert: (v, a, cfg) => {
-    const scale = getScale(cfg, "invert", DEFAULT_INVERT);
-    return `filter: invert(${a ? v : scale[v] || "100%"});`;
-  },
-  saturate: (v, a, cfg) => {
-    const scale = getScale(cfg, "saturate", DEFAULT_SATURATE);
-    return `filter: saturate(${a ? v : scale[v] || 1});`;
-  },
-  sepia: (v, a, cfg) => {
-    const scale = getScale(cfg, "sepia", DEFAULT_SEPIA);
-    return `filter: sepia(${a ? v : scale[v] || "100%"});`;
-  },
-  "backdrop-blur": (v, a, cfg) => {
-    const scale = getScale(cfg, "blur", DEFAULT_BLUR);
-    return `backdrop-filter: blur(${a ? v : scale[v] || scale.medium});`;
-  },
-  "backdrop-brightness": (v, a, cfg) => {
-    const scale = getScale(cfg, "brightness", DEFAULT_BRIGHTNESS);
-    return `backdrop-filter: brightness(${a ? v : scale[v] || 1});`;
-  },
-  "backdrop-contrast": (v, a, cfg) => {
-    const scale = getScale(cfg, "contrast", DEFAULT_CONTRAST);
-    return `backdrop-filter: contrast(${a ? v : scale[v] || 1});`;
-  },
-  "backdrop-grayscale": (v, a, cfg) => {
-    const scale = getScale(cfg, "grayscale", DEFAULT_GRAYSCALE);
-    return `backdrop-filter: grayscale(${a ? v : scale[v] || "100%"});`;
-  },
-  "backdrop-hue-rotate": (v, a) => `backdrop-filter: hue-rotate(${a ? v : `${v}deg`});`,
-  "backdrop-invert": (v, a, cfg) => {
-    const scale = getScale(cfg, "invert", DEFAULT_INVERT);
-    return `backdrop-filter: invert(${a ? v : scale[v] || "100%"});`;
-  },
-  "backdrop-opacity": (v, a, cfg) => {
-    const scale = getScale(cfg, "backdropOpacity", DEFAULT_BACKDROP_OPACITY);
-    return `backdrop-filter: opacity(${a ? v : scale[v] || 1});`;
-  },
-  "backdrop-saturate": (v, a, cfg) => {
-    const scale = getScale(cfg, "saturate", DEFAULT_SATURATE);
-    return `backdrop-filter: saturate(${a ? v : scale[v] || 1});`;
-  },
-  "backdrop-sepia": (v, a, cfg) => {
-    const scale = getScale(cfg, "sepia", DEFAULT_SEPIA);
-    return `backdrop-filter: sepia(${a ? v : scale[v] || "100%"});`;
-  },
-  transition: (v, cfg) => {
-    const scale = getScale(cfg, "transitionProperty", DEFAULT_TRANSITION_PROPERTY);
-    return `transition-property: ${scale[v] || scale.DEFAULT}; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;`;
-  },
-  "transition-none": () => "transition-property: none;",
-  duration: (v, a) => {
-    const scale = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
-    return `transition-duration: ${a ? v : scale[v] || scale.normal};`;
-  },
-  ease: (v, a) => `transition-timing-function: ${a ? v : { linear: "linear", in: "cubic-bezier(0.4, 0, 1, 1)", out: "cubic-bezier(0, 0, 0.2, 1)", "in-out": "cubic-bezier(0.4, 0, 0.2, 1)" }[v] || v};`,
-  delay: (v, a) => {
-    const scale = { instant: "75ms", quick: "100ms", fast: "150ms", normal: "200ms", slow: "300ms", slower: "500ms", lazy: "700ms" };
-    return `transition-delay: ${a ? v : scale[v] || scale.normal};`;
-  },
-  "transition-behavior": (v) => `transition-behavior: ${v};`,
-  animate: (v, a, cfg) => {
-    const scale = getScale(cfg, "animation", DEFAULT_ANIMATION);
-    return `animation: ${a ? v.replace(/_/g, " ") : scale[v] || v};`;
-  },
-  "animation-duration": (v, a, cfg) => {
-    const scale = getScale(cfg, "animationDuration", DEFAULT_ANIMATION_DURATION);
-    return `animation-duration: ${a ? v : scale[v] || scale.normal};`;
-  },
-  "animation-delay": (v, a, cfg) => {
-    const scale = getScale(cfg, "animationDelay", DEFAULT_ANIMATION_DELAY);
-    return `animation-delay: ${a ? v : scale[v] || scale.normal};`;
-  },
-  "animation-iteration": (v) => `animation-iteration-count: ${v};`,
-  "animation-direction": (v) => `animation-direction: ${v};`,
-  "animation-fill": (v) => `animation-fill-mode: ${v};`,
-  "animation-play": (v) => `animation-play-state: ${v};`,
-  scale: (v, a) => `transform: scale(${a ? v : parseInt(v) / 100});`,
-  "scale-x": (v, a) => `transform: scaleX(${a ? v : parseInt(v) / 100});`,
-  "scale-y": (v, a) => `transform: scaleY(${a ? v : parseInt(v) / 100});`,
-  rotate: (v, a) => `transform: rotate(${a ? v : `${v}deg`});`,
-  "translate-x": (v, a) => {
-    const presets = { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "3/4": "75%", "-full": "-100%", "-half": "-50%", "-third": "-33.333333%", "-third-2x": "-66.666667%", "-quarter": "-25%", "-quarter-2x": "-50%", "-quarter-3x": "-75%", "-1/2": "-50%", "-1/3": "-33.333333%", "-2/3": "-66.666667%", "-1/4": "-25%", "-3/4": "-75%" };
-    return `transform: translateX(${a ? v : presets[v] || `var(--s-${v})`});`;
-  },
-  "translate-y": (v, a) => {
-    const presets = { full: "100%", half: "50%", third: "33.333333%", "third-2x": "66.666667%", quarter: "25%", "quarter-2x": "50%", "quarter-3x": "75%", "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%", "1/4": "25%", "3/4": "75%", "-full": "-100%", "-half": "-50%", "-third": "-33.333333%", "-third-2x": "-66.666667%", "-quarter": "-25%", "-quarter-2x": "-50%", "-quarter-3x": "-75%", "-1/2": "-50%", "-1/3": "-33.333333%", "-2/3": "-66.666667%", "-1/4": "-25%", "-3/4": "-75%" };
-    return `transform: translateY(${a ? v : presets[v] || `var(--s-${v})`});`;
-  },
-  "skew-x": (v, a) => `transform: skewX(${a ? v : `${v}deg`});`,
-  "skew-y": (v, a) => `transform: skewY(${a ? v : `${v}deg`});`,
-  "-skew-x": (v, a) => `transform: skewX(${a ? `-${v}` : `-${v}deg`});`,
-  "-skew-y": (v, a) => `transform: skewY(${a ? `-${v}` : `-${v}deg`});`,
-  "rotate-x": (v, a) => `transform: rotateX(${a ? v : `${v}deg`});`,
-  "rotate-y": (v, a) => `transform: rotateY(${a ? v : `${v}deg`});`,
-  "rotate-z": (v, a) => `transform: rotateZ(${a ? v : `${v}deg`});`,
-  "translate-z": (v, a) => `transform: translateZ(${a ? v : { near: "50px", far: "-50px", 0: "0" }[v] || `var(--s-${v})`});`,
-  origin: (v, a) => {
-    const map = { center: "center", top: "top", "top-right": "top right", right: "right", "bottom-right": "bottom right", bottom: "bottom", "bottom-left": "bottom left", left: "left", "top-left": "top left" };
-    return `transform-origin: ${a ? v.replace(/_/g, " ") : map[v] || v};`;
-  },
-  "transform-style": (v) => `transform-style: ${v};`,
-  backface: (v) => `backface-visibility: ${v};`,
-  perspective: (v, a, cfg) => {
-    const scale = getScale(cfg, "perspective", DEFAULT_PERSPECTIVE);
-    return `perspective: ${a ? v : scale[v] || scale.normal};`;
-  },
-  "perspective-origin": (v, a) => {
-    const map = { center: "center", top: "top", "top-right": "top right", right: "right", "bottom-right": "bottom right", bottom: "bottom", "bottom-left": "bottom left", left: "left", "top-left": "top left" };
-    return `perspective-origin: ${a ? v.replace(/_/g, " ") : map[v] || v};`;
-  },
-  accent: (v, a) => `accent-color: ${resolveColorValue(v, a)};`,
-  appearance: (v) => `appearance: ${v};`,
-  caret: (v, a) => `caret-color: ${resolveColorValue(v, a)};`,
-  "color-scheme": (v) => `color-scheme: ${v};`,
-  cursor: (v) => `cursor: ${v};`,
-  "field-sizing": (v) => `field-sizing: ${v};`,
-  "pointer-events": (v) => `pointer-events: ${v};`,
-  resize: (v) => `resize: ${{ none: "none", both: "both", x: "horizontal", y: "vertical" }[v] || v};`,
-  scroll: (v) => `scroll-behavior: ${v};`,
-  "scroll-m": (v, a) => `scroll-margin: ${a ? v : `var(--s-${v})`};`,
-  "scroll-m-t": (v, a) => `scroll-margin-top: ${a ? v : `var(--s-${v})`};`,
-  "scroll-m-r": (v, a) => `scroll-margin-right: ${a ? v : `var(--s-${v})`};`,
-  "scroll-m-b": (v, a) => `scroll-margin-bottom: ${a ? v : `var(--s-${v})`};`,
-  "scroll-m-l": (v, a) => `scroll-margin-left: ${a ? v : `var(--s-${v})`};`,
-  "scroll-m-x": (v, a) => `scroll-margin-left: ${a ? v : `var(--s-${v})`}; scroll-margin-right: ${a ? v : `var(--s-${v})`};`,
-  "scroll-m-y": (v, a) => `scroll-margin-top: ${a ? v : `var(--s-${v})`}; scroll-margin-bottom: ${a ? v : `var(--s-${v})`};`,
-  "scroll-p": (v, a) => `scroll-padding: ${a ? v : `var(--s-${v})`};`,
-  "scroll-p-t": (v, a) => `scroll-padding-top: ${a ? v : `var(--s-${v})`};`,
-  "scroll-p-r": (v, a) => `scroll-padding-right: ${a ? v : `var(--s-${v})`};`,
-  "scroll-p-b": (v, a) => `scroll-padding-bottom: ${a ? v : `var(--s-${v})`};`,
-  "scroll-p-l": (v, a) => `scroll-padding-left: ${a ? v : `var(--s-${v})`};`,
-  "scroll-p-x": (v, a) => `scroll-padding-left: ${a ? v : `var(--s-${v})`}; scroll-padding-right: ${a ? v : `var(--s-${v})`};`,
-  "scroll-p-y": (v, a) => `scroll-padding-top: ${a ? v : `var(--s-${v})`}; scroll-padding-bottom: ${a ? v : `var(--s-${v})`};`,
-  "snap-align": (v) => `scroll-snap-align: ${v};`,
-  "snap-stop": (v) => `scroll-snap-stop: ${v};`,
-  snap: (v) => `scroll-snap-type: ${{ none: "none", x: "x mandatory", "x-proximity": "x proximity", y: "y mandatory", "y-proximity": "y proximity", both: "both mandatory", "both-proximity": "both proximity" }[v] || v};`,
-  touch: (v) => `touch-action: ${{ auto: "auto", none: "none", "pan-x": "pan-x", "pan-y": "pan-y", "pan-left": "pan-left", "pan-right": "pan-right", "pan-up": "pan-up", "pan-down": "pan-down", "pinch-zoom": "pinch-zoom", manipulation: "manipulation" }[v] || v};`,
-  select: (v) => `user-select: ${v};`,
-  "will-change": (v) => `will-change: ${{ auto: "auto", scroll: "scroll-position", contents: "contents", transform: "transform", opacity: "opacity" }[v] || v};`,
-  fill: (v, a) => {
-    if (v === "none") return "fill: none;";
-    if (v === "current") return "fill: currentColor;";
-    return `fill: ${resolveColorValue(v, a)};`;
-  },
-  stroke: (v, a) => {
-    if (v === "none") return "stroke: none;";
-    if (v === "current") return "stroke: currentColor;";
-    return `stroke: ${resolveColorValue(v, a)};`;
-  },
-  "stroke-w": (v, a) => `stroke-width: ${a ? v : `${v}px`};`,
-  "forced-colors": (v) => `forced-color-adjust: ${v};`
+var definitions_default = {
+  layout: layout_default,
+  space: space_default,
+  visual: allVisualDefinitions,
+  getAllDefinitions,
+  getDefinitionsByCategory,
+  getDefinition,
+  validateDefinitions,
+  buildAllMaps
 };
-function getVisualRule(property) {
-  return rules[property] || null;
-}
 
-// src/compiler/generators/css.js
-var { layoutMap, typographyKeywords: typographyKeywords2 } = buildAllMaps();
-function sanitizeArbitraryValue2(value) {
-  return sanitizeValue(value);
-}
-var percentageValues = {
-  "full": "100%",
-  "half": "50%",
-  "third": "33.333333%",
-  "third-2x": "66.666667%",
-  "quarter": "25%",
-  "quarter-2x": "50%",
-  "quarter-3x": "75%",
-  "1/1": "100%",
-  "1/2": "50%",
-  "1/3": "33.333333%",
-  "2/3": "66.666667%",
-  "1/4": "25%",
-  "2/4": "50%",
-  "3/4": "75%"
+// src/engine/registry.js
+var SCALE_VAR_PREFIX = {
+  spacing: "--s-",
+  colors: "--c-",
+  radius: "--r-",
+  shadow: "--shadow-",
+  fontSize: "--font-",
+  fontWeight: "--fw-",
+  zIndex: "--z-"
 };
-function generateCSSVariables(config) {
-  const { theme } = config;
-  let css = ":root {\n";
-  for (const [key, value] of Object.entries(theme.spacing)) {
-    css += `  --s-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(theme.radius)) {
-    css += `  --r-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(theme.shadow)) {
-    css += `  --shadow-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(theme.fontSize)) {
-    css += `  --font-${key}: ${value};
-`;
-  }
-  if (theme.fontSizeLineHeight) {
-    for (const [key, value] of Object.entries(theme.fontSizeLineHeight)) {
-      css += `  --font-lh-${key}: ${value};
-`;
-    }
-  }
-  for (const [key, value] of Object.entries(theme.fontWeight)) {
-    css += `  --fw-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(theme.colors)) {
-    css += `  --c-${key}: ${value};
-`;
-  }
-  if (theme.placeholder) {
-    css += `  --placeholder-color: ${theme.placeholder};
-`;
-  } else {
-    css += "  --placeholder-color: #9ca3af;\n";
-  }
-  css += "  --gradient-from: transparent;\n";
-  css += "  --gradient-via: transparent;\n";
-  css += "  --gradient-to: transparent;\n";
-  css += "  --gradient-stops: var(--gradient-from), var(--gradient-via), var(--gradient-to);\n";
-  for (const [key, value] of Object.entries(theme.zIndex)) {
-    css += `  --z-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(TW_SPACING)) {
-    css += `  --tw-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(TW_RADIUS)) {
-    css += `  --r-tw-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(TW_SHADOW)) {
-    css += `  --shadow-tw-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(TW_FONT_SIZE)) {
-    css += `  --tw-text-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(TW_LEADING)) {
-    css += `  --tw-leading-${key}: ${value};
-`;
-  }
-  for (const [key, value] of Object.entries(TW_FONT_WEIGHT)) {
-    css += `  --tw-font-${key}: ${value};
-`;
-  }
-  css += "  --ss-divide-x-reverse: 0;\n";
-  css += "  --ss-divide-y-reverse: 0;\n";
-  css += "  --ring-inset: ;\n";
-  css += "  --ss-ring-color: var(--c-primary);\n";
-  css += "}\n\n";
-  return css;
-}
-function generateLayoutRule(token, _config) {
-  const { property, value, isArbitrary } = token;
-  if (property === value && layoutMap[property]) {
-    return layoutMap[property];
-  }
-  if (property === "justify") {
-    const justifyMap = {
-      "start": "flex-start",
-      "end": "flex-end",
-      "center": "center",
-      "between": "space-between",
-      "around": "space-around",
-      "evenly": "space-evenly",
-      "stretch": "stretch"
-    };
-    return `justify-content: ${justifyMap[value] || value};`;
-  }
-  if (property === "justify-items") {
-    return `justify-items: ${value};`;
-  }
-  if (property === "justify-self") {
-    return `justify-self: ${value};`;
-  }
-  if (property === "content") {
-    const contentMap = {
-      "start": "flex-start",
-      "end": "flex-end",
-      "center": "center",
-      "between": "space-between",
-      "around": "space-around",
-      "evenly": "space-evenly",
-      "stretch": "stretch"
-    };
-    return `align-content: ${contentMap[value] || value};`;
-  }
-  if (property === "items") {
-    const itemsMap = {
-      "start": "flex-start",
-      "end": "flex-end",
-      "center": "center",
-      "baseline": "baseline",
-      "stretch": "stretch"
-    };
-    return `align-items: ${itemsMap[value] || value};`;
-  }
-  if (property === "self") {
-    const selfMap = {
-      "auto": "auto",
-      "start": "flex-start",
-      "end": "flex-end",
-      "center": "center",
-      "baseline": "baseline",
-      "stretch": "stretch"
-    };
-    return `align-self: ${selfMap[value] || value};`;
-  }
-  if (property === "place-content") {
-    const placeContentMap = {
-      "start": "start",
-      "end": "end",
-      "center": "center",
-      "between": "space-between",
-      "around": "space-around",
-      "evenly": "space-evenly",
-      "stretch": "stretch"
-    };
-    return `place-content: ${placeContentMap[value] || value};`;
-  }
-  if (property === "place-items") {
-    return `place-items: ${value};`;
-  }
-  if (property === "place-self") {
-    return `place-self: ${value};`;
-  }
-  if (property === "z") {
-    return `z-index: var(--z-${value});`;
-  }
-  if (property === "overflow") {
-    return `overflow: ${value};`;
-  }
-  if (property === "overflow-x") {
-    return `overflow-x: ${value};`;
-  }
-  if (property === "overflow-y") {
-    return `overflow-y: ${value};`;
-  }
-  if (property === "aspect") {
-    const aspectMap = {
-      "square": "1 / 1",
-      "video": "16 / 9",
-      "auto": "auto"
-    };
-    const cssValue = isArbitrary ? value.replace(/_/g, " ") : aspectMap[value] || value;
-    return `aspect-ratio: ${cssValue};`;
-  }
-  if (property === "object") {
-    return `object-fit: ${value};`;
-  }
-  if (property === "object-pos") {
-    const cssValue = isArbitrary ? value.replace(/_/g, " ") : value;
-    return `object-position: ${cssValue};`;
-  }
-  if (property === "content-visibility") {
-    return `content-visibility: ${value};`;
-  }
-  if (property === "contain") {
-    const containMap = {
-      "none": "none",
-      "strict": "strict",
-      "content": "content",
-      "size": "size",
-      "layout": "layout",
-      "style": "style",
-      "paint": "paint"
-    };
-    const cssValue = isArbitrary ? value : containMap[value] || value;
-    return `contain: ${cssValue};`;
-  }
-  if (property === "writing") {
-    const writingMap = {
-      "horizontal-tb": "horizontal-tb",
-      "vertical-rl": "vertical-rl",
-      "vertical-lr": "vertical-lr"
-    };
-    const cssValue = isArbitrary ? value.replace(/_/g, " ") : writingMap[value] || value;
-    return `writing-mode: ${cssValue};`;
-  }
-  const resolvePositioningValue = (val, arb) => {
-    if (arb) return val;
-    if (!val || val === "0") return "0";
-    if (val.startsWith("-")) {
-      const positiveVal = val.substring(1);
-      if (percentageValues[positiveVal]) {
-        return `-${percentageValues[positiveVal]}`;
-      }
-    }
-    if (percentageValues[val]) {
-      return percentageValues[val];
-    }
-    return `var(--s-${val})`;
-  };
-  if (property === "inset") {
-    const cssValue = resolvePositioningValue(value, isArbitrary);
-    return `inset: ${cssValue};`;
-  }
-  if (["top", "right", "bottom", "left"].includes(property)) {
-    const cssValue = resolvePositioningValue(value, isArbitrary);
-    return `${property}: ${cssValue};`;
-  }
-  if (property === "inset-x") {
-    const cssValue = resolvePositioningValue(value, isArbitrary);
-    return `left: ${cssValue}; right: ${cssValue};`;
-  }
-  if (property === "inset-y") {
-    const cssValue = resolvePositioningValue(value, isArbitrary);
-    return `top: ${cssValue}; bottom: ${cssValue};`;
-  }
-  if (property === "cols") {
-    return `columns: ${value};`;
-  }
-  if (property === "overscroll") {
-    return `overscroll-behavior: ${value};`;
-  }
-  if (property === "overscroll-x") {
-    return `overscroll-behavior-x: ${value};`;
-  }
-  if (property === "overscroll-y") {
-    return `overscroll-behavior-y: ${value};`;
-  }
-  if (property === "basis") {
-    const cssValue = isArbitrary ? value : `var(--s-${value})`;
-    return `flex-basis: ${cssValue};`;
-  }
-  if (property === "flex") {
-    const flexPresets = {
-      "1": "1 1 0%",
-      "auto": "1 1 auto",
-      "initial": "0 1 auto",
-      "none": "none"
-    };
-    const cssValue = isArbitrary ? value.replace(/_/g, " ") : flexPresets[value] || value;
-    return `flex: ${cssValue};`;
-  }
-  if (property === "order") {
-    const orderPresets = {
-      "first": "-9999",
-      "last": "9999",
-      "none": "0"
-    };
-    const cssValue = orderPresets[value] || value;
-    return `order: ${cssValue};`;
-  }
-  if (property === "grid-cols") {
-    if (value === "none") {
-      return "grid-template-columns: none;";
-    }
-    if (value === "subgrid") {
-      return "grid-template-columns: subgrid;";
-    }
-    if (isArbitrary) {
-      const sanitized = sanitizeArbitraryValue2(value);
-      return `grid-template-columns: ${sanitized.replace(/_/g, " ")};`;
-    }
-    return `grid-template-columns: repeat(${value}, minmax(0, 1fr));`;
-  }
-  if (property === "grid-rows") {
-    if (value === "none") {
-      return "grid-template-rows: none;";
-    }
-    if (value === "subgrid") {
-      return "grid-template-rows: subgrid;";
-    }
-    if (isArbitrary) {
-      const sanitized = sanitizeArbitraryValue2(value);
-      return `grid-template-rows: ${sanitized.replace(/_/g, " ")};`;
-    }
-    return `grid-template-rows: repeat(${value}, minmax(0, 1fr));`;
-  }
-  if (property === "col-span") {
-    if (value === "full") {
-      return "grid-column: 1 / -1;";
-    }
-    return `grid-column: span ${value} / span ${value};`;
-  }
-  if (property === "col-start") {
-    return `grid-column-start: ${value};`;
-  }
-  if (property === "col-end") {
-    return `grid-column-end: ${value};`;
-  }
-  if (property === "row-span") {
-    if (value === "full") {
-      return "grid-row: 1 / -1;";
-    }
-    return `grid-row: span ${value} / span ${value};`;
-  }
-  if (property === "row-start") {
-    return `grid-row-start: ${value};`;
-  }
-  if (property === "row-end") {
-    return `grid-row-end: ${value};`;
-  }
-  if (property === "auto-cols") {
-    const autoPresets = {
-      "auto": "auto",
-      "min": "min-content",
-      "max": "max-content",
-      "fr": "minmax(0, 1fr)"
-    };
-    const cssValue = isArbitrary ? value : autoPresets[value] || value;
-    return `grid-auto-columns: ${cssValue};`;
-  }
-  if (property === "auto-rows") {
-    const autoPresets = {
-      "auto": "auto",
-      "min": "min-content",
-      "max": "max-content",
-      "fr": "minmax(0, 1fr)"
-    };
-    const cssValue = isArbitrary ? value : autoPresets[value] || value;
-    return `grid-auto-rows: ${cssValue};`;
-  }
-  if (property === "border-spacing") {
-    const cssValue = isArbitrary ? value : `var(--s-${value})`;
-    return `border-spacing: ${cssValue};`;
-  }
-  if (property === "border-spacing-x") {
-    const cssValue = isArbitrary ? value : `var(--s-${value})`;
-    return `border-spacing: ${cssValue} 0;`;
-  }
-  if (property === "border-spacing-y") {
-    const cssValue = isArbitrary ? value : `var(--s-${value})`;
-    return `border-spacing: 0 ${cssValue};`;
-  }
-  return layoutMap[property] || "";
-}
-function generateSpaceRule(token, _config) {
-  const { property, value, isArbitrary } = token;
-  const sizingSpecialValues = {
-    "min": "min-content",
-    "max": "max-content",
-    "fit": "fit-content"
-  };
-  const sizingProps = ["w", "h", "min-w", "max-w", "min-h", "max-h", "size"];
-  if (sizingProps.includes(property) && sizingSpecialValues[value]) {
-    const cssVal = sizingSpecialValues[value];
-    const propMap = {
-      "w": `width: ${cssVal};`,
-      "h": `height: ${cssVal};`,
-      "min-w": `min-width: ${cssVal};`,
-      "max-w": `max-width: ${cssVal};`,
-      "min-h": `min-height: ${cssVal};`,
-      "max-h": `max-height: ${cssVal};`,
-      "size": `width: ${cssVal}; height: ${cssVal};`
-    };
-    return propMap[property] || "";
-  }
-  if (sizingProps.includes(property) && percentageValues[value]) {
-    const cssVal = percentageValues[value];
-    const propMap = {
-      "w": `width: ${cssVal};`,
-      "h": `height: ${cssVal};`,
-      "min-w": `min-width: ${cssVal};`,
-      "max-w": `max-width: ${cssVal};`,
-      "min-h": `min-height: ${cssVal};`,
-      "max-h": `max-height: ${cssVal};`,
-      "size": `width: ${cssVal}; height: ${cssVal};`
-    };
-    return propMap[property] || "";
-  }
-  let cssValue;
-  const NEGATABLE_PROPERTIES = /* @__PURE__ */ new Set([
-    "m",
-    "m-t",
-    "m-r",
-    "m-b",
-    "m-l",
-    "m-x",
-    "m-y"
-  ]);
-  if (isArbitrary) {
-    cssValue = value;
-  } else {
-    const isNegative = value && value.startsWith("-");
-    const cleanValue = isNegative ? value.substring(1) : value || "";
-    let baseValue;
-    if (cleanValue.startsWith("tw-")) {
-      const twValue = cleanValue.slice(3);
-      baseValue = `var(--tw-${twValue.replace(/\./g, "-")})`;
-    } else {
-      baseValue = `var(--s-${cleanValue})`;
-    }
-    cssValue = isNegative && NEGATABLE_PROPERTIES.has(property) ? `calc(${baseValue} * -1)` : baseValue;
-  }
-  if (value === "auto") {
-    const autoValue = "auto";
-    const propertyMap2 = {
-      "m": `margin: ${autoValue};`,
-      "m-x": `margin-left: ${autoValue}; margin-right: ${autoValue};`,
-      "m-y": `margin-top: ${autoValue}; margin-bottom: ${autoValue};`,
-      "m-t": `margin-top: ${autoValue};`,
-      "m-r": `margin-right: ${autoValue};`,
-      "m-b": `margin-bottom: ${autoValue};`,
-      "m-l": `margin-left: ${autoValue};`
-    };
-    return propertyMap2[property] || "";
-  }
-  const propertyMap = {
-    // Padding
-    "p": `padding: ${cssValue};`,
-    "p-t": `padding-top: ${cssValue};`,
-    "p-r": `padding-right: ${cssValue};`,
-    "p-b": `padding-bottom: ${cssValue};`,
-    "p-l": `padding-left: ${cssValue};`,
-    "p-x": `padding-left: ${cssValue}; padding-right: ${cssValue};`,
-    "p-y": `padding-top: ${cssValue}; padding-bottom: ${cssValue};`,
-    // Margin
-    "m": `margin: ${cssValue};`,
-    "m-t": `margin-top: ${cssValue};`,
-    "m-r": `margin-right: ${cssValue};`,
-    "m-b": `margin-bottom: ${cssValue};`,
-    "m-l": `margin-left: ${cssValue};`,
-    "m-x": `margin-left: ${cssValue}; margin-right: ${cssValue};`,
-    "m-y": `margin-top: ${cssValue}; margin-bottom: ${cssValue};`,
-    // Gap
-    "g": `gap: ${cssValue};`,
-    "g-x": `column-gap: ${cssValue};`,
-    "g-y": `row-gap: ${cssValue};`,
-    // Sizing
-    "w": `width: ${cssValue};`,
-    "h": `height: ${cssValue};`,
-    "min-w": `min-width: ${cssValue};`,
-    "max-w": `max-width: ${cssValue};`,
-    "min-h": `min-height: ${cssValue};`,
-    "max-h": `max-height: ${cssValue};`,
-    "size": `width: ${cssValue}; height: ${cssValue};`
-  };
-  return propertyMap[property] || "";
-}
-function generateVisualRule(token, config) {
-  const { property, value, isArbitrary } = token;
-  if (typographyKeywords2[property]) {
-    return typographyKeywords2[property];
-  }
-  const ruleFn = getVisualRule(property);
-  return ruleFn ? ruleFn(value, isArbitrary, config) : "";
-}
-function isValidCSSRule(declaration) {
-  if (!declaration || typeof declaration !== "string") {
-    return false;
-  }
-  declaration = declaration.trim();
-  if (!declaration) return false;
-  if (!declaration.endsWith(";")) return false;
-  const parts = declaration.substring(0, declaration.length - 1).split(":");
-  if (parts.length < 2) return false;
-  const property = parts[0].trim();
-  const value = parts.slice(1).join(":").trim();
-  if (!property || !value) return false;
-  return true;
-}
-function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
-  try {
-    if (!token || typeof token !== "object") {
-      console.warn("[SenangStart] Invalid token object:", token);
-      return "";
-    }
-    const { raw, attrType, state } = token;
-    if (token.error) return "";
-    if (!attrType || typeof attrType !== "string") {
-      console.warn("[SenangStart] Invalid token attrType:", attrType);
-      return "";
-    }
-    if (!raw || typeof raw !== "string") {
-      console.warn("[SenangStart] Invalid token raw:", raw);
-      return "";
-    }
-    let cssDeclaration = "";
-    switch (attrType) {
-      case "layout":
-        try {
-          cssDeclaration = generateLayoutRule(token, config);
-        } catch (e) {
-          console.warn(`[SenangStart] Error generating layout rule for "${raw}": ${e.message}`);
-          return "";
-        }
-        break;
-      case "space":
-        try {
-          cssDeclaration = generateSpaceRule(token, config);
-        } catch (e) {
-          console.warn(`[SenangStart] Error generating space rule for "${raw}": ${e.message}`);
-          return "";
-        }
-        break;
-      case "visual":
-        try {
-          cssDeclaration = generateVisualRule(token, config);
-        } catch (e) {
-          console.warn(`[SenangStart] Error generating visual rule for "${raw}": ${e.message}`);
-          return "";
-        }
-        break;
-      default:
-        console.warn(`[SenangStart] Unknown attrType: ${attrType}`);
-        return "";
-    }
-    if (!cssDeclaration) return "";
-    if (!isValidCSSRule(cssDeclaration)) {
-      console.warn(`[SenangStart] Invalid CSS rule generated for "${raw}": ${cssDeclaration}`);
-      return "";
-    }
-    const isDivide = raw && raw.startsWith("divide");
-    let selector = "";
-    if (isDivide) {
-      selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
-    } else {
-      selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
-    }
-    if (state && state !== "dark") {
-      if (isDivide) {
-        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden]):${state}`;
+var DOC_FIELDS = ["description", "descriptionMs", "examples", "preview", "footnotes", "title", "titleMs"];
+function slimDefinitions(definitions) {
+  const slimDef = (def) => {
+    const out2 = {};
+    for (const [k, v] of Object.entries(def)) {
+      if (DOC_FIELDS.includes(k)) continue;
+      if (k === "values" && Array.isArray(v)) {
+        out2.values = v.map((val) => {
+          if (!val || typeof val !== "object") return val;
+          const o = {};
+          for (const [vk, vv] of Object.entries(val)) if (!DOC_FIELDS.includes(vk)) o[vk] = vv;
+          return o;
+        });
+      } else if (k === "percentageAdjectives" && Array.isArray(v)) {
+        out2[k] = v.map(({ name, value }) => ({ name, value }));
       } else {
-        const getStateSelector = (s) => {
-          const map = {
-            "expanded": '[aria-expanded="true"]',
-            "selected": '[aria-selected="true"]',
-            "disabled": ":disabled",
-            "placeholder": "::placeholder"
-          };
-          return map[s] || `:${s}`;
-        };
-        const selectors = [];
-        selectors.push(`${selector}${getStateSelector(state)}`);
-        const groupTriggers = {
-          "hover": "hoverable",
-          "focus": "focusable",
-          "focus-visible": "focusable",
-          "active": "pressable",
-          "expanded": "expandable",
-          "selected": "selectable"
-        };
-        if (groupTriggers[state]) {
-          const parentAttr = groupTriggers[state];
-          let triggerState = state;
-          if (state === "focus" || state === "focus-visible") triggerState = "focus-within";
-          const triggerSelector = getStateSelector(triggerState);
-          const groupSelector = `[layout~="${parentAttr}"]:not([layout~="disabled"])${triggerSelector} ${selector}`;
-          selectors.push(groupSelector);
-          if (interactIds && interactIds.size > 0) {
-            for (const id of interactIds) {
-              const peerSelector = `[interact~="${escapeCSSString(id)}"]:not([layout~="disabled"])${triggerSelector} ~ [listens~="${escapeCSSString(id)}"]${selector}`;
-              selectors.push(peerSelector);
-            }
-          }
-        }
-        selector = selectors.join(",\n");
+        out2[k] = v;
       }
     }
-    return `${selector} { ${cssDeclaration} }
-`;
-  } catch (e) {
-    console.warn(`[SenangStart] Error in generateRule: ${e.message}`);
-    return "";
-  }
-}
-function getDarkModeSelector(config) {
-  const darkMode = config.darkMode || "media";
-  if (Array.isArray(darkMode)) {
-    return darkMode[1] || ".dark";
-  }
-  if (darkMode === "selector") {
-    return ".dark";
-  }
-  return null;
-}
-function prefixRuleSelectors(rule, prefix) {
-  const braceIndex = rule.indexOf("{");
-  if (braceIndex === -1) return rule;
-  const selectorPart = rule.slice(0, braceIndex);
-  const rest = rule.slice(braceIndex);
-  const prefixed = selectorPart.split(",").map((sel) => {
-    const trimmed = sel.trim();
-    if (!trimmed) return sel;
-    if (trimmed.startsWith("@")) return sel;
-    return `${prefix} ${trimmed}`;
-  }).join(",\n");
-  return `${prefixed} ${rest}`;
-}
-function indentCSS(css, indent) {
-  return css.split("\n").map((line) => line.trim() ? indent + line : line).join("\n");
-}
-function generateDarkRules(bpTokens, breakpoint, ctx) {
-  const { config, screens, interactIds, errors, wrapSelector } = ctx;
-  let out = "";
-  const emitRules = (innerIndent) => {
-    let inner = "";
-    for (const token of bpTokens) {
-      try {
-        const rule = generateRule(token, config, true, interactIds);
-        if (rule) {
-          const finalRule = wrapSelector ? prefixRuleSelectors(rule, wrapSelector) : rule;
-          inner += indentCSS(finalRule, innerIndent);
-        } else {
-          errors.push({ type: "dark_rule", token: token.raw, message: "No rule generated" });
-        }
-      } catch (e) {
-        errors.push({ type: "dark_rule", token: token.raw, message: e.message });
-        console.warn(`[SenangStart] Error generating dark rule: ${e.message}`);
-      }
-    }
-    return inner;
+    return out2;
   };
-  if (!breakpoint) {
-    return emitRules(ctx.baseIndent || "");
+  const isGrouped = definitions && ["layout", "space", "visual"].every((k) => k in definitions && !definitions[k].name);
+  if (isGrouped) {
+    const out2 = {};
+    for (const cat of ["layout", "space", "visual"]) {
+      out2[cat] = {};
+      for (const [name, def] of Object.entries(definitions[cat])) out2[cat][name] = slimDef(def);
+    }
+    return out2;
   }
-  const screenWidth = screens && screens[breakpoint] ? screens[breakpoint] : breakpoint;
-  out += `  @media (min-width: ${screenWidth}) {
-`;
-  out += emitRules("    ");
-  out += "  }\n";
+  const out = {};
+  for (const [name, def] of Object.entries(definitions)) out[name] = slimDef(def);
   return out;
 }
-function generateCSSWithErrors(tokens, config) {
-  const errors = [];
-  try {
-    let css = "";
-    if (!config || typeof config !== "object") {
-      errors.push({ type: "config", message: "Invalid config provided" });
-      return { css: "", errors };
+function toTemplate(css) {
+  if (typeof css !== "string") return null;
+  return css.replace(/var\(--[a-z-]+?-\{value\}\)/g, "{value}").replace(/\{n\}/g, "{value}");
+}
+function propsOf(css) {
+  if (!css) return [];
+  return css.split(";").map((d) => d.split(":")[0].trim()).filter(Boolean);
+}
+var PHYSICAL_LONGHANDS = /* @__PURE__ */ new Set(["top", "right", "bottom", "left"]);
+function rankOf(props) {
+  if (!props.length) return 99;
+  let best = 99;
+  for (const p of props) {
+    const name = p.replace(/^-+/, "");
+    let rank = name.split("-").length;
+    if (PHYSICAL_LONGHANDS.has(name)) rank = 2;
+    if (name.startsWith("-webkit-") || name.startsWith("-moz-")) rank += 1;
+    if (rank < best) best = rank;
+  }
+  return best;
+}
+function prefixesFromSyntax(syntax, attr) {
+  const out = [];
+  if (!syntax) return out;
+  const re = new RegExp(`${attr}="([a-z0-9-]*)(?:\\{([^}]+)\\})?([a-z0-9-]*):`, "g");
+  let m;
+  while (m = re.exec(syntax)) {
+    const [, pre, alts, post] = m;
+    if (alts) for (const a of alts.split("|")) pushUnique(out, `${pre}${a}${post}`);
+    else pushUnique(out, `${pre}${post}`);
+  }
+  return out;
+}
+function pushUnique(arr, v) {
+  if (!arr.includes(v)) arr.push(v);
+}
+function isKeywordSyntax(syntax, attr) {
+  return !syntax || new RegExp(`${attr}="\\[`).test(syntax);
+}
+function singleDeclarationProperty(css) {
+  const m = /^\s*([a-zA-Z-]+)\s*:\s*([^;]+);\s*$/.exec(css || "");
+  return m ? { prop: m[1], val: m[2].trim() } : null;
+}
+function deriveNumeric(values) {
+  for (const v of values) {
+    if (!v || typeof v !== "object" || typeof v.value !== "string" || !/^\d+$/.test(v.value) || v.value === "0") continue;
+    const n = v.value;
+    const css = v.css || "";
+    const tryUnit = (unit, divide) => {
+      const literal = divide ? String(Number(n) / divide) : `${n}${unit}`;
+      const re = new RegExp(`(?<![\\d.])${literal.replace(".", "\\.")}(?![\\d.])`);
+      if (re.test(css)) return { unit, divide, template: css.replace(re, "{value}") };
+      return null;
+    };
+    return tryUnit("deg") || tryUnit("px") || tryUnit("", 100) || tryUnit("") || null;
+  }
+  return null;
+}
+var Registry = class {
+  constructor() {
+    this.keywords = /* @__PURE__ */ new Map();
+    this.utilities = /* @__PURE__ */ new Map();
+    for (const attr of ["layout", "space", "visual"]) {
+      this.keywords.set(attr, /* @__PURE__ */ new Map());
+      this.utilities.set(attr, /* @__PURE__ */ new Map());
     }
-    if (!Array.isArray(tokens)) {
-      errors.push({ type: "tokens", message: "Invalid tokens provided" });
-      return { css: "", errors };
+  }
+  addKeyword(entry) {
+    const map = this.keywords.get(entry.attr);
+    if (!map) return;
+    if (!map.has(entry.key)) map.set(entry.key, entry);
+  }
+  addUtility(entry) {
+    const map = this.utilities.get(entry.attr);
+    if (!map) return;
+    const existing = map.get(entry.key);
+    if (existing) {
+      existing.enum = { ...existing.enum || {}, ...entry.enum || {} };
+      if (existing.literals || entry.literals) existing.literals = { ...existing.literals || {}, ...entry.literals || {} };
+      if (entry.scale && !existing.scale) {
+        existing.scale = entry.scale;
+        existing.varPrefix = entry.varPrefix;
+        existing.color = entry.color;
+        existing.template = entry.template || existing.template;
+        existing.arbitraryTemplate = entry.arbitraryTemplate || existing.arbitraryTemplate;
+        existing.negatable = existing.negatable || entry.negatable;
+        existing.numeric = existing.numeric || entry.numeric;
+        existing.passthrough = false;
+      } else if (!existing.template && entry.template) {
+        existing.template = entry.template;
+        existing.arbitraryTemplate = existing.arbitraryTemplate || entry.arbitraryTemplate;
+        existing.numeric = existing.numeric || entry.numeric;
+        existing.passthrough = existing.passthrough || entry.passthrough;
+      } else if (!existing.scale) {
+        existing.passthrough = existing.passthrough && entry.passthrough;
+      }
+      existing.arbitrary = existing.arbitrary || entry.arbitrary;
+      existing.arbitraryWrap = existing.arbitraryWrap || entry.arbitraryWrap;
+      existing.childCombinator = existing.childCombinator || entry.childCombinator;
+      existing.scaleValues = [.../* @__PURE__ */ new Set([...existing.scaleValues || [], ...entry.scaleValues || []])];
+      existing.props = [.../* @__PURE__ */ new Set([...existing.props, ...entry.props])];
+      existing.order = Math.min(existing.order, entry.order);
+      return;
     }
-    try {
-      css += generateCSSVariables(config);
-    } catch (e) {
-      errors.push({ type: "variables", message: e.message });
-      console.warn(`[SenangStart] Error generating CSS variables: ${e.message}`);
-    }
-    if (config.preflight !== false) {
-      try {
-        css += generatePreflight(config);
-      } catch (e) {
-        errors.push({ type: "preflight", message: e.message });
-        console.warn(`[SenangStart] Error generating preflight: ${e.message}`);
+    map.set(entry.key, entry);
+  }
+  /** Keyword entry for `attr="key"` or null. */
+  keyword(attr, key) {
+    return this.keywords.get(attr)?.get(key) || null;
+  }
+  /** Utility entry for `attr="key:value"` or null. */
+  utility(attr, key) {
+    return this.utilities.get(attr)?.get(key) || null;
+  }
+  /** All known keys for an attribute (for "did you mean" suggestions). */
+  keys(attr) {
+    return [...this.keywords.get(attr)?.keys() || [], ...this.utilities.get(attr)?.keys() || []];
+  }
+  /** All utility entries (for tests / tooling). */
+  entries() {
+    const out = [];
+    for (const map of this.keywords.values()) out.push(...map.values());
+    for (const map of this.utilities.values()) out.push(...map.values());
+    return out;
+  }
+};
+function baseEntry(def, attr, key) {
+  return {
+    id: def.name,
+    attr,
+    key,
+    kind: "utility",
+    css: null,
+    template: null,
+    arbitraryTemplate: null,
+    twTemplate: null,
+    enum: null,
+    literals: null,
+    scale: null,
+    varPrefix: null,
+    scaleValues: Array.isArray(def.scaleValues) ? def.scaleValues.slice() : [],
+    arbitrary: !!def.supportsArbitrary,
+    arbitraryWrap: null,
+    negatable: !!def.supportsNegative,
+    numeric: null,
+    passthrough: false,
+    color: false,
+    childCombinator: false,
+    composes: null,
+    quote: false,
+    props: [],
+    order: 99,
+    group: null
+  };
+}
+function finalize(entry) {
+  const cssForProps = entry.css || entry.template || entry.arbitraryTemplate || Object.values(entry.enum || {})[0] || "";
+  if (!entry.props.length) entry.props = propsOf(cssForProps);
+  entry.order = rankOf(entry.props);
+  entry.group = entry.props[0] || entry.key;
+  if (entry.scale && !entry.varPrefix && SCALE_VAR_PREFIX[entry.scale] && entry.varPrefix !== false) {
+    entry.varPrefix = SCALE_VAR_PREFIX[entry.scale];
+  }
+  if (entry.varPrefix === false) entry.varPrefix = null;
+  if (entry.scale === "colors") entry.color = true;
+  return entry;
+}
+function applyEngineMeta(entry, meta, key) {
+  if (!meta) return entry;
+  const perKey = meta.templates && meta.templates[key] || null;
+  if (perKey) entry.template = perKey;
+  if (meta.template) entry.template = meta.template;
+  if (meta.arbitraryTemplates && meta.arbitraryTemplates[key]) entry.arbitraryTemplate = meta.arbitraryTemplates[key];
+  if (meta.arbitraryTemplate) entry.arbitraryTemplate = meta.arbitraryTemplate;
+  if (meta.twTemplate) entry.twTemplate = meta.twTemplate;
+  if (meta.valuesAreExamples) entry.enum = null;
+  if (meta.enum) entry.enum = { ...entry.enum || {}, ...meta.enum };
+  if (meta.enumMap) {
+    entry.literals = { ...entry.literals || {}, ...meta.enumMap };
+  }
+  if (meta.literals) entry.literals = { ...entry.literals || {}, ...meta.literals };
+  if (meta.scale !== void 0) entry.scale = meta.scale;
+  if (meta.varPrefix !== void 0) entry.varPrefix = meta.varPrefix;
+  if (meta.arbitrary !== void 0) entry.arbitrary = meta.arbitrary;
+  if (meta.arbitraryWrap) entry.arbitraryWrap = meta.arbitraryWrap;
+  if (meta.negatable !== void 0) entry.negatable = meta.negatable;
+  if (meta.numeric !== void 0) entry.numeric = meta.numeric === true ? { unit: "", divide: null } : meta.numeric;
+  if (meta.passthrough !== void 0) entry.passthrough = meta.passthrough;
+  if (meta.color !== void 0) entry.color = meta.color;
+  if (meta.childCombinator !== void 0) entry.childCombinator = meta.childCombinator;
+  if (meta.composes) entry.composes = meta.composes;
+  if (meta.quote !== void 0) entry.quote = meta.quote;
+  if (meta.scaleValues) entry.scaleValues = [.../* @__PURE__ */ new Set([...entry.scaleValues, ...meta.scaleValues])];
+  if (meta.props) entry.props = meta.props.slice();
+  return entry;
+}
+function buildRegistry(definitions) {
+  const defs = definitions || {
+    layout: definitions_default.layout,
+    space: definitions_default.space,
+    visual: definitions_default.visual
+  };
+  const registry = new Registry();
+  const markers = /* @__PURE__ */ new Set(["disabled"]);
+  for (const v of Object.values(STATE_VARIANTS)) if (v.group) markers.add(v.group);
+  for (const key of markers) {
+    registry.addKeyword({ ...baseEntry({ name: "state-capability" }, "layout", key), kind: "marker", css: null, order: 0, group: key });
+  }
+  for (const cat of ["layout", "space", "visual"]) {
+    const group = defs[cat] || {};
+    for (const def of Object.values(group)) {
+      if (!def || typeof def !== "object") continue;
+      const attr = def.property || cat;
+      if (!["layout", "space", "visual"].includes(attr)) continue;
+      const meta = def.engine || null;
+      if (meta && meta.skip) continue;
+      const attrs = meta && Array.isArray(meta.attrs) ? meta.attrs : [attr];
+      for (const a of attrs) {
+        if (!["layout", "space", "visual"].includes(a)) continue;
+        addDefinition(registry, def, a, meta);
       }
     }
-    css += `/* SenangStart CSS - Animation Keyframes */
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  }
+  return registry;
 }
-@keyframes ping {
-  75%, 100% { transform: scale(2); opacity: 0; }
+function addDefinition(registry, def, attr, meta) {
+  const values = Array.isArray(def.values) ? def.values : [];
+  const prefixes = meta && meta.prefixes ? meta.prefixes.slice() : prefixesFromSyntax(def.syntax, def.property || attr);
+  if (meta && Array.isArray(meta.aliases)) for (const a of meta.aliases) pushUnique(prefixes, a);
+  const keywordSyntax = prefixes.length === 0 && isKeywordSyntax(def.syntax, def.property || attr);
+  if (meta && meta.utilities) {
+    for (const [key, spec] of Object.entries(meta.utilities)) {
+      const e = baseEntry(def, attr, key);
+      e.scale = def.usesScale || null;
+      applyEngineMeta(e, { ...spec, templates: null, arbitraryTemplates: null }, key);
+      registry.addUtility(finalize(e));
+    }
+  }
+  if (meta && meta.keywords) {
+    for (const [key, css] of Object.entries(meta.keywords)) {
+      registry.addKeyword(finalize({ ...baseEntry(def, attr, key), kind: "keyword", css }));
+    }
+  }
+  if (prefixes.length === 0) {
+    for (const v of values) {
+      if (!v || typeof v !== "object") continue;
+      const key = v.value || v.property;
+      if (!key || typeof v.css !== "string") continue;
+      if (key.includes(":")) {
+        const [pfx, val] = key.split(":");
+        const e = baseEntry(def, attr, pfx);
+        e.enum = { [val]: v.css };
+        applyEngineMeta(e, meta, pfx);
+        registry.addUtility(finalize(e));
+        continue;
+      }
+      if (!keywordSyntax && !v.property) continue;
+      if (/^\d+-\d+$/.test(key)) continue;
+      registry.addKeyword(finalize({ ...baseEntry(def, attr, key), kind: "keyword", css: v.css }));
+    }
+    if (!keywordSyntax && values.length === 0) {
+      const m = new RegExp(`${attr}="([a-z-]+)"`).exec(def.syntax || "");
+      if (m && meta && meta.css) registry.addKeyword(finalize({ ...baseEntry(def, attr, m[1]), kind: "keyword", css: meta.css }));
+    }
+    return;
+  }
+  const perPrefix = values.filter((v) => v && typeof v === "object" && typeof v.css === "string" && (v.property || def.usesScale && /\{value\}|\{n\}/.test(v.css) && !values.some((o) => o !== v && o.value === v.value)));
+  const isPerPrefix = perPrefix.length > 0 && perPrefix.every((v) => v.property || /\{value\}|\{n\}/.test(v.css));
+  if (isPerPrefix && perPrefix.length === values.length) {
+    for (const v of perPrefix) {
+      const key = v.property || v.value;
+      const e = baseEntry(def, attr, key);
+      e.template = toTemplate(v.css);
+      e.scale = def.usesScale || null;
+      addPercentageLiterals(e, def);
+      applyEngineMeta(e, meta, key);
+      registry.addUtility(finalize(e));
+    }
+    return;
+  }
+  const numeric = def.dynamic ? deriveNumeric(values) : null;
+  for (const key of prefixes) {
+    const enumMap = {};
+    const literalMap = {};
+    let sharedProp = null;
+    let sharedPropConsistent = true;
+    let rangeTemplate = null;
+    for (const v of values) {
+      if (!v || typeof v !== "object" || typeof v.value !== "string" || typeof v.css !== "string") continue;
+      if (v.prefix && v.prefix !== key) continue;
+      if (/^\d+-\d+$/.test(v.value)) {
+        rangeTemplate = toTemplate(v.css);
+        continue;
+      }
+      if (v.value.includes(":")) continue;
+      if (!v.css.includes(":")) {
+        literalMap[v.value] = v.css;
+        continue;
+      }
+      enumMap[v.value] = v.css;
+      const single = singleDeclarationProperty(v.css);
+      if (single) {
+        if (sharedProp === null) sharedProp = single.prop;
+        else if (sharedProp !== single.prop) sharedPropConsistent = false;
+      } else {
+        sharedPropConsistent = false;
+      }
+    }
+    const e = baseEntry(def, attr, key);
+    e.enum = { ...enumMap };
+    if (Object.keys(literalMap).length) e.literals = { ...literalMap };
+    e.scale = def.usesScale || null;
+    if (numeric && numeric.template) {
+      e.template = numeric.template;
+      e.numeric = { unit: numeric.unit, divide: numeric.divide };
+    } else if (rangeTemplate) {
+      e.template = rangeTemplate;
+      e.numeric = { unit: "", divide: null, integer: true };
+    } else if (sharedProp && sharedPropConsistent) {
+      e.template = `${sharedProp}: {value};`;
+    }
+    if (e.scale && !e.template && sharedProp) e.template = `${sharedProp}: {value};`;
+    e.passthrough = false;
+    if (e.scale) {
+      e.scaleValues = [.../* @__PURE__ */ new Set([...e.scaleValues, ...Object.keys(enumMap)])];
+    }
+    addPercentageLiterals(e, def);
+    const hadPerKeyTemplate = !!(meta && meta.templates && meta.templates[key]);
+    applyEngineMeta(e, meta, key);
+    if (hadPerKeyTemplate) {
+      if (!e.scale && !e.numeric && sharedProp && sharedPropConsistent) {
+        e.literals = e.literals || {};
+        for (const [val, css] of Object.entries(e.enum || {})) {
+          const single = singleDeclarationProperty(css);
+          if (single && !(val in e.literals)) e.literals[val] = single.val;
+        }
+      }
+      e.enum = meta.enum ? { ...meta.enum } : null;
+    }
+    registry.addUtility(finalize(e));
+  }
 }
-@keyframes pulse {
-  50% { opacity: .5; }
+function addPercentageLiterals(entry, def) {
+  if (Array.isArray(def.percentageAdjectives)) {
+    entry.literals = entry.literals || {};
+    for (const p of def.percentageAdjectives) {
+      if (p && p.name && p.value) entry.literals[p.name] = p.value;
+    }
+  }
 }
-@keyframes bounce {
-  0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
-  50% { transform: none; animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+var _default = null;
+function getDefaultRegistry() {
+  if (!_default) {
+    _default = buildRegistry(slimDefinitions({
+      layout: definitions_default.layout,
+      space: definitions_default.space,
+      visual: definitions_default.visual
+    }));
+  }
+  return _default;
 }
 
-/* SenangStart CSS - Utility Classes */
-`;
-    const baseTokens = [];
-    const darkTokensByBreakpoint = /* @__PURE__ */ new Map();
-    const breakpointTokens = {};
-    const { screens } = config.theme || {};
-    if (screens && typeof screens === "object") {
-      for (const bp of Object.keys(screens)) {
-        breakpointTokens[bp] = [];
-      }
+// src/compiler/generators/diagnose.js
+var ATTRS = ["layout", "space", "visual"];
+function knownVariantNames(config) {
+  const screens = Object.keys(config && config.theme && config.theme.screens || {});
+  return [...Object.keys(STATE_VARIANTS), ...Object.keys(MEDIA_VARIANTS), "dark", ...screens, ...screens.map((s) => `max-${s}`)];
+}
+function scaleKeys(entry, config) {
+  const theme = config && config.theme || {};
+  const out = /* @__PURE__ */ new Set();
+  if (entry && entry.scale && theme[entry.scale] && typeof theme[entry.scale] === "object") {
+    for (const k of Object.keys(theme[entry.scale])) out.add(k);
+  }
+  if (entry && entry.enum && typeof entry.enum === "object") for (const k of Object.keys(entry.enum)) out.add(k);
+  if (entry && Array.isArray(entry.literals)) for (const k of entry.literals) out.add(k);
+  if (entry && Array.isArray(entry.scaleValues)) for (const k of entry.scaleValues) out.add(k);
+  return [...out];
+}
+function diagnoseToken(token, config) {
+  const registry = getDefaultRegistry();
+  const { attrType, property, value, raw } = token;
+  const props = registry.keys(attrType);
+  if (typeof value === "string" && value.includes(":")) {
+    const next = value.split(":")[0];
+    if (props.includes(next) && !parseVariant(property, config)) {
+      return diagnostic(
+        token,
+        CODES.UNKNOWN_VARIANT,
+        `Unknown variant "${property}:" in "${raw}"`,
+        suggest(property, knownVariantNames(config))
+      );
     }
-    for (const token of tokens) {
-      try {
-        if (token && typeof token === "object") {
-          if (token.state === "dark") {
-            const bpKey = token.breakpoint || null;
-            if (!darkTokensByBreakpoint.has(bpKey)) {
-              darkTokensByBreakpoint.set(bpKey, []);
-            }
-            darkTokensByBreakpoint.get(bpKey).push(token);
-          } else if (token.breakpoint) {
-            if (!breakpointTokens[token.breakpoint]) {
-              breakpointTokens[token.breakpoint] = [];
-            }
-            breakpointTokens[token.breakpoint].push(token);
-          } else {
-            baseTokens.push(token);
-          }
-        } else {
-          errors.push({ type: "token_format", token, message: "Token is not an object" });
-        }
-      } catch (e) {
-        errors.push({ type: "token_processing", token: token?.raw, message: e.message });
-        console.warn(`[SenangStart] Error processing token: ${e.message}`);
-      }
+  }
+  if (!props.includes(property)) {
+    const other = ATTRS.find((a) => a !== attrType && registry.keys(a).includes(property));
+    if (other) {
+      return diagnostic(
+        token,
+        CODES.UNKNOWN_PROPERTY,
+        `"${property}" is a ${other} utility; move "${raw}" to the ${other}="" attribute`,
+        `${other}="${raw}"`
+      );
     }
-    const interactIds = /* @__PURE__ */ new Set();
-    for (const token of tokens) {
-      try {
-        if (token && token.attrType === "interact" && token.raw) {
-          interactIds.add(token.raw);
-        }
-      } catch (e) {
-        errors.push({ type: "interact_collection", token: token?.raw, message: e.message });
-        console.warn(`[SenangStart] Error collecting interact IDs: ${e.message}`);
-      }
-    }
-    const displayProps = ["flex", "grid", "inline-flex", "inline-grid", "block", "inline", "inline-block", "hidden"];
-    const baseDisplayTokens = /* @__PURE__ */ new Map();
-    for (const token of baseTokens) {
-      try {
-        if (token.attrType && displayProps.includes(token.property)) {
-          if (!baseDisplayTokens.has(token.attrType)) {
-            baseDisplayTokens.set(token.attrType, /* @__PURE__ */ new Set());
-          }
-          baseDisplayTokens.get(token.attrType).add(token.raw);
-        }
-      } catch (e) {
-        errors.push({ type: "display_track", token: token?.raw, message: e.message });
-        console.warn(`[SenangStart] Error tracking display properties: ${e.message}`);
-      }
-    }
-    for (const token of baseTokens) {
-      try {
-        const rule = generateRule(token, config, false, interactIds);
-        if (rule) {
-          css += rule;
-        } else {
-          errors.push({ type: "rule_generation", token: token.raw, message: "No rule generated" });
-        }
-      } catch (e) {
-        errors.push({ type: "rule_generation", token: token.raw, message: e.message });
-        console.warn(`[SenangStart] Error generating base rule: ${e.message}`);
-      }
-    }
-    for (const [bp, bpTokens] of Object.entries(breakpointTokens)) {
-      try {
-        if (bpTokens.length > 0) {
-          const screenWidth = screens && screens[bp] ? screens[bp] : bp;
-          css += `
-@media (min-width: ${screenWidth}) {
-`;
-          const processedResetSelectors = /* @__PURE__ */ new Set();
-          for (const bpToken of bpTokens) {
-            try {
-              if (bpToken.attrType && displayProps.includes(bpToken.property)) {
-                if (baseDisplayTokens.has(bpToken.attrType)) {
-                  const baseDisplays = baseDisplayTokens.get(bpToken.attrType);
-                  if (baseDisplays.size > 0 && !baseDisplays.has(bpToken.raw) && !processedResetSelectors.has(bpToken.raw)) {
-                    const selector = `[${bpToken.attrType}~="${escapeCSSString(bpToken.raw)}"]`;
-                    css += `  ${selector} { display: revert-layer; }
-`;
-                    processedResetSelectors.add(bpToken.raw);
-                  }
-                }
-              }
-            } catch (e) {
-              errors.push({ type: "display_reset", token: bpToken.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating display reset: ${e.message}`);
-            }
-          }
-          for (const token of bpTokens) {
-            try {
-              const rule = generateRule(token, config, false, interactIds);
-              if (rule) {
-                css += "  " + rule;
-              } else {
-                errors.push({ type: "responsive_rule", token: token.raw, message: "No rule generated" });
-              }
-            } catch (e) {
-              errors.push({ type: "responsive_rule", token: token.raw, message: e.message });
-              console.warn(`[SenangStart] Error generating responsive rule: ${e.message}`);
-            }
-          }
-          css += "}\n";
-        }
-      } catch (e) {
-        errors.push({ type: "breakpoint_generation", message: `Error generating breakpoint ${bp}: ${e.message}` });
-        console.warn(`[SenangStart] Error generating breakpoint ${bp}: ${e.message}`);
-      }
-    }
-    if (darkTokensByBreakpoint.size > 0) {
-      try {
-        const darkMode = config.darkMode || "media";
-        const darkSelector = getDarkModeSelector(config);
-        const darkCtx = { config, screens, interactIds, errors, baseIndent: darkMode === "media" ? "  " : "" };
-        if (darkMode === "media") {
-          css += `
-/* Dark Mode (prefers-color-scheme) */
-`;
-          css += `@media (prefers-color-scheme: dark) {
-`;
-          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
-            css += generateDarkRules(bpDarkTokens, bp || null, darkCtx);
-          }
-          css += "}\n";
-        } else {
-          css += `
-/* Dark Mode (${darkSelector}) */
-`;
-          const selectorCtx = { ...darkCtx, wrapSelector: darkSelector };
-          for (const [bp, bpDarkTokens] of darkTokensByBreakpoint) {
-            css += generateDarkRules(bpDarkTokens, bp || null, selectorCtx);
-          }
-        }
-      } catch (e) {
-        errors.push({ type: "dark_mode_generation", message: e.message });
-        console.warn(`[SenangStart] Error generating dark mode rules: ${e.message}`);
-      }
-    }
-    return { css, errors };
-  } catch (e) {
-    errors.push({ type: "fatal", message: e.message });
-    console.error(`[SenangStart] Fatal error in generateCSSWithErrors: ${e.message}`);
-    return { css: "", errors };
+    return diagnostic(
+      token,
+      CODES.UNKNOWN_PROPERTY,
+      `Unknown ${attrType} utility "${property}" in "${raw}"`,
+      suggest(property, props)
+    );
+  }
+  const entry = registry.utility(attrType, property);
+  const base = typeof value === "string" ? value.replace(/^-/, "").replace(/\/.*$/, "") : value;
+  return diagnostic(
+    token,
+    CODES.UNKNOWN_VALUE,
+    `Unknown value "${value}" for ${attrType} utility "${property}"`,
+    suggest(base, scaleKeys(entry, config))
+  );
+}
+function checkUndefinedVars(rule, token, defined) {
+  if (!defined || token.isArbitrary) return null;
+  for (const m of rule.matchAll(/var\(\s*(--[\w-]+)\s*([,)])/g)) {
+    const name = m[1];
+    if (m[2] === ",") continue;
+    if (defined.has(name) || /^--(ss|tw)-/.test(name)) continue;
+    const prefix = name.replace(/^(--[a-z]+-).*/, "$1");
+    const candidates = [...defined].filter((v) => v.startsWith(prefix)).map((v) => v.slice(prefix.length));
+    const missing = name.slice(prefix.length);
+    const key = missing.replace(/^-/, "");
+    return diagnostic(
+      token,
+      CODES.UNKNOWN_VALUE,
+      `Unknown value "${key}" in "${token.raw}" (no theme token ${name})`,
+      suggest(key, candidates)
+    );
+  }
+  return null;
+}
+
+// src/compiler/generators/preflight.js
+function generateContainerCSS(config) {
+  const cfg = config || {};
+  const screens = cfg.theme?.screens;
+  if (!screens || typeof screens !== "object") return "";
+  const containerOverrides = cfg.theme?.container || {};
+  const skipBps = /* @__PURE__ */ new Set(["print"]);
+  let css = "";
+  for (const [bp, width2] of Object.entries(screens)) {
+    if (skipBps.has(bp) || bp.startsWith("tw-")) continue;
+    const maxWidth = containerOverrides[bp] || width2;
+    css += `
+@media (min-width: ${width2}) {
+  [layout~="container"] {
+    max-width: ${maxWidth};
   }
 }
-function generateCSS(tokens, config) {
-  const { css } = generateCSSWithErrors(tokens, config);
+`;
+  }
   return css;
 }
-function minifyCSS(css) {
-  if (typeof css !== "string" || css === "") return "";
-  let stripped = "";
-  let state = "normal";
-  let quote = "";
-  for (let i = 0; i < css.length; i++) {
-    const ch = css[i];
-    if (state === "comment") {
-      if (ch === "*" && css[i + 1] === "/") {
-        state = "normal";
-        i++;
-      }
-      continue;
-    }
-    if (state === "string") {
-      stripped += ch;
-      if (ch === "\\") {
-        stripped += css[i + 1] || "";
-        i++;
-      } else if (ch === quote) {
-        state = "normal";
-      }
-      continue;
-    }
-    if (ch === '"' || ch === "'") {
-      state = "string";
-      quote = ch;
-      stripped += ch;
-      continue;
-    }
-    if (ch === "/" && css[i + 1] === "*") {
-      state = "comment";
-      i++;
-      continue;
-    }
-    stripped += ch;
-  }
-  const preserved = [];
-  const collapsed = stripped.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, (m) => `\0${preserved.push(m) - 1}\0`).replace(/\s+/g, " ").replace(/ ?\{ ?/g, "{").replace(/ ?\} ?/g, "}").replace(/; ?/g, ";").replace(/([a-z-]) ?: ?/g, "$1:").replace(/, ?/g, ",").trim();
-  return collapsed.replace(/\u0000(\d+)\u0000/g, (_, i) => preserved[Number(i)] ?? "");
+function generatePreflight(config) {
+  const css = `/* 
+ * SenangStart Preflight v1.0
+ * An opinionated set of base styles for SenangStart CSS projects
+ * Based on modern-normalize and Tailwind CSS Preflight
+ */
+
+/*
+ * 1. Prevent padding and border from affecting element width
+ * 2. Allow adding a border to an element by just adding a border-width
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: currentColor; /* 2 */
+}
+
+/*
+ * 1. Use a consistent sensible line-height in all browsers
+ * 2. Prevent adjustments of font size after orientation changes in iOS
+ * 3. Use a more readable tab size
+ * 4. Use the user's configured sans font-family by default
+ * 5. Use the user's configured sans font-feature-settings by default
+ * 6. Use the user's configured sans font-variation-settings by default
+ * 7. Disable tap highlights on iOS
+ */
+html,
+:host {
+  line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  -moz-tab-size: 4; /* 3 */
+  tab-size: 4; /* 3 */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
+}
+
+/*
+ * 1. Remove the margin in all browsers
+ * 2. Inherit line-height from html so users can set them as a class directly on the html element
+ * 3. Support safe-area-inset for modern devices with notches
+ */
+body {
+  margin: 0; /* 1 */
+  line-height: inherit; /* 2 */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); /* 3 */
+}
+
+/*
+ * 1. Add the correct height in Firefox
+ * 2. Correct the inheritance of border color in Firefox
+ * 3. Ensure horizontal rules are visible by default
+ */
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+  border-top-width: 1px; /* 3 */
+}
+
+/*
+ * Set default placeholder color to a semi-transparent gray
+ * Uses theme variable for customization with fallback
+ */
+input::placeholder,
+textarea::placeholder {
+  opacity: 1; /* 1 */
+  color: var(--placeholder-color, #9ca3af); /* 2 */
+}
+
+/*
+ * 1. Remove the default font size and weight for headings
+ * 2. Make sure links don't get underlined in headings
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit; /* 1 */
+  font-weight: inherit; /* 1 */
+  text-decoration: none; /* 2 */
+}
+
+/*
+ * Reset links to optimize for opt-in styling instead of opt-out
+ */
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/*
+ * Add the correct font weight in Edge and Safari
+ */
+b,
+strong {
+  font-weight: bolder;
+}
+
+/*
+ * 1. Use the user's configured mono font-family by default
+ * 2. Use the user's configured mono font-feature-settings by default
+ * 3. Use the user's configured mono font-variation-settings by default
+ * 4. Correct the odd em font sizing in all browsers
+ */
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
+}
+
+/*
+ * Add the correct font size in all browsers
+ */
+small {
+  font-size: 80%;
+}
+
+/*
+ * Prevent sub and sup elements from affecting the line height in all browsers
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+ * 1. Remove text indentation from table contents in Chrome and Safari
+ * 2. Correct table border color inheritance in all Chrome and Safari
+ * 3. Remove gaps between table borders by default
+ */
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+  border-collapse: collapse; /* 3 */
+}
+
+/*
+ * 1. Change the font styles in all browsers
+ * 2. Remove the margin in Firefox and Safari
+ * 3. Remove default padding in all browsers
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-feature-settings: inherit; /* 1 */
+  font-variation-settings: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  font-weight: inherit; /* 1 */
+  line-height: inherit; /* 1 */
+  letter-spacing: inherit; /* 1 */
+  color: inherit; /* 1 */
+  margin: 0; /* 2 */
+  padding: 0; /* 3 */
+}
+
+/*
+ * Remove the inheritance of text transform in Edge and Firefox
+ */
+button,
+select {
+  text-transform: none;
+}
+
+/*
+ * 1. Correct the inability to style clickable types in iOS and Safari
+ * 2. Remove default button styles
+ */
+button,
+input:where([type='button']),
+input:where([type='reset']),
+input:where([type='submit']) {
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
+}
+
+/*
+ * Use the modern Firefox focus style for all focusable elements
+ */
+:-moz-focusring {
+  outline: auto;
+}
+
+/*
+ * Remove the additional :invalid styles in Firefox
+ */
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/*
+ * Add the correct text decoration in Chrome, Edge, and Safari
+ */
+abbr:where([title]) {
+  text-decoration: underline dotted;
+}
+
+
+
+/*
+ * Correct the cursor style of increment and decrement buttons in Safari
+ */
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/*
+ * 1. Correct the odd appearance in Chrome and Safari
+ * 2. Correct the outline style in Safari
+ */
+[type='search'] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/*
+ * Remove the inner padding in Chrome and Safari on macOS
+ */
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+ * 1. Correct the inability to style clickable types in iOS and Safari
+ * 2. Change font properties to inherit in Safari
+ */
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/*
+ * Add the correct display in Chrome and Safari
+ */
+summary {
+  display: list-item;
+}
+
+/*
+ * Removes the default spacing and border for appropriate elements
+ */
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+
+
+/*
+ * Reset default styling for dialogs
+ */
+dialog {
+  padding: 0;
+}
+
+/*
+ * Prevent resizing textareas horizontally by default
+ */
+textarea {
+  resize: vertical;
+}
+
+/*
+ * Set the default cursor for buttons
+ */
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/*
+ * Make sure disabled buttons don't get the pointer cursor
+ */
+:disabled {
+  cursor: default;
+}
+
+/*
+ * 1. Make replaced elements display: block by default
+ * 2. Add vertical-align: middle to align replaced elements more sensibly by default
+ */
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+/*
+ * Constrain images and videos to the parent width and preserve their intrinsic aspect ratio
+ */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+ * Make elements with the HTML hidden attribute stay hidden by default
+ */
+[hidden] {
+  display: none;
+}
+
+`;
+  return css + generateContainerCSS(config);
 }
 
 // src/config/colors.js
@@ -10734,31 +10162,870 @@ function mergeConfig(userConfig = {}, options = {}) {
   return merged;
 }
 
-// src/compiler/index.js
-function logInvalidTokens(tokens) {
-  const invalidTokens = tokens.filter((token) => token.error);
-  if (invalidTokens.length > 0 && typeof console !== "undefined") {
-    console.warn(`
-${invalidTokens.length} error(s) found in source:`);
-    for (const token of invalidTokens) {
-      console.warn(`  \u2022 ${token.raw} (${token.attrType}): ${token.error}`);
+// src/engine/resolve.js
+var PALETTE_KEYS = new Set(Object.keys(COLOR_PALETTE || {}));
+var TW_TABLES = {
+  spacing: { table: TW_SPACING, varPrefix: "--tw-", normalize: (k) => k.replace(/\./g, "-") },
+  radius: { table: TW_RADIUS, varPrefix: "--r-tw-" },
+  shadow: { table: TW_SHADOW, varPrefix: "--shadow-tw-" },
+  fontSize: { table: TW_FONT_SIZE, varPrefix: "--tw-text-" },
+  fontWeight: { table: TW_FONT_WEIGHT, varPrefix: "--tw-font-" }
+};
+var IDENTIFIER = /^-?[A-Za-z][A-Za-z0-9-]*$/;
+var NUMBER = /^-?\d*\.?\d+$/;
+var FUNCTION_LIKE = /^[a-zA-Z-]+\(/;
+function fillTemplate(template, value, key = value) {
+  return template.replace(/\{value\}/g, value).replace(/\{key\}/g, key);
+}
+function fail(code, message, suggestion = null) {
+  return { css: null, error: { code, message, suggestion } };
+}
+function ok(css, usedVars) {
+  return { css, error: null, usedVars };
+}
+function varsIn(css) {
+  const out = [];
+  const re = /var\((--[A-Za-z0-9_-]+)/g;
+  let m;
+  while (m = re.exec(css)) out.push(m[1]);
+  return out;
+}
+function lookupScale(entry, key, ctx) {
+  const theme = ctx.theme || {};
+  const scale = entry.scale;
+  if (key.startsWith("tw-") && TW_TABLES[scale]) {
+    const tw = TW_TABLES[scale];
+    const k = tw.normalize ? tw.normalize(key.slice(3)) : key.slice(3);
+    if (k in tw.table) return { value: `var(${tw.varPrefix}${k})`, key: k, tw: true };
+    return null;
+  }
+  const scaleObj = theme[scale];
+  const known = scaleObj && Object.prototype.hasOwnProperty.call(scaleObj, key) || entry.scaleValues.includes(key) || scale === "colors" && PALETTE_KEYS.has(key);
+  if (!known) return null;
+  if (entry.varPrefix) return { value: `var(${entry.varPrefix}${key})`, key };
+  const inline = scaleObj && scaleObj[key] !== void 0 ? String(scaleObj[key]) : null;
+  if (inline === null) return null;
+  return { value: inline, key };
+}
+function knownScaleKeys(entry, ctx) {
+  const theme = ctx.theme || {};
+  const keys = new Set(entry.scaleValues);
+  if (entry.scale && theme[entry.scale]) for (const k of Object.keys(theme[entry.scale])) keys.add(k);
+  if (entry.scale === "colors") for (const k of PALETTE_KEYS) keys.add(k);
+  return keys;
+}
+function parseOpacity(raw) {
+  if (/^\d{1,3}$/.test(raw)) {
+    const n = parseInt(raw, 10);
+    if (n >= 0 && n <= 100) return n / 100;
+  }
+  if (/^\d*\.?\d+$/.test(raw)) {
+    const n = parseFloat(raw);
+    if (n >= 0 && n <= 1) return n;
+  }
+  const arb = /^\[(.+)\]$/.exec(raw);
+  if (arb) {
+    const inner = arb[1].trim();
+    if (/^\d*\.?\d+%?$/.test(inner)) {
+      const n = parseFloat(inner);
+      if (inner.endsWith("%")) return n >= 0 && n <= 100 ? n / 100 : NaN;
+      return n >= 0 && n <= 1 ? n : NaN;
+    }
+    return NaN;
+  }
+  return NaN;
+}
+function resolveColor(rawValue, isArbitrary, entry, ctx) {
+  let colorPart = rawValue;
+  let opacity2 = null;
+  if (!isArbitrary) {
+    const slash = rawValue.lastIndexOf("/");
+    if (slash > 0) {
+      const maybe = rawValue.slice(slash + 1);
+      const parsed = parseOpacity(maybe);
+      if (!Number.isNaN(parsed)) {
+        opacity2 = parsed;
+        colorPart = rawValue.slice(0, slash);
+      } else if (/^\[/.test(maybe) || /^\d/.test(maybe)) {
+        return { error: { code: CODES.INVALID_VALUE, message: `Invalid opacity modifier "/${maybe}" in "${rawValue}"` } };
+      }
     }
   }
-  return invalidTokens;
+  let resolved;
+  const arb = !isArbitrary && /^\[(.+)\]$/.exec(colorPart);
+  if (isArbitrary || arb) {
+    const inner = arb ? arb[1].replace(/_/g, " ") : colorPart;
+    const check = validateValue(inner);
+    if (!check.ok) return { error: { code: CODES.INVALID_VALUE, message: `Invalid value "${inner}": ${check.reason}` } };
+    resolved = inner;
+  } else if (colorPart === "current") {
+    resolved = "currentColor";
+  } else if (CSS_COLOR_KEYWORDS.includes(colorPart)) {
+    resolved = colorPart;
+  } else {
+    if (!isValidScaleKey(colorPart)) {
+      return { error: { code: CODES.INVALID_VALUE, message: `Invalid colour "${colorPart}"` } };
+    }
+    const hit = lookupScale({ ...entry, scale: "colors", varPrefix: "--c-" }, colorPart, ctx);
+    if (!hit) {
+      const candidates = [...knownScaleKeys({ ...entry, scale: "colors" }, ctx), "current", ...CSS_COLOR_KEYWORDS];
+      return { error: { code: CODES.UNKNOWN_VALUE, message: `Unknown colour "${colorPart}"`, suggestion: suggest(colorPart, candidates) } };
+    }
+    resolved = hit.value;
+  }
+  if (opacity2 !== null) {
+    resolved = `color-mix(in srgb, ${resolved} ${Math.round(opacity2 * 100)}%, transparent)`;
+  }
+  return { value: resolved };
+}
+function resolveNumeric(entry, key) {
+  const n = entry.numeric;
+  if (!n || !NUMBER.test(key)) return null;
+  if (n.integer && !/^-?\d+$/.test(key)) return null;
+  const num = parseFloat(key);
+  if (n.divide) return String(num / n.divide);
+  if (num === 0) return n.unit === "deg" || n.unit === "px" ? `0${n.unit}` : "0";
+  return `${key}${n.unit || ""}`;
+}
+function resolveDeclarations(entry, token, ctx) {
+  const value = token.value;
+  if (typeof value !== "string" || value.length === 0) {
+    return fail(CODES.INVALID_VALUE, `Missing value for "${entry.key}"`);
+  }
+  if (token.isArbitrary) {
+    if (!entry.arbitrary && !entry.passthrough && !entry.template && !entry.arbitraryTemplate) {
+      return fail(CODES.UNKNOWN_VALUE, `"${entry.key}" does not accept arbitrary values`);
+    }
+    const check = validateValue(value);
+    if (!check.ok) return fail(CODES.INVALID_VALUE, `Invalid value "${value}": ${check.reason}`);
+    let v = value;
+    if (entry.color) {
+      const c = resolveColor(value, true, entry, ctx);
+      if (c.error) return fail(c.error.code, c.error.message, c.error.suggestion);
+      v = c.value;
+    } else if (entry.arbitraryWrap === "url" && !FUNCTION_LIKE.test(v) && v !== "none") {
+      v = `url(${v})`;
+    } else if (entry.quote) {
+      v = quoteValue(v);
+    }
+    const template2 = entry.arbitraryTemplate || entry.template;
+    if (!template2) return fail(CODES.UNKNOWN_VALUE, `"${entry.key}" does not accept arbitrary values`);
+    const css = fillTemplate(template2, v, v);
+    return ok(css, varsIn(css));
+  }
+  if (entry.enum && Object.prototype.hasOwnProperty.call(entry.enum, value)) {
+    const css = entry.enum[value];
+    return ok(css, varsIn(css));
+  }
+  if (entry.color) {
+    const c = resolveColor(value, false, entry, ctx);
+    if (c.error) return fail(c.error.code, c.error.message, c.error.suggestion);
+    const template2 = entry.template;
+    if (!template2) return fail(CODES.UNKNOWN_VALUE, `No template for "${entry.key}"`);
+    const css = fillTemplate(template2, c.value, value);
+    return ok(css, varsIn(css));
+  }
+  if (!isValidScaleKey(value)) {
+    return fail(CODES.INVALID_VALUE, `Invalid value "${value}" for "${entry.key}"`);
+  }
+  let negative = false;
+  let key = value;
+  if (value.startsWith("-") && value.length > 1) {
+    if (entry.negatable || entry.numeric && NUMBER.test(value)) {
+      negative = true;
+      key = value.slice(1);
+    }
+  }
+  const template = entry.template;
+  if (entry.literals && Object.prototype.hasOwnProperty.call(entry.literals, key) && template) {
+    let v = entry.literals[key];
+    if (negative) v = negateLiteral(v);
+    const tpl = entry.arbitraryWrap === "url" && entry.arbitraryTemplate ? entry.arbitraryTemplate : template;
+    const css = fillTemplate(tpl, v, key);
+    return ok(css, varsIn(css));
+  }
+  if (entry.scale && template) {
+    const hit = lookupScale(entry, key, ctx);
+    if (hit) {
+      let v = hit.value;
+      if (negative) v = `calc(${v} * -1)`;
+      const tpl = hit.tw && entry.twTemplate ? entry.twTemplate : template;
+      const css = fillTemplate(tpl, v, hit.key);
+      return ok(css, varsIn(css));
+    }
+  }
+  if (entry.numeric && template) {
+    const n = resolveNumeric(entry, key);
+    if (n !== null) {
+      const v = negative && n !== "0" ? `-${n}` : n;
+      const css = fillTemplate(template, v, key);
+      return ok(css, varsIn(css));
+    }
+  }
+  if (entry.arbitraryWrap === "url" && entry.passthrough && template && URL_PATH.test(value) && !negative) {
+    const css = fillTemplate(template, value, value);
+    return ok(css, varsIn(css));
+  }
+  if (entry.passthrough && template && IDENTIFIER.test(value) && !negative) {
+    const css = fillTemplate(template, entry.quote ? quoteValue(value) : value, value);
+    return ok(css, varsIn(css));
+  }
+  const candidates = /* @__PURE__ */ new Set([
+    ...Object.keys(entry.enum || {}),
+    ...Object.keys(entry.literals || {}),
+    ...entry.scale ? knownScaleKeys(entry, ctx) : []
+  ]);
+  return fail(
+    CODES.UNKNOWN_VALUE,
+    `Unknown value "${value}" for "${entry.key}"`,
+    suggest(key, candidates)
+  );
+}
+var URL_PATH = /^[A-Za-z0-9_.\/-]+\.[A-Za-z0-9]+$/;
+var UNQUOTED_CONTENT = /^(none|normal|open-quote|close-quote|no-open-quote|no-close-quote|inherit|initial|unset)$/;
+function quoteValue(v) {
+  if (/^".*"$/.test(v) || /^'.*'$/.test(v) || FUNCTION_LIKE.test(v) || UNQUOTED_CONTENT.test(v)) return v;
+  return `"${v.replace(/"/g, '\\"')}"`;
+}
+function negateLiteral(v) {
+  if (/^-/.test(v)) return v.slice(1);
+  if (/^\d/.test(v)) return `-${v}`;
+  if (v === "0" || v === "auto" || /content$/.test(v)) return v;
+  return `calc(${v} * -1)`;
+}
+
+// src/engine/index.js
+function generateDeclarations(token, config, registry = getDefaultRegistry()) {
+  const empty = { css: null, entry: null, error: null, usedVars: [] };
+  if (!token || typeof token !== "object") return { ...empty, error: diagnostic(token, CODES.INVALID_TOKEN, "Token is not an object") };
+  const { attrType, property, value, raw } = token;
+  if (!["layout", "space", "visual"].includes(attrType)) {
+    return { ...empty, error: diagnostic(token, CODES.UNKNOWN_PROPERTY, `Unknown attribute "${attrType}"`) };
+  }
+  if (typeof property !== "string" || !property) {
+    return { ...empty, error: diagnostic(token, CODES.INVALID_TOKEN, `Invalid token "${raw}"`) };
+  }
+  if (token.error) {
+    return { ...empty, error: diagnostic(token, token.errorCode || CODES.INVALID_TOKEN, token.error) };
+  }
+  for (const v of tokenVariants(token)) {
+    if (!parseVariant(v, config)) {
+      return { ...empty, error: diagnostic(token, CODES.UNKNOWN_VARIANT, `Unknown variant "${v}:" in "${raw}"`) };
+    }
+  }
+  const userTheme = config && config.theme || {};
+  const ctx = { theme: { ...defaultConfig.theme, ...userTheme } };
+  if ((property === value || value === "") && !token.isArbitrary) {
+    const kw = registry.keyword(attrType, property);
+    if (kw) {
+      if (kw.kind === "marker") return { css: null, entry: kw, error: null, usedVars: [] };
+      return { css: kw.css, entry: kw, error: null, usedVars: [] };
+    }
+    const util = registry.utility(attrType, property);
+    if (!util) {
+      return { ...empty, error: diagnostic(token, CODES.UNKNOWN_PROPERTY, `Unknown ${attrType} utility "${property}"`, suggest(property, registry.keys(attrType))) };
+    }
+    return { ...empty, entry: util, error: diagnostic(token, CODES.UNKNOWN_VALUE, `"${property}" requires a value (e.g. ${property}:\u2026)`) };
+  }
+  const entry = registry.utility(attrType, property);
+  if (!entry) {
+    return { ...empty, error: diagnostic(token, CODES.UNKNOWN_PROPERTY, `Unknown ${attrType} utility "${property}"`, suggest(property, registry.keys(attrType))) };
+  }
+  const result = resolveDeclarations(entry, token, ctx);
+  if (result.error) {
+    return { css: null, entry, error: diagnostic(token, result.error.code, result.error.message, result.error.suggestion), usedVars: [] };
+  }
+  return { css: result.css, entry, error: null, usedVars: result.usedVars || [] };
+}
+
+// src/compiler/generators/css.js
+function generateCSSVariables(config) {
+  const { theme } = config;
+  let css = ":root {\n";
+  for (const [key, value] of Object.entries(theme.spacing)) {
+    css += `  --s-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(theme.radius)) {
+    css += `  --r-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(theme.shadow)) {
+    css += `  --shadow-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(theme.fontSize)) {
+    css += `  --font-${key}: ${value};
+`;
+  }
+  if (theme.fontSizeLineHeight) {
+    for (const [key, value] of Object.entries(theme.fontSizeLineHeight)) {
+      css += `  --font-lh-${key}: ${value};
+`;
+    }
+  }
+  for (const [key, value] of Object.entries(theme.fontWeight)) {
+    css += `  --fw-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(theme.colors)) {
+    css += `  --c-${key}: ${value};
+`;
+  }
+  if (theme.placeholder) {
+    css += `  --placeholder-color: ${theme.placeholder};
+`;
+  } else {
+    css += "  --placeholder-color: #9ca3af;\n";
+  }
+  css += "  --gradient-from: transparent;\n";
+  css += "  --gradient-via: transparent;\n";
+  css += "  --gradient-to: transparent;\n";
+  css += "  --gradient-stops: var(--gradient-from), var(--gradient-via), var(--gradient-to);\n";
+  for (const [key, value] of Object.entries(theme.zIndex)) {
+    css += `  --z-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(TW_SPACING)) {
+    css += `  --tw-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(TW_RADIUS)) {
+    css += `  --r-tw-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(TW_SHADOW)) {
+    css += `  --shadow-tw-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(TW_FONT_SIZE)) {
+    css += `  --tw-text-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(TW_LEADING)) {
+    css += `  --tw-leading-${key}: ${value};
+`;
+  }
+  for (const [key, value] of Object.entries(TW_FONT_WEIGHT)) {
+    css += `  --tw-font-${key}: ${value};
+`;
+  }
+  css += "  --ss-divide-x-reverse: 0;\n";
+  css += "  --ss-divide-y-reverse: 0;\n";
+  css += "  --ring-inset: ;\n";
+  css += "  --ss-ring-color: var(--c-primary);\n";
+  css += "}\n\n";
+  return css;
+}
+function isValidCSSRule(declaration) {
+  if (!declaration || typeof declaration !== "string") {
+    return false;
+  }
+  declaration = declaration.trim();
+  if (!declaration) return false;
+  if (!declaration.endsWith(";")) return false;
+  const parts = declaration.substring(0, declaration.length - 1).split(":");
+  if (parts.length < 2) return false;
+  const property = parts[0].trim();
+  const value = parts.slice(1).join(":").trim();
+  if (!property || !value) return false;
+  return true;
+}
+function generateRule(token, config, _skipDarkWrapper = false, interactIds = /* @__PURE__ */ new Set()) {
+  try {
+    if (!token || typeof token !== "object") {
+      return "";
+    }
+    const { raw, attrType, state } = token;
+    if (token.error) return "";
+    if (!attrType || typeof attrType !== "string") {
+      return "";
+    }
+    if (!raw || typeof raw !== "string") {
+      return "";
+    }
+    if (!["layout", "space", "visual"].includes(attrType)) return "";
+    let cssDeclaration = generateDeclarations(token, config).css || "";
+    if (!cssDeclaration) return "";
+    if (!isValidCSSRule(cssDeclaration)) {
+      return "";
+    }
+    if (!token.isArbitrary) {
+      cssDeclaration = cssDeclaration.replace(/var\(--c-current\)/g, "currentColor").replace(/var\(--c-inherit\)/g, "inherit").replace(/(flex-basis:\s*)var\(--s-(auto|0)\)/g, (_, p1, v) => `${p1}${v === "0" ? "0px" : v}`);
+    }
+    const isDivide = raw && raw.startsWith("divide");
+    let selector = "";
+    if (isDivide) {
+      selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])`;
+    } else {
+      selector = `[${attrType}~="${escapeCSSString(raw)}"]`;
+    }
+    const parsed = tokenVariants(token).map((v) => parseVariant(v, config)).filter(Boolean);
+    const stateVs = parsed.filter((p) => p.type === "state");
+    const mediaVs = parsed.filter((p) => p.type === "media");
+    if (stateVs.length === 0 && state && state !== "dark" && !Array.isArray(token.variants)) {
+      const p = parseVariant(state, config);
+      if (p && p.type === "state") stateVs.push(p);
+    }
+    if (stateVs.length > 0) {
+      const classes = stateVs.filter((p) => !p.pseudoElement).map(stateSelector).join("");
+      const elements = stateVs.filter((p) => p.pseudoElement).map(stateSelector).join("");
+      const suffix = classes + elements;
+      if (stateVs.some((p) => p.content) && !/(^|;)\s*content\s*:/.test(cssDeclaration)) {
+        cssDeclaration = `content: var(--ss-content, ""); ${cssDeclaration}`;
+      }
+      if (isDivide) {
+        selector = `[${attrType}~="${escapeCSSString(raw)}"] > :not([hidden]) ~ :not([hidden])${suffix}`;
+      } else {
+        const selectors = [`${selector}${suffix}`];
+        const groupTriggers = {
+          hover: ["hoverable", ":hover"],
+          focus: ["focusable", ":focus-within"],
+          "focus-visible": ["focusable", ":focus-within"],
+          active: ["pressable", ":active"],
+          expanded: ["expandable", '[aria-expanded="true"]'],
+          selected: ["selectable", '[aria-selected="true"]']
+        };
+        const only = stateVs.length === 1 ? groupTriggers[stateVs[0].name] : null;
+        if (only) {
+          const [parentAttr, trigger] = only;
+          selectors.push(`[layout~="${parentAttr}"]:not([layout~="disabled"])${trigger} ${selector}`);
+          if (interactIds && interactIds.size > 0) {
+            for (const id of interactIds) {
+              const eid = escapeCSSString(id);
+              selectors.push(`[interact~="${eid}"]:not([layout~="disabled"])${trigger} ~ [listens~="${eid}"]${selector}`);
+            }
+          }
+        }
+        selector = selectors.join(",\n");
+      }
+    }
+    if (mediaVs.length > 0) {
+      const query = mediaVs.map((p) => p.query).join(" and ");
+      return `@media ${query} { ${selector} { ${cssDeclaration} } }
+`;
+    }
+    return `${selector} { ${cssDeclaration} }
+`;
+  } catch {
+    return "";
+  }
+}
+function getDarkModeSelector(config) {
+  const darkMode = config.darkMode || "media";
+  if (Array.isArray(darkMode)) return darkMode[1] || ".dark";
+  if (darkMode === "selector" || darkMode === "class") return ".dark";
+  return null;
+}
+function getDarkModeStrategy(config) {
+  const darkMode = config.darkMode || "media";
+  if (Array.isArray(darkMode) || darkMode === "selector" || darkMode === "class") return "selector";
+  return "media";
+}
+function splitSelectorList(list) {
+  const out = [];
+  let depth = 0;
+  let quote = null;
+  let start = 0;
+  for (let i = 0; i < list.length; i++) {
+    const ch = list[i];
+    if (quote) {
+      if (ch === "\\") i++;
+      else if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") quote = ch;
+    else if (ch === "[" || ch === "(") depth++;
+    else if (ch === "]" || ch === ")") depth--;
+    else if (ch === "," && depth === 0) {
+      out.push(list.slice(start, i));
+      start = i + 1;
+    }
+  }
+  out.push(list.slice(start));
+  return out;
+}
+function prefixRuleSelectors(rule, darkSelector) {
+  const braceIndex = rule.indexOf("{");
+  if (braceIndex === -1) return rule;
+  const selectorPart = rule.slice(0, braceIndex);
+  const rest = rule.slice(braceIndex);
+  const wrapper = `:where(${darkSelector}, :is(${darkSelector}) *)`;
+  const prefixed = splitSelectorList(selectorPart).map((sel) => {
+    const trimmed = sel.trim();
+    if (!trimmed || trimmed.startsWith("@")) return sel;
+    return `${wrapper}${trimmed}`;
+  }).join(",\n");
+  return `${prefixed} ${rest}`;
+}
+function indentCSS(css, indent) {
+  return css.split("\n").map((line) => line.trim() ? indent + line : line).join("\n");
+}
+function generateDarkRules(bpTokens, breakpoint, ctx) {
+  const { config, screens, interactIds, errors, wrapSelector } = ctx;
+  const entries = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const token of bpTokens) {
+    const id = `${token.attrType}\0${token.raw}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const rule = safeRule(token, config, true, interactIds, errors, "dark_rule", ctx.defined);
+    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
+  }
+  entries.sort(compareRuleKeys);
+  const emitRules = (indent) => entries.map(({ rule }) => indentCSS(wrapSelector ? prefixRuleSelectors(rule, wrapSelector) : rule, indent)).join("");
+  if (!breakpoint) return emitRules(ctx.baseIndent || "");
+  const inner = ctx.baseIndent ? "    " : "  ";
+  const outer = ctx.baseIndent ? "  " : "";
+  return `${outer}${breakpointQuery(breakpoint, screens, config)} {
+${emitRules(inner)}${outer}}
+`;
+}
+var ZERO_HYPHEN_LONGHANDS = /* @__PURE__ */ new Set(["top", "right", "bottom", "left"]);
+function propertyDepth(prop) {
+  if (prop.startsWith("--")) return 0;
+  if (ZERO_HYPHEN_LONGHANDS.has(prop)) return 1;
+  return (prop.match(/-/g) || []).length;
+}
+function ruleSortKey(rule, raw) {
+  if (rule.startsWith("@")) {
+    const inner = rule.slice(rule.indexOf("{") + 1, rule.lastIndexOf("}"));
+    const k = ruleSortKey(inner.trim(), raw);
+    return { ...k, depth: k.depth + 100 };
+  }
+  const body = rule.slice(rule.indexOf("{") + 1, rule.lastIndexOf("}"));
+  const props = body.split(";").map((d) => d.split(":")[0].trim()).filter(Boolean);
+  const depth = props.length ? Math.min(...props.map(propertyDepth)) : 0;
+  return { depth, count: props.length, raw };
+}
+function compareRuleKeys(a, b) {
+  if (a.key.depth !== b.key.depth) return a.key.depth - b.key.depth;
+  if (a.key.count !== b.key.count) return b.key.count - a.key.count;
+  return a.key.raw < b.key.raw ? -1 : a.key.raw > b.key.raw ? 1 : 0;
+}
+function generateSortedRules(tokens, config, interactIds, errors, errorType, defined) {
+  const entries = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const token of tokens) {
+    const id = `${token.attrType}\0${token.raw}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const rule = safeRule(token, config, false, interactIds, errors, errorType, defined);
+    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
+  }
+  entries.sort(compareRuleKeys);
+  return entries.map((e) => e.rule);
+}
+function safeRule(token, config, skipDark, interactIds, errors, errorType, defined) {
+  if (token.error) return "";
+  if (token.attrType === "interact" || token.attrType === "listens") return "";
+  let rule = "";
+  try {
+    rule = generateRule(token, config, skipDark, interactIds);
+  } catch (e) {
+    errors.push({ ...diagnoseToken(token, config), type: errorType, message: e.message });
+    return "";
+  }
+  if (!rule) {
+    if (token.attrType === "layout" && MARKER_KEYWORDS.has(token.raw)) return "";
+    errors.push({ ...diagnoseToken(token, config), type: errorType });
+    return "";
+  }
+  const undef = checkUndefinedVars(rule, token, defined);
+  if (undef) {
+    errors.push({ ...undef, type: errorType });
+    return "";
+  }
+  return rule;
+}
+var MARKER_KEYWORDS = /* @__PURE__ */ new Set(["hoverable", "focusable", "pressable", "expandable", "selectable", "disabled"]);
+function screenToPx(value) {
+  if (typeof value !== "string") return Number.POSITIVE_INFINITY;
+  const m = value.trim().match(/^(-?\d*\.?\d+)(px|rem|em)?$/);
+  if (!m) return Number.POSITIVE_INFINITY;
+  const n = parseFloat(m[1]);
+  return m[2] === "rem" || m[2] === "em" ? n * 16 : n;
+}
+function breakpointQuery(bp, screens, config) {
+  const p = config ? parseVariant(bp, config) : null;
+  const below = (name) => {
+    const px = screenToPx(screens && screens[name]);
+    return Number.isFinite(px) ? `(max-width: ${+(px - 0.02).toFixed(2)}px)` : `not all and (min-width: ${screens[name]})`;
+  };
+  if (p && p.type === "max") return `@media ${below(p.to)}`;
+  if (p && p.type === "range") return `@media (min-width: ${screens[p.from]}) and ${below(p.to)}`;
+  const value = screens && screens[bp] ? screens[bp] : bp;
+  if (bp === "print" || value === "print") return "@media print";
+  return `@media (min-width: ${value})`;
+}
+function breakpointOrder(bp, screens, config) {
+  const p = parseVariant(bp, config);
+  const px = (n) => screenToPx(screens && screens[n]);
+  if (p && p.type === "max") return [1, -px(p.to)];
+  if (p && p.type === "range") return [2, px(p.from), px(p.to)];
+  const v = px(bp);
+  return Number.isFinite(v) ? [0, v] : [3, 0];
+}
+function compareBreakpoints(a, b, screens, config) {
+  const ka = breakpointOrder(a, screens, config);
+  const kb = breakpointOrder(b, screens, config);
+  for (let i = 0; i < Math.max(ka.length, kb.length); i++) {
+    const d = (ka[i] ?? 0) - (kb[i] ?? 0);
+    if (d) return d;
+  }
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+function isDarkToken(token) {
+  if (Array.isArray(token.variants) && token.variants.length) return token.variants.includes("dark");
+  return token.state === "dark";
+}
+var PRUNABLE_VAR = /^--(?:c-[a-z]+-(?:50|[1-9]00|950)|tw-[\w-]+)$/;
+function pruneCSSVariables(rootCss, usedCss) {
+  const lines = rootCss.split("\n");
+  const defs = /* @__PURE__ */ new Map();
+  for (const line of lines) {
+    const m = line.match(/^\s*(--[\w-]+)\s*:\s*(.*);\s*$/);
+    if (m) defs.set(m[1], m[2]);
+  }
+  const keep = /* @__PURE__ */ new Set();
+  const queue = [];
+  const visit = (text) => {
+    for (const m of text.matchAll(/var\(\s*(--[\w-]+)/g)) {
+      if (!keep.has(m[1])) {
+        keep.add(m[1]);
+        queue.push(m[1]);
+      }
+    }
+  };
+  visit(usedCss);
+  for (const name of defs.keys()) if (!PRUNABLE_VAR.test(name)) {
+    keep.add(name);
+    queue.push(name);
+  }
+  while (queue.length) {
+    const v = defs.get(queue.pop());
+    if (v) visit(v);
+  }
+  return lines.filter((line) => {
+    const m = line.match(/^\s*(--[\w-]+)\s*:/);
+    return !m || keep.has(m[1]);
+  }).join("\n");
+}
+function inLayer(name, css, config) {
+  if (!css || config.layers === false) return css;
+  return `@layer ${name} {
+${css}}
+`;
+}
+var LAYER_ORDER = "@layer senangstart.theme, senangstart.base, senangstart.utilities;\n";
+function generateCSSWithErrors(tokens, config) {
+  const errors = [];
+  try {
+    if (!config || typeof config !== "object") {
+      errors.push({ type: "config", message: "Invalid config provided" });
+      return { css: "", errors };
+    }
+    if (!Array.isArray(tokens)) {
+      errors.push({ type: "tokens", message: "Invalid tokens provided" });
+      return { css: "", errors };
+    }
+    const layered = config.layers !== false;
+    let css = layered ? LAYER_ORDER : "";
+    let rootVars = "";
+    try {
+      rootVars = generateCSSVariables(config);
+    } catch (e) {
+      errors.push({ type: "variables", message: e.message });
+    }
+    let preflight = "";
+    if (config.preflight !== false) {
+      try {
+        preflight = generatePreflight(config);
+      } catch (e) {
+        errors.push({ type: "preflight", message: e.message });
+      }
+    }
+    const keyframes = `/* SenangStart CSS - Animation Keyframes */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+@keyframes pulse {
+  50% { opacity: .5; }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+  50% { transform: none; animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+}
+`;
+    const baseTokens = [];
+    const darkTokensByBreakpoint = /* @__PURE__ */ new Map();
+    const breakpointTokens = /* @__PURE__ */ new Map();
+    const { screens } = config.theme || {};
+    for (const token of tokens) {
+      if (!token || typeof token !== "object") {
+        errors.push({ type: "token_format", token, message: "Token is not an object" });
+        continue;
+      }
+      if (isDarkToken(token)) {
+        const bpKey = token.breakpoint || null;
+        if (!darkTokensByBreakpoint.has(bpKey)) darkTokensByBreakpoint.set(bpKey, []);
+        darkTokensByBreakpoint.get(bpKey).push(token);
+      } else if (token.breakpoint) {
+        if (!breakpointTokens.has(token.breakpoint)) breakpointTokens.set(token.breakpoint, []);
+        breakpointTokens.get(token.breakpoint).push(token);
+      } else {
+        baseTokens.push(token);
+      }
+    }
+    const interactIds = /* @__PURE__ */ new Set();
+    const listenIds = /* @__PURE__ */ new Set();
+    for (const token of tokens) {
+      if (token && token.attrType === "listens" && token.raw) listenIds.add(token.raw);
+    }
+    for (const token of tokens) {
+      if (token && token.attrType === "interact" && token.raw && listenIds.has(token.raw)) interactIds.add(token.raw);
+    }
+    const defined = new Set([...rootVars.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
+    let utilities = "/* SenangStart CSS - Utilities */\n";
+    for (const rule of generateSortedRules(baseTokens, config, interactIds, errors, "rule_generation", defined)) {
+      utilities += rule;
+    }
+    const orderedBps = [...breakpointTokens.keys()].sort((a, b) => compareBreakpoints(a, b, screens, config));
+    for (const bp of orderedBps) {
+      const rules = generateSortedRules(breakpointTokens.get(bp), config, interactIds, errors, "responsive_rule", defined);
+      if (rules.length === 0) continue;
+      utilities += `
+${breakpointQuery(bp, screens, config)} {
+`;
+      for (const rule of rules) utilities += "  " + rule;
+      utilities += "}\n";
+    }
+    if (darkTokensByBreakpoint.size > 0) {
+      try {
+        const darkMode = getDarkModeStrategy(config);
+        const darkSelector = getDarkModeSelector(config);
+        const darkCtx = { config, screens, interactIds, errors, defined, baseIndent: darkMode === "media" ? "  " : "" };
+        const darkBps = [...darkTokensByBreakpoint.keys()].sort((a, b) => {
+          if (a === null) return -1;
+          if (b === null) return 1;
+          return compareBreakpoints(a, b, screens, config);
+        });
+        if (darkMode === "media") {
+          utilities += `
+/* Dark Mode (prefers-color-scheme) */
+@media (prefers-color-scheme: dark) {
+`;
+          for (const bp of darkBps) utilities += generateDarkRules(darkTokensByBreakpoint.get(bp), bp, darkCtx);
+          utilities += "}\n";
+        } else {
+          utilities += `
+/* Dark Mode (${darkSelector}) */
+`;
+          const selectorCtx = { ...darkCtx, wrapSelector: darkSelector };
+          for (const bp of darkBps) utilities += generateDarkRules(darkTokensByBreakpoint.get(bp), bp, selectorCtx);
+        }
+      } catch (e) {
+        errors.push({ type: "dark_mode_generation", message: e.message });
+      }
+    }
+    const exposeAll = config.theme && config.theme.exposeAll === true;
+    const theme = exposeAll ? rootVars : pruneCSSVariables(rootVars, preflight + utilities);
+    css += inLayer("senangstart.theme", theme, config);
+    css += inLayer("senangstart.base", preflight, config);
+    css += keyframes;
+    css += inLayer("senangstart.utilities", utilities, config);
+    return { css, errors };
+  } catch (e) {
+    errors.push({ type: "fatal", message: e.message });
+    return { css: "", errors };
+  }
+}
+function generateCSS(tokens, config) {
+  const { css } = generateCSSWithErrors(tokens, config);
+  return css;
+}
+function minifyCSS(css) {
+  if (typeof css !== "string" || css === "") return "";
+  let stripped = "";
+  let state = "normal";
+  let quote = "";
+  for (let i = 0; i < css.length; i++) {
+    const ch = css[i];
+    if (state === "comment") {
+      if (ch === "*" && css[i + 1] === "/") {
+        state = "normal";
+        i++;
+      }
+      continue;
+    }
+    if (state === "string") {
+      stripped += ch;
+      if (ch === "\\") {
+        stripped += css[i + 1] || "";
+        i++;
+      } else if (ch === quote) {
+        state = "normal";
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      state = "string";
+      quote = ch;
+      stripped += ch;
+      continue;
+    }
+    if (ch === "/" && css[i + 1] === "*") {
+      state = "comment";
+      i++;
+      continue;
+    }
+    stripped += ch;
+  }
+  const preserved = [];
+  const collapsed = stripped.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, (m) => `\0${preserved.push(m) - 1}\0`).replace(/\s+/g, " ").replace(/ ?\{ ?/g, "{").replace(/ ?\} ?/g, "}").replace(/; ?/g, ";").replace(/([a-z-]) ?: ?/g, "$1:").replace(/, ?/g, ",").trim();
+  return collapsed.replace(/\u0000(\d+)\u0000/g, (_, i) => preserved[Number(i)] ?? "");
+}
+
+// src/compiler/index.js
+function tokenDiagnostics(tokens) {
+  return tokens.filter((token) => token.error).map((token) => ({
+    raw: token.raw,
+    attrType: token.attrType,
+    code: token.errorCode || "INVALID_TOKEN",
+    message: token.error,
+    error: token.error
+    // legacy field
+  }));
+}
+function generateWithDiagnostics(tokens, config) {
+  const { css, errors: genErrors } = generateCSSWithErrors(tokens, config);
+  const errors = tokenDiagnostics(tokens);
+  for (const e of genErrors) {
+    if (e && e.code && e.raw !== void 0) errors.push({ ...e, error: e.message });
+  }
+  return { css, errors };
+}
+function resolveConfig(config) {
+  const t = config && config.theme;
+  if (t && t.spacing && t.colors && t.screens) return config;
+  return mergeConfig(config || {});
 }
 function compileSource(content, config) {
   if (typeof content !== "string") {
     throw new TypeError(`compileSource: content must be a string, got ${typeof content}`);
   }
+  config = resolveConfig(config);
   const parsed = parseSource(content);
-  const tokens = tokenizeAll(parsed);
-  const invalidTokens = logInvalidTokens(tokens);
-  const css = generateCSS(tokens, config);
-  const hasErrors = invalidTokens.length > 0;
+  const tokens = tokenizeAll(parsed, config);
+  const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
+  const hasErrors = diagnostics.length > 0;
   return {
     tokens,
     css,
-    errors: hasErrors ? invalidTokens : null,
+    errors: hasErrors ? diagnostics : null,
     minifiedCSS: !hasErrors && config.output?.minify ? minifyCSS(css) : null
   };
 }
@@ -10772,15 +11039,15 @@ function compileMultiple(files, config) {
       throw new TypeError(`files[${i}] must have a 'content' string property, got: ${typeof file?.content}`);
     }
   }
+  config = resolveConfig(config);
   const parsed = parseMultipleSources(files);
-  const tokens = tokenizeAll(parsed);
-  const invalidTokens = logInvalidTokens(tokens);
-  const css = generateCSS(tokens, config);
-  const hasErrors = invalidTokens.length > 0;
+  const tokens = tokenizeAll(parsed, config);
+  const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
+  const hasErrors = diagnostics.length > 0;
   return {
     tokens,
     css,
-    errors: hasErrors ? invalidTokens : null,
+    errors: hasErrors ? diagnostics : null,
     minifiedCSS: !hasErrors && config.output?.minify ? minifyCSS(css) : null
   };
 }
