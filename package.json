@@ -176,7 +176,7 @@
     {
       "name": "CDN JIT runtime (min, gzip)",
       "path": "dist/senangstart-css.min.js",
-      "limit": "70 KB",
+      "limit": "40 KB",
       "gzip": true
     },
     {
