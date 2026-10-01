@@ -35,6 +35,13 @@ All notable changes to SenangStart CSS will be documented in this file.
 - Peer (`interact`/`listens`) selectors are only emitted for ids that something listens to.
 - `compileSource()` / `compileMultiple()` accept a partial or missing config, and pass config to the tokenizer (custom screens were ignored).
 
+### Added — diagnostics
+- Tokens that produce no CSS are now specific errors instead of disappearing: `UNKNOWN_VARIANT`, `UNKNOWN_PROPERTY` (including "this is a space utility"), `UNKNOWN_VALUE` and `INVALID_VALUE`, each with a did-you-mean suggestion. Values that would reference a non-existent theme token (`bg:primry` → `var(--c-primry)`) are rejected.
+- `compileSource()` / `compileMultiple()` return these diagnostics in `errors` and never write to the console.
+
+### Fixed
+- `bg:current` (and other colour utilities) emit `currentColor`; `basis:auto` / `basis:0` emit CSS keywords instead of undefined variables.
+
 See `docs/guide/cascade.md` for migration notes.
 
 ### ⚠ BREAKING

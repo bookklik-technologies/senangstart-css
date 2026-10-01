@@ -6,21 +6,33 @@ import { mergeConfig } from '../config/defaults.js';
 
 import { parseSource, parseMultipleSources } from './parser.js';
 import { tokenizeAll } from './tokenizer.js';
-import { generateCSS, minifyCSS } from './generators/css.js';
+import { generateCSSWithErrors, minifyCSS } from './generators/css.js';
 
 /**
  * Log invalid tokens as warnings
  * @param {Array} tokens - Array of token objects
  */
-function logInvalidTokens(tokens) {
-  const invalidTokens = tokens.filter(token => token.error);
-  if (invalidTokens.length > 0 && typeof console !== 'undefined') {
-    console.warn(`\n${invalidTokens.length} error(s) found in source:`);
-    for (const token of invalidTokens) {
-      console.warn(`  • ${token.raw} (${token.attrType}): ${token.error}`);
-    }
+function tokenDiagnostics(tokens) {
+  return tokens.filter(token => token.error).map(token => ({
+    raw: token.raw,
+    attrType: token.attrType,
+    code: token.errorCode || 'INVALID_TOKEN',
+    message: token.error,
+    error: token.error // legacy field
+  }));
+}
+
+/**
+ * Generate CSS and collect token + generation diagnostics (no console output).
+ * @returns {{ css: string, errors: Object[] }}
+ */
+function generateWithDiagnostics(tokens, config) {
+  const { css, errors: genErrors } = generateCSSWithErrors(tokens, config);
+  const errors = tokenDiagnostics(tokens);
+  for (const e of genErrors) {
+    if (e && e.code && e.raw !== undefined) errors.push({ ...e, error: e.message });
   }
-  return invalidTokens;
+  return { css, errors };
 }
 
 /**
@@ -48,15 +60,13 @@ export function compileSource(content, config) {
   config = resolveConfig(config);
   const parsed = parseSource(content);
   const tokens = tokenizeAll(parsed, config);
-  const invalidTokens = logInvalidTokens(tokens);
-
-  const css = generateCSS(tokens, config);
-  const hasErrors = invalidTokens.length > 0;
+  const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
+  const hasErrors = diagnostics.length > 0;
 
   return {
     tokens,
     css,
-    errors: hasErrors ? invalidTokens : null,
+    errors: hasErrors ? diagnostics : null,
     minifiedCSS: !hasErrors && config.output?.minify ? minifyCSS(css) : null
   };
 }
@@ -81,15 +91,13 @@ export function compileMultiple(files, config) {
   config = resolveConfig(config);
   const parsed = parseMultipleSources(files);
   const tokens = tokenizeAll(parsed, config);
-  const invalidTokens = logInvalidTokens(tokens);
-
-  const css = generateCSS(tokens, config);
-  const hasErrors = invalidTokens.length > 0;
+  const { css, errors: diagnostics } = generateWithDiagnostics(tokens, config);
+  const hasErrors = diagnostics.length > 0;
 
   return {
     tokens,
     css,
-    errors: hasErrors ? invalidTokens : null,
+    errors: hasErrors ? diagnostics : null,
     minifiedCSS: !hasErrors && config.output?.minify ? minifyCSS(css) : null
   };
 }

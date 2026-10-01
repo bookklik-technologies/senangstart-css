@@ -5,6 +5,7 @@
 
 import { escapeCSSString } from '../../core/value-grammar.js';
 import { parseVariant, tokenVariants, stateSelector } from '../../engine/variants.js';
+import { diagnoseToken, checkUndefinedVars } from './diagnose.js';
 import { generatePreflight } from './preflight.js';
 import { sanitizeValue } from '../../utils/common.js';
 import { buildAllMaps } from '../../definitions/index.js';
@@ -686,7 +687,6 @@ function isValidCSSRule(declaration) {
 export function generateRule(token, config, _skipDarkWrapper = false, interactIds = new Set()) {
   try {
     if (!token || typeof token !== 'object') {
-      console.warn('[SenangStart] Invalid token object:', token);
       return '';
     }
 
@@ -696,12 +696,10 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
     if (token.error) return '';
 
     if (!attrType || typeof attrType !== 'string') {
-      console.warn('[SenangStart] Invalid token attrType:', attrType);
       return '';
     }
 
     if (!raw || typeof raw !== 'string') {
-      console.warn('[SenangStart] Invalid token raw:', raw);
       return '';
     }
 
@@ -711,37 +709,40 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
       case 'layout':
         try {
           cssDeclaration = generateLayoutRule(token, config);
-        } catch (e) {
-          console.warn(`[SenangStart] Error generating layout rule for "${raw}": ${e.message}`);
+        } catch {
           return '';
         }
         break;
       case 'space':
         try {
           cssDeclaration = generateSpaceRule(token, config);
-        } catch (e) {
-          console.warn(`[SenangStart] Error generating space rule for "${raw}": ${e.message}`);
+        } catch {
           return '';
         }
         break;
       case 'visual':
         try {
           cssDeclaration = generateVisualRule(token, config);
-        } catch (e) {
-          console.warn(`[SenangStart] Error generating visual rule for "${raw}": ${e.message}`);
+        } catch {
           return '';
         }
         break;
       default:
-        console.warn(`[SenangStart] Unknown attrType: ${attrType}`);
         return '';
     }
 
     if (!cssDeclaration) return '';
 
     if (!isValidCSSRule(cssDeclaration)) {
-      console.warn(`[SenangStart] Invalid CSS rule generated for "${raw}": ${cssDeclaration}`);
       return '';
+    }
+
+    // Keyword values that map to CSS keywords rather than theme tokens
+    if (!token.isArbitrary) {
+      cssDeclaration = cssDeclaration
+        .replace(/var\(--c-current\)/g, 'currentColor')
+        .replace(/var\(--c-inherit\)/g, 'inherit')
+        .replace(/(flex-basis:\s*)var\(--s-(auto|0)\)/g, (_, p1, v) => `${p1}${v === '0' ? '0px' : v}`);
     }
 
     // Check if this is a divide utility (needs special selector)
@@ -812,8 +813,7 @@ export function generateRule(token, config, _skipDarkWrapper = false, interactId
     }
 
     return `${selector} { ${cssDeclaration} }\n`;
-  } catch (e) {
-    console.warn(`[SenangStart] Error in generateRule: ${e.message}`);
+  } catch {
     return '';
   }
 }
@@ -927,13 +927,8 @@ function generateDarkRules(bpTokens, breakpoint, ctx) {
     const id = `${token.attrType}\u0000${token.raw}`;
     if (seen.has(id)) continue;
     seen.add(id);
-    try {
-      const rule = generateRule(token, config, true, interactIds);
-      if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
-      else errors.push({ type: 'dark_rule', token: token.raw, message: 'No rule generated' });
-    } catch (e) {
-      errors.push({ type: 'dark_rule', token: token.raw, message: e.message });
-    }
+    const rule = safeRule(token, config, true, interactIds, errors, 'dark_rule', ctx.defined);
+    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
   }
   entries.sort(compareRuleKeys);
   const emitRules = (indent) => entries
@@ -1002,24 +997,50 @@ function compareRuleKeys(a, b) {
  * Generate rules for a list of tokens and return them in deterministic order.
  * @returns {string[]}
  */
-function generateSortedRules(tokens, config, interactIds, errors, errorType) {
+function generateSortedRules(tokens, config, interactIds, errors, errorType, defined) {
   const entries = [];
   const seen = new Set();
   for (const token of tokens) {
     const id = `${token.attrType}\u0000${token.raw}`;
     if (seen.has(id)) continue;
     seen.add(id);
-    try {
-      const rule = generateRule(token, config, false, interactIds);
-      if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
-      else errors.push({ type: errorType, token: token.raw, message: 'No rule generated' });
-    } catch (e) {
-      errors.push({ type: errorType, token: token.raw, message: e.message });
-    }
+    const rule = safeRule(token, config, false, interactIds, errors, errorType, defined);
+    if (rule) entries.push({ rule, key: ruleSortKey(rule, `${token.attrType}=${token.raw}`) });
   }
   entries.sort(compareRuleKeys);
   return entries.map(e => e.rule);
 }
+
+/**
+ * Generate one rule, recording a specific diagnostic when it fails or when it
+ * references theme tokens that do not exist. Tokenizer-flagged tokens are
+ * reported by the tokenizer and skipped silently here.
+ */
+function safeRule(token, config, skipDark, interactIds, errors, errorType, defined) {
+  if (token.error) return '';
+  if (token.attrType === 'interact' || token.attrType === 'listens') return '';
+  let rule = '';
+  try {
+    rule = generateRule(token, config, skipDark, interactIds);
+  } catch (e) {
+    errors.push({ ...diagnoseToken(token, config), type: errorType, message: e.message });
+    return '';
+  }
+  if (!rule) {
+    // Marker keywords (hoverable, focusable…) intentionally produce no CSS
+    if (token.attrType === 'layout' && MARKER_KEYWORDS.has(token.raw)) return '';
+    errors.push({ ...diagnoseToken(token, config), type: errorType });
+    return '';
+  }
+  const undef = checkUndefinedVars(rule, token, defined);
+  if (undef) {
+    errors.push({ ...undef, type: errorType });
+    return '';
+  }
+  return rule;
+}
+
+const MARKER_KEYWORDS = new Set(['hoverable', 'focusable', 'pressable', 'expandable', 'selectable', 'disabled']);
 
 /**
  * Convert a screen value to pixels for ordering ('print' and unknowns sort last).
@@ -1211,16 +1232,19 @@ export function generateCSSWithErrors(tokens, config) {
       if (token && token.attrType === 'interact' && token.raw && listenIds.has(token.raw)) interactIds.add(token.raw);
     }
 
+    // Variables the theme defines — used to flag unknown scale values
+    const defined = new Set([...rootVars.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]));
+
     // Utilities, in deterministic order
     let utilities = '/* SenangStart CSS - Utilities */\n';
-    for (const rule of generateSortedRules(baseTokens, config, interactIds, errors, 'rule_generation')) {
+    for (const rule of generateSortedRules(baseTokens, config, interactIds, errors, 'rule_generation', defined)) {
       utilities += rule;
     }
 
     // Breakpoints ordered by numeric min-width (mobile-first); print last
     const orderedBps = [...breakpointTokens.keys()].sort((a, b) => compareBreakpoints(a, b, screens, config));
     for (const bp of orderedBps) {
-      const rules = generateSortedRules(breakpointTokens.get(bp), config, interactIds, errors, 'responsive_rule');
+      const rules = generateSortedRules(breakpointTokens.get(bp), config, interactIds, errors, 'responsive_rule', defined);
       if (rules.length === 0) continue;
       utilities += `\n${breakpointQuery(bp, screens, config)} {\n`;
       for (const rule of rules) utilities += '  ' + rule;
@@ -1232,7 +1256,7 @@ export function generateCSSWithErrors(tokens, config) {
       try {
         const darkMode = getDarkModeStrategy(config);
         const darkSelector = getDarkModeSelector(config);
-        const darkCtx = { config, screens, interactIds, errors, baseIndent: darkMode === 'media' ? '  ' : '' };
+        const darkCtx = { config, screens, interactIds, errors, defined, baseIndent: darkMode === 'media' ? '  ' : '' };
         const darkBps = [...darkTokensByBreakpoint.keys()].sort((a, b) => {
           if (a === null) return -1;
           if (b === null) return 1;

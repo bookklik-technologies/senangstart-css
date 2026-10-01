@@ -1,3 +1,4 @@
+import { defaultConfig as __ssDefaults } from '../../src/config/defaults.js';
 /**
  * SenangStart CSS - Test Helpers
  * Utility functions for testing
@@ -19,6 +20,7 @@ export function createTestConfig(overrides = {}) {
     preflight: false, // Disable for simpler test output
     theme: {
       spacing: {
+        ...__ssDefaults.theme.spacing,
         'none': '0px',
         'tiny': '4px',
         'small': '8px',
@@ -28,6 +30,9 @@ export function createTestConfig(overrides = {}) {
         'vast': '128px'
       },
       radius: {
+        // 0.4.0: unknown scale values are now errors, so the test theme carries the
+        // full default radius/colour scales underneath the compact overrides below.
+        ...__ssDefaults.theme.radius,
         'none': '0px',
         'small': '4px',
         'medium': '8px',
@@ -59,6 +64,8 @@ export function createTestConfig(overrides = {}) {
         'desk': '1280px'
       },
       colors: {
+        ...__ssDefaults.theme.colors,
+        'accent': '#EC4899', // custom colour, as in docs/guide/configuration.md
         'white': '#FFFFFF',
         'black': '#000000',
         'primary': '#2563EB',
