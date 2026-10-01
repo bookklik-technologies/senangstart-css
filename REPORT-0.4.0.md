@@ -1,17 +1,17 @@
 # SenangStart CSS 0.4.0 — Production-hardening report
 
-Branch `feat/1.0-roadmap`, 20 commits on top of `master` (f36f9eb).
+Branch `feat/1.0-roadmap`, 25 commits on top of `master` (f36f9eb).
 177 files changed (+29,877 / −3,057); `src/` +6,889 / −2,184.
 
 ## Verification (all green)
 
 | Check | Result |
 |---|---|
-| `npm test` (Node 24; CI matrix 20/22/24) | **1,120 / 1,120 pass** (was 846, and `npm test` itself was broken on Node 22+) |
+| `npm test` (Node 24; CI matrix 20/22/24) | **1,135 / 1,135 pass** (was 846, and `npm test` itself was broken on Node 22+) |
 | `npm run golden` (declaration snapshot, 1,661 tokens) | 0 unexpected diffs |
 | `npx eslint src/` · stylelint on dist | clean |
 | `npm run typecheck` (strict tsc on React/Vue/Svelte/API fixtures) | clean |
-| `npx size-limit` | JIT **34.5 KB** / 40 KB gz · CSS 4.1 KB / 30 KB gz |
+| `npx size-limit` | JIT **36.5 KB** / 40 KB gz · CSS 4.1 KB / 30 KB gz |
 | `docs:sync-check` · `vitepress build docs` | in sync · builds |
 | Vite + PostCSS plugin tests (real Vite/PostCSS builds) | pass |
 
@@ -41,7 +41,8 @@ Firefox/WebKit visual projects were not run locally (no binaries); CI runs them.
 | Config errors | silently fell back to defaults, exit 0 | exit 1 with message; absolute/parent paths; schema validation |
 | Build integrations | none | Vite plugin, PostCSS plugin, programmatic `build()`/`watch()` |
 | TypeScript | README example failed `tsc --strict` | multi-token types for 6 frameworks, strict `ss()` helper, JSON schema, VS Code html-data |
-| Browser JIT bundle | 340 KB / 63.8 KB gz | 141 KB / **34.5 KB gz** |
+| Browser JIT bundle | 340 KB / 63.8 KB gz | ~150 KB / **36.5 KB gz** |
+| `!important`, arbitrary properties, container queries, prefix option, plugin API | missing | `!p:big`, `[mask-type:luminance]`, `@tab:` / `@tab/name:`, `prefix: 'ss'`, `utilities` / `variants` / `plugins` config (docs/guide/plugins.md) |
 | Browser JIT behaviour | full DOM rescan + `<style>` rewrite per mutation, 200 ms debounce, no shadow DOM | mutation-scoped scan, memoised rules, microtask recompile, constructed stylesheet shared with shadow roots, `window.SenangStart` API |
 
 ## Breaking changes (see CHANGELOG and docs/guide/cascade.md)
@@ -51,11 +52,11 @@ Layered output; deterministic ordering; dark selector string; `darkMode:'class'`
 1. ~~JIT bundle size~~ — done (34.5 KB gz).
 2. ~~JIT runtime~~ — done (incremental, shadow DOM).
 3. **Tailwind converters**: two divergent copies remain (`scripts/convert-tailwind.js`, `src/cdn/tw-conversion-engine.js`); merge and parse HTML properly (M7).
-4. **Parity gaps still open**: container queries (`@container`), arbitrary properties (`[prop:value]`), `!important` modifier, attribute prefix option, plugin API / custom utilities / `@apply`-style extraction, keyframes in config, radial/conic gradients, prose and forms presets, oklch palette.
+4. **Parity gaps still open**: radial/conic gradients, prose and forms presets, oklch palette, an `@apply`-style component extraction (the plugin API's keyword utilities cover the common case).
 5. Group selectors (`hoverable` parents) still have (0,4,0) specificity.
 6. VS Code extension (data files are generated; extension not built).
 7. Playwright visual + Tailwind computed-style conformance suite.
 
 ## Delivered
 - `senangstart-css-0.4.0.zip`: full repository including `.git` (branch history), without `node_modules` or build caches.
-- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 20 commits, apply with `git am` on `master`.
+- `senangstart-css-0.4.0-patches.zip`: `git format-patch` series of the 25 commits, apply with `git am` on `master`.
