@@ -62,3 +62,6 @@ SenangStart generates context files that help AI assistants understand your desi
 - [Getting Started](/guide/getting-started) — Install and use SenangStart
 - [The Natural Scale](/guide/natural-scale) — Understand the spacing philosophy
 - [Tri-Attribute Syntax](/guide/tri-attribute) — Learn layout, space, and visual
+- [Integrations](/guide/integrations) — Vite, Laravel, PostCSS and the Node API
+- [Content Scanning](/guide/content-scanning) — What the build sees in your templates
+- [Editor Support](/guide/editor-support) — Completions, types and config schema

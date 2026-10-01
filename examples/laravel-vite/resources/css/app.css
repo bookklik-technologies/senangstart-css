@@ -1,0 +1,7 @@
+/* Replaced at build/dev time with the CSS generated from your Blade views. */
+@import "senangstart";
+
+/* Your own styles go after it. */
+.prose a {
+  text-decoration: underline;
+}

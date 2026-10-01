@@ -1,0 +1,4 @@
+/* Alternative to the virtual module: put `@import "senangstart";` in a CSS file. */
+code {
+  font-family: ui-monospace, monospace;
+}

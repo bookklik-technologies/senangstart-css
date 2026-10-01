@@ -43,8 +43,11 @@ const enSidebar = {
       items: [
         { text: 'CDN (Zero Build)', link: '/guide/cdn' },
         { text: 'CLI Build', link: '/guide/cli' },
+        { text: 'Vite, Laravel & PostCSS', link: '/guide/integrations' },
         { text: 'Configuration', link: '/guide/configuration' },
+        { text: 'Content Scanning', link: '/guide/content-scanning' },
         { text: 'TypeScript', link: '/guide/typescript' },
+        { text: 'Editor Support', link: '/guide/editor-support' },
         { text: 'Migration', link: '/guide/migration' }
       ]
     }

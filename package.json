@@ -20,12 +20,48 @@
     },
     "./node": {
       "types": "./types/node.d.ts",
-      "import": "./src/node.js"
+      "import": "./src/node.js",
+      "default": "./src/node.js"
     },
     "./cli": "./src/cli/program.js",
-    "./vite": "./src/integrations/vite.js",
-    "./postcss": "./src/integrations/postcss.js",
+    "./vite": {
+      "types": "./types/vite.d.ts",
+      "import": "./src/integrations/vite.js",
+      "default": "./src/integrations/vite.js"
+    },
+    "./postcss": {
+      "types": "./types/postcss.d.ts",
+      "import": "./src/integrations/postcss.js",
+      "default": "./src/integrations/postcss.js"
+    },
     "./schema": "./schema/senangstart.config.schema.json",
+    "./typed": {
+      "types": "./types/typed.d.ts",
+      "default": "./types/typed.js"
+    },
+    "./attributes": {
+      "types": "./types/attributes.d.ts"
+    },
+    "./react": {
+      "types": "./types/react.d.ts"
+    },
+    "./vue": {
+      "types": "./types/vue.d.ts"
+    },
+    "./svelte": {
+      "types": "./types/svelte.d.ts"
+    },
+    "./solid": {
+      "types": "./types/solid.d.ts"
+    },
+    "./preact": {
+      "types": "./types/preact.d.ts"
+    },
+    "./astro": {
+      "types": "./types/astro.d.ts"
+    },
+    "./html-data": "./types/senang.html-data.json",
+    "./data": "./types/senang-data.json",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
@@ -85,7 +121,11 @@
     "framework",
     "utility-css",
     "natural-language",
-    "intent-first"
+    "intent-first",
+    "vite-plugin",
+    "postcss-plugin",
+    "vite",
+    "postcss"
   ],
   "homepage": "https://bookklik-technologies.github.io/senangstart-css",
   "repository": {
@@ -101,6 +141,18 @@
     "chokidar": "^3.6.0",
     "commander": "^11.1.0",
     "tinyglobby": "^0.2.17"
+  },
+  "peerDependencies": {
+    "postcss": ">=8.4.0",
+    "vite": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "postcss": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",

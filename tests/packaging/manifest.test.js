@@ -7,8 +7,7 @@
  *     ./schema, ./dist/*
  *   - size-limit config present
  *
- * Entries owned by other engineers (./vite, ./postcss, ./schema, types/node.d.ts)
- * are asserted to be DECLARED; their files are checked only when present.
+ * File existence for every export target is checked in ./export-map.test.js.
  */
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
@@ -59,16 +58,20 @@ describe('package.json manifest (0.4.0)', () => {
     assert.ok(existsSync(join(root, pkg.exports['./cli'])));
   });
 
-  it('declares ./vite, ./postcss, ./schema and ./dist/* exports', () => {
-    assert.equal(pkg.exports['./vite'], './src/integrations/vite.js');
-    assert.equal(pkg.exports['./postcss'], './src/integrations/postcss.js');
+  it('declares ./vite, ./postcss (with types), ./schema and ./dist/* exports', () => {
+    assert.deepEqual(pkg.exports['./vite'], {
+      types: './types/vite.d.ts',
+      import: './src/integrations/vite.js',
+      default: './src/integrations/vite.js'
+    });
+    assert.deepEqual(pkg.exports['./postcss'], {
+      types: './types/postcss.d.ts',
+      import: './src/integrations/postcss.js',
+      default: './src/integrations/postcss.js'
+    });
+    assert.equal(pkg.exports['./node'].types, './types/node.d.ts');
     assert.equal(pkg.exports['./schema'], './schema/senangstart.config.schema.json');
     assert.equal(pkg.exports['./dist/*'], './dist/*');
-    // Files are created by other engineers; when present they must be sane.
-    for (const key of ['./vite', './postcss']) {
-      const p = join(root, pkg.exports[key]);
-      if (existsSync(p)) assert.ok(readFileSync(p, 'utf-8').length > 0, `${key} target must not be empty`);
-    }
   });
 
   it('ships templates, schema and CHANGELOG; never scripts/ or tests/', () => {
