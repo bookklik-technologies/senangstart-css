@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM"],
+    "types": [],
+    "skipLibCheck": false,
+    "noUnusedLocals": false,
+    "exactOptionalPropertyTypes": false,
+    "paths": {
+      "@bookklik/senangstart-css": ["../../types/index.d.ts"],
+      "@bookklik/senangstart-css/typed": ["../../types/typed.d.ts"],
+      "@bookklik/senangstart-css/attributes": ["../../types/attributes.d.ts"],
+      "@bookklik/senangstart-css/react": ["../../types/react.d.ts"],
+      "@bookklik/senangstart-css/vue": ["../../types/vue.d.ts"],
+      "@bookklik/senangstart-css/svelte": ["../../types/svelte.d.ts"],
+      "@bookklik/senangstart-css/solid": ["../../types/solid.d.ts"],
+      "@bookklik/senangstart-css/preact": ["../../types/preact.d.ts"],
+      "@bookklik/senangstart-css/astro": ["../../types/astro.d.ts"],
+      "react": ["./stubs/react.d.ts"],
+      "react/jsx-runtime": ["./stubs/react-jsx-runtime.d.ts"],
+      "@vue/runtime-dom": ["./stubs/vue-runtime-dom.d.ts"],
+      "solid-js": ["./stubs/solid-js.d.ts"],
+      "preact": ["./stubs/preact.d.ts"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": []
+}
