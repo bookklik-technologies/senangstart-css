@@ -87,4 +87,12 @@ describe('postcss plugin', () => {
     assert.ok(result.css.includes('.x'));
     assert.ok(result.warnings().some(w => /No source files/.test(w.text)));
   });
+
+  it('keeps config and content dependencies when no sources exist yet', async () => {
+    write('senangstart.config.json', JSON.stringify({ content: ['./views/**/*.vue'] }));
+    const result = await run('@senangstart;');
+    assert.ok(result.messages.some(message => message.type === 'dependency' && message.file === join(dir, 'senangstart.config.json')));
+    const directories = result.messages.filter(message => message.type === 'dir-dependency');
+    assert.deepEqual(directories.map(message => [message.dir, message.glob]), [[join(dir, 'views'), '**/*.vue']]);
+  });
 });

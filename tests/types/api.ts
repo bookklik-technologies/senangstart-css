@@ -21,6 +21,7 @@ import {
   type KnownSpaceToken,
   type Breakpoint
 } from '@bookklik/senangstart-css';
+import { BuildError } from '@bookklik/senangstart-css/node';
 
 // Config: new fields type-check
 const config: SenangStartConfig = {
@@ -43,6 +44,9 @@ const darkModes: SenangStartConfig['darkMode'][] = ['media', 'selector', 'class'
 
 // mergeConfig returns a resolved config with every section present
 const resolved: ResolvedConfig = mergeConfig(config);
+const buildError = new BuildError('No sources', { code: 'NO_SOURCES', config: resolved, configPath: null });
+const emptyBuildConfig: ResolvedConfig | undefined = buildError.config;
+const emptyBuildPath: string | null | undefined = buildError.configPath;
 const silent: ResolvedConfig = mergeConfig(config, { silent: true });
 const spacing: Record<string, string> = resolved.theme.spacing ?? {};
 
@@ -90,4 +94,4 @@ const bp: Breakpoint = 'print'; // print media query breakpoint (theme.screens.p
 // @ts-expect-error not a screen key
 const bp2: Breakpoint = 'huge';
 
-export { darkModes, silent, spacing, css, minified, messages, raw, spaceSet, generated, bps, ok, bad, r1, r2, r3, r4, k, bp, bp2 };
+export { darkModes, silent, spacing, css, minified, messages, raw, spaceSet, generated, bps, ok, bad, r1, r2, r3, r4, k, bp, bp2, emptyBuildConfig, emptyBuildPath };

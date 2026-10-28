@@ -1,99 +1,63 @@
 ---
-description: Build distribution files and publish to npm
+description: Prepare, validate, and explicitly publish SenangStart CSS releases
 ---
-
-// turbo-all
 
 # Build & Release Workflow
 
-## Build Distribution Files
+## Preparation
 
-// turbo
-1. Bundle JIT engine and TW converter:
-```bash
-npm run build:dist
-```
+Follow [RELEASING.md](../../RELEASING.md) for the complete release checklist. Preparation alone must not publish, push a tag, create a release, or commit changes.
 
-This creates in `dist/`:
-- `senangstart-css.js` - Unminified JIT engine
-- `senangstart-css.min.js` - Minified JIT engine (~42KB)
-- `senangstart-tw.js` - Unminified TW converter
-- `senangstart-tw.min.js` - Minified TW converter
+1. Update `package.json`, both root version entries in `package-lock.json`, and the version/date in `CHANGELOG.md`.
+2. Run the release gate (ask before running unit tests unless already authorized):
 
-Also copies to `docs/public/assets/` for VitePress.
+   ```bash
+   npm run release:check
+   ```
 
-## Full Production Build
+   This runs lint, typecheck, documentation sync, a dependency audit blocking high/critical findings, golden checks, a fresh dist build, Node tests including packaging tests, and bundle-size limits. The audit needs registry access. `prepublishOnly` invokes the same gate.
 
-1. Build everything (dist + docs):
-```bash
-npm run build
-```
+3. Build the full production docs and distribution:
 
-Sequence:
-1. `build:dist` - Bundle JS files
-2. `docs:generate` - Generate reference docs
-3. `vitepress build docs` - Build static site
-4. `docs:llms` - Generate LLM context file
+   ```bash
+   npm run build
+   ```
 
-## Pre-publish Verification
+   Sequence: `build:dist` → `docs:generate` → VitePress build → `docs:llms`.
 
-// turbo
-1. Run all tests before publishing:
-```bash
-npm test
-```
+4. Run browser verification with Playwright Chromium installed:
 
-2. Verify build succeeds:
-```bash
-npm run build:dist
-```
+   ```bash
+   npm run test:jit
+   npm run test:conformance
+   ```
 
-3. Check package.json version is updated
+5. Inspect and pack the release without publishing:
 
-## Publish to npm
+   ```bash
+   npm pack --dry-run
+   npm pack
+   ```
 
-1. Login to npm (if not already):
-```bash
-npm login
-```
-
-2. Publish the package:
-```bash
-npm publish
-```
-
-Note: `prepublishOnly` script auto-runs `build:dist` before publish.
-
-## GitHub Pages Deployment
-
-Deployment is automated via GitHub Actions (`.github/workflows/deploy-docs.yml`):
-
-**Trigger**: Push to `master` branch or manual dispatch
-
-**Steps**:
-1. Checkout code
-2. Setup Node.js 20
-3. Install dependencies (`npm ci`)
-4. Generate docs (`npm run docs:generate`)
-5. Build with VitePress (`npm run build`)
-6. Run tests (`npm test`)
-7. Deploy to GitHub Pages
+6. Review generated artifacts and smoke-test the tarball in an isolated consumer project.
 
 ## Build Outputs
 
-| File | Purpose | Size |
-|------|---------|------|
-| `dist/senangstart-css.min.js` | CDN distribution | ~42KB |
-| `dist/senangstart-tw.min.js` | TW converter CDN | ~10KB |
-| `docs/.vitepress/dist/` | Static docs site | - |
+| File | Purpose |
+|------|---------|
+| `dist/senangstart-css.js`, `dist/senangstart-css.min.js` | Browser JIT runtime |
+| `dist/senangstart-css.cjs`, `dist/senangstart-css.mjs` | CommonJS and ESM compiler APIs |
+| `dist/senangstart-tw.js`, `dist/senangstart-tw.min.js` | Browser Tailwind converter |
+| `dist/senangstart.css`, `dist/senangstart.min.css` | Standalone preflight and theme variables |
+| `docs/public/assets/` | Copied browser runtime and standalone stylesheets |
+| `docs/.vitepress/dist/` | Production documentation site |
 
-## Version Bumping
+All version banners are generated from `package.json`. Use `npm run size` for current compressed sizes instead of maintaining estimates here.
 
-Before release, update version in:
-1. `package.json` - Main version field
-2. `scripts/build-dist.js` - Banner comments (optional)
+## Publishing
 
-Semantic versioning:
-- PATCH (0.2.x) - Bug fixes
-- MINOR (0.x.0) - New features, backward compatible
-- MAJOR (x.0.0) - Breaking changes
+Only publish or push a release tag after explicit user authorization. The `release.yml` workflow verifies tags on Node 22/24, publishes to npm with provenance using the configured `npm` environment, then creates a GitHub release. See `RELEASING.md` for prerequisites and manual publication guidance.
+
+## Documentation Deployment
+
+`deploy-docs.yml` uses Node 24 and deploys GitHub Pages on a push to `master` or manual dispatch. This does not publish an npm package.

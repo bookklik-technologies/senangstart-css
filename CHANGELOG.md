@@ -4,6 +4,25 @@ All notable changes to SenangStart CSS will be documented in this file.
 
 ---
 
+## [0.4.1] — 2026-10-28
+
+### Security
+- Updated compatible tooling dependencies in the lockfile, including Vite, Vue, source-map-js, follow-redirects, fast-uri, and qs. Raised the VitePress Vite override to `^6.4.5`.
+
+### Release
+- Added `npm run release:check` for lint, types, docs sync, dependency auditing, golden checks, a fresh build before packaging tests, and bundle-size limits. `prepublishOnly` runs the same gate.
+- Added a maintainer release checklist and package/lockfile version consistency checks.
+
+### Fixed
+- Fresh config loading now clears the CommonJS module cache as well as cache-busting ESM imports, so `.cjs` and CommonJS `.js` edits take effect in long-running builds.
+- Empty builds retain resolved config metadata and content patterns for Node, Vite, and PostCSS watchers, including non-HTML sources. Node watchers now share the file scanner's default ignored directories.
+- Build diagnostics use extractor locations keyed by attribute and token, avoiding incorrect files or lines when tokens also appear in another attribute, comments, or text.
+- CSS minification preserves descendant combinators before pseudo-classes, including type selectors nested in media queries.
+
+### Documentation
+- Corrected English and Malay CLI/configuration guides: `init` chooses `.mjs` outside ESM projects, and AI context / TypeScript outputs are opt-in with `null` defaults and overwrite protection.
+- Documented CommonJS reload behavior, non-recursive helper-module caching, and empty-project watch recovery.
+
 ## [0.4.0] — 2026-10-01
 
 ### Security

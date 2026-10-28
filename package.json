@@ -1,6 +1,6 @@
 {
   "name": "@bookklik/senangstart-css",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Fluent Style Utilities for Humans and AI",
   "type": "module",
   "main": "./dist/senangstart-css.cjs",
@@ -96,7 +96,8 @@
     "dev": "node src/cli/index.js dev",
     "build": "npm run build:dist && npm run docs:generate && vitepress build docs && npm run docs:llms",
     "build:dist": "node scripts/build-dist.js",
-    "prepublishOnly": "npm run lint && npm test && npm run golden && npm run build:dist && npm run size",
+    "release:check": "npm run lint && npm run typecheck && npm run docs:sync-check && npm audit --audit-level=high && npm run golden && npm run build:dist && npm test && npm run size",
+    "prepublishOnly": "npm run release:check",
     "generate:types": "node scripts/generate-types.js",
     "docs:dev": "vitepress dev docs",
     "docs:generate": "node scripts/generate-docs.js",
@@ -178,7 +179,7 @@
   },
   "overrides": {
     "vitepress": {
-      "vite": "^6.4.3"
+      "vite": "^6.4.5"
     }
   },
   "size-limit": [

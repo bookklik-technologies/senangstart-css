@@ -9,7 +9,7 @@ name: Release
 #   - `id-token: write` permission (below) so `--provenance` can sign via Sigstore.
 #   - The tag must match package.json "version" (checked in the verify job).
 #
-# Flow: verify (tests on Node 20/22/24) → publish (npm publish --provenance) → GitHub release.
+# Flow: verify (tests on Node 22/24) → publish (npm publish --provenance) → GitHub release.
 
 on:
   push:
@@ -44,11 +44,13 @@ jobs:
             exit 1
           fi
       - run: npm run lint
+      - run: npm audit --audit-level=high
       - run: npm test
       - run: npm run golden
       - run: npm run build:dist
       - run: npm run size
       - run: npm run typecheck
+      - run: npm run docs:sync-check
       - run: npm run test:packaging
 
   publish:
@@ -67,7 +69,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
       - run: npm ci
-      # prepublishOnly runs lint, tests, golden, build:dist and size again.
+      # prepublishOnly runs the complete release:check gate again.
       - name: Publish
         run: npm publish --provenance --access public
         env:

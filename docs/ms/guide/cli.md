@@ -22,7 +22,7 @@ Cipta fail konfigurasi:
 senangstart init
 ```
 
-Ini mencipta `senangstart.config.js` dalam root projek anda dengan lalai yang baik.
+Ini mencipta `senangstart.config.mjs` dalam root projek anda, atau `senangstart.config.js` apabila `package.json` projek menetapkan `"type": "module"`. Guna `--js` untuk memilih nama fail `.js` secara eksplisit.
 
 ### `senangstart build`
 
@@ -94,15 +94,19 @@ senangstart dev
 
 Ini memantau fail sumber anda dan membina semula secara automatik apabila ada perubahan.
 
+Perubahan konfigurasi dimuat semula untuk fail ESM dan CommonJS. Jika belum ada fail sumber yang sepadan, pemantau mengekalkan corak kandungan yang dikonfigurasi dan membina semula apabila fail pertama yang sepadan ditambah.
+
 ## Fail Output
 
-CLI menghasilkan tiga fail:
+CLI menghasilkan stylesheet secara lalai. Fail konteks AI dan TypeScript perlu diaktifkan secara eksplisit:
 
-| Fail | Penerangan |
-|------|------------|
-| `public/senangstart.css` | Stylesheet terkompil |
-| `.cursorrules` | Fail konteks AI untuk LLM |
-| `types/senang.d.ts` | Definisi TypeScript |
+| Fail | Penerangan | Aktif secara lalai |
+|------|------------|--------------------|
+| `public/senangstart.css` | Stylesheet terkompil | Ya |
+| `.cursorrules` | Konteks AI untuk LLM (`output.aiContext`) | Tidak |
+| `types/senang.d.ts` | Definisi TypeScript (`output.typescript`) | Tidak |
+
+Tetapkan `output.aiContext` atau `output.typescript` kepada laluan fail untuk mengaktifkannya. Fail janaan mempunyai penanda; fail sedia ada tanpa penanda tersebut tidak akan ditulis ganti.
 
 ## Persediaan Projek
 

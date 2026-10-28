@@ -157,8 +157,9 @@ export default {
 - Every scanned file is registered as a `dependency` message, the config file too, and each content-glob base directory as a `dir-dependency` (with its `glob`). `postcss-cli --watch`, webpack's `postcss-loader`, Vite and Parcel use these to rebuild when markup changes.
 - Invalid tokens **throw** a `CssSyntaxError` (mirroring `senangstart build`), with `file:line` for each token. Pass `ignoreInvalid: true` to report them through `result.warn()` instead — e.g. `ignoreInvalid: process.env.NODE_ENV !== 'production'`.
 - Warnings (unknown config keys, unreadable files, no matching sources) are reported through `result.warn()`.
+- Projects with no matching sources retain their config-file and content-directory dependencies, so adding the first source file or editing the config can trigger a rebuild.
 
-Options: `config`, `cwd` (default `process.cwd()`), `content`, `safelist`, `preflight`, `minify`, `ignoreInvalid` — same meaning as for Vite — plus `fresh` (default `true`: re-import the config on every run so edits are picked up by long-running watchers; set `false` to import it once).
+Options: `config`, `cwd` (default `process.cwd()`), `content`, `safelist`, `preflight`, `minify`, `ignoreInvalid` — same meaning as for Vite — plus `fresh` (default `true`: reload the config on every run, including CommonJS `.cjs` / `.js` configs; set `false` to reuse the cached config). Imported helper modules are not recursively refreshed.
 
 ::: tip Using Vite?
 Prefer the Vite plugin: it gives HMR CSS updates and dev-only warnings. If you already use the PostCSS plugin inside Vite, it works too (Vite reads the dependency messages).
@@ -195,6 +196,8 @@ await watcher.close();
 ```
 
 `build()` throws `ConfigError` for a missing/invalid config and `BuildError` (with `.code`, e.g. `NO_SOURCES`) for unrecoverable failures; invalid tokens are reported in `result.errors`, not thrown. Types ship with the package (`@bookklik/senangstart-css/node`).
+
+`NO_SOURCES` errors include the resolved `config` and `configPath`, allowing integrations to retain watch dependencies before any markup exists. `watch()` also keeps these patterns after a failed empty build. Diagnostic file and line numbers come from the extractor's first matching attribute/token location, not from mentions in comments, text, or another attribute.
 
 ## CDN
 

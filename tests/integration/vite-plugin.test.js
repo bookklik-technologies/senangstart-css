@@ -80,6 +80,39 @@ describe('vite plugin', () => {
     assert.ok(css.includes('display:flex'));
   });
 
+  it('dev: config edits rebuild a project that initially has no matching sources', async () => {
+    const root = makeProject({
+      'senangstart.config.json': JSON.stringify({ content: ['./views/**/*.vue'], preflight: false })
+    });
+    dirs.push(root);
+    const server = await createServer({
+      root,
+      configFile: false,
+      logLevel: 'silent',
+      plugins: [senangstart()],
+      server: { middlewareMode: true, ws: false },
+      appType: 'custom',
+      optimizeDeps: { noDiscovery: true, include: [] }
+    });
+    try {
+      await server.transformRequest('/__senangstart.css');
+      await new Promise(resolve => setTimeout(resolve, 150));
+      writeFileSync(join(root, 'senangstart.config.json'), JSON.stringify({
+        content: ['./views/**/*.vue'], preflight: false, safelist: ['flex']
+      }));
+      const deadline = Date.now() + 6000;
+      let code = '';
+      while (Date.now() < deadline) {
+        code = (await server.transformRequest('/__senangstart.css')).code;
+        if (code.includes('display: flex')) break;
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      assert.ok(code.includes('display: flex'), 'config safelist applied after an empty initial build');
+    } finally {
+      await server.close();
+    }
+  });
+
   describe('dev server', () => {
     let root;
     let server;

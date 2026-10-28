@@ -19,6 +19,21 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf-8'));
 
 describe('package.json manifest (0.4.0)', () => {
+  it('keeps the package and lockfile release versions synchronized', () => {
+    const lock = JSON.parse(readFileSync(join(root, 'package-lock.json'), 'utf-8'));
+    assert.equal(lock.version, pkg.version);
+    assert.equal(lock.packages[''].version, pkg.version);
+  });
+
+  it('runs release verification before publishing and tests freshly built artifacts', () => {
+    assert.equal(pkg.scripts.prepublishOnly, 'npm run release:check');
+    const checks = pkg.scripts['release:check'].split(' && ');
+    for (const check of ['npm run lint', 'npm run typecheck', 'npm run docs:sync-check', 'npm audit --audit-level=high', 'npm run golden', 'npm run build:dist', 'npm test', 'npm run size']) {
+      assert.ok(checks.includes(check), `${check} must be part of release verification`);
+    }
+    assert.ok(checks.indexOf('npm run build:dist') < checks.indexOf('npm test'));
+  });
+
   it('test scripts use quoted recursive globs', () => {
     assert.equal(pkg.scripts.test, 'node --test "tests/**/*.test.js"');
     assert.equal(pkg.scripts['test:unit'], 'node --test "tests/unit/**/*.test.js"');

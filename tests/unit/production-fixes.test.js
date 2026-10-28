@@ -127,6 +127,21 @@ describe('Production Fixes (Phase 1)', () => {
   });
 
   describe('1.3 String-aware minification', () => {
+    it('preserves descendant combinators before pseudo-classes', () => {
+      const css = '.parent :hover, section :is(.child) { color : red; --custom : blue; }';
+      const minified = minifyCSS(css);
+      assert.ok(minified.includes('.parent :hover'));
+      assert.ok(minified.includes('section :is(.child)'));
+      assert.ok(minified.includes('color:red'));
+      assert.ok(minified.includes('--custom:blue'));
+    });
+
+    it('preserves type-selector descendants inside media queries', () => {
+      const minified = minifyCSS('@media print { section :is(.child) { color : red; } }');
+      assert.ok(minified.includes('section :is(.child)'));
+      assert.ok(minified.includes('color:red'));
+    });
+
     it('preserves colons inside content strings', () => {
       const css = '.a { content: "a: b"; }';
       const minified = minifyCSS(css);

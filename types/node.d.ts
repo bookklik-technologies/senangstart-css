@@ -106,7 +106,9 @@ export declare class BuildError extends Error {
   name: 'BuildError';
   /** e.g. `NO_SOURCES`, `ALL_FILES_FAILED`, `TOKENIZE`, `GENERATE`, `MINIFY`, `WRITE_CSS`. */
   code: string;
-  constructor(message: string, details?: { code?: string; cause?: unknown });
+  config?: ResolvedConfig;
+  configPath?: string | null;
+  constructor(message: string, details?: { code?: string; cause?: unknown; config?: ResolvedConfig; configPath?: string | null });
 }
 
 /** Identity helper for typed configs. */

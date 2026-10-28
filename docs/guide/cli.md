@@ -22,7 +22,7 @@ Create a configuration file:
 senangstart init
 ```
 
-This creates `senangstart.config.js` in your project root with sensible defaults.
+This creates `senangstart.config.mjs` in your project root, or `senangstart.config.js` when your project's `package.json` declares `"type": "module"`. Use `--js` to explicitly request the `.js` filename.
 
 ### `senangstart build`
 
@@ -94,15 +94,19 @@ senangstart dev
 
 This watches your source files and rebuilds automatically on changes.
 
+Config edits are reloaded for both ESM and CommonJS files. If no source files match yet, the watcher keeps the configured content patterns and rebuilds when the first matching file is added.
+
 ## Output Files
 
-The CLI generates three files:
+The CLI writes the stylesheet by default. AI context and TypeScript files are opt-in:
 
-| File | Description |
-|------|-------------|
-| `public/senangstart.css` | Compiled stylesheet |
-| `.cursorrules` | AI context file for LLMs |
-| `types/senang.d.ts` | TypeScript definitions |
+| File | Description | Enabled by default |
+|------|-------------|--------------------|
+| `public/senangstart.css` | Compiled stylesheet | Yes |
+| `.cursorrules` | AI context file for LLMs (`output.aiContext`) | No |
+| `types/senang.d.ts` | TypeScript definitions (`output.typescript`) | No |
+
+Set `output.aiContext` or `output.typescript` to a file path to enable it. Generated side outputs carry a marker; existing files without that marker are never overwritten.
 
 ## Project Setup
 

@@ -1,6 +1,6 @@
 # Configuration
 
-Customize SenangStart CSS with `senangstart.config.js`.
+Customize SenangStart CSS with `senangstart.config.mjs` (ESM), `.js`, `.cjs` (CommonJS), or `.json`.
 
 ## Creating a Config File
 
@@ -10,10 +10,12 @@ Run the init command to create a config file:
 senangstart init
 ```
 
+`init` uses `.mjs` unless your project's `package.json` declares `"type": "module"`, in which case it uses `.js`. The CLI, Node API, Vite plugin, and PostCSS plugin reload edits to both ESM and CommonJS configs when fresh loading is enabled. Imported helper modules are not recursively refreshed.
+
 Or create it manually:
 
 ```javascript
-// senangstart.config.js
+// senangstart.config.mjs
 export default {
   // Files to scan for SenangStart attributes
   content: [
@@ -26,8 +28,8 @@ export default {
   output: {
     css: './public/senangstart.css',
     minify: true,
-    aiContext: './.cursorrules',
-    typescript: './types/senang.d.ts'
+    aiContext: null,
+    typescript: null
   },
 
   // Build behavior
@@ -64,8 +66,10 @@ content: [
 |--------|---------|-------------|
 | `css` | `./public/senangstart.css` | Output CSS file path |
 | `minify` | `false` | Minify the generated CSS |
-| `aiContext` | `./.cursorrules` | Output path for AI assistant context file |
-| `typescript` | `./types/senang.d.ts` | Output path for generated TypeScript definitions |
+| `aiContext` | `null` | Opt-in output path for an AI assistant context file, e.g. `./.cursorrules` |
+| `typescript` | `null` | Opt-in output path for generated TypeScript definitions, e.g. `./types/senang.d.ts` |
+
+Side outputs only overwrite files carrying the SenangStart generated-file marker. Existing user-authored files are preserved and listed in `result.outputs.skipped` by the Node API.
 
 ## Build Options
 

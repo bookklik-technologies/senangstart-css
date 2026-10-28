@@ -44,7 +44,7 @@ import { generateAIContext } from './compiler/generators/ai-context.js';
 import { getMemoryUsage } from './utils/common.js';
 import { readMultipleFilesWithTimeout, ensureDir, writeGeneratedFile } from './utils/node-io.js';
 import { loadConfig as loadConfigInternal, ConfigError } from './cli/lib/config-loader.js';
-import { findFiles } from './cli/lib/files.js';
+import { findFiles, DEFAULT_CONTENT, DEFAULT_IGNORE } from './cli/lib/files.js';
 import { normalizeDiagnostics } from './cli/lib/diagnostics.js';
 import { expandSafelist, emptyTokenSets } from './cli/lib/safelist.js';
 
@@ -56,6 +56,8 @@ export class BuildError extends Error {
     this.name = 'BuildError';
     this.code = details.code || 'BUILD_ERROR';
     if (details.cause) this.cause = details.cause;
+    if (details.config) this.config = details.config;
+    if (details.configPath !== undefined) this.configPath = details.configPath;
   }
 }
 
@@ -95,18 +97,6 @@ async function loadTypeScriptGenerator() {
     }
   }
   return null;
-}
-
-/**
- * Find the line number of the first occurrence of `needle` in `content`.
- */
-function lineOf(content, needle) {
-  if (!content || !needle) return undefined;
-  const idx = content.indexOf(needle);
-  if (idx < 0) return undefined;
-  let line = 1;
-  for (let i = 0; i < idx; i++) if (content.charCodeAt(i) === 10) line++;
-  return line;
 }
 
 /**
@@ -155,12 +145,14 @@ export async function build(options = {}) {
   const safelistCount = Object.values(safelistSets).reduce((n, s) => n + s.size, 0);
 
   if (files.length === 0 && safelistCount === 0) {
-    throw new BuildError('No source files found matching content patterns. Aborting build.', { code: 'NO_SOURCES' });
+    throw new BuildError('No source files found matching content patterns. Aborting build.', {
+      code: 'NO_SOURCES', config, configPath: loaded.path
+    });
   }
 
   // 3. Parse
   const allTokens = emptyTokenSets();
-  /** @type {Map<string, {file: string, content: string}>} raw → first occurrence */
+  /** @type {Map<string, {file: string, line?: number}>} */
   const origin = new Map();
   let failedFiles = 0;
 
@@ -177,7 +169,8 @@ export async function build(options = {}) {
         if (!parsed[attr]) continue;
         for (const t of parsed[attr]) {
           allTokens[attr].add(t);
-          if (!origin.has(t)) origin.set(t, { file: filePath, content });
+          const key = `${attr}:${t}`;
+          if (!origin.has(key)) origin.set(key, parsed.locations.get(key)?.[0] || { file: filePath });
         }
       }
     } catch (e) {
@@ -237,10 +230,10 @@ export async function build(options = {}) {
     const key = `${d.code}|${d.attrType}|${d.raw}|${d.message}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    const o = origin.get(d.raw);
+    const o = origin.get(`${d.attrType}:${d.raw}`);
     if (o) {
       d.file = d.file || o.file;
-      d.line = d.line || lineOf(o.content, d.raw);
+      d.line = d.line || o.line;
     }
     diagnostics.push(d);
   }
@@ -347,6 +340,7 @@ export async function watch(options = {}, onResult = () => {}) {
       await syncWatcher(result.config.content, result.configPath);
       emit(result, undefined, meta);
     } catch (error) {
+      if (error.config) await syncWatcher(error.config.content, error.configPath);
       emit(null, error, meta);
     } finally {
       building = false;
@@ -373,9 +367,7 @@ export async function watch(options = {}, onResult = () => {}) {
 
   function toWatchPaths(content) {
     const paths = [];
-    const ignored = [
-      '**/node_modules/**', '**/.git/**', '**/dist/**', '**/.cache/**', '**/.next/**', '**/.nuxt/**', '**/coverage/**'
-    ];
+    const ignored = [...DEFAULT_IGNORE];
     for (const p of content || []) {
       if (typeof p !== 'string') continue;
       if (p.startsWith('!')) {
@@ -434,8 +426,8 @@ export async function watch(options = {}, onResult = () => {}) {
     emit(result, undefined, { event: 'initial' });
   } catch (error) {
     emit(null, error, { event: 'initial' });
-    const fallbackContent = Array.isArray(options.content) ? options.content : ['./**/*.html'];
-    let configPath = null;
+    const fallbackContent = error.config?.content || (Array.isArray(options.content) ? options.content : [...DEFAULT_CONTENT]);
+    let configPath = error.configPath || null;
     try {
       const { resolveConfigPath, discoverConfig } = await import('./cli/lib/config-loader.js');
       configPath = typeof options.config === 'string' ? resolveConfigPath(options.config, cwd) : discoverConfig(cwd);

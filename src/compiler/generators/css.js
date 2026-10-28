@@ -904,7 +904,7 @@ export function minifyCSS(css) {
     .replace(/ ?\{ ?/g, '{')                 // Remove space around {
     .replace(/ ?\} ?/g, '}')                 // Remove space around }
     .replace(/; ?/g, ';')                    // Remove space after ;
-    .replace(/([a-z-]) ?: ?/g, '$1:')        // Remove space around : only after property names
+    .replace(/([{;])\s*([a-z-]+)\s*:\s*([^{};]*)(?=[;}])/gi, '$1$2:$3')
     .replace(/, ?/g, ',')                    // Remove space after ,
     .trim();
 

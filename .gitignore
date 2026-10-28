@@ -44,4 +44,5 @@ docs/.vitepress/dist/
 docs/.vitepress/cache/
 
 .build/
+/.release/
 tests/conformance/.generated/

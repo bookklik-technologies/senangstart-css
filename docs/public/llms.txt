@@ -814,10 +814,10 @@ export default {
 * `left`: Float left (`float: left;`)
 * `right`: Float right (`float: right;`)
 * `none`: No float (`float: none;`)
-* `clear-left`: Clear left floats (`clear: left;`)
-* `clear-right`: Clear right floats (`clear: right;`)
-* `clear-both`: Clear all floats (`clear: both;`)
-* `clear-none`: No clear (`clear: none;`)
+* `left`: Clear left floats (`clear: left;`)
+* `right`: Clear right floats (`clear: right;`)
+* `both`: Clear all floats (`clear: both;`)
+* `none`: No clear (`clear: none;`)
 
 ## font-family
 > Set font family
@@ -1389,6 +1389,14 @@ export default {
 **Syntax:** `space="size:[value]"`
 
 * `undefined`: Size (width + height)
+
+## space-between
+> Add space between direct children (margin on every child after the first), like Tailwind space-x/space-y
+
+**Syntax:** `visual="space-x:[value]" or visual="space-y:[value]"`
+
+* `undefined`: Horizontal space between children (`margin-left: var(--s-{value});`)
+* `undefined`: Vertical space between children (`margin-top: var(--s-{value});`)
 
 ## state-prefixes
 > Apply styles on specific states

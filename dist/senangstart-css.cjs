@@ -1,4 +1,4 @@
-/* SenangStart CSS - CJS Runtime v0.4.0 | MIT License */
+/* SenangStart CSS - CJS Runtime v0.4.1 | MIT License */
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -11869,7 +11869,7 @@ function minifyCSS(css) {
     stripped += ch;
   }
   const preserved = [];
-  const collapsed = stripped.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, (m) => `\0${preserved.push(m) - 1}\0`).replace(/\s+/g, " ").replace(/ ?\{ ?/g, "{").replace(/ ?\} ?/g, "}").replace(/; ?/g, ";").replace(/([a-z-]) ?: ?/g, "$1:").replace(/, ?/g, ",").trim();
+  const collapsed = stripped.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, (m) => `\0${preserved.push(m) - 1}\0`).replace(/\s+/g, " ").replace(/ ?\{ ?/g, "{").replace(/ ?\} ?/g, "}").replace(/; ?/g, ";").replace(/([{;])\s*([a-z-]+)\s*:\s*([^{};]*)(?=[;}])/gi, "$1$2:$3").replace(/, ?/g, ",").trim();
   return collapsed.replace(/\u0000(\d+)\u0000/g, (_, i) => preserved[Number(i)] ?? "");
 }
 

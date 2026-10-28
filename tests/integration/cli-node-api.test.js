@@ -69,6 +69,22 @@ describe('node API', () => {
     assert.equal(r.warnings.filter(w => w.raw === 'nope_token').length, 1);
   });
 
+  it('build() reports the location for the matching attribute, not another use of the same token', async () => {
+    write('a.html', '<div layout="flex"></div>');
+    write('b.html', '<!-- flex is mentioned here -->\n<div visual="flex"></div>');
+    const result = await build({ cwd: dir, output: false });
+    const diagnostic = result.errors.find(error => error.raw === 'flex' && error.attrType === 'visual');
+    assert.ok(diagnostic);
+    assert.equal(diagnostic.file, join(dir, 'b.html'));
+    assert.equal(diagnostic.line, 2);
+  });
+
+  it('build() ignores token mentions outside scanned attributes when reporting lines', async () => {
+    write('index.html', '<!-- p:nope-size -->\n<p>p:nope-size</p>\n<div space="p:nope-size"></div>');
+    const result = await build({ cwd: dir, output: false });
+    assert.equal(result.errors[0].line, 3);
+  });
+
   it('build() throws ConfigError / BuildError appropriately', async () => {
     await assert.rejects(build({ cwd: dir, config: 'missing.mjs' }), ConfigError);
     write('senangstart.config.mjs', 'export default { content: 42 }');
@@ -89,6 +105,41 @@ describe('node API', () => {
     assert.equal(loaded.path, join(dir, 'senangstart.config.json'));
     assert.equal(loaded.config.preflight, false);
     assert.ok(loaded.warnings.some(w => w.includes('extra')));
+  });
+
+  for (const extension of ['cjs', 'js']) {
+    it(`loadConfig() refreshes CommonJS .${extension} configs`, async () => {
+      write('package.json', '{"type":"commonjs"}');
+      const configFile = `senangstart.config.${extension}`;
+      write(configFile, 'module.exports = { preflight: true };');
+      assert.equal((await loadConfig(configFile, { cwd: dir })).config.preflight, true);
+      write(configFile, 'module.exports = { preflight: false };');
+      assert.equal((await loadConfig(configFile, { cwd: dir, fresh: true })).config.preflight, false);
+      assert.equal((await loadConfig(configFile, { cwd: dir })).config.preflight, false);
+    });
+  }
+
+  it('watch() recovers from no sources using the configured non-HTML globs', async () => {
+    write('senangstart.config.json', JSON.stringify({ content: ['./views/**/*.vue'], preflight: false }));
+    write('views/.keep', '');
+    let resolveBuild;
+    let timer;
+    const rebuilt = new Promise(resolve => { resolveBuild = resolve; });
+    const watcher = await watch({ cwd: dir, output: false, debounceMs: 20 }, (result) => {
+      if (result) resolveBuild(result);
+    });
+    try {
+      await new Promise(resolve => setTimeout(resolve, 150));
+      write('views/page.vue', '<template><div layout="grid"></div></template>');
+      const result = await Promise.race([
+        rebuilt,
+        new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('No rebuild for configured Vue content')), 3000); })
+      ]);
+      assert.ok(result.css.includes('display: grid'));
+    } finally {
+      clearTimeout(timer);
+      await watcher.close();
+    }
   });
 
   it('opt-in typescript/aiContext outputs honour the marker protection', async () => {
@@ -137,6 +188,21 @@ describe('node API', () => {
       await Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout waiting for config rebuild')), 8000))]);
       assert.equal(results.at(-1).meta.event, 'config');
       assert.ok(existsSync(join(dir, 'w2.css')), 'fresh config applied');
+
+      p = next();
+      write('future/.keep', '');
+      write('senangstart.config.mjs', `export default { content: ['./future/**/*.vue'], preflight: false }`);
+      await Promise.race([p, new Promise((_, reject) => setTimeout(() => reject(new Error('timeout waiting for empty build')), 8000))]);
+      assert.equal(results.at(-1).error.code, 'NO_SOURCES');
+      assert.deepEqual(results.at(-1).error.config.content, ['./future/**/*.vue']);
+      assert.equal(results.at(-1).error.configPath, join(dir, 'senangstart.config.mjs'));
+
+      p = next();
+      await new Promise(resolve => setTimeout(resolve, 150));
+      write('future/page.vue', '<div layout="inline-flex"></div>');
+      await Promise.race([p, new Promise((_, reject) => setTimeout(() => reject(new Error('timeout waiting for retargeted content')), 8000))]);
+      assert.equal(results.at(-1).error, undefined);
+      assert.ok(results.at(-1).result.css.includes('display: inline-flex'));
 
       // Break the config: error is reported, watcher survives
       p = next();

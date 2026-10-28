@@ -1,4 +1,4 @@
-/* SenangStart CSS - JIT Runtime v0.4.0 | MIT License */
+/* SenangStart CSS - JIT Runtime v0.4.1 | MIT License */
 (() => {
   // src/core/constants.js
   var LIMITS = {
@@ -3729,7 +3729,7 @@ ${breakpointQuery(bp, screens, config)} {
         dirty = true;
         compile();
         window.SenangStart = {
-          version: true ? "0.4.0" : "dev",
+          version: true ? "0.4.1" : "dev",
           css: function() {
             return lastCSS;
           },

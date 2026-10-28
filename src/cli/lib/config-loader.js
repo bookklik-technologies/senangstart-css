@@ -16,9 +16,11 @@
 import { existsSync, statSync, readFileSync } from 'fs';
 import { resolve, extname, isAbsolute } from 'path';
 import { pathToFileURL } from 'url';
+import { createRequire } from 'module';
 import { mergeConfig, validateConfig } from '../../config/defaults.js';
 
 let freshCounter = 0;
+const requireModule = createRequire(import.meta.url);
 
 export class ConfigError extends Error {
   /**
@@ -119,7 +121,11 @@ export async function importConfigFile(absPath, options = {}) {
 
   let mod;
   try {
+    const modulePath = requireModule.resolve(absPath);
+    if (options.fresh) delete requireModule.cache[modulePath];
     mod = await import(url);
+    const cached = requireModule.cache[modulePath];
+    if (cached) mod = { default: cached.exports };
   } catch (e) {
     throw new ConfigError(`Failed to load config ${absPath}: ${e.message}`, { path: absPath, cause: e, code: 'CONFIG_LOAD' });
   }

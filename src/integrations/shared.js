@@ -78,8 +78,8 @@ export async function runBuild(buildOptions) {
         durationMs: 0,
         ok: true,
         tokenCount: 0,
-        config: { content: buildOptions.content || null },
-        configPath: null,
+        config: e.config,
+        configPath: e.configPath,
         empty: true
       };
     }

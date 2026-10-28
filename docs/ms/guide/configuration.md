@@ -1,6 +1,6 @@
 # Konfigurasi
 
-Sesuaikan SenangStart CSS dengan `senangstart.config.js`.
+Sesuaikan SenangStart CSS dengan `senangstart.config.mjs` (ESM), `.js`, `.cjs` (CommonJS), atau `.json`.
 
 ## Mencipta Fail Config
 
@@ -10,10 +10,12 @@ Jalankan arahan init untuk mencipta fail config:
 senangstart init
 ```
 
+`init` menggunakan `.mjs` kecuali `package.json` projek menetapkan `"type": "module"`, yang menggunakan `.js`. Perubahan fail konfigurasi ESM dan CommonJS dimuat semula apabila pemuatan baharu diaktifkan. Modul bantuan yang diimport tidak dimuat semula secara rekursif.
+
 Atau cipta secara manual:
 
 ```javascript
-// senangstart.config.js
+// senangstart.config.mjs
 export default {
   // Fail untuk diimbas untuk atribusi SenangStart
   content: [
@@ -26,8 +28,8 @@ export default {
   output: {
     css: './public/senangstart.css',
     minify: true,
-    aiContext: './.cursorrules',
-    typescript: './types/senang.d.ts'
+    aiContext: null,
+    typescript: null
   },
 
   // Penyesuaian tema
@@ -56,8 +58,10 @@ content: [
 |---------|------------|-------|
 | `css` | Laluan output CSS | `./public/senangstart.css` |
 | `minify` | Minify output | `false` |
-| `aiContext` | Laluan fail konteks AI | `./.cursorrules` |
-| `typescript` | Laluan definisi TypeScript | `./types/senang.d.ts` |
+| `aiContext` | Laluan fail konteks AI pilihan, contohnya `./.cursorrules` | `null` |
+| `typescript` | Laluan definisi TypeScript pilihan, contohnya `./types/senang.d.ts` | `null` |
+
+Output pilihan hanya menulis ganti fail yang mempunyai penanda janaan SenangStart. Fail tulisan pengguna dikekalkan dan disenaraikan dalam `result.outputs.skipped` oleh API Node.
 
 ## Penyesuaian Tema
 
