@@ -20,10 +20,18 @@ npm test
 | `npm run test:coverage` | Coverage report |
 | `npm run test:visual` | Playwright visual regression tests |
 | `npm run lint:css` | Stylelint CSS validation |
+| `npm run build:css` | Regenerate public CSS from demo sources |
 | `npm run build:dist` | Build distribution bundles |
 | `npm run docs:dev` | Start VitePress docs dev server |
 
 ## Project Structure
+
+The repository's `senangstart.config.js` limits CSS scanning to examples,
+the main playground, and documentation components. Test fixtures and Markdown
+documentation contain intentionally invalid tokens or illustrative placeholders
+and must not be included in the public stylesheet. Run `npm run build:css`
+after changing demo utilities. Generated CSS keeps compact rule formatting and
+six-digit fraction precision; Stylelint still validates its property values.
 
 ```
 src/

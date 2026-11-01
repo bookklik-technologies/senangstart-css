@@ -11,7 +11,7 @@ visual="drop-shadow:[value]"
 
 | Nilai | CSS Output | Huraian |
 |-------|------------|-------------|
-| `none` | `filter: drop-shadow(none)` | Tiada bayang |
+| `none` | `filter: none` | Tiada bayang |
 | `tiny` | `filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05))` | Bayang kecil |
 | `small` | `filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1))` | Bayang kecil |
 | `medium` | `filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07))` | Bayang sederhana |

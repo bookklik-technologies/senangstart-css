@@ -1052,7 +1052,7 @@ This document provides a complete reference of all utility syntax patterns in Se
 
 | Value | CSS Output |
 |-------|------------|
-| `none` | `filter: drop-shadow(none);` |
+| `none` | `filter: none;` |
 | `tiny` | `filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));` |
 | `small` | `filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));` |
 | `medium` | `filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07));` |
@@ -1709,4 +1709,3 @@ This document provides a complete reference of all utility syntax patterns in Se
 | `vertical-lr` | `writing-mode: vertical-lr;` |
 | `sideways-rl` | `writing-mode: sideways-rl;` |
 | `sideways-lr` | `writing-mode: sideways-lr;` |
-

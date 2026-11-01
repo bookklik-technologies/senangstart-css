@@ -1,4 +1,4 @@
-/* SenangStart CSS - CJS Runtime v0.4.1 | MIT License */
+/* SenangStart CSS - CJS Runtime v0.4.2 | MIT License */
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -7292,7 +7292,7 @@ var filterDropShadow = {
   category: "visual",
   supportsArbitrary: true,
   values: [
-    { value: "none", css: "filter: drop-shadow(none);", description: "No shadow", descriptionMs: "Tiada bayang" },
+    { value: "none", css: "filter: none;", description: "No shadow", descriptionMs: "Tiada bayang" },
     { value: "tiny", css: "filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));", description: "Tiny shadow", descriptionMs: "Bayang kecil" },
     { value: "small", css: "filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));", description: "Small shadow", descriptionMs: "Bayang kecil" },
     { value: "medium", css: "filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07));", description: "Medium shadow", descriptionMs: "Bayang sederhana" },
@@ -10822,6 +10822,31 @@ function fail(code, message, suggestion = null) {
 function ok(css, usedVars) {
   return { css, error: null, usedVars };
 }
+function dropShadowCSS(value) {
+  if (value === "none") return "filter: none;";
+  const shadows = [];
+  let depth = 0;
+  let quote = null;
+  let start = 0;
+  for (let index = 0; index < value.length; index++) {
+    const character = value[index];
+    if (quote) {
+      if (character === "\\") index++;
+      else if (character === quote) quote = null;
+    } else if (character === '"' || character === "'") {
+      quote = character;
+    } else if (character === "(") {
+      depth++;
+    } else if (character === ")") {
+      depth--;
+    } else if (character === "," && depth === 0) {
+      shadows.push(value.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+  shadows.push(value.slice(start).trim());
+  return `filter: ${shadows.map((shadow) => `drop-shadow(${shadow})`).join(" ")};`;
+}
 function varsIn(css) {
   const out = [];
   const re = /var\((--[A-Za-z0-9_-]+)/g;
@@ -10949,7 +10974,7 @@ function resolveDeclarations(entry, token, ctx) {
     }
     const template2 = entry.arbitraryTemplate || entry.template;
     if (!template2) return fail(CODES.UNKNOWN_VALUE, `"${entry.key}" does not accept arbitrary values`);
-    const css = fillTemplate(template2, v, v);
+    const css = entry.scale === "dropShadow" ? dropShadowCSS(v) : fillTemplate(template2, v, v);
     return ok(css, varsIn(css));
   }
   if (entry.enum && Object.prototype.hasOwnProperty.call(entry.enum, value)) {
@@ -11003,7 +11028,7 @@ function resolveDeclarations(entry, token, ctx) {
       let v = hit.value;
       if (negative) v = `calc(${v} * -1)`;
       const tpl = hit.tw && entry.twTemplate ? entry.twTemplate : template;
-      const css = fillTemplate(tpl, v, hit.key);
+      const css = entry.scale === "dropShadow" ? dropShadowCSS(v) : fillTemplate(tpl, v, hit.key);
       return ok(css, varsIn(css));
     }
   }

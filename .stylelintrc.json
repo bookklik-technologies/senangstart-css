@@ -1,5 +1,14 @@
 {
   "extends": "stylelint-config-standard",
+  "overrides": [{
+    "files": ["public/senangstart*.css", "dist/senangstart*.css"],
+    "rules": {
+      "comment-empty-line-before": null,
+      "rule-empty-line-before": null,
+      "number-max-precision": 6,
+      "declaration-block-no-redundant-longhand-properties": null
+    }
+  }],
   "rules": {
     "no-descending-specificity": null,
     "no-duplicate-selectors": true,

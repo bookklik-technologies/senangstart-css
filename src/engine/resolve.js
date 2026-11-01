@@ -49,6 +49,32 @@ function ok(css, usedVars) {
   return { css, error: null, usedVars };
 }
 
+function dropShadowCSS(value) {
+  if (value === 'none') return 'filter: none;';
+  const shadows = [];
+  let depth = 0;
+  let quote = null;
+  let start = 0;
+  for (let index = 0; index < value.length; index++) {
+    const character = value[index];
+    if (quote) {
+      if (character === '\\') index++;
+      else if (character === quote) quote = null;
+    } else if (character === '"' || character === "'") {
+      quote = character;
+    } else if (character === '(') {
+      depth++;
+    } else if (character === ')') {
+      depth--;
+    } else if (character === ',' && depth === 0) {
+      shadows.push(value.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+  shadows.push(value.slice(start).trim());
+  return `filter: ${shadows.map(shadow => `drop-shadow(${shadow})`).join(' ')};`;
+}
+
 /** Collect var(--x) names in a declaration list. */
 function varsIn(css) {
   const out = [];
@@ -228,7 +254,7 @@ export function resolveDeclarations(entry, token, ctx) {
     }
     const template = entry.arbitraryTemplate || entry.template;
     if (!template) return fail(CODES.UNKNOWN_VALUE, `"${entry.key}" does not accept arbitrary values`);
-    const css = fillTemplate(template, v, v);
+    const css = entry.scale === 'dropShadow' ? dropShadowCSS(v) : fillTemplate(template, v, v);
     return ok(css, varsIn(css));
   }
 
@@ -297,7 +323,7 @@ export function resolveDeclarations(entry, token, ctx) {
       let v = hit.value;
       if (negative) v = `calc(${v} * -1)`;
       const tpl = hit.tw && entry.twTemplate ? entry.twTemplate : template;
-      const css = fillTemplate(tpl, v, hit.key);
+      const css = entry.scale === 'dropShadow' ? dropShadowCSS(v) : fillTemplate(tpl, v, hit.key);
       return ok(css, varsIn(css));
     }
   }

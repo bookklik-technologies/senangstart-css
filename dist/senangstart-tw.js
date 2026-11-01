@@ -1,4 +1,4 @@
-/* SenangStart CSS - Tailwind Converter v0.4.1 | MIT License */
+/* SenangStart CSS - Tailwind Converter v0.4.2 | MIT License */
 (() => {
   // src/converter/base.js
   var spacingScale = {

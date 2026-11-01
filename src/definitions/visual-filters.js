@@ -281,7 +281,7 @@ export const filterDropShadow = {
   category: 'visual',
   supportsArbitrary: true,
   values: [
-    { value: 'none', css: 'filter: drop-shadow(none);', description: 'No shadow', descriptionMs: 'Tiada bayang' },
+    { value: 'none', css: 'filter: none;', description: 'No shadow', descriptionMs: 'Tiada bayang' },
     { value: 'tiny', css: 'filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));', description: 'Tiny shadow', descriptionMs: 'Bayang kecil' },
     { value: 'small', css: 'filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));', description: 'Small shadow', descriptionMs: 'Bayang kecil' },
     { value: 'medium', css: 'filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07));', description: 'Medium shadow', descriptionMs: 'Bayang sederhana' },

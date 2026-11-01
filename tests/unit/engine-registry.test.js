@@ -24,6 +24,9 @@ describe('registry resolver kinds', () => {
     ['arbitrary', 'space', 'p:[13px]', 'padding: 13px;'],
     ['arbitrary calc auto-spacing', 'space', 'w:[calc(100%-2rem)]', 'width: calc(100% - 2rem);'],
     ['inline scale (no var)', 'visual', 'brightness:vivid', 'filter: brightness(1.5);'],
+    ['no drop shadow', 'visual', 'drop-shadow:none', 'filter: none;'],
+    ['multiple drop shadows', 'visual', 'drop-shadow:small', 'filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)) drop-shadow(0 1px 1px rgba(0,0,0,0.06));'],
+    ['arbitrary drop shadows', 'visual', 'drop-shadow:[0_1px_2px_rgb(0,0,0),0_2px_4px_red]', 'filter: drop-shadow(0 1px 2px rgb(0,0,0)) drop-shadow(0 2px 4px red);'],
     ['url wrap, no double wrap', 'visual', 'bg-image:[url(x.png)]', 'background-image: url(x.png);'],
     ['url literal keyword', 'visual', 'mask-image:none', 'mask-image: none;'],
     ['tailwind compat scale', 'space', 'p:tw-4', 'padding: var(--tw-4);'],
@@ -39,6 +42,14 @@ describe('registry resolver kinds', () => {
     const r = generateDeclarations(tokenize('p:bigg', 'space', config), config);
     assert.equal(r.css, null);
     assert.equal(r.error.code, 'UNKNOWN_VALUE');
+  });
+
+  test('custom drop shadow scales preserve nested color functions', () => {
+    const custom = mergeConfig(defaultConfig, {
+      theme: { dropShadow: { custom: '0 1px 2px rgb(0 0 0 / var(--alpha, 0.5)), 0 2px 4px blue' } }
+    });
+    assert.equal(css('visual', 'drop-shadow:custom', custom),
+      'filter: drop-shadow(0 1px 2px rgb(0 0 0 / var(--alpha, 0.5))) drop-shadow(0 2px 4px blue);');
   });
 
   test('scales missing from a partial theme fall back to defaults', () => {
