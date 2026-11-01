@@ -6,9 +6,9 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { generateDeclarations } from '../../src/engine/index.js';
 import { tokenize } from '../../src/core/tokenizer-core.js';
-import { defaultConfig, mergeConfig } from '../../src/config/defaults.js';
+import { mergeConfig } from '../../src/config/defaults.js';
 
-const config = mergeConfig(defaultConfig, {});
+const config = mergeConfig();
 const css = (attr, raw, cfg = config) => generateDeclarations(tokenize(raw, attr, cfg), cfg).css;
 
 describe('registry resolver kinds', () => {
@@ -45,7 +45,7 @@ describe('registry resolver kinds', () => {
   });
 
   test('custom drop shadow scales preserve nested color functions', () => {
-    const custom = mergeConfig(defaultConfig, {
+    const custom = mergeConfig({
       theme: { dropShadow: { custom: '0 1px 2px rgb(0 0 0 / var(--alpha, 0.5)), 0 2px 4px blue' } }
     });
     assert.equal(css('visual', 'drop-shadow:custom', custom),
